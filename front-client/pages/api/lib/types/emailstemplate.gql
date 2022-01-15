@@ -1,0 +1,28 @@
+
+
+type EmailsTemplateType {
+    _id: ID
+    idUser: ID
+    idComp: ID
+    TempEmailName: String
+    TemStatus: Int
+}
+# EmailsTemplate Input
+input IEmailsTemplate {
+    _id: ID
+    idUser: ID
+    idComp: ID
+    TempEmailName: String
+    TemStatus: Int
+}
+# Query
+type Query {
+  getAllEmailsTemplate(idComp: ID): [EmailsTemplateType]
+}
+
+# Mutations
+type Mutation {
+  registerEmailsTemplate(input: IEmailsTemplate): EmailsTemplateType
+  EditEmailsTemplates(input: IEmailsTemplate): EmailsTemplateType
+  DeleteOneEmailsTemplates(id: ID): Boolean,
+}

@@ -1,0 +1,120 @@
+
+  # Users
+  type User {
+    id: ID
+    name: String
+    username: String
+    lastName: String
+    email: String
+    avatar: String
+    uToken: String
+    uPhoNum: String
+    ULocation: String
+    upLat: String
+    uState: String
+    upLon: String
+    upIdeDoc: String
+    siteWeb: String
+    description: String
+    password: String
+    createAt: DateTime
+  }
+  # Token
+type Token {
+  token: String
+}
+
+  # Login user
+input LoginInput {
+  email: String!
+  password: String!
+}
+  input IUser {
+    lastCompany: String
+    firstName: String
+    lastName: String
+    userConfirmEmail: Int
+    uAvatar: String
+    userName: String
+    uEmail: String
+    uAddress: String
+    uPhone: String
+    landLine: Int
+    uPassword: String
+    uBirthday: String
+    lat: Float
+    long: Float
+    iP: Int
+    step: Int
+    currentPassword: String 
+    newPassword: String 
+  }
+  input IResetPassword {
+    uEmail: String
+    uPassword: String
+    uToken: String 
+  }
+
+  type Query {
+"""Response for find one User"""
+    getUser(id: ID, userName: String): User
+    getUsers: [User]
+    validateToken(uEmail: String, uToken: String) : AuthPayload
+    getListBuckets: String
+    showPrivateStuff: String
+    verifyRegistration(userName: String, uEmail: String!): AuthPayload!
+
+  }
+
+# Inputs
+input UserInput {
+  name: String!
+  username: String!
+  lastName: String
+  email: String
+  siteWeb: String
+  description: String
+  uPhoNum: String
+  upLat: String
+  upLon: String
+  password: String
+  avatar: String
+  createAt: String
+}
+"""Response for user login"""
+type AuthPayload {
+    user: User
+    token: String
+    admin: Boolean
+    success: Boolean
+    isVerifyEmail: Boolean
+    message: String
+    userId: ID
+    refreshToken: String,
+    newRefreshToken: String
+}
+  type Mutation {
+    """"registra user data"""
+    newRegisterUser(input: UserInput): AuthPayload
+    RegisterUserAdmin(userName: String!, uEmail: String!, uPassword: String! uAvatar: String): AuthPayload
+    login(input: LoginInput): Token
+    loginUser(uEmail: String!, uPassword: String!, idBrowser: String): AuthPayload
+    saveLocation(country: String, lat: Float, long: Float): AuthPayload
+    refreshUserToken(userId: ID!, refreshToken: String!): AuthPayload
+    lastCompanyMutation(lastCompany: ID): AuthPayload
+    # Actualiza user data
+    UpdateUser(input: IUser) : AuthPayload
+    CreateRecoverAccount(input: IResetPassword) : AuthPayload
+    confirmEmail(idUser: ID) : AuthPayload
+    sendEmailConfirmation(uEmail: String!, userName: String) : AuthPayload!
+    sendEmailConfirmationBrowser(uEmail: String!, userName: String) : AuthPayload!
+    ResetPassword(input: IResetPassword) : AuthPayload
+    registerUser(name: String!, email: String!, password: String!): AuthPayload!
+    signInUser(email: String!, password: String!): AuthPayload!
+    sendEmailTest(email: String): Response
+
+  }
+
+  type Subscription {
+    newUser: User
+  }

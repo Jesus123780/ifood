@@ -1,0 +1,154 @@
+# enum type Vat
+enum typeVatSales {
+  INCLUSIVE,
+  EXCLUSIVE,
+  NO_VAT
+}
+  type LineItems {
+      _id: ID
+      lineItemsDescription: String
+      lineItemsQuantity: Float
+      lineItemsRate: Float
+      lineItemsTotalVAT: Float
+      lineItemsSubTotal: Float
+      lineItemsIdVAT: ID
+      lineItemsIdClass: ID
+      lineItemsIdPro: ID
+      lineItemsIdAccount: ID
+  }
+  # SalesInvoices
+  type SalesInvoices {
+    _id: ID
+    idUser: ID
+    idFiles: ID
+    sCurrency: ID #Get all files
+    idComp: ID
+    idSupplier: ID
+    VatType: typeVatSales
+    bInvoiceDate: DateTime
+    salesTotal: Float
+    idClass: ID
+    salesNo: Int
+    bDueDate: DateTime
+    SalesSubtotal: Float
+    bInvoiceRef: String
+    bAccount: String
+    bDescription: String
+    bVATOption: String
+    SalesInvoicesNo: Int
+    bTotal: Float
+    currencySalesInvoices: String
+    bVATTotal: Float
+    supplier: Supplier
+    products: Product
+    filesSalesInvoicess: File
+  }
+  # LO HARE YO...
+  
+type ReSalesInvoices {
+    _id: ID
+    idUser: ID
+    idComp: ID
+    salesNo: Int
+    SalesSubtotal: Float
+    VatType: typeVatSales
+    idClass: ID
+    bInvoiceDate: DateTime
+    bDueDate: DateTime
+    bInvoiceRef: String
+    bAccount: String
+    currencySalesInvoices: String
+    bDescription: String
+    totalVAT: Int
+    bVATCode: String
+    SalesInvoicesSubtotal: Float
+    SalesInvoicesVATTotal: Float
+    salesTotal: Float
+    SalesInvoicesTotal: Float
+    tags: [Tags]
+    SalesInvoicesNo: Int
+    lineItems: [LineItems]
+    idFiles: File
+    products: Product
+    idSupplier: Supplier
+}
+  input ISalesInvoices {
+    _id: ID
+    idUser: ID
+    idComp: ID
+    idFiles: ID
+    totalVAT: Int
+    VatType: typeVatSales
+    salesNo: Int
+    idSupplier: ID
+    title: String
+    bInvoiceDate: DateTime
+    bDueDate: DateTime
+    bInvoiceRef: String
+    currencySalesInvoices: String
+    bDescription: String
+    bVATCode: String
+    idClass: ID
+    salesTotal: Float
+    SalesInvoicesNo: Int
+    SalesSubtotal: Float
+    SalesInvoicesVATTotal: Float
+    SalesInvoicesTotal: Float
+  }
+  # voy al playground
+  input IIva {
+      IName: String
+      idRefIva: String
+      idUser: ID
+      idComp: ID
+      iPercentage: Int
+  }
+  input ITags {
+      _id: ID
+      TName: String
+  }
+  input ITgasItemsFinal {
+    setTags: [ITags]
+  }
+  type LineItems {
+      _id: ID
+      lineItemsDescription: String
+      lineItemsQuantity: Float
+      lineItemsRate: Float
+      lineItemsTotalVAT: Float
+      lineItemsSubTotal: Float
+      lineItemsIdVAT: ID
+      lineItemsIdClass: ID
+      lineItemsIdPro: ID
+      lineItemsIdAccount: ID
+      iva: [IVA]
+  }
+  input ILineItems {
+      _id: ID
+      lineItemsDescription: String
+      lineItemsQuantity: Float
+      lineItemsRate: Float
+      lineItemsTotalVAT: Float
+      lineItemsSubTotal: Float
+      lineItemsIdVAT: ID
+      lineItemsIdClass: ID
+      lineItemsIdPro: ID
+      lineItemsIdAccount: ID
+      setDataIva: [IIva]
+  }
+  # "ARRAY OF LINE ITEMS INSIDE OF A SalesInvoices"
+  input ILineItemsFinal {
+      setData: [ILineItems]
+  }
+  type Query {
+    getAllSalesInvoices(idComp: ID, idUser: ID): [ReSalesInvoices]
+    getOneSalesInvoicesById(id: ID!): ReSalesInvoices
+  }
+
+  type Mutation {
+    createSalesInvoicesMutation(input: ISalesInvoices, inputLineItems: ILineItemsFinal!, setTagsInput: ITgasItemsFinal, setFilesInput: IFilesData ): SalesInvoices
+    updateSalesInvoices(input: ISalesInvoices, inputLineItems: ILineItemsFinal!, setTagsInput: ITgasItemsFinal, setFilesInput: IFilesData ): SalesInvoices
+    DeleteOneSalesInvoices(id: ID!): Boolean
+    shareInvoice(toEmail: String, fromEmail: String): AuthPayload
+    deleteOneLineItemSales(id: ID!, idLine: ID!): Boolean
+  }

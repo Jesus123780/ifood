@@ -1,0 +1,43 @@
+{
+  "name": "app",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@graphql-tools/load-files": "^6.5.3",
+    "@graphql-tools/merge": "^8.2.1",
+    "apollo-server": "^3.6.1",
+    "apollo-server-micro": "^3.6.1",
+    "apollo-server-plugin-http-headers": "^0.1.4",
+    "aws-sdk": "^2.1048.0",
+    "bcryptjs": "^2.4.3",
+    "googleapis": "^92.0.0",
+    "graphql": "^16.2.0",
+    "graphql-subscriptions": "^2.0.0",
+    "graphql-upload": "^13.0.0",
+    "http": "^0.0.1-security",
+    "iron-session": "^6.0.4",
+    "js-base64": "^3.7.2",
+    "jsonwebtoken": "^8.5.1",
+    "micro": "^9.3.4",
+    "micro-cors": "^0.1.1",
+    "moment": "^2.29.1",
+    "mysql2": "^2.3.3",
+    "next": "12.0.7",
+    "next-iron-session": "^4.2.0",
+    "nodemailer": "^6.7.2",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "sequelize": "^7.0.0-alpha.4",
+    "socket.io": "^4.4.0",
+    "styled-component": "^2.8.0"
+  },
+  "devDependencies": {
+    "eslint": "8.6.0",
+    "eslint-config-next": "12.0.7"
+  }
+}

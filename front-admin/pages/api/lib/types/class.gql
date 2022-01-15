@@ -1,0 +1,27 @@
+type Class {
+  _id: ID
+  idComp: ID
+  className: String
+  idClass: String
+  SubClass: String
+  classActive: Boolean
+}
+
+input IClass {
+  _id: ID
+  idComp: ID
+  idClass: String
+  className: String
+  SubClass: String
+  classActive: Boolean
+}
+type Query {
+  getClass(idComp: ID, idUser: ID): [Class]
+  getOneClass(idComp: ID, idUser: ID): [Class]
+}
+
+type Mutation {
+  createClassMutation(input: IClass): Class
+  EditClass(input: IClass): Class
+  DeleteOneClass(id: ID): Boolean,
+}

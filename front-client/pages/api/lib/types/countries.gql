@@ -1,0 +1,7 @@
+  type Country {
+    name: String!
+  }
+  type Query {
+    allCountries: [Country!]!
+    countryByName: Country!
+  }

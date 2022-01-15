@@ -1,0 +1,105 @@
+type lineItemsTeam {
+    _id: ID
+    description: String
+    uEmail: String
+    Username: String
+    status: Boolean
+    authorization: Int
+    dateAdded: DateTime
+    idUser: ID
+}
+# Company Type
+type Company {
+    _id: ID
+    companyName: String
+    registeredOfficeAddress: String
+    companyLegalStatus: String
+    companyType: String
+    accounts: String
+    cPhone: String
+    natureOfBusiness: String
+    color: String
+    cState: Boolean
+    dissolvedOn: String
+    incorporatedOn: String
+    idUser: ID
+    lineItemsTeam: [lineItemsTeam]
+}
+type ReCompany {
+    _id: ID
+    companyName: String
+    registeredOfficeAddress: String
+    companyLegalStatus: String
+    companyType: String
+    cPhone: String
+    accounts: String
+    cState: Boolean
+    natureOfBusiness: String
+    color: String
+    dissolvedOn: String
+    incorporatedOn: String
+    idUser: ID
+    lineItemsTeam: [lineItemsTeam]
+}
+
+"""Response Company"""
+type Response {
+    success: Boolean
+    message: String
+}
+
+
+input IlineItemsTeam {
+    _id: ID
+    uEmail: String
+    status: Boolean
+    Username: String
+    dateAdded: DateTime
+    description: String
+    authorization: Int
+    idUser: ID
+}
+  # "ARRAY OF LINE ITEMS INSIDE OF A BILL"
+  input ILineItemsFinalTeam {
+      setDataTeam: [IlineItemsTeam]
+  }
+# Fragments
+# fragment NameParts on Company {
+#   companyName
+#   registeredOfficeAddress
+# }
+# Company Input
+input ICompany {
+    companyName: String
+    registeredOfficeAddress: String
+    companyLegalStatus: String
+    companyType: String
+    accounts: String
+    natureOfBusiness: String
+    color: String
+    dissolvedOn: String
+    incorporatedOn: String
+    idUser: ID
+}
+
+# Query
+type Query {
+  """Register one Team in company"""
+  getCompanies: [Company]
+  getAllCompanyById(idUser: ID,  search: String, min: Int, max: Int): [ReCompany]
+  getAllTeamCompany(idUser: ID,  search: String, min: Int, max: Int): [ReCompany]
+  getAllCompanyUser(idUser: ID): [ReCompany]
+  getOneCompanyById(idC: ID): Company
+  # getSuppliersOne(_id: String): [Supplier]
+}
+
+# Mutations
+type Mutation {
+  """Leave one Team company"""
+  LeaveCompany(idUser: ID,  Email: String, idTeamComp: ID, companyName: String): Response
+  RegisterOneTeam(idC: ID, uEmail: String, companyName: String, uEmailMaster: String, lineItemTeamComp: ILineItemsFinalTeam): Response
+  ConfirmTeamCompany(idComp: ID, uEmail: String, uPassword: String, companyName: String, uNewPassword: String): Response
+  ActiveCompany(idComp: ID): Response
+  newCompany(input: ICompany): Company
+  deleteCompany(id: ID!, companyName: String): AuthPayload
+}

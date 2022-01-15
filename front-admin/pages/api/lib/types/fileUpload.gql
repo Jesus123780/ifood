@@ -1,0 +1,71 @@
+type File {
+    _id: ID
+    idUser: ID
+    idComp: ID 
+    IdBills: ID # BILL REF  
+    IdSales: ID # BILL REF  
+    SalesLink: String # SALES REF
+    BillLink: String # BILL REF
+    filename: String
+    idFiles: ID
+    mimetype: String
+    uploaded: DateTime
+    Notes: String
+    createdAt: DateTime
+    updatedAt: DateTime
+    encoding: String
+    aSize: Int
+
+}
+input IFile {
+    _id: ID
+    idUser: ID
+    idComp: ID 
+    IdBills: ID # BILL REF  
+    IdSales: ID # BILL REF  
+    BillLink: String # BILL REF  
+    SalesLink: String # SALES REF  
+    Notes: String
+    filename: String
+    mimetype: String
+    aSize: Int
+}
+
+
+type FilePath {
+    path: String
+}
+type linkMinio {
+    path: [FilePath]
+}
+input IFilesData {
+    file: Upload
+    idFiles: String
+    filesData: [IFile]
+}
+type Query {
+    "Consulta un archivo sobre minio API"
+    filePath(key: String!, idComp: ID): FilePath
+    getAllAttachment(idComp: ID!): [File]
+    getOneAttachment(idComp: ID!, id: ID!): File
+    getAllFilesToBills(IdBills: ID): [File]
+    getOneObjectMinioClient(fileName: String): AuthPayload
+    getAllFilesLinkToBills(fileName: String, idComp: ID): AuthPayload
+}
+
+type Mutation {
+    "Registra un archivo nuevo"
+    uploadFile(file: Upload!, idComp: ID, input: IFile ): File
+    setFiles(input: IFilesData, file: Upload): [File]
+    setAttachment(input: IFilesData): [File]
+    "Edit Multiple file"
+    EditFiles(input: IFilesData): [File]
+    "Edit one file"
+    EditOneFile(input: IFile): File
+    "Delete one file"
+    DeleteOneFile(id: ID): Boolean
+    deleteOneFileMinio(fileName: String, idComp: ID): AuthPayload
+    deleteMultipleAttachment(fileName: String): AuthPayload
+
+}
+

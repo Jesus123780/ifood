@@ -1,0 +1,25 @@
+type Type {
+  _id: ID
+  name: String
+  productionCapacity: Int
+  price: Float
+  description: String   
+  createAt: DateTime
+}
+
+# Login user
+input Input {
+email: String!
+password: String!
+}
+# # Tye query
+# type Query {
+#   getProduct(id: ID!): Product,
+
+# }
+
+type Mutation {
+  LolRegister(input: LoginInput): Token  
+  memeregister(uEmail: String!, uPassword: String!): AuthPayload!
+
+}

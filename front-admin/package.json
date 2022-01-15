@@ -1,0 +1,46 @@
+{
+  "name": "front-admin",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^3.3.2",
+    "@graphql-tools/load-files": "^6.5.3",
+    "@graphql-tools/merge": "^8.2.1",
+    "@react-pdf/renderer": "^2.0.21",
+    "apollo-server-core": "^3.6.1",
+    "apollo-server-micro": "^3.6.1",
+    "apollo-server-plugin-http-headers": "^0.1.4",
+    "apollo-upload-client": "^17.0.0",
+    "deepmerge": "^4.2.2",
+    "file-saver": "^2.0.5",
+    "googleapis": "^92.0.0",
+    "graphql-fields": "^2.0.3",
+    "graphql-upload": "^13.0.0",
+    "js-base64": "^3.7.2",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.1.2",
+    "lodash": "^4.17.21",
+    "micro-cors": "^0.1.1",
+    "moment": "^2.29.1",
+    "mysql2": "^2.3.3",
+    "next": "12.0.7",
+    "next-iron-session": "^4.2.0",
+    "nodemailer": "^6.7.2",
+    "react": "17.0.2",
+    "react-chartjs-2": "^4.0.0",
+    "react-dom": "17.0.2",
+    "react-facebook-login": "^4.1.1",
+    "react-google-login": "^5.2.2",
+    "sequelize": "^6.12.5",
+    "styled-components": "^5.3.3"
+  },
+  "devDependencies": {
+    "eslint": "8.6.0",
+    "eslint-config-next": "12.0.7"
+  }
+}

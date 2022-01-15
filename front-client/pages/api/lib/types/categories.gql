@@ -1,0 +1,29 @@
+# Product Type
+type Category {
+    _id: ID
+    idUser: ID
+    idComp: ID
+    cName: String
+    cDescription: String
+}
+
+# Product Input
+input ICategory {
+    _id: ID
+    idUser: ID
+    idComp: ID
+    cName: String
+    cDescription: String
+}
+
+# Query
+type Query {
+  getCategoryForCompany(idComp: ID, idUser: ID): [Category]
+}
+
+# Mutations
+type Mutation {
+  newCategoriesForCompany(input: ICategory): Category
+  EditCategoriesForCompany(input: ICategory): Category
+  DeleteOneCategories(id: ID): Boolean
+}

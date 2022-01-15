@@ -1,0 +1,32 @@
+type storeSchedule {
+  idStore: ID
+  schId: ID
+  id: ID
+  schDay: Int
+  schHoSta: String
+  schHoEnd: String
+  schState: Int
+  store: Store
+
+}
+input ITstoreSchedule {
+  schId: ID
+  id: ID
+  idStore: ID
+  schDay: Int
+  schHoSta: String
+  schHoEnd: String
+  schState: Int
+}
+input IsStoreSchedule {
+  schData: [ITstoreSchedule]
+
+}
+
+type Query {
+  getStoreSchedules(schDay: Int, schState: Int, idStore: ID): [storeSchedule]
+}
+
+type Mutation {
+  setStoreSchedule(input: IsStoreSchedule!): [storeSchedule]
+}

@@ -1,0 +1,88 @@
+  type Tags {
+  _id: ID
+  TName: String
+}
+# InvoicePay
+type SalesInvoicePay {
+  _id: ID
+  idUser: ID
+  idComp: ID
+  idInvoice: ID
+  Date: DateTime
+  currency: String
+  Idescription: String
+  IdRef: String
+  totalInvoicePayment: Float
+  isPaymentConfirm: Boolean
+  lineItemsInvoiceIsPay: [SalesInvoicePayLineItems]
+
+}
+input ISalesInvoicePay {
+  _id: ID
+  idUser: ID
+  idComp: ID
+  Date: DateTime
+  currency: String
+  idInvoice: ID
+  Idescription: String
+  totalInvoicePayment: Float
+  isPaymentConfirm: Boolean
+}
+type SalesInvoicePayLineItems {
+  _id: ID
+  idUser: ID
+  idComp: ID
+  Date: DateTime
+  currency: String
+  idInvoice: ID
+  Idescription: String
+  IdRef: String
+  totalInvoicePayment: Float
+  isPaymentConfirm: Boolean
+  isPaid: Boolean
+  isRedo: Boolean
+  hasBeenReceived: Boolean
+  agentDetails: AgentDetails
+
+}
+
+type lineItemsInvoicePay {
+    _id: ID
+    lineItemsDescription: String
+    lineItemsQuantity: Float
+    lineItemsRate: Float
+    lineItemsTotalVAT: Float
+    lineItemsSubTotal: Float
+    lineItemsIdVAT: ID
+    lineItemsIdClass: ID
+    lineItemsIdPro: ID
+    lineItemsIdAccount: ID
+    lineItemsBillIva: Float
+    agentDetails: AgentDetails
+
+}
+input IlineItemsInvoicePay {
+    _id: ID
+    idUser: ID
+    idComp: ID
+    IdRef: String
+    currency: String
+    idInvoice: ID
+    isPaid: Boolean
+    agentDetails: InputAgentDetails
+    lineItemsArray: [ICommissionLineItems]
+
+}
+input ILineItemsFinal {
+    setDataPay: [IlineItemsInvoicePay]
+}
+type Query {
+  getInvoicePay(idComp: ID, idUser: ID, search: String, min: Int, max: Int): [SalesInvoicePay]
+  getEstimateCountInvoice(idComp: ID): [CommissionInvoice]
+  getEstimateCountInvoiceSend(idComp: ID): [CommissionInvoice]
+  getOneInvoicePay(idInvoice: ID, idComp: ID): SalesInvoicePay
+}
+
+type Mutation {
+  createInvoicePaymentMutation(input: ISalesInvoicePay, inputLineItems: ILineItemsFinal! ): SalesInvoicePay
+}

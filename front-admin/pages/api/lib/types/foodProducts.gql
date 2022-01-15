@@ -1,0 +1,56 @@
+
+  # FoodProducts
+type FoodProduct {
+  pfId: ID
+  id: ID
+  idStore: ID
+  ProPrice: Float
+  ProDescuento: Float
+  ProDescription: String
+  pName: String
+  pState: Int
+  sTateLogistic: Int
+  ProStar: Int
+  ProImage: String
+  ProHeight: String
+  ProWeight: String
+  ProOutstanding: Int
+  ProDelivery: Int
+  pDatCre: DateTime
+  pDatMod: DateTime
+}
+# Inputs
+input FoodProductInput {
+  pfId: ID
+  id: ID
+  idStore: ID
+  ProPrice: Float
+  ProDescuento: Float
+  ProDescription: String
+  pName: String
+  pState: Int
+  sTateLogistic: Int
+  ProStar: Int
+  ProImage: String
+  ProHeight: String
+  ProWeight: String
+  ProOutstanding: Int
+  ProDelivery: Int
+  pDatCre: DateTime
+  pDatMod: DateTime
+}
+type Query {
+"""Response for find one FoodProduct"""
+  getFoodOneProduct(id: ID, pfId: ID, FoodProductName: String, search: String, min: Int, max: Int,  gender: [String]  desc: [String], categories: [ID]): FoodProduct
+  getFoodAllProduct(id: ID, pfId: ID, FoodProductName: String, search: String, min: Int, max: Int,  gender: [String]  desc: [String], categories: [ID]): [FoodProduct]
+}
+
+
+type Mutation {
+  """"registra FoodProduct data"""
+  newRegisterFoodProduct(input: FoodProductInput): AuthPayload
+}
+
+type Subscription {
+  newFoodProduct: FoodProduct
+}

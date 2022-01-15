@@ -1,0 +1,30 @@
+ type dailyproductsalestotals {
+  _id: ID
+  productId: ID
+  salesDate: DateTime
+  idUser: ID
+  idComp:ID
+  internalKey: String
+  legalEntity: String
+  total_card_sales: Int
+  numTxnsProd: Int
+ }
+
+input Idailyproductsalestotals {
+  productId: ID
+  salesDate: DateTime
+  idUser: ID
+  idComp:ID
+  internalKey: String
+  legalEntity: String
+  total_card_sales: Int
+  numTxnsProd: Int
+ }
+
+# Query
+ type Query {
+   getDailyproductsalestotals(idComp: ID): [dailyproductsalestotals]
+ }
+  type Mutation {
+   registerOnedailyproductsalestotals(input: Idailyproductsalestotals): dailyproductsalestotals
+ }

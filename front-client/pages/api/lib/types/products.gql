@@ -1,0 +1,71 @@
+# Product Type
+type Product {
+    _id: ID
+    idUser: ID
+    idComp: ID
+    pName: String
+    pServiceCode: String
+    pCategory: String
+    pClass: String
+    pDescription: String
+    pSellToOthers: Boolean
+    pSalesPrice: Int
+    pIncVAT: Boolean
+    pVATCode: String
+    pIncomeAccount: String
+    pPurchasedOthers: Boolean
+    pType: String
+    pPhoto: String
+    idRef: String
+}
+
+# Product Input
+input IProduct {
+    _id: ID
+    idComp: ID
+    pName: String
+    pServiceCode: String
+    pCategory: String
+    pClass: String
+    pDescription: String
+    pVATCode: String
+    pSellToOthers: Boolean
+    pSalesPrice: Int
+    pIncVAT: Boolean
+    pIncomeAccount: String
+    pPurchasedOthers: Boolean
+    pType: String
+    pPhoto: String
+    idRef: String
+}
+
+
+
+
+
+
+
+
+
+
+# Query
+type Query {
+    "GET ALL PRODUCTS AND GET ONE PRODUCT FROM MONGODB"
+  getProductsForCompany(idComp: ID): [Product]
+  getProductsOneForCompany(_id: ID, idComp: ID): [Product]
+  getProductsOne(_id: ID): [Product]
+
+
+
+}
+
+# Mutations
+type Mutation {
+    "ADD A NEW PRODUCT"
+  newProductForCompany(input: IProduct): Product
+    "Edit One Product"
+  editOneProduct(input: IProduct): Product
+    "Remove One Product"
+    DeleteOneProducts(id: ID): Boolean
+
+}

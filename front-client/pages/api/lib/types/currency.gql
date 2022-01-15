@@ -1,0 +1,22 @@
+type Currency {
+    _id: ID
+    cName: String
+    cDescription: String
+    
+}
+
+input ICurrency {
+      cName: String
+      cDescription: String
+}
+
+# Query
+type Query {
+  getCurrencies: [Currency]
+  getCurrenciesOne(_id: ID): Currency
+}
+
+# Mutations
+type Mutation {
+  newCurrency(input: ICurrency): Currency
+}
