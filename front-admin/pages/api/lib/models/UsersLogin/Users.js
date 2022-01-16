@@ -7,7 +7,7 @@ const CountriesModel = require('../information/CountriesModel')
 const UserMasters = require('../userMaster/userMasterModel')
 const { enCode } = require('../../utils/util')
 
-// sequelize.sync()
+// 
 
 const Users = sequelize.define('users', {
     id: {

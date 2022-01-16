@@ -2,6 +2,8 @@ import { useMemo } from 'react'
 import { ApolloClient, from, HttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import { concatPagination } from '@apollo/client/utilities'
+import { createUploadLink } from 'apollo-upload-client'
+
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
@@ -28,11 +30,10 @@ const authLink = setContext(async (_, { headers }) => {
     }
 })
 
-const httpLink = new HttpLink({
-    uri: `${ URL_BASE }graphql`, // Server URL (must be absolute)
+const httpLink = createUploadLink({
+    uri: `${URL_BASE}graphql`, // Server URL (must be absolute)
     credentials: 'same-origin' // Additional fetch() options like `credentials` or `headers`
 })
-
 function createApolloClient() {
     return new ApolloClient({
         connectToDevTools: true,

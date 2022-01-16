@@ -3,7 +3,7 @@ const { enCode } = require('../../utils/util')
 const connect = require('../../db')
 const sequelize = connect()
 
-// sequelize.sync()
+// 
 
 const Typefeature = sequelize.define('typefeature', {
     thpId: {

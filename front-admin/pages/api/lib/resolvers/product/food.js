@@ -10,7 +10,6 @@ export const newRegisterFoodProduct = async (_, { input }, ctx) => {
     const id = ctx.User.id || ''
     // const id = 'NjUzMDEzMTU1NjQzNjM5NTAwMA=='
     const { idStore } = input
-    console.log(input, 'KAJSHDKAJSHDKLAHSKLDJHJJJJJJJJJJJJJJJJJJJJJJJJJJJJ')
     try {
         let res = {}
         res = await productModel.create({ ...input, pState: 1, id: deCode(id),  idStore: deCode(idStore) })
@@ -19,7 +18,6 @@ export const newRegisterFoodProduct = async (_, { input }, ctx) => {
             message: 'producto  creado',
         }
     } catch (error) {
-        console.log(error)
         return { success: false, message: error }
     }
 }
@@ -81,7 +79,6 @@ export const getFoodAllProduct = async  (root, args, context, info) =>    {
             ]
         }, limit: [min || 0, max || 100], order: [['pName', 'DESC']]
     })
-    console.log(data)
     return data
 }
 export default {

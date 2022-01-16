@@ -4,7 +4,7 @@ const { enCode, validationID } = require('../../utils/util')
 const sequelize = connect()
 const TypePQR = require('./TypPQR')
 
-// sequelize.sync()
+// 
 
 const PQR = sequelize.define('PQR', {
     hpqrId: {

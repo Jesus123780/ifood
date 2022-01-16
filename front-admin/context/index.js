@@ -1,8 +1,8 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
+import { object } from 'prop-types'
 import { decodeToken, getToken } from '../utils'
-export const Context = createContext()
+export const Context = createContext    ()
 const Provider = ({ children }) => {
     // STATE
     const router = useRouter()
@@ -30,26 +30,7 @@ const Provider = ({ children }) => {
     const initialCompanyState = {
         idLasComp: undefined
     }
-    // Context LastCompany
     const [company, setCompanyId] = useState(initialCompanyState)
-    // const useCompany = idLasComp => {
-    //     setCompanyId({
-    //         ...company,
-    //         idLasComp
-    //     })
-    //     if (typeof idLasComp !== 'undefined') {
-    //         localStorage.setItem('idLasComp', idLasComp)
-    //     }
-    // }
-    // useEffect(() => {
-    //     if (localStorage.getItem('idLasComp') !== company.idLasComp) {
-    //         setCompanyId({
-    //             ...company,
-    //             idLasComp: localStorage.getItem('idLasComp')
-    //         })
-    //     }
-    // }, [company])
-
     // Context to session
     const [isSession, setIsSession] = useState(undefined)
     const setSessionActive = useCallback(
@@ -83,13 +64,9 @@ const Provider = ({ children }) => {
         collapsed,
         isSession,
         setIsSession,
-        // State login
         authData,
         setSessionActive,
-        // UseCompany
-        // useCompany,
         company,
-        // setAlertBox
         setAlertBox: err => setError(err)
     }
     return <Context.Provider value={value}>
@@ -97,9 +74,10 @@ const Provider = ({ children }) => {
     </Context.Provider>
 }
 
-Provider.propTypes = {
-    children: PropTypes.array || PropTypes.object
+export default {
+    Provider,
+    Consumer: Context.Consumer
 }
-const useAuth = () => useContext(Context)
-
-export { Provider as default, useAuth }
+Provider.propTypes = {
+    children: object.isRequired
+}

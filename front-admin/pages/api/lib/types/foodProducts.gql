@@ -38,6 +38,7 @@ input FoodProductInput {
   ProDelivery: Int
   pDatCre: DateTime
   pDatMod: DateTime
+  file: Upload
 }
 type Query {
 """Response for find one FoodProduct"""

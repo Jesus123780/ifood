@@ -3,7 +3,7 @@ const connect = require('../../db')
 const sequelize = connect()
 const { enCode } = require('../../utils/util')
 
-// sequelize.sync()
+// 
 
 const TypeIdentitiesModel = sequelize.define('typeidentities', {
     tiId: {

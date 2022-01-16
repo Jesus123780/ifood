@@ -18,6 +18,7 @@ import { useUser } from '../../components/hooks/useUser'
 import { CREATE_FOOD_PRODUCT } from './queries'
 import { Overline } from '../../components/common/Reusable'
 import { ScheduleTimings } from './ScheduleTimings'
+import { ManageCategories } from './manageCategories'
 
 const DashboardStore = ({ StoreId }) => {
     // STATE
@@ -26,6 +27,7 @@ const DashboardStore = ({ StoreId }) => {
     const [open, setOpen] = useState(false)
     const [baseHandle, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
     const SHOW_MODAL_UPDATE_PRODUCTS = useSetState(false)
+    const SHOW_MANAGE_CATEGORIES = useSetState(false)
     // HANDLES
     const HandleClickEdit = item => {
         // create func
@@ -102,7 +104,6 @@ const DashboardStore = ({ StoreId }) => {
     return (<>
         <Wrapper>
             <Overline onClick={() => setOpen(!open)} show={!open} bgColor='' />
-            <button onClick={() => setOpen(!open)}>PERRS</button>
             <Container>
                 <RestaurantColumn>
                     <MerchantBanner>
@@ -164,23 +165,26 @@ const DashboardStore = ({ StoreId }) => {
                             <div>
                                 <ButtonAction onClick={() => SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state)}>
                                     Update products
+                                </ButtonAction >
+                                <ButtonAction  onClick={() => setOpen(!open)}>
+                                    Editar agenda
                                 </ButtonAction>
-                                <ButtonAction>
-                                    Update products
-                                </ButtonAction>
-                                <ButtonAction>
-                                    Update products
+                                <ButtonAction onClick={() => SHOW_MANAGE_CATEGORIES.setState(!SHOW_MANAGE_CATEGORIES.state)}>
+                                    Administrar Categorias
                                 </ButtonAction>
                             </div>
                         </WrapperOptions>
                     </MerchantBanner>
                 </RestaurantColumn>
                 {/* UPDATE PRODUCTS */}
-                <AwesomeModal zIndex='9990' padding='20px' height='100vh' show={SHOW_MODAL_UPDATE_PRODUCTS.state} onHide={() => { SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state) }} onCancel={() => false} size='large' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='0' >
+                <AwesomeModal  backdrop='static' zIndex='9990' padding='20px' height='100vh' show={SHOW_MODAL_UPDATE_PRODUCTS.state} onHide={() => { SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state) }} onCancel={() => false} size='large' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='0' >
                     <Food />
                 </AwesomeModal>
+                {/* UPDATE PRODUCTS */}
+                <AwesomeModal  backdrop='static'  zIndex='9990' padding='25px' height='900px' show={SHOW_MANAGE_CATEGORIES.state} onHide={() => { SHOW_MANAGE_CATEGORIES.setState(!SHOW_MANAGE_CATEGORIES.state) }} onCancel={() => false} size='1600px' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
+                    <ManageCategories />
+                </AwesomeModal>
             </Container>
-
             <LateralModal open={open}>
                 <Text size='20px'>
                     <ScheduleTimings />

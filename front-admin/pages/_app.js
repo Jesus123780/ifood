@@ -9,13 +9,13 @@ import { GlobalStyle } from '../public/styles/GlobalStyle'
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps)
   return (
-    <Context>
+    <Context.Provider>
       <ApolloProvider client={apolloClient}>
         <GlobalStyle />
         <Layout>
           <Component {...pageProps} />
         </Layout>
       </ApolloProvider >
-    </Context>
+    </Context.Provider>
   )
 }

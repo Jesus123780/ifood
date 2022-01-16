@@ -16,7 +16,7 @@ module.exports = function connect () {
                 }
             )
         }
-        // sequelize.sync()
+        // 
         return sequelize
     } catch (error) {
         console.log(error)

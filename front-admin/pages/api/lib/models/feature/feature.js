@@ -4,7 +4,7 @@ const connect = require('../../db')
 const sequelize = connect()
 const Typefeature = require('./TypFeature')
 
-// sequelize.sync()
+// 
 
 const Feature = sequelize.define('feature', {
     fId: {

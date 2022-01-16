@@ -4,7 +4,7 @@ const connect = require('../../db')
 const sequelize = connect()
 const { enCode } = require('../../utils/util')
 
-// sequelize.sync()
+// 
 const colorModel = sequelize.define('color', {
     colorId: {
         type: Sequelize.INTEGER,

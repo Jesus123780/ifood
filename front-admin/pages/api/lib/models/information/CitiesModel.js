@@ -4,7 +4,7 @@ const sequelize = connect()
 const { enCode } = require('../../utils/util')
 const DepartmentsModel = require('./DepartmentsModel')
 
-// sequelize.sync()
+// 
 
 const CitiesModel = sequelize.define('cities', {
     ctId: {

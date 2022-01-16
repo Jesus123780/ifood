@@ -5,7 +5,7 @@ const { enCode, validationID } = require('../../utils/util')
 
 const TypePQRArea = require('./TypPQRArea')
 
-// sequelize.sync()
+// 
 
 const TypePQR = sequelize.define('typepqr', {
     thpId: {

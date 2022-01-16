@@ -24,7 +24,6 @@ const apolloServer = new ApolloServer({
             const setHeaders = []
             //  Initialize PubSub
             const { token } = req.session.get('user') || {}
-            console.log(token)
             const idComp = req.headers.authorization?.split(' ')[1]
             const excluded = ['/login', '/forgotpassword', '/register', '/teams/invite/[id]', '/teams/manage/[id]']
             if (excluded.indexOf(req.session) > -1) return next()

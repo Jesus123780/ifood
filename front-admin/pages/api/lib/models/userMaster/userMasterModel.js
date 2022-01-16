@@ -4,7 +4,7 @@ const connect = require('../../db')
 const sequelize = connect()
 // const { enCode } = require('../../utils')
 
-// sequelize.sync()
+// 
 
 const UserMasters = sequelize.define('usermastermodel', {
     IdM: {

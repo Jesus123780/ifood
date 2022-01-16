@@ -4,7 +4,7 @@ const sequelize = connect()
 const { enCode } = require('../../utils/util')
 const Users = require('../UsersLogin/Users')
 
-// sequelize.sync()
+// 
 
 const FollowModel = sequelize.define('followModel', {
     idFollower: {

@@ -3,7 +3,7 @@ const connect = require('../../db')
 const sequelize = connect()
 const {deCode, validationID} = require('../../utils/util')
 const FoldersModel = require('./FoldersModel')
-// sequelize.sync()
+// 
 
 const FolderParentsModel = sequelize.define('folderParents', {
     fpId: {

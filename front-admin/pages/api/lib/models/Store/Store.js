@@ -8,7 +8,7 @@ const DepartmentsModel = require('../information/DepartmentsModel')
 const Users = require('../Users')
 const sequelize = connect()
 
-// sequelize.sync()
+// 
 
 const Store = sequelize.define('store', {
     idStore: {

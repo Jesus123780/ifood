@@ -40,12 +40,15 @@ export const AwesomeModal = ({
         setTimeout(onHide, timeOut)
     }, [onCancel, onHide, timeOut])
     useEffect(() => {
-        if (keyboard && show) window.addEventListener('keyup', e => e.code === 'Escape' && hide())
-        return () => keyboard && window.removeEventListener('keyup', () => { })
-    }, [keyboard, hide, show])
+        if (backdrop !== 'static') {
+            if (keyboard && show) window.addEventListener('keyup', e => e.code === 'Escape' && hide())
+            return () => keyboard && window.removeEventListener('keyup', () => { })
+        }
+    }, [keyboard, hide, show, backdrop])
     useEffect(() => {
         setState(show)
     }, [show])
+    console.log(backdrop)
     const onBackdropHide = e => {
         e.preventDefault()
         if (backdrop === 'static') return 0

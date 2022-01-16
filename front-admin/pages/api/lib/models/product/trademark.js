@@ -3,7 +3,7 @@ const { enCode } = require('../../utils/util')
 const connect = require('../../db')
 const sequelize = connect()
 
-// sequelize.sync()
+// 
 
 const trademarkModel = sequelize.define('trademark', {
     tId: {

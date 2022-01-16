@@ -977,7 +977,8 @@ export const LateralModal = styled.div`
     width: 400px;
     height: 100vh;
     background-color: ${`${BGColor}`};
-    position: absolute;
+    position: fixed;
+    top: 0;
     color: ${BGColor};
     right: 0;
     padding: 30px;

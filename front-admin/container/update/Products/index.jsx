@@ -19,8 +19,7 @@ export const ProductsC = () => {
     const [values, setValues] = useState({})
     const [features, setFeatures] = useState({})
     const { state, changeState } = useSetState(null)
-
-    const [names, setName] = useLocalStorage();
+    const [names, setName] = useLocalStorage('nameproducts', '');
     // Estado para las estrellas del producto
     const [rating, setRating] = useState(0);
   //  const { setAlertBox } = useContext(Context)

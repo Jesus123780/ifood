@@ -3,7 +3,7 @@ const connect = require('../db')
 const { enCode } = require('../utils/util')
 const sequelize = connect()
 
-// sequelize.sync()
+// 
 
 const Users = sequelize.define('users', {
     id: {

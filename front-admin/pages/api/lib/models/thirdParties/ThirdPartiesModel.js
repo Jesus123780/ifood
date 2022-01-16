@@ -7,7 +7,7 @@ const DepartmentsModel = require('../information/DepartmentsModel')
 const {  enCode, validationID  } = require('../../utils/util')
 const sequelize = connect()
 
-// sequelize.sync()
+// 
 
 const ThirdPartiesModel = sequelize.define('thirdparties', {
     tpId: {

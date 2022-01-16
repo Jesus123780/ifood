@@ -13,7 +13,7 @@ const Users = require('../Users')
 const Store = require('../Store/Store')
 // const Store = require('../../Store')
 
-// sequelize.sync()
+// 
 
 const productModel = sequelize.define('productFood', {
     pfId: {

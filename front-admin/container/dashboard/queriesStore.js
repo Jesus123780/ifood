@@ -25,3 +25,24 @@ export const GET_SCHEDULE_STORE = gql`
         }
     }
 `
+export const GET_CAT_OF_PRODUCTS = gql`
+query getAllCatOfProducts($idStore: ID) {
+ getAllCatOfProducts(idStore: $idStore) {
+id
+  cpId
+  idStore
+  catName
+  catDescription
+  schState
+  
+}
+}
+`
+export const REGISTER_CAT_OF_PRODUCTS = gql`
+mutation  newRegisterFoodProduct($input: FoodProductInput){
+  newRegisterFoodProduct(input: $input){
+    success
+    message
+  }
+}
+`

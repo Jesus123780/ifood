@@ -10,7 +10,6 @@ export const updateStoreSchedule = async (_root, { input }) => {
     try {
         const { schId, ...restArgs } = input || {}
         const data = await ScheduleStore.update(restArgs, { where: { schId: deCode(schId) } })
-        console.log(data)
         return input
     } catch (e) {
         const error = new Error('Lo sentimos, ha ocurrido un error interno2')
@@ -36,7 +35,6 @@ export const setStoreSchedule = async (_root, { input }) => {
         }
         return response
     } catch (e) {
-        console.log(e)
         const error = new Error('Lo sentimos, ha ocurrido un error interno1')
         return error
     }

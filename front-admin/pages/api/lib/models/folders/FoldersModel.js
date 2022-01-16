@@ -3,7 +3,7 @@ const connect = require('../../db')
 const sequelize = connect()
 const {validationID, enCode} = require('../../utils/util')
 const UsersModel = require('../users/UsersModel')
-// sequelize.sync()
+// 
 
 const FoldersModel = sequelize.define('folders', {
     fId: {

@@ -40,6 +40,7 @@ export const FoodComponent = ({ datafatures,
     fileInputRef,
     alt,
     src,
+    setName,
     handleChangeClick,
     onClickClear,
     handleCheckEnvioGratis,
@@ -60,17 +61,17 @@ export const FoodComponent = ({ datafatures,
     }
     return (<div>
         {loading && <LoadingBabel />}
-        <marquee>Este texto se mueve de derecha a izquierda</marquee>
+        {/* <marquee>Este texto se mueve de derecha a izquierda</marquee> */}
         <Container>
             <CardOne state={stateCard}>
                 <form className="form-horizontal" onSubmit={handleRegister}>
                     <InputHook label='Nombre del producto'
                         type="text"
                         placeholder="Nombre del producto"
-                        value={values.pName}
-                        name='pName'
-                        required
-                        onChange={handleChange}
+                        value={names}
+                        name='name'
+                        // required
+                        onChange={e => setName(e.target.value)}
                         range={{ min: 0, max: 180 }}
                     />
                     <InputHook label='ProPrice'
@@ -115,7 +116,7 @@ export const FoodComponent = ({ datafatures,
                         </CardInput>
                     </>
                     <Footer>
-                        <RippleButton widthButton='min-content' margin='20px auto' type='submit' bgColor={APColor}>Subir</RippleButton>
+                        <RippleButton widthButton='min-content' margin='1px' type='submit' bgColor={APColor}>Subir</RippleButton>
                     </Footer>
                 </form>
             </CardOne>

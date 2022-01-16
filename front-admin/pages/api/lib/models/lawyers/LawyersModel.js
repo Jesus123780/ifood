@@ -4,7 +4,7 @@ const connect = require('../../db')
 const sequelize = connect()
 const ThirdPartiesModel = require('../thirdParties/ThirdPartiesModel')
 
-// sequelize.sync()
+// 
 
 const LawyersModel = sequelize.define('lawyers', {
     lId: {

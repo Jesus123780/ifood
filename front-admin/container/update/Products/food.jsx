@@ -20,7 +20,7 @@ export const Food = () => {
     const [values, setValues] = useState({})
     const [features, setFeatures] = useState({})
     const { state, changeState } = useSetState(null)
-    const [names, setName] = useLocalStorage();
+    const [names, setName] = useLocalStorage('namefood', '');
     // Estado para las estrellas del producto
     const [rating, setRating] = useState(0);
     //  const { setAlertBox } = useContext(Context)
@@ -96,6 +96,7 @@ export const Food = () => {
             console.log('object')
         }
     })
+    // console.log(names)
     const [check, setCheck] = useState(false)
     const handleCheckEnvioGratis = e => {
         const { name, value, checked } = e.target
@@ -131,7 +132,7 @@ export const Food = () => {
         e.preventDefault()
         const ProStar = rating
         const { Width, Height, Cantidad, Destacado, IstFree } = values
-        const { ProPrice, ProDescuento, ProDescription, ProWeight, ProHeight, pName } = values
+        const { ProPrice, ProDescuento, ProDescription, ProWeight, ProHeight } = values
         const ProImage = 'https://http2.mlstatic.com/D_NQ_NP_621798-MLA45543191295_042021-W.webp'
 
         try {
@@ -142,7 +143,7 @@ export const Food = () => {
                         ProPrice: parseFloat(ProPrice),
                         ProDescuento: parseFloat(ProDescuento),
                         ProDescription: ProDescription,
-                        pName: pName,
+                        pName: names    ,
                         pState: 1,
                         sTateLogistic: 1,
                         ProStar: rating,
@@ -151,6 +152,7 @@ export const Food = () => {
                         ProWeight: ProWeight,
                         ProOutstanding: check ? 1 : 0,
                         ProDelivery: check ? 1 : 0
+
                     }
                 }, update(cache) {
                     cache.modify({
