@@ -166,7 +166,7 @@ const DashboardStore = ({ StoreId }) => {
                                 <ButtonAction onClick={() => SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state)}>
                                     Update products
                                 </ButtonAction >
-                                <ButtonAction  onClick={() => setOpen(!open)}>
+                                <ButtonAction onClick={() => setOpen(!open)}>
                                     Editar agenda
                                 </ButtonAction>
                                 <ButtonAction onClick={() => SHOW_MANAGE_CATEGORIES.setState(!SHOW_MANAGE_CATEGORIES.state)}>
@@ -176,20 +176,20 @@ const DashboardStore = ({ StoreId }) => {
                         </WrapperOptions>
                     </MerchantBanner>
                 </RestaurantColumn>
-                {/* UPDATE PRODUCTS */}
-                <AwesomeModal  backdrop='static' zIndex='9990' padding='20px' height='100vh' show={SHOW_MODAL_UPDATE_PRODUCTS.state} onHide={() => { SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state) }} onCancel={() => false} size='large' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='0' >
-                    <Food />
-                </AwesomeModal>
-                {/* UPDATE PRODUCTS */}
-                <AwesomeModal  backdrop='static'  zIndex='9990' padding='25px' height='900px' show={SHOW_MANAGE_CATEGORIES.state} onHide={() => { SHOW_MANAGE_CATEGORIES.setState(!SHOW_MANAGE_CATEGORIES.state) }} onCancel={() => false} size='1600px' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
-                    <ManageCategories />
-                </AwesomeModal>
             </Container>
             <LateralModal open={open}>
                 <Text size='20px'>
                     <ScheduleTimings />
                 </Text>
             </LateralModal>
+            {/* UPDATE PRODUCTS */}
+            <AwesomeModal backdrop='static' zIndex='9990' padding='20px' height='100vh' show={SHOW_MODAL_UPDATE_PRODUCTS.state} onHide={() => { SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state) }} onCancel={() => false} size='large' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='0' >
+                <Food />
+            </AwesomeModal>
+            {/* UPDATE PRODUCTS */}
+            <AwesomeModal backdrop='static' zIndex='9990' padding='25px' height='100vh' show={SHOW_MANAGE_CATEGORIES.state} onHide={() => { SHOW_MANAGE_CATEGORIES.setState(!SHOW_MANAGE_CATEGORIES.state) }} onCancel={() => false} size='large' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
+                <ManageCategories />
+            </AwesomeModal>
         </Wrapper>
     </>
     )

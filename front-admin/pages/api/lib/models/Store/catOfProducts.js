@@ -1,14 +1,25 @@
-import Sequelize from 'sequelize'
-import connect from '../../db'
-import { enCode } from '../../utils/util'
-import Store from './Store'
-import Users from '../Users'
 
-const conn = connect()
+// export default conn.define('catofproducts', {
 
-// conn.sync() 
+// }, {
+//     timestamps: false
+// })
 
-export default conn.define('catofproducts', {
+
+const Sequelize = require('sequelize')
+const connect = require('../../db')
+const { enCode } = require('../../utils/util')
+const CatStore = require('../information/CategorieStore')
+const CitiesModel = require('../information/CitiesModel')
+const CountriesModel = require('../information/CountriesModel')
+const DepartmentsModel = require('../information/DepartmentsModel')
+const Users = require('../Users')
+const Store = require('./Store')
+const sequelize = connect()
+
+sequelize.sync() 
+
+const catOfProducts = sequelize.define('catofproducts', {
     cpId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -24,7 +35,7 @@ export default conn.define('catofproducts', {
             model: Users,
             key: 'id'
         },
-        get(x) {return enCode(this.getDataValue(x))},
+        get(x) { return enCode(this.getDataValue(x)) },
     },
     idStore: {
         type: Sequelize.INTEGER,
@@ -35,7 +46,7 @@ export default conn.define('catofproducts', {
             model: Store,
             key: 'idStore'
         },
-        get(x) {return enCode(this.getDataValue(x))},
+        get(x) { return enCode(this.getDataValue(x)) },
     },
     catName: {
         type: Sequelize.STRING,
@@ -60,6 +71,6 @@ export default conn.define('catofproducts', {
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
     }
-}, {
-    timestamps: false
 })
+
+module.exports = catOfProducts

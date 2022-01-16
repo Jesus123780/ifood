@@ -21,7 +21,7 @@ input InputCatOfProducts {
 type Query {
 """Response for find one CatOfProducts"""
   CatOfProducts(idStore: ID, CatOfProductsName: String): CatOfProducts
-  getAllCatOfProducts(idStore: ID, CatOfProductsName: String): [CatOfProducts]
+  getAllCatOfProducts(idStore: ID): [CatOfProducts]
 
 }
 

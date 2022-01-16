@@ -1004,3 +1004,10 @@ export const TimeSlots = styled.div`
     color: RED;
 
 `
+export const ContentCard = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  place-content: space-around;
+  width: 100%;
+
+`
