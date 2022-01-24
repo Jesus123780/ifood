@@ -13,8 +13,8 @@ setStoreSchedule(input: $input){
 }
 `
 export const GET_SCHEDULE_STORE = gql`
- query getStoreSchedules($data: Int, $idStore: ID) {
-        getStoreSchedules(schDay: $data, idStore: $idStore){
+ query getStoreSchedules($schDay: Int, $idStore: ID) {
+        getStoreSchedules(schDay: $schDay, idStore: $idStore){
             schId
             idStore
     				id

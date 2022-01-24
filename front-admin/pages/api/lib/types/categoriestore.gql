@@ -13,8 +13,6 @@ type CatStore {
 
 # CatStore Input
 input ICatStore {
-    catStore: ID
-    idUser: ID
     cName: String
     cState: Int
     cDatCre: DateTime
@@ -29,4 +27,5 @@ type Query {
 # Mutations
 type Mutation {
   registerCategoryStore(input: ICatStore): CatStore
+  desCategoryStore(catStore: ID, cState: Int): Boolean
 }

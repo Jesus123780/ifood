@@ -9,120 +9,55 @@ const { enCode } = require('../../utils/util')
 
 // 
 
-const Users = sequelize.define('users', {
-    id: {
+const userSessionsModel = sequelize.define('usersessions', {
+    usId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        get (x) { return enCode(this.getDataValue(x)) }
+        get(x) { return enCode(this.getDataValue(x)) }
     },
-    IdM: {
+    uId: {
         type: Sequelize.INTEGER,
-        // allowNull: false,
+        allowNull: false,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
         references: {
-            model: UserMasters,
-            key: 'IdM'
+            model: UsersModel,
+            key: 'uId'
         },
-        get(x) {return enCode(this.getDataValue(x))},
-        set(x) {this.setDataValue('IdM', validationID(x, false))}
+        unique: true,
+        get(x) { return enCode(this.getDataValue(x)) },
+        set(x) { this.setDataValue('uId', validationID(x, false)) }
     },
-    name: {
-        type: Sequelize.STRING,
-        require: true
+    usToken: {
+        type: Sequelize.STRING(255),
+        allowNull: false,
     },
-    username: {
-        type: Sequelize.STRING,
-        require: true,
-        trim: true,
-        unique: true
+    usSessionID: {
+        type: Sequelize.STRING(255),
+        allowNull: false
     },
-    lastName: {
-        type: Sequelize.STRING,
-        require: true,
-        trim: true,
-        unique: true
+    usDevice: {
+        type: Sequelize.STRING(255),
     },
-    email: {
-        type: Sequelize.STRING,
-        require: true,
-        trim: true,
-        unique: true
+    usIP: {
+        type: Sequelize.STRING(255),
     },
-    avatar: {
-        type: Sequelize.STRING,
-        trim: true
-    },
-    // News
-    uToken: {
-        type: Sequelize.STRING(100),
-        trim: true
-    },
-    uPhoNum: {
-        type: Sequelize.STRING(50)
-    },
-    ULocation: {
-        type: Sequelize.STRING(100)
-    },
-    upLat: {
-        type: Sequelize.STRING(30)
-    },
-    upLon: {
-        type: Sequelize.STRING(30)
-    },
-    upIdeDoc: {
-        type: Sequelize.STRING(50)
-    },
-    // Locations
-    cId: {
+    usState: {
         type: Sequelize.INTEGER,
-        onUpdate: null,
-        onDelete: null,
-        references: {
-            model: CountriesModel,
-            key: 'cId'
-        },
-        get (x) { return this.getDataValue(x) ? enCode(this.getDataValue(x)) : null }
-    },
-    dId: {
-        type: Sequelize.INTEGER,
-        onUpdate: null,
-        onDelete: null,
-        references: {
-            model: DepartmentsModel,
-            key: 'dId'
-        },
-        get (x) { return this.getDataValue(x) ? enCode(this.getDataValue(x)) : null }
-    },
-    ctId: {
-        type: Sequelize.INTEGER,
-        onUpdate: null,
-        onDelete: null,
-        references: {
-            model: CitiesModel,
-            key: 'ctId'
-        },
-        get (x) { return this.getDataValue(x) ? enCode(this.getDataValue(x)) : null }
-    },
-    siteWeb: {
-        type: Sequelize.STRING,
-        trim: true
-    },
-    description: {
-        type: Sequelize.STRING,
-        trim: true
-    },
-    password: {
-        type: Sequelize.STRING,
-        trim: true,
-        require: true
+        allowNull: false
     },
     createAt: {
-        type: Sequelize.DATE,
-        default: Date.now()
+        type: 'TIMESTAMP',
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    },
+    updateAt: {
+        type: 'TIMESTAMP',
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
     }
 
 })
 
-module.exports = Users
+module.exports = userSessionsModel

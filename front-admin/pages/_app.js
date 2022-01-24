@@ -5,17 +5,21 @@ import { Layout } from '../components/Layout'
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '../apollo/apolloClient'
 import { GlobalStyle } from '../public/styles/GlobalStyle'
+import { useTheme } from '../components/hooks/useTheme'
+import { ThemeProvider } from 'styled-components'
 
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps)
   return (
-    <Context.Provider>
+    <Context>
       <ApolloProvider client={apolloClient}>
-        <GlobalStyle />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        {/* <ThemeProvider theme={theme}> */}
+          <GlobalStyle />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        {/* </ThemeProvider> */}
       </ApolloProvider >
-    </Context.Provider>
+    </Context>
   )
 }

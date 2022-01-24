@@ -13,7 +13,7 @@ import { useGetAreas } from '../../../components/hooks/useGetArea';
 import { useCategories } from '../../../components/hooks/useCategories';
 import { useSetState } from '../../../components/hooks/useState';
 
-export const ProductsC = () => {
+export const ProductsC = ({ setAlertBox }) => {
     // ------------ ESTADOS ------------
     const [errors, setErrors] = useState({})
     const [values, setValues] = useState({})
@@ -22,7 +22,7 @@ export const ProductsC = () => {
     const [names, setName] = useLocalStorage('nameproducts', '');
     // Estado para las estrellas del producto
     const [rating, setRating] = useState(0);
-  //  const { setAlertBox } = useContext(Context)
+    // const { setAlertBox } = useContext(Context)
     // Filtrar product
     const [dataProducto, setData] = useState([])
     const [showMore, setShowMore] = useState(100)
@@ -173,7 +173,6 @@ export const ProductsC = () => {
     // function calcDesc(pri, des) {
     //     const impDesc = (pri * des)/100;
     //     const intPorcentaje = Math.round(impDesc);
-    //     console.log(intPorcentaje)
     // }
     // calcDesc()
     const handleChangeFilter = e => {

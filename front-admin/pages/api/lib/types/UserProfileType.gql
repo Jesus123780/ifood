@@ -1,0 +1,52 @@
+type UserProfile {
+  upId: ID
+  id: ID
+  upPhone: String
+  upImage: String
+  upDateBir: String
+  upBloodG: String
+  upAddress: String
+  ctId: ID
+  dId: ID
+  upZipCode: String
+  cId: ID
+  upLatitude: String
+  upLongitude: String
+  user: User
+}
+
+"Entradas para el registro o actualización del perfil de paciente"
+input IUserProfile{
+  upId: ID
+  id: ID
+  upPhone: String 
+  upDateBir: String
+  upImage: String
+  upBloodG: String
+  upAddress: String
+  ctId: ID
+  dId: ID
+  upZipCode: String
+  cId: ID
+  upLatitude: String
+  upLongitude: String
+  user: IUser
+}
+
+type Query {
+  "obtiene la informacion del perfil del paciente"
+  getUserProfile: [UserProfile]
+  "obtiene un solo registro dela informacion del perfil del paciente"
+  getOneUserProfile(id: ID): UserProfile,
+  "Ontiene la información global sobre los perfiles del paciente"
+  getAdminUprofile: [UserProfile]
+  "Obtiene un solo UserProfile"
+  getOneUp(id: ID): UserProfile
+}
+
+type Mutation {
+  "Registra o actualiza la informacion del perfil del paciente que esta logueado"
+  setUserProfile(input: IUserProfile!, inputUser: IUser ): UserProfile
+  "Registra o actualiza la informacion del perfil de un paciente en especifico"
+  setUProfile(input: IUserProfile!, inputUser: IUser): UserProfile
+}

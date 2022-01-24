@@ -455,6 +455,7 @@ export const updateCacheMod = async ({ cache, query, nameFun, dataNew, type, id 
  * @returns {null} no hay retorno
  */
 const TOKEN = 'sma.sv1'
+const RESTAURANT = 'restaurant'
 export function setToken(token) {
     if (token === null) return false
     else if (token !== null) return JSON.parse
@@ -463,8 +464,8 @@ export function setToken(token) {
  * obtiene el token del usuario
  * @returns {null} no hay retorno
  */
-export function getToken() {
-    return localStorage.getItem(TOKEN)
+export function getToken({ restaurant }) {
+    return localStorage.getItem(restaurant || TOKEN)
 }
 // obtiene el token del usuario y lo descodifica
 export function decodeToken(token) {
@@ -1000,6 +1001,20 @@ export const hiddenEmail = email => {
 }
 export const roundToTwo = (num) => {
     return (Math.round(num + 'e+2') + 'e-2');
+}
+export const randonCode = (num) => {
+    function makeid(length) {
+        var result           = '';
+        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for ( var i = 0; i < length; i++ ) {
+          result += characters.charAt(Math.floor(Math.random() * 
+     charactersLength));
+       }
+       return result;
+    }
+    
+    console.log(makeid(6));
 }
 
 export const NewDateFormat = (date) => {

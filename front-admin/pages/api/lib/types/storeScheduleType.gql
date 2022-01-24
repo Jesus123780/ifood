@@ -1,4 +1,4 @@
-type storeSchedule {
+type StoreSchedule {
   idStore: ID
   schId: ID
   id: ID
@@ -24,9 +24,10 @@ input IsStoreSchedule {
 }
 
 type Query {
-  getStoreSchedules(schDay: Int, schState: Int, idStore: ID): [storeSchedule]
+  getStoreSchedules(schDay: Int, schState: Int, idStore: ID): [StoreSchedule]
 }
 
 type Mutation {
-  setStoreSchedule(input: IsStoreSchedule!): [storeSchedule]
+  setStoreScheduleReserve(input: IsStoreSchedule!): [StoreSchedule]
+  setStoreSchedule(input: ITstoreSchedule!): StoreSchedule
 }

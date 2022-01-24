@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Anchor, FooterComponent, Text } from './styled'
 import ActiveLink from '../common/Link'
 import { IconConfig, IconHome, IconSearch, IconUser } from '../../public/icons'
 import { PColor } from '../../public/colors'
+import { Context } from '../../context'
 
 export const Footer = () => {
+  const { error, isSession, setAlertBox } = useContext(Context)
+  useEffect(() => {
+    setAlertBox({ message: '', color: 'success' })
+  }, [])
   return (
     <>
       <FooterComponent>

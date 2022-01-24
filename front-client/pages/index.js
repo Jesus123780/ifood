@@ -15,12 +15,12 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-        <marquee>Este texto se mueve de derecha a izquierda</marquee>
 
         <p className={styles.description}>
           Get started by editing{' '}
           <code className={styles.code}>pages/index.js</code>
         </p>
+        <marquee>Este texto se mueve de derecha a izquierda</marquee>
 
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>

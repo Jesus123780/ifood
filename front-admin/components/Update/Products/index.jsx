@@ -290,7 +290,7 @@ export const Products = ({ datafatures,
                     <i>Filtro de precio</i>
                     <InputHook
                         type='range'
-                        label={`${ data[0]?.ProPrice }`}
+                        label={`${data[0]?.ProPrice}`}
                         // value={data[0]?.ProPrice}
                         name='price'
                         maxLength={data[0]?.ProPrice}
@@ -303,7 +303,9 @@ export const Products = ({ datafatures,
                     <Text size='20px'>Filtrar productos</Text>
                     <div>
                         <CardInput onChange={handleChangeClick}>
-                            <CardCheckBox name='gender' value="1" type="checkbox" id="checkboxF" />
+                            <div>
+                                <CardCheckBox name='gender' value="1" type="checkbox" id="checkboxF" />
+                            </div>
                             <CardRadioLabel htmlFor='checkboxF'>Envío gratis</CardRadioLabel>
                         </CardInput>
                         <CardInput onChange={handleChangeClick}>
@@ -311,16 +313,16 @@ export const Products = ({ datafatures,
                             <CardRadioLabel htmlFor='checkboxF'>Ofertas</CardRadioLabel>
                         </CardInput>
                     </div>
-                    <RippleButton onClick={()=> onClickSearch()} bgColor={PVColor}>Buscar</RippleButton>
+                    <RippleButton onClick={() => onClickSearch()} bgColor={PVColor}>Buscar</RippleButton>
                     <Range min={1962} max={2018} value={2018} label="Year" />
                 </CardProduct>
                 <CardProduct>
                     <SliderCategory duration={'500ms'} dataCategories={dataCategories} handleChangeClick={handleChangeClick} />
-                    <RippleButton margin='5px 30px 30px 30px' onClick={()=> onClickSearch()} bgColor={PVColor}>Buscar</RippleButton>
+                    <RippleButton margin='5px 30px 30px 30px' onClick={() => onClickSearch()} bgColor={PVColor}>Buscar</RippleButton>
                 </CardProduct>
                 <CardProduct>
                     {dataCategories?.length}
-                    <RippleButton margin='5px 30px 30px 30px' onClick={()=> onClickSearch()} bgColor={PVColor}>Buscar</RippleButton>
+                    <RippleButton margin='5px 30px 30px 30px' onClick={() => onClickSearch()} bgColor={PVColor}>Buscar</RippleButton>
                 </CardProduct>
             </ContainerCardProduct>
             {/* Slider para filtrar productos */}
@@ -343,13 +345,13 @@ export const Products = ({ datafatures,
                 <ItemFilter>Tarifa de envio</ItemFilter>
                 <ItemFilter>Distancia mas corta</ItemFilter>
                 <ItemFilter>Ordenar</ItemFilter>
-                <ItemFilter onClick={()=> onClickClear()}>Limpio</ItemFilter>
+                <ItemFilter onClick={() => onClickClear()}>Limpio</ItemFilter>
             </ContainerFilter>
             <SliderAreas autoPlayTime={4000} duration={'500ms'} finalDataAreas={finalDataAreas} />
             <ContainerCardProduct grid={grid}>
                 <div>
-                    <ItemFilter>{data.length ? `${ data.length } Productos` : 'No hay productos'}</ItemFilter>
-                    <ItemFilter>{dataFree.length ? `${ dataFree.length } Productos con envio gratis` : 'No hay productos con envio gratis'}</ItemFilter>
+                    <ItemFilter>{data.length ? `${data.length} Productos` : 'No hay productos'}</ItemFilter>
+                    <ItemFilter>{dataFree.length ? `${dataFree.length} Productos con envio gratis` : 'No hay productos con envio gratis'}</ItemFilter>
                 </div>
                 {!data?.length ? <SkeletonP /> : data?.map(product => (
                     <CardProduct grid={grid} key={product.pId} >
@@ -359,7 +361,7 @@ export const Products = ({ datafatures,
                                 Eliminar
                             </ActionName>
                         </ButtonCard>
-                        <ButtonCard grid={grid} delay='.1s'top={'80px'}>
+                        <ButtonCard grid={grid} delay='.1s' top={'80px'}>
                             <IconEdit size={20} color={PColor} />
                             <ActionName>
                                 Editar
@@ -375,7 +377,7 @@ export const Products = ({ datafatures,
                             {product.ProDescuento && <Discount discount={product.ProDescuento} > {numberFormat(product.ProDescuento)}</Discount>}
                             <Title>{product.pName}</Title>
                             <Text>{numberFormat(product.ProPrice)}</Text>
-                            <ContentInfo direction>
+                            <ContentInfo >
                                 <Rate rating={product.ProStar} onRating={() => setRating(product.ProStar)} size={20} value={product.ProStar} />
                                 {product.ProDelivery === 1 && <span>Gratis</span>}
                             </ContentInfo>

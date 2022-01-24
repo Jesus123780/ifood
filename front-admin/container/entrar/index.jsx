@@ -27,14 +27,12 @@ export const Login = () => {
             email: 'email',
             password: "googleId ",
         }
-        console.log(body)
         await fetchJson(`${URL_BASE}auth`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
         }).then(res => {
             router.push('/dashboard')
-            console.log(res)
             // if (res.success) {
             //     newRegisterUser({ variables: { input: { name: '23423', username: '3242', lastName: '3242', email: 'hola', password: googleId  } } })
             //         .then(res => {

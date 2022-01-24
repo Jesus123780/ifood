@@ -68,6 +68,7 @@
 """Response for find one Store"""
     getStore(id: ID, StoreName: String, idStore: ID): Store
     getAllStore(id: ID, StoreName: String, idStore: ID): [Store]
+    getOneStore(id: ID, StoreName: String, idStore: ID): Store
   }
 
 type Mutation {

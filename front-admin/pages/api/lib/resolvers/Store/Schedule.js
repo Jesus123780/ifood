@@ -17,7 +17,7 @@ export const updateStoreSchedule = async (_root, { input }) => {
     }
 }
 
-export const setStoreSchedule = async (_root, { input }) => {
+export const setStoreScheduleReserve = async (_root, { input }) => {
     try {
         const { schData } = input || {}
         let response = []
@@ -39,18 +39,20 @@ export const setStoreSchedule = async (_root, { input }) => {
         return error
     }
 }
-
-const getStoreSchedules = async (root, { schDay, idStore }, context, info) => {
+export const setStoreSchedule = async(_root, { input }, context, _info) => {
     try {
-        if (!idStore) throw new ApolloError('Debe resgistrar un restaurante primero')
+        await ScheduleStore.create({ ...input, idStore: deCode(context.restaurant), id: deCode(context.User.id) })
+        return true
+    } catch (e) {
+        const error = new Error('Lo sentimos, ha ocurrido un error interno1')
+        return error
+    }
+}
+
+const getStoreSchedules = async (root, { schDay }, context, info) => {
+    try {
         const attributes = getAttributes(ScheduleStore, info)
-        const data = await ScheduleStore.findAll({
-            attributes, where: {
-                ...(idStore ? { idStore: deCode(idStore) } : {}),
-                ...(schDay ? { schDay } : {}),
-                schState: { [Op.or]: [1, 2] }
-            }
-        })
+        const data = await ScheduleStore.findAll({  attributes, where: { idStore: context.restaurant ? deCode(context.restaurant) : { [Op.gt]: 0 } } })
         return data
     } catch (e) {
         const error = new ApolloError(e || 'Lo sentimos, ha ocurrido un error interno')

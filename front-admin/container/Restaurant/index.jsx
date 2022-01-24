@@ -17,15 +17,17 @@ import { useUser } from '../../components/hooks/useUser'
 import { GET_ALL_CAT_STORE } from '../../gql/catStore'
 import { CardCheckBox, CardInput, CardRadioLabel } from '../../components/Update/Products/styled'
 import { AwesomeModal } from '../../components/AwesomeModal'
-import Context from '../../Context'
+import { Context } from '../../Context'
+import useLocalStorage from '../../components/hooks/useLocalSorage'
 
 export const Restaurant = () => {
     const [step, setStep] = useState(0)
-
     const [modalConfirm, setModalConfirm] = useState(false)
     const router = useRouter()
+    const [_, setName] = useLocalStorage('restaurant', '');
     const [newRegisterStore, { loading, error }] = useMutation(CREATE_ONE_STORE, {
-        onCompleted: () => {
+        onCompleted: (data) => {
+            setName(data?.newRegisterStore?.idStore || null)
             router.push('/restaurante/validacion-de-codigo')
         }
     })
@@ -41,9 +43,9 @@ export const Restaurant = () => {
                             cId: values.countryId,
                             id: dataUser.id || '',
                             // dId: values.dId,
-                            dId: 'MjcyMDg4ODE0ODUxNTE2NDUw',
-                            ctId: 'MjcyMDg4ODE0ODUxNTE2NDUw',
-                            catStore: 'MTA4ODM1NTI1OTQwNjA2NTgwMA==',
+                            dId: values?.dId,
+                            ctId: values?.ctId,
+                            catStore: dataForm?.catStore,
                             // ctId: values.ctId,
                             neighborhoodStore: dataForm.storePhone,
                             Viaprincipal: dataForm.storePhone,
@@ -71,7 +73,7 @@ export const Restaurant = () => {
                 })
             },
             actionAfterSuccess: () => {
-                setDataValue({})
+                // setDataValue({})
             }
         })
     const [nextStep, setNextStep] = useState(0)
@@ -98,8 +100,6 @@ export const Restaurant = () => {
     const road = dataRoad?.road || []
     const cities = dataCities?.cities || []
     const catStore = dataCatStore?.getAllCatStore || []
-    console.log(catStore)
-    console.log(dataForm.catStore)
     const [showLocation, setShowLocation] = useState(false)
     const handleBlur = e => {
         const { name, value, checked } = e.target

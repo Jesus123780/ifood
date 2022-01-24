@@ -26,7 +26,8 @@ const stepWidth = 150
 
 export const DefaultIcon = styled.div`
   margin-left: ${(stepWidth - iconSize) / 2}px;
-  background: ${MainColor};
+  background: ${MainColor}; 
+
   width: ${iconSize}px;
   height: ${iconSize}px;
   border-radius: ${iconSize}px;
@@ -70,6 +71,7 @@ export const Content = styled.div`
 export const Title = styled.div`
   font-size: 14px;
   color: ${MainColor};
+  text-align: center;
   font-weight: 400;
 `
 

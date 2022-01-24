@@ -1,6 +1,6 @@
 import link from 'next/link'
 import styled, { css } from 'styled-components'
-import { BGColor, SFVColor } from '../../../public/colors'
+import { BColor, BGColor, PColor, SFVColor } from '../../../public/colors'
 
 export const CtnAnchor = styled(link)`
     box-sizing: border-box;
@@ -25,7 +25,7 @@ export const CtnAnchor = styled(link)`
 `
 export const ContainerAside = styled.div`
     transition: 300ms ease;
-    background-color: #393a3d;
+    background-color: ${BGColor};
     height: min-content;
     margin-bottom: 20px;
     @media (max-width: 768px){ 
@@ -56,14 +56,14 @@ export const LeftNav = styled.div`
     width: 400px;
     place-content: center;
     gap: 10px;
-    height: 120px;
+    height: auto;
     h2 {
         font-size: 13px;
         font-weight: 500;
         margin: 5% 0;
     }
-    top: 50px;
-    left: 12px;
+    top: 80px;
+    left: 50px;
     @media (max-width: 768px){ 
         left: 0;
         top: 40.988px;
@@ -89,14 +89,14 @@ export const ButtonGlobalCreate = styled.button`
     border-radius: 20px;
     position: relative;
     min-width: 100px;
-    width: 90%;
+    width: 100%;
     padding: 0px 15px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: 500;
-    border: 2px solid ${BGColor};
-    color: ${BGColor};
+    border: 2px solid ${PColor};
+    color: ${BColor};
     height: 30px;
     font-size: 12px;
     cursor: pointer;
@@ -104,10 +104,12 @@ export const ButtonGlobalCreate = styled.button`
     transition: 0.2s;
     background-color: transparent; 
     &:hover {
-        box-shadow: rgb(255 255 255) 0px 0px 0px 2px;
+        box-shadow: rgb(232 137 137) 0px 0px 0px 2px;
     }
     &:active{
         transform: scale(0.9);
+        box-shadow: rgb(210 5 5) 0px 0px 0px 2px;
+
     }
 `
 export const Info = styled.div`
@@ -141,7 +143,7 @@ export const Anchor = styled.a`
     white-space: nowrap;
     text-overflow: ellipsis;
     line-height: 1.2em;
-    color: ${BGColor};
+    color: ${BColor};
     margin: 0;
     padding: 10px;
     border-bottom: 1px solid #ccc;
@@ -159,8 +161,8 @@ export const Card = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    // overflow-y: auto;
-
+    box-shadow: 2px -1rem 0rem 0px rgb(18 38 63 / 3%);
+    /* overflow-y: auto; */
     transition: 300ms ease;
     height: 100vw;
 `

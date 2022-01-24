@@ -4,8 +4,6 @@ export const CREATE_CAT_STORE = gql`
 mutation  registerCategoryStore($input: ICatStore){
   registerCategoryStore(input: $input){
     cState
-    catStore
-    idUser
     cName
     cDatCre
     cDatMod
@@ -25,4 +23,9 @@ getAllCatStore{
   csDescription
   }
 }
+`
+export const SET_DES_CAT = gql`
+    mutation desCategoryStore($catStore: ID, $cState: Int) {
+      desCategoryStore(catStore: $catStore, cState: $cState)
+    }
 `

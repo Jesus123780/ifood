@@ -6,7 +6,6 @@ import { Rate } from '../../Rate';
 import NewSelect from '../../NewSelectHooks/NewSelect'
 import { numberFormat } from '../../../utils';
 import { RippleButton } from '../../Ripple';
-import { Container, FormProducts, Card, Button, CardOne, Label, ContainerCardProduct, CardProduct, Img, ContentImg, Title, Text, ContentInfo, ContentIconFav, ButtonCard, ActionName, ReadMore, ContentProducts, CardInput, CardCheckBox, CardRadioLabel, ContainerFilter, ItemFilter, ContainerBurger, Footer } from './styled';
 import { Skeleton } from '../../Skeleton/SkeletonCard';
 import { SliderAreas } from './SliderAreas';
 import { Discount } from './ViewProducts/styled';
@@ -17,6 +16,8 @@ import { SliderCategoryUpdate } from './SliderCategoriesUpdate';
 import { IconArrowRight, IconDelete, IconEdit, IconLove } from '../../../public/icons';
 import { APColor, PColor, PVColor, SEGColor } from '../../../public/colors';
 import { FoodCardPreview } from './FoodPreview';
+import { Container, FormProducts, Card, Button, CardOne, Label, ContainerCardProduct, CardProduct, Img, ContentImg, Title, Text, ContentInfo, ContentIconFav, ButtonCard, ActionName, ReadMore, ContentProducts, CardInput, CardCheckBox, CardRadioLabel, ContainerFilter, ItemFilter, ContainerBurger, Footer, LateralModal, WrapperProducts } from './styled';
+import { useRouter } from 'next/router';
 
 export const FoodComponent = ({ datafatures,
     finalDataAreas,
@@ -59,6 +60,7 @@ export const FoodComponent = ({ datafatures,
     const handleClickModal = index => {
         setModal(index === modal ? true : index)
     }
+    const router = useRouter()
     return (<div>
         {loading && <LoadingBabel />}
         {/* <marquee>Este texto se mueve de derecha a izquierda</marquee> */}
@@ -143,38 +145,7 @@ export const FoodComponent = ({ datafatures,
             </Card>
         </Container>
         <ContentProducts>
-            <Text size='30px'>Filtrar productos</Text>
-            <ContainerCardProduct>
-                <CardProduct>
-                    <InputHook label='Busca tus productos' name='search' value={search} onChange={handleChangeFilter} type='text' range={{ min: 0, max: 20 }} />
-                    <i>Filtro de precio</i>
-                    <InputHook
-                        type='range'
-                        label={`${data[0]?.ProPrice}`}
-                        // value={data[0]?.ProPrice}
-                        name='price'
-                        maxLength={data[0]?.ProPrice}
-                        minLength={data[0]?.ProPrice}
-                        onChange={handleChange}
-                        range={{ min: 0, max: 180 }}
-                    />
-                </CardProduct>
-                <CardProduct id='space'>
-                    <Text size='20px'>Filtrar productos</Text>
-                    <div>
-                        <CardInput onChange={handleChangeClick}>
-                            <CardCheckBox name='gender' value="1" type="checkbox" id="checkboxF" />
-                            <CardRadioLabel htmlFor='checkboxF'>Envío gratis</CardRadioLabel>
-                        </CardInput>
-                        <CardInput onChange={handleChangeClick}>
-                            <CardCheckBox name='desc' value="1" type="checkbox" id="checkboxF" />
-                            <CardRadioLabel htmlFor='checkboxF'>Ofertas</CardRadioLabel>
-                        </CardInput>
-                    </div>
-                    <RippleButton onClick={() => onClickSearch()} bgColor={PVColor}>Buscar</RippleButton>
-                    <Range min={1962} max={2018} value={2018} label="Year" />
-                </CardProduct>
-            </ContainerCardProduct>
+
             {/* Slider para filtrar productos */}
             <Text size='30px'>Lista de productos registrados</Text>
             <ContainerFilter>
@@ -198,45 +169,85 @@ export const FoodComponent = ({ datafatures,
                 <ItemFilter onClick={() => onClickClear()}>Limpio</ItemFilter>
             </ContainerFilter>
             <SliderAreas autoPlayTime={4000} duration={'500ms'} finalDataAreas={finalDataAreas} />
-            <ContainerCardProduct grid={grid}>
-                <div>
-                    <ItemFilter>{data.length ? `${data.length} Productos` : 'No hay productos'}</ItemFilter>
-                    <ItemFilter>{dataFree.length ? `${dataFree.length} Productos con envio gratis` : 'No hay productos con envio gratis'}</ItemFilter>
-                </div>
-                {!data?.length ? <SkeletonP /> : data?.map(product => (
-                    <CardProduct grid={grid} key={product.pId} >
-                        <ButtonCard grid={grid} onClick={() => handleDelete(product.pId)}>
-                            <IconDelete size={20} color={PColor} />
-                            <ActionName >
-                                Eliminar
-                            </ActionName>
-                        </ButtonCard>
-                        <ButtonCard grid={grid} delay='.1s' top={'80px'}>
-                            <IconEdit size={20} color={PColor} />
-                            <ActionName>
-                                Editar
-                            </ActionName>
-                        </ButtonCard>
-                        <ContentImg grid={grid}>
-                            {!product.ProImage ? <i>No img</i> : <Img src={product.ProImage} alt={product.ProImage} />}
-                        </ContentImg>
-                        <ContentInfo>
-                            <ContentIconFav grid={grid}>
-                                <IconLove color={PVColor} size={20} />
-                            </ContentIconFav>
-                            {product.ProDescuento && <Discount discount={product.ProDescuento} > {numberFormat(product.ProDescuento)}</Discount>}
-                            <Title>{product.pName}</Title>
-                            <Text>{numberFormat(product.ProPrice)}</Text>
-                            <ContentInfo direction>
-                                <Rate rating={product.ProStar} onRating={() => setRating(product.ProStar)} size={20} value={product.ProStar} />
-                                {product.ProDelivery === 1 && <span>Gratis</span>}
-                            </ContentInfo>
-                        </ContentInfo>
+            <ItemFilter>{data.length ? `${data.length} Productos` : 'No hay productos'}</ItemFilter>
+            <ItemFilter>{dataFree.length ? `${dataFree.length} Productos con envio gratis` : 'No hay productos con envio gratis'}</ItemFilter>
+            <Text size='30px'>Filtrar productos</Text>
+            <WrapperProducts className='filter'>
+                <div style={{ display: 'block', width: '30%', height: 'min-content', position: 'sticky' }}>
+                    <CardProduct width='90%'>
+                        <InputHook label='Busca tus productos' name='search' value={search} onChange={handleChangeFilter} type='text' range={{ min: 0, max: 20 }} />
+                        <i>Filtro de precio</i>
+                        <InputHook
+                            type='range'
+                            label={`${data[0]?.ProPrice}`}
+                            // value={data[0]?.ProPrice}
+                            name='price'
+                            maxLength={data[0]?.ProPrice}
+                            minLength={data[0]?.ProPrice}
+                            onChange={handleChange}
+                            range={{ min: 0, max: 180 }}
+                        />
                     </CardProduct>
-                ))}
-            </ContainerCardProduct>
+                    <CardProduct width='90%' id='space'>
+                        <Text size='20px'>Filtrar productos</Text>
+                        <div>
+                            <CardInput onChange={handleChangeClick}>
+                                <CardCheckBox name='gender' value="1" type="checkbox" id="checkboxF" />
+                                <CardRadioLabel htmlFor='checkboxF'>Envío gratis</CardRadioLabel>
+                            </CardInput>
+                            <CardInput onChange={handleChangeClick}>
+                                <CardCheckBox name='desc' value="1" type="checkbox" id="checkboxF" />
+                                <CardRadioLabel htmlFor='checkboxF'>Ofertas</CardRadioLabel>
+                            </CardInput>
+                        </div>
+                        <RippleButton onClick={() => onClickSearch()} bgColor={PVColor}>Buscar</RippleButton>
+                        <Range min={1962} max={2018} value={2018} label="Year" />
+                    </CardProduct>
+                </div>
+                <ContainerCardProduct grid={grid}>
+                    {!data?.length ? <SkeletonP /> : data?.map(product => (
+                        <CardProduct grid={grid} key={product} >
+                            <ButtonCard grid={grid} onClick={() => handleDelete(product.pfId)}>
+                                <IconDelete size={20} color={PColor} />
+                                <ActionName >
+                                    Eliminar
+                                </ActionName>
+                            </ButtonCard>
+                            <ButtonCard grid={grid} delay='.1s' top={'80px'}>
+                                <IconEdit size={20} color={PColor} />
+                                <ActionName>
+                                    Editar
+                                </ActionName>
+                            </ButtonCard>
+                            <ContentImg grid={grid}>
+                                {!product.ProImage ? <i>No img</i> : <Img src={product.ProImage} alt={product.ProImage} />}
+                            </ContentImg>
+                            <ContentInfo>
+                                <ContentIconFav grid={grid} onClick={() => router.push(`/producto/editar/${product.pfId}`)}>
+                                    <IconLove color={PVColor} size={20} />
+                                </ContentIconFav>
+                                {product.ProDescuento && <Discount discount={product.ProDescuento} > {numberFormat(product.ProDescuento)}</Discount>}
+                                <Title>{product.pName}</Title>
+                               
+                                <Text>{numberFormat(product.ProPrice)}</Text>
+                                <ContentInfo /* direction */>
+                                    <Rate rating={product.ProStar} onRating={() => setRating(product.ProStar)} size={20} value={product.ProStar} />
+                                    {product.ProDelivery === 1 && <span>Gratis</span>}
+                                </ContentInfo>
+                            </ContentInfo>
+                        </CardProduct>
+                    ))}
+
+
+                </ContainerCardProduct>
+            </WrapperProducts>
+
             <ReadMore onClick={() => setShowMore(s => s + 5)}>'Cargar Más' </ReadMore>
         </ContentProducts>
+        {/* 
+        <LateralModal open={null}>
+          
+        </LateralModal> */}
     </div>
     )
 }

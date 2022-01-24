@@ -10,10 +10,9 @@ import resolvers from '../api/lib/resolvers/index'
 const cors = Cors()
 
 const apolloServer = new ApolloServer({
-    resolvers,
+    // resolvers,
     typeDefs,
     introspection: true,
-    playground: process.env.NODE_ENV === 'production',
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground(), httpHeadersPlugin],
     context: withSession(async ({ req, next, connection }) => {
         if (connection) {
@@ -26,13 +25,14 @@ const apolloServer = new ApolloServer({
             //  Initialize PubSub
             const { token } = req.session.get('user') || {}
             const idComp = req.headers.authorization?.split(' ')[1]
+            const restaurant = req.headers.restaurant || {}
             const excluded = ['/login', '/forgotpassword', '/register', '/teams/invite/[id]', '/teams/manage/[id]']
             if (excluded.indexOf(req.session) > -1) return next()
             if (token) {
                 const User = await jwt.verify(token, process.env.AUTHO_USER_KEY)
-                return { req, setCookies: setCookies || [], setHeaders: setHeaders || [], User: User || {}, idComp }
+                return { req, setCookies: setCookies || [], setHeaders: setHeaders || [], User: User || {}, idComp, restaurant: restaurant || {} }
             }
-            return { req, setCookies: [], setHeaders: [], User: null || {}, idComp: null || {},  }
+            return { req, setCookies: [], setHeaders: [], User: null || {}, idComp: null || {},  restaurant: restaurant || {}}
 
         }
     }),

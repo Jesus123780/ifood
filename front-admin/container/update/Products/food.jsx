@@ -93,10 +93,9 @@ export const Food = () => {
     }
     const [newRegisterFoodProduct] = useMutation(CREATE_FOOD_PRODUCT, {
         onCompleted: () => {
-            console.log('object')
+            console.log('')
         }
     })
-    // console.log(names)
     const [check, setCheck] = useState(false)
     const handleCheckEnvioGratis = e => {
         const { name, value, checked } = e.target
@@ -113,7 +112,6 @@ export const Food = () => {
         const base64 = await convertBase64(file)
         const [size, { unit }] = await getFileSizeByUnit(file, "B");
         setImageBase64(base64)
-        console.log(size, unit)
         setPreviewImg(
             files.length
                 ? {
@@ -198,7 +196,7 @@ export const Food = () => {
     // ----------- HANDLE PARA ELIMINAR-----------
     const handleDelete = pId => {
         const value = finalData?.getFoodAllProduct?.filter(x => (x.pId === pId))
-        const pState = value[0]?.pState
+        // const pState = value[0]?.pState
         updateProducts({
             variables: {
                 input: {

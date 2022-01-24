@@ -10,6 +10,7 @@ export const newRegisterFoodProduct = async (_, { input }, ctx) => {
     const id = ctx.User.id || ''
     // const id = 'NjUzMDEzMTU1NjQzNjM5NTAwMA=='
     const { idStore } = input
+    // console.log(input);
     try {
         let res = {}
         res = await productModel.create({ ...input, pState: 1, id: deCode(id),  idStore: deCode(idStore) })

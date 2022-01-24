@@ -2,7 +2,6 @@ const Sequelize = require('sequelize')
 const connect = require('../../db')
 const CustomersModel = require('../customers/CustomersModel')
 const CitiesModel = require('../information/CitiesModel')
-const TypeAddressesModel = require('../information/TypeAddressesModel')
 const TypeIdentitiesModel = require('../information/TypeIdentitiesModel')
 const { enCode } = require('../../utils/util')
 const sequelize = connect()
@@ -44,17 +43,6 @@ const CostCentersModel = sequelize.define('costcenters', {
         references: {
             model: CitiesModel,
             key: 'cId'
-        },
-        get(x) {return enCode(this.getDataValue(x))}
-    },
-    taId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-        references: {
-            model: TypeAddressesModel,
-            key: 'taId'
         },
         get(x) {return enCode(this.getDataValue(x))}
     },

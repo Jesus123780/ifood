@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import * as Styled from './styled'
 
-export const StepsComponent = ({ direction, current, status, titles }) => {
+export const StepsComponent = ({ current, status, titles }) => {
   const steps = titles.map((title, i) => {
     let stepStatus
     if (i < current) {

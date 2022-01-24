@@ -24,6 +24,9 @@ export const Container = styled.div`
     transition:  6s ease;
     padding-bottom: 30px;
     border-bottom: 1px solid rgba(0,0,0,.1);
+    .filter{
+        display: none !important;
+    }
 `
 export const Card = styled.div` 
     position: relative;
@@ -47,8 +50,11 @@ export const Label = styled.span`
     font-family: PFont-Light;
 `
 // Styled Product
-export const ContainerCardProduct = styled.div` 
+export const WrapperProducts = styled.div`
     display: flex;
+`  
+export const ContainerCardProduct = styled.div` 
+    /* display: flex; */
     max-width: 1366px !important;
     margin: auto;
     margin: 50px 0px;
@@ -77,6 +83,7 @@ export const ContentProducts = styled.div`
     margin-top: 50px;
     @media only screen and (max-width: 960px){
     }
+   
 `
 export const ActionName = styled.span`
     position: absolute;
@@ -121,7 +128,7 @@ export const CardProduct = styled.div`
     flex: 0 1 auto;
     display: flex;
     position: relative;
-    width: 100%;
+    width: ${({ width }) => width ? width : '100%'};
     overflow: hidden;
     flex-direction: column;
     margin: 10px;
@@ -199,12 +206,12 @@ export const ContentInfo = styled.div`
     flex-direction: column;
     padding: 24px 16px;
     position: relative;
-    ${ props=> props.direction &&css`
+   /*  ${ props=> props.direction && css`
     padding: 0;
     flex-direction: row;
     display: flex;
 
-    ` }
+    ` } */
 `
 export const Title = styled.h2` 
     font-size: 14px;
@@ -212,9 +219,10 @@ export const Title = styled.h2`
     line-height: 1.18;
     word-break: break-word;
 `
-export const ContentIconFav = styled.div` 
+export const ContentIconFav = styled.button` 
     position: absolute;
     cursor: pointer;
+    z-index: 9999;
     top: -30px;
     box-shadow: 0px 0px 6px 0px #16101028;
     right: 20px;
@@ -306,6 +314,25 @@ export const ReadMore = styled.button`
     width: 200px;
 `
 
+export const LateralModal = styled.div`
+    width: 400px;
+    height: 100vh;
+    background-color: ${`${BGColor}`};
+    position: fixed;
+    top: 0;
+    color: ${BGColor};
+    right: 0;
+    padding: 30px;
+    z-index: 9999;
+    box-shadow: 0px 1px 4px rgb(0 0 0 / 5%), 0px 4px 16px rgb(0 0 0 / 6%);
+    transition: 300ms ease;
+    ${({ open }) => open && css`
+    right: -100%;
+
+    `}
+
+
+`
 export const CardOne = styled(Card)` 
     ${ props => props.state ? css`width: 0%` : css`width: 30%;` }
     transition:  .6s ease;

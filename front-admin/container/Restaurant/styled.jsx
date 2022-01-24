@@ -21,7 +21,8 @@ export const Form = styled.form`
 box-shadow: 0px 1px 4px rgb(0 0 0 / 5%), 0px 4px 16px rgb(0 0 0 / 6%);
     border-radius: 8px;
     padding: 36px;
-    display: flex;
+    place-content: center;
+    display: grid;
     flex-wrap: wrap;
     flex-direction: row ;
     background-color: #fff;
@@ -351,7 +352,7 @@ export const BtnClose = styled.button`
 `
 export const CardWrap = styled.div`
     display: ${({ display }) => display || 'flex'};
-    flex-direction: ${({ flexDirection }) => flexDirection || 'row'};
+    /* flex-direction: ${({ flexDirection }) => flexDirection || 'row'}; */
     justify-content: ${({ justify }) => justify || 'space-between'};
     flex-wrap: ${({ wrap }) => wrap || 'wrap'};
     margin: ${({ margin }) => margin || '30px 0px 0px 0px'};

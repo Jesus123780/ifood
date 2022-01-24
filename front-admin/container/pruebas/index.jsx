@@ -11,7 +11,6 @@ export const CustomTable = props => {
         const { id, checked } = e.target
         // setItemsToggle().catch(err => console.log(err))
     }
-    console.log(statusToggle)
     return (
         <div>
             <ContentTable>

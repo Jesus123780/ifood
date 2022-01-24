@@ -8,3 +8,14 @@ mutation  newRegisterFoodProduct($input: FoodProductInput){
   }
 }
 `
+export const CREATE_STORE_CALENDAR = gql`
+mutation  setStoreSchedule($input: ITstoreSchedule!){
+  setStoreSchedule(input: $input){
+    schDay
+    schHoSta
+    schHoEnd
+    schState
+    
+  }
+}
+`

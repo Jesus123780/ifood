@@ -10,12 +10,11 @@ import Aside from './Aside'
 export const Layout = ({ keyTheme, handleTheme, children }) => {
     const location = useRouter()
     const { error, isSession, setAlertBox } = useContext(Context)
-    // console.log(setAlertBox)
-    // useEffect(() => {
-    //     setAlertBox({ message: 'Operación exitosa', color: 'success' })
-    // }, [])
+    useEffect(() => {
+        setAlertBox({ message: '', color: 'success' })
+    }, [])
     return (
-        <div>
+        <>
             <AlertBox err={error} />
             <Main aside={!['/', '/login', '/entrar', '/restaurante', '/entrar/email', '/contact', '/varify-email', '/checkout/[id]', '/add-payment-method', '/register', '/terms_and_conditions', '/email/confirm/[code]', '/forgotpassword', '/teams/invite/[id]', '/autho', '/contact-us', '/switch-options'].find(x => x === location.pathname)} >
                 {!isSession && !['/login', '/entrar', '/restaurante', '/entrar/email', '/entrar/email/[verify]', '/register', '/varify-email', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => x === location.pathname) && <Header />}
@@ -30,7 +29,7 @@ export const Layout = ({ keyTheme, handleTheme, children }) => {
                 <div style={{ gridArea: 'right' }}>
                 </div>
             </Main>
-        </div>
+        </>
     )
 }
 

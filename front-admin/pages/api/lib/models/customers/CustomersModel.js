@@ -2,7 +2,6 @@ const Sequelize = require('sequelize')
 const connect = require('../../db')
 const { enCode } = require('../../utils/util')
 const CitiesModel = require('../information/CitiesModel')
-const TypeAddressesModel = require('../information/TypeAddressesModel')
 const TypeIdentitiesModel = require('../information/TypeIdentitiesModel')
 const sequelize = connect()
 

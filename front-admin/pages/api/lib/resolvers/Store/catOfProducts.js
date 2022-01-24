@@ -7,7 +7,7 @@ export const createCatOfProducts = async (_root, { input }, context ) => {
     console.log(input)
     const { idStore } = input || {}
     try {
-        const data = await catOfProducts.create({ ...input, id: deCode(context.User.id), idStore: deCode(idStore) })
+        const data = await catOfProducts.create({ ...input, id: deCode(context.User.id), idStore: deCode(context.restaurant) })
         return { success: false, message: 'Update' }
     } catch (e) {
         const error = new ApolloError(e || 'Lo sentimos, ha ocurrido un error interno')
@@ -15,7 +15,6 @@ export const createCatOfProducts = async (_root, { input }, context ) => {
     }
 }
 export const getAllCatOfProducts = async (root, { idStore }, context, info) => {
-    console.log(idStore, 'EYYYYYYYYY PERO QUE PASA')
     try {
         const attributes = getAttributes(catOfProducts, info)
         const data = await catOfProducts.findAll({ attributes, where: { idStore: deCode(idStore) } })

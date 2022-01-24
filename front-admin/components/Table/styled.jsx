@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { BGColor, SEGColor, TBGAColor, TBGBColor, TBGDColor, TBGEColor, TBGRColor, TBGSColor, TBGVColor, TFBColor, TFEColor, TFSColor } from '../../public/colors'
+import { BGColor, EColor, PVColor, SEGColor, TBGAColor, TBGBColor, TBGDColor, TBGEColor, TBGRColor, TBGSColor, TBGVColor, TFBColor, TFEColor, TFSColor } from '../../public/colors'
 
 export const ContainerTable = styled.div`
     width: 100%;
@@ -128,7 +128,7 @@ export const CheckBoxLabel = styled.label`
   width: 55px;
   height: 26px;
   border-radius: 15px;
-  background: ${({ theme }) => theme.SCColor};
+  background: ${PVColor};
   cursor: pointer;
   &::after {
     content: "";
@@ -149,7 +149,7 @@ export const CheckBox = styled.input`
   width: 42px;
   height: 26px;
  &:checked + ${CheckBoxLabel} {
-    background: ${({ theme }) => theme.EVColor};
+    background-color: ${EColor};
     &::after {
       content: "";
       display: block;

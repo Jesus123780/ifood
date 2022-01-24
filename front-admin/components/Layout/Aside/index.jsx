@@ -18,7 +18,8 @@ const Aside = () => {
             <ButtonGlobalCreate onClick={() => setShow(!show)}>
               Add new
             </ButtonGlobalCreate>
-            <LeftNav show={false}>
+            {/* nav */}
+            <LeftNav show={show}>
               <Info>
                 <h2>Customers</h2>
                 <ActiveLink activeClassName="active" href="/sales-invoices">
@@ -50,6 +51,15 @@ const Aside = () => {
                 </ActiveLink>
                 <ActiveLink activeClassName="active" href="/">
                   <Anchor>Home</Anchor>
+                </ActiveLink>
+              </Info>
+              <Info>
+                <h2>Productos</h2>
+                <ActiveLink activeClassName="active" href="/update/products">
+                  <Anchor>Productos</Anchor>
+                </ActiveLink>
+                <ActiveLink activeClassName="active" href="/dashboard">
+                  <Anchor>Panel Restaurante</Anchor>
                 </ActiveLink>
               </Info>
             </LeftNav>

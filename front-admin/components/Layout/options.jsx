@@ -1,20 +1,44 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import Link from '../common/Link'
 
 import styled, { css } from 'styled-components'
 import { PColor } from '../../public/colors'
 import { useApolloClient } from '@apollo/client'
 import { FloatingBox, ButtonOption, FloatingBoxTwo, Overline } from './styled'
-import { IconLogout, IconMessageMain, IconShopping } from '../../public/icons'
+import { IconLogout, IconMessageMain, IconShopping, IconUser } from '../../public/icons'
 import { useRouter } from 'next/router'
+import { URL_BASE } from '../../apollo/urls'
 
 export const Options = ({ keyTheme, handleTheme }) => {
     const { client } = useApolloClient()
     const [show, setShow] = useState(false)
     const location = useRouter()
-    const onClickLogout = () => {
-        client?.clearStore()
-    }
+    // const onClickLogout = () => {
+    //     client?.clearStore()
+    //     window.localStorage.clear()
+    //     location.replace('/')
+    // }
+    // Cerrar sesión
+    const onClickLogout = useCallback(async () => {
+        await window
+            .fetch(`${URL_BASE}auth/logout/`, {})
+            .then(res => {
+                if (res) {
+                    client?.clearStore()
+                    window.localStorage.clear()
+                    location.replace('/')
+                }
+            })
+            .catch(() => {
+                console.log({
+                    message: 'Se ha producido un error.',
+                    duration: 30000,
+                    color: 'error'
+                })
+            })
+
+    }, [])
+
     useEffect(() => {
         const body = document.body
         body.addEventListener('keyup', e => e.code === 'Escape' && setShow(false))
@@ -38,7 +62,9 @@ export const Options = ({ keyTheme, handleTheme }) => {
             {< >
                 <ButtonOption>
                     <Enlace href='/messages'>
-                        <IconMessageMain size='25px' color={PColor} />
+                        <a>
+                            <IconMessageMain size='25px' color={PColor} />
+                        </a>
                     </Enlace>
                 </ButtonOption>
                 <ButtonOption onClick={onClickLogout}>
@@ -60,6 +86,12 @@ export const Options = ({ keyTheme, handleTheme }) => {
                             <ButtonOption space onClick={onClickLogout}>
                                 <span>Cerrar sesión</span>
                                 <IconLogout size='20px' color={PColor} />
+                            </ButtonOption>
+                        </Option>
+                        <Option Theme={false} >
+                            <ButtonOption space onClick={() => location.push('/profile/user')}>
+                                <span>Perfil</span>
+                                <IconUser size='25px' color={PColor} />
                             </ButtonOption>
                         </Option>
                     </FloatingBoxTwo>

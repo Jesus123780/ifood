@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useFormTools } from '../../components/BaseForm'
 import { useUser } from '../../components/hooks/useUser'
 import { useQuery } from '@apollo/client'
@@ -11,16 +11,16 @@ import { Card2, ContentCardInfo, Text } from './styled'
 import { GET_ONE_STORE } from './queries'
 import { generatePdfDocumentInvoice } from './PdfStore'
 import { useRouter } from 'next/router'
+import useLocalStorage from '../../components/hooks/useLocalSorage'
+import Context from '../../Context'
 
 const CheckYourData = props => {
+    // const { setCompanyLink } = useContext(Context)
     const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
     const [step, setStep] = useState(0)
     const [dataUser] = useUser()
     const router = useRouter()
     const { data } = useQuery(GET_ONE_STORE)
-    console.log(data)
-
-    console.log(dataUser)
     const store = data?.getStore || {}
     const handleRedirect = () => {
         router.push('/dashboard')

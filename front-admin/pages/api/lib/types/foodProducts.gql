@@ -21,7 +21,7 @@ type FoodProduct {
 }
 # Inputs
 input FoodProductInput {
-  pfId: ID
+  # pfId: ID
   id: ID
   idStore: ID
   ProPrice: Float

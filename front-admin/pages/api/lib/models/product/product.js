@@ -10,7 +10,7 @@ const Feature = require('../feature/feature')
 const CategoryProductsModel = require('../Categories/CategoryProducts')
 const { enCode, validationID, validations } = require('../../utils/util')
 
-// 
+sequelize.sync()
 
 const productModel = sequelize.define('product', {
     pId: {

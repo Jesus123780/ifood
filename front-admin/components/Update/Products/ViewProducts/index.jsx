@@ -65,7 +65,7 @@ export const ViewProducts = props => {
                     <i>Información del producto</i>
                     <Location>
                         <IconLocationMap size={20} />
-                        <Location direction >
+                        <Location /* direction */ >
                             <Info margin='0px' size='15px' color={'#000'}>Ubicación</Info>
                             <Info margin='0px' size='15px' color={'#000'}>Country, Departments, city</Info>
                         </Location>

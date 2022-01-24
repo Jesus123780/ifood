@@ -26,7 +26,6 @@ export const Countries = () => {
     }
     // Query para traer a todos los países
     const { data } = useQuery(GET_COUNTRY)
-    console.log(data, 'caidi')
     const [deleteCountries] = useMutation(DELETE_ONE_COUNTRIES)
 
     // Mutación para subir un país
@@ -87,7 +86,6 @@ export const Countries = () => {
     if (edit.id) {
         return <EditForm edit={edit} onSubmit={submitUpdate} />;
     }
-    // console.log(data?.countries[0].cId)
     const handleUpdate = async index => {
         const { cId } = index
         const results = await deleteCountries({

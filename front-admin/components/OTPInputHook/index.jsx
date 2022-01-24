@@ -29,7 +29,7 @@ export const OTPInputComponent = (props) => {
       const otpValue = otp.join("");
       onChangeOTP(otpValue);
     },
-    [onChangeOTP]
+    [onChangeOTP, otpValues]
   );
 
   // Helper to return value with the right type: 'text' or 'number'
@@ -41,7 +41,7 @@ export const OTPInputComponent = (props) => {
       }
       return !changedValue || /\d/.test(changedValue) ? changedValue : "";
     },
-    [isNumberInput]
+    [isNumberInput, onChangeOTP]
   );
 
   // Change OTP value at focussing input
@@ -159,7 +159,7 @@ export const OTPInputComponent = (props) => {
         setActiveInput(Math.min(nextFocusIndex + 1, length - 1));
       }
     },
-    [activeInput, getRightValue, length, otpValues]
+    [activeInput, getRightValue, length, otpValues, handleOtpChange, onChangeOTP]
   );
 
   return (

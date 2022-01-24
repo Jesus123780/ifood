@@ -1,4 +1,4 @@
-import { dateFormat } from "../../utils";
+import { dateFormat } from "../utils";
 
 const Styles = {
     body: {

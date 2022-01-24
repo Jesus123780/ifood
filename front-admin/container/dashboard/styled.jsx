@@ -47,7 +47,7 @@ export const Toolbar = styled.div`
 export const Options = styled.div`
   display: flex;
   align-items: center;
-  flex-direction: ${({ direction }) => direction || 'column'};
+  /* flex-direction: ${({ direction }) => direction || 'column'}; */
   justify-content: space-between;
   ${props => props.justify && css`
       width: 50%;
@@ -669,7 +669,7 @@ export const PageA4Format = styled.div`
 `
 export const BoxArrow = styled.div`
   display: flex;
-  flex-direction: ${({ direction }) => direction || 'column'};
+  /* flex-direction: ${({ direction }) => direction || 'column'}; */
 `
 export const InputHide = styled.input`
   display: block;
@@ -684,7 +684,7 @@ export const InputHide = styled.input`
 export const ArrowsLabel = styled.label`
   position: relative;
   display: flex;
-  flex-direction: ${({ direction }) => direction || 'column'};
+  /* flex-direction: ${({ direction }) => direction || 'column'}; */
   user-select: none;
 `
 export const List = styled.div`
@@ -713,7 +713,8 @@ export const Container = styled.div`
   flex-wrap: wrap;
   display: flex;
   @media (max-width: 769px) {
-    flex-direction: ${({ direction }) => direction || 'column'};
+
+    /* flex-direction: ${({ direction }) => direction || 'column'}; */
   }
 `
 export const Avatar = styled.img`
@@ -737,7 +738,7 @@ export const Content = styled.div`
   height: min-content;
   width: 100%;
   margin: 0 auto;
-  flex-direction: ${({ direction }) => direction || 'column'};
+  /* flex-direction: ${({ direction }) => direction || 'column'}; */
   width: ${({ width }) => width || '100%'};
   @media only screen and (max-width: 769px){
     width: ${({ widthMovil }) => widthMovil || '100%'};
@@ -756,7 +757,7 @@ export const Card = styled.div`
   flex-wrap: ${({ wrap }) => wrap || 'wrap'};
   height: ${({ height }) => height || 'min-content'};
   width: ${({ width }) => width || 'auto'};
-  flex-direction: ${({ direction }) => direction || 'column'};
+  /* flex-direction: ${({ direction }) => direction || 'column'}; */
   justify-content: ${({ justify }) => justify || 'initial'};
   padding: ${({ padding }) => padding || ' 1%'};
   position: relative;
@@ -781,7 +782,7 @@ export const CardPrimary = styled.div`
     background-color: ${({ bgColor }) => bgColor || BGColor};
     padding: ${({ padding }) => padding || '0'};
     display: ${({ display }) => display || 'flex'};
-    flex-direction: ${({ direction }) => direction || 'column'};
+    /* flex-direction: ${({ direction }) => direction || 'column'}; */
     display: flex;
     border-radius: ${({ radius }) => radius || '0'};
     align-items: center;
@@ -979,7 +980,6 @@ export const LateralModal = styled.div`
     background-color: ${`${BGColor}`};
     position: fixed;
     top: 0;
-    color: ${BGColor};
     right: 0;
     padding: 30px;
     z-index: 9999;

@@ -153,7 +153,7 @@ export const typeIdentities = async (_root, { input }, _context, _info) => {
 export const createTypeIdentity = async (_root, { input }, _context, _info) => {
     try {
         const data = await TypeIdentitiesModel.create({ ...input })
-        return data 
+        return data
     } catch (e) {
         throw new ApolloError('No ha sido posible procesar su solicitud.', 500, e)
     }
@@ -188,7 +188,16 @@ export const registerCategoryStore = async (_root, { input }, _context, _info) =
         throw new ApolloError('No ha sido posible procesar su solicitud.', 500, e)
     }
 }
-export const getAllCatStore = async  (_root, { input }, _context, info) => {
+export const desCategoryStore = async (_root, { catStore, cState }, _context, _info) => {
+    try {
+        await CatStore.update({ cState: cState === 0 ? 1 : 0 }, { where: { catStore: deCode(catStore) } })
+        return true
+    } catch (e) {
+        console.log(e);
+        throw new ApolloError('No ha sido posible procesar su solicitud.', 500, e)
+    }
+}
+export const getAllCatStore = async (_root, { input }, _context, info) => {
     try {
         const attributes = getAttributes(CatStore, info)
         const data = await CatStore.findAll({
@@ -228,6 +237,7 @@ export default {
         createDepartments,
         // road,
         createRoad,
+        desCategoryStore,
         editRoad,
         create,
         createTypeIdentity,

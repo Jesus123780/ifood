@@ -61,7 +61,7 @@ export const Container = styled.div`
         else if (!show && !state) return 'none'
     }};
     position: fixed;
-    background: rgba(0,0,0,.4);
+    background: ${({ bgColor }) => bgColor || 'rgba(0,0,0,.4)'};
     top: 0;
     left: 0;
     bottom: 0;
@@ -150,10 +150,14 @@ export const ModalBody = styled.div`
 `
 
 export const ModalFooter = styled.div`
-    display: flex;
-    padding: 5px 0;
-    align-items: center;
+     position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 95%;
+    right: 0;
+    margin: auto;
     justify-content: space-between;
+    display: flex;
     border-top: 1px solid ${`${SECColor}69`};
 `
 

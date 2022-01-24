@@ -82,22 +82,17 @@ export const MerchantInfoTitle = styled.h1`
     display: flex;
 `
 export const ButtonAction = styled.button`
-    visibility: visible;
-    box-sizing: border-box;
-    font-family: inherit;
     margin: 0;
-    overflow: visible;
-    text-transform: none;
     background: #fff;
-    border: 1px solid #f2f2f2;
-    border-radius: 4px;
+    border: 1px solid ${EColor};
+    border-radius: 8px;
     font-size: 14px;
+    margin: 0 20px;
     line-height: 18px;
     color: #3f3e3e;
     min-width: 139px;
-    flex: 1 1;
-    padding: 0;
-    height: 62px;
+    padding: 0 10px; 
+    height: 40px;
     cursor: pointer;
     box-shadow: none;
 `

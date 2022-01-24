@@ -119,11 +119,11 @@ tbody tr:nth-child(odd) .andes-table:first-child {
 export const Location = styled.div`
     display: flex;
     align-items: center;
-    ${ props =>props.direction &&css`
+/*     ${ props =>props.direction &&css`
     margin: 0px;
     flex-direction: column;
     align-items: flex-start;
-    ` }
+    ` } */
 `
 export const BoxComponent = styled.div`
     border-top: 1px solid rgba(0,0,0,.1);

@@ -17,13 +17,9 @@ export const EmailVerifyCode = ({ code }) => {
     const [step, setStep] = useState(0)
     const tokenState = getTokenState(code)
     const decode = decodeToken(code)
-    console.log(decode, 'CDE')
-    console.log(decode?.code)
     let str = decode?.code.toString();
     let arr = Object.assign([], str);
-    console.log(arr);
     const array = arr
-    // console.log(Array(decode.code, x => x));
     if (tokenState?.needRefresh === true) {
         return <span>The link has expired</span>
     } else if (!tokenState?.valid) {

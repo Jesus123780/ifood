@@ -11,16 +11,17 @@ const CategoryProductsModel = require('../Categories/CategoryProducts')
 const { enCode, validationID, validations } = require('../../utils/util')
 const Users = require('../Users')
 const Store = require('../Store/Store')
-// const Store = require('../../Store')
 
-// 
+sequelize.sync()
 
 const productModel = sequelize.define('productFood', {
     pfId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        get(x) { return enCode(this.getDataValue(x)) },
+        // get(x) {return enCode(this.getDataValue(x))},
+        // get (x) { return this.getDataValue(x) ? enCode(this.getDataValue(x)) : null }
+        get(x) {return enCode(this.getDataValue(x))}
     },
     // User
     id: {

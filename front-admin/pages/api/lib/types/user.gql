@@ -31,13 +31,17 @@ input LoginInput {
   password: String!
 }
   input IUser {
+    id: ID
     lastCompany: String
     firstName: String
     lastName: String
     userConfirmEmail: Int
     uAvatar: String
     userName: String
+    name: String
+    username: String
     uEmail: String
+    email: String
     uAddress: String
     uPhone: String
     landLine: Int
@@ -59,6 +63,7 @@ input LoginInput {
   type Query {
 """Response for find one User"""
     getUser(id: ID, userName: String): User
+    getOneUser(id: ID, uEmail: String): User
     getUsers: [User]
     validateToken(uEmail: String, uToken: String) : AuthPayload
     getListBuckets: String
@@ -86,6 +91,7 @@ input UserInput {
 type AuthPayload {
     user: User
     token: String
+    idStore: String
     admin: Boolean
     success: Boolean
     isVerifyEmail: Boolean
@@ -113,6 +119,7 @@ type AuthPayload {
     registerUser(name: String!, email: String!, password: String!): AuthPayload!
     signInUser(email: String!, password: String!): AuthPayload!
     sendEmailTest(email: String): Response
+    LoginEmailConfirmation(email: String, otp: String): AuthPayload
 
   }
 

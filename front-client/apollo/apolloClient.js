@@ -19,11 +19,15 @@ const getDeviceId = async () => {
 }
 // browser()
 const authLink = setContext(async (_, { headers }) => {
-    const idLasComp = localStorage.getItem('idLasComp')
+    const lol = await getDeviceId()
+    console.log(lol)
+    const token = localStorage.getItem('sma.sv1')
+    const restaurant = localStorage.getItem('restaurant')
     return {
         headers: {
             ...headers,
-            authorization: idLasComp ? idLasComp : '',
+            authorization: token ? token : '',
+            restaurant: restaurant ?? restaurant,
             deviceid: await getDeviceId() || '',
         }
     }
@@ -31,7 +35,10 @@ const authLink = setContext(async (_, { headers }) => {
 
 const httpLink = createUploadLink({
     uri: `${URL_BASE}graphql`, // Server URL (must be absolute)
-    credentials: 'same-origin' // Additional fetch() options like `credentials` or `headers`
+    credentials: 'include', // Additional fetch() options like `credentials` or `headers`
+    fetchOptions: {
+        mode: "cors",
+    },
 })
 
 function createApolloClient() {

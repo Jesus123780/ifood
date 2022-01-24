@@ -19,7 +19,7 @@ export const ManageCategories = () => {
     const SHOW_CATEGORIES = useSetState(false)
 
     // const { data, loading: loadingCTP, error: erring } = useQuery(GET_CAT_OF_PRODUCTS,  { variables: { idStore: 'MjE3NjcxMDUxODgxMjEzMTYwMA==' } })
-    console.log(data)
+    
     const handleForm = (e) =>
         handleSubmit({
             event: e,
@@ -77,9 +77,7 @@ export const ManageCategories = () => {
                     Registrar  Categorias de productos
                 </ButtonAction>
             {/* </AwesomeModal> */}
-            <ButtonAction onClick={() => SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state)}>
-                Administrar Categorias
-            </ButtonAction>
+            <ButtonAction onClick={() => SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state)}> Administrar Categorias</ButtonAction>
             <ContentCard>
                 {data?.getAllCatOfProducts?.map(x => (
                     <Card margin='0' height='300px' width='30%' key={x.cpId}>

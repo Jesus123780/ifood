@@ -39,7 +39,6 @@ export const Size = () => {
         }
         if (!errorSubmit) {
             // const cDatCre = moment().format('HH:mm A')
-            // console.log(cDatCre)
             createSize({ variables: { input : { sizeName: values.sizeName } }, update(cache) {
                 cache.modify({
                     fields: {

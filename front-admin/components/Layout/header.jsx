@@ -41,7 +41,9 @@ export const Header = () => {
       <>
         <div style={{ transform: `translateX(${offsetY * 0.8}px)` }} >
           <ActiveLink href={'/'}>
-            <IconLogo size='80px' color={PColor} />
+            <a>
+              <IconLogo size='80px' color={PColor} />
+            </a>
           </ActiveLink>
         </div>
         <AdicionalComponent>
