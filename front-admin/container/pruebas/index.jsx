@@ -9,7 +9,6 @@ export const CustomTable = props => {
     const [openMenuActions, setOpenMenuActions] = useState(false)
     const handleToggle = (e, uId) => {
         const { id, checked } = e.target
-        // setItemsToggle().catch(err => console.log(err))
     }
     return (
         <div>

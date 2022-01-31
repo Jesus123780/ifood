@@ -18,10 +18,12 @@ const InputHooks = ({
   paddingInput,
   width,
   minWidth,
+  display,
   maxWidth,
   TypeTextarea,
   padding,
   radius,
+  margin,
   labelColor,
   placeholder,
   type,
@@ -104,7 +106,6 @@ const InputHooks = ({
       } else {
         const errorMessage = simpleVerifyEmail(email)
         if (errorMessage) {
-          // console.log(errorMessage)
         }
       }
     }
@@ -234,6 +235,8 @@ const InputHooks = ({
             ref={email ? refInput : reference}
             onChange={validations}
             name={name}
+            margin={margin}
+            display={display}
             disabled={disabled}
             checked={checked}
             onBlur={onBlur || handleBlur}

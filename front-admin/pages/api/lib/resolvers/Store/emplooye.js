@@ -53,6 +53,23 @@ export const createOneEmployeeStore = async (_root, { input }, context) => {
  * @param {*} context 
  * @returns 
  */
+export const employees = async (_root, { caId, max, min, cId }, context, info) => {
+    try {
+        const attributes = getAttributes(EmployeesModelStore, info)
+        let whereSearch = {}
+        const data = await EmployeesModelStore.findAll({
+
+            attributes,
+            where: {
+                ...whereSearch,
+                idStore: deCode(context.restaurant),
+        }, limit: [min || 0, max || 100], order: [['eDatCre', 'ASC']]
+})
+    return data
+} catch (e) {
+    console.log(e)
+}
+}
 export const createOneEmployeeStoreAndUser = async (_root, { input }, context) => {
     console.log(input, 'heheheh')
     try {
@@ -111,6 +128,7 @@ export default {
     TYPES: {
     },
     QUERIES: {
+        employees
     },
     MUTATIONS: {
         createOneEmployeeStore,

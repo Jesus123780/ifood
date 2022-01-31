@@ -13,11 +13,13 @@ import { SliderCategory } from './SliderCategories';
 import { LoadingBabel } from '../../Loading/LoadingBabel';
 import { Range } from '../../InputRange';
 import { SliderCategoryUpdate } from './SliderCategoriesUpdate';
-import { IconArrowRight, IconDelete, IconEdit, IconLove } from '../../../public/icons';
-import { APColor, PColor, PVColor, SEGColor } from '../../../public/colors';
+import { IconArrowRight, IconDelete, IconDollar, IconEdit, IconLove } from '../../../public/icons';
+import { APColor, PColor, PVColor, SEGColor, TFSColor } from '../../../public/colors';
 import { FoodCardPreview } from './FoodPreview';
-import { Container, FormProducts, Card, Button, CardOne, Label, ContainerCardProduct, CardProduct, Img, ContentImg, Title, Text, ContentInfo, ContentIconFav, ButtonCard, ActionName, ReadMore, ContentProducts, CardInput, CardCheckBox, CardRadioLabel, ContainerFilter, ItemFilter, ContainerBurger, Footer, LateralModal, WrapperProducts } from './styled';
+import { Container, FormProducts, Card, Button, CardOne, Label, ContainerCardProduct, CardProduct, Img, ContentImg, Title, Text, ContentInfo, ContentIconFav, ButtonCard, ActionName, ReadMore, ContentProducts, CardInput, CardCheckBox, CardRadioLabel, ContainerFilter, ItemFilter, ContainerBurger, Footer, LateralModal, WrapperProducts, Grid } from './styled';
 import { useRouter } from 'next/router';
+import { useSetState } from '../../hooks/useState';
+import { AwesomeModal } from '../../AwesomeModal';
 
 export const FoodComponent = ({ datafatures,
     finalDataAreas,
@@ -29,6 +31,8 @@ export const FoodComponent = ({ datafatures,
     setShowMore,
     values,
     handleRegister,
+    dispatch,
+    handleAddProductR,
     handleChange,
     countries,
     setRating,
@@ -40,6 +44,7 @@ export const FoodComponent = ({ datafatures,
     handleDelete,
     fileInputRef,
     alt,
+    product_state,
     src,
     setName,
     handleChangeClick,
@@ -57,6 +62,7 @@ export const FoodComponent = ({ datafatures,
         setState(!stateCard)
     }
     const [modal, setModal] = useState(0)
+    const OPEN_MODAL_ORGANICE = useSetState(0)
     const handleClickModal = index => {
         setModal(index === modal ? true : index)
     }
@@ -161,11 +167,10 @@ export const FoodComponent = ({ datafatures,
                 <ItemFilter>Mejor precio</ItemFilter>
                 <ItemFilter>Mayor precio</ItemFilter>
                 <ItemFilter>Envio gratis</ItemFilter>
-                <ItemFilter>Evaluacion</ItemFilter>
+                <ItemFilter>Evaluaciones de producto</ItemFilter>
                 <ItemFilter>Full envio</ItemFilter>
                 <ItemFilter>Tarifa de envio</ItemFilter>
-                <ItemFilter>Distancia mas corta</ItemFilter>
-                <ItemFilter>Ordenar</ItemFilter>
+                <ItemFilter onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Ordenar</ItemFilter>
                 <ItemFilter onClick={() => onClickClear()}>Limpio</ItemFilter>
             </ContainerFilter>
             <SliderAreas autoPlayTime={4000} duration={'500ms'} finalDataAreas={finalDataAreas} />
@@ -206,8 +211,8 @@ export const FoodComponent = ({ datafatures,
                 </div>
                 <ContainerCardProduct grid={grid}>
                     {!data?.length ? <SkeletonP /> : data?.map(product => (
-                        <CardProduct grid={grid} key={product} >
-                            <ButtonCard grid={grid} onClick={() => handleDelete(product.pfId)}>
+                        <CardProduct grid={grid} key={product.pId} >
+                            <ButtonCard grid={grid} onClick={() => handleDelete(product)}>
                                 <IconDelete size={20} color={PColor} />
                                 <ActionName >
                                     Eliminar
@@ -223,12 +228,11 @@ export const FoodComponent = ({ datafatures,
                                 {!product.ProImage ? <i>No img</i> : <Img src={product.ProImage} alt={product.ProImage} />}
                             </ContentImg>
                             <ContentInfo>
-                                <ContentIconFav grid={grid} onClick={() => router.push(`/producto/editar/${product.pfId}`)}>
+                                <ContentIconFav grid={grid} onClick={() => router.push(`/producto/editar/${product.pId}`)}>
                                     <IconLove color={PVColor} size={20} />
                                 </ContentIconFav>
                                 {product.ProDescuento && <Discount discount={product.ProDescuento} > {numberFormat(product.ProDescuento)}</Discount>}
                                 <Title>{product.pName}</Title>
-                               
                                 <Text>{numberFormat(product.ProPrice)}</Text>
                                 <ContentInfo /* direction */>
                                     <Rate rating={product.ProStar} onRating={() => setRating(product.ProStar)} size={20} value={product.ProStar} />
@@ -237,20 +241,78 @@ export const FoodComponent = ({ datafatures,
                             </ContentInfo>
                         </CardProduct>
                     ))}
-
-
                 </ContainerCardProduct>
             </WrapperProducts>
-
             <ReadMore onClick={() => setShowMore(s => s + 5)}>'Cargar Más' </ReadMore>
         </ContentProducts>
-        {/* 
-        <LateralModal open={null}>
-          
-        </LateralModal> */}
+        <AwesomeModal backdrop='static' height='100vh' zIndex='9999' padding='25px' show={OPEN_MODAL_ORGANICE.state} onHide={() => { OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state) }} onCancel={() => false} size='90%' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
+            <Grid gridColumns={3} gridRows={1} gridColGap='30px' gridRowsGap='20px' height='100%'>
+                <div>
+                    Todos los productos
+                    <ComponentCardProduct data={data} dispatch={dispatch} REMOVE={'REMOVE_PRODUCT'} ADD_TO_EFFECTIVE={'ADD_TO_EFFECTIVE'} ADD_PRODUCT={'ADD_PRODUCT'} />
+                </div>
+                <div>
+                    Productos para recoger
+                    <ComponentCardProduct data={product_state?.PRODUCT_RECOGER} dispatch={dispatch} REMOVE={'REMOVE_PRODUCT'} />
+                </div>
+                <div>
+                    Pagos en efectivo
+                    <ComponentCardProduct data={product_state?.PRODUCT_EFFECTIVE} dispatch={dispatch} REMOVE={'REMOVE_EFFECTIVE'} />
+                </div>
+            </Grid>
+        </AwesomeModal >
+
     </div>
     )
 }
+import React from 'react';
+
+const ComponentCardProduct = ({ data, dispatch, ADD_TO_EFFECTIVE, REMOVE, ADD_PRODUCT }) => {
+    return <div>
+        {!data?.length ? 'No data' : data?.map((product, idx) => (
+            <CardProduct grid={true} key={product.idx}  >
+                <ButtonCard grid={true} top={'20px'} onClick={() => dispatch({ type: REMOVE, idx })}>
+                    <IconDelete size={20} color={PColor} />
+                    <ActionName >
+                        Eliminar
+                    </ActionName>
+                </ButtonCard>
+                <ButtonCard grid={true} delay='.1s' top={'80px'}>
+                    <IconEdit size={20} color={PColor} />
+                    <ActionName>
+                        Editar
+                    </ActionName>
+                </ButtonCard>
+                <ButtonCard grid={true} delay='.1s' top={'140px'} onClick={() => dispatch({ type: ADD_PRODUCT  && ADD_PRODUCT, payload: product })}>
+                    <IconDollar color={TFSColor} size={30} />
+                    <ActionName>
+                        Agregar
+                    </ActionName>
+                </ButtonCard>
+                {ADD_TO_EFFECTIVE && <ButtonCard grid={true} delay='.0s' top={'200px'} onClick={() => dispatch({ type: ADD_TO_EFFECTIVE, payload: product })}>
+                    <IconLove color={PVColor} size={20} />
+                    <ActionName>
+                        Agregar a pagos en efectivo
+                    </ActionName>
+                </ButtonCard>}
+                <ContentImg grid={true}>
+                    {!product.ProImage ? <i>No img</i> : <Img src={product.ProImage} alt={product.ProImage} />}
+                </ContentImg>
+                <ContentInfo>
+                    {product.ProDescuento && <Discount discount={product.ProDescuento} > {numberFormat(product.ProDescuento)}</Discount>}
+                    <Title>{product.pName}</Title>
+                    <Text>{numberFormat(product.ProPrice)}</Text>
+                    <ContentInfo>
+                        <Rate rating={product.ProStar} onRating={() => setRating(product.ProStar)} size={20} value={product.ProStar} />
+                        {product.ProDelivery === 1 && <span>Gratis</span>}
+                    </ContentInfo>
+                    {/* {ADD_TO_EFFECTIVE && <RippleButton padding={0} margin={0} bgColor={PVColor} onClick={() => dispatch({ type: ADD_TO_EFFECTIVE, payload: product })}> <IconDollar size='30px' /></RippleButton>} */}
+                </ContentInfo>
+            </CardProduct>
+        ))}
+    </div>;
+};
+
 export const SkeletonP = () => {
     return <>
         <>

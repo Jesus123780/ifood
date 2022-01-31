@@ -21,14 +21,12 @@ export const newRegisterStore = async (_, { input }, ctx) => {
         //         or_JWT_Token: token
         //     })
         // }).then(res => console.log(res, 'the res')).catch(err => console.log(err, 'the err'))
-        console.log(res.idStore, 'SDKFHSKJFHKSDHKFHSDKFHKSDFHKSDHFKSJDHFKJSHDFKJHSDKFJHSDKFJ');
         return {
             success: true,
             idStore: res.idStore,
             message: 'Tienda creada',
         }
     } catch (error) {
-        console.log(error)  
         return { success: false, message: error }
     }
 }
@@ -36,7 +34,7 @@ export const getStore = async (_root, { id, StoreName, idStore }, context, info)
     const attributes = getAttributes(Store, info)
     const data = await Store.findOne({
         attributes,
-        where: { id: deCode('NTQ0MTc3NjI5NzAzMDMyOTAw') }
+        where: { idStore: deCode(context.restaurant) }
         // where: { id: deCode('NjUzMDEzMTU1NjQzNjM5NTAwMA==') }
     })
     return data

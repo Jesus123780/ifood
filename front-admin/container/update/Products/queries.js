@@ -9,15 +9,6 @@ query getOnePqr($hpqrId: ID, $thpId: ID){
   }
 }
 `
-export const REGISTER_ONE_PQR = gql`
-query getOnePqr($hpqrId: ID, $thpId: ID){
-  getOnePqr(hpqrId: $hpqrId, thpId: $thpId ){
-    hpqrId
-    thpId
-    hpqrQuestion
-  }
-}
-`
 export const GET_ONE_COLOR = gql`
 query getAllColor{
   getAllColor{
@@ -30,6 +21,37 @@ query getAllColor{
 export const UPDATE = gql`
 mutation updateProducts($input: InputProduct){
   updateProducts(input: $input){
+    pId
+    sizeId #Talla
+    colorId #Color
+    cId  #Country
+    dId  #Department
+    ctId  #Cuidad
+    fId  #Características
+    pName
+    ProPrice
+    ProDescuento
+	  ProUniDisponibles
+	  ProDescription
+	  ProProtegido
+	  ProAssurance
+	  ProStar
+	  pState
+	  ProImage
+	  ProWidth
+	  ProHeight
+	  ProLength
+	  ProWeight
+	  ProQuantity
+	  ProOutstanding
+	  ProDelivery
+	  ProVoltaje
+  }
+}
+`
+export const UPDATE_PRODUCT_FOOD = gql`
+mutation updateProductFoods($input: InputProductFood){
+  updateProductFoods(input: $input){
     pId
     sizeId #Talla
     colorId #Color
@@ -120,8 +142,8 @@ query searchProduct($searchProduct: String, $min: Int, $max: Int){
 export const GET_ALL_FOOD_PRODUCTS = gql`
 query getFoodAllProduct($search: String, $min: Int, $max: Int, $gender: [String], $desc: [String], $categories: [ID], ) {
  getFoodAllProduct(search: $search, min: $min, max: $max, gender: $gender, desc: $desc, categories: $categories,) {
-    pfId
     id
+  pfId
     idStore
     ProPrice
     ProDescuento
@@ -137,7 +159,6 @@ query getFoodAllProduct($search: String, $min: Int, $max: Int, $gender: [String]
     ProDelivery
     pDatCre
     pDatMod
-
 }
 }		
 `

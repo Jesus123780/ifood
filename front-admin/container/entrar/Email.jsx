@@ -25,7 +25,7 @@ export const Email = () => {
   const handleForm = (e, show) => handleSubmit({
     event: e,
     action: () => {
-      if (show === 1) {
+      if (show === 2) {
         return registerEmailLogin({
           variables: {
             input: {
@@ -33,18 +33,17 @@ export const Email = () => {
             }
           }
         })
-      } else if (show === 2) {
+      } else if (show === 1) {
         return fetchJson(`${URL_BASE}auth/loginConfirm`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body)
         }).then(res => {
           if (res.success === true) {
-            console.log(res, 'res')
+            window.localStorage.setItem('restaurant', res?.idStore)
             router.push('/dashboard')
           }
         }).catch(e => {
-          console.log(e, 'error')
         })
       }
     },
@@ -60,14 +59,14 @@ export const Email = () => {
         <GoBack onClick={() => router.back()}>
           <IconArrowLeft color={`${PLColor}`} size='25px' />
         </GoBack>
-        <Text size='20px'>{step === 1 ? 'Digita el código de 6 dígitos que enviamos' : 'Infoma tu correo para continuar'}</Text>
+        <Text size='20px'>{step === 1 ? 'Ingrese el código de 6 dígitos que enviamos' : 'Infoma tu correo para continuar'}</Text>
         {step === 1 ?
           <>
             <Text color={BColor} size='19px'>{dataForm?.email}</Text>
             <OTPInput autoFocus length={6} isNumberInput className="otpContainer" inputClassName="otpInput" onChangeOTP={(otp) => setOTP(otp)} />
           </>
           :
-          <InputHooks title='Informa tu correo.' width='100%' required error={errorForm?.email} value={dataForm?.email} onChange={handleChange} name='email' />
+          <InputHooks title='Informa tu correo.' width='100%' email required error={errorForm?.email} value={dataForm?.email} onChange={handleChange} name='email' />
         }
         <RippleButton widthButton='100%' margin='20px auto' type={!!dataForm?.email?.length ? 'submit' : 'button'} onClick={() => { !!dataForm?.email?.length && setStep(1) }} bgColor={EColor}>{step === 1 ? 'Correo' : 'Enviar'}</RippleButton>
       </Form>

@@ -1,5 +1,5 @@
 /** Colores de interfaz */
-export const PColor = '#61D2B4'
+export const PColor = '#ea1d2c'
 export const PSColor = '#243e87'
 export const PVColor = '#0375fb'
 export const SEGColor = '#1f1c2f'

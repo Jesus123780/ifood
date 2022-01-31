@@ -25,7 +25,6 @@ export const ScheduleTimings = () => {
     }
     const [values, setValues] = useState({})
     const [message, setMessage] = useState('')
-    console.log(values);
     const starTime = moment(values.startTime, 'HH:mm:ss')
     const endTime = moment(values.endTime, 'HH:mm:ss')
     const handleChange = e => {
@@ -74,7 +73,7 @@ export const ScheduleTimings = () => {
                 <Card key={i +1}>
                     <div>
                         {s.schDay === 1 ? 'Lunes' : s.schDay === 2 ? 'Martes ' : s.schDay === 3 ? 'Miercoles' : s.schDay === 4 ? 'Jueves ' : s.schDay === 5 ? 'Viernes ?' : s.schDay === 6 ? 'Sabado' : s.schDay === 7 ? 'Domingo' : null}
-                    </div>{console.log(s.schDay)}
+                    </div>
                     <div>
                         {s.schHoEnd}
                     </div>

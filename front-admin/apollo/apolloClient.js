@@ -2,12 +2,14 @@ import { useMemo } from 'react'
 import { ApolloClient, from, HttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import { concatPagination } from '@apollo/client/utilities'
+import { onError } from '@apollo/client/link/error'
 import { createUploadLink } from 'apollo-upload-client'
 
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
 import { URL_BASE } from './urls'
+import { typeDefs } from './schema'
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
 
@@ -17,9 +19,21 @@ const getDeviceId = async () => {
     const result = await fp.get()
     return result.visitorId
 }
+
+const errorHandler = onError(({ graphQLErrors }) => {
+    if (graphQLErrors) {
+        graphQLErrors?.length && graphQLErrors.forEach(err => {
+            const { code } = err.extensions
+            if (code === 'UNAUTHENTICATED' || code === 'FORBIDDEN') localStorage.clear()
+            else if (code === 403) {
+                localStorage.clear()
+            }
+        })
+    }
+})
+
 const authLink = setContext(async (_, { headers }) => {
     const lol = await getDeviceId()
-    console.log(lol)
     const token = localStorage.getItem('sma.sv1')
     const restaurant = localStorage.getItem('restaurant')
     return {
@@ -43,7 +57,9 @@ function createApolloClient() {
         link: from([
             authLink,
             httpLink
+            // errorHandler
         ]),
+        typeDefs,
         cache: new InMemoryCache({
             typePolicies: {
                 Query: {

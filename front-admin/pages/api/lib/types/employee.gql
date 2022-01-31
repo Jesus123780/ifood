@@ -18,6 +18,18 @@ type Employee {
     area: Area
     thirdParties: ThirdParties
 }
+type EmployeeStore {
+    eId: ID
+    idStore: ID
+    id: ID
+    idEmployee: ID
+    eSalary: Float
+    typeContract: String
+    uEmail: String
+    termContract: String
+    eDatAdm: DateTime
+    eState: Int
+}
 
 # Input
 input IEmployee {
@@ -57,7 +69,8 @@ input IEmployeeStore {
 # Query
 type Query {
     "Devuelve todos los empleados"
-    employees(umId: ID, cId: ID, aId: ID): [Employee]
+    employees(umId: ID, cId: ID, aId: ID, idStore: ID, max: Int, min: Int): [EmployeeStore]
+    employeesFor(umId: ID, cId: ID, aId: ID, idStore: ID, max: Int, min: Int): [Employee]
     "Devuelve un empleado"
     employee(eId: ID, tpId: ID): Employee
 }

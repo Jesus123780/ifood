@@ -23,7 +23,7 @@ const CheckYourData = props => {
     const { data } = useQuery(GET_ONE_STORE)
     const store = data?.getStore || {}
     const handleRedirect = () => {
-        router.push('/dashboard')
+        router.push('/restaurante/firma-el-contrato')
     }
     return (
         <div>

@@ -14,12 +14,9 @@ import { updateCache } from '../../utils'
 
 export const ManageCategories = () => {
     const [createCatOfProducts, { loading, error }] = useMutation(REGISTER_CAT_OF_PRODUCTS)
-    const { data } = useQuery(GET_CAT_OF_PRODUCTS, { variables: { idStore: 'MjE3NjcxMDUxODgxMjEzMTYwMA==' }, fetchPolicy: 'cache-and-network' })
+    const { data } = useQuery(GET_CAT_OF_PRODUCTS)
     const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
     const SHOW_CATEGORIES = useSetState(false)
-
-    // const { data, loading: loadingCTP, error: erring } = useQuery(GET_CAT_OF_PRODUCTS,  { variables: { idStore: 'MjE3NjcxMDUxODgxMjEzMTYwMA==' } })
-    
     const handleForm = (e) =>
         handleSubmit({
             event: e,
@@ -27,18 +24,10 @@ export const ManageCategories = () => {
                 return createCatOfProducts({
                     variables: {
                         input: {
-                            idStore: 'MjE3NjcxMDUxODgxMjEzMTYwMA==',
                             catName: dataForm?.catName,
                             catDescription: dataForm?.catDescription,
-
                         }
-                    },
-                    update: (cache, { data: { getAllCatOfProducts } }) => updateCache({
-                        cache,
-                        query: GET_CAT_OF_PRODUCTS,
-                        nameFun: 'getAllCatOfProducts',
-                        dataNew: getAllCatOfProducts
-                    })
+                    }
                 })
             },
             actionAfterSuccess: () => {
@@ -48,10 +37,10 @@ export const ManageCategories = () => {
         })
     return (
         <div>
-            {/* <AwesomeModal backdrop='static' zIndex='9990' bgColor='transparent' padding='25px' height='600px' show={SHOW_CATEGORIES.state} onHide={() => { SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state) }} onCancel={() => false} size='1000px' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' > */}
+            <AwesomeModal backdrop='static' zIndex='9990' bgColor='transparent' padding='25px' height='600px' show={SHOW_CATEGORIES.state} onHide={() => { SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state) }} onCancel={() => false} size='1000px' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
                 <form onSubmit={(e) => handleForm(e)}>
                     <InputHooks
-                        title='Nombre de la categoria'
+                        title='Nombre de la categoría'
                         width='100%'
                         required
                         error={errorForm?.catName}
@@ -74,10 +63,10 @@ export const ManageCategories = () => {
                     </ButtonAction>
                 </form>
                 <ButtonAction onClick={() => SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state)}>
-                    Registrar  Categorias de productos
+                    Registrar  Categorías de productos
                 </ButtonAction>
-            {/* </AwesomeModal> */}
-            <ButtonAction onClick={() => SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state)}> Administrar Categorias</ButtonAction>
+            </AwesomeModal>
+            <ButtonAction onClick={() => SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state)}> Administrar Categorías</ButtonAction>
             <ContentCard>
                 {data?.getAllCatOfProducts?.map(x => (
                     <Card margin='0' height='300px' width='30%' key={x.cpId}>

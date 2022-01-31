@@ -1,25 +1,14 @@
-
-// export default conn.define('catofproducts', {
-
-// }, {
-//     timestamps: false
-// })
-
-
 const Sequelize = require('sequelize')
 const connect = require('../../db')
 const { enCode } = require('../../utils/util')
-const CatStore = require('../information/CategorieStore')
-const CitiesModel = require('../information/CitiesModel')
-const CountriesModel = require('../information/CountriesModel')
-const DepartmentsModel = require('../information/DepartmentsModel')
 const Users = require('../Users')
 const Store = require('./Store')
 const sequelize = connect()
 
-sequelize.sync() 
 
-const catOfProducts = sequelize.define('catofproducts', {
+sequelize.sync()
+
+const catOfProducts = sequelize.define('categoriadeproductos', {
     cpId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -71,6 +60,8 @@ const catOfProducts = sequelize.define('catofproducts', {
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
     }
+}, {
+    timestamps: false,
 })
 
 module.exports = catOfProducts

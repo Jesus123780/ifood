@@ -10,6 +10,20 @@ export const animationFadeDown = keyframes`
     transform: translateY(0);
 }
 `
+export const BG_ANIMATION_ = keyframes`
+0% {
+    background-position: 100% 50%;
+}
+100% {
+    background-position: -100% 50%;
+}
+`
+
+/**
+ * USE 
+ *  animation: 4s linear 0s infinite normal none running BG_ANIMATION_;
+    background: linear-gradient(90deg, rgb(36, 36, 36) 0%, rgb(36, 36, 36) 20%, rgb(41, 41, 41) 50%, rgb(36, 36, 36) 80%, rgb(36, 36, 36) 100%) 0% 0% / 200% 200%;
+ */
 export const animationSlide = keyframes`
 0% {
     -webkit-transform: translateX(0);

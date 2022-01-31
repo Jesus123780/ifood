@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { BGColor, PColor } from '../../../public/colors';
+import { BColor, BGColor, PColor } from '../../../public/colors';
 
 export const Button = styled.button` 
     position: absolute;
@@ -85,11 +85,27 @@ export const ContentProducts = styled.div`
     }
    
 `
+export const Grid = styled.div`
+    display: grid;
+    width: ${ ({ width }) => width ? width : '100%' };
+    height: ${ ({ height }) => height ? height : 'auto' };
+    grid-template-columns: repeat(${ ({ gridColumns }) => gridColumns ? gridColumns : 1 }, 1fr);
+    grid-template-rows: repeat(${ ({ gridRows }) => gridRows ? gridRows : 1 }, 1fr);
+    grid-column-gap: ${ ({ gridColGap }) => gridColGap ? gridColGap : '5px' };
+    grid-row-gap: ${ ({ gridRowsGap }) => gridRowsGap ? gridRowsGap : '5px' };
+    padding: 10px;
+
+    @media (max-width: 600px) {
+        grid-template-columns: repeat(${ ({ gridColsMd }) => gridColsMd ? gridColsMd : 1 }, 1fr);
+        padding: 6px;
+    }
+`
 export const ActionName = styled.span`
     position: absolute;
     height: 20px;
     width: 100px;
     right: 35px;
+    color: ${BColor};
     opacity: 0;
     font-family: PFont-Light;
     transition: .1s ease-in-out;
@@ -106,6 +122,7 @@ export const ButtonCard = styled.button`
     transition: .4s ease;
     width: 50px;
     height: 50px;
+    z-index: 999; 
     top: ${ ({ top }) => top ? top : '20px' };
     transition-delay: ${ ({ delay }) => delay ? delay : 'auto' };
     max-height: 50px;
@@ -124,6 +141,11 @@ export const ButtonCard = styled.button`
         `
 }
 `
+export const DragulaContainer = styled.div`
+    min-height: 100%;
+    border: 1px solid rgba(0,0,0,.1);
+    margin: 20px 0;
+`
 export const CardProduct = styled.div` 
     flex: 0 1 auto;
     display: flex;
@@ -135,7 +157,7 @@ export const CardProduct = styled.div`
     border-radius: 8px;
     background-color: #FFFFFF;
     border: 1px solid rgba(0,0,0,.1);
-    height: 450px;
+    height: 300px;
     &:hover  ${ ButtonCard } {
         right: 15px;
     }
@@ -144,7 +166,6 @@ export const CardProduct = styled.div`
         justify-content: space-between;
     }
     ${ props => props.grid && css`
-    height: min-content;
     flex-direction: row;
 
 ` }
@@ -176,6 +197,10 @@ export const Footer = styled.div`
     display: flex;
     justify-content: space-between;
     background-color: ${BGColor};
+    @media (max-width: 960px){
+        bottom: 60px;
+        
+    }
 `
 export const ContentImg = styled.div` 
     width: 100%;
@@ -194,11 +219,11 @@ export const ContentImg = styled.div`
 ` }
 `
 export const Img = styled.img` 
-    height: 100%;
     min-height: 150px;
     max-height: 150px;
-    width: 100%;
-    object-fit: contain;
+    width: 150px;
+    min-width: 150px;
+    object-fit: cover;
     display: block;
 `
 export const ContentInfo = styled.div` 

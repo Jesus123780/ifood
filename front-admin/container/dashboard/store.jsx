@@ -20,6 +20,7 @@ import { Overline } from '../../components/common/Reusable'
 import { ScheduleTimings } from './ScheduleTimings'
 import { ManageCategories } from './manageCategories'
 import { AddEmployee } from '../searchAddTeam'
+import { GET_ALL_PRODUCT_STORE } from './queriesStore'
 
 const DashboardStore = ({ StoreId }) => {
     // STATE
@@ -164,7 +165,7 @@ const DashboardStore = ({ StoreId }) => {
                             <div>
                                 <ButtonAction onClick={() => SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state)}> Update products</ButtonAction >
                                 <ButtonAction onClick={() => setOpen(!open)}> Editar agenda </ButtonAction>
-                                <ButtonAction onClick={() => SHOW_MANAGE_CATEGORIES.setState(!SHOW_MANAGE_CATEGORIES.state)}> Administrar Categorias</ButtonAction>
+                                <ButtonAction onClick={() => SHOW_MANAGE_CATEGORIES.setState(!SHOW_MANAGE_CATEGORIES.state)}> Administrar Categorías</ButtonAction>
                                 <ButtonAction onClick={() => SHOW_MANAGE_EMPLOYEE.setState(!SHOW_MANAGE_EMPLOYEE.state)}> Agregar empleados</ButtonAction>
                             </div>
                         </WrapperOptions>

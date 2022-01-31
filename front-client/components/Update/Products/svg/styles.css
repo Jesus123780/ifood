@@ -1,0 +1,16 @@
+#arrow {
+  position: absolute;
+  animation: upload 2s infinite both
+}
+
+@keyframes upload {
+  0% {
+    transform: translateX(0%, 0%);
+  }
+  50% {
+    transform: translate(0%, -14%);
+  }
+  100% {
+    transform: translateX(0%, 0%);
+  }
+}

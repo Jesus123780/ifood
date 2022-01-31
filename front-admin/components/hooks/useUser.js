@@ -5,7 +5,7 @@ import { GET_ALL_CATEGORIES } from '../../container/Update/Categories/queries'
 import { Context } from '../../Context'
 import { GET_USER } from '../../gql/LoginAut'
 
-export const    useUser = () => {
+export const useUser = () => {
     const router = useRouter()
     const { data, loading, error } = useQuery(GET_USER, {
       onCompleted: () => {

@@ -6,24 +6,20 @@ import Dashboard from '../../container/dashboard'
 import Context from '../../Context'
 import { decodeToken } from '../../utils'
 
-export default function DASHBOARD() {
+export default function DASHBOARD({ data }) {
   // const { setAlertBox } = useContext(Context)
   return <Dashboard />
 }
 
 export const getServerSideProps = withSession(async function ({ req }) {
   const user = req?.session?.get('user')
-  // console.log(user)
   const { token } = user || {}
   const data = decodeToken(token)
   const { id } = data ||{}
-  // const User = await Store.findOne({ attributes: ['email'], where: { id: (id) } })
-
-  console.log(data)
   if (!req.cookies[process.env.SESSION_NAME]) return { redirect: { destination: '/entrar' } }
 
   return {
-      props: {}
+      props: { data: 'jesus'}
   }
 }
 )

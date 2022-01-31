@@ -131,7 +131,7 @@ export const Restaurant = () => {
                     </GoBack>
                     {nextStep === 0 ? (
                         <ContainerAnimation>
-                            <React.Fragment>
+                            <div>
                                 <InputHooks
                                     title='Nombre del dueño de la tienda.'
                                     width='100%'
@@ -170,7 +170,7 @@ export const Restaurant = () => {
                                     name='uPhoNum'
                                     numeric
                                 />
-                            </React.Fragment>
+                            </div>
                         </ContainerAnimation>
                     ) : nextStep === 1 ? (
                         <ContainerAnimationTow>

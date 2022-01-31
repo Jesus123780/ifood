@@ -137,7 +137,6 @@ export const OTPInputComponent = (props) => {
   const handleOnPaste = useCallback(
     (e) => {
       e.preventDefault();
-      console.log(e.clipboardData.getData("text/plain"));
       const pastedData = e.clipboardData
         .getData("text/plain")
         .trim()

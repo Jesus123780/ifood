@@ -36,9 +36,7 @@ export const RegisterUser = () => {
                 body: JSON.stringify(body)
             }).then(res => {
                 router.push('/dashboard')
-                console.log(res)
             }).catch(e => {
-                console.log(e)
             })
 
         },

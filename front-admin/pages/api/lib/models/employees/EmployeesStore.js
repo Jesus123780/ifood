@@ -54,7 +54,9 @@ const EmployeesModelStore = sequelize.define('employeestore', {
     typeContract: {
         type: Sequelize.STRING(50),
     },
-    
+    uEmail: {
+        type: Sequelize.STRING(50),
+    },
     termContract: {
         type: Sequelize.STRING(50),
     },

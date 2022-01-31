@@ -100,6 +100,10 @@ type AuthPayload {
     refreshToken: String,
     newRefreshToken: String
 }
+
+  type tokenSession {
+    tokenAuth: String
+  }
   type Mutation {
     """"registra user data"""
     newRegisterUser(input: UserInput): AuthPayload
@@ -120,6 +124,8 @@ type AuthPayload {
     signInUser(email: String!, password: String!): AuthPayload!
     sendEmailTest(email: String): Response
     LoginEmailConfirmation(email: String, otp: String): AuthPayload
+  #  Manage token
+    refreshUserPayrollToken: tokenSession
 
   }
 

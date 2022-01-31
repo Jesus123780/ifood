@@ -2,6 +2,7 @@ import styled, { css, keyframes } from 'styled-components'
 import { StyleSheet } from '@react-pdf/renderer'
 import { BColor, BGColor, EColor, ESFColor, PColor, SECColor, PVColor, TBGSColor, BGVColor } from '../../public/colors'
 import { fadeIn, fadeOut } from '../../components/AlertBox/styled'
+import { BG_ANIMATION_ } from '../../components/animations'
 
 const pulse = keyframes`
   0% {
@@ -56,9 +57,12 @@ export const Options = styled.div`
 `
 export const Wrapper = styled.div`
     padding: 30px;
+    /* animation: 2s linear 0s infinite normal none ${BG_ANIMATION_}; */
+    /* background: linear-gradient(90deg, rgb(255, 254, 254) 0%, rgb(194, 190, 190) 20%, rgba(255, 255, 255, 0.904) 50%, rgba(255, 255, 255, 0.219) 80%, rgba(250, 250, 250, 0.911) 100%) 0% 0% / 200% 200%; */
     margin: auto;
     position: relative;
     ${props => props.center && css`
+
     display: grid;
     `}
     margin: auto;
@@ -406,7 +410,7 @@ export const CircleCompany = styled.div`
   ` }
   margin-left: calc(10% - 30px);
   &:first-child {
-    margin-left: 0;
+    margin-left: -5px;
   }
 `
 
@@ -771,6 +775,7 @@ export const Card = styled.div`
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
   }
+
   ${props => props.animation && css`
     &:hover {
       transform: scale(1.2); 

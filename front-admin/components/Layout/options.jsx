@@ -76,22 +76,15 @@ export const Options = ({ keyTheme, handleTheme }) => {
                 <ContainerOption>
                     <FloatingBoxTwo show={show === 2}>
                         <Option Theme={false} >
-                            <Text>Pantalla y accesibilidad</Text>
-                            <ButtonTheme
-                                onClick={() => keyTheme === 'light' ? handleTheme('dark') : handleTheme('light')}>
-                                <Switch active={'dark' === 'dark' ? '40px' : '1px'} />
-                            </ButtonTheme>
+                            <ButtonOption space onClick={() => location.push('/profile/user')}>
+                                <span>Perfil</span>
+                                <IconUser size='25px' color={PColor} />
+                            </ButtonOption>
                         </Option>
                         <Option Theme={false} >
                             <ButtonOption space onClick={onClickLogout}>
                                 <span>Cerrar sesión</span>
                                 <IconLogout size='20px' color={PColor} />
-                            </ButtonOption>
-                        </Option>
-                        <Option Theme={false} >
-                            <ButtonOption space onClick={() => location.push('/profile/user')}>
-                                <span>Perfil</span>
-                                <IconUser size='25px' color={PColor} />
                             </ButtonOption>
                         </Option>
                     </FloatingBoxTwo>

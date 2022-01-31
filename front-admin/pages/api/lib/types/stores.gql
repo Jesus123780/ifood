@@ -1,5 +1,24 @@
 
   # Stores
+  type ContractType {
+    ctrId: ID
+    id: ID
+    idStore: ID
+    ctCode: String
+    catDescription: String
+    createAt: DateTime
+    updateAt: DateTime
+  }
+  input InputContractType {
+    ctrId: ID
+    id: ID
+    idStore: ID
+    ctCode: String
+    catDescription: String
+    createAt: DateTime
+    updateAt: DateTime
+  }
+
   type Store {
     idStore: ID
     cId: ID
@@ -69,11 +88,13 @@
     getStore(id: ID, StoreName: String, idStore: ID): Store
     getAllStore(id: ID, StoreName: String, idStore: ID): [Store]
     getOneStore(id: ID, StoreName: String, idStore: ID): Store
+    getOneCOntractStore(StoreName: String, idStore: ID): ContractType
   }
 
 type Mutation {
   """"registra Store data"""
   newRegisterStore(input: IStore): AuthPayload
+  createOneContract(input: InputContractType): AuthPayload
 }
 
 type Subscription {

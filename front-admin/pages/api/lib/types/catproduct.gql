@@ -1,0 +1,35 @@
+# types
+type Categoriadeproducto {
+    ctpId: ID
+    id: ID
+    idStore: ID
+    catName: String
+    catDescription: String
+    schState: String
+    createAt: DateTime
+    updateAt: DateTime
+
+}
+# Inputs    
+input InputProductFood {
+    ctpId: ID
+    id: ID
+    idStore: ID
+    catName: String
+    catDescription: String
+    schState: String
+    createAt: DateTime
+    updateAt: DateTime
+}
+
+# Queries
+type Query {
+    "Consulta todos los productFoodos"
+    getCategoriadeproducto(pId: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int  ): [Categoriadeproducto]
+}
+
+
+# Mutations
+type Mutation {
+     updateCategoriadeproducto(input: InputProductFood): Categoriadeproducto
+}

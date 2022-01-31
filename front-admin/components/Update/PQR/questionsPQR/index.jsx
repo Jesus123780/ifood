@@ -54,12 +54,8 @@ export const Questions = () => {
                 })
                 setValues({})
                 setErrors({} || [])
-                // eslint-disable-next-line
-                console.log(results)
             }
         } catch (error) {
-            // eslint-disable-next-line
-            console.log(error)
         }
     }
     if (errorC) return <>Ocurrió un error interno</>

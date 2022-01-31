@@ -104,7 +104,12 @@ export const InputV = styled.input`
     font-size: ${({ size }) => size || '13px'};
     width: ${({ width }) => width || '-webkit-fill-available'};
     border-radius: ${({ radius }) => radius || '2px'};
-    ${({ margin }) => !!margin && css`margin: ${margin};`}
+
+    ${({ margin }) => !!margin && css`
+        margin: ${margin};
+        
+    `}
+    
     ${({ minWidth }) => minWidth && css`min-width: ${minWidth};`}
     &:focus ~ ${LabelInput} {
         top: -6px;

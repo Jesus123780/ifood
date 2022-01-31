@@ -7,18 +7,22 @@ import { useApollo } from '../apollo/apolloClient'
 import { GlobalStyle } from '../public/styles/GlobalStyle'
 import { useTheme } from '../components/hooks/useTheme'
 import { ThemeProvider } from 'styled-components'
+import Auth from '../apollo/Auth'
+import 'react-dragula/dist/dragula.min.css'
 
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps)
   return (
     <Context>
       <ApolloProvider client={apolloClient}>
-        {/* <ThemeProvider theme={theme}> */}
+        <Auth>
+          {/* <ThemeProvider theme={theme}> */}
           <GlobalStyle />
           <Layout>
             <Component {...pageProps} />
           </Layout>
-        {/* </ThemeProvider> */}
+          {/* </ThemeProvider> */}
+        </Auth>
       </ApolloProvider >
     </Context>
   )

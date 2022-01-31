@@ -8,9 +8,8 @@ import { Input, ContainInput } from './styled';
 export function EditForm(props) {
     const [input, setInput] = useState(props.edit ? props.edit.value : '');
     const inputRef = useRef(null);
-  //  const { setAlertBox } = useContext(Context)
+    //  const { setAlertBox } = useContext(Context)
 
-    // {console.log(props.edit?.id, input)}
     useEffect(() => {
         inputRef?.current?.focus();
     });
@@ -36,9 +35,9 @@ export function EditForm(props) {
                 }
             })
             // eslint-disable-next-line
-            if (results) setAlertBox({ message: ` Cuidad actualizado a  ${ cName }`, duration: 5000 })
+            if (results) setAlertBox({ message: ` Cuidad actualizado a  ${cName}`, duration: 5000 })
         } catch (err) {
-            setAlertBox({ message: `${ err }`, duration: 7000 })
+            setAlertBox({ message: `${err}`, duration: 7000 })
         }
     };
     if (error) return <div>Ocurrió un error</div>

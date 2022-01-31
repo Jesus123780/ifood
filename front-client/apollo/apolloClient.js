@@ -20,7 +20,6 @@ const getDeviceId = async () => {
 // browser()
 const authLink = setContext(async (_, { headers }) => {
     const lol = await getDeviceId()
-    console.log(lol)
     const token = localStorage.getItem('sma.sv1')
     const restaurant = localStorage.getItem('restaurant')
     return {

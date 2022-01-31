@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useReducer, useRef, useState } from 'react'
 import { GET_ALL_CITIES, GET_ALL_COUNTRIES, GET_ALL_DEPARTMENTS, GET_ALL_ROAD } from '../../../gql/Location';
-import { GET_ALL_FOOD_PRODUCTS, GET_ONE_COLOR, UPDATE } from './queries';
+import { GET_ALL_FOOD_PRODUCTS, GET_ONE_COLOR, UPDATE, UPDATE_PRODUCT_FOOD } from './queries';
 import { GET_ALL_SIZE } from '../../../gql/information/Size/size';
 import useLocalStorage from '../../../components/hooks/useLocalSorage';
 import { useGetProducts } from '../../../components/hooks/useGetProducts';
@@ -14,7 +14,8 @@ import { FoodComponent } from '../../../components/Update/Products/food';
 import { CREATE_FOOD_PRODUCT } from '../../dashboard/queries';
 import { GET_ONE_STORE } from '../../Restaurant/queries';
 import { convertBase64, getFileSizeByUnit } from '../../../utils';
-
+import { GET_ALL_PRODUCT_STORE } from '../../dashboard/queriesStore';
+// import Dragula from 'react-dragula';
 export const Food = () => {
     const [errors, setErrors] = useState({})
     const [values, setValues] = useState({})
@@ -32,7 +33,7 @@ export const Food = () => {
     const [searchFilter, setSearchFilter] = useState({ gender: [], desc: [], speciality: [] })
     const [filter, setFilter] = useState({ gender: [], desc: [], speciality: [] })
     //-----------QUERIES ------------
-    const [updateProducts] = useMutation(UPDATE)
+    const [updateProducts] = useMutation(UPDATE_PRODUCT_FOOD)
     const [finalData, { loading: getProductLoading }] = useGetProducts()
     // LLama a todas las areas
     const { data: datafatures } = useQuery(GET_ALL_FEATURES_ON_PARENT)
@@ -48,16 +49,7 @@ export const Food = () => {
     // Subir producto
     const [getCities, { data: dataCities }] = useLazyQuery(GET_ALL_CITIES)
     // llama a los productos y espera una accion
-    const [getFoodAllProduct, { data: dataProduct }] = useLazyQuery(GET_ALL_FOOD_PRODUCTS, {
-        fetchPolicy: 'network-only',
-        variables:
-        {
-            search,
-            gender: searchFilter?.gender,
-            desc: searchFilter?.desc,
-            categories: searchFilter?.speciality,
-        }
-    })
+    const [productFoodsAll, { data: dataProduct }] = useLazyQuery(GET_ALL_PRODUCT_STORE)
     // ------------ HANDLES ------------
     const handleChange = (e, error) => {
         setValues({ ...values, [e.target.name]: e.target.value })
@@ -68,7 +60,6 @@ export const Food = () => {
         else if (e.target.name === 'dId') getCities({ variables: { dId: e.target.value } })
         handleChange(e)
     }
-
     // Añade mas de una característica por id
     const handleAddFeature = fId => {
         const value = datafatures?.features?.filter(x => (x.fId === fId))
@@ -91,9 +82,8 @@ export const Food = () => {
             setAlertBox({ message: `${err}`, color: 'error', duration: 7000 })
         }
     }
-    const [newRegisterFoodProduct] = useMutation(CREATE_FOOD_PRODUCT, {
+    const [updateProductFoods] = useMutation(UPDATE_PRODUCT_FOOD, {
         onCompleted: () => {
-            console.log('')
         }
     })
     const [check, setCheck] = useState(false)
@@ -134,19 +124,19 @@ export const Food = () => {
         const ProImage = 'https://http2.mlstatic.com/D_NQ_NP_621798-MLA45543191295_042021-W.webp'
 
         try {
-            newRegisterFoodProduct({
+            updateProductFoods({
                 variables: {
                     input: {
                         idStore: dataStore?.getStore?.idStore || '',
-                        ProPrice: parseFloat(ProPrice),
-                        ProDescuento: parseFloat(ProDescuento),
+                        ProPrice: ProPrice,
+                        ProDescuento: ProDescuento,
                         ProDescription: ProDescription,
-                        pName: names    ,
+                        pName: names,
                         pState: 1,
                         sTateLogistic: 1,
                         ProStar: rating,
                         ProImage: ProImage,
-                        ProHeight: ProHeight,
+                        ProHeight: parseFloat(ProHeight),
                         ProWeight: ProWeight,
                         ProOutstanding: check ? 1 : 0,
                         ProDelivery: check ? 1 : 0
@@ -155,7 +145,7 @@ export const Food = () => {
                 }, update(cache) {
                     cache.modify({
                         fields: {
-                            getFoodAllProduct(dataOld = []) {
+                            productFoodsAll(dataOld = []) {
                                 return cache.writeQuery({ query: GET_ALL_FOOD_PRODUCTS, data: dataOld })
                             }
                         }
@@ -184,30 +174,31 @@ export const Food = () => {
     }
 
     useEffect(() => {
-        dataProduct?.getFoodAllProduct && setData([...dataProduct?.getFoodAllProduct])
+        dataProduct?.productFoodsAll && setData([...dataProduct?.productFoodsAll])
     }, [dataProduct, searchFilter])
     useEffect(() => {
-        getFoodAllProduct({ variables: { max: showMore } })
+        productFoodsAll({ variables: { max: showMore } })
     }, [searchFilter, showMore])
     const onChangeRange = () => {
         // const { value } = e.target
         // setFilterPrice(s => ({ ...s, [name]: s[name].filter(f => f !== value) }))
     }
     // ----------- HANDLE PARA ELIMINAR-----------
-    const handleDelete = pId => {
-        const value = finalData?.getFoodAllProduct?.filter(x => (x.pId === pId))
+    const handleDelete = product => {
+        console.log(product)
+        const { pId, pState } = product || {}
         // const pState = value[0]?.pState
-        updateProducts({
+        updateProductFoods({
             variables: {
                 input: {
-                    pId,
+                    pId, 
                     pState
                 }
             }, update(cache) {
                 cache.modify({
                     fields: {
-                        getFoodAllProduct(dataOld = []) {
-                            return cache.writeQuery({ query: GET_ALL_FOOD_PRODUCTS, data: dataOld })
+                        productFoodsAll(dataOld = []) {
+                            return cache.writeQuery({ query: GET_ALL_PRODUCT_STORE, data: dataOld })
                         }
                     }
                 })
@@ -223,12 +214,73 @@ export const Food = () => {
     const freeDelivery = dataProductFree => {
         return dataProductFree.ProDelivery === true
     }
+    const [isDragula, setisDragula] = useState(true);
     const productFree = dataProducto.filter(freeDelivery)
+    useEffect(() => {
+        // isDragula = Dragula();
+        // isDragula.containers = /* [document.getElementById('products'), document.getElementById('categoriesToOrder')] */
+
+    }, [isDragula, setisDragula])
+    // const bannerPopularContainer = document.getElementById('orderBannerPopular')
+    // const bannerOffersContainer = document.getElementById('orderBannerOffers')
+    // const drake = Dragula([bannerPopularContainer, bannerOffersContainer])
+    // drake.on('drop', () => {
+    //     // this.setState({ stateBtnSave: true })
+    // })
+    const initialStateInvoice = {
+        PRODUCT_RECOGER: [],
+        PRODUCT_EFFECTIVE: [],
+    }
+
+    const productRecoger = (state, action) => {
+        switch (action.type) {
+            case 'ADD_PRODUCT':
+                return {
+                    ...state,
+                    PRODUCT_RECOGER: [...state?.PRODUCT_RECOGER, action?.payload]
+                }
+            case 'ADD_TO_EFFECTIVE':
+                return {
+                    ...state,
+                    PRODUCT_EFFECTIVE: [...state?.PRODUCT_EFFECTIVE, action?.payload]
+                }
+            case 'REMOVE_EFFECTIVE':
+                return {
+                    PRODUCT_EFFECTIVE: state?.PRODUCT_EFFECTIVE?.filter((t, idx) => idx !== action?.idx)
+                };
+            case 'REMOVE_PRODUCT':
+                return {
+                    PRODUCT_RECOGER: state?.PRODUCT_RECOGER?.filter((t, idx) => idx !== action?.idx)
+                };
+            case 'REMOVE_ALL':
+                return {
+                    PRODUCT_RECOGER: [],
+                    PRODUCT_RECOGER: []
+                };
+            case "TOGGLE_INVOICE":
+                return {
+                    PRODUCT_RECOGER: state?.PRODUCT_RECOGER.map((t, idx) => idx === action.idx ? { ...t, isPaid: !t.isPaid } : t),
+                };
+            default:
+                return state;
+        }
+    }
+    const [product_state, dispatch] = useReducer(productRecoger, initialStateInvoice)
+    const handleAddProductR = elem => {
+        let includes = product_state?.PRODUCT_RECOGER.includes(elem);
+        if (includes) {
+            setAlertBox({ message: 'The invoice is already added to the list' })
+        } else {
+            dispatch({ type: 'ADD_PRODUCT', payload: elem })
+        }
+    }
     return (
         <FoodComponent
             features={features}
             names={names}
-            // capture image
+            product_state={product_state || []}
+            dispatch={dispatch}
+            handleAddProductR={handleAddProductR}
             onFileInputChange={onFileInputChange}
             alt={alt}
             src={src}
@@ -236,7 +288,7 @@ export const Food = () => {
             search={search}
             fileInputRef={fileInputRef}
             dataFree={productFree}
-            dataCategories={finalDataCategories?.CategorygetFoodAllProduct}
+            dataCategories={finalDataCategories?.CategoryproductFoodsAll}
             onClickSearch={onClickSearch}
             handleAddFeature={handleAddFeature}
             datafatures={datafatures?.features}

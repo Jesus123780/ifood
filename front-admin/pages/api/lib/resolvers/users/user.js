@@ -8,10 +8,11 @@ import { generateCode, generateToken, sendEmail } from '../../utils'
 import { deCode, enCode, getAttributes } from '../../utils/util'
 const { Op } = require('sequelize')
 
-export const newRegisterUser = async (_, input) => {
+export const newRegisterUser = async (root, input, _context, info) => {
+    console.log(input)
     try {
         let res = {}
-        const { name, password } = input
+        const { name, password, email, username } = input
         if (input?.id) {
             let values = {}
             for (const x in input) if (x !== 'id') values = { ...values, [x]: input[x] }
@@ -19,48 +20,59 @@ export const newRegisterUser = async (_, input) => {
                 { ...values },
                 { where: { id: deCode(input.id) } }
             )
-            console.log(res)
             const token = await generateToken(res)
             return {
                 success: true,
                 message: 'Session created.',
             }
         } else {
+            // const attributes = getAttributes(Users, info)
             const isExist = await Users.findOne({
-                attributes: ['id'],
+                attributes: ['id', 'email', 'password'],
                 where: {
                     [Op.or]: [
-                        { email: name },
-                        { uPhoNum: password }
+                        { email: email }
                     ]
                 }
             })
-            if (isExist) return new ApolloError('El usuario ya existe', 409)
-            res = await Users.create({ ...input, uState: 1 })
-            console.log(input)
-            let array = []
-            array.push(res)
-            const newData = array?.map(x => x.dataValues)
-            const dataFinal = newData?.map(x => ({ name: x.name, id: enCode(x.id) }))
-            const token = await generateToken(dataFinal[0])
-            return {
-                token: token,
-                roles: false,
-                success: true,
-                message: 'Session created.',
+            const tokenGoogle = {
+                name: name,
+                username: username,
+                id: isExist.id
+            }
+            const tokenGo = await generateToken(tokenGoogle)
+            console.log(tokenGo, 'HANÑAAAAAAAAAA, 0', 9)
+            if (isExist && isExist.password === password ) {
+                return {
+                    token: tokenGo,
+                    roles: false,
+                    success: true,
+                    message: `Bienvenido ${name}`,
+                }
+            } else {
+                res = await Users.create({ ...input, uState: 1 })
+                let array = []
+                array.push(res)
+                const newData = array?.map(x => x.dataValues)
+                const dataFinal = newData?.map(x => ({ name: x.name, id: enCode(x.id) }))
+                const token = await generateToken(dataFinal[0])
+                return {
+                    token: token,
+                    roles: false,
+                    success: true,
+                    message: 'Session created.',
+                }
             }
         }
     } catch (e) {
-        const error = new ApolloError('Lo sentimos, ha ocurrido un error interno', 400)
+        const error = new ApolloError('Lo sentimos, ha ocurrido un error interno', 400, error)
         return error
     }
 }
 
 export const registerEmailLogin = async (_, { input }, ctx) => {
-    const { uEmail } = input 
-    console.log(input)
+    const { uEmail } = input
     try {
-        console.log(uEmail)
         const existEmail = await Users.findOne({ attributes: ['email'], where: { email: uEmail } })
         const uToken = await generateCode()
         const dataUser = {
@@ -99,21 +111,20 @@ export const LoginEmailConfirmation = async (_root, { email, otp }, context, inf
     try {
         const existEmail = await Users.findOne({ attributes: ['email', 'uToken', 'id'], where: { email } })
         const StoreInfo = await Store.findOne({ attributes: ['storeName', 'idStore', 'id'], where: { id: deCode(existEmail.id) } })
-        console.log(StoreInfo, 'si pap')
         const error = new ApolloError('Lo sentimos, ha ocurrido un error interno', 400)
         if (!existEmail) return error
         const dataUser = {
             uEmail: email,
-            // restaurant: StoreInfo.idStore,
+            restaurant: StoreInfo.idStore,
             code: existEmail.uToken,
             id: existEmail.id
         }
         if (existEmail.uToken === otp) {
             const token = await generateToken(dataUser)
-            console.log(token)
             return {
                 token: token,
                 roles: false,
+                idStore: StoreInfo.idStore,
                 success: true,
                 message: 'Session created.',
             }
@@ -136,7 +147,6 @@ export const LoginEmailConfirmation = async (_root, { email, otp }, context, inf
         //     })
         // }).then(res => console.log(res, 'the res')).catch(err => console.log(err, 'the err esteeeeeeeeee'))
     } catch (error) {
-        console.log(error)
         return { success: false, message: error }
     }
 }
@@ -190,7 +200,6 @@ export const setUserProfile = async (_root, { input }, context) => {
             attributes: ['id'],
             where: { id: deCode(context.User.id) }
         })
-        console.log(data, 'ES AQYUI')
         if (user.id) {
             if (!ExistUserProf) {
                 await Userprofile.create({ id: id || context?.User?.id, ...filterKeyObject(data, ['user', 'cId', 'ctId', 'dId']) })
@@ -201,7 +210,6 @@ export const setUserProfile = async (_root, { input }, context) => {
             return { ...data }
         }
     } catch (e) {
-        console.log(e)
         const error = new Error('Lo sentimos, ha ocurrido un error interno')
         return error
     }
@@ -212,7 +220,6 @@ export const getOneUserProfile = async (_root, { id }, context, info) => {
         const data = await Userprofile.findOne({ attributes, where: { id: deCode('NTQ0MTc3NjI5NzAzMDMyOTAw') } })
         return data
     } catch (e) {
-        console.log(e)
         const error = new Error(e, 'Lo sentimos, ha ocurrido un error interno')
         return error
     }

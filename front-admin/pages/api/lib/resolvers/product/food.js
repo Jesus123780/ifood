@@ -12,8 +12,8 @@ export const newRegisterFoodProduct = async (_, { input }, ctx) => {
     const { idStore } = input
     // console.log(input);
     try {
-        let res = {}
-        res = await productModel.create({ ...input, pState: 1, id: deCode(id),  idStore: deCode(idStore) })
+        // let res = {}
+        await productModel.create({ ...input, pState: 1, id: deCode(id), idStore: idStore ? deCode(idStore) : deCode(ctx.restaurant), })
         return {
             success: true,
             message: 'producto  creado',
@@ -22,7 +22,7 @@ export const newRegisterFoodProduct = async (_, { input }, ctx) => {
         return { success: false, message: error }
     }
 }
-export const getStore = async  (root, args, context, info) =>    {
+export const getStore = async (root, args, context, info) => {
     const attributes = getAttributes(Store, info)
     const data = await Store.findOne({
         attributes,
@@ -31,8 +31,8 @@ export const getStore = async  (root, args, context, info) =>    {
     })
     return data
 }
-export const getFoodAllProduct = async  (root, args, context, info) =>    {
-    const { search, min, max, pId, gender, desc, categories } = args
+export const getFoodAllProduct = async (root, args, context, info) => {
+    const { search, min, max, pfId, gender, desc, categories } = args
     let whereSearch = {}
     if (search) {
         whereSearch = {
@@ -47,7 +47,8 @@ export const getFoodAllProduct = async  (root, args, context, info) =>    {
     if (gender?.length) {
         whereSearch = {
             ...whereSearch,
-            ProDelivery: { [Op.in]: gender.map(x => x)
+            ProDelivery: {
+                [Op.in]: gender.map(x => x)
             }
         }
     }
@@ -71,20 +72,23 @@ export const getFoodAllProduct = async  (root, args, context, info) =>    {
         where: {
             [Op.or]: [
                 {
-                    ...whereSearch,
+                    // ...whereSearch,
                     // ID Productos
-                    // id: deCode(context.User.id),
-                    // pId: pId ? deCode(pId) : { [Op.gt]: 0 },
-                    pState: { [Op.gt]: 0 }
+                    // pfId: pfId ? deCode(pfId) : { [Op.gt]: 0 },
+                    pState: 1
+                    // // ID departamento
+                    // dId: dId ? deCode(dId) : { [Op.gt]: 0 },
+                    // // ID Cuidad
+                    // ctId: ctId ? deCode(ctId) : { [Op.gt]: 0 },
                 }
             ]
-        }, limit: [min || 0, max || 100], order: [['pName', 'DESC']]
+        }, limit: [min || 0, max || 100], order: [['pName', 'ASC']]
     })
     return data
 }
 export default {
     TYPES: {
-       
+
     },
     QUERIES: {
         getFoodAllProduct

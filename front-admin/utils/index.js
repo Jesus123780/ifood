@@ -465,7 +465,9 @@ export function setToken(token) {
  * @returns {null} no hay retorno
  */
 export function getToken({ restaurant }) {
-    return localStorage.getItem(restaurant || TOKEN)
+    if (window.localStorage) {
+        return window.localStorage.getItem(restaurant || TOKEN)
+    }
 }
 // obtiene el token del usuario y lo descodifica
 export function decodeToken(token) {
@@ -1026,7 +1028,6 @@ export const NewDateFormat = (date) => {
         return date
 
     } catch (error) {
-        console.log(error)
     }
 }
 
@@ -1061,3 +1062,29 @@ export const getFileSizeByUnit = (file, unit = "B") => {
     };
     return [unitFormula[unitStr] ? unitFormula[unitStr](originFileSize) : 0, { unit }]
 };
+
+// const ratings = {
+//     hotel_a : 1,
+//     hotel_a : 1,
+//     hotel_a : 1,
+//     hotel_b : 4,
+//     hotel_c : 5,
+//     hotel_d : 5,
+//     hotel_e : 5
+//   };
+  
+//   // total number of stars
+//   const starTotal = 5;
+  
+//   for(const rating in ratings) {  
+//     const starPercentage = (ratings[rating] / starTotal) * 100;
+//     const starPercentageRounded = `${(Math.round(starPercentage / 10) * 10)}%`;
+//     console.log(starPercentageRounded)
+//     // document.querySelector(`.${rating} .stars-inner`).style.width = starPercentageRounded; 
+//   }
+// push colors
+// window.setInterval(() => {
+//     console.log({
+//       color: "#" + Math.floor(Math.random() * 16777215).toString(16)
+//     });
+//   }, 2000)

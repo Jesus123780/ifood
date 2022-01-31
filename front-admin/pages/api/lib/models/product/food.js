@@ -14,7 +14,7 @@ const Store = require('../Store/Store')
 
 sequelize.sync()
 
-const productModel = sequelize.define('productFood', {
+const productModel = sequelize.define('productstore', {
     pfId: {
         type: Sequelize.INTEGER,
         primaryKey: true,

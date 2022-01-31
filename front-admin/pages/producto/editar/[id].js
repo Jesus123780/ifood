@@ -5,7 +5,5 @@ import { ProductEdit } from "../../../container/producto/editar";
 export default function ProductEditView() {
     const location = useRouter()
     const id = location.query.id
-    console.log(location)
-
     return (<ProductEdit id={id}  />)
 }
