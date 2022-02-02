@@ -30,7 +30,6 @@ query getAllCatOfProducts($idStore: ID) {
  getAllCatOfProducts(idStore: $idStore) {
   id
   cpId
-  idStore
   catName
   catDescription
   schState
@@ -39,8 +38,8 @@ query getAllCatOfProducts($idStore: ID) {
 }
 `
 export const REGISTER_CAT_OF_PRODUCTS = gql`
-mutation createCatOfProducts($input: InputCatOfProducts) {
-  createCatOfProducts(input: $input) {
+mutation  updatedProducts($input: InputCatProducts){
+  updatedProducts(input: $input){
     success
     message
   }

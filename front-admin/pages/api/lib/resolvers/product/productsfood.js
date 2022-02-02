@@ -90,7 +90,6 @@ export const productFoodsAll = async (root, args, context, info) => {
         })
         return data
     } catch (e) {
-        console.log(error, 'a¿hjaaaaaa');
         const error = new Error('Lo sentimos, ha ocurrido un error interno')
         return error
     }
@@ -98,7 +97,6 @@ export const productFoodsAll = async (root, args, context, info) => {
 
 export const updateProductFoods = async (_root, { input }, context) => {
     const { sizeId, colorId, cId, dId, ctId, pId, pState } = input
-    console.log(input, 'HOLA MUNDO', pState)
     try {
         if (!pId) {
             const data = await productModelFood.create({
@@ -116,9 +114,7 @@ export const updateProductFoods = async (_root, { input }, context) => {
             return data
         }
         else {
-            console.log(pId)
             await productModelFood.update({ pState: pState === 1 ? 0 : 1 }, { where: { pId: deCode(pId) } })
-            // console.log(isExist);
             if (isExist) {
             }
             else {

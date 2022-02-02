@@ -1,0 +1,60 @@
+# types
+type catProducts {
+    carProId: ID
+    idStore: ID #Store
+    pName: String
+    ProDescription: String
+    ProImage: String
+    pState: Int
+    pDatCre: DateTime
+    pDatMod: DateTime
+}
+# get all cat with products
+type catProductsWithProduct {
+    carProId: ID
+    idStore: ID #Store
+    pName: String
+    ProDescription: String
+    ProImage: String
+    pState: Int
+    pDatCre: DateTime
+    pDatMod: DateTime
+    productFoodsAll: [ProductFood]
+}
+# Inputs    
+input InputCatProducts {
+    carProId: ID
+    idStore: ID #Store
+    pName: String
+    ProDescription: String
+    ProImage: String
+    pState: Int
+    pDatCre: DateTime
+    pDatMod: DateTime
+}
+input ILineItemsIds {
+    idProduct: ID
+}
+input LineItemsIdPro {
+    setData: [ILineItemsIds]
+    idCat: ID
+}
+# Queries
+type Query {
+    "Consulta todos los catProductsos"
+    getcatProducts: [catProducts]
+    catProducts: [catProducts]
+    catProductsOne(carProId: ID, cId: ID, dId: ID, ctId: ID ): catProducts
+    catProductsAll(carProId: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int,  gender: [String]  desc: [String], categories: [ID]  ): [catProducts]
+    getCatProductsWithProduct(carProId: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int,  gender: [String]  desc: [String], categories: [ID]  ): [catProductsWithProduct]
+    catProductsLogis(carProId: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int  ): [catProducts]
+}
+
+
+# Mutations
+type Mutation {
+    "Registra un catProductso"
+     updatedProducts(input: InputCatProducts): AuthPayload
+     updatedCatWithProducts(input: LineItemsIdPro): AuthPayload
+     deleteCatOfProducts(idPc: ID!, pState: Int): AuthPayload
+}

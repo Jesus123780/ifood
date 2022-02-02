@@ -756,6 +756,11 @@ export const WrapperRow = styled.div`
 
 
 `
+export const ContentAction = styled.div`
+  height: 30%;
+  padding: 20px;
+  border-top: .5px solid #eaeaea ;
+`
 export const Card = styled.div`
   display: ${({ display }) => display || 'flex'};
   flex-wrap: ${({ wrap }) => wrap || 'wrap'};
@@ -771,6 +776,7 @@ export const Card = styled.div`
   align-items: center;
   margin: ${({ margin }) => margin || ' 1% auto'};
   background-color: ${BGColor};
+  ${props => props.active ? css`border: 3px solid ${PVColor};` : css`border: 3px solid transparent;`}
   box-shadow: 0px 0px 14px #00000017;
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
@@ -1012,7 +1018,8 @@ export const TimeSlots = styled.div`
 export const ContentCard = styled.div`
   display: flex;
   flex-wrap: wrap;
-  place-content: space-around;
+  place-content: start;
   width: 100%;
+  
 
 `

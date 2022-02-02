@@ -3,7 +3,7 @@
 type CatOfProducts {
   id: ID
   cpId: ID
-  idStore: ID
+  # idStore: ID
   catName: String
   catDescription: String
   schState: Int
@@ -11,7 +11,7 @@ type CatOfProducts {
 input InputCatOfProducts {
   id: ID
   cpId: ID
-  idStore: ID
+  # idStore: ID
   catName: String
   catDescription: String
   schState: Int

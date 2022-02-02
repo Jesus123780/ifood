@@ -37,6 +37,7 @@ export const AwesomeModal = ({
     onConfirm = () => undefined
 }) => {
     const [state, setState] = useState(show)
+    const [backdropA, setAnimationBackdrop] = useState(false)
     const hide = useCallback(() => {
         setState(false)
         onCancel()
@@ -53,8 +54,11 @@ export const AwesomeModal = ({
     }, [show])
     const onBackdropHide = e => {
         e.preventDefault()
-        if (backdrop === 'static') return 0
-        hide()
+        if (backdrop === 'static') {
+            setAnimationBackdrop(!backdropA)
+        } else {
+            hide()
+        }
     }
     useEffect(() => {
         if (show && useScroll) {
@@ -73,8 +77,8 @@ export const AwesomeModal = ({
     }
     return (
         <Container show={show} bgColor={bgColor} showLateral={show} zIndex={zIndex} state={state} openLateral={openLateral} onMouseDown={onBackdropHide}>
-            <Wrapper onMouseDown={onBackdropHide}>
-                <Modal height={height} borderRadius={borderRadius} show={show} showLateral={show} state={state} size={size} onMouseDown={e => e.stopPropagation()} >
+            <Wrapper backdropA={backdropA} onMouseDown={onBackdropHide}>
+                <Modal backdropA={backdropA} height={height} borderRadius={borderRadius} show={show} showLateral={show} state={state} size={size} onMouseDown={e => e.stopPropagation()} >
                     {header && <ModalHeader>
                         <ModalTitle>{title}</ModalTitle>
                         <BtnClose onClick={hide}><IconCancel size='20px' /></BtnClose>

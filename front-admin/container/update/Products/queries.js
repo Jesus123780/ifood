@@ -129,16 +129,6 @@ query productsAll($search: String, $min: Int, $max: Int, $gender: [String], $des
   }
 }
 `
-// QUERY -- Busca a todos los usuarios
-export const SEARCH_PRODUCTS = gql`
-query searchProduct($searchProduct: String, $min: Int, $max: Int){
-  searchProduct(searchProduct:  $search, min: $min, max: $max){
-    pName
-    ProPrice
-    ProDescription
-  }
-}  		
-`
 export const GET_ALL_FOOD_PRODUCTS = gql`
 query getFoodAllProduct($search: String, $min: Int, $max: Int, $gender: [String], $desc: [String], $categories: [ID], ) {
  getFoodAllProduct(search: $search, min: $min, max: $max, gender: $gender, desc: $desc, categories: $categories,) {

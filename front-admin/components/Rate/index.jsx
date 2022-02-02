@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { IconRate } from '../../public/icons';
 import { ContentIcon } from './styled';
-export const Rate = ({ count, rating, color, onRating, size }) => {
+export const Rate = ({ count, rating, color, onRating, size, noHover }) => {
     const [hoverRating, setHoverRating] = useState(0);
 
     const getColor = index => {
@@ -24,7 +24,7 @@ export const Rate = ({ count, rating, color, onRating, size }) => {
                         key={idx}
                         icon="star"
                         onClick={() => onRating(idx)}
-                        onMouseEnter={() => setHoverRating(idx)}
+                        onMouseEnter={() => !noHover && setHoverRating(idx)}
                         onMouseLeave={() => setHoverRating(0)}
                     ><IconRate color={getColor(idx)} size={size} />
                     </div>

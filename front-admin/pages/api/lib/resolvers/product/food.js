@@ -8,9 +8,7 @@ const { Op } = require('sequelize')
 
 export const newRegisterFoodProduct = async (_, { input }, ctx) => {
     const id = ctx.User.id || ''
-    // const id = 'NjUzMDEzMTU1NjQzNjM5NTAwMA=='
     const { idStore } = input
-    // console.log(input);
     try {
         // let res = {}
         await productModel.create({ ...input, pState: 1, id: deCode(id), idStore: idStore ? deCode(idStore) : deCode(ctx.restaurant), })
@@ -27,7 +25,6 @@ export const getStore = async (root, args, context, info) => {
     const data = await Store.findOne({
         attributes,
         where: { id: deCode(context.User.id) }
-        // where: { id: deCode('NjUzMDEzMTU1NjQzNjM5NTAwMA==') }
     })
     return data
 }

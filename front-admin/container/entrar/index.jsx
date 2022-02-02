@@ -69,7 +69,7 @@ export const Login = () => {
                     fields="name,email,picture"
                     callback={responseFacebook}
                     render={renderProps => (
-                        <ButtonSubmit size='14px' height='40px' color='1' onClick={renderProps.onClick} disabled={renderProps.disabled}><Facebook color={BGColor} size='30px'  /> Login <div style={{ width: 'min-content' }} />    </ButtonSubmit>
+                        <ButtonSubmit type="button" size='14px' height='40px' color='1' onClick={renderProps.onClick} disabled={renderProps.disabled}><Facebook color={BGColor} size='30px'  /> Login <div style={{ width: 'min-content' }} />    </ButtonSubmit>
                     )}
                 />
                 <ActiveLink activeClassName="active" href="/entrar/email">

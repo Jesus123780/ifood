@@ -1,6 +1,7 @@
 # types
 type ProductFood {
     pId: ID!
+    carProId: ID
     sizeId: ID #Talla
     colorId: ID #Color
     idStore: ID #Store
@@ -54,6 +55,7 @@ input InputProductFood {
     pId: ID
     sizeId: ID
     colorId: ID
+    carProId: ID
     cId: ID #Country
     dId: ID #Department
     ctId: ID #Cuidad

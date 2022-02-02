@@ -60,13 +60,13 @@ export const ScheduleTimings = () => {
                 <ScheduleHeaderNav onClick={() => handleClick(6)} current={showTiming === 6 && 1}>SÁBADO</ScheduleHeaderNav>
                 <ScheduleHeaderNav onClick={() => handleClick(7)} current={showTiming === 7 && 1}>DOMINGO</ScheduleHeaderNav>
             </ScheduleHeader>
-            <AwesomeModal title={showTiming === 1 ? 'Lunes' : showTiming === 2 ? 'Martes ' : showTiming === 3 ? 'Miercoles' : showTiming === 4 ? 'Jueves ' : showTiming === 5 ? 'Viernes ?' : showTiming === 6 ? 'Sabado' : showTiming === 7 ? 'Domingo' : null} backdrop='static' zIndex='9990' padding='25px' height='80vh' show={SHOW_TIMING.state} onHide={() => { SHOW_TIMING.setState(!SHOW_TIMING.state) }} onCancel={() => false} size='90%' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
+            <AwesomeModal title={showTiming === 1 ? 'Lunes' : showTiming === 2 ? 'Martes ' : showTiming === 3 ? 'Miercoles' : showTiming === 4 ? 'Jueves ' : showTiming === 5 ? 'Viernes ?' : showTiming === 6 ? 'Sabado' : showTiming === 7 ? 'Domingo' : null} backdrop='static' zIndex='9990' padding='25px' height='50vh' show={SHOW_TIMING.state} onHide={() => { SHOW_TIMING.setState(!SHOW_TIMING.state) }} onCancel={() => false} size='small' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
                 <Form onSubmit={(e) => handleForm(e)}>
                     {[1]?.map((x, i) => <AModalRow key={i + 10}>
                         <SelectInfo title='Hora Inicial' name={'startTime'} value={values.schHoSta} handleChange={handleChange} index={i} hide={x.schState} />
                         <SelectInfo title='Hora Final' name={'endTime'} value={values.schHoEnd} handleChange={handleChange} index={i} hide={x.schState} />
                     </AModalRow>)}
-                    <RippleButton label='Tipo de identidad' type={'submit'} />
+                    <RippleButton label='Guardar' type={'submit'} />
                 </Form>
             </AwesomeModal>
             {data?.getStoreSchedules?.map((s, i) => (

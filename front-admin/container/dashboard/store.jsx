@@ -15,12 +15,13 @@ import { Food } from '../update/Products/food'
 import { useSetState } from '../../components/hooks/useState'
 import { AwesomeModal } from '../../components/AwesomeModal'
 import { useUser } from '../../components/hooks/useUser'
-import { CREATE_FOOD_PRODUCT } from './queries'
+import { CREATE_FOOD_PRODUCT, GET_ALL_CATEGORIES_WITH_PRODUCT } from './queries'
 import { Overline } from '../../components/common/Reusable'
 import { ScheduleTimings } from './ScheduleTimings'
 import { ManageCategories } from './manageCategories'
 import { AddEmployee } from '../searchAddTeam'
 import { GET_ALL_PRODUCT_STORE } from './queriesStore'
+import { CardProduct } from '../../components/Update/Products/styled'
 
 const DashboardStore = ({ StoreId }) => {
     // STATE
@@ -31,6 +32,29 @@ const DashboardStore = ({ StoreId }) => {
     const SHOW_MODAL_UPDATE_PRODUCTS = useSetState(false)
     const SHOW_MANAGE_CATEGORIES = useSetState(false)
     const SHOW_MANAGE_EMPLOYEE = useSetState(false)
+    const [searchFilter, setSearchFilter] = useState({ gender: [], desc: [], speciality: [] })
+    const [search, setSearch] = useState('')
+    const [dataProCat, setData] = useState([])
+    const [showMore, setShowMore] = useState(100)
+
+    // QUERY
+    const [getCatProductsWithProduct, { data: dataProductAndCategory }] = useLazyQuery(GET_ALL_CATEGORIES_WITH_PRODUCT, {
+        fetchPolicy: 'network-only',
+        variables:
+        {
+            search,
+            gender: searchFilter?.gender,
+            desc: searchFilter?.desc,
+            categories: searchFilter?.speciality,
+        }
+    })
+    console.log(dataProductAndCategory)
+    useEffect(() => {
+        dataProductAndCategory?.getCatProductsWithProduct && setData([...dataProductAndCategory?.getCatProductsWithProduct])
+    }, [dataProductAndCategory, searchFilter])
+    useEffect(() => {
+        getCatProductsWithProduct({ variables: { max: showMore } })
+    }, [searchFilter, showMore])
     // HANDLES
     const HandleClickEdit = item => {
         // create func
@@ -100,7 +124,7 @@ const DashboardStore = ({ StoreId }) => {
     //     onCompleted: () => {
     //     }
     // })
-
+    console.log(dataProCat)
     return (<>
         <Wrapper>
             <Overline onClick={() => setOpen(!open)} show={!open} bgColor='' />
@@ -163,7 +187,7 @@ const DashboardStore = ({ StoreId }) => {
                         </MerchantInfo>
                         <WrapperOptions>
                             <div>
-                                <ButtonAction onClick={() => SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state)}> Update products</ButtonAction >
+                                <ButtonAction onClick={() => SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state)}> Subir productos</ButtonAction >
                                 <ButtonAction onClick={() => setOpen(!open)}> Editar agenda </ButtonAction>
                                 <ButtonAction onClick={() => SHOW_MANAGE_CATEGORIES.setState(!SHOW_MANAGE_CATEGORIES.state)}> Administrar Categorías</ButtonAction>
                                 <ButtonAction onClick={() => SHOW_MANAGE_EMPLOYEE.setState(!SHOW_MANAGE_EMPLOYEE.state)}> Agregar empleados</ButtonAction>
@@ -175,17 +199,25 @@ const DashboardStore = ({ StoreId }) => {
             <LateralModal open={open}>
                 <ScheduleTimings />
             </LateralModal>
-            {/* UPDATE PRODUCTS */}
-            <AwesomeModal backdrop='static' zIndex='9990' padding='20px' height='100vh' show={SHOW_MODAL_UPDATE_PRODUCTS.state} onHide={() => { SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state) }} onCancel={() => false} size='large' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='0' >
+            <AwesomeModal backdrop='static' zIndex='99390' padding='20px' height='100vh' show={SHOW_MODAL_UPDATE_PRODUCTS.state} onHide={() => { SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state) }} onCancel={() => false} size='large' btnCancel={true} btnConfirm={false} header={true} footer={false} >
                 <Food />
             </AwesomeModal>
-            {/* UPDATE PRODUCTS */}
-            <AwesomeModal backdrop='static' zIndex='9990' padding='25px' height='80vh' show={SHOW_MANAGE_CATEGORIES.state} onHide={() => { SHOW_MANAGE_CATEGORIES.setState(!SHOW_MANAGE_CATEGORIES.state) }} onCancel={() => false} size='90%' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
-                <ManageCategories />
+            <AwesomeModal backdrop='static' zIndex='9990' padding='25px' height='100vh' show={SHOW_MANAGE_CATEGORIES.state} onHide={() => { SHOW_MANAGE_CATEGORIES.setState(!SHOW_MANAGE_CATEGORIES.state) }} onCancel={() => false} size='100%' btnCancel={true} btnConfirm={false} header={true} footer={false} >
+                <ManageCategories SHOW_MODAL_UPDATE_PRODUCTS={SHOW_MODAL_UPDATE_PRODUCTS} />
             </AwesomeModal>
             <AwesomeModal zIndex='9990' padding='25px' height='50vh' show={SHOW_MANAGE_EMPLOYEE.state} onHide={() => { SHOW_MANAGE_EMPLOYEE.setState(!SHOW_MANAGE_EMPLOYEE.state) }} onCancel={() => false} size='50%' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
                 <AddEmployee />
             </AwesomeModal>
+            {dataProCat?.map(x => (
+                <div key={x.carProId}>
+                    <Text size='40px'>{x.pName}</Text>  
+                    {x.productFoodsAll.map(food =>(
+                        <div key={food.pId}>
+                          <Text>{food.pName}</Text>  
+                        </div>
+                    ))}
+                </div>
+            ))}
         </Wrapper>
     </>
     )

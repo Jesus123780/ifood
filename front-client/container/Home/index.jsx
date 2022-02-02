@@ -121,19 +121,19 @@ export const Home = () => {
             <Section>
                 <Acquisition>
                     <BoxLi>
-                        <img class="landing-acquisition__card-img" src="" alt="Verifica las vacantes abiertas" />
-                        <span class="landing-acquisition__card-title">Tu hambre de crecer está en iFood</span>
-                        <span class="landing-acquisition__card-subtitle">Registra tu restaurante</span>
+                        <img className="landing-acquisition__card-img" src="" alt="Verifica las vacantes abiertas" />
+                        <span className="landing-acquisition__card-title">Tu hambre de crecer está en iFood</span>
+                        <span className="landing-acquisition__card-subtitle">Registra tu restaurante</span>
                     </BoxLi>
                     <BoxLi>
-                        <img class="landing-acquisition__card-img" src="" alt="Verifica las vacantes abiertas" />
-                        <span class="landing-acquisition__card-title">Tu hambre de crecer está en iFood</span>
-                        <span class="landing-acquisition__card-subtitle">Registra tu restaurante</span>
+                        <img className="landing-acquisition__card-img" src="" alt="Verifica las vacantes abiertas" />
+                        <span className="landing-acquisition__card-title">Tu hambre de crecer está en iFood</span>
+                        <span className="landing-acquisition__card-subtitle">Registra tu restaurante</span>
                     </BoxLi>
                     <BoxLi>
-                        <img class="landing-acquisition__card-img" src="" alt="Verifica las vacantes abiertas" />
-                        <span class="landing-acquisition__card-title">Tu hambre de crecer está en iFood</span>
-                        <span class="landing-acquisition__card-subtitle">Registra tu restaurante</span>
+                        <img className="landing-acquisition__card-img" src="" alt="Verifica las vacantes abiertas" />
+                        <span className="landing-acquisition__card-title">Tu hambre de crecer está en iFood</span>
+                        <span className="landing-acquisition__card-subtitle">Registra tu restaurante</span>
                     </BoxLi>
                 </Acquisition>
             </Section>

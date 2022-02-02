@@ -13,7 +13,7 @@ const catOfProducts = sequelize.define('categoriadeproductos', {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        get(x) { return enCode(this.getDataValue(x)) }
+        get(x) {return enCode(this.getDataValue(x))}
     },
     id: {
         type: Sequelize.INTEGER,
@@ -23,17 +23,6 @@ const catOfProducts = sequelize.define('categoriadeproductos', {
         references: {
             model: Users,
             key: 'id'
-        },
-        get(x) { return enCode(this.getDataValue(x)) },
-    },
-    idStore: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-        references: {
-            model: Store,
-            key: 'idStore'
         },
         get(x) { return enCode(this.getDataValue(x)) },
     },

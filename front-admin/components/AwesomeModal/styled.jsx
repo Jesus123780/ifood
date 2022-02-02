@@ -1,5 +1,5 @@
 import styled, { css, keyframes } from 'styled-components'
-import { SECColor, SEGColor } from '../../public/colors'
+import { BGColor, SECColor, SEGColor } from '../../public/colors'
 import { MODAL_SIZES } from './constanst'
 
 const fadeIn = keyframes`
@@ -34,6 +34,23 @@ const fadeInTop = keyframes`
       left: 50%;
       transform: translateY(-0%);
     }
+
+`
+const Pulse = keyframes`
+  from {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  50% {
+    -webkit-transform: scale3d(1.05, 1.05, 1.05);
+    transform: scale3d(1.05, 1.05, 1.05);
+  }
+
+  to {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
 
 `
 
@@ -84,6 +101,9 @@ export const Wrapper = styled.div`
     z-index: 888;
     display: flex;
     align-items: center;
+    ${props => props.backdropA && css`
+        animation: ${Pulse} .2s forwards;
+    `}
     justify-content: center;
 `
 
@@ -95,6 +115,9 @@ export const Modal = styled.div`
         else if (size === MODAL_SIZES.large) return '100%'
         else return size
     }};
+    ${props => props.backdropA && css`
+        animation: ${Pulse} .2s forwards;
+    `}
     min-width: 400px;
     height: ${({ height }) => height || 'auto'};
     border-radius: ${({ borderRadius }) => borderRadius};
@@ -150,12 +173,13 @@ export const ModalBody = styled.div`
 `
 
 export const ModalFooter = styled.div`
-     position: absolute;
-    bottom: 20px;
+     position: fixed;
+    bottom: -1px;
     left: 0;
     width: 95%;
     right: 0;
     margin: auto;
+    background-color: ${BGColor};
     justify-content: space-between;
     display: flex;
     border-top: 1px solid ${`${SECColor}69`};

@@ -11,6 +11,7 @@ const CategoryProductsModel = require('../Categories/CategoryProducts')
 const { enCode, validationID, validations } = require('../../utils/util')
 const Users = require('../Users')
 const Store = require('../Store/Store')
+const catProducts = require('../Store/cat')
 
 sequelize.sync()
 
@@ -42,6 +43,18 @@ const productModelFood = sequelize.define('productmodelfood', {
         references: {
             model: Users,
             key: 'id'
+        },
+        get(x) { return enCode(this.getDataValue(x)) }
+    },
+    // CATEGORY PRODUCT
+    carProId: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        references: {
+            model: catProducts,
+            key: 'carProId'
         },
         get(x) { return enCode(this.getDataValue(x)) }
     },
