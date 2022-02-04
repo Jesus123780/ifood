@@ -2,15 +2,14 @@ import styled, { css } from "styled-components";
 import { BGColor } from "../../public/colors";
 import { SideIn, SlideInLeft } from "../animations";
 
-export const    LateralModal = styled.div`
-    width: 500px;
+
+export const LateralModal = styled.div`
+    width: 380px;
     height: calc(100vh - 80px);
     position: fixed;
     padding: 30px;
     bottom: 0;
     z-index: 900;
-    backface-visibility: hidden;
-    animation-delay: 0;
     transition: all 350ms cubic-bezier(.32,1.25,.32,1);
     box-shadow: 0 8px 16px 0 rgb(0 0 0 / 10%);
     border: 1px solid #d4d7dc;
@@ -28,10 +27,21 @@ export const    LateralModal = styled.div`
                  transform: translateY(0);
                  `
         : css`
-        animation-name: ${SlideInLeft};
-                
-                  /* margin: 0; */
-                  visibility: hidden;
-                  /* opacity: 0; */
+            animation-name: ${SlideInLeft};
+            /* transform: translateY(0); */
+            /* visibility: hidden; */
               `}
     `
+export const CardProduct = styled.div`
+    height: 200px;
+    width: 90%;
+    margin: 10px auto;
+    box-shadow: 0px 4px 10px #6960604d;    
+    border-radius: 2px;
+    padding: 20px;
+`
+export const Content = styled.div`
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+`

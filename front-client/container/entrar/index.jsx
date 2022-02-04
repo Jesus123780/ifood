@@ -3,15 +3,16 @@ import { GoogleLogin } from 'react-google-login'
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import { ButtonSubmit, Content, Form, Enlace, Card, Text } from './styled'
 import { RippleButton } from '../../components/Ripple'
-import { APColor, EColor } from '../../public/colors'
+import { APColor, BGColor, EColor } from '../../public/colors'
 import { useMutation } from '@apollo/client'
 import ActiveLink from '../../components/common/Link'
 import { URL_BASE } from '../../apollo/urls'
 import { CREATE_CURRENT_SESSION } from './queries'
 import fetchJson from '../../components/hooks/fetchJson'
 import { useRouter } from 'next/router'
+import { Facebook, IconGoogleFullColor } from '../../public/icons'
 
-export const Login = () => {
+const Login = () => {
     const router = useRouter()
 
     const responseFacebook = response => {
@@ -56,7 +57,10 @@ export const Login = () => {
                     onFailure={responseGoogle}
                     cookiePolicy={'single_host_origin'}
                     render={renderProps => (
-                        <ButtonSubmit size='14px' colorFont='#717171' height='40px' color='2' onClick={renderProps.onClick} disabled={renderProps.disabled}>Continue with Google</ButtonSubmit>
+                        <div>
+
+                            <ButtonSubmit size='14px' colorFont='#717171' height='40px' color='2' onClick={renderProps.onClick} disabled={renderProps.disabled}><IconGoogleFullColor size='30px' /> Continue with Google<div style={{ width: 'min-content' }} /> </ButtonSubmit>
+                        </div>
                     )}
                 />
                 <FacebookLogin
@@ -65,7 +69,7 @@ export const Login = () => {
                     fields="name,email,picture"
                     callback={responseFacebook}
                     render={renderProps => (
-                        <ButtonSubmit size='14px' height='40px' color='1' onClick={renderProps.onClick} disabled={renderProps.disabled}>Login</ButtonSubmit>
+                        <ButtonSubmit type="button" size='14px' height='40px' color='1' onClick={renderProps.onClick} disabled={renderProps.disabled}><Facebook color={BGColor} size='30px' /> Login <div style={{ width: 'min-content' }} />    </ButtonSubmit>
                     )}
                 />
                 <ActiveLink activeClassName="active" href="/entrar/email">
@@ -77,3 +81,4 @@ export const Login = () => {
         </Content>
     )
 }
+export default Login

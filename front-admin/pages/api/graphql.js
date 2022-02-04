@@ -10,7 +10,7 @@ import resolvers from '../api/lib/resolvers/index'
 const cors = Cors()
 
 const apolloServer = new ApolloServer({
-    // resolvers,
+    resolvers,  
     typeDefs,
     introspection: true,
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground(), httpHeadersPlugin],

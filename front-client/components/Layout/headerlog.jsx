@@ -38,7 +38,6 @@ export const HeaderMain = ({ menu, handleMenu }) => {
     }, 1000);
   }, []);
   const size = useWindowSize();
-
   return (
     <ContentHeader>
       <HeaderMainC scrollNav={scrollNav} style={style} >
@@ -53,9 +52,9 @@ export const HeaderMain = ({ menu, handleMenu }) => {
           <InputSearch />
         </div>
         <div>
-          <RippleButton onClick={() => setShowModal(!showModal)}>Open</RippleButton>
+          <RippleButton onClick={() => handleMenu(1)}>Open</RippleButton>
         </div>
-        <Map setShowModal={setShowModal} modal={1} showModal={showModal} />
+        {/* <Map setShowModal={setShowModal} modal={1} showModal={showModal} /> */}
         <Options menu={menu} handleMenu={handleMenu} />
       </HeaderMainC>
     </ContentHeader>

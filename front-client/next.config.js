@@ -9,11 +9,15 @@ module.exports = {
             },
             {
                 source: '/admin',
-                destination: `${ ADMIN_URL }/admin`,
+                destination: `${ADMIN_URL}/admin`,
             },
             {
                 source: '/admin/:path*',
-                destination: `${ ADMIN_URL }/admin/:path*`,
+                destination: `${ADMIN_URL}/admin/:path*`,
+            },
+            {
+                source: '/api/:path*',
+                destination: 'http://localhost:3001/:path*',
             },
         ]
     },

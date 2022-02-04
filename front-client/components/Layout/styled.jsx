@@ -117,17 +117,40 @@ export const ButtonOption = styled.button`
     z-index: 999;
     background-color:  transparent;
     ${ props => props.space &&css`
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0;
+    & > span {
+        font-family: PFont-Light;
+        font-size: 12px;
+        background-color: #ea1d2c;
+        color: #FFFFFF;
+        border-radius: 50%;
+        padding: 1px;
+        place-content: center;
         display: flex;
-        justify-content: space-between;
-        width: 100%;
-        margin: 0;
-        & > span {
-            font-family: PFont-Light;
-            font-size: 14px;
-            color: ${ ({ theme }) => `${ theme.PColor }` };
-        }
+        align-items: center;
+        color: ${ ({ theme }) => `${ theme.PColor }` };
+    }
     ` }
     @media only screen and (min-width: 960px){
+    }
+    .count_product {
+    background-color: ${PColor};
+    color: ${BGColor};
+    border-radius: 50%;
+    padding: 1px;
+    height: 20px;
+    font-size: 12px;
+    width: 20px;
+    align-items: center;
+    display: flex;
+    place-content: center;
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+
     }
 `
 export const FloatingBox = styled.div`

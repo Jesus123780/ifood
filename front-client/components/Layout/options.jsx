@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Link from '../common/Link'
 
 import styled, { css } from 'styled-components'
@@ -7,9 +7,12 @@ import { useApolloClient } from '@apollo/client'
 import { FloatingBox, ButtonOption, FloatingBoxTwo, Overline } from './styled'
 import { IconLogout, IconMessageMain, IconShopping } from '../../public/icons'
 import { useRouter } from 'next/router'
+import { Context } from '../../context'
 
 export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
     const { client } = useApolloClient()
+    const { state_product_card } = useContext(Context)
+
     const [show, setShow] = useState(false)
     const location = useRouter()
     const onClickLogout = () => {
@@ -32,7 +35,6 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
     const activeSettings = () => {
         setActive(!activeLogin)
     }
-    console.log(handleMenu, 'HOAAAAAAAAAAAAA')
     return (
         <>
             <Overline onClick={() => setShow(!true)} show={show} />
@@ -44,7 +46,10 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
             <ButtonOption onClick={onClickLogout}>
                 <IconLogout size='20px' color={PColor} />
             </ButtonOption>
-            <ButtonOption onClick={handleMenu(2)}>
+            <ButtonOption onClick={() => handleMenu(1)}>
+                <div className="count_product">
+                    {state_product_card?.PRODUCT?.length <= 9 ? state_product_card?.PRODUCT?.length : '+9' }
+                </div>
                 <IconShopping size='25px' color={PColor} />
             </ButtonOption>
             <ContainerOption>

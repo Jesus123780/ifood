@@ -6,7 +6,7 @@ import Dashboard from '../../container/dashboard'
 import Context from '../../Context'
 import { decodeToken } from '../../utils'
 
-export default function DASHBOARD({ data }) {
+export default function DASHBOARD() {
   // const { setAlertBox } = useContext(Context)
   return <Dashboard />
 }
@@ -19,7 +19,7 @@ export const getServerSideProps = withSession(async function ({ req }) {
   if (!req.cookies[process.env.SESSION_NAME]) return { redirect: { destination: '/entrar' } }
 
   return {
-      props: { data: 'jesus'}
+      props: {}
   }
 }
 )

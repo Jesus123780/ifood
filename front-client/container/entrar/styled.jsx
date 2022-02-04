@@ -115,6 +115,10 @@ export const Card = styled.div`
             transform: translate(15vw,-23%);
         }
     }
+    img {
+        width: 300px;
+        height: 300px;
+    }
     &:before {
     content: "";
         min-width: 130vh;
