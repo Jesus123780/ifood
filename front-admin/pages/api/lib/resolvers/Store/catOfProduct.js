@@ -65,7 +65,7 @@ export const catProductsAll = async (root, args, context, info) => {
                 {
                     // ...whereSearch,
                     // get restaurant
-                    idStore: deCode(context.restaurant),
+                    // idStore: deCode(context.restaurant),
                     // get user
                     id: deCode(context.User.id),
                     // Productos state

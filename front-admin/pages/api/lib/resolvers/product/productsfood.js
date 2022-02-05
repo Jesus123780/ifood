@@ -96,6 +96,7 @@ export const productFoodsAll = async (root, args, context, info) => {
 }
 
 export const updateProductFoods = async (_root, { input }, context) => {
+    console.log(input, 0);
     const { sizeId, colorId, cId, dId, ctId, pId, pState } = input
     try {
         if (!pId) {

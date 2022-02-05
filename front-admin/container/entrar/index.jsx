@@ -33,6 +33,10 @@ export const Login = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
         }).then(res => {
+            console.log(res);
+            if (res.storeUserId) {
+                localStorage.setItem('restaurant', res.storeUserId)
+            }
             router.push('/dashboard')
             // if (res.success) {
             //     newRegisterUser({ variables: { input: { name: '23423', username: '3242', lastName: '3242', email: 'hola', password: googleId  } } })

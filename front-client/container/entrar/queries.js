@@ -4,6 +4,7 @@ export const CREATE_CURRENT_SESSION = gql`
 mutation  newRegisterUser($input: UserInput){
   newRegisterUser(input: $input){
     success
+    storeUserId
     message
   }
 }

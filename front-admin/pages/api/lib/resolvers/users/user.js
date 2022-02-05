@@ -9,7 +9,7 @@ import { deCode, enCode, getAttributes } from '../../utils/util'
 const { Op } = require('sequelize')
 
 export const newRegisterUser = async (root, input, _context, info) => {
-    console.log(input)
+    console.log(input.input)
     try {
         let res = {}
         const { name, password, email, username } = input
@@ -26,7 +26,6 @@ export const newRegisterUser = async (root, input, _context, info) => {
                 message: 'Session created.',
             }
         } else {
-            // const attributes = getAttributes(Users, info)
             const isExist = await Users.findOne({
                 attributes: ['id', 'email', 'password'],
                 where: {
@@ -35,17 +34,24 @@ export const newRegisterUser = async (root, input, _context, info) => {
                     ]
                 }
             })
+            const StoreInfo = await Store.findOne({
+                attributes: ['id', 'idStore'],
+                where:
+                    { id: deCode(isExist.id) }
+
+            })
             const tokenGoogle = {
                 name: name,
                 username: username,
+                restaurant: StoreInfo.idStore,
                 id: isExist.id
             }
             const tokenGo = await generateToken(tokenGoogle)
-            console.log(tokenGo, 'HANÑAAAAAAAAAA, 0', 9)
-            if (isExist && isExist.password === password ) {
+            if (isExist && isExist.password === password) {
                 return {
                     token: tokenGo,
                     roles: false,
+                    storeUserId: StoreInfo.idStore,
                     success: true,
                     message: `Bienvenido ${name}`,
                 }
@@ -59,13 +65,15 @@ export const newRegisterUser = async (root, input, _context, info) => {
                 return {
                     token: token,
                     roles: false,
+                    storeUserId: StoreInfo.idStore,
                     success: true,
                     message: 'Session created.',
                 }
             }
         }
     } catch (e) {
-        const error = new ApolloError('Lo sentimos, ha ocurrido un error interno', 400, error)
+        console.log(e);
+        const error = new ApolloError('Lo sentimos, ha ocurrido un error interno', 400)
         return error
     }
 }

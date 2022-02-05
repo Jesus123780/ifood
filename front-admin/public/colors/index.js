@@ -12,7 +12,7 @@ export const SFVColor = '#CCCCCC'
 export const SFAColor = '#364a63'
 /** Colores de placeholder */
 export const PLColor = '#4c4c4c'
-export const PLVColor = '#e1e1e1'
+export const PLVColor = '#f1f3f5'
 export const PLAColor = '#edf2f9'
 /** Colores de fondo */
 export const BColor = '#000000'

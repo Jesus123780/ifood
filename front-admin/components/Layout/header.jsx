@@ -47,18 +47,18 @@ export const Header = () => {
           </ActiveLink>
         </div>
         <AdicionalComponent>
-          {/* <Time>
+          <Time>
             <Timer>
-            {time}
+              {time}
             </Timer>
             <Timer style={customColor}>
-            {displayMessage}
+              {displayMessage}
             </Timer>
-          </Time> */}
-          {/* <UseSize>
+          </Time>
+          <UseSize>
             <Text>W:{size.width}px</Text>
             <Text>H:{size.height}px</Text>
-          </UseSize> */}
+          </UseSize>
         </AdicionalComponent>
         <Options />
       </>

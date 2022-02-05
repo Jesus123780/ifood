@@ -15,7 +15,6 @@ import { CREATE_FOOD_PRODUCT } from '../../dashboard/queries';
 import { GET_ONE_STORE } from '../../Restaurant/queries';
 import { convertBase64, getFileSizeByUnit } from '../../../utils';
 import { GET_ALL_PRODUCT_STORE } from '../../dashboard/queriesStore';
-// import Dragula from 'react-dragula';
 export const Food = () => {
     const [errors, setErrors] = useState({})
     const [values, setValues] = useState({})

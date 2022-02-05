@@ -96,6 +96,7 @@ type AuthPayload {
     success: Boolean
     isVerifyEmail: Boolean
     message: String
+    storeUserId: ID
     userId: ID
     refreshToken: String,
     newRefreshToken: String

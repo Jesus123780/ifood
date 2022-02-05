@@ -1,17 +1,17 @@
 import styled, { css } from "styled-components";
-import { BGColor, PSColor, SECColor } from "../../public/colors";
+import { BGColor, EColor, PLAColor, PLVColor, PSColor, PVColor, SECColor } from "../../public/colors";
 
 export const ContentTitles = styled.div`
     display: flex;
     align-items:center;
     margin: 10px 0;
     padding-left: 15px;
-    ${ ({ column }) => column && css`
+    ${({ column }) => column && css`
         flex-direction: column;
         justify-content:center;
         align-items:flex-start};
     ` }
-    justify-content: ${ ({ justify })=> justify ? justify : 'start' };
+    justify-content: ${({ justify }) => justify ? justify : 'start'};
     @media (max-width: 768px) {
         width: 100px;
         max-width: 100px;
@@ -158,6 +158,21 @@ export const ContentItems = styled.div`
 export const CheckBoxWrapper = styled.div`
   position: relative;
 `
+export const ContentList = styled.div`
+    /* border: 1px solid red; */
+    display: grid;
+    overflow: hidden;
+    padding: 10px;
+    gap: 5px;
+    background-color: ${`${PLVColor}90`};
+    margin: 0px 10px; 
+    width: 100%;
+    `
+export const Title = styled.h5`
+    font-family: PFont-Light;
+    font-size: 16px;
+
+`
 export const CheckBoxLabel = styled.label`
   position: absolute;
   top: 0;
@@ -202,6 +217,30 @@ export const ArrowsLabel = styled.label`
 
 `
 // pagination
+export const Input = styled.input`
+    overflow: hidden;
+    border: 2px solid transparent;
+    outline: none;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 10px 0px;
+    &&:focus {
+        border: 2px solid ${PVColor};
+    }
+`
+export const CicleStatus = styled.div`
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    background-color: ${({ status })=> status === 'To do' && PVColor};
+`
+export const CardsComponent = styled.div`
+    background-color: ${BGColor};
+    padding: 15px;
+    border-radius: 1%;
+    height: 100px;
+    min-height: 100px;
+`
 export const ButtonPagination = styled.button`
     background-color: ${BGColor};
     padding: 15px;
@@ -210,7 +249,7 @@ export const ButtonPagination = styled.button`
     max-height: 50px;
     min-width: 50px;
     max-width: 50px;
-    ${props => props.Active &&css`
+    ${props => props.Active && css`
     border: 1px solid ${`${SECColor}78`};
         color: ${PSColor};
     `}

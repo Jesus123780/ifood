@@ -31,10 +31,11 @@ export const newRegisterStore = async (_, { input }, ctx) => {
     }
 }
 export const getStore = async (_root, { id, StoreName, idStore }, context, info) => {
+    console.log('DATA USER', 0);
     const attributes = getAttributes(Store, info)
     const data = await Store.findOne({
         attributes,
-        where: { idStore: deCode(context.restaurant) }
+        where: { idStore: deCode(context.restaurant), id: deCode(context.User.id) }
         // where: { id: deCode('NjUzMDEzMTU1NjQzNjM5NTAwMA==') }
     })
     return data

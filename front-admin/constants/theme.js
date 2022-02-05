@@ -71,3 +71,6 @@ export const darkTheme = {
     InpBorColor: '#40465a',
     BVColor: '#009efb',
 }
+const chartColor = ['#feca7a', '#f79663', '#d84774', '#16d8d8', '#00acb3', '#f4511e', '#ffa000', '#c0ca33', '#0288d1', '#26a69a', '#ff3169', '#9f49a3', '#e0e0e0']
+
+export const RandomColor = chartColor[(Math.random() * (12 - 0) + 0).toFixed(0)]

@@ -83,12 +83,36 @@ export const getFoodAllProduct = async (root, args, context, info) => {
     })
     return data
 }
+const expensesCredits = async (parent, { i_id, fromDate, toDate, state, order, limit }, { user }, info) => {
+    try {
+        if (!user?.auth) throw new ApolloError('Es necesario iniciar sesión.', 403)
+
+        const data = await ExpensesCreditsModel.findAll({
+            attributes: getAttributes(ExpensesCreditsModel, info),
+            where: {
+                ...((parent?.i_id || i_id) ? deCode(parent?.i_id || i_id) : {}),
+                ...((fromDate && toDate) ? { ec_datInc: { [Op.between]: [fromDate, `${toDate} 23:59:59`] } } : {}),
+                ec_state: state ? { [Op.or]: state } : 1
+            },
+            order: order || [['ec_consecutive', 'ASC']],
+            ...(limit ? { limit } : {})
+        })
+
+        if (!data.length && !parent?.i_id) throw new ApolloError('No se ha encontrado ningún resultado.', 404)
+        return data
+    } catch (error) {
+        if (parent?.i_id) return []
+        throw new ApolloError(error || 'Lo sentimos, ha ocurrido un error interno.', error.extensions?.code || 500)
+    }
+}
+
 export default {
     TYPES: {
 
     },
     QUERIES: {
-        getFoodAllProduct
+        getFoodAllProduct,
+        getStore
     },
     MUTATIONS: {
         newRegisterFoodProduct,
