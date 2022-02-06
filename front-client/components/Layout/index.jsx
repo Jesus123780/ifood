@@ -24,7 +24,7 @@ export const Layout = ({ keyTheme, handleTheme, children }) => {
                 {!isSession && !['/login', '/', '/entrar', '/restaurantes', '/entrar/email', '/entrar/email/[verify]', '/register', '/varify-email', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => x === location.pathname) && <Header />}
                 {!isSession && !['/login', '/', '/entrar/email', '/entrar', '/contact'].find(x => x === location.pathname) && <HeaderMain handleMenu={handleMenu} menu={menu} />}
                 {!isSession && !['/login', '/', '/entrar/email',  '/entrar', '/contact'].find(x => x === location.pathname) && <AsideCheckoutC handleMenu={handleMenu} menu={menu} />}
-                <div style={{ gridArea: 'main', overflowY: 'auto' }}>
+                <div style={{ gridArea: 'main'  }}>
                     {children}
                 </div>
                 {!['/login', '/register', '/varify-email', '/restaurante', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => x === location.pathname) && <Footer />}

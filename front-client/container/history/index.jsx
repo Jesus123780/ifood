@@ -8,12 +8,10 @@ import { useRouter } from 'next/router'
 export const History = () => {
     const [close, setClose] = useState(false)
     const [name, setName] = useState(false)
-    console.log(close)
     const location = useRouter()
+
     function capFirst(string) {
-        if (typeof string !== 'undefined') {
-            return string?.charAt(0)?.toUpperCase() + string?.slice(1);
-        }
+        return string?.charAt(0)?.toUpperCase() + string?.slice(1);
     }
 
     function getRandomInt(min, max) {
@@ -21,9 +19,9 @@ export const History = () => {
     }
     useEffect(() => {
         var name1 = ["Comida china", 'arroz', 'Pollo', 'Comida'];
-        var name = capFirst(name1[getRandomInt(0, name1.length + 1)]);
+        var name = capFirst(name1[getRandomInt(0, name1.length - 1)]);
         setName(name)
-    }, [])
+    }, [name, setName])
     const dataArray = [
         {
             name: 'Comida 1',

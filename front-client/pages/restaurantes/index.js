@@ -8,6 +8,7 @@ import { useContext } from 'react'
 import { Context } from '../../context'
 import { PromosBanner } from '../../container/restaurantes/PromosBanner'
 import { Section } from '../../container/restaurantes/styled'
+import { ListRestaurant } from '../../container/restaurantes/restaurant'
 
 export default function RestaurantHome() {
   const { data } = useQuery(GET_ONE_STORE)
@@ -25,6 +26,9 @@ export default function RestaurantHome() {
       </Section>
       <Section>
         <Restaurant />
+      </Section>
+      <Section>
+        <ListRestaurant />
       </Section>
     </div>
   )

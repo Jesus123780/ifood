@@ -1,6 +1,27 @@
 import styled from "styled-components";
 import { BColor, SFVColor } from "../../public/colors";
 
+export  const ItemWrapper = styled.div`
+    height: min-content;
+    padding: 10px;
+    border-radius: 4px;
+    grid-template-columns: 85px 1fr;
+    grid-column-gap: 20px;
+    cursor: pointer;
+    padding: 16px;
+    &:hover {
+        background-color: ${`${SFVColor}69`};
+    }
+`
+export  const MerchantListWrapper = styled.div`
+    @media only screen and (min-width: 560px) {
+        grid-template-columns: repeat(auto-fill,minmax(360px,1fr));
+    }
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(280px,1fr));
+    grid-gap: 0;
+    gap: 0;
+`
 export  const Content = styled.div`
     margin: auto;
     box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
@@ -14,6 +35,30 @@ export  const Content = styled.div`
 `
 export  const Section = styled.div`
   margin: 30px 0;
+
+
+.merchant-list-v2 {
+    line-height: 1.15;
+    display: grid;
+    grid-gap: 0;
+    gap: 0;
+    grid-template-columns: repeat(auto-fill,minmax(360px,1fr));
+    
+}
+.cardstack-component-header {
+    font-size: 16px;
+    box-sizing: border-box;
+    margin: 0 0 10px;
+    margin-bottom: 24px;
+}
+.merchant-list-v2__item-wrapper{
+    line-height: 1.15;
+    font-size: 16px;
+    transition: .2s;
+    height: min-content;
+    border-radius: 4px;
+    text-decoration: none;
+}
   `
 export const ItemCategory = styled.div`
     width: 100%;
