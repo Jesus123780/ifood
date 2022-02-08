@@ -14,6 +14,7 @@ export const Layout = ({ keyTheme, handleTheme, children }) => {
     const { error, isSession, setAlertBox } = useContext(Context)
     useEffect(() => {
         setAlertBox({ message: '', color: 'success' })
+        console.log(window.navigator.userAgent)
     }, [])
     return (
         <>

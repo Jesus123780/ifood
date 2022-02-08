@@ -5,6 +5,7 @@ import { newRegisterUser } from "../lib/resolvers/users/user"
 
 export default withSession(async (req, res) => {
     const { name, username, lastName, email, password } = req.body
+    console.log(name, username, lastName, email, password)
     try {
         const { token, message, success, roles, storeUserId } = await newRegisterUser(null, { name, username, lastName, email, password })
         if (success) {

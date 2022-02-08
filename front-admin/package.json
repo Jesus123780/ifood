@@ -34,6 +34,7 @@
     "mysql2": "^2.3.3",
     "next": "^12.0.10",
     "next-iron-session": "^4.2.0",
+    "node-device-detector": "^1.4.3",
     "nodemailer": "^6.7.2",
     "react": "17.0.2",
     "react-beautiful-dnd": "^13.1.0",

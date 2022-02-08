@@ -41,6 +41,8 @@ type ProductFood {
     # Marca
     mark: Trademark
     color: Color
+    getStore: Store
+    ExtProductFoodsAll: [ExtProductFood]
 }
 # Inputs
 input ICategories {
@@ -60,7 +62,7 @@ input InputProductFood {
     dId: ID #Department
     ctId: ID #Cuidad
     idStore: ID #Store
-    caId: ID #Categorías de productFoodos
+    caId: ID #Categorías de productFood
     fId: ID #Características principales
     pName: String
     ProPrice: String

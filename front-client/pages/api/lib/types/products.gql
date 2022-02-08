@@ -38,25 +38,12 @@ input IProduct {
     pPhoto: String
     idRef: String
 }
-
-
-
-
-
-
-
-
-
-
 # Query
 type Query {
     "GET ALL PRODUCTS AND GET ONE PRODUCT FROM MONGODB"
   getProductsForCompany(idComp: ID): [Product]
   getProductsOneForCompany(_id: ID, idComp: ID): [Product]
   getProductsOne(_id: ID): [Product]
-
-
-
 }
 
 # Mutations

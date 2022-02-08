@@ -4,7 +4,7 @@ import { BGColor } from '../colors'
 export const GlobalStyle = createGlobalStyle`
     * {
         box-sizing: border-box;   
-
+        scroll-behavior: smooth;
     }
 
     html {
@@ -150,13 +150,6 @@ export const GlobalStyle = createGlobalStyle`
     textarea {
         overflow: auto;
     }
-    
-    [type="checkbox"],
-    [type="radio"] {
-        box-sizing: border-box;
-        padding: 0;
-    }
-
     [type="number"]::-webkit-inner-spin-button,
     [type="number"]::-webkit-outer-spin-button {
         height: auto;

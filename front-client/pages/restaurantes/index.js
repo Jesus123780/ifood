@@ -13,7 +13,6 @@ import { ListRestaurant } from '../../container/restaurantes/restaurant'
 export default function RestaurantHome() {
   const { data } = useQuery(GET_ONE_STORE)
   const { setAlertBox, dispatch, state_product_card } = useContext(Context)
-  console.log(state_product_card, 'HOLA ERRO');
   return (
     <div className={styles.container}>
       <Head>

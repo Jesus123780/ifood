@@ -56,7 +56,7 @@ const ContractSignature = props => {
             }
         })
 
-    console.log(color)
+  
     const [dataUser] = useUser()
     const router = useRouter()
     const { data } = useQuery(GET_ONE_STORE)

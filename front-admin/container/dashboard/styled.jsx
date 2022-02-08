@@ -1,6 +1,6 @@
 import styled, { css, keyframes } from 'styled-components'
 import { StyleSheet } from '@react-pdf/renderer'
-import { BColor, BGColor, EColor, ESFColor, PColor, SECColor, PVColor, TBGSColor, BGVColor } from '../../public/colors'
+import { BColor, BGColor, EColor, ESFColor, PColor, SECColor, PVColor, TBGSColor, BGVColor, SFVColor } from '../../public/colors'
 import { fadeIn, fadeOut } from '../../components/AlertBox/styled'
 import { BG_ANIMATION_ } from '../../components/animations'
 
@@ -55,6 +55,83 @@ export const Options = styled.div`
       align-items: flex-end;
   `}
 `
+export  const MerchantListWrapper = styled.div`
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(280px,1fr));
+    gap: 10px;
+    @media only screen and (min-width: 560px) {
+        grid-template-columns: repeat(auto-fill,minmax(360px,1fr));
+    }
+`
+export const CardProductsContent = styled.div`
+    width: 100%;  
+    border: 1px solid #ccc;
+    height: min-content;
+    padding: 10px;
+    border-radius: 4px;
+    grid-template-columns: 5fr 140px;
+    grid-column-gap: 20px;
+    cursor: pointer;
+    display: grid;
+    padding: 16px;
+    .Name {
+      margin-bottom: 10px;
+      font-size: 16px;
+      font-family: PFont-Light;
+    }
+    .store_info {
+      color: ${`${BGVColor}`};
+    }
+    .store_image{
+      background-color: ${BGColor};
+      box-shadow: 1px 1px 10px #00000012;
+    }
+    `
+export const CardProductsModal = styled(CardProductsContent)`
+  border: none;
+  padding: 0px;
+  grid-template-columns: 1fr 50%;
+  @media (max-width: 768px) {
+    grid-template-columns: 100%;
+  }
+`
+export const Flex = styled.div`
+  display: flex;
+  width: 100%;
+  `
+export const DisRestaurant = styled.div`
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(63,62,62,.1);
+    border-radius: 4px;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    height: auto;
+    padding: 11px 20px;
+    .dish-observation-form__label {
+      line-height: 1.15;
+      font-weight: 500;
+      font-size: 1rem;
+      color: #717171;
+    }
+    .dish-restaurant__header {
+      line-height: 1.15;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .dish-restaurant__divisor {
+      line-height: 1.15;
+      font-size: 16px;
+      cursor: pointer;
+      box-sizing: border-box;
+      border-top: 2px dashed #f2f2f2;
+      margin: 8px 0;
+    }
+`
 export const Wrapper = styled.div`
     padding: 30px;
     /* animation: 2s linear 0s infinite normal none ${BG_ANIMATION_}; */
@@ -62,7 +139,6 @@ export const Wrapper = styled.div`
     margin: auto;
     position: relative;
     ${props => props.center && css`
-
     display: grid;
     `}
     margin: auto;
@@ -711,7 +787,6 @@ export const List = styled.div`
     }
 `
 export const Container = styled.div`
-  overflow: auto;
   position: relative;
   background-color: ${BGColor};
   flex-wrap: wrap;
@@ -861,6 +936,30 @@ export const Header = styled.div`
   background-color: #cb1d6c;
   padding: 20px;
   display: block;
+`
+export const HeadCategory = styled.div`
+  height: auto;
+  background-color: ${BGColor};
+  width: 100%;
+  margin: 35px 0;
+  box-shadow: inset 0 -1px 0 #dcdcdc;
+  & > button {
+    background-color: ${BGColor};
+  }
+`
+
+export const HeadSticky = styled.div`
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    padding: 5px 0;
+    width: 100%;
+`
+export const ContentInfo = styled.div`
+    overflow-y: auto;
+    height: 400px;
+    min-height: 400px;
+    max-height: 400px;
 `
 export const Text = styled.span`
     font-size: ${({ size }) => size || '12px'};

@@ -150,8 +150,6 @@ export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
         })
     }
     // const newTags = dataForm?.tags?.map(x => ({ _id: x.id, TName: x.tName }))
-
-    console.log(product?.PRODUCT?.map(x => ({ idProduct: x.pId })))
     return (
         <>
             <AwesomeModal backdrop='static' zIndex='90' bgColor='transparent' padding='25px' height='600px' show={SHOW_CATEGORIES.state} onHide={() => { SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state) }} onCancel={() => false} size='1000px' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >

@@ -168,6 +168,8 @@ export const Card = ({ card, index }) => {
 }
 
 
+
+
 export const CustomTable2 = props => {
     const [statusToggle, setItemsToggle] = useState(false)
     const [openMenuActions, setOpenMenuActions] = useState(false)

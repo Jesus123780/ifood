@@ -1,0 +1,38 @@
+# types
+type ExtProductFood {
+    pId: ID!
+    exPid: ID
+    exState: Int
+    extraName: String
+    extraPrice: Float
+    state: Int
+    pDatCre: DateTime
+    pDatMod: DateTime
+}
+# Inputs    
+input InputExtProductFood {
+    pId: ID!
+    exPid: ID
+    exState: Int
+    extraName: String
+    extraPrice: Float
+    state: Int
+    pDatCre: DateTime
+    pDatMod: DateTime
+}
+input ILineItemsExtraFinal {
+    setData: [InputExtProductFood]
+}
+# Queries
+type Query {
+    "Consulta todos los ExtProductFood"
+    ExtProductFoodsOne(pId: ID, cId: ID, dId: ID, ctId: ID ): ExtProductFood
+    ExtProductFoodsAll(pId: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int  ): [ExtProductFood]
+    ExtProductFoodsLogis(pId: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int  ): [ExtProductFood]
+}
+# Mutations
+type Mutation {
+    "Registra un ExtProductFood"
+     updateExtProductFoods(input: InputExtProductFood): ExtProductFood
+     updateMultipleExtProductFoods(inputLineItems: ILineItemsExtraFinal): ExtProductFood
+}

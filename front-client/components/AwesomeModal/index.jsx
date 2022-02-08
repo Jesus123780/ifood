@@ -48,7 +48,6 @@ export const AwesomeModal = ({
     useEffect(() => {
         setState(show)
     }, [show])
-    console.log(backdrop)
     const onBackdropHide = e => {
         e.preventDefault()
         if (backdrop === 'static') return 0

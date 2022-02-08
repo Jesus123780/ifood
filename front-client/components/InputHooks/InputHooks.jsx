@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint no-console: "error" */
 /* eslint no-console: ["error", { allow: ["warn"] }] */
-import React, { useEffect, useReducer, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { BoxInput, InputV, LabelInput, ShowPass, Tooltip, TextAreaInput, Listbox, List } from './styled'
 import { IconNoShow, IconShowEye } from '../../public/icons'
@@ -288,25 +288,11 @@ const InputHooks = ({
   )
 }
 
-/**
- * import React, { useCallback, useEffect, useState } from "react";
 
-interface CheckboxProps {
-  name: string;
-  checkAll: boolean;
-  defaultChecked?: boolean;
-  onCheck: (name: string) => void;
-}
-
-export const Checkbox = ({
-  name,
-  checkAll,
-  defaultChecked,
-  onCheck
-}: CheckboxProps) => {
+export const Checkbox = ({ name, checkAll, defaultChecked, onCheck }) => {
   const [checked, setChecked] = useState(defaultChecked);
   const handleCheck = useCallback(
-    (name: string) => {
+    (name) => {
       setChecked(!checked);
       onCheck(name);
     },
@@ -340,7 +326,7 @@ export const Checkbox = ({
     />
   );
 };
- */
+ 
 
 InputHooks.propTypes = {
   onBlur: PropTypes.func,

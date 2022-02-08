@@ -9,7 +9,8 @@ import { deCode, enCode, getAttributes } from '../../utils/util'
 const { Op } = require('sequelize')
 
 export const newRegisterUser = async (root, input, _context, info) => {
-    console.log(input.input)
+    console.log(input, 0)
+
     try {
         let res = {}
         const { name, password, email, username } = input

@@ -19,7 +19,13 @@ export const ListRestaurant = () => {
     },
     {
       idStore: 1,
-      storeName: 'Remo',
+      storeName: 'El Perro',
+      location: 'location',
+
+    },
+    {
+      idStore: 1,
+      storeName: 'La papada',
       location: 'location',
 
     },
@@ -49,13 +55,7 @@ export const ListRestaurant = () => {
     },
     {
       idStore: 1,
-      storeName: 'Remo',
-      location: 'location',
-
-    },
-    {
-      idStore: 1,
-      storeName: 'Remo',
+      storeName: 'Pizza big',
       location: 'location',
 
     },
@@ -98,6 +98,7 @@ export const ListRestaurant = () => {
             <a>
               <ItemWrapper key={x.idStore}>
                 <Image
+                className='store_image'
                   width={100}
                   height={100}
                   src={'/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
@@ -106,7 +107,10 @@ export const ListRestaurant = () => {
                   placeholder="blur" // Optional blur-up while loading
 
                 />
-                {x.storeName}
+                <div>
+                  <h2 className="Name">{x.storeName}</h2>
+                <span className="store_info">x Tipica * 1.7</span>  
+                </div>
               </ItemWrapper>
             </a>
           </Link>

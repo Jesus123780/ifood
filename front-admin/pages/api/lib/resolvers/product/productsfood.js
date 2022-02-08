@@ -6,12 +6,13 @@ import CitiesModel from '../../models/information/CitiesModel'
 import colorModel from '../../models/information/color'
 import CountriesModel from '../../models/information/CountriesModel'
 import DepartmentsModel from '../../models/information/DepartmentsModel'
+import ExtraProductModel from '../../models/product/productExtras'
 import productModelFood from '../../models/product/productFood'
 import trademarkModel from '../../models/product/trademark'
 import Store from '../../models/Store/Store'
 import ThirdPartiesModel from '../../models/thirdParties/ThirdPartiesModel'
 import { LoginEmail } from '../../templates/LoginEmail'
-import { deCode, filterKeyObject, getAttributes } from '../../utils/util'
+import { deCode, filterKeyObject, getAttributes, linkBelongsTo } from '../../utils/util'
 const { Op } = require('sequelize')
 
 export const productsOne = async (root, { pId }, context, info) => {
@@ -24,6 +25,29 @@ export const productsOne = async (root, { pId }, context, info) => {
                     {
                         // ID Productos
                         pId: pId ? deCode(pId) : { [Op.gt]: 0 },
+                    }
+                ]
+            }
+        })
+        return data
+    } catch (e) {
+        const error = new Error('Lo sentimos, ha ocurrido un error interno o el producto no esta  registrado, Vuelve a intentarlo mas tarde.')
+        return error
+    }
+}
+// GET ONE PRODUCTS FOOD
+export const productFoodsOne = async (root, { pId }, context, info) => {
+    try {
+        const attributes = getAttributes(productModelFood, info)
+        const data = await productModelFood.findOne({
+            attributes,
+            where: {
+                [Op.or]: [
+                    {
+                        // ID Productos
+                        pId: pId ? deCode(pId) : { [Op.gt]: 0 },
+                        // ID STORE
+                        // idStore: deCode(context.restaurant),
                     }
                 ]
             }
@@ -66,7 +90,7 @@ export const productFoodsAll = async (root, args, context, info) => {
         if (categories?.length) {
             whereSearch = {
                 ...whereSearch,
-            caId: { [Op.in]: categories.map(x => deCode(x)) }
+                caId: { [Op.in]: categories.map(x => deCode(x)) }
             }
         }
         const attributes = getAttributes(productModelFood, info)
@@ -163,8 +187,39 @@ export const productsLogis = async (root, args, context, info) => {
         return error
     }
 }
+
 export default {
     TYPES: {
+        ProductFood: {
+            ExtProductFoodsAll: async (parent, _args, _context, info) => {
+                // linkBelongsTo(ExtraProductModel, productModelFood, 'exPid', 'pId')
+                console.log(1);
+                try {
+                    const attributes = getAttributes(ExtraProductModel, info)
+                    const data = await ExtraProductModel.findAll({
+                        attributes,
+                        where: { pId: deCode(parent.pId) }
+                    })
+                    return data
+                } catch {
+                    return null
+                }
+            },
+            getStore: async (parent, _args, _context, info) => {
+                // linkBelongsTo(ExtraProductModel, productModelFood, 'exPid', 'pId')
+                console.log(1);
+                try {
+                    const attributes = getAttributes(Store, info)
+                    const data = await Store.findOne({
+                        attributes,
+                        where: { idStore: deCode(parent.idStore) }
+                    })
+                    return data
+                } catch {
+                    return null
+                }
+            },
+        },
         Product: {
             thirdParties: async parent => {
                 try {
@@ -198,6 +253,7 @@ export default {
                     return null
                 }
             },
+
             feat: async (parent, _args, _context, info) => {
                 try {
                     const attributes = getAttributes(Feature, info)
@@ -274,6 +330,7 @@ export default {
     },
     QUERIES: {
         productFoodsAll,
+        productFoodsOne,
         productsOne
     },
     MUTATIONS: {

@@ -11,7 +11,6 @@ export const PromosBanner = () => {
   // STATES
   const { dispatch, setAlertBox, state_product_card, handleMenu } = useContext(Context)
   const [color, setActiveColor] = useState(null)
-  console.log(color)
   // HANDLES
   const handleAddProduct = elem => {
     handleMenu(1)

@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
-import { BColor, BGColor, PColor, PLColor, TBGBColor } from '../../public/colors'
-import { Loading } from '../../components/Loading'
+import { BColor, BGColor, PColor, PLColor, TBGBColor, APColor } from '../../public/colors'
+import { Loading, SpinnerColor, SpinnerColorJust } from '../../components/Loading'
 import { RippleButton } from '../../components/Ripple'
 import Link from 'next/link'
+import Image from 'next/image'
 import router, { useRouter } from 'next/router'
-import { Avatar, Card, CardPrimary, Container, Content, Text, Wrapper, WrapperRow, CardOverFloW, CircleCompany, ButtonTheme, SwitchButton, ContentToggle, OlList, FeedItem, ItemTeam, ItemInf, CardDevice, LateralModal } from './styled'
+import { Avatar, Card, CardPrimary, Container, Content, Text, Wrapper, WrapperRow, CardOverFloW, CircleCompany, ButtonTheme, SwitchButton, ContentToggle, OlList, FeedItem, ItemTeam, ItemInf, CardDevice, LateralModal, HeadCategory, CardProductsContent, MerchantListWrapper, CardProductsModal, Flex, DisRestaurant, ContentInfo, HeadSticky } from './styled'
 import { useFormTools } from '../../components/BaseForm'
-import { ActionName, ButtonAction, ButtonCard, InputFile, MerchantBanner, MerchantBannerWrapperInfo, MerchantInfo, MerchantInfoTitle, RestaurantColumn, WrapperOptions } from './styledStore'
 import { GET_ONE_STORE } from '../Restaurant/queries'
 import { IconDelete, IconEdit, IconLogo, IconPromo } from '../../public/icons'
 import { Food } from '../update/Products/food'
@@ -22,23 +22,28 @@ import { ManageCategories } from './manageCategories'
 import { AddEmployee } from '../searchAddTeam'
 import { GET_ALL_PRODUCT_STORE } from './queriesStore'
 import { CardProduct } from '../../components/Update/Products/styled'
+import { ActionName, ButtonAction, ButtonCard, ContentCategoryProducts, InputFile, Section, MerchantBannerWrapperInfo, MerchantInfo, MerchantInfoTitle, RestaurantColumn, WrapperOptions } from './styledStore'
+import InputHooks from '../../components/InputHooks/InputHooks'
+import { GET_ONE_PRODUCTS_FOOD } from '../producto/queries'
+import { ExtrasProductsItems } from '../producto/extras'
 
 const DashboardStore = ({ StoreId }) => {
     // STATE
     const location = useRouter()
     const loading = false
     const [open, setOpen] = useState(true)
-    const [baseHandle, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
+    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
     const SHOW_MODAL_UPDATE_PRODUCTS = useSetState(false)
     const SHOW_MANAGE_CATEGORIES = useSetState(false)
     const SHOW_MANAGE_EMPLOYEE = useSetState(false)
+    const SET_OPEN = useSetState(false)
     const [searchFilter, setSearchFilter] = useState({ gender: [], desc: [], speciality: [] })
     const [search, setSearch] = useState('')
     const [dataProCat, setData] = useState([])
     const [showMore, setShowMore] = useState(100)
-
+    const refInput = useRef()
     // QUERY
-    const [getCatProductsWithProduct, { data: dataProductAndCategory }] = useLazyQuery(GET_ALL_CATEGORIES_WITH_PRODUCT, {
+    const [getCatProductsWithProduct, { data: dataProductAndCategory, loading: loadCatPro }] = useLazyQuery(GET_ALL_CATEGORIES_WITH_PRODUCT, {
         fetchPolicy: 'network-only',
         variables:
         {
@@ -48,13 +53,13 @@ const DashboardStore = ({ StoreId }) => {
             categories: searchFilter?.speciality,
         }
     })
-    console.log(dataProductAndCategory)
     useEffect(() => {
         dataProductAndCategory?.getCatProductsWithProduct && setData([...dataProductAndCategory?.getCatProductsWithProduct])
     }, [dataProductAndCategory, searchFilter])
     useEffect(() => {
         getCatProductsWithProduct({ variables: { max: showMore } })
     }, [searchFilter, showMore])
+
     // HANDLES
     const HandleClickEdit = item => {
         // create func
@@ -119,18 +124,23 @@ const DashboardStore = ({ StoreId }) => {
         e.preventDefault()
         fileInputRef.current.click()
     }
+    const handleBlur = () => {
+        SET_OPEN.setState(false)
+    }
     // HANDLE_SUBMIT
     // const [newRegisterFoodProduct, { loading, error }] = useMutation(CREATE_FOOD_PRODUCT, {
     //     onCompleted: () => {
     //     }
     // })
     console.log(dataProCat)
+    // if (loadCatPro) return  <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNjAwIDMyMDAiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KICAgIDxzdHlsZT4KICAgICAgICBzdmcgewogICAgICAgICAgICBmb250LXNpemU6IDE2cHg7CiAgICAgICAgfQoKICAgICAgICAvKioKICAgICAgICAqIEFkYXB0aXZlIG1lZGlhIHF1ZXJpZXMgdGlsbCAyNDAwcHggd2lkZSBnZW5lcmF0ZWQgdmlhIGh0dHBzOi8vY29kZXBlbi5pby9qYWtvYnVkL3Blbi92bUtMWWIKICAgICAgICAqIFZhbHVlczogJG1hcDogKDEyMDBweDogMjEuMzNweCwgMTYwMHB4OiAxNnB4LCAyNDAwcHg6IDEwLjY2N3B4LCAzMjAwOiA4cHgsIDQyMDA6IDYuMXB4KTsKICAgICAgICAqLwoKICAgICAgICBAbWVkaWEgKG1pbi13aWR0aDogMTAwcHgpIHsKICAgICAgICAgICAgc3ZnIHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogY2FsYygtMTcwLjd2dyArIDQyNi43cHgpOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBAbWVkaWEgKG1pbi13aWR0aDogMTUwcHgpIHsKICAgICAgICAgICAgc3ZnIHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogY2FsYygtODUuM3Z3ICsgMjk4LjZweCk7CiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIEBtZWRpYSAobWluLXdpZHRoOiAyMDBweCkgewogICAgICAgICAgICBzdmcgewogICAgICAgICAgICAgICAgZm9udC1zaXplOiBjYWxjKC00Mi42NnZ3ICsgMjEzLjMycHgpOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBAbWVkaWEgKG1pbi13aWR0aDogMzAwcHgpIHsKICAgICAgICAgICAgc3ZnIHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogY2FsYygtMjEuMzR2dyArIDE0OS4zNnB4KTsKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgQG1lZGlhIChtaW4td2lkdGg6IDQwMHB4KSB7CiAgICAgICAgICAgIHN2ZyB7CiAgICAgICAgICAgICAgICBmb250LXNpemU6IGNhbGMoLTEyLjh2dyArIDExNS4ycHgpOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBAbWVkaWEgKG1pbi13aWR0aDogNTAwcHgpIHsKICAgICAgICAgICAgc3ZnIHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogY2FsYygtOC41NHZ3ICsgOTMuOXB4KTsKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgQG1lZGlhIChtaW4td2lkdGg6IDYwMHB4KSB7CiAgICAgICAgICAgIHN2ZyB7CiAgICAgICAgICAgICAgICBmb250LXNpemU6IGNhbGMoLTUuMzN2dyArIDc0LjY0cHgpOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBAbWVkaWEgKG1pbi13aWR0aDogODAwcHgpIHsKICAgICAgICAgICAgc3ZnIHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogY2FsYygtMy4ydncgKyA1Ny42cHgpOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBAbWVkaWEgKG1pbi13aWR0aDogMTAwMHB4KSB7CiAgICAgICAgICAgIHN2ZyB7CiAgICAgICAgICAgICAgICBmb250LXNpemU6IGNhbGMoLTIuMTM1dncgKyA0Ni45NXB4KTsKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgQG1lZGlhIChtaW4td2lkdGg6IDEyMDBweCkgewogICAgICAgICAgICBzdmcgewogICAgICAgICAgICAgICAgZm9udC1zaXplOiBjYWxjKC0xLjMzMjV2dyArIDM3LjMycHgpOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBAbWVkaWEgKG1pbi13aWR0aDogMTYwMHB4KSB7CiAgICAgICAgICAgIHN2ZyB7CiAgICAgICAgICAgICAgICBmb250LXNpemU6IGNhbGMoLTAuNjY2N3Z3ICsgMjYuNjdweCk7CiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIEBtZWRpYSAobWluLXdpZHRoOiAyNDAwcHgpIHsKICAgICAgICAgICAgc3ZnIHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogY2FsYygtMC4zMzMzN3Z3ICsgMTguNjdweCk7CiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIEBtZWRpYSAobWluLXdpZHRoOiAzMjAwcHgpIHsKICAgICAgICAgICAgc3ZnIHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogY2FsYygtMC4xOXZ3ICsgMTQuMDhweCk7CiAgICAgICAgICAgIH0KICAgICAgICB9CgoKICAgICAgICByZWN0Om5vdChbZmlsbF0pIHsKICAgICAgICAgICAgZmlsbDogdXJsKCNsaW5lYXIpOwogICAgICAgIH0KCiAgICAgICAgcmVjdCB7CiAgICAgICAgICAgIHJ4OiAwLjI1ZW07CiAgICAgICAgfQoKICAgICAgICBjaXJjbGU6bm90KFtmaWxsXSkgewogICAgICAgICAgICBmaWxsOiB1cmwoI2xpbmVhcik7CiAgICAgICAgfQoKICAgICAgICBsaW5lOm5vdChbZmlsbF0pIHsKICAgICAgICAgICAgc3Ryb2tlOiB1cmwoI2xpbmVhcik7CiAgICAgICAgfQoKICAgICAgICBsaW5lIHsKICAgICAgICAgICAgc3Ryb2tlLXdpZHRoOiAwLjE1ZW07CiAgICAgICAgfQogICAgPC9zdHlsZT4KCiAgICA8ZGVmcz4KICAgICAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImxpbmVhciIgeDE9IjBlbSIgeTE9IjBlbSIgeDI9IjEwMGVtIiB5Mj0iMTBlbSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9Ii4xMCIgc3RvcC1jb2xvcj0iI2Y0ZjVmNyI+CiAgICAgICAgICAgICAgICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJvZmZzZXQiIGZyb209Ii0uMTAiIHRvPSIxLjQiIGR1cj0iMnMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiAvPgogICAgICAgICAgICA8L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIG9mZnNldD0iLjE1IiBzdG9wLWNvbG9yPSIjZTdlOWVjIj4KICAgICAgICAgICAgICAgIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9Im9mZnNldCIgZnJvbT0iLS4wNSIgdG89IjEuNDUiIGR1cj0iMnMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiAvPgogICAgICAgICAgICA8L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIG9mZnNldD0iLjIwIiBzdG9wLWNvbG9yPSIjZjRmNWY3Ij4KICAgICAgICAgICAgICAgIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9Im9mZnNldCIgZnJvbT0iMCIgdG89IjEuNTAiIGR1cj0iMnMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiAvPgogICAgICAgICAgICA8L3N0b3A+CiAgICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDwvZGVmcz4KCiAgICAKCiAgICA8IS0tIEJyZWFkY3J1bWJzIC0tPgogICAgPHJlY3QgeD0iMGVtIiB5PSIxLjVlbSIgd2lkdGg9IjMuMjVlbSIgaGVpZ2h0PSIwLjYyNWVtIiAgcng9IjEiLz4KICAgIDxyZWN0IHg9IjRlbSIgeT0iMS41ZW0iIHdpZHRoPSI1ZW0iIGhlaWdodD0iMC42MjVlbSIgIHJ4PSIxIi8+CiAgICA8cmVjdCB4PSIwZW0iIHk9IjMuNWVtIiB3aWR0aD0iOWVtIiBoZWlnaHQ9IjFlbSIgIHJ4PSIxIi8+CgogICAgPCEtLSBnaHgtbW9kZXMtdG9vbHMgLS0+CiAgICA8cmVjdCB4PSJjYWxjKDEwMCUgLSA5LjVlbSkiIHk9IjNlbSIgd2lkdGg9IjJlbSIgaGVpZ2h0PSIyZW0iICByeD0iMSIvPgogICAgPHJlY3QgeD0iY2FsYygxMDAlIC0gN2VtKSIgeT0iM2VtIiB3aWR0aD0iMmVtIiBoZWlnaHQ9IjJlbSIgIHJ4PSIxIi8+CiAgICA8cmVjdCB4PSJjYWxjKDEwMCUgLSA0LjVlbSkiIHk9IjNlbSIgd2lkdGg9IjJlbSIgaGVpZ2h0PSIyZW0iICByeD0iMSIvPgoKICAgIDwhLS0gZ2h4LW9wZXJhdGlvbnMgLS0+CiAgICA8cmVjdCB4PSIwZW0iIHk9IjYuNWVtIiB3aWR0aD0iOS41ZW0iIGhlaWdodD0iMmVtIiAgcng9IjEiLz4KICAgIDxjaXJjbGUgY3g9IjExLjVlbSIgY3k9ImNhbGMoNi41ZW0gKyAxZW0pIiByPSIxZW0iIC8+CiAgICA8Y2lyY2xlIGN4PSIxNGVtIiBjeT0iY2FsYyg2LjVlbSArIDFlbSkiIHI9IjFlbSIgLz4KICAgIDxyZWN0IHg9IjE2ZW0iIHk9IjYuNWVtIiB3aWR0aD0iNS41ZW0iIGhlaWdodD0iMmVtIiAgcng9IjEiLz4KICAgIDxyZWN0IHg9IjIyZW0iIHk9IjYuNWVtIiB3aWR0aD0iNS41ZW0iIGhlaWdodD0iMmVtIiAgcng9IjEiLz4KICAgIDxyZWN0IHg9ImNhbGMoMTAwJSAtIDhlbSkiIHk9IjYuNWVtIiB3aWR0aD0iNS41ZW0iIGhlaWdodD0iMmVtIiAgcng9IjEiLz4KCiAgICA8IS0tIGdoeC1jb2x1bW4gLS0+CiAgICA8cmVjdCB4PSIwZW0iIHk9IjEwLjVlbSIgd2lkdGg9ImNhbGMoMjAlIC0gMWVtKSIgaGVpZ2h0PSIxMDAlIiAgcng9IjEiLz4KCiAgICA8IS0tIGdoeC1jb2x1bW4gLS0+CiAgICA8cmVjdCB4PSJjYWxjKDIwJSAtIDAuMjVlbSkiIHk9IjEwLjVlbSIgd2lkdGg9ImNhbGMoMjAlIC0gMWVtKSIgaGVpZ2h0PSIxMDAlIiBvcGFjaXR5PSIwLjgiICByeD0iMSIvPgoKICAgIDwhLS0gZ2h4LWNvbHVtbiAtLT4KICAgIDxyZWN0IHg9ImNhbGMoNDAlIC0gMC41ZW0pIiB5PSIxMC41ZW0iIHdpZHRoPSJjYWxjKDIwJSAtIDFlbSkiIGhlaWdodD0iMTAwJSIgb3BhY2l0eT0iMC42IiAgcng9IjEiLz4KCiAgICA8IS0tIGdoeC1jb2x1bW4gLS0+CiAgICA8cmVjdCB4PSJjYWxjKDYwJSAtIDAuNzVlbSkiIHk9IjEwLjVlbSIgd2lkdGg9ImNhbGMoMjAlIC0gMWVtKSIgaGVpZ2h0PSIxMDAlIiBvcGFjaXR5PSIwLjQiICByeD0iMSIvPgoKICAgIDwhLS0gZ2h4LWNvbHVtbiAtLT4KICAgIDxyZWN0IHg9ImNhbGMoODAlIC0gMWVtKSIgeT0iMTAuNWVtIiB3aWR0aD0iY2FsYygyMCUgLSAxZW0pIiBoZWlnaHQ9IjEwMCUiIG9wYWNpdHk9IjAuMiIgIHJ4PSIxIi8+CgoKCgo8L3N2Zz4K" alt="Cargando..." />
+
     return (<>
         <Wrapper>
             <Overline onClick={() => setOpen(!open)} show={!open} bgColor='' />
             <Container>
                 <RestaurantColumn>
-                    <MerchantBanner>
+                    <Section>
                         <InputFile
                             accept=".jpg, .png"
                             onChange={onFileInputChange}
@@ -176,9 +186,9 @@ const DashboardStore = ({ StoreId }) => {
                                 delete Banner {alt}
                             </ActionName>
                         </ButtonCard>}
-                    </MerchantBanner>
+                    </Section>
                     {/* info */}
-                    <MerchantBanner>
+                    <Section>
                         <MerchantInfo>
                             <span>
                                 <span>Logo</span>
@@ -193,7 +203,38 @@ const DashboardStore = ({ StoreId }) => {
                                 <ButtonAction onClick={() => SHOW_MANAGE_EMPLOYEE.setState(!SHOW_MANAGE_EMPLOYEE.state)}> Agregar empleados</ButtonAction>
                             </div>
                         </WrapperOptions>
-                    </MerchantBanner>
+                        <InputHooks
+                            title='Buscar en el menu'
+                            required
+                            errors={errorForm?.search}
+                            value={dataForm?.search}
+                            onChange={handleChange}
+                            name='search'
+                        />
+                        <ContentCategoryProducts>
+                            {dataProCat ? dataProCat?.map(x => {
+                                return (
+                                    <div key={x.carProId}>
+                                        <HeadCategory>
+                                            {SET_OPEN.state ? <input ref={refInput} onBlur={handleBlur} placeholder={'Lol'} />
+                                                :
+                                                <button onClick={() => { SET_OPEN.setState(!SET_OPEN.state), refInput.current.focus() }}>
+                                                    <Text size='40px'>{x.pName}</Text>
+                                                </button>}
+
+                                        </HeadCategory>
+                                        <MerchantListWrapper>
+                                            {x.productFoodsAll ? x.productFoodsAll.map(food => {
+                                                return (
+                                                    <CardProducts food={food} key={food.pId} />
+                                                )
+                                            }) : <div>No products</div>}
+                                        </MerchantListWrapper>
+                                    </div>
+                                )
+                            }) : <div>Loading</div>}
+                        </ContentCategoryProducts>
+                    </Section>
                 </RestaurantColumn>
             </Container>
             <LateralModal open={open}>
@@ -208,23 +249,81 @@ const DashboardStore = ({ StoreId }) => {
             <AwesomeModal zIndex='9990' padding='25px' height='50vh' show={SHOW_MANAGE_EMPLOYEE.state} onHide={() => { SHOW_MANAGE_EMPLOYEE.setState(!SHOW_MANAGE_EMPLOYEE.state) }} onCancel={() => false} size='50%' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
                 <AddEmployee />
             </AwesomeModal>
-            {dataProCat?.map(x => (
-                <div key={x.carProId}>
-                    <Text size='40px'>{x.pName}</Text>  
-                    {x.productFoodsAll.map(food =>(
-                        <div key={food.pId}>
-                          <Text>{food.pName}</Text>  
-                        </div>
-                    ))}
-                </div>
-            ))}
         </Wrapper>
     </>
     )
 }
 
+export const CardProducts = ({ food }) => {
+    const SET_OPEN_PRODUCT = useSetState(false)
+    const [productFoodsOne, { data, loading, error }] = useLazyQuery(GET_ONE_PRODUCTS_FOOD)
+    const handleGetOneProduct = () => {
+        SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state)
+        productFoodsOne({ variables: { pId: food.pId } })
+    }
+    const { getStore, pId, carProId, sizeId, colorId, idStore, cId, caId, dId, ctId, tpId, fId, pName, ProPrice, ProDescuento, ProUniDisponibles, ProDescription, ProProtegido, ProAssurance, ProImage, ProStar, ProWidth, ProHeight, ProLength, ProWeight, ProQuantity, ProOutstanding, ProDelivery, ProVoltaje, pState, sTateLogistic, pDatCre, pDatMod, } = data?.productFoodsOne || {}
+    console.log(getStore, 'HOLA MUNDO');
+    const { storeName } = getStore || {}
+    return (
+        <div>
+            <CardProductsContent onClick={() => handleGetOneProduct()}>
+                {loading ? <SpinnerColor /> :
+                    <div>
+                        <div>
+                            <h2 className="Name">  {food.pName}</h2>
+                            {/* <span className="store_info">x Tipica * 1.7</span> */}
+                        </div>
+                        <Image
+                            className='store_image'
+                            width={100}
+                            height={100}
+                            src={'/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
+                            alt={food.ProImage || "Picture of the author"}
+                            blurDataURL="/images/DEFAULTBANNER.png"
+                            placeholder="blur" // Optional blur-up while loading
+                        />
+                    </div>
+                }
+            </CardProductsContent>
+            <AwesomeModal zIndex='999' height='100%' padding='0' show={SET_OPEN_PRODUCT.state} onHide={() => { SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state) }} onCancel={() => false} size='medium' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
+                <CardProductsModal>
+                    {loading && <SpinnerColor />}
+                    <Image
+                        className='store_image'
+                        width={150}
+                        height={150}
+                        objectFit='contain'
+                        src={'/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
+                        alt="Picture of the author"
+                        blurDataURL="data:..."
+                        placeholder="blur" // Optional blur-up while loading
+                    />
+                    <ContentInfo>
+                        <HeadSticky>
+                            <Text size='1.1em'>{pName}</Text>
+                        </HeadSticky>
+                        <Text size='14px' margin='20px 0' color='#676464'>{ProDescription}</Text>
+                        <Flex>
+                            <Text margin='12px 0' size='.875rem' color={APColor}>$ {ProPrice}</Text>
+                            <Text margin='12px 0 0 5px' size='14px'>$ {ProDescuento}</Text>
+                        </Flex>
+                        <DisRestaurant>
+                            <Text className='dish-restaurant__header' margin='12px 0' size='14px'> {storeName}</Text>
+                            <div className="dish-restaurant__divisor"></div>
+                            <label tabindex="0" className="dish-observation-form__label" for="observations-form">¿Algún comentario?</label>
+                        </DisRestaurant>
+                        <ExtrasProductsItems pId={pId} />
+                    </ContentInfo>
+                </CardProductsModal>
+                {/* <input type="radio" name="" /> */}
+
+            </AwesomeModal>
+        </div>
+    );
+};
 DashboardStore.propTypes = {
 
 }
 
 export default DashboardStore
+

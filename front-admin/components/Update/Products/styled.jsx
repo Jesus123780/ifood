@@ -198,7 +198,7 @@ export const Footer = styled.div`
     justify-content: space-between;
     background-color: ${BGColor};
     @media (max-width: 960px){
-        bottom: 60px;
+        /* bottom: 0px; */
         
     }
 `

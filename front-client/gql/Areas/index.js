@@ -8,3 +8,27 @@ query getAreas{
   }
 }
 `
+
+export const GET_ONE_PQR = gql`
+query product{
+  product{
+    id
+    ProName
+    ProDatMod
+    ProDatCre
+    ProPrice
+    ProDescuento
+    ProImage
+    ProWidth
+    ProHeight
+    ProLength
+    ProQuantity
+    ProDatMod
+    ProDatCre
+    ProDelivery
+    ProState
+    ProOutstanding
+    ProUniDisponibles
+  }
+}
+`

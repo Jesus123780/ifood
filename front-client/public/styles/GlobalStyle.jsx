@@ -155,6 +155,8 @@ export const GlobalStyle = createGlobalStyle`
     [type="radio"] {
         box-sizing: border-box;
         padding: 0;
+    display: block !important;
+
     }
 
     [type="number"]::-webkit-inner-spin-button,

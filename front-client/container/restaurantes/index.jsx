@@ -5,14 +5,19 @@ import { useSetState } from '../../components/hooks/useState';
 import { RippleButton } from '../../components/Ripple';
 import { Context } from '../../context';
 import { PColor } from '../../public/colors';
-import { AddPlusCircle, IconPlus } from '../../public/icons';
-import { CardProduct, ContainerCardProduct, ContainerFilter, Content, ContentStores, H2, ItemCategory, ItemFilter, List } from './styled';
+import { AddPlusCircle, IconLogo, IconPlus } from '../../public/icons';
+import { CardProduct, ContainerCardProduct, ContainerFilter, Content, ContentFilter, ContentStores, CtnItemFilter, H2, ItemCategory, ItemFilter, List, WrapFlex } from './styled';
 import Link from 'next/link'
+import Tabs from '../../components/Tabs';
+import { Range } from '../../components/InputRange';
+import { useQuery } from '@apollo/client';
+import { GET_ALL_COUNTRIES } from '../../gql/Location';
 
 export const Restaurant = () => {
   // STATES
   const { dispatch, setAlertBox, state_product_card, handleMenu } = useContext(Context)
   const OPEN_MODAL_ORGANICE = useSetState(0)
+  const OPEN_MODAL_FILTER = useSetState(0)
 
   // HANDLES
   const handleAddProduct = elem => {
@@ -30,7 +35,7 @@ export const Restaurant = () => {
       pId: 1,
       idStore: 8,
       carProId: 8,
-      pName: 'Jugo natural',
+      pName: 'Jugo natural',  
       ProPrice: 4.534,
       ProDescuento: 4.534,
       ProDescription: 4.534
@@ -67,16 +72,19 @@ export const Restaurant = () => {
   const handleOpenProducts = products => {
     setOpenModal(!openModal)
   }
+  const { data: dataCountries } = useQuery(GET_ALL_COUNTRIES)
+  console.log(dataCountries);
+  
   return (
     <Content>
       <ContainerFilter>
         <ItemFilter onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Ordenar</ItemFilter>
-        <ItemFilter onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Mas cercano</ItemFilter>
-        <ItemFilter onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Mejor precio</ItemFilter>
-        <ItemFilter onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Mas caro</ItemFilter>
-        <ItemFilter onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Envio gratis</ItemFilter>
-        <ItemFilter onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Promociones</ItemFilter>
-        <ItemFilter onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Descuentos</ItemFilter>
+        <ItemFilter>Mas cercano</ItemFilter>
+        <ItemFilter>Mejor precio</ItemFilter>
+        <ItemFilter>Mas caro</ItemFilter>
+        <ItemFilter>Envíos gratis</ItemFilter>
+        <ItemFilter>Promociones</ItemFilter>
+        <ItemFilter onClick={() => OPEN_MODAL_FILTER.setState(!OPEN_MODAL_FILTER.state)}>Filtros</ItemFilter>
       </ContainerFilter>
       {/* CATEGORIES */}
       <List>
@@ -114,10 +122,59 @@ export const Restaurant = () => {
           </Link>
         ))}
       </List>
+      <AwesomeModal zIndex='9990' padding='25px' height='60vh' show={OPEN_MODAL_ORGANICE.state} onHide={() => { OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state) }} onCancel={() => false} size='80%' btnCancel={false} btnConfirm={true} onConfirm={() => router.push('/restaurante')} header={false} footer={true} borderRadius='10px' >
+        <Tabs width={['33.33%', '33.33%', '33.330%']} >
+          <Tabs.Panel label={`Básicos`}>
+            <>
+              <h2>Modo de entrega</h2>
+              <ContainerFilter>
+                <ItemFilter onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Entrega a domicilio</ItemFilter>
+                <ItemFilter onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Entrega a domicilio</ItemFilter>
+              </ContainerFilter>
+              <h2>Ordenar por</h2>
+              <ContainerFilter>
+                <ItemFilter onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Entrega a domicilio</ItemFilter>
+                <ItemFilter onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Entrega a domicilio</ItemFilter>
+              </ContainerFilter>
+              <h2>Distancia</h2>
+              <Range min={1962} max={5000} value={2018} label="km" />
+              <RippleButton widthButton='100%'>Ver resultados </RippleButton>
+            </>
+          </Tabs.Panel>
+          <Tabs.Panel label={`Categorías`}>
+            <WrapFlex>
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map((item, index) => <ItemFilter key={item._id} onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Entrega a domicilio</ItemFilter>)}
+            </WrapFlex>
+            <RippleButton widthButton='100%'>Ver resultados </RippleButton>
+          </Tabs.Panel>
+          <Tabs.Panel label={`Métodos de pago`}>
+            <h2>Peso promedio</h2>
+            <WrapFlex>
+              {[1, 2, 3, 4, 5].map((item, index) => <ItemFilter key={item._id} onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>$$$$$</ItemFilter>)}
+            </WrapFlex>
+            <h2>Pago de la app</h2>
+            <WrapFlex>
+              {[1, 2, 3, 4, 5].map((item, index) => <ItemFilter key={item._id} onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Amex</ItemFilter>)}
+            </WrapFlex>
+            <h2>Pago contra entrega</h2>
+            <WrapFlex>
+              {[1, 2, 3, 4, 5].map((item, index) => <ItemFilter key={item._id} onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Amex</ItemFilter>)}
+            </WrapFlex>
+            <RippleButton widthButton='100%'>Ver resultados </RippleButton>
+          </Tabs.Panel>
+        </Tabs>
+      </AwesomeModal >
+      <AwesomeModal zIndex='9990' padding='25px' height='40vh' show={OPEN_MODAL_FILTER.state} onHide={() => { OPEN_MODAL_FILTER.setState(!OPEN_MODAL_FILTER.state) }} onCancel={() => false} size='60%' btnCancel={false} btnConfirm={true} onConfirm={() => router.push('/restaurante')} header={false} footer={true} borderRadius='10px' >
+        <h2>Ordenar por </h2>
+        <ContentFilter>
+          {[1, 2, 3, 4, 5].map(x => (
+            <CtnItemFilter key={x._id}>
+              <IconLogo color={PColor} size='52px' />
+            </CtnItemFilter>
+          ))}
+        </ContentFilter>
+      </AwesomeModal >
       <H2>Tiendas</H2>
-      <ContentStores>
-
-      </ContentStores>
     </Content>
   );
 };

@@ -6,19 +6,25 @@ import Cors from 'micro-cors'
 import typeDefs from '../api/lib/typeDefs'
 import jwt from 'jsonwebtoken'
 import resolvers from '../api/lib/resolvers/index'
+import DeviceDetector from 'node-device-detector'
 
 const cors = Cors()
 
 const apolloServer = new ApolloServer({
-    resolvers,  
+    resolvers,
     typeDefs,
     introspection: true,
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground(), httpHeadersPlugin],
     context: withSession(async ({ req, next, connection }) => {
+        const detector = new DeviceDetector;
         if (connection) {
             // check connection for metadata
             return connection.context;
         } else {
+            // console.log(req.headers.useragent, 2);
+            // const result = detector.parseOs(req.headers.useragent);
+            // const result2 = detector.detect(req.headers.useragent);
+            // console.log('Result parse os', result2);
             //  Initialize as empty arrays - resolvers will add items if required
             const setCookies = []
             const setHeaders = []
@@ -32,7 +38,7 @@ const apolloServer = new ApolloServer({
                 const User = await jwt.verify(token, process.env.AUTHO_USER_KEY)
                 return { req, setCookies: setCookies || [], setHeaders: setHeaders || [], User: User || {}, idComp, restaurant: restaurant || {} }
             }
-            return { req, setCookies: [], setHeaders: [], User: null || {}, idComp: null || {},  restaurant: restaurant || {}}
+            return { req, setCookies: [], setHeaders: [], User: null || {}, idComp: null || {}, restaurant: restaurant || {} }
 
         }
     }),

@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useReducer, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
 export const Context = createContext()
@@ -12,7 +11,7 @@ const Provider = ({ children }) => {
     // Effects para el Toast
     useEffect(() => {
         !!error?.message &&
-      setTimeout(() => setError(''), error.duration || 7000)
+            setTimeout(() => setError(''), error.duration || 7000)
     }, [error])
     const [collapsed, setCollapsed] = useState(false)
     // Context to setCompanyLink
@@ -31,24 +30,24 @@ const Provider = ({ children }) => {
     const [menu, setMenu] = useState(0)
     const handleMenu = index => setMenu(index === menu ? false : index)
     const initialCompanyState = {
-        idLasComp: undefined
+        idStore: undefined
     }
     // Context LastCompany
     const [company, setCompanyId] = useState(initialCompanyState)
-    const useCompany = idLasComp => {
+    const useCompany = idStore => {
         setCompanyId({
             ...company,
-            idLasComp
+            idStore
         })
-        if (typeof idLasComp !== 'undefined') {
-            localStorage.setItem('idLasComp', idLasComp)
+        if (typeof idStore !== 'undefined') {
+            localStorage.setItem('idStore', idStore)
         }
     }
     useEffect(() => {
-        if (localStorage.getItem('idLasComp') !== company.idLasComp) {
+        if (localStorage.getItem('idStore') !== company.idStore) {
             setCompanyId({
                 ...company,
-                idLasComp: localStorage.getItem('idLasComp')
+                idStore: localStorage.getItem('idStore')
             })
         }
     }, [company])
@@ -74,75 +73,71 @@ const Provider = ({ children }) => {
         [isSession]
     )
     const [alert, setAlert] = useState(false)
-    // useEffect(() => {
-    //     if (['/teams/invite/[id]'].find(x => x !== router.pathname)) {
-    //         if (!localStorage.getItem('idLasComp')) {
-    //             router.push('/switch-options')
-    //             setTimeout(() => {
-    //                 setAlert(true)
-    //             }, 2000);
-    //         } else {
-    //             setAlert(false)
-    //         }
-    //     }
-    //     setAlert(false)
-    // }, [authData, company])
-    // const value = {
-    //     error,
-    //     DataCompany,
-    //     // Link
-    //     setCompanyLink,
-    //     setCollapsed,
-    //     isCompany,
-    //     handleMenu,
-    //     // Menu Ctx
-    //     menu,
-    //     collapsed,
-    //     isSession,
-    //     setIsSession,
-    //     // State login
-    //     authData,
-    //     setSessionActive,
-    //     // UseCompany
-    //     useCompany,
-    //     company,
-    //     // setAlertBox
-    //     alert,
-    //     setAlertBox: err => setError(err)
-    // }
-    const value = useMemo(
-        () => ({
-            error,
-            DataCompany,
-            // Link
-            setCompanyLink,
-            setCollapsed,
-            isCompany,
-            handleMenu,
-            // Menu Ctx
-            menu,
-            collapsed,
-            isSession,
-            setIsSession,
-            // State login
-            authData,
-            setSessionActive,
-            // UseCompany
-            useCompany,
-            company,
-            // setAlertBox
-            alert,
-            setAlertBox: err => setError(err)
-        }),
-        [isSession]
-    )
+    const initialState = {
+        PRODUCT: [],
+    }
+    const product = (state, action) => {
+        //   ADD TO CARD
+        const shoppingCart = JSON.parse(localStorage.getItem('shoppingCard'))
+        switch (action.type) {
+            case 'ADD_PRODUCT':
+                localStorage.setItem('shoppingCard', JSON.stringify({ ...shoppingCart, ...state?.PRODUCT }))
+                return {
+                    ...state,
+                    PRODUCT: [...state?.PRODUCT, action?.payload]
+
+                }
+            case 'REMOVE_PRODUCT':
+                return {
+                    PRODUCT: state?.PRODUCT?.filter((t, idx) => idx !== action?.idx)
+                };
+            case 'REMOVE_ALL':
+                return {
+                    PRODUCT: []
+                };
+            case "TOGGLE_INVOICE":
+                return {
+                    PRODUCT: state?.PRODUCT.map((t, idx) => idx === action.idx ? { ...t, isPaid: !t.isPaid } : t),
+                };
+            default:
+                return state;
+        }
+    }
+    const [state_product_card, dispatch] = useReducer(product, initialState)
+
+    const value = {
+        error,
+        DataCompany,
+        // Link
+        setCompanyLink,
+        setCollapsed,
+        isCompany,
+        handleMenu,
+        // Menu Ctx
+        menu,
+        collapsed,
+        isSession,
+        setIsSession,
+        // State login
+        authData,
+        setSessionActive,
+        // UseCompany
+        useCompany,
+        company,
+        // setAlertBox
+        alert,
+        // add products
+        state_product_card,
+        dispatch,
+        setAlertBox: err => setError(err)
+    }
     return <Context.Provider value={value}>
         {children}
     </Context.Provider>
 }
 
 Provider.propTypes = {
-    children: PropTypes.array
+    children: PropTypes.array || PropTypes.object
 }
 const useAuth = () => useContext(Context)
 

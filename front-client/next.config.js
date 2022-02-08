@@ -8,16 +8,16 @@ module.exports = {
                 destination: '/:path*',
             },
             {
-                source: '/admin',
-                destination: `${ADMIN_URL}/admin`,
+                source: '/',
+                destination: `${ADMIN_URL}/`,
             },
             {
-                source: '/admin/:path*',
-                destination: `${ADMIN_URL}/admin/:path*`,
+                source: '/:path*',
+                destination: `${ADMIN_URL}/:path*`,
             },
             {
                 source: '/api/:path*',
-                destination: 'http://localhost:3001/:path*',
+                destination:  `${ADMIN_URL}/:path*`,
             },
         ]
     },

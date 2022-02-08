@@ -7,24 +7,24 @@ import categoriesResolver from '../resolvers/Category'
 import informationResolver from './informations'
 export default {
     ...UserResolvers.TYPES,
-    // ...storeResolver.TYPES,
+    ...storeResolver.TYPES,
     ...informationResolver.TYPES,
-    // ...products.TYPES,
-    // ...categoriesResolver.TYPES,
+    ...products.TYPES,
+    ...categoriesResolver.TYPES,
     DateTime: dateTimeScalar,
     // Upload: GraphQLUpload,
     Query: {
         ...UserResolvers.QUERIES,
-        // ...categoriesResolver.QUERIES,
+        ...categoriesResolver.QUERIES,
         ...informationResolver.QUERIES,
-        // ...storeResolver.QUERIES,
+        ...storeResolver.QUERIES,
         ...products.QUERIES,
     },
     Mutation: {
         ...UserResolvers.MUTATIONS,
-        // ...categoriesResolver.MUTATIONS,
-        // ...storeResolver.MUTATIONS,
+        ...categoriesResolver.MUTATIONS,
+        ...storeResolver.MUTATIONS,
         ...informationResolver.MUTATIONS,
-        // ...products.MUTATIONS,
+        ...products.MUTATIONS,
     }
 }

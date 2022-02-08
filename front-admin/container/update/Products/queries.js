@@ -80,6 +80,37 @@ mutation updateProductFoods($input: InputProductFood){
   }
 }
 `
+// UPDATE EXTRAS 
+export const UPDATE_EXTRAS_PRODUCT_FOOD = gql`
+mutation updateExtProductFoods($input: InputExtProductFood){
+  updateExtProductFoods(input: $input){
+    pId
+    exPid
+    exState
+    extraName
+    extraPrice
+    state
+    pDatCre
+    pDatMod
+  }
+}
+`
+// CREATE EXTRAS PRODUCT
+export const UPDATE_MULTI_EXTRAS_PRODUCT_FOOD = gql`
+mutation updateMultipleExtProductFoods($inputLineItems: ILineItemsExtraFinal){
+  updateMultipleExtProductFoods(inputLineItems: $inputLineItems){
+    pId
+    exPid
+    exState
+    extraName
+    extraPrice
+    state
+    pDatCre
+    pDatMod
+  }
+}
+`
+
 export const DELETE_ONE_PRODUCT = gql`
 mutation deleteProducts($input: IDeleteProduct){
   deleteProducts(input: $input){

@@ -57,7 +57,7 @@ export const ButtonCard = styled.button`
   }
 `
 
-export const MerchantBanner = styled.header`
+export const Section = styled.div`
     padding: 35px 30px 0;
     max-width: 1366px;
     margin: auto;
@@ -95,6 +95,9 @@ export const ButtonAction = styled.button`
     height: 40px;
     cursor: pointer;
     box-shadow: none;
+`
+export const ContentCategoryProducts = styled.div`
+    margin: 30px 0;
 `
 export const WrapperOptions = styled.div`
     display: flex;
