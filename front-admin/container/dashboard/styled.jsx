@@ -95,6 +95,15 @@ export const CardProductsModal = styled(CardProductsContent)`
     grid-template-columns: 100%;
   }
 `
+export const ContentImage = styled.div`
+    /* background-color: red; */
+    /* padding: 5em  */
+    display: grid;
+    width: 100%;
+    justify-content: flex-start;
+    align-content: flex-start;
+    height: min-content;
+`
 export const Flex = styled.div`
   display: flex;
   width: 100%;
@@ -104,8 +113,8 @@ export const DisRestaurant = styled.div`
     flex-direction: column;
     border: 1px solid rgba(63,62,62,.1);
     border-radius: 4px;
-    width: 100%;
-    margin: 0;
+    width: 90%;
+    margin: auto;
     padding: 10px;
     height: auto;
     padding: 11px 20px;
@@ -957,9 +966,9 @@ export const HeadSticky = styled.div`
 `
 export const ContentInfo = styled.div`
     overflow-y: auto;
-    height: 400px;
-    min-height: 400px;
-    max-height: 400px;
+    height: 700px;
+    /* min-height: 400px; */
+    max-height: 700px;
 `
 export const Text = styled.span`
     font-size: ${({ size }) => size || '12px'};

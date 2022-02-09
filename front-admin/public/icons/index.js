@@ -263,6 +263,8 @@ export const IconCostaRica = ({ style = {}, size }) => <svg width={size} height=
     <path d="M0,1h10v4H0z" width={size} height={size} fill="#fff" />
     <path d="M0,2h10v2H0z" width={size} height={size} fill="#ce1126" />
 </svg>
+// Icono  de Brazil
+export const IconMiniCheck = ({ style = {}, size, color }) =><svg width={size} height={size} style={style} xmlns="http://www.w3.org/2000/svg" fill={color} viewBox="0 0 17 14"><path fillRule="evenodd" d="M2.59 6.57A1 1 0 0 0 1.19 8l5.16 5.09L16.72 2.36A1 1 0 1 0 15.28.97l-8.96 9.28-3.73-3.68z" clipRule="evenodd"></path></svg>
 // Icono  de Cuba
 export const IconCuba = ({ style = {}, size }) => <svg width={size} height={size} style={style} version="1.1" id="Layer_1" x="0px" y="0px"
     viewBox="0 0 64 42" >

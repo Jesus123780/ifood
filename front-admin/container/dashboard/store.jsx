@@ -7,7 +7,7 @@ import { RippleButton } from '../../components/Ripple'
 import Link from 'next/link'
 import Image from 'next/image'
 import router, { useRouter } from 'next/router'
-import { Avatar, Card, CardPrimary, Container, Content, Text, Wrapper, WrapperRow, CardOverFloW, CircleCompany, ButtonTheme, SwitchButton, ContentToggle, OlList, FeedItem, ItemTeam, ItemInf, CardDevice, LateralModal, HeadCategory, CardProductsContent, MerchantListWrapper, CardProductsModal, Flex, DisRestaurant, ContentInfo, HeadSticky } from './styled'
+import { Avatar, Card, CardPrimary, Container, Content, Text, Wrapper, WrapperRow, CardOverFloW, CircleCompany, ButtonTheme, SwitchButton, ContentToggle, OlList, FeedItem, ItemTeam, ItemInf, CardDevice, LateralModal, HeadCategory, CardProductsContent, MerchantListWrapper, CardProductsModal, Flex, DisRestaurant, ContentInfo, HeadSticky, ContentImage } from './styled'
 import { useFormTools } from '../../components/BaseForm'
 import { GET_ONE_STORE } from '../Restaurant/queries'
 import { IconDelete, IconEdit, IconLogo, IconPromo } from '../../public/icons'
@@ -25,7 +25,7 @@ import { CardProduct } from '../../components/Update/Products/styled'
 import { ActionName, ButtonAction, ButtonCard, ContentCategoryProducts, InputFile, Section, MerchantBannerWrapperInfo, MerchantInfo, MerchantInfoTitle, RestaurantColumn, WrapperOptions } from './styledStore'
 import InputHooks from '../../components/InputHooks/InputHooks'
 import { GET_ONE_PRODUCTS_FOOD } from '../producto/queries'
-import { ExtrasProductsItems } from '../producto/extras'
+import { ExtrasProductsItems, OptionalExtraProducts } from '../producto/extras'
 
 const DashboardStore = ({ StoreId }) => {
     // STATE
@@ -132,7 +132,6 @@ const DashboardStore = ({ StoreId }) => {
     //     onCompleted: () => {
     //     }
     // })
-    console.log(dataProCat)
     // if (loadCatPro) return  <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNjAwIDMyMDAiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KICAgIDxzdHlsZT4KICAgICAgICBzdmcgewogICAgICAgICAgICBmb250LXNpemU6IDE2cHg7CiAgICAgICAgfQoKICAgICAgICAvKioKICAgICAgICAqIEFkYXB0aXZlIG1lZGlhIHF1ZXJpZXMgdGlsbCAyNDAwcHggd2lkZSBnZW5lcmF0ZWQgdmlhIGh0dHBzOi8vY29kZXBlbi5pby9qYWtvYnVkL3Blbi92bUtMWWIKICAgICAgICAqIFZhbHVlczogJG1hcDogKDEyMDBweDogMjEuMzNweCwgMTYwMHB4OiAxNnB4LCAyNDAwcHg6IDEwLjY2N3B4LCAzMjAwOiA4cHgsIDQyMDA6IDYuMXB4KTsKICAgICAgICAqLwoKICAgICAgICBAbWVkaWEgKG1pbi13aWR0aDogMTAwcHgpIHsKICAgICAgICAgICAgc3ZnIHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogY2FsYygtMTcwLjd2dyArIDQyNi43cHgpOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBAbWVkaWEgKG1pbi13aWR0aDogMTUwcHgpIHsKICAgICAgICAgICAgc3ZnIHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogY2FsYygtODUuM3Z3ICsgMjk4LjZweCk7CiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIEBtZWRpYSAobWluLXdpZHRoOiAyMDBweCkgewogICAgICAgICAgICBzdmcgewogICAgICAgICAgICAgICAgZm9udC1zaXplOiBjYWxjKC00Mi42NnZ3ICsgMjEzLjMycHgpOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBAbWVkaWEgKG1pbi13aWR0aDogMzAwcHgpIHsKICAgICAgICAgICAgc3ZnIHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogY2FsYygtMjEuMzR2dyArIDE0OS4zNnB4KTsKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgQG1lZGlhIChtaW4td2lkdGg6IDQwMHB4KSB7CiAgICAgICAgICAgIHN2ZyB7CiAgICAgICAgICAgICAgICBmb250LXNpemU6IGNhbGMoLTEyLjh2dyArIDExNS4ycHgpOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBAbWVkaWEgKG1pbi13aWR0aDogNTAwcHgpIHsKICAgICAgICAgICAgc3ZnIHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogY2FsYygtOC41NHZ3ICsgOTMuOXB4KTsKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgQG1lZGlhIChtaW4td2lkdGg6IDYwMHB4KSB7CiAgICAgICAgICAgIHN2ZyB7CiAgICAgICAgICAgICAgICBmb250LXNpemU6IGNhbGMoLTUuMzN2dyArIDc0LjY0cHgpOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBAbWVkaWEgKG1pbi13aWR0aDogODAwcHgpIHsKICAgICAgICAgICAgc3ZnIHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogY2FsYygtMy4ydncgKyA1Ny42cHgpOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBAbWVkaWEgKG1pbi13aWR0aDogMTAwMHB4KSB7CiAgICAgICAgICAgIHN2ZyB7CiAgICAgICAgICAgICAgICBmb250LXNpemU6IGNhbGMoLTIuMTM1dncgKyA0Ni45NXB4KTsKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgQG1lZGlhIChtaW4td2lkdGg6IDEyMDBweCkgewogICAgICAgICAgICBzdmcgewogICAgICAgICAgICAgICAgZm9udC1zaXplOiBjYWxjKC0xLjMzMjV2dyArIDM3LjMycHgpOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBAbWVkaWEgKG1pbi13aWR0aDogMTYwMHB4KSB7CiAgICAgICAgICAgIHN2ZyB7CiAgICAgICAgICAgICAgICBmb250LXNpemU6IGNhbGMoLTAuNjY2N3Z3ICsgMjYuNjdweCk7CiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIEBtZWRpYSAobWluLXdpZHRoOiAyNDAwcHgpIHsKICAgICAgICAgICAgc3ZnIHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogY2FsYygtMC4zMzMzN3Z3ICsgMTguNjdweCk7CiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIEBtZWRpYSAobWluLXdpZHRoOiAzMjAwcHgpIHsKICAgICAgICAgICAgc3ZnIHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogY2FsYygtMC4xOXZ3ICsgMTQuMDhweCk7CiAgICAgICAgICAgIH0KICAgICAgICB9CgoKICAgICAgICByZWN0Om5vdChbZmlsbF0pIHsKICAgICAgICAgICAgZmlsbDogdXJsKCNsaW5lYXIpOwogICAgICAgIH0KCiAgICAgICAgcmVjdCB7CiAgICAgICAgICAgIHJ4OiAwLjI1ZW07CiAgICAgICAgfQoKICAgICAgICBjaXJjbGU6bm90KFtmaWxsXSkgewogICAgICAgICAgICBmaWxsOiB1cmwoI2xpbmVhcik7CiAgICAgICAgfQoKICAgICAgICBsaW5lOm5vdChbZmlsbF0pIHsKICAgICAgICAgICAgc3Ryb2tlOiB1cmwoI2xpbmVhcik7CiAgICAgICAgfQoKICAgICAgICBsaW5lIHsKICAgICAgICAgICAgc3Ryb2tlLXdpZHRoOiAwLjE1ZW07CiAgICAgICAgfQogICAgPC9zdHlsZT4KCiAgICA8ZGVmcz4KICAgICAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImxpbmVhciIgeDE9IjBlbSIgeTE9IjBlbSIgeDI9IjEwMGVtIiB5Mj0iMTBlbSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9Ii4xMCIgc3RvcC1jb2xvcj0iI2Y0ZjVmNyI+CiAgICAgICAgICAgICAgICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJvZmZzZXQiIGZyb209Ii0uMTAiIHRvPSIxLjQiIGR1cj0iMnMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiAvPgogICAgICAgICAgICA8L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIG9mZnNldD0iLjE1IiBzdG9wLWNvbG9yPSIjZTdlOWVjIj4KICAgICAgICAgICAgICAgIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9Im9mZnNldCIgZnJvbT0iLS4wNSIgdG89IjEuNDUiIGR1cj0iMnMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiAvPgogICAgICAgICAgICA8L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIG9mZnNldD0iLjIwIiBzdG9wLWNvbG9yPSIjZjRmNWY3Ij4KICAgICAgICAgICAgICAgIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9Im9mZnNldCIgZnJvbT0iMCIgdG89IjEuNTAiIGR1cj0iMnMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiAvPgogICAgICAgICAgICA8L3N0b3A+CiAgICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDwvZGVmcz4KCiAgICAKCiAgICA8IS0tIEJyZWFkY3J1bWJzIC0tPgogICAgPHJlY3QgeD0iMGVtIiB5PSIxLjVlbSIgd2lkdGg9IjMuMjVlbSIgaGVpZ2h0PSIwLjYyNWVtIiAgcng9IjEiLz4KICAgIDxyZWN0IHg9IjRlbSIgeT0iMS41ZW0iIHdpZHRoPSI1ZW0iIGhlaWdodD0iMC42MjVlbSIgIHJ4PSIxIi8+CiAgICA8cmVjdCB4PSIwZW0iIHk9IjMuNWVtIiB3aWR0aD0iOWVtIiBoZWlnaHQ9IjFlbSIgIHJ4PSIxIi8+CgogICAgPCEtLSBnaHgtbW9kZXMtdG9vbHMgLS0+CiAgICA8cmVjdCB4PSJjYWxjKDEwMCUgLSA5LjVlbSkiIHk9IjNlbSIgd2lkdGg9IjJlbSIgaGVpZ2h0PSIyZW0iICByeD0iMSIvPgogICAgPHJlY3QgeD0iY2FsYygxMDAlIC0gN2VtKSIgeT0iM2VtIiB3aWR0aD0iMmVtIiBoZWlnaHQ9IjJlbSIgIHJ4PSIxIi8+CiAgICA8cmVjdCB4PSJjYWxjKDEwMCUgLSA0LjVlbSkiIHk9IjNlbSIgd2lkdGg9IjJlbSIgaGVpZ2h0PSIyZW0iICByeD0iMSIvPgoKICAgIDwhLS0gZ2h4LW9wZXJhdGlvbnMgLS0+CiAgICA8cmVjdCB4PSIwZW0iIHk9IjYuNWVtIiB3aWR0aD0iOS41ZW0iIGhlaWdodD0iMmVtIiAgcng9IjEiLz4KICAgIDxjaXJjbGUgY3g9IjExLjVlbSIgY3k9ImNhbGMoNi41ZW0gKyAxZW0pIiByPSIxZW0iIC8+CiAgICA8Y2lyY2xlIGN4PSIxNGVtIiBjeT0iY2FsYyg2LjVlbSArIDFlbSkiIHI9IjFlbSIgLz4KICAgIDxyZWN0IHg9IjE2ZW0iIHk9IjYuNWVtIiB3aWR0aD0iNS41ZW0iIGhlaWdodD0iMmVtIiAgcng9IjEiLz4KICAgIDxyZWN0IHg9IjIyZW0iIHk9IjYuNWVtIiB3aWR0aD0iNS41ZW0iIGhlaWdodD0iMmVtIiAgcng9IjEiLz4KICAgIDxyZWN0IHg9ImNhbGMoMTAwJSAtIDhlbSkiIHk9IjYuNWVtIiB3aWR0aD0iNS41ZW0iIGhlaWdodD0iMmVtIiAgcng9IjEiLz4KCiAgICA8IS0tIGdoeC1jb2x1bW4gLS0+CiAgICA8cmVjdCB4PSIwZW0iIHk9IjEwLjVlbSIgd2lkdGg9ImNhbGMoMjAlIC0gMWVtKSIgaGVpZ2h0PSIxMDAlIiAgcng9IjEiLz4KCiAgICA8IS0tIGdoeC1jb2x1bW4gLS0+CiAgICA8cmVjdCB4PSJjYWxjKDIwJSAtIDAuMjVlbSkiIHk9IjEwLjVlbSIgd2lkdGg9ImNhbGMoMjAlIC0gMWVtKSIgaGVpZ2h0PSIxMDAlIiBvcGFjaXR5PSIwLjgiICByeD0iMSIvPgoKICAgIDwhLS0gZ2h4LWNvbHVtbiAtLT4KICAgIDxyZWN0IHg9ImNhbGMoNDAlIC0gMC41ZW0pIiB5PSIxMC41ZW0iIHdpZHRoPSJjYWxjKDIwJSAtIDFlbSkiIGhlaWdodD0iMTAwJSIgb3BhY2l0eT0iMC42IiAgcng9IjEiLz4KCiAgICA8IS0tIGdoeC1jb2x1bW4gLS0+CiAgICA8cmVjdCB4PSJjYWxjKDYwJSAtIDAuNzVlbSkiIHk9IjEwLjVlbSIgd2lkdGg9ImNhbGMoMjAlIC0gMWVtKSIgaGVpZ2h0PSIxMDAlIiBvcGFjaXR5PSIwLjQiICByeD0iMSIvPgoKICAgIDwhLS0gZ2h4LWNvbHVtbiAtLT4KICAgIDxyZWN0IHg9ImNhbGMoODAlIC0gMWVtKSIgeT0iMTAuNWVtIiB3aWR0aD0iY2FsYygyMCUgLSAxZW0pIiBoZWlnaHQ9IjEwMCUiIG9wYWNpdHk9IjAuMiIgIHJ4PSIxIi8+CgoKCgo8L3N2Zz4K" alt="Cargando..." />
 
     return (<>
@@ -262,13 +261,15 @@ export const CardProducts = ({ food }) => {
         productFoodsOne({ variables: { pId: food.pId } })
     }
     const { getStore, pId, carProId, sizeId, colorId, idStore, cId, caId, dId, ctId, tpId, fId, pName, ProPrice, ProDescuento, ProUniDisponibles, ProDescription, ProProtegido, ProAssurance, ProImage, ProStar, ProWidth, ProHeight, ProLength, ProWeight, ProQuantity, ProOutstanding, ProDelivery, ProVoltaje, pState, sTateLogistic, pDatCre, pDatMod, } = data?.productFoodsOne || {}
-    console.log(getStore, 'HOLA MUNDO');
     const { storeName } = getStore || {}
     return (
         <div>
             <CardProductsContent onClick={() => handleGetOneProduct()}>
                 {loading ? <SpinnerColor /> :
                     <div>
+                        <div>
+                            <svg width="24" height="24" viewBox="0 0 24 24" role="presentation"><g fill="currentColor" fill-rule="evenodd"><path d="M12 18c-4.536 0-7.999-4.26-7.999-6 0-2.001 3.459-6 8-6 4.376 0 7.998 3.973 7.998 6 0 1.74-3.462 6-7.998 6m0-14C6.48 4 2 8.841 2 12c0 3.086 4.576 8 10 8 5.423 0 10-4.914 10-8 0-3.159-4.48-8-10-8"></path><path d="M11.977 13.984c-1.103 0-2-.897-2-2s.897-2 2-2c1.104 0 2 .897 2 2s-.896 2-2 2m0-6c-2.206 0-4 1.794-4 4s1.794 4 4 4c2.207 0 4-1.794 4-4s-1.793-4-4-4"></path></g></svg>
+                        </div>
                         <div>
                             <h2 className="Name">  {food.pName}</h2>
                             {/* <span className="store_info">x Tipica * 1.7</span> */}
@@ -288,19 +289,22 @@ export const CardProducts = ({ food }) => {
             <AwesomeModal zIndex='999' height='100%' padding='0' show={SET_OPEN_PRODUCT.state} onHide={() => { SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state) }} onCancel={() => false} size='medium' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
                 <CardProductsModal>
                     {loading && <SpinnerColor />}
-                    <Image
-                        className='store_image'
-                        width={150}
-                        height={150}
-                        objectFit='contain'
-                        src={'/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
-                        alt="Picture of the author"
-                        blurDataURL="data:..."
-                        placeholder="blur" // Optional blur-up while loading
-                    />
+                    <ContentImage>
+                        <Image
+                            className='store_image'
+                            width={450}
+                            height={450}
+                            objectFit='contain'
+                            src={'/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
+                            alt="Picture of the author"
+                            blurDataURL="data:..."
+                            placeholder="blur" // Optional blur-up while loading
+                        />
+                    </ContentImage>
                     <ContentInfo>
                         <HeadSticky>
                             <Text size='1.1em'>{pName}</Text>
+                            <svg width="24" height="24" viewBox="0 0 24 24" role="presentation"><g fill="currentColor" fillRule="evenodd"><path d="M12 18c-4.536 0-7.999-4.26-7.999-6 0-2.001 3.459-6 8-6 4.376 0 7.998 3.973 7.998 6 0 1.74-3.462 6-7.998 6m0-14C6.48 4 2 8.841 2 12c0 3.086 4.576 8 10 8 5.423 0 10-4.914 10-8 0-3.159-4.48-8-10-8"></path><path d="M11.977 13.984c-1.103 0-2-.897-2-2s.897-2 2-2c1.104 0 2 .897 2 2s-.896 2-2 2m0-6c-2.206 0-4 1.794-4 4s1.794 4 4 4c2.207 0 4-1.794 4-4s-1.793-4-4-4"></path></g></svg>
                         </HeadSticky>
                         <Text size='14px' margin='20px 0' color='#676464'>{ProDescription}</Text>
                         <Flex>
@@ -315,8 +319,7 @@ export const CardProducts = ({ food }) => {
                         <ExtrasProductsItems pId={pId} />
                     </ContentInfo>
                 </CardProductsModal>
-                {/* <input type="radio" name="" /> */}
-
+                <OptionalExtraProducts pId={pId} />
             </AwesomeModal>
         </div>
     );

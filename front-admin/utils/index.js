@@ -1004,7 +1004,7 @@ export const hiddenEmail = email => {
 export const roundToTwo = (num) => {
     return (Math.round(num + 'e+2') + 'e-2');
 }
-    export function randonCode(length) {
+    export function RandonCode(length) {
         var result           = '';
         var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         var charactersLength = characters.length;
