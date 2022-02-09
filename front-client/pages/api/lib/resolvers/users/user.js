@@ -39,9 +39,8 @@ export const newRegisterUser = async (_, input) => {
 
 export const registerEmailLogin = async (_, { input }, ctx) => {
     const { uEmail } = input
-    console.log(input, 0)
     try {
-        console.log(uEmail)
+        console.log(input)
         const existEmail = await Users.findOne({ attributes: ['email'], where: { email: uEmail } })
         const uToken = await generateCode()
         const dataUser = {

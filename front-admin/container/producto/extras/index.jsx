@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
-import { gql, useQuery, useMutation } from '@apollo/client'
+import { gql, useQuery, useMutation, useLazyQuery } from '@apollo/client'
 import { RippleButton } from '../../../components/Ripple';
 import { BGColor, EColor, PColor, PLColor, PVColor, BColor } from '../../../public/colors';
 import { IconDelete, IconMiniCheck, IconPlus } from '../../../public/icons';
 import { numberFormat, RandonCode } from '../../../utils';
-import { UPDATE_MULTI_EXTRAS_PRODUCT_FOOD } from '../../update/Products/queries';
+import { GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, GET_EXTRAS_PRODUCT_FOOD_SUB_OPTIONAL, UPDATE_EXTRAS_PRODUCT_FOOD_OPTIONAL, UPDATE_MULTI_EXTRAS_PRODUCT_FOOD } from '../../update/Products/queries';
 import { MockData } from '../../../components/common/mockData';
-import moment from 'moment';
+// import moment from 'moment';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
-export const ExtrasProductsItems = ({ pId }) => {
+export const ExtrasProductsItems = ({ pId, dataOptional }) => {
     //    STATES
     const initialLine = {
         extraName: '',
@@ -98,7 +98,6 @@ export const ExtrasProductsItems = ({ pId }) => {
                         <div style={{ width: '100%', height: 'auto', display: 'block' }}>
                             <InputHooks
                                 inputText
-                                inputText
                                 margin='10px 0'
                                 placeholder='Extra products'
                                 value={salesLine.extraName}
@@ -133,6 +132,32 @@ export const ExtrasProductsItems = ({ pId }) => {
                     </ContentLinesItems>
                 ))}
             </form>
+            {dataOptional && dataOptional?.map(x => (
+                <div key={x.opExPid}>
+                    <GarnishChoicesHeader >
+                        <div>
+                            <p className="garnish-choices__title">{x.OptionalProName}</p>
+                            {!!x.numbersOptionalOnly && <p className="garnish-choices__title-desc">Escoge hasta {x.numbersOptionalOnly} opciones.</p>}
+                        </div>
+                        <div className="garnish-choices">
+                            <IconMiniCheck size={'15px'} color={'#009b3a'} />
+                            <span class="marmita-minitag">OBLIGATORIO</span>
+                        </div>
+                    </GarnishChoicesHeader>
+                    {x.ExtProductFoodsSubOptionalAll?.map((z, index) => (
+                        <CardsComponent key={z.opSubExPid}>
+                            <div>
+                                <h3 className="title_card">{z?.OptionalSubProName}</h3>
+                                <h3 className="title_card">Item: {index + 1}</h3>
+
+                            </div>
+                            <RippleButton bgColor={'transparent'} margin='0px' widthButton='min-content' type="button" onClick={() => console.log(index)} >
+                                <IconDelete size='25px' color={EColor} />
+                            </RippleButton>
+                        </CardsComponent>
+                    ))}
+                </div>
+            ))}
             <Action>
                 <RippleButton bgColor={'transparent'} margin='0px' widthButton='240px' type="button" onClick={() => CleanLines()} >
                     <IconDelete size='25px' color={EColor} />
@@ -147,9 +172,12 @@ export const ExtrasProductsItems = ({ pId }) => {
         </Container>);
 };
 
-export const OptionalExtraProducts = ({ pId }) => {
+export const OptionalExtraProducts = ({ pId, dataOptional }) => {
     const [data, setData] = useState(MockData);
-    const [numberLimit, setNumberLimit] = useState(0);
+    const [numberLimit, setNumberLimit] = useState(2);
+    // const [ExtProductFoodsOptionalAll, { error }] = useLazyQuery(GET_EXTRAS_PRODUCT_FOOD_OPTIONAL)
+    const [updateExtProductFoodsOptional] = useMutation(UPDATE_EXTRAS_PRODUCT_FOOD_OPTIONAL)
+    const [updateExtProductFoodsSubOptional] = useMutation(GET_EXTRAS_PRODUCT_FOOD_SUB_OPTIONAL)
     const [title, setTitle] = useState('');
     const addCard = async (title, listId) => {
 
@@ -166,6 +194,17 @@ export const OptionalExtraProducts = ({ pId }) => {
             lists: {
                 ...data.lists,
                 [listId]: list
+            }
+        })
+        await updateExtProductFoodsSubOptional({
+            variables: {
+                input: {
+                    pId,
+                    OptionalSubProName: title,
+                    exCodeOptionExtra: listId,
+                    exCode: id,
+                    state: 1
+                }
             }
         })
         setTitle('')
@@ -189,6 +228,7 @@ export const OptionalExtraProducts = ({ pId }) => {
     }
 
     const handleAddList = async ({ title, numberLimit }) => {
+        console.log(pId)
         if (title !== '') {
             const newListId = await RandonCode(9)
             setData({
@@ -200,6 +240,16 @@ export const OptionalExtraProducts = ({ pId }) => {
                         title: title,
                         numberLimit: numberLimit,
                         cards: []
+                    }
+                }
+            })
+            await updateExtProductFoodsOptional({
+                variables: {
+                    input: {
+                        pId,
+                        code: newListId,
+                        OptionalProName: title,
+                        numbersOptionalOnly: numberLimit,
                     }
                 }
             })
@@ -252,6 +302,10 @@ export const OptionalExtraProducts = ({ pId }) => {
                                             <div>
                                                 <p className="garnish-choices__title">{list?.title}</p>
                                                 <p className="garnish-choices__title-desc">Escoge hasta {list?.numberLimit} opciones.</p>
+                                                <div className="garnish-choices">
+                                                    <IconMiniCheck size={'15px'} color={'#009b3a'} />
+                                                    <span class="marmita-minitag">OBLIGATORIO</span>
+                                                </div>
                                             </div>
                                             <IconMiniCheck size={'15px'} color={'#009b3a'} />
                                             <RippleButton bgColor={'transparent'} margin='0px' widthButton='min-content' type="button" onClick={() => handleRemoveList(index)} >
@@ -376,7 +430,7 @@ const GarnishChoicesHeader = styled.div`
     top: 0;
     border-bottom: 1px solid #ccc;
     z-index: 99;
-    .garnish-choices__title {
+    .garnish-choices__title { 
         margin: 0;
         font-size: 1rem;
         line-height: 1.25em;
@@ -390,6 +444,35 @@ const GarnishChoicesHeader = styled.div`
         display: block;
         color: #717171;
     }
+     .marmita-minitag{
+        -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    --screen-x: 1495px;
+    --screen-y: 937px;
+    font-family: SulSans,Helvetica,sans-serif;
+    box-sizing: border-box;
+    display: inline-block;
+    background: #fff;
+    border-radius: 3px;
+    margin: 0 3px 0 0;
+    height: 20px;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+    font-size: .5625rem;
+    line-height: 1;
+    background-color: #717171;
+    color: #f5f0eb;
+    border: none;
+    padding: 6px 6px 4px;
+     }
+     .garnish-choices {
+            justify-content: space-between;
+            display: flex;
+
+     }
 `
 export const CardsComponent = styled.div`
     background-color: ${BGColor};
@@ -430,12 +513,13 @@ const ContentCheckbox = styled.div`
     margin-right: 2px;
 `
 const Input = styled.input`
-
     ${props => props.card && css`
-        padding: 15px;
-        border: 2px solid ${PColor};
+    padding: 15px;
+    border: 2px solid ${PColor};
     `}
     ${props => props.inputText && css`
+        font-weight: 500;
+        margin: 0.625rem 0 0;
         overflow: visible;
         border: none;
         margin: 0 0 0 5px;

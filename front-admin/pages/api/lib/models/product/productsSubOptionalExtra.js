@@ -4,11 +4,12 @@ const sequelize = connect()
 const { enCode } = require('../../utils/util')
 const Store = require('../Store/Store')
 const productModelFood = require('./productFood')
+const productsOptionalExtra = require('./productsOptionalExtra')
 
 sequelize.sync()
 
-const productsOptionalExtra = sequelize.define('productsoptionalextra', {
-    opExPid: {
+const productsSubOptionalExtra = sequelize.define('productssuboptionalextra', {
+    opSubExPid: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
@@ -36,17 +37,28 @@ const productsOptionalExtra = sequelize.define('productsoptionalextra', {
         },
         get(x) { return enCode(this.getDataValue(x)) }
     },
-    OptionalProName: {
+    opExPid: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        references: {
+            model: productsOptionalExtra,
+            key: 'opExPid'
+        },
+        get(x) { return enCode(this.getDataValue(x)) }
+    },
+    OptionalSubProName: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    code: {
+    exCodeOptionExtra: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    numbersOptionalOnly: {
-        type: Sequelize.INTEGER(20),
-        allowNull: true
+    exCode: {
+        type: Sequelize.STRING,
+        allowNull: false
     },
     state: {
         type: Sequelize.TINYINT,
@@ -67,4 +79,4 @@ const productsOptionalExtra = sequelize.define('productsoptionalextra', {
     timestamps: false,
 })
 
-module.exports = productsOptionalExtra
+module.exports = productsSubOptionalExtra

@@ -19,6 +19,7 @@ export const Login = () => {
     }
     const [newRegisterUser, { loading }] = useMutation(CREATE_CURRENT_SESSION)
     const responseGoogle = async response => {
+        console.log(response)
         window.localStorage.setItem('sessionGoogle', JSON.stringify(response.profileObj))
         const { name, googleId, email, imageUrl } = response?.profileObj
         const body = {

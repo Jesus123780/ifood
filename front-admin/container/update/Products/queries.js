@@ -95,6 +95,63 @@ mutation updateExtProductFoods($input: InputExtProductFood){
   }
 }
 `
+// EXTRA PRODUCTS
+export const UPDATE_EXTRAS_PRODUCT_FOOD_OPTIONAL = gql`
+mutation updateExtProductFoodsOptional($input: InputExtProductFoodOptional){
+  updateExtProductFoodsOptional(input: $input){
+    pId
+    opExPid
+    OptionalProName
+    code
+    state
+    numbersOptionalOnly
+  }
+}
+`
+export const GET_EXTRAS_PRODUCT_FOOD_OPTIONAL = gql`
+query ExtProductFoodsOptionalAll($search: String, $min: Int, $max: Int, $pId: ID) {
+  ExtProductFoodsOptionalAll(search: $search, min: $min, max: $max, pId: $pId) {
+      pId
+      opExPid
+      OptionalProName
+      state
+      code
+      numbersOptionalOnly
+      pDatCre
+      pDatMod
+    ExtProductFoodsSubOptionalAll {
+        pId
+        opExPid
+        idStore
+        opSubExPid
+        OptionalSubProName
+        exCodeOptionExtra
+        exCode
+        state
+        pDatCre
+        pDatMod
+    }
+    
+  }
+}
+`
+export const GET_EXTRAS_PRODUCT_FOOD_SUB_OPTIONAL = gql`
+mutation updateExtProductFoodsSubOptional($input: InputExtProductFoodSubOptional){
+  updateExtProductFoodsSubOptional(input: $input){
+      pId
+      opExPid
+      idStore
+      opSubExPid
+      OptionalSubProName
+      exCodeOptionExtra
+      exCode
+      state
+      pDatCre
+      pDatMod
+  }
+}
+`
+
 // CREATE EXTRAS PRODUCT
 export const UPDATE_MULTI_EXTRAS_PRODUCT_FOOD = gql`
 mutation updateMultipleExtProductFoods($inputLineItems: ILineItemsExtraFinal){

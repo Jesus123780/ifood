@@ -15,10 +15,10 @@ export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
 let apolloClient
 let userAgent
 const getDeviceId = async () => {
-    const fp = await FingerprintJS.load()
-    const result = await fp.get()
-    userAgent = window.navigator.userAgent
-    return result.visitorId
+    // const fp = await FingerprintJS.load()
+    // const result = await fp.get()
+    // userAgent = window.navigator.userAgent
+    return 0
 }
 
 const errorHandler = onError(({ graphQLErrors }) => {

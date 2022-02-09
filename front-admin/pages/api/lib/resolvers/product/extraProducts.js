@@ -3,11 +3,11 @@ import AreasModel from '../../models/areas/AreasModel'
 import Feature from '../../models/feature/feature'
 import CatStore from '../../models/information/CategorieStore'
 import CitiesModel from '../../models/information/CitiesModel'
-import colorModel from '../../models/information/color'
-import CountriesModel from '../../models/information/CountriesModel'
 import DepartmentsModel from '../../models/information/DepartmentsModel'
 import ExtraProductModel from '../../models/product/productExtras'
 import productModelFood from '../../models/product/productFood'
+import productsOptionalExtra from '../../models/product/productsOptionalExtra'
+import productsSubOptionalExtra from '../../models/product/productsSubOptionalExtra'
 import trademarkModel from '../../models/product/trademark'
 import Store from '../../models/Store/Store'
 import ThirdPartiesModel from '../../models/thirdParties/ThirdPartiesModel'
@@ -16,7 +16,7 @@ import { deCode, filterKeyObject, getAttributes, linkBelongsTo } from '../../uti
 const { Op } = require('sequelize')
 
 export const updateExtProductFoods = async (_root, { input }, context) => {
-    const { exPid, pId, exState, extraName, extraPrice } = input
+    const { exPid, pId, exState, extraName, extraPrice, code } = input
     try {
         if (!exPid) {
             const data = await ExtraProductModel.create({
@@ -25,6 +25,7 @@ export const updateExtProductFoods = async (_root, { input }, context) => {
                 pId: deCode(pId),
                 extraName,
                 exState,
+                code,
                 idStore: 1,
                 // idStore:  deCode(context.restaurant),
 
@@ -43,6 +44,75 @@ export const updateExtProductFoods = async (_root, { input }, context) => {
         throw new ApolloError('No ha sido posible procesar su solicitud.', 500)
     }
 }
+// OPTIONAL PRODUCTS
+export const updateExtProductFoodsOptional = async (_root, { input }, context) => {
+    const { opExPid, pId, state, OptionalProName, numbersOptionalOnly, code } = input
+    try {
+        if (!opExPid) {
+            const data = await productsOptionalExtra.create({
+                state: 1,
+                pId: deCode(pId),
+                OptionalProName,
+                // idStore: 3,
+                code,
+                numbersOptionalOnly,
+                idStore: deCode(context.restaurant),
+
+            })
+            return data
+        }
+    } catch (e) {
+        console.log(e)
+        throw new ApolloError('No ha sido posible procesar su solicitud.', 500, e)
+    }
+}
+
+// SUB_OPTIONAL PRODUCTS
+export const updateExtProductFoodsSubOptional = async (_root, { input }, context) => {
+    const { opExPid, pId, state, OptionalSubProName, exCode, exCodeOptionExtra } = input
+    console.log(input, 0)
+    try {
+        const data = await productsSubOptionalExtra.create({
+            state,
+            pId: deCode(pId),
+            OptionalSubProName,
+            // opExPid: exCodeOptionExtra, # cuando se reeedite 
+            exCodeOptionExtra: exCodeOptionExtra,
+            // idStore: 3,
+            exCode,
+            idStore: deCode(context.restaurant),
+
+        })
+        return data
+
+    } catch (e) {
+        console.log(e)
+        throw new ApolloError('No ha sido posible procesar su solicitud.', 500, e)
+    }
+}
+
+// NO USADO
+export const ExtProductFoodsOptionalOne = async (root, { pId }, context, info) => {
+    try {
+        const attributes = getAttributes(productsOptionalExtra, info)
+        const data = await productsOptionalExtra.findOne({
+            attributes,
+            where: {
+                [Op.or]: [
+                    {
+                        // ID Productos
+                        pId: pId ? deCode(pId) : { [Op.gt]: 0 },
+                    }
+                ]
+            }
+        })
+        return data
+    } catch (e) {
+        const error = new Error('Lo sentimos, ha ocurrido un error interno o el producto no esta  registrado, Vuelve a intentarlo mas tarde.')
+        return error
+    }
+}
+
 export const updateExtraInProduct = async (_root, { input }) => {
     const { pId } = input || {}
     try {
@@ -81,12 +151,72 @@ export const ExtProductFoodsAll = async (root, args, context, info) => {
                         // id: deCode(context.User.id),
                         // // ID Productos
                         // pId: pId ? deCode(pId) : { [Op.gt]: 0 },
-                        pId:  deCode('MTA4ODM1NTI1OTQwNjA2NTgwMA=='),
+                        pId: deCode('MTA4ODM1NTI1OTQwNjA2NTgwMA=='),
                         // // Productos state
                         // pState: { [Op.gt]: 0 },
                     }
                 ]
             }, limit: [min || 0, max || 100], order: [['extraName', 'DESC']]
+        })
+        return data
+    } catch (e) {
+        const error = new Error('Lo sentimos, ha ocurrido un error interno')
+        return error
+    }
+}
+export const ExtProductFoodsOptionalAll = async (root, args, context, info) => {
+    try {
+        const { search, min, max, pId } = args
+        console.log(search, min, max, pId)
+        let whereSearch = {}
+        if (search) {
+            whereSearch = {
+                [Op.or]: [
+                    { extraName: { [Op.substring]: search.replace(/\s+/g, ' ') } },
+                ]
+            }
+        }
+        const attributes = getAttributes(productsOptionalExtra, info)
+        const data = await productsOptionalExtra.findAll({
+            attributes,
+            where: {
+                [Op.or]: [
+                    {
+                        pId: deCode('MTYzMjUzMjg4OTEwOTA5ODgwMA=='),
+                        // state: { [Op.gt]: 0 },
+                    }
+                ]
+            }, limit: [min || 0, max || 100], order: [['OptionalProName', 'DESC']]
+        })
+        return data
+    } catch (e) {
+        const error = new Error('Lo sentimos, ha ocurrido un error interno')
+        return error
+    }
+}
+export const ExtProductFoodsSubOptionalAll = async (root, args, context, info) => {
+    try {
+        const { search, min, max, pId } = args
+        console.log(search, min, max, pId)
+        let whereSearch = {}
+        if (search) {
+            whereSearch = {
+                [Op.or]: [
+                    { extraName: { [Op.substring]: search.replace(/\s+/g, ' ') } },
+                ]
+            }
+        }
+        const attributes = getAttributes(productsSubOptionalExtra, info)
+        const data = await productsSubOptionalExtra.findAll({
+            attributes,
+            where: {
+                [Op.or]: [
+                    {
+                        pId: deCode('MTYzMjUzMjg4OTEwOTA5ODgwMA=='),
+                        // state: { [Op.gt]: 0 },
+                    }
+                ]
+            }, limit: [min || 0, max || 100], order: [['OptionalProName', 'DESC']]
         })
         return data
     } catch (e) {
@@ -111,12 +241,33 @@ export const updateMultipleExtProductFoods = async (_root, args, context) => {
 }
 export default {
     TYPES: {
+        ExtProductFoodOptional: {
+            ExtProductFoodsSubOptionalAll: async (parent, _args, _context, info) => {
+                console.log('01818978923', 9)
+                const attributes = getAttributes(productsSubOptionalExtra, info)
+                console.log(attributes)
+                const data = await productsSubOptionalExtra.findAll({
+                    attributes,
+                    where: {
+                        exCodeOptionExtra: parent.code,
+                        state: { [Op.gt]: 0 },
+                    }
+                })
+                return data
+            }
+        }
     },
     QUERIES: {
         ExtProductFoodsAll,
+        ExtProductFoodsOptionalAll,
+        ExtProductFoodsSubOptionalAll,
     },
     MUTATIONS: {
         updateExtProductFoods,
         updateMultipleExtProductFoods,
+        // OPTIONAL
+        updateExtProductFoodsOptional,
+        // SUB_OPTIONAL
+        updateExtProductFoodsSubOptional,
     }
 }

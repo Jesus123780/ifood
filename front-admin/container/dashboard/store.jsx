@@ -26,6 +26,7 @@ import { ActionName, ButtonAction, ButtonCard, ContentCategoryProducts, InputFil
 import InputHooks from '../../components/InputHooks/InputHooks'
 import { GET_ONE_PRODUCTS_FOOD } from '../producto/queries'
 import { ExtrasProductsItems, OptionalExtraProducts } from '../producto/extras'
+import { GET_EXTRAS_PRODUCT_FOOD_OPTIONAL } from '../update/Products/queries'
 
 const DashboardStore = ({ StoreId }) => {
     // STATE
@@ -256,10 +257,14 @@ const DashboardStore = ({ StoreId }) => {
 export const CardProducts = ({ food }) => {
     const SET_OPEN_PRODUCT = useSetState(false)
     const [productFoodsOne, { data, loading, error }] = useLazyQuery(GET_ONE_PRODUCTS_FOOD)
+    const [ExtProductFoodsOptionalAll, { error: errorOptional, data: dataOptional }] = useLazyQuery(GET_EXTRAS_PRODUCT_FOOD_OPTIONAL)
+
     const handleGetOneProduct = () => {
         SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state)
         productFoodsOne({ variables: { pId: food.pId } })
+        ExtProductFoodsOptionalAll({ variables: { pId: food.pId } })
     }
+    console.log(dataOptional, 9, 'esta es la data')
     const { getStore, pId, carProId, sizeId, colorId, idStore, cId, caId, dId, ctId, tpId, fId, pName, ProPrice, ProDescuento, ProUniDisponibles, ProDescription, ProProtegido, ProAssurance, ProImage, ProStar, ProWidth, ProHeight, ProLength, ProWeight, ProQuantity, ProOutstanding, ProDelivery, ProVoltaje, pState, sTateLogistic, pDatCre, pDatMod, } = data?.productFoodsOne || {}
     const { storeName } = getStore || {}
     return (
@@ -316,10 +321,10 @@ export const CardProducts = ({ food }) => {
                             <div className="dish-restaurant__divisor"></div>
                             <label tabindex="0" className="dish-observation-form__label" for="observations-form">¿Algún comentario?</label>
                         </DisRestaurant>
-                        <ExtrasProductsItems pId={pId} />
+                        <ExtrasProductsItems pId={pId} dataOptional={dataOptional?.ExtProductFoodsOptionalAll || []} />
                     </ContentInfo>
                 </CardProductsModal>
-                <OptionalExtraProducts pId={pId} />
+                <OptionalExtraProducts pId={pId} dataOptional={dataOptional?.ExtProductFoodsOptionalAll || []} />
             </AwesomeModal>
         </div>
     );

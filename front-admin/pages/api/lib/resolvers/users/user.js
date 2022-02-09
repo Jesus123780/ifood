@@ -89,16 +89,16 @@ export const registerEmailLogin = async (_, { input }, ctx) => {
             code: uToken,
         }
         const token = await generateToken(dataUser)
-        sendEmail({
-            from: 'juvi69elpapu@gmail.com',
-            to: uEmail,
-            text: 'Code recuperation.',
-            subject: 'Code recuperation.',
-            html: LoginEmail({
-                code: uToken,
-                or_JWT_Token: token
-            })
-        }).then(res => console.log(res, 'the res')).catch(err => console.log(err, 'the err 1'))
+        // sendEmail({
+        //     from: 'juvi69elpapu@gmail.com',
+        //     to: uEmail,
+        //     text: 'Code recuperation.',
+        //     subject: 'Code recuperation.',
+        //     html: LoginEmail({
+        //         code: uToken,
+        //         or_JWT_Token: token
+        //     })
+        // }).then(res => console.log(res, 'the res')).catch(err => console.log(err, 'the err 1'))
         if (!existEmail) {
             Users.create({ email: uEmail, uState: 1, uToken: uToken })
         } else {
@@ -124,7 +124,8 @@ export const LoginEmailConfirmation = async (_root, { email, otp }, context, inf
         if (!existEmail) return error
         const dataUser = {
             uEmail: email,
-            restaurant: StoreInfo.idStore,
+            // need fix
+            restaurant: 'StoreInfo.idStore',
             code: existEmail.uToken,
             id: existEmail.id
         }
@@ -133,7 +134,8 @@ export const LoginEmailConfirmation = async (_root, { email, otp }, context, inf
             return {
                 token: token,
                 roles: false,
-                idStore: StoreInfo.idStore,
+                // need fix
+                idStore: 'StoreInfo.idStore',
                 success: true,
                 message: 'Session created.',
             }

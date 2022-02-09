@@ -51,11 +51,12 @@ export const Email = () => {
       // setDataValue({})
     }
   })
+  console.log(step)
   return (
     <Content>
       <Card>
       </Card>
-      <Form onSubmit={(e) => { handleForm(e, step !== 1 ? 1 : 2) }}>
+      <Form onSubmit={(e) => { handleForm(e, step === 0 ? 0 : 1 ) }}>
         <GoBack onClick={() => router.back()}>
           <IconArrowLeft color={`${PLColor}`} size='25px' />
         </GoBack>
