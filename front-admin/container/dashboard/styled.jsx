@@ -107,6 +107,7 @@ export const ContentImage = styled.div`
 export const Flex = styled.div`
   display: flex;
   width: 100%;
+  
   `
 export const DisRestaurant = styled.div`
     display: flex;

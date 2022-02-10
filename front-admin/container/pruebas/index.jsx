@@ -4,7 +4,7 @@ import { ArrowsLabel, ButtonAction, ButtonCode, ButtonNext, ButtonPagination, Bu
 import { BColor, BGColor, SECColor, SEGColor } from '../../public/colors';
 import { IconArrowLeft, IconArrowRight, IconDost } from '../../public/icons';
 import { MockData } from '../../components/common/mockData';
-import { RandonCode } from '../../utils';
+import { RandomCode } from '../../utils';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { RippleButton } from '../../components/Ripple';
 import moment from 'moment';
@@ -15,7 +15,7 @@ export const CustomTable = props => {
     const [valuesDates, setValuesDates] = useState({ fromDate: moment().format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD') })
 
     const addCard = async (title, listId) => {
-        const id = await RandonCode(9)
+        const id = await RandomCode(9)
         const newCard = {
             id: id,
             title: title,
@@ -40,7 +40,7 @@ export const CustomTable = props => {
 
     const handleAddList = async ({ title }) => {
         if (title !== '') {
-            const newListId = await RandonCode(9)
+            const newListId = await RandomCode(9)
             setData({
                 listIds: [...data.listIds, newListId],
                 lists: {

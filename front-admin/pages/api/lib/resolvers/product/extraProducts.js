@@ -15,6 +15,17 @@ import { LoginEmail } from '../../templates/LoginEmail'
 import { deCode, filterKeyObject, getAttributes, linkBelongsTo } from '../../utils/util'
 const { Op } = require('sequelize')
 
+export const deleteextraproductfoods = async (_root, { state, id }, context) => {
+    console.log(state, id)
+    try {
+        const data = await ExtraProductModel.update({ state: state === 1 ? 0 : 1 }, { where: { exPid: deCode(id) } })
+        return data
+
+    } catch (error) {
+        throw new ApolloError('No ha sido posible procesar su solicitud.', 500)
+    }
+
+}
 export const updateExtProductFoods = async (_root, { input }, context) => {
     const { exPid, pId, exState, extraName, extraPrice, code } = input
     try {
@@ -46,13 +57,14 @@ export const updateExtProductFoods = async (_root, { input }, context) => {
 }
 // OPTIONAL PRODUCTS
 export const updateExtProductFoodsOptional = async (_root, { input }, context) => {
-    const { opExPid, pId, state, OptionalProName, numbersOptionalOnly, code } = input
+    const { opExPid, pId, state, OptionalProName, numbersOptionalOnly, code, required } = input
     try {
         if (!opExPid) {
             const data = await productsOptionalExtra.create({
                 state: 1,
                 pId: deCode(pId),
                 OptionalProName,
+                required,
                 // idStore: 3,
                 code,
                 numbersOptionalOnly,
@@ -138,22 +150,22 @@ export const ExtProductFoodsAll = async (root, args, context, info) => {
                 ]
             }
         }
-        const attributes = getAttributes(productModelFood, info)
+        const attributes = getAttributes(ExtraProductModel, info)
         const data = await ExtraProductModel.findAll({
             attributes,
             where: {
                 [Op.or]: [
                     {
-                        // ...whereSearch,
+                        ...whereSearch,
                         // // get restaurant
                         // idStore: deCode(context.restaurant),
                         // // get user
                         // id: deCode(context.User.id),
                         // // ID Productos
-                        // pId: pId ? deCode(pId) : { [Op.gt]: 0 },
-                        pId: deCode('MTA4ODM1NTI1OTQwNjA2NTgwMA=='),
+                        pId: pId ? deCode(pId) : { [Op.gt]: 0 },
+                        // pId: deCode(pId),
                         // // Productos state
-                        // pState: { [Op.gt]: 0 },
+                        state: { [Op.gt]: 0 },
                     }
                 ]
             }, limit: [min || 0, max || 100], order: [['extraName', 'DESC']]
@@ -182,8 +194,8 @@ export const ExtProductFoodsOptionalAll = async (root, args, context, info) => {
             where: {
                 [Op.or]: [
                     {
-                        pId: deCode('MTYzMjUzMjg4OTEwOTA5ODgwMA=='),
-                        // state: { [Op.gt]: 0 },
+                        pId: deCode(pId),
+                        state: { [Op.gt]: 0 },
                     }
                 ]
             }, limit: [min || 0, max || 100], order: [['OptionalProName', 'DESC']]
@@ -226,7 +238,6 @@ export const ExtProductFoodsSubOptionalAll = async (root, args, context, info) =
 }
 
 export const updateMultipleExtProductFoods = async (_root, args, context) => {
-
     const { inputLineItems, inputLineItems: { setData } } = args
     try {
         for (let i = 0; i < setData.length; i++) {
@@ -243,7 +254,6 @@ export default {
     TYPES: {
         ExtProductFoodOptional: {
             ExtProductFoodsSubOptionalAll: async (parent, _args, _context, info) => {
-                console.log('01818978923', 9)
                 const attributes = getAttributes(productsSubOptionalExtra, info)
                 console.log(attributes)
                 const data = await productsSubOptionalExtra.findAll({
@@ -265,6 +275,7 @@ export default {
     MUTATIONS: {
         updateExtProductFoods,
         updateMultipleExtProductFoods,
+        deleteextraproductfoods,
         // OPTIONAL
         updateExtProductFoodsOptional,
         // SUB_OPTIONAL

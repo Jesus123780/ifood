@@ -15,13 +15,13 @@ import { Food } from '../update/Products/food'
 import { useSetState } from '../../components/hooks/useState'
 import { AwesomeModal } from '../../components/AwesomeModal'
 import { useUser } from '../../components/hooks/useUser'
-import { CREATE_FOOD_PRODUCT, GET_ALL_CATEGORIES_WITH_PRODUCT } from './queries'
+import { CREATE_FOOD_PRODUCT, GET_ALL_CATEGORIES_WITH_PRODUCT, GET_ALL_EXTRA_PRODUCT } from './queries'
 import { Overline } from '../../components/common/Reusable'
 import { ScheduleTimings } from './ScheduleTimings'
 import { ManageCategories } from './manageCategories'
 import { AddEmployee } from '../searchAddTeam'
 import { GET_ALL_PRODUCT_STORE } from './queriesStore'
-import { CardProduct } from '../../components/Update/Products/styled'
+import { CardProduct, ContainerFilter, ItemFilter } from '../../components/Update/Products/styled'
 import { ActionName, ButtonAction, ButtonCard, ContentCategoryProducts, InputFile, Section, MerchantBannerWrapperInfo, MerchantInfo, MerchantInfoTitle, RestaurantColumn, WrapperOptions } from './styledStore'
 import InputHooks from '../../components/InputHooks/InputHooks'
 import { GET_ONE_PRODUCTS_FOOD } from '../producto/queries'
@@ -255,16 +255,20 @@ const DashboardStore = ({ StoreId }) => {
 }
 
 export const CardProducts = ({ food }) => {
+    // STATES
     const SET_OPEN_PRODUCT = useSetState(false)
+    // QUERIES
     const [productFoodsOne, { data, loading, error }] = useLazyQuery(GET_ONE_PRODUCTS_FOOD)
     const [ExtProductFoodsOptionalAll, { error: errorOptional, data: dataOptional }] = useLazyQuery(GET_EXTRAS_PRODUCT_FOOD_OPTIONAL)
-
+    const [ExtProductFoodsAll, { data: dataExtra }] = useLazyQuery(GET_ALL_EXTRA_PRODUCT)
+    // HANDLE
     const handleGetOneProduct = () => {
         SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state)
         productFoodsOne({ variables: { pId: food.pId } })
         ExtProductFoodsOptionalAll({ variables: { pId: food.pId } })
+        ExtProductFoodsAll({ variables: { pId: food.pId } })
     }
-    console.log(dataOptional, 9, 'esta es la data')
+    const [modal, setModal] = useState(false)
     const { getStore, pId, carProId, sizeId, colorId, idStore, cId, caId, dId, ctId, tpId, fId, pName, ProPrice, ProDescuento, ProUniDisponibles, ProDescription, ProProtegido, ProAssurance, ProImage, ProStar, ProWidth, ProHeight, ProLength, ProWeight, ProQuantity, ProOutstanding, ProDelivery, ProVoltaje, pState, sTateLogistic, pDatCre, pDatMod, } = data?.productFoodsOne || {}
     const { storeName } = getStore || {}
     return (
@@ -277,7 +281,7 @@ export const CardProducts = ({ food }) => {
                         </div>
                         <div>
                             <h2 className="Name">  {food.pName}</h2>
-                            {/* <span className="store_info">x Tipica * 1.7</span> */}
+                            {/* <span className="store_info">x Típica * 1.7</span> */}
                         </div>
                         <Image
                             className='store_image'
@@ -291,7 +295,7 @@ export const CardProducts = ({ food }) => {
                     </div>
                 }
             </CardProductsContent>
-            <AwesomeModal zIndex='999' height='100%' padding='0' show={SET_OPEN_PRODUCT.state} onHide={() => { SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state) }} onCancel={() => false} size='medium' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
+            <AwesomeModal zIndex='999' backdrop='static' height='100%' padding='0' show={SET_OPEN_PRODUCT.state} onHide={() => { SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state) }} onCancel={() => false} size='medium' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
                 <CardProductsModal>
                     {loading && <SpinnerColor />}
                     <ContentImage>
@@ -321,10 +325,22 @@ export const CardProducts = ({ food }) => {
                             <div className="dish-restaurant__divisor"></div>
                             <label tabindex="0" className="dish-observation-form__label" for="observations-form">¿Algún comentario?</label>
                         </DisRestaurant>
-                        <ExtrasProductsItems pId={pId} dataOptional={dataOptional?.ExtProductFoodsOptionalAll || []} />
+                        <ExtrasProductsItems
+                            pId={pId}
+                            setModal={setModal}
+                            modal={modal}
+                            dataOptional={dataOptional?.ExtProductFoodsOptionalAll || []}
+                            dataExtra={dataExtra?.ExtProductFoodsAll || []} />
                     </ContentInfo>
                 </CardProductsModal>
-                <OptionalExtraProducts pId={pId} dataOptional={dataOptional?.ExtProductFoodsOptionalAll || []} />
+
+                <ContainerFilter>
+                    <ItemFilter onClick={() => setModal(!modal)}>Añadir Adicionales</ItemFilter>
+                </ContainerFilter>
+                <OptionalExtraProducts
+                    pId={pId}
+                    dataOptional={dataOptional?.ExtProductFoodsOptionalAll || []}
+                />
             </AwesomeModal>
         </div>
     );

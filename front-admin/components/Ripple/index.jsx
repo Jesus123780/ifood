@@ -29,7 +29,7 @@ export const RippleButton = props => {
     }, []);
 
     return (
-        <Button widthButton={widthButton} type={type} active={active} standard={standard} family={family} padding={ props.padding } color={ props.color } margin={ props.margin } bgColor={ props.bgColor} ref={button} onClick={onClick} className="ripple-button" style={style}>
+        <Button widthButton={widthButton} {...props} type={type} active={active} standard={standard} family={family} padding={ props.padding } color={ props.color } margin={ props.margin } bgColor={ props.bgColor} ref={button} onClick={onClick} className="ripple-button" style={style}>
             <span id="ripple-button-label">{label}</span>
             {props.children}
         </Button>
@@ -40,6 +40,7 @@ const Button = styled.button`
  background-color: ${ ({ bgColor })=> bgColor ? bgColor: 'red' };
  color: ${ ({ color })=> color ? color: BGColor };
  font-family: ${ ({ family })=> family ? family: 'PFont-Light' };
+ ${props => props.border && css`border: ${props.border}`}
  ${ ({ margin }) => !!margin && css`margin: ${ margin };` }
  ${ ({ standard }) => standard && css`
     display: flex;

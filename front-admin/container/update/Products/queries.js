@@ -103,6 +103,7 @@ mutation updateExtProductFoodsOptional($input: InputExtProductFoodOptional){
     opExPid
     OptionalProName
     code
+    required
     state
     numbersOptionalOnly
   }
@@ -118,6 +119,7 @@ query ExtProductFoodsOptionalAll($search: String, $min: Int, $max: Int, $pId: ID
       code
       numbersOptionalOnly
       pDatCre
+      required
       pDatMod
     ExtProductFoodsSubOptionalAll {
         pId

@@ -160,11 +160,11 @@ export const getCatProductsWithProduct = async (root, args, context, info) => {
         where: {
             [Op.or]: [
                 {
-                    // ...whereSearch,
+                    ...whereSearch,
                     // get restaurant
-                    // idStore: deCode(context.restaurant),
+                    idStore: deCode(context.restaurant),
                     // get user
-                    // id: deCode(context.User.id),
+                    id: deCode(context.User.id),
                     // Productos state
                     pState: { [Op.gt]: 0 },
                 }

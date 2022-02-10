@@ -27,6 +27,14 @@ export const DELETE_ONE_CAT_PRODUCTS = gql`
   }
 }
 `
+export const DELETE_EXTRA_PRODUCTS = gql`
+  mutation  deleteextraproductfoods($id: ID, $state: Int){
+    deleteextraproductfoods(id: $id, state: $state){
+      success, 
+      message
+  }
+}
+`
 export const UPDATE_CAT_IN_PRODUCT = gql`
 mutation  updatedCatWithProducts($input: LineItemsIdPro){
   updatedCatWithProducts(input: $input){
@@ -47,6 +55,20 @@ query catProductsAll($search: String, $min: Int, $max: Int, $gender: [String], $
     pDatCre
     pDatMod
     
+  }
+}
+`
+export const GET_ALL_EXTRA_PRODUCT = gql`
+query ExtProductFoodsAll($search: String, $min: Int, $max: Int, $pId: ID) {
+  ExtProductFoodsAll(search: $search, min: $min, max: $max, pId: $pId) {
+    pId
+    exPid
+    exState
+    extraName
+    extraPrice
+    state
+    pDatCre
+    pDatMod
   }
 }
 `

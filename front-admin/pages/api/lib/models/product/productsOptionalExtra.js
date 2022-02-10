@@ -53,6 +53,11 @@ const productsOptionalExtra = sequelize.define('productsoptionalextra', {
         allowNull: false,
         defaultValue: 1
     },
+    required: {
+        type: Sequelize.TINYINT,
+        allowNull: true,
+        defaultValue: 0
+    },
     pDatCre: {
         type: 'TIMESTAMP',
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),

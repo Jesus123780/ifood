@@ -166,7 +166,7 @@ export const BtnClose = styled.button`
 export const ModalBody = styled.div`
     position: relative;
     flex: 1 1 auto;
-    overflow: auto;
+    overflow-y: auto;
     display: ${({ display }) => display || 'block'};
     height: ${({ height }) => height || 'auto'};
     padding: ${({ padding }) => padding || '0'};

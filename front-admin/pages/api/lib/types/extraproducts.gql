@@ -16,6 +16,7 @@ type ExtProductFoodOptional {
     OptionalProName: String
     state: Int
     code: String
+    required: Int
     numbersOptionalOnly: Int
     pDatCre: DateTime
     pDatMod: DateTime
@@ -53,6 +54,7 @@ input InputExtProductFoodOptional {
     code: String
     OptionalProName: String
     state: Int
+    required: Int
     numbersOptionalOnly: Int
 }
 # Inputs    
@@ -87,6 +89,7 @@ type Mutation {
     "Registra un ExtProductFood"
      updateExtProductFoods(input: InputExtProductFood): ExtProductFood
      updateMultipleExtProductFoods(inputLineItems: ILineItemsExtraFinal): ExtProductFood
+     deleteextraproductfoods(id: ID, state: Int): Response
     "Registra un ExtProductFoodOptional"
      updateExtProductFoodsOptional(input: InputExtProductFoodOptional): ExtProductFoodOptional
     "Registra un ExtProductFoodSubOptional"
