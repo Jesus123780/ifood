@@ -6,7 +6,7 @@ import Cors from 'micro-cors'
 import typeDefs from '../api/lib/typeDefs'
 import jwt from 'jsonwebtoken'
 import resolvers from '../api/lib/resolvers/index'
-import DeviceDetector from 'node-device-detector'
+import { getUserFromToken } from './auth'
 
 const cors = Cors()
 
@@ -16,16 +16,17 @@ const apolloServer = new ApolloServer({
     introspection: true,
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground(), httpHeadersPlugin],
     context: withSession(async ({ req, next, connection }) => {
-        const detector = new DeviceDetector;
+        // const DeviceDetector = require('node-device-detector');
+        // const detector = new DeviceDetector;
+        // const resultOs = detector.parseOs(req.headers.useragent);
+        // const resultClient = detector.parseClient(req.headers.useragent);
+        // const resultDeviceType = detector.parseDeviceType(req.headers.useragent, resultOs, resultClient, {});
+        // const result = Object.assign({ os: resultOs }, { client: resultClient }, { device: resultDeviceType }, { deviceId: req.headers.deviceid });
+        // console.log('Result parse lite', result);
         if (connection) {
             // check connection for metadata
             return connection.context;
         } else {
-            // console.log(req.headers.useragent, 2);
-            // const result = detector.parseOs(req.headers.useragent);
-            // const result2 = detector.detect(req.headers.useragent);
-            // console.log('Result parse os', result2);
-            //  Initialize as empty arrays - resolvers will add items if required
             const setCookies = []
             const setHeaders = []
             //  Initialize PubSub
@@ -34,6 +35,8 @@ const apolloServer = new ApolloServer({
             const restaurant = req.headers.restaurant || {}
             const excluded = ['/login', '/forgotpassword', '/register', '/teams/invite/[id]', '/teams/manage/[id]']
             if (excluded.indexOf(req.session) > -1) return next()
+            // const { user, userProfile, error } = await getUserFromToken(token)
+            // if (error) req.session.destroy()
             if (token) {
                 const User = await jwt.verify(token, process.env.AUTHO_USER_KEY)
                 return { req, setCookies: setCookies || [], setHeaders: setHeaders || [], User: User || {}, idComp, restaurant: restaurant || {} }

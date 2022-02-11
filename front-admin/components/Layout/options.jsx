@@ -25,7 +25,7 @@ export const Options = ({ keyTheme, handleTheme }) => {
             .then(res => {
                 if (res) {
                     client?.clearStore()
-                    window.localStorage.clear()
+                    // window.localStorage.clear()
                     location.replace('/')
                 }
             })
@@ -37,7 +37,7 @@ export const Options = ({ keyTheme, handleTheme }) => {
                 })
             })
 
-    }, [])
+    }, [client])
 
     useEffect(() => {
         const body = document.body

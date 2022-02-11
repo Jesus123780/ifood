@@ -3,6 +3,7 @@ import dateTimeScalar from './CustomScalar'
 import storeResolver from './Store'
 import UserResolvers from './users'
 import products from './product'
+import deviceResolver from './device'
 import categoriesResolver from '../resolvers/Category'
 import informationResolver from './informations'
 export default {
@@ -10,6 +11,7 @@ export default {
     ...storeResolver.TYPES,
     ...informationResolver.TYPES,
     ...products.TYPES,
+    ...deviceResolver.TYPES,
     ...categoriesResolver.TYPES,
     DateTime: dateTimeScalar,
     // Upload: GraphQLUpload,
@@ -19,6 +21,7 @@ export default {
         ...informationResolver.QUERIES,
         ...storeResolver.QUERIES,
         ...products.QUERIES,
+        ...deviceResolver.QUERIES,
     },
     Mutation: {
         ...UserResolvers.MUTATIONS,
@@ -26,5 +29,6 @@ export default {
         ...storeResolver.MUTATIONS,
         ...informationResolver.MUTATIONS,
         ...products.MUTATIONS,
+        ...deviceResolver.MUTATIONS,
     }
 }

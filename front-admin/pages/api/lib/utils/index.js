@@ -67,7 +67,7 @@ function isValidBucketName(bucket) {
 const CLIENT_ID = '214924348774-fqrod1bismchnpo3muih10omufbokkn3.apps.googleusercontent.com'
 const CLIENT_SECRET = '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'
 const REDIRECT_URL = 'https://developers.google.com/oauthplayground'
-const REFRESH_TOKEN = '1//04Z4J9rhwOADVCgYIARAAGAQSNwF-L9IrjsSlfaa0JUrCwiyeoExzgAcrRH-JCuBYFcgArtG5sqyJILiRszR554gQ1IR2YmBfI38'
+const REFRESH_TOKEN = '1//04HoD5wSkPjmOCgYIARAAGAQSNwF-L9IriJthpZ8mJfBLw8-faNp0cdaoU0BWx6Rgka_iY-RJsP_LcWygqvS8mXbjNDr1tt9ex9c'
 const AuthClient = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL)
 AuthClient.setCredentials({ refresh_token: REFRESH_TOKEN })
 

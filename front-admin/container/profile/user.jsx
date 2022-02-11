@@ -6,7 +6,7 @@ import { BColor, BGColor, SECColor, SEGColor } from '../../public/colors';
 import { IconArrowLeft, IconArrowRight, IconDost } from '../../public/icons';
 import UserProfileSettings from '../../components/UserProfile';
 import { useFormTools } from '../../components/BaseForm';
-import { GET_USER_PROFILE, SET_USER_PROFILE } from './queries';
+import { GET_ALL_DEVICES, GET_USER_PROFILE, SET_USER_PROFILE } from './queries';
 import { filterKeyObject, updateCacheMod } from '../../utils';
 import { GET_USER } from '../../gql/LoginAut';
 import { Loading } from '../../components/Loading';
@@ -14,6 +14,7 @@ import { Loading } from '../../components/Loading';
 export const UserProfile = props => {
     const [handleChange, handleSubmit, handleForcedData, { dataForm }] = useFormTools()
     const { data, loading, error } = useQuery(GET_USER)
+    const { data: dataDevice } = useQuery(GET_ALL_DEVICES)
     const { data: dataUp } = useQuery(GET_USER_PROFILE)
     const { getOneUserProfile } = dataUp || {}
     const [setUserProfile, { loading: loadUP }] = useMutation(SET_USER_PROFILE)
@@ -43,7 +44,7 @@ export const UserProfile = props => {
     return (
         <>
             {loading && <Loading />}
-            <UserProfileSettings handleSubmit={handleForm} onChange={handleChange} dataForm={dataForm} />
+            <UserProfileSettings dataDevice={dataDevice?.getDeviceUsers} handleSubmit={handleForm} onChange={handleChange} dataForm={dataForm} />
         </>
     )
 }

@@ -14,11 +14,11 @@ export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
 
 let apolloClient
 let userAgent
-const getDeviceId = async () => {
-    // const fp = await FingerprintJS.load()
-    // const result = await fp.get()
-    // userAgent = window.navigator.userAgent
-    return 0
+export const getDeviceId = async () => {
+    const fp = await FingerprintJS.load()
+    const result = await fp.get()
+    userAgent = window.navigator.userAgent
+    return result.visitorId
 }
 
 const errorHandler = onError(({ graphQLErrors }) => {
@@ -35,6 +35,7 @@ const errorHandler = onError(({ graphQLErrors }) => {
 
 const authLink = setContext(async (_, { headers }) => {
     const lol = await getDeviceId()
+    window.localStorage.setItem('deviceid', lol)
     const token = localStorage.getItem('sma.sv1')
     const restaurant = localStorage.getItem('restaurant')
     return {

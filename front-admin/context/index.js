@@ -1,5 +1,4 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useReducer, useState } from 'react'
-import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
 export const Context = createContext()
 const Provider = ({ children }) => {
@@ -134,10 +133,6 @@ const Provider = ({ children }) => {
     return <Context.Provider value={value}>
         {children}
     </Context.Provider>
-}
-
-Provider.propTypes = {
-    children: PropTypes.array || PropTypes.object
 }
 const useAuth = () => useContext(Context)
 

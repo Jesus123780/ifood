@@ -35,6 +35,22 @@ export const DELETE_EXTRA_PRODUCTS = gql`
   }
 }
 `
+export const DELETE_CAT_EXTRA_PRODUCTS = gql`
+  mutation  DeleteExtProductFoodsOptional($opExPid: ID, $state: Int){
+    DeleteExtProductFoodsOptional(opExPid: $opExPid, state: $state){
+      success, 
+      message
+  }
+}
+`
+export const DELETE_CAT_EXTRA_SUB_OPTIONAL_PRODUCTS = gql`
+  mutation  DeleteExtFoodSubsOptional($opSubExPid: ID, $state: Int){
+    DeleteExtFoodSubsOptional(opSubExPid: $opSubExPid, state: $state){
+      success, 
+      message
+  }
+}
+`
 export const UPDATE_CAT_IN_PRODUCT = gql`
 mutation  updatedCatWithProducts($input: LineItemsIdPro){
   updatedCatWithProducts(input: $input){

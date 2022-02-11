@@ -7,7 +7,7 @@ const DepartmentsModel = require('../information/DepartmentsModel')
 const CitiesModel = require('../information/CitiesModel')
 const sequelize = connect()
 
-sequelize.sync()
+// sequelize.sync()
 
 const Userprofile = sequelize.define('userprofile', {
     upId: {

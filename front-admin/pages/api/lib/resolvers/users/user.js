@@ -9,8 +9,7 @@ import { deCode, enCode, getAttributes } from '../../utils/util'
 const { Op } = require('sequelize')
 
 export const newRegisterUser = async (root, input, _context, info) => {
-    console.log(input, 0)
-
+    // console.log(input, 0)
     try {
         let res = {}
         const { name, password, email, username } = input
@@ -54,6 +53,7 @@ export const newRegisterUser = async (root, input, _context, info) => {
                     roles: false,
                     storeUserId: StoreInfo.idStore,
                     success: true,
+                    userId: isExist.id,
                     message: `Bienvenido ${name}`,
                 }
             } else {
@@ -68,6 +68,7 @@ export const newRegisterUser = async (root, input, _context, info) => {
                     roles: false,
                     storeUserId: StoreInfo.idStore,
                     success: true,
+                    userId: isExist.id,
                     message: 'Session created.',
                 }
             }

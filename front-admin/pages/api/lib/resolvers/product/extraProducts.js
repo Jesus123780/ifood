@@ -16,10 +16,26 @@ import { deCode, filterKeyObject, getAttributes, linkBelongsTo } from '../../uti
 const { Op } = require('sequelize')
 
 export const deleteextraproductfoods = async (_root, { state, id }, context) => {
-    console.log(state, id)
     try {
-        const data = await ExtraProductModel.update({ state: state === 1 ? 0 : 1 }, { where: { exPid: deCode(id) } })
-        return data
+        await ExtraProductModel.update({ state: state === 1 ? 0 : 1 }, { where: { exPid: deCode(id) } })
+        return {
+            success: true,
+            message: 'Eliminado'
+        }
+
+    } catch (error) {
+        throw new ApolloError('No ha sido posible procesar su solicitud.', 500)
+    }
+
+}
+export const DeleteExtFoodSubsOptional = async (_root, { state, opSubExPid }, _context) => {
+    console.log(state, opSubExPid, 0, 'Hola mundo')
+    try {
+        await productsSubOptionalExtra.update({ state: state === 1 ? 0 : 1 }, { where: { opSubExPid: deCode(opSubExPid) } })
+        return {
+            success: true,
+            message: 'Eliminado'
+        }
 
     } catch (error) {
         throw new ApolloError('No ha sido posible procesar su solicitud.', 500)
@@ -74,7 +90,6 @@ export const updateExtProductFoodsOptional = async (_root, { input }, context) =
             return data
         }
     } catch (e) {
-        console.log(e)
         throw new ApolloError('No ha sido posible procesar su solicitud.', 500, e)
     }
 }
@@ -82,7 +97,6 @@ export const updateExtProductFoodsOptional = async (_root, { input }, context) =
 // SUB_OPTIONAL PRODUCTS
 export const updateExtProductFoodsSubOptional = async (_root, { input }, context) => {
     const { opExPid, pId, state, OptionalSubProName, exCode, exCodeOptionExtra } = input
-    console.log(input, 0)
     try {
         const data = await productsSubOptionalExtra.create({
             state,
@@ -98,7 +112,6 @@ export const updateExtProductFoodsSubOptional = async (_root, { input }, context
         return data
 
     } catch (e) {
-        console.log(e)
         throw new ApolloError('No ha sido posible procesar su solicitud.', 500, e)
     }
 }
@@ -179,7 +192,6 @@ export const ExtProductFoodsAll = async (root, args, context, info) => {
 export const ExtProductFoodsOptionalAll = async (root, args, context, info) => {
     try {
         const { search, min, max, pId } = args
-        console.log(search, min, max, pId)
         let whereSearch = {}
         if (search) {
             whereSearch = {
@@ -206,10 +218,17 @@ export const ExtProductFoodsOptionalAll = async (root, args, context, info) => {
         return error
     }
 }
+export const DeleteExtProductFoodsOptional = async (root, { state, opExPid }, context, info) => {
+    try {
+        await productsOptionalExtra.update({ state: state === 1 ? 0 : 1 }, { where: { opExPid: deCode(opExPid) } })
+    } catch (e) {
+        const error = new Error('Lo sentimos, ha ocurrido un error interno')
+        return error
+    }
+}
 export const ExtProductFoodsSubOptionalAll = async (root, args, context, info) => {
     try {
         const { search, min, max, pId } = args
-        console.log(search, min, max, pId)
         let whereSearch = {}
         if (search) {
             whereSearch = {
@@ -224,8 +243,8 @@ export const ExtProductFoodsSubOptionalAll = async (root, args, context, info) =
             where: {
                 [Op.or]: [
                     {
-                        pId: deCode('MTYzMjUzMjg4OTEwOTA5ODgwMA=='),
-                        // state: { [Op.gt]: 0 },
+                        pId: deCode(pId),
+                        state: { [Op.gt]: 0 },
                     }
                 ]
             }, limit: [min || 0, max || 100], order: [['OptionalProName', 'DESC']]
@@ -255,7 +274,6 @@ export default {
         ExtProductFoodOptional: {
             ExtProductFoodsSubOptionalAll: async (parent, _args, _context, info) => {
                 const attributes = getAttributes(productsSubOptionalExtra, info)
-                console.log(attributes)
                 const data = await productsSubOptionalExtra.findAll({
                     attributes,
                     where: {
@@ -277,8 +295,10 @@ export default {
         updateMultipleExtProductFoods,
         deleteextraproductfoods,
         // OPTIONAL
+        DeleteExtProductFoodsOptional,
         updateExtProductFoodsOptional,
         // SUB_OPTIONAL
         updateExtProductFoodsSubOptional,
+        DeleteExtFoodSubsOptional,
     }
 }

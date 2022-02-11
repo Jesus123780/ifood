@@ -17,6 +17,24 @@ export const SET_USER_PROFILE = gql`
         }
     }
 `
+export const GET_ALL_DEVICES = gql`
+query getDeviceUsers{
+  getDeviceUsers{
+      dId
+      id
+      locationFormat
+      deviceId
+      deviceName
+      type
+      short_name
+      platform
+      version
+      dState
+      DatCre
+      DatMod
+  }
+}
+`
 export const GET_USER_PROFILE = gql`
 query getOneUserProfile($id: ID) {
   getOneUserProfile(id: $id){

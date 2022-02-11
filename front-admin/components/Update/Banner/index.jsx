@@ -53,7 +53,6 @@ export const Banner = ({ watch, settings }) => {
                 React
             </AnimatedText>
             <>
-                {loader}
                 <code>
                     latitude: {latitude}
                     <br />

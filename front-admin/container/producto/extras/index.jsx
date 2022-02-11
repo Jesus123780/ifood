@@ -7,16 +7,19 @@ import { numberFormat, RandomCode, updateCache } from '../../../utils';
 import { GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, GET_EXTRAS_PRODUCT_FOOD_SUB_OPTIONAL, UPDATE_EXTRAS_PRODUCT_FOOD_OPTIONAL, UPDATE_MULTI_EXTRAS_PRODUCT_FOOD } from '../../update/Products/queries';
 import { MockData } from '../../../components/common/mockData';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import { DELETE_EXTRA_PRODUCTS, GET_ALL_EXTRA_PRODUCT } from '../../dashboard/queries';
+import { DELETE_CAT_EXTRA_PRODUCTS, DELETE_CAT_EXTRA_SUB_OPTIONAL_PRODUCTS, DELETE_EXTRA_PRODUCTS, GET_ALL_EXTRA_PRODUCT } from '../../dashboard/queries';
 import { AwesomeModal } from '../../../components/AwesomeModal';
 import { Action, CardsComponent, Container, ContainerListOptions, ContentCheckbox, ContentLinesItems, ContentModal, GarnishChoicesHeader, Input, WrapperList } from './styled';
 import { useSetState } from '../../../components/hooks/useState';
 import { useFormTools } from '../../../components/BaseForm';
 import InputHooks from '../../../components/InputHooks/InputHooks';
+import moment from 'moment';
 
 export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, modal }) => {
     //    STATES
     const [handleChange, handleSubmit, handleForcedData, { dataForm }] = useFormTools()
+    const OPEN_MODAL_CAT_EXTRA = useSetState(false)
+    const INFO_EXTRA = useSetState({})
 
     const initialLine = {
         extraName: '',
@@ -33,22 +36,22 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
             (initialLine)
         ],
     }
+    // HANDLES
     const CleanLines = useCallback(() => {
         setLine(initialLineItems)
     }, [initialLineItems])
     //    QUERIES
-    const [updateMultipleExtProductFoods, { loading, error }] = useMutation(UPDATE_MULTI_EXTRAS_PRODUCT_FOOD, {
+    const [updateMultipleExtProductFoods] = useMutation(UPDATE_MULTI_EXTRAS_PRODUCT_FOOD, {
         onCompleted: () => {
             CleanLines()
         }
     })
     const [deleteextraproductfoods] = useMutation(DELETE_EXTRA_PRODUCTS, {
-        onCompleted: () => {
-            CleanLines()
-        }
+        onCompleted: () => { CleanLines() }
     })
+    const [DeleteExtProductFoodsOptional] = useMutation(DELETE_CAT_EXTRA_PRODUCTS)
+    const [DeleteExtFoodSubsOptional] = useMutation(DELETE_CAT_EXTRA_SUB_OPTIONAL_PRODUCTS)
 
-    // HANDLESS
     const [LineItems, setLine] = useState(initialLineItems)
     const handleAdd = () => {
         const Lines = [...LineItems?.Lines, { ...initialLine }, { ...initialLine }]
@@ -101,7 +104,7 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
     }
     // DELETE ADICIONAL
     const handleDeleteAdditional = async elem => {
-        const { state, exPid, extraName } = elem || {}
+        const { state, exPid } = elem || {}
         deleteextraproductfoods({
             variables: {
                 state,
@@ -114,25 +117,51 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
             })
         })
     }
+    const handleDeleteCatOptional = async elem => {
+        const { state, opExPid } = elem || {}
+        DeleteExtProductFoodsOptional({
+            variables: {
+                state: state,
+                opExPid: opExPid
+            }, update: (cache, { data: { ExtProductFoodsOptionalAll } }) => updateCache({
+                cache,
+                query: GET_EXTRAS_PRODUCT_FOOD_OPTIONAL,
+                nameFun: 'ExtProductFoodsOptionalAll',
+                dataNew: ExtProductFoodsOptionalAll
+            })
+        })
+        OPEN_MODAL_CAT_EXTRA.setState(!OPEN_MODAL_CAT_EXTRA.state)
+    }
+    const handleDeleteItemSubOptional = async elem => {
+        const { state, opSubExPid } = elem || {}
+        console.log(state, opSubExPid)
+        console.log(elem)
+        DeleteExtFoodSubsOptional({
+            variables: {
+                state: state,
+                opSubExPid: opSubExPid
+            }, update: (cache, { data: { ExtProductFoodsOptionalAll } }) => updateCache({
+                cache,
+                query: GET_EXTRAS_PRODUCT_FOOD_OPTIONAL,
+                nameFun: 'ExtProductFoodsOptionalAll',
+                dataNew: ExtProductFoodsOptionalAll
+            })
+        })
+    }
 
-    const OPEN_MODAL_CAT_EXTRA = useSetState(false)
-    const INFO_EXTRA = useSetState({})
+
     const handleOpenExtra = async elem => {
         console.log(elem)
         OPEN_MODAL_CAT_EXTRA.setState(!OPEN_MODAL_CAT_EXTRA.state)
         INFO_EXTRA.setState(elem)
         handleForcedData({ ...elem })
-        // const { state, exPid, extraName } = elem || {}
-
     }
-    console.log(INFO_EXTRA.state)
     const [setCheck, setChecker] = useState({})
     const handleCheck = (e) => {
         const { name, checked } = e.target
         setChecker({ ...setCheck, [name]: checked ? 1 : 0 })
     }
 
-    console.log(dataForm)
     return (
         <Container>
             <form onSubmit={(e) => onSubmitUpdate(e)} >
@@ -178,7 +207,7 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
                                     <h3 className="title_card">Item: {index + 1}</h3>
 
                                 </div>
-                                <RippleButton bgColor={'transparent'} margin='0px' widthButton='min-content' type="button" onClick={() => console.log(index)} >
+                                <RippleButton bgColor={'transparent'} margin='0px' widthButton='min-content' type="button" onClick={() => handleDeleteItemSubOptional(z)} >
                                     <IconDelete size='25px' color={EColor} />
                                 </RippleButton>
                             </CardsComponent>
@@ -244,13 +273,14 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
                 <ContentModal height='400px'>
                     <GarnishChoicesHeader>
                         <div>
+                            <p className="garnish-choices__title">{moment(INFO_EXTRA.state.pDatCre).format('YYYY-MM-DD')}</p>
                             <p className="garnish-choices__title">{INFO_EXTRA.state.OptionalProName}</p>
                             <p className="garnish-choices__title-desc">Escoge hasta {INFO_EXTRA.state.numbersOptionalOnly} opciones.</p>
                         </div>
                         {INFO_EXTRA.state.required === 1 ? <div className="garnish-choices">
                             <span span class="marmita-minitag">OBLIGATORIO</span>
                         </div> : null}
-                        <RippleButton bgColor={'transparent'} margin='0px' widthButton='min-content' type="button" onClick={() => console.log('asdasd')} >
+                        <RippleButton bgColor={'transparent'} margin='0px' widthButton='min-content' type="button" onClick={() => handleDeleteCatOptional(INFO_EXTRA.state)} >
                             <IconDelete size='25px' color={EColor} />
                         </RippleButton>
                     </GarnishChoicesHeader>

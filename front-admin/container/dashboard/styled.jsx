@@ -1058,6 +1058,7 @@ export const CardDevice = styled.button`
     text-align: left;
     background: none;
     border: 0;
+    border: 1px solid #ccc;
     width: 100%;
     .device__icon{
       -webkit-tap-highlight-color: rgba(0,0,0,0);

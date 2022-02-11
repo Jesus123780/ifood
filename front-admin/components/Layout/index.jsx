@@ -7,15 +7,22 @@ import { Header } from './header'
 import { AlertBox } from '../AlertBox'
 import styled, { css } from 'styled-components'
 import Aside from './Aside'
-import { GET_ALL_FOOD_PRODUCTS } from '../../container/update/Products/queries'
+import { usePosition } from 'components/hooks/usePosition'
+import moment from 'moment'
 
-export const Layout = ({ keyTheme, handleTheme, children }) => {
+export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => {
     const location = useRouter()
     const { error, isSession, setAlertBox } = useContext(Context)
+    const { latitude, longitude, timestamp, accuracy, speed, error: err } = usePosition(watch, settings);
+    const dataLocation = usePosition(watch, settings);
     useEffect(() => {
-        setAlertBox({ message: '', color: 'success' })
-        console.log(window.navigator.userAgent)
-    }, [])
+        setAlertBox({ message: latitude, color: 'success' })
+        if (latitude) {
+            window.localStorage.setItem('latitude', latitude)
+            window.localStorage.setItem('location', JSON.stringify(dataLocation));
+            window.localStorage.setItem('longitude', longitude)
+        }
+    }, [latitude, longitude, timestamp, accuracy, speed])
     return (
         <>
             <AlertBox err={error} />
