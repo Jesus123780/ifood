@@ -46,7 +46,7 @@ export const Header = () => {
             </a>
           </ActiveLink>
         </div>
-        <AdicionalComponent>
+        {/* <AdicionalComponent>
           <Time>
             <Timer>
               {time}
@@ -59,7 +59,7 @@ export const Header = () => {
             <Text>W:{size.width}px</Text>
             <Text>H:{size.height}px</Text>
           </UseSize>
-        </AdicionalComponent>
+        </AdicionalComponent> */}
         <Options />
       </>
     </HeaderC>
@@ -74,12 +74,12 @@ export const HeaderC = styled.header`
     box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
-    padding: 0px 20px;
     display: flex;
     height: 80px;
     box-shadow: inset 0 -1px 0 #dcdcdc;
-    padding: 0;
+    padding: 0px 80px;
     @media (min-width: 992px) {
     }
     `

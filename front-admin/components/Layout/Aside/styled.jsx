@@ -1,7 +1,11 @@
 import link from 'next/link'
 import styled, { css } from 'styled-components'
-import { BColor, BGColor, PColor, SFVColor } from '../../../public/colors'
+import { BColor, BGColor, PColor, PLVColor, SFVColor } from '../../../public/colors'
 
+export const Router = styled.div`
+    background-color: ${`${SFVColor}69`};
+    height: 100vw;
+`
 export const CtnAnchor = styled(link)`
     box-sizing: border-box;
     font-size: 100%;
@@ -117,6 +121,33 @@ export const Info = styled.div`
     display: flex;
     flex-direction: column;
     
+    .program_state {
+        align-items: center;
+        padding: 10px;
+        border-radius: 5px;
+        width: 90%;
+        margin: 10px auto;
+        display: flex;
+        border: 1px solid ${PLVColor};
+    }
+    .title_store {
+        color: #3e3e3e;
+        font-weight: 500;
+        font-size: 1.5rem;
+        text-align: center;
+        line-height: 0.875rem;
+        font-family: PFont-Light;
+        word-break: break-word;
+    }
+    .sub_title_store {
+        color: #3e3e3e;
+        font-weight: 500;
+        margin-left: 5px;
+        font-size: .9rem;
+        line-height: 0.875rem;
+        font-family: PFont-Light;
+        word-break: break-word;
+    }
 `
 export const ContentOption = styled.div`
     min-height: 150px;
@@ -153,6 +184,39 @@ export const Anchor = styled.a`
         display: block;
     }
 `
+
+export const OptionButton = styled.a`
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+`
+export const AnchorRouter = styled.a`
+    &.active {
+        color: ${PColor};
+        border-left: 2px solid ${PColor};
+        & > svg {
+            fill: ${PColor} !important;
+        }
+    }
+    & > svg {
+        margin-right: 10px;
+        margin-left: 5px;
+    }
+    padding: 10px 3px;
+    width: 100%;
+    word-break: break-word;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: #3e3e3e;
+    font-weight: 500;
+    font-size: .789rem;
+    line-height: 0.875rem;
+    border-left: 2px solid transparent;
+    margin-bottom: 5px;
+    
+    `
 
 // export const Anchor = styled.a`
 //     font-size: 12px;

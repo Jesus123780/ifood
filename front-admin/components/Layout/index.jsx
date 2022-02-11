@@ -16,7 +16,7 @@ export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => 
     const { latitude, longitude, timestamp, accuracy, speed, error: err } = usePosition(watch, settings);
     const dataLocation = usePosition(watch, settings);
     useEffect(() => {
-        setAlertBox({ message: latitude, color: 'success' })
+        setAlertBox({ message: '', color: 'success' })
         if (latitude) {
             window.localStorage.setItem('latitude', latitude)
             window.localStorage.setItem('location', JSON.stringify(dataLocation));
@@ -39,14 +39,14 @@ export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => 
         </>
     )
 }
-
+// https://www.conferecartoes.com.br/blog/portal-do-ifood
 const Main = styled.main`
     display: grid;
     width: 100%;
     overflow: hidden;
     height: 100vh;
-    grid-template-rows: 80px 2fr;
-    grid-template-columns: min-content 1fr;
+    grid-template-rows: 75px 2fr;
+    grid-template-columns: 180px 1fr;
     grid-template-areas:
         'aside head head head'
         'aside main main right'

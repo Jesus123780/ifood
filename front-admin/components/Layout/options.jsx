@@ -57,9 +57,9 @@ export const Options = ({ keyTheme, handleTheme }) => {
         setActive(!activeLogin)
     }
     return (
-        <>
+        <div>
             <Overline onClick={() => setShow(!true)} show={show} />
-            {< >
+            {<div>
                 <ButtonOption>
                     <Enlace href='/messages'>
                         <a>
@@ -89,8 +89,8 @@ export const Options = ({ keyTheme, handleTheme }) => {
                         </Option>
                     </FloatingBoxTwo>
                 </ContainerOption>
-            </>}
-        </>
+            </div>}
+        </div>
     )
 }
 const ContainerOption = styled.div`

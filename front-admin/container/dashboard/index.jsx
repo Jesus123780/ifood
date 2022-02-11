@@ -86,7 +86,6 @@ const Dashboard = () => {
                             <Text size='20px' >{email}</Text>
                         </CardPrimary>
                         <CardPrimary padding=''>
-                            <Avatar />
                             {dataStore !== null && <Link activeClassName="active" href={`/dashboard/${storeName?.replace(/\s/g, '-').toLowerCase()}/${idStore}`}>
                                 <a>
                                     <RippleButton style={{ justifyContent: 'center' }} margin='20px 0' widthButton='100%' size='10px' padding='5px'>Ir a la tienda</RippleButton>
@@ -94,60 +93,13 @@ const Dashboard = () => {
                             </Link>}
                         </CardPrimary>
                     </Card>
-                    <Card overflow='auto' wrap='no-wrap' width='97%' style={{ paddingLeft: '30px' }}>
-                        {[1, 2, 3, 4, 5].map((x, i) => (
-                            <div id='circleEmployee' key={x._id} style={{ zIndex: '200', width: 'min-content', marginLeft: 'calc(10% - 45px)' }}> <CircleCompany pulse={x._id === x._id} onClick={() => handleCompany({ ...x })} >{x.companyName?.slice(0, 2).toUpperCase()}</CircleCompany> </div>
-                        ))}
-                    </Card>
                 </Content>
                 <Content width="40%">
-                    <Content>
-                        <Card onClick={() => location.push('/usermgt')} style={{ cursor: 'pointer' }} animation height='100px' width='30%'>
-                            <Text font='PFont-Medium' size='17px' >100000000</Text>
-                            <Text size='14px' >Employees</Text>
-                        </Card>
-                        <Card style={{ cursor: 'pointer' }} animation height='100px' width='30%'>
-                            <Text font='PFont-Medium' size='17px' >0</Text>
-                            <Text size='14px' >Vendors</Text>
-                        </Card>
-                        <Card style={{ cursor: 'pointer' }} animation height='100px' width='30%'>
-                            <Text font='PFont-Medium' size='17px' >122221212</Text>
-                            <Text size='14px' >Files</Text>
-                        </Card>
-                    </Content>
-                    <Content>
-                        <Card onClick={() => location.push('/usermgt')} style={{ cursor: 'pointer' }} animation height='100px' width='30%'>
-                            <Text font='PFont-Medium' size='17px' >100000000</Text>
-                            <Text size='14px' >Employees</Text>
-                        </Card>
-                        <Card style={{ cursor: 'pointer' }} animation height='100px' width='30%'>
-                            <Text font='PFont-Medium' size='17px' >0</Text>
-                            <Text size='14px' >Vendors</Text>
-                        </Card>
-                        <Card style={{ cursor: 'pointer' }} animation height='100px' width='30%'>
-                            <Text font='PFont-Medium' size='17px' >122221212</Text>
-                            <Text size='14px' >Files</Text>
-                        </Card>
-                    </Content>
-                    <Card width='97%'>
-
-                    </Card>
+                    Info
                 </Content>
-                <Content width="20%">
-                    <Content>
-                        <Card style={{ cursor: 'pointer' }} animation height='100px' width='100%'>
-                            <Text size='14px' >Earning Reports</Text>
-                            <Text size='30px' >$51,255</Text>
-                            <Text size='12px' color={PLColor} >Total Revenue</Text>
-                        </Card>
-                        <Card style={{ cursor: 'pointer' }} animation height='100px' width='100%'>
-                            <Text font='PFont-Medium' size='17px' >100000000</Text>
-                            <Text size='14px' >Employees</Text>
-                        </Card>
-                    </Content>
-                    <Card width='97%'>
 
-                    </Card>
+                <Content width="20%">
+                    in
                 </Content>
                 <Content width="100%">
                     <Content>

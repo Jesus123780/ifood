@@ -57,7 +57,7 @@ export const Login = ({ watch, settings }) => {
             lastName: 'odavalencia002@gmail.com',
             email: 'odavalencia002@gmail.com',
             password: '113561675852804771364',
-            locationFormat: locationFormat[0].formatted_address,
+            locationFormat: locationFormat[0]?.formatted_address,
             useragent: window.navigator.userAgent,
             deviceid: await getDeviceId() || '',
         }
