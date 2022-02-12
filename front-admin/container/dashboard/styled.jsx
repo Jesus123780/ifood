@@ -1,6 +1,6 @@
 import styled, { css, keyframes } from 'styled-components'
 import { StyleSheet } from '@react-pdf/renderer'
-import { BColor, BGColor, EColor, ESFColor, PColor, SECColor, PVColor, TBGSColor, BGVColor, SFVColor } from '../../public/colors'
+import { BColor, BGColor, EColor, ESFColor, PColor, SECColor, PVColor, TBGSColor, BGVColor, SFVColor, PLVColor } from '../../public/colors'
 import { fadeIn, fadeOut } from '../../components/AlertBox/styled'
 import { BG_ANIMATION_ } from '../../components/animations'
 
@@ -144,6 +144,8 @@ export const DisRestaurant = styled.div`
 `
 export const Wrapper = styled.div`
     padding: 30px;
+    width: 100%;
+    max-width: 1366px;
     /* animation: 2s linear 0s infinite normal none ${BG_ANIMATION_}; */
     /* background: linear-gradient(90deg, rgb(255, 254, 254) 0%, rgb(194, 190, 190) 20%, rgba(255, 255, 255, 0.904) 50%, rgba(255, 255, 255, 0.219) 80%, rgba(250, 250, 250, 0.911) 100%) 0% 0% / 200% 200%; */
     margin: auto;
@@ -157,10 +159,20 @@ export const Wrapper = styled.div`
     height: 100%;
     display: grid;
     justify-content: ${({ justifyContent }) => justifyContent || 'normal'};
-    border-right: 1px solid #cccccc7a;
     &:last-child {
         border-right: none;
     }
+`
+
+export const ButtonStore = styled.button`
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  margin: 30px auto;
+  margin-bottom: 58px;
+  display: flex;
+  border: 1px solid ${PLVColor};
 `
 export const OlList = styled.ol`
     font-size: 1rem;
@@ -290,7 +302,6 @@ export const CheckAnimation = styled.div`
  .success-checkmark {
     width: 50px;
     height: 40px;
-    margin: 0 auto;
     
     .check-icon {
         width: 40px;
@@ -717,7 +728,6 @@ const LinkPdf = styled.a`
   background-color: transparent;
 `
 export const LineItems = styled.div`
-    margin: 0 auto;
     background-color: ${BGColor};
     width: 100%;
     display: grid;    
@@ -737,7 +747,6 @@ export const Section = styled.div`
     grid-template-columns: ${({ columnWidth }) => columnWidth ? columnWidth?.map(x => `${x?.width} `) : '1fr'}; 
     height: auto;
     align-items: center;
-    margin: 0 auto;
     border-bottom: 1px solid #f0f0f0;
     background-color: ${({ bgRow }) => bgRow === 1 ? `${TBGAColor}` : bgRow === 2 ? `${TBGVColor}` : bgRow === 3 ? `${TBGBColor}` : bgRow === 4 ? `${TBGSColor}` : bgRow === 5 ? TBGAColor : bgRow === 6 ? TBGEColor : bgRow === 7 ? TBGRColor : bgRow === 8 && TBGDColor};
     :hover {
@@ -821,12 +830,19 @@ export const Avatar = styled.img`
     background-color: ${PColor};
     border: 3px solid ${BGColor};
 `
+export const MediaValue = styled.span`
+  font-size: 1.5em;
+  margin-right: 10px;
+  color: #3f3e3e;
+  font-family: PFont-Light;
+`
 export const Content = styled.div`
   display: flex;
   flex-wrap: wrap;
   height: min-content;
   width: 100%;
-  margin: 0 auto;
+  margin: ${({ margin }) => margin};
+  justify-content: space-between;
   /* flex-direction: ${({ direction }) => direction || 'column'}; */
   width: ${({ width }) => width || '100%'};
   @media only screen and (max-width: 769px){
@@ -853,13 +869,13 @@ export const Card = styled.div`
   width: ${({ width }) => width || 'auto'};
   /* flex-direction: ${({ direction }) => direction || 'column'}; */
   justify-content: ${({ justify }) => justify || 'initial'};
-  padding: ${({ padding }) => padding || ' 1%'};
+  padding: ${({ padding }) => padding || '1%'};
   position: relative;
   ${({ radius }) => radius && css`border-radius: ${radius};`}
   ${({ overflow }) => overflow && css`overflow: ${overflow};`}
   transition: .5s ease;
   align-items: center;
-  margin: ${({ margin }) => margin || ' 1% auto'};
+  margin: ${({ margin }) => margin || '0'};
   background-color: ${BGColor};
   ${props => props.active ? css`border: 3px solid ${PVColor};` : css`border: 3px solid transparent;`}
   box-shadow: 0px 0px 14px #00000017;
@@ -873,6 +889,22 @@ export const Card = styled.div`
       z-index: 9999;
     }  
   ` }
+`
+export const CircleUser = styled.div`
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  height:70px;
+  width: 70px;
+  max-height:70px;
+  max-width: 70px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  place-content: center;
+  display: grid;
+  background-color: ${BGColor};
+  margin: auto;
+  bottom: -35px;
 `
 export const CardPrimary = styled.div`
     background-color: ${({ bgColor }) => bgColor || BGColor};
@@ -978,7 +1010,7 @@ export const Text = styled.span`
     ${({ padding }) => padding && css`padding: ${padding};`}
     margin: ${({ margin }) => margin || '0'};
     color: ${({ color }) => color || BColor};
-    /* justify-content: ${({ justify }) => justify || 'flex-start'}; */
+    justify-content: ${({ justify }) => justify || 'flex-start'};
     display: flex;
     font-family: ${({ font }) => font || 'PFont-Regular'};
     word-break: break-word;
@@ -1106,7 +1138,7 @@ export const LateralModal = styled.div`
     z-index: 9999;
     box-shadow: 0px 1px 4px rgb(0 0 0 / 5%), 0px 4px 16px rgb(0 0 0 / 6%);
     transition: 300ms ease;
-    ${({ open }) => open && css`
+    ${({ openSchedule }) => openSchedule && css`
     right: -100%;
 
     `}

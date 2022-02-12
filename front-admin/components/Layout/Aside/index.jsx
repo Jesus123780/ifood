@@ -1,20 +1,21 @@
 /* eslint-disable no-unused-expressions */
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { useApolloClient } from '@apollo/client'
-import Link from 'next/link'
 import PropTypes from 'prop-types'
-import { BColor, BGColor, PColor } from '../../../public/colors'
-import { IconArrowBottom, IconHome, IconLogo, IconLogout, IconPromo, IconShopping } from '../../../public/icons'
+import { PColor } from '../../../public/colors'
+import { IconHome, IconHorario, IconLogo, IconLogout, IconPromo, IconShopping } from '../../../public/icons'
 import ActiveLink from '../../common/Link'
-import { Anchor, AnchorRouter, ButtonGlobalCreate, Card, ContainerAside, CtnAnchor, Info, LeftNav, OptionButton, Router, SubMenuModules } from './styled'
+import { Anchor, AnchorRouter, ButtonActionLink, ButtonGlobalCreate, Card, ContainerAside, CtnAnchor, Info, LeftNav, OptionButton, Router, SubMenuModules } from './styled'
 import { useRouter } from 'next/router'
 import { URL_BASE } from 'apollo/urls'
 import { ButtonOption } from '../styled'
 import { useStore } from 'components/hooks/useStore'
+import { Context } from 'context/Context'
 
 const Aside = () => {
   const { client } = useApolloClient()
   const location = useRouter()
+  const { error, isSession, setAlertBox, openSchedule, setOpenSchedule, countPedido } = useContext(Context)
 
   const [show, setShow] = useState(false)
   const onClickLogout = useCallback(async () => {
@@ -37,7 +38,6 @@ const Aside = () => {
 
   }, [client])
   const [dataStore, { loading: LoadingRes }] = useStore()
-  console.log(dataStore)
   const { storeName, idStore } = dataStore || {}
 
   return (
@@ -100,28 +100,34 @@ const Aside = () => {
           </Info>
           <Router>
             <ActiveLink activeClassName="active" href="/dashboard">
-              <AnchorRouter><IconHome  size='15px' />Home</AnchorRouter>
+              <AnchorRouter><IconHome size='15px' />Home</AnchorRouter>
             </ActiveLink>
             <ActiveLink activeClassName="active" href="/pedidos">
-              <AnchorRouter><IconShopping  size='15px' />Pedidos</AnchorRouter>
+              <AnchorRouter>
+                <div className="count_pedidos">{countPedido}</div>
+                <IconShopping size='15px' />Pedidos
+              </AnchorRouter>
             </ActiveLink>
-            <ActiveLink activeClassName="active" href="/pedidos">
-              <AnchorRouter><IconShopping  size='15px' />Orarios</AnchorRouter>
+            <ButtonActionLink onClick={() => setOpenSchedule(!openSchedule)}>
+              <IconHorario size='15px' />Orarios
+            </ButtonActionLink>
+            <ActiveLink activeClassName="active" href="/promo">
+              <AnchorRouter><IconPromo size='15px' />Promo</AnchorRouter>
             </ActiveLink>
             <ActiveLink activeClassName="active" href="/promo">
-              <AnchorRouter><IconPromo  size='15px' />Promo</AnchorRouter>
+              <AnchorRouter><IconShopping size='15px' />Store</AnchorRouter>
+            </ActiveLink>
+            <ActiveLink activeClassName="active" href="/ventas">
+              <AnchorRouter><IconShopping size='15px' />Ventas</AnchorRouter>
             </ActiveLink>
             <ActiveLink activeClassName="active" href="/promo">
-              <AnchorRouter><IconShopping  size='15px' />Store</AnchorRouter>
+              <AnchorRouter><IconShopping size='15px' />Ajustes</AnchorRouter>
             </ActiveLink>
             <ActiveLink activeClassName="active" href="/promo">
-              <AnchorRouter><IconShopping  size='15px' />Ajustes</AnchorRouter>
+              <AnchorRouter><IconShopping size='15px' />Recomendaciones</AnchorRouter>
             </ActiveLink>
             <ActiveLink activeClassName="active" href="/promo">
-              <AnchorRouter><IconShopping  size='15px' />Recomendaciones</AnchorRouter>
-            </ActiveLink>
-            <ActiveLink activeClassName="active" href="/promo">
-              <AnchorRouter><IconShopping  size='15px' />Productos </AnchorRouter>
+              <AnchorRouter><IconShopping size='15px' />Productos </AnchorRouter>
             </ActiveLink>
             <OptionButton>
               <ButtonOption space onClick={onClickLogout}>

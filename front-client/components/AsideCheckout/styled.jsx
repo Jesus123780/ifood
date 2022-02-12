@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { BGColor } from "../../public/colors";
+import { BGColor, PLVColor } from "../../public/colors";
 import { SideIn, SlideInLeft } from "../animations";
 
 
@@ -35,13 +35,43 @@ export const LateralModal = styled.div`
 export const CardProduct = styled.div`
     height: 200px;
     width: 90%;
+    position: relative;
     margin: 10px auto;
     box-shadow: 0px 4px 10px #6960604d;    
     border-radius: 2px;
     padding: 20px;
+    .footer {
+        display: flex;
+        justify-content: flex-start;
+        height: auto;
+        align-items: flex-end;
+        position: absolute;
+        bottom: 20px;
+    }
 `
 export const Content = styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
+`
+export const Text = styled.span`
+    font-size: ${({ size }) => size || '1.125rem'};
+    text-align:  ${({ align }) => align || 'start'};
+    ${({ lineHeight }) => lineHeight && css`line-height: ${lineHeight};`}
+    ${({ line }) => line && css`text-decoration:line-through;`}
+    ${({ padding }) => padding && css`padding: ${padding};`}
+    margin: ${({ margin }) => margin || '0'};
+    color: ${({ color }) => color || '#3e3e3e'};
+    /* justify-content: ${({ justify }) => justify || 'flex-start'}; */
+    display: flex;
+    font-family: ${({ font }) => font || 'PFont-Regular'};
+    word-break: break-word;
+    list-style: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    font-weight: 400;
+    margin-top: 0;
+    line-height: 1.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `

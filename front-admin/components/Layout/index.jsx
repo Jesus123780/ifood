@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import React, { useContext, useEffect } from 'react'
 import { gql, useQuery, useMutation } from '@apollo/client'
-import { Context } from '../../context'
+import { Context } from '../../context/Context'
 import { Footer } from './footer'
 import { Header } from './header'
 import { AlertBox } from '../AlertBox'
@@ -19,8 +19,8 @@ export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => 
         setAlertBox({ message: '', color: 'success' })
         if (latitude) {
             window.localStorage.setItem('latitude', latitude)
-            window.localStorage.setItem('location', JSON.stringify(dataLocation));
             window.localStorage.setItem('longitude', longitude)
+            window.localStorage.setItem('location', JSON.stringify(dataLocation));
         }
     }, [latitude, longitude, timestamp, accuracy, speed])
     return (
@@ -47,13 +47,17 @@ const Main = styled.main`
     height: 100vh;
     grid-template-rows: 75px 2fr;
     grid-template-columns: 180px 1fr;
+    grid-template-columns: 180px 1fr;
     grid-template-areas:
-        'aside head head head'
-        'aside main main right'
-        'aside main main right';
+    'aside head head head'
+    'aside main main right'
+    'aside main main right';
     text-align: center;
     grid-gap: 0.25rem;
     /* grid-gap: 10px; */
+    @media (max-width: 960px) {
+        grid-template-columns: min-content 1fr;
+    }
     @media (min-width: 960px) {
         ${props => !props.aside &&
         css`

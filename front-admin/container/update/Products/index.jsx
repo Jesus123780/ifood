@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { GET_ALL_CITIES, GET_ALL_COUNTRIES, GET_ALL_DEPARTMENTS, GET_ALL_ROAD } from '../../../gql/Location';
 import { Products } from '../../../components/Update/Products'
 import { GET_ALL_PRODUCTS, GET_ONE_COLOR, UPDATE } from './queries';
-import { Context } from '../../../Context';
+import { Context } from '../../../context/Context';
 import { GET_ALL_SIZE } from '../../../gql/information/Size/size';
 import useLocalStorage from '../../../components/hooks/useLocalSorage';
 import { useGetProducts } from '../../../components/hooks/useGetProducts';

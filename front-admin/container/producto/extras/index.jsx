@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { useMutation } from '@apollo/client'
 import { RippleButton } from '../../../components/Ripple';
 import { BGColor, EColor, PColor, PLColor, PVColor, BColor } from '../../../public/colors';
@@ -14,12 +14,14 @@ import { useSetState } from '../../../components/hooks/useState';
 import { useFormTools } from '../../../components/BaseForm';
 import InputHooks from '../../../components/InputHooks/InputHooks';
 import moment from 'moment';
+import { Context } from 'context/Context';
 
 export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, modal }) => {
     //    STATES
     const [handleChange, handleSubmit, handleForcedData, { dataForm }] = useFormTools()
     const OPEN_MODAL_CAT_EXTRA = useSetState(false)
     const INFO_EXTRA = useSetState({})
+    const { setAlertBox } = useContext(Context)
 
     const initialLine = {
         extraName: '',
@@ -146,7 +148,7 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
                 nameFun: 'ExtProductFoodsOptionalAll',
                 dataNew: ExtProductFoodsOptionalAll
             })
-        })
+        }).then(res => setAlertBox({ message: res?.message?.DeleteExtFoodSubsOptional?.message  }))
     }
 
 
@@ -196,7 +198,7 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
                         </div>
                         <div className="garnish-choices">
                             <IconMiniCheck size={'15px'} color={'#009b3a'} />
-                            {!!x.required ? <span span class="marmita-minitag">OBLIGATORIO</span> : <span style={{ backgroundColor: 'transparent', color: 'transparent', width: '8  0px', zIndex: '0' }} class="marmita-minitag">OBLIGATORIO</span>}
+                            {!!x.required ? <span span className="marmita-minitag">OBLIGATORIO</span> : <span style={{ backgroundColor: 'transparent', color: 'transparent', width: '8  0px', zIndex: '0' }} className="marmita-minitag">OBLIGATORIO</span>}
                         </div>
                     </GarnishChoicesHeader>
                     {
@@ -278,7 +280,7 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
                             <p className="garnish-choices__title-desc">Escoge hasta {INFO_EXTRA.state.numbersOptionalOnly} opciones.</p>
                         </div>
                         {INFO_EXTRA.state.required === 1 ? <div className="garnish-choices">
-                            <span span class="marmita-minitag">OBLIGATORIO</span>
+                            <span span className="marmita-minitag">OBLIGATORIO</span>
                         </div> : null}
                         <RippleButton bgColor={'transparent'} margin='0px' widthButton='min-content' type="button" onClick={() => handleDeleteCatOptional(INFO_EXTRA.state)} >
                             <IconDelete size='25px' color={EColor} />
@@ -443,7 +445,7 @@ export const OptionalExtraProducts = ({ pId, dataOptional }) => {
                                                 <p className="garnish-choices__title">{list?.title}</p>
                                                 <p className="garnish-choices__title-desc">Escoge hasta {list?.numberLimit} opciones.</p>
                                                 <div className="garnish-choices">
-                                                    {list.required === 1 && <span class="marmita-minitag">OBLIGATORIO</span>}
+                                                    {list.required === 1 && <span className="marmita-minitag">OBLIGATORIO</span>}
                                                 </div>
                                             </div>
                                             <IconMiniCheck size={'15px'} color={'#009b3a'} />
@@ -475,7 +477,7 @@ export const OptionalExtraProducts = ({ pId, dataOptional }) => {
                     <p className="garnish-choices__title-desc">Escoge hasta {numberLimit} opciones.</p>
                 </div>
                 <div className="garnish-choices">
-                    {setCheck.exState === 1 && <span class="marmita-minitag">OBLIGATORIO</span>}
+                    {setCheck.exState === 1 && <span className="marmita-minitag">OBLIGATORIO</span>}
                 </div>
                 <div>
                     <div>

@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 import { useContext, useEffect, useState } from 'react'
 import { GET_ALL_CATEGORIES } from '../../container/Update/Categories/queries'
-import { Context } from '../../Context'
+import { Context } from '../../context/Context'
 import { GET_USER } from '../../gql/LoginAut'
 
 export const useUser = () => {

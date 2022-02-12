@@ -59,17 +59,7 @@ export const PromosBanner = () => {
   ]
   return (
     <Content>
-      <ContainerCardProduct>
-        {data?.map(products => (
-          <Link href={`/restaurantes/promos/${products.StoreName}/${products.pId}`}>
-            <a>
-              <BannerPromo color={color} onMouseOut={() => setActiveColor('red')} onMouseOver={() => setActiveColor('blue')} key={products.pId}>
-                <Img src={products.images} alt={products.pName} />
-              </BannerPromo>
-            </a>
-          </Link>
-        ))}
-      </ContainerCardProduct>
+      
     </Content>
   );
 };

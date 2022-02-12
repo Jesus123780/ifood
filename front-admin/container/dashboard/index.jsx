@@ -1,14 +1,13 @@
 import React, { useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
-import { BColor, BGColor, PColor, PLColor, TBGBColor } from '../../public/colors'
+import { BColor, BGColor, PColor, PLColor, SFVColor, TBGBColor } from '../../public/colors'
 import { Loading } from '../../components/Loading'
 import { RippleButton } from '../../components/Ripple'
 import Link from 'next/link'
 import router, { useRouter } from 'next/router'
 import { useSetState } from '../../components/hooks/useState'
 // import { LineChart } from '@/components/Chart/multiAxis'
-import { Avatar, Card, CardPrimary, Container, Content, Text, Wrapper, WrapperRow, CardOverFloW, CircleCompany, ButtonTheme, SwitchButton, ContentToggle, OlList, FeedItem, ItemTeam, ItemInf, CardDevice } from './styled'
 import { useFormTools } from '../../components/BaseForm'
 import { useUser } from '../../components/hooks/useUser'
 import { getToken } from '../../utils'
@@ -17,6 +16,14 @@ import { AwesomeModal } from '../../components/AwesomeModal'
 import { GET_ALL_EMPLOYEE_STORE } from './queriesStore'
 import { GET_ALL_DEVICES } from 'container/profile/queries'
 import moment from 'moment'
+import { TextH2Main } from 'components/common/h2'
+import { Rate } from 'components/Rate'
+import { IconShopping } from 'public/icons'
+import { LastedStatistic } from './LastedStatistic'
+import { OurFood } from './OurFood'
+import { AlertStatistic } from './AlertClients'
+import { DeliveryFood } from './Delivery'
+import { Avatar, Card, CardPrimary, Container, Content, Text, Wrapper, WrapperRow, CardOverFloW, CircleCompany, CircleUser, ButtonTheme, SwitchButton, ContentToggle, OlList, FeedItem, ItemTeam, ItemInf, CardDevice, MediaValue, ButtonStore } from './styled'
 
 const Dashboard = () => {
     // STATE
@@ -79,21 +86,24 @@ const Dashboard = () => {
         </AwesomeModal >}
         <Wrapper>
             <Container>
-                <Content width="20%">
+                <Content margin='0 0 100px 0' width="20%">
                     <Card padding='0' width='97%'>
-                        <CardPrimary radius='8px 8px 0px 0px' bgColor={TBGBColor} padding='30px 10px'>
-                            <Text size='22px' >Welcome Back !</Text>
-                            <Text size='20px' >{email}</Text>
+                        <CardPrimary radius='8px 8px 0px 0px' bgColor={`${SFVColor}65`} padding='30px 10px'>
+                            <Text size='15px' >{email}</Text>
                         </CardPrimary>
                         <CardPrimary padding=''>
                             {dataStore !== null && <Link activeClassName="active" href={`/dashboard/${storeName?.replace(/\s/g, '-').toLowerCase()}/${idStore}`}>
                                 <a>
-                                    <RippleButton style={{ justifyContent: 'center' }} margin='20px 0' widthButton='100%' size='10px' padding='5px'>Ir a la tienda</RippleButton>
+                                    <ButtonStore style={{ justifyContent: 'center' }} margin='50px 0' widthButton='100%' size='10px' padding='5px'>Ir a la tienda</ButtonStore>
                                 </a>
                             </Link>}
+                            <CircleUser>
+                                {email?.slice(0, 2).toUpperCase() || User}
+                            </CircleUser>
                         </CardPrimary>
                     </Card>
                 </Content>
+
                 <Content width="40%">
                     Info
                 </Content>
@@ -157,7 +167,11 @@ const Dashboard = () => {
                     </Content>
                 </Content>
             </Container>
-        </Wrapper>
+            <LastedStatistic />
+            <OurFood />
+            <AlertStatistic />
+            <DeliveryFood />
+        </Wrapper >
     </>
     )
 }

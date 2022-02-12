@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useMutation, useQuery } from '@apollo/client'
 import styled, { keyframes } from 'styled-components'
-import { Context } from '../../../../Context'
+import { Context } from '../../../../context/Context'
 import InputHooks from '../../../InputHooks/InputHooks'
 import { LoadEllipsis } from '../../../LoadingButton'
 import { RippleButton } from '../../../Ripple'

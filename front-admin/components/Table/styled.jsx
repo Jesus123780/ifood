@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { BGColor, EColor, PVColor, SEGColor, TBGAColor, TBGBColor, TBGDColor, TBGEColor, TBGRColor, TBGSColor, TBGVColor, TFBColor, TFEColor, TFSColor } from '../../public/colors'
+import { BGColor, EColor, PVColor, SEGColor, SFVColor, TBGAColor, TBGBColor, TBGDColor, TBGEColor, TBGRColor, TBGSColor, TBGVColor, TFBColor, TFEColor, TFSColor } from '../../public/colors'
 
 export const ContainerTable = styled.div`
     width: 100%;
@@ -8,6 +8,7 @@ export const ContainerTable = styled.div`
 export const TableResponsive = styled.div`
     overflow: hidden;
     overflow-x: auto;
+    border: 1px solid ${`${SFVColor}13`};
 `
 export const Button = styled.button`
     background-color: transparent;
@@ -19,6 +20,7 @@ export const Section = styled.th`
     height: auto;
     align-items: center;
     margin: 0 auto;
+    padding: ${({ padding }) => padding};
     place-content: center;
     border-bottom: 1px solid #f0f0f0;
    ${props => props.odd && css`

@@ -1,5 +1,5 @@
 import '../styles/globals.css'
-import Context from '../context'
+import Context from '../context/Context'
 import { useState } from 'react'
 import { Layout } from '../components/Layout'
 import { ApolloProvider } from '@apollo/client'
@@ -20,7 +20,7 @@ export default function App({ Component, pageProps }) {
         <Auth>
           {/* <ThemeProvider theme={theme}> */}
           <GlobalStyle />
-          <NextNprogress color={PColor  } startPosition={0.3} stopDelayMs={200} height={5} />
+          <NextNprogress color={PColor  } startPosition={0} stopDelayMs={10} height={5} />
           <Layout>
             <Component {...pageProps} />
           </Layout>

@@ -190,6 +190,21 @@ export const OptionButton = styled.a`
     bottom: 15px;
     left: 0;
 `
+export const ButtonActionLink = styled.button`
+    background-color: transparent;
+    width: 100%;
+    text-align: start;
+    & > svg {
+        margin-right: 10px;
+        margin-left: 5px;
+    }
+    margin-bottom: 5px;
+    color: #3e3e3e;
+    font-weight: 500;
+    font-size: .789rem;
+    line-height: 0.875rem;
+
+`
 export const AnchorRouter = styled.a`
     &.active {
         color: ${PColor};
@@ -215,7 +230,22 @@ export const AnchorRouter = styled.a`
     line-height: 0.875rem;
     border-left: 2px solid transparent;
     margin-bottom: 5px;
-    
+    position: relative;
+    .count_pedidos {
+        background-color: ${PColor};
+        color: ${BGColor};
+        border-radius: 50%;
+        padding: 1px;
+        height: 18px;
+        font-size: 12px;
+        width: 18px;
+        align-items: center;
+        display: flex;
+        place-content: center;
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+    }
     `
 
 // export const Anchor = styled.a`

@@ -173,6 +173,36 @@ export const getCatProductsWithProduct = async (root, args, context, info) => {
     })
     return data
 }
+export const getCatProductsWithProductClient = async (root, args, context, info) => {
+    const { search, min, max, carProId, gender, desc, categories } = args
+    console.log(search, min, max, carProId, gender, desc, categories)
+    linkBelongsTo(catProducts, productModelFood, 'pId', 'carProId')
+    let whereSearch = {}
+    const attributes = getAttributes(catProducts, info)
+    const data = await catProducts.findAll({
+        attributes,
+        include: [
+            {
+                attributes: ['pId', 'carProId'],
+                model: productModelFood,
+                required: true,
+            }
+        ],
+        where: {
+            [Op.or]: [
+                {
+                    // get restaurant
+                    // idStore: deCode(context.restaurant),
+                    // get user
+                    // id: deCode(context.User.id),
+                    // Productos state
+                    pState: { [Op.gt]: 0 },
+                }
+            ]
+        }, limit: [min || 0, max || 100], order: [['pName', 'DESC']]
+    })
+    return data
+}
 export default {
     TYPES: {
         catProductsWithProduct: {
@@ -193,6 +223,7 @@ export default {
     },
     QUERIES: {
         catProductsAll,
+        getCatProductsWithProductClient,
         getCatProductsWithProduct
     },
     MUTATIONS: {

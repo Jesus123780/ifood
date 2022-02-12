@@ -50,6 +50,9 @@
     addressStore: String
     createAt: DateTime
     cateStore: CatStore
+    pais: Country
+    city: City
+    department: Department
   }
   input IStore {
     idStore: ID
@@ -87,6 +90,7 @@
 """Response for find one Store"""
     getStore(id: ID, StoreName: String, idStore: ID): Store
     getAllStore(id: ID, StoreName: String, idStore: ID): [Store]
+    getAllStoreInStore(pId: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int): [Store]
     getOneStore(id: ID, StoreName: String, idStore: ID): Store
     getOneCOntractStore(StoreName: String, idStore: ID): ContractType
   }

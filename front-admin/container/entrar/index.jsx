@@ -37,7 +37,7 @@ export const Login = ({ watch, settings }) => {
             })
             .catch(() => {
             })
-        return  locationFormat ?? locationFormat[0].formatted_address
+        return locationFormat ?? locationFormat[0].formatted_address
     }
     const responseGoogle = async (e) => {
         e.preventDefault()

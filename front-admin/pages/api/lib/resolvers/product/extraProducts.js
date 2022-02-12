@@ -214,7 +214,8 @@ export const ExtProductFoodsOptionalAll = async (root, args, context, info) => {
         })
         return data
     } catch (e) {
-        const error = new Error('Lo sentimos, ha ocurrido un error interno')
+        console.log(e)
+        const error = new Error('Lo sentimos, ha ocurrido un error interno', e)
         return error
     }
 }
@@ -263,7 +264,6 @@ export const updateMultipleExtProductFoods = async (_root, args, context) => {
             const { pId, exState, extraName, extraPrice } = setData[i]
             await updateExtraInProduct(null, { input: { pId, exState, extraName, extraPrice } })
         }
-
     } catch (e) {
         throw new ApolloError('No ha sido posible procesar su solicitud.', 500)
     }

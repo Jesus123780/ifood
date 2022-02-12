@@ -9,7 +9,7 @@ import { IconArrowLeft } from '../../public/icons'
 import { useRouter } from 'next/router'
 import { ButtonSubmit, Content, Form, Enlace, Card, Text, GoBack } from './styled'
 import { CREATE_USER_SESSION } from './queries'
-import { Context } from '../../Context'
+import { Context } from '../../context/Context'
 import fetchJson from '../../components/hooks/fetchJson'
 import { URL_BASE } from '../../apollo/urls'
 
@@ -19,7 +19,6 @@ export const RegisterUser = () => {
     const router = useRouter()
     const [newRegisterUser, { loading }] = useMutation(CREATE_USER_SESSION)
     const setAlertBox = useContext(Context)
-    // console.log(setAlertBox)
     const body = {
         name: dataForm?.email,
         username: dataForm.email,

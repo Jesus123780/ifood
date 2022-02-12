@@ -2,7 +2,7 @@ import { useLazyQuery, useMutation } from '@apollo/client';
 import React, { useContext, useEffect, useState } from 'react'
 import { Categories } from '../../../components/Update/Categories'
 import { GET_ALL_CATEGORIES, UPDATE_CATEGORIES } from './queries';
-import { Context } from '../../../Context';
+import { Context } from '../../../context/Context';
 import { useCategories } from '../../../components/hooks/useCategories';
 
 export const CategoriesC = () => {

@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client'
 import React, { useContext, useState } from 'react'
-import { Context } from '../../../../Context'
+import { Context } from '../../../../context/Context'
 import { updateCache, validationSubmitHooks } from '../../../../utils'
 import InputHooks from '../../../InputHooks/InputHooks'
 // import { SpinnerColorJust } from '../../../Loading'

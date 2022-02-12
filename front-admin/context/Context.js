@@ -27,6 +27,7 @@ const Provider = ({ children }) => {
     useEffect(() => { }, [isCompany])
     // Verify state
     const [menu, setMenu] = useState(0)
+    const [countPedido, setCountPedido] = useState(0)
     const handleMenu = index => setMenu(index === menu ? false : index)
     const initialCompanyState = {
         idStore: undefined
@@ -103,13 +104,18 @@ const Provider = ({ children }) => {
         }
     }
     const [state_product_card, dispatch] = useReducer(product, initialState)
+    const [openSchedule, setOpenSchedule] = useState(true)
 
     const value = {
         error,
+        setOpenSchedule,
+        openSchedule,
         DataCompany,
         // Link
         setCompanyLink,
         setCollapsed,
+        setCountPedido,
+        countPedido,
         isCompany,
         handleMenu,
         // Menu Ctx

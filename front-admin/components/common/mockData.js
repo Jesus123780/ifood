@@ -1,7 +1,4 @@
-import React from 'react'
-import { IconArrowLeft, IconCSS, IconExcel, IconHTML, IconImg, IconJS, IconPDF, IconSvg, IconTar, IconWord, IconZIP } from '../../public/icons'
 import { RandomCode } from '../../utils'
-
 export const MockData = {
     lists: {
         '01list': {

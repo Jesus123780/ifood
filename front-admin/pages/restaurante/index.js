@@ -5,7 +5,7 @@ import { useContext } from 'react'
 
 import { useEffect } from 'react'
 import { Restaurant } from '../../container/Restaurant'
-import { Context } from '../../Context'
+import { Context } from '../../context/Context'
 
 export default function RestaurantView() {
   // const { setAlertBox } = useContext(Context)

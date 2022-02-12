@@ -1,0 +1,50 @@
+
+# Stores
+type StorePedidos {
+  pdpId: ID
+  id: ID
+  idStore: ID
+  pId: ID
+  ppState: Int
+  pCodeRef: String
+  pPDate: DateTime
+  pPStateP: Int # 5 estados - confirmado - proceso - preparacion - salida - cancelado  
+  payMethodPState: Int  
+  pPRecoger: Int  
+  unidProducts: Int  
+  pDatCre: DateTime
+  pDatMod: DateTime
+  getUser: User
+  productFoodsOne: ProductFood
+
+}
+input InputStorePedidos {
+  pdpId: ID
+  id: ID
+  pId: ID
+  idStore: ID
+  ppState: Int
+  pCodeRef: String
+  pPDate: DateTime
+  pPStateP: Int # 5 estados - confirmado - proceso - preparacion - salida - cancelado  
+  payMethodPState: Int  
+  pPRecoger: Int  
+  unidProducts: Int  
+  pDatCre: DateTime
+  pDatMod: DateTime
+}
+
+type Query {
+"""Response for find one Store"""
+  getOnePedidoStore(StoreName: String, idStore: ID): StorePedidos
+  getAllPedidoStore(StoreName: String, idStore: ID): [StorePedidos]
+}
+
+type Mutation {
+  """"registra Store data"""
+  createOnePedidoStore(input: InputStorePedidos): AuthPayload
+}
+
+type Subscription {
+  newStorePedidos: StorePedidos
+}

@@ -17,7 +17,7 @@ import { useUser } from '../../components/hooks/useUser'
 import { GET_ALL_CAT_STORE } from '../../gql/catStore'
 import { CardCheckBox, CardInput, CardRadioLabel } from '../../components/Update/Products/styled'
 import { AwesomeModal } from '../../components/AwesomeModal'
-import { Context } from '../../Context'
+import { Context } from '../../context/Context'
 import useLocalStorage from '../../components/hooks/useLocalSorage'
 
 export const Restaurant = () => {

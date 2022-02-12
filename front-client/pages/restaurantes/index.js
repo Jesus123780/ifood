@@ -9,10 +9,13 @@ import { Context } from '../../context'
 import { PromosBanner } from '../../container/restaurantes/PromosBanner'
 import { Section } from '../../container/restaurantes/styled'
 import { ListRestaurant } from '../../container/restaurantes/restaurant'
+import { GET_ALL_COUNTRIES } from '../../gql/Location'
 
 export default function RestaurantHome() {
   const { data } = useQuery(GET_ONE_STORE)
+  const { data: dataEy } = useQuery(GET_ALL_COUNTRIES)
   const { setAlertBox, dispatch, state_product_card } = useContext(Context)
+  console.log(dataEy)
   return (
     <div className={styles.container}>
       <Head>

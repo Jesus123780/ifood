@@ -2,49 +2,37 @@ import { useMemo } from 'react'
 import { ApolloClient, from, HttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import { concatPagination } from '@apollo/client/utilities'
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import merge from 'deepmerge'
-import withSession from '../apollo/session'
-import { createUploadLink } from 'apollo-upload-client'
 import isEqual from 'lodash/isEqual'
 import { URL_BASE } from './urls'
+
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
-const BROWSER_API_KEY = "k6mBs3JggSu0q48OS7yz";
 
 let apolloClient
-const getDeviceId = async () => {
-    const fp = await FingerprintJS.load()
-    const result = await fp.get()
-    return result.visitorId
-}
-// browser()
-const authLink = setContext(async (_, { headers }) => {
-    const lol = await getDeviceId()
-    const token = localStorage.getItem('sma.sv1')
-    const restaurant = localStorage.getItem('restaurant')
+
+const authLink = setContext((_, { headers }) => {
+    const token = localStorage.getItem('vs1-tk')
     return {
         headers: {
             ...headers,
             authorization: token ? token : '',
-            restaurant: restaurant ?? restaurant,
-            deviceid: await getDeviceId() || '',
         }
     }
 })
 
-const httpLink = createUploadLink({
-    uri: `${URL_BASE}graphql`, // Server URL (must be absolute)
-    credentials: 'include', // Additional fetch() options like `credentials` or `headers`
-    fetchOptions: {
-        mode: "cors",
-    },
+const httpLink = new HttpLink({
+    uri: `${ URL_BASE }graphql`, // Server URL (must be absolute)
+    credentials: 'same-origin' // Additional fetch() options like `credentials` or `headers`
 })
 
 function createApolloClient() {
     return new ApolloClient({
         connectToDevTools: true,
         ssrMode: typeof window === 'undefined',
-        link: authLink.concat(httpLink),
+        link: from([
+            authLink,
+            httpLink
+        ]),
         cache: new InMemoryCache({
             typePolicies: {
                 Query: {

@@ -20,19 +20,20 @@ import { Overline } from '../../components/common/Reusable'
 import { ScheduleTimings } from './ScheduleTimings'
 import { ManageCategories } from './manageCategories'
 import { AddEmployee } from '../searchAddTeam'
-import { GET_ALL_PRODUCT_STORE } from './queriesStore'
+// import { GET_ALL_PRODUCT_STORE } from './queriesStore'
 import { CardProduct, ContainerFilter, ItemFilter } from '../../components/Update/Products/styled'
 import { ActionName, ButtonAction, ButtonCard, ContentCategoryProducts, InputFile, Section, MerchantBannerWrapperInfo, MerchantInfo, MerchantInfoTitle, RestaurantColumn, WrapperOptions } from './styledStore'
 import InputHooks from '../../components/InputHooks/InputHooks'
 import { GET_ONE_PRODUCTS_FOOD } from '../producto/queries'
 import { ExtrasProductsItems, OptionalExtraProducts } from '../producto/extras'
 import { GET_EXTRAS_PRODUCT_FOOD_OPTIONAL } from '../update/Products/queries'
+import { Context } from 'context/Context'
 
-const DashboardStore = ({ StoreId }) => {
+const DashboardStore = ({ StoreId, setAlertBox }) => {
     // STATE
+    const { error, isSession, openSchedule, setOpenSchedule } = useContext(Context)
     const location = useRouter()
     const loading = false
-    const [open, setOpen] = useState(true)
     const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
     const SHOW_MODAL_UPDATE_PRODUCTS = useSetState(false)
     const SHOW_MANAGE_CATEGORIES = useSetState(false)
@@ -137,7 +138,7 @@ const DashboardStore = ({ StoreId }) => {
 
     return (<>
         <Wrapper>
-            <Overline onClick={() => setOpen(!open)} show={!open} bgColor='' />
+            <Overline onClick={() => setOpenSchedule(!openSchedule)} show={!openSchedule} bgColor='' />
             <Container>
                 <RestaurantColumn>
                     <Section>
@@ -198,7 +199,7 @@ const DashboardStore = ({ StoreId }) => {
                         <WrapperOptions>
                             <div>
                                 <ButtonAction onClick={() => SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state)}> Subir productos</ButtonAction >
-                                <ButtonAction onClick={() => setOpen(!open)}> Editar agenda </ButtonAction>
+                                <ButtonAction onClick={() => setOpenSchedule(!openSchedule)}> Editar agenda </ButtonAction>
                                 <ButtonAction onClick={() => SHOW_MANAGE_CATEGORIES.setState(!SHOW_MANAGE_CATEGORIES.state)}> Administrar Categorías</ButtonAction>
                                 <ButtonAction onClick={() => SHOW_MANAGE_EMPLOYEE.setState(!SHOW_MANAGE_EMPLOYEE.state)}> Agregar empleados</ButtonAction>
                             </div>
@@ -237,7 +238,7 @@ const DashboardStore = ({ StoreId }) => {
                     </Section>
                 </RestaurantColumn>
             </Container>
-            <LateralModal open={open}>
+            <LateralModal openSchedule={openSchedule}>
                 <ScheduleTimings />
             </LateralModal>
             <AwesomeModal backdrop='static' zIndex='99390' padding='20px' height='100vh' show={SHOW_MODAL_UPDATE_PRODUCTS.state} onHide={() => { SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state) }} onCancel={() => false} size='large' btnCancel={true} btnConfirm={false} header={true} footer={false} >
@@ -256,6 +257,7 @@ const DashboardStore = ({ StoreId }) => {
 
 export const CardProducts = ({ food }) => {
     // STATES
+    const { setAlertBox } = useContext(Context)
     const SET_OPEN_PRODUCT = useSetState(false)
     // QUERIES
     const [productFoodsOne, { data, loading, error }] = useLazyQuery(GET_ONE_PRODUCTS_FOOD)
@@ -266,7 +268,7 @@ export const CardProducts = ({ food }) => {
         SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state)
         productFoodsOne({ variables: { pId: food.pId } })
         ExtProductFoodsOptionalAll({ variables: { pId: food.pId } })
-        ExtProductFoodsAll({ variables: { pId: food.pId } })
+        ExtProductFoodsAll({ variables: { pId: food.pId } }).then(res => setAlertBox({ message: '98435739489' }))
     }
     const [modal, setModal] = useState(false)
     const { getStore, pId, carProId, sizeId, colorId, idStore, cId, caId, dId, ctId, tpId, fId, pName, ProPrice, ProDescuento, ProUniDisponibles, ProDescription, ProProtegido, ProAssurance, ProImage, ProStar, ProWidth, ProHeight, ProLength, ProWeight, ProQuantity, ProOutstanding, ProDelivery, ProVoltaje, pState, sTateLogistic, pDatCre, pDatMod, } = data?.productFoodsOne || {}
@@ -286,6 +288,7 @@ export const CardProducts = ({ food }) => {
                         <Image
                             className='store_image'
                             width={100}
+                            objectFit='contain'
                             height={100}
                             src={'/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
                             alt={food.ProImage || "Picture of the author"}

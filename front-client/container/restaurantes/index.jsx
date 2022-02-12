@@ -12,13 +12,15 @@ import Tabs from '../../components/Tabs';
 import { Range } from '../../components/InputRange';
 import { useQuery } from '@apollo/client';
 import { GET_ALL_COUNTRIES } from '../../gql/Location';
+import { GET_ALL_RESTAURANT } from './queries';
 
 export const Restaurant = () => {
   // STATES
   const { dispatch, setAlertBox, state_product_card, handleMenu } = useContext(Context)
   const OPEN_MODAL_ORGANICE = useSetState(0)
   const OPEN_MODAL_FILTER = useSetState(0)
-
+  const { data: dataRestaurant } = useQuery(GET_ALL_RESTAURANT)
+  console.log(dataRestaurant)
   // HANDLES
   const handleAddProduct = elem => {
     handleMenu(1)
@@ -35,7 +37,7 @@ export const Restaurant = () => {
       pId: 1,
       idStore: 8,
       carProId: 8,
-      pName: 'Jugo natural',  
+      pName: 'Jugo natural',
       ProPrice: 4.534,
       ProDescuento: 4.534,
       ProDescription: 4.534
@@ -72,9 +74,8 @@ export const Restaurant = () => {
   const handleOpenProducts = products => {
     setOpenModal(!openModal)
   }
-  const { data: dataCountries } = useQuery(GET_ALL_COUNTRIES)
-  console.log(dataCountries);
-  
+
+
   return (
     <Content>
       <ContainerFilter>

@@ -4,6 +4,7 @@ import createCatOfProductsResolver from './catOfProducts'
 import createCatOfProductResolver from './catOfProduct'
 import emplooyeResolver from './emplooye'
 import ContractResolver from './contrac'
+import pedidosResolver from './pedidos'
 
 export default {
     TYPES: {
@@ -11,6 +12,7 @@ export default {
         ...emplooyeResolver.TYPES,
         ...ScheduleStoreResolver.TYPES,
         ...createCatOfProductResolver.TYPES,
+        ...pedidosResolver.TYPES,
         ...createCatOfProductsResolver.TYPES,
     },
     QUERIES: {
@@ -18,6 +20,7 @@ export default {
         ...emplooyeResolver.QUERIES,
         ...ScheduleStoreResolver.QUERIES,
         ...createCatOfProductsResolver.QUERIES,
+        ...pedidosResolver.QUERIES,
         ...createCatOfProductResolver.QUERIES,
         ...ContractResolver.QUERIES,
     },
@@ -25,6 +28,7 @@ export default {
         ...storeResolver.MUTATIONS,
         ...ContractResolver.MUTATIONS,
         ...ScheduleStoreResolver.MUTATIONS,
+        ...pedidosResolver.MUTATIONS,
         ...emplooyeResolver.MUTATIONS,
         ...createCatOfProductResolver.MUTATIONS,
         ...createCatOfProductsResolver.MUTATIONS,

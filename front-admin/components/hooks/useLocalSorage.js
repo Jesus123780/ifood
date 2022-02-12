@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Context } from '../../Context';
+import { Context } from '../../context/Context';
 
 export default function useLocalStorage(key, initialValue) {
     // const { setAlertBox } = useContext(Context)

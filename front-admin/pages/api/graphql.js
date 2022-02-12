@@ -39,6 +39,7 @@ const apolloServer = new ApolloServer({
             // if (error) req.session.destroy()
             if (token) {
                 const User = await jwt.verify(token, process.env.AUTHO_USER_KEY)
+                console.log(User, 'HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', 9)
                 return { req, setCookies: setCookies || [], setHeaders: setHeaders || [], User: User || {}, idComp, restaurant: restaurant || {} }
             }
             return { req, setCookies: [], setHeaders: [], User: null || {}, idComp: null || {}, restaurant: restaurant || {} }

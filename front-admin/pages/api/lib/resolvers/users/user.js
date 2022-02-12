@@ -34,27 +34,44 @@ export const newRegisterUser = async (root, input, _context, info) => {
                     ]
                 }
             })
-            const StoreInfo = await Store.findOne({
-                attributes: ['id', 'idStore'],
-                where:
-                    { id: deCode(isExist.id) }
+            if (isExist) {
+                const StoreInfo = await Store.findOne({
+                    attributes: ['id', 'idStore'],
+                    where:
+                        { id: deCode(isExist.id) }
 
-            })
-            const tokenGoogle = {
-                name: name,
-                username: username,
-                restaurant: StoreInfo.idStore,
-                id: isExist.id
-            }
-            const tokenGo = await generateToken(tokenGoogle)
-            if (isExist && isExist.password === password) {
-                return {
-                    token: tokenGo,
-                    roles: false,
-                    storeUserId: StoreInfo.idStore,
-                    success: true,
-                    userId: isExist.id,
-                    message: `Bienvenido ${name}`,
+                })
+                const tokenGoogle = {
+                    name: name,
+                    username: username,
+                    restaurant: StoreInfo.idStore,
+                    id: isExist.id
+                }
+                const tokenGo = await generateToken(tokenGoogle)
+                if (isExist && isExist.password === password) {
+                    return {
+                        token: tokenGo,
+                        roles: false,
+                        storeUserId: StoreInfo.idStore,
+                        success: true,
+                        userId: isExist.id,
+                        message: `Bienvenido ${name}`,
+                    }
+                } else {
+                    res = await Users.create({ ...input, uState: 1 })
+                    let array = []
+                    array.push(res)
+                    const newData = array?.map(x => x.dataValues)
+                    const dataFinal = newData?.map(x => ({ name: x.name, id: enCode(x.id) }))
+                    const token = await generateToken(dataFinal[0])
+                    return {
+                        token: token,
+                        roles: false,
+                        storeUserId: StoreInfo.idStore,
+                        success: true,
+                        userId: isExist.id,
+                        message: 'Session created.',
+                    }
                 }
             } else {
                 res = await Users.create({ ...input, uState: 1 })
@@ -66,9 +83,9 @@ export const newRegisterUser = async (root, input, _context, info) => {
                 return {
                     token: token,
                     roles: false,
-                    storeUserId: StoreInfo.idStore,
+                    storeUserId: '',
                     success: true,
-                    userId: isExist.id,
+                    userId: res.id,
                     message: 'Session created.',
                 }
             }

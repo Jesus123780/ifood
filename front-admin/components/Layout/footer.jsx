@@ -3,7 +3,7 @@ import { Anchor, FooterComponent, Text } from './styled'
 import ActiveLink from '../common/Link'
 import { IconConfig, IconHome, IconSearch, IconUser } from '../../public/icons'
 import { PColor } from '../../public/colors'
-import { Context } from '../../context'
+import { Context } from '../../context/Context'
 
 export const Footer = () => {
   const { error, isSession, setAlertBox } = useContext(Context)
