@@ -9,6 +9,17 @@ import jwt, { decode } from 'jsonwebtoken'
 
 moment.locale('es')
 
+
+export const REFRESH_TOKEN_COOKIE_OPTIONS = {
+    // Get part after // and before : (in case port number in URL)
+    // domain: process.env.ADMIN_URL.split('//')[1].split(':')[0],
+    domain: 'localhost:3001/',
+    httpOnly: true,
+    path: '/',
+    sameSite: true,
+    // secure: !!process.env.ADMIN_URL.includes('https')
+    secure: false
+}
 export const isNull = dato => {
     if (!dato || dato === '') {
         return true

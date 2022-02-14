@@ -345,41 +345,4 @@ export const Checkbox = ({
 };
  */
 
-InputHooks.propTypes = {
-  onBlur: PropTypes.func,
-  error: PropTypes.func || PropTypes.bool,
-  onChange: PropTypes.func,
-  minLenght: PropTypes.number,
-  maxLenght: PropTypes.number,
-  email: PropTypes.bool,
-  numeric: PropTypes.bool,
-  letters: PropTypes.bool,
-  disabled: PropTypes.bool,
-  autoComplete: PropTypes.bool,
-  required: PropTypes.bool,
-  pass: PropTypes.bool,
-  TypeTextarea: PropTypes.bool,
-  passConfirm: PropTypes.object,
-  dataIgnore: PropTypes.bool,
-  type: PropTypes.string,
-  maxWidth: PropTypes.string,
-  name: PropTypes.string,
-  title: PropTypes.string,
-  width: PropTypes.string,
-  margin: PropTypes.string,
-  placeholder: PropTypes.string,
-  radius: PropTypes.string,
-  range: PropTypes.object,
-  fontSize: PropTypes.string,
-  defaultValue: PropTypes.string,
-  reference: PropTypes.object,
-  minWidth: PropTypes.string || PropTypes.number,
-  border: PropTypes.string || PropTypes.number,
-  padding: PropTypes.string || PropTypes.number,
-  labelColor: PropTypes.string || PropTypes.number,
-  bgColor: PropTypes.string || PropTypes.number,
-  value: PropTypes.string || PropTypes.number,
-  paddingInput: PropTypes.string || PropTypes.number
-}
-
 export default InputHooks

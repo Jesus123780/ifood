@@ -20,12 +20,8 @@ export const getDeviceUsers = async (_root, _args, context, info) => {
         const data = await UserDeviceModel.findAll({
             attributes,
             where: {
-                [Op.or]: [
-                    {
-                        dState: 1
-                        // id: deCode(context.User.id)
-                    }
-                ]
+                // dState: 1
+                id: deCode(context.User.id)
             }
         })
         return data

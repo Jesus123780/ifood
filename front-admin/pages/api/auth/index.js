@@ -15,7 +15,6 @@ import { deCode } from "../lib/utils/util"
  * @returns {{ user: string, userProfile: object, error: boolean }} devolución del token y los datos
  */
 export const getDevice = async ({ input }) => {
-    // console.log(input)
     const { deviceid, email, userId, locationFormat,  os, os: { name, short_name, version, family, platform } } = input || {}
     let error = false
     let data = {}
@@ -62,7 +61,6 @@ export const getDevice = async ({ input }) => {
 
 export default withSession(async (req, res) => {
     const { name, username, lastName, email, password, useragent, deviceid, locationFormat } = req.body
-    console.log(name, username, lastName, email, password, useragent, deviceid, locationFormat)
     try {
         const { token, message, success, roles, storeUserId, userId } = await newRegisterUser(null, { name, username, lastName, email, password })
         const detector = new DeviceDetector;
@@ -71,16 +69,15 @@ export default withSession(async (req, res) => {
         const resultDeviceType = detector.parseDeviceType(useragent, resultOs, resultClient, {});
         const result = Object.assign({ os: resultOs }, { client: resultClient }, { device: resultDeviceType }, { useragent: useragent, deviceid: deviceid, email: email, userId: userId, locationFormat });
         const { error, data } = await getDevice({ input: result })
-        // console.log(result)
-        console.log(error, data)
-        // console.log(error)
+        // console.log(error, data)
         // console.log(os);
         if (success) {
+            console.log(token, 0)
             const user = { isLoggedIn: true, roles, token, storeUserId }
             req.session.set('user', user)
             await req.session.save()
-            return res.json({ success, message: message, storeUserId })
-        } else { res.json({ success: 0, message: message, storeUserId }) }
+            return res.json({ success, message: message, storeUserId, token })
+        } else { res.json({ success: 0, message: message, storeUserId, token }) }
     } catch (error) {
         const { response: fetchResponse } = error
         res.status(fetchResponse?.status || 500).json(error.data)
@@ -96,11 +93,10 @@ export default withSession(async (req, res) => {
  */
 export const getUserFromToken = async token => {
     let user = null,
-        userProfile = null
+    userProfile = null
     let error = false
-    if (!token) return null
+    // if (!token) return null
     const tokenState = getTokenState(token)
-    console.log(tokenState)
     try {
         if (tokenState?.needRefresh === true || !tokenState?.valid || !tokenState) {
             return error = true

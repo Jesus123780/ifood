@@ -98,7 +98,7 @@ const Dashboard = () => {
                                 </a>
                             </Link>}
                             <CircleUser>
-                                {email?.slice(0, 2).toUpperCase() || User}
+                                {email?.slice(0, 2).toUpperCase() || 'User'}
                             </CircleUser>
                         </CardPrimary>
                     </Card>

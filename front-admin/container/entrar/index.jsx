@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { GoogleLogin } from 'react-google-login'
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import { ButtonSubmit, Content, Form, Enlace, Card, Text } from './styled'
@@ -14,9 +14,11 @@ import { Facebook, IconGoogleFullColor } from '../../public/icons'
 import { getDeviceId } from 'apollo/apolloClient'
 import { useCountLetters } from 'components/hooks/useCountLetters'
 import { usePosition } from 'components/hooks/usePosition'
+import { Context } from 'context/Context'
 
 export const Login = ({ watch, settings }) => {
     const router = useRouter()
+    const { setAlertBox } = useContext(Context)
 
     const responseFacebook = response => {
     }
@@ -50,8 +52,11 @@ export const Login = ({ watch, settings }) => {
         //     lastName: name,
         //     email: email,
         //     password: googleId,
+        //     locationFormat: locationFormat[0]?.formatted_address,
+        //     useragent: window.navigator.userAgent,
+        //     deviceid: await getDeviceId() || '',
         // }
-        const body = {
+        const bodyfalse = {
             name: 'odavalencia002@gmail.com',
             username: 'odavalencia002@gmail.com',
             lastName: 'odavalencia002@gmail.com',
@@ -64,12 +69,20 @@ export const Login = ({ watch, settings }) => {
         await fetchJson(`${URL_BASE}auth`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
+            body: JSON.stringify(bodyfalse)
         }).then(res => {
-            if (res.storeUserId) {
-                localStorage.setItem('restaurant', res.storeUserId)
+            console.log(res)
+            setAlertBox({ message: `${res.message}`, color: 'success' })
+
+            if (res?.storeUserId) {
+                const { idStore, id } = res?.storeUserId
+                localStorage.setItem('restaurant', idStore)
+                localStorage.setItem('usuario', id)
+                localStorage.setItem('session', res.token)
+                router.push('/dashboard')
+            } else {
+                router.push('/restaurante')
             }
-            router.push('/dashboard')
             // if (res.success) {
             //     newRegisterUser({ variables: { input: { name: '23423', username: '3242', lastName: '3242', email: 'hola', password: googleId  } } })
             //         .then(res => {
@@ -88,7 +101,7 @@ export const Login = ({ watch, settings }) => {
                 <Text size='30px'>¡Falta poco para saciar tu hambre!</Text>
                 <Text size='15px'>¿Cómo deseas continuar?</Text>
                 <button onClick={(e) => responseGoogle(e)}>Login falso</button>
-                {/* <GoogleLogin
+                {/*  <GoogleLogin
                     autoLoad={false}
                     clientId='58758655786-u323tp1dpi6broro865rrm488gh4mnpu.apps.googleusercontent.com'
                     onSuccess={responseGoogle}

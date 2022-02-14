@@ -5,8 +5,9 @@ import { BGColor, EColor, PColor, SECColor } from '../../public/colors';
 
 export const Content = styled.div`
     width: 100%;
+    height: 90vh;
     display: grid;
-    overflow: auto;
+    overflow: hidden;
     grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
 @media only screen and (min-width: 960px){
     width: 100%;
@@ -15,21 +16,21 @@ export const Content = styled.div`
     width: 100%;
     margin: auto;
 }
-
+    .container-step {
+        margin: auto;
+    }
 `
 export const Form = styled.form`
 box-shadow: 0px 1px 4px rgb(0 0 0 / 5%), 0px 4px 16px rgb(0 0 0 / 6%);
     border-radius: 8px;
     padding: 36px;
     place-content: center;
-    display: grid;
-    flex-wrap: wrap;
-    flex-direction: row ;
     background-color: #fff;
-    overflow: hidden;
     position: relative;
     align-self: center;
     width: 600px;
+    height: 600px;
+    overflow-y: auto;
     `
 export const WrapDirection = styled.div`
 box-shadow: 0px 1px 4px rgb(0 0 0 / 5%), 0px 4px 16px rgb(0 0 0 / 6%);

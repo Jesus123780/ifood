@@ -1,5 +1,5 @@
 import { ApolloError } from 'apollo-server-micro'
-import { filterKeyObject } from '../../../../../utils'
+import { filterKeyObject, REFRESH_TOKEN_COOKIE_OPTIONS } from '../../../../../utils'
 import Store from '../../models/Store/Store'
 import Users from '../../models/Users'
 import Userprofile from '../../models/users/UserProfileModel'
@@ -8,90 +8,69 @@ import { generateCode, generateToken, sendEmail } from '../../utils'
 import { deCode, enCode, getAttributes } from '../../utils/util'
 const { Op } = require('sequelize')
 
-export const newRegisterUser = async (root, input, _context, info) => {
-    // console.log(input, 0)
+export const newRegisterUser = async (root, input) => {
+    const setCookies = []
+    // const refreshTokenExpiry = new Date(Date.now() + parseInt(10) * 1000)
+    // setCookies.push({
+    //     name: 'refreshToken',
+    //     value: 232342,
+    //     options: {
+    //         ...REFRESH_TOKEN_COOKIE_OPTIONS,
+    //         expires: refreshTokenExpiry
+    //     }
+    // })
+    console.log(input, 92)
+    const { name, password, email, username } = input
     try {
-        let res = {}
-        const { name, password, email, username } = input
-        if (input?.id) {
-            let values = {}
-            for (const x in input) if (x !== 'id') values = { ...values, [x]: input[x] }
-            res = await Users.update(
-                { ...values },
-                { where: { id: deCode(input.id) } }
-            )
-            const token = await generateToken(res)
-            return {
-                success: true,
-                message: 'Session created.',
-            }
+        const { count, rows } = await Users.findAndCountAll({
+            where: {
+                [Op.or]: [
+                    {
+                        email: {
+                            [Op.like]: email
+                        }
+                    }
+                ]
+            },
+            offset: 10,
+            limit: 2    
+        });
+        // console.log(count);
+        // console.log(rows);
+        const project = await Users.findByPk(1);
+        if (project === null) {
+            console.log('Not found!', 53);
         } else {
-            const isExist = await Users.findOne({
-                attributes: ['id', 'email', 'password'],
-                where: {
-                    [Op.or]: [
-                        { email: email }
-                    ]
-                }
-            })
-            if (isExist) {
-                const StoreInfo = await Store.findOne({
-                    attributes: ['id', 'idStore'],
-                    where:
-                        { id: deCode(isExist.id) }
+            // console.log(project instanceof Project, 0); // true
+            // Its primary key is 123
+        }
 
-                })
-                const tokenGoogle = {
-                    name: name,
-                    username: username,
-                    restaurant: StoreInfo.idStore,
-                    id: isExist.id
-                }
-                const tokenGo = await generateToken(tokenGoogle)
-                if (isExist && isExist.password === password) {
-                    return {
-                        token: tokenGo,
-                        roles: false,
-                        storeUserId: StoreInfo.idStore,
-                        success: true,
-                        userId: isExist.id,
-                        message: `Bienvenido ${name}`,
-                    }
-                } else {
-                    res = await Users.create({ ...input, uState: 1 })
-                    let array = []
-                    array.push(res)
-                    const newData = array?.map(x => x.dataValues)
-                    const dataFinal = newData?.map(x => ({ name: x.name, id: enCode(x.id) }))
-                    const token = await generateToken(dataFinal[0])
-                    return {
-                        token: token,
-                        roles: false,
-                        storeUserId: StoreInfo.idStore,
-                        success: true,
-                        userId: isExist.id,
-                        message: 'Session created.',
-                    }
-                }
-            } else {
-                res = await Users.create({ ...input, uState: 1 })
-                let array = []
-                array.push(res)
-                const newData = array?.map(x => x.dataValues)
-                const dataFinal = newData?.map(x => ({ name: x.name, id: enCode(x.id) }))
-                const token = await generateToken(dataFinal[0])
-                return {
-                    token: token,
-                    roles: false,
-                    storeUserId: '',
-                    success: true,
-                    userId: res.id,
-                    message: 'Session created.',
-                }
+        const [user, _created] = await Users.findOrCreate({
+            where: { email: email },
+            defaults: {
+                name,
+                password,
+                email,
+                username
             }
+        })
+        const StoreInfo = await Store.findOne({ attributes: ['idStore', 'id'], where: { id: deCode(user.id) } })
+        const tokenGoogle = {
+            name: name,
+            username: username,
+            restaurant: StoreInfo ? StoreInfo : null,
+            id: user.id
+        }
+        const tokenGo = await generateToken(tokenGoogle)
+        return {
+            token: tokenGo,
+            roles: false,
+            storeUserId: StoreInfo ? StoreInfo : null,
+            success: true,
+            userId: user.id,
+            message: `Bienvenido ${name}`,
         }
     } catch (e) {
-        console.log(e);
         const error = new ApolloError('Lo sentimos, ha ocurrido un error interno', 400)
         return error
     }

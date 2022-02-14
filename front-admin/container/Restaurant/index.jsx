@@ -123,8 +123,8 @@ export const Restaurant = () => {
                 </RippleButton>
             </AwesomeModal>
             <Card></Card>
-            <div>
-                <StepsComponent titles={['', '', '', '']} current={nextStep} status='finish' status='error' status='wait' status='progress' />
+            <div className='container-step'>
+            <StepsComponent titles={['', '', '', '']} current={nextStep} status='finish' status='error' status='wait' status='progress' />
                 <Form onSubmit={e => handleForm(e, 1)}>
                     <GoBack onClick={() => validateRouter()}>
                         <IconArrowLeft color={`${PLColor}`} size='25px' />

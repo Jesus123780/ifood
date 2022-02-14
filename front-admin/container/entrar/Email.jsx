@@ -41,7 +41,7 @@ export const Email = () => {
         }).then(res => {
           if (res.success === true) {
             window.localStorage.setItem('restaurant', res?.idStore)
-            router.push('/dashboard')
+            // router.push('/dashboard')
           }
         }).catch(e => {
         })
@@ -51,12 +51,11 @@ export const Email = () => {
       // setDataValue({})
     }
   })
-  console.log(step)
   return (
     <Content>
       <Card>
       </Card>
-      <Form onSubmit={(e) => { handleForm(e, step === 0 ? 0 : 1 ) }}>
+      <Form onSubmit={(e) => { handleForm(e, step === 0 ? 0 : 1) }}>
         <GoBack onClick={() => router.back()}>
           <IconArrowLeft color={`${PLColor}`} size='25px' />
         </GoBack>
