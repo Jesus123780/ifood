@@ -7,7 +7,7 @@ import { MerchantBannerWrapperInfo, Container, ContainerCarrusel, ContentCategor
 import { RippleButton } from '../../components/Ripple';
 import { IconMiniCheck, IconPlus } from '../../public/icons';
 
-export const RestaurantProfile = ({ src, name, errorForm, dataForm, handleChange, data, dataCatProducts, SET_OPEN_PRODUCT, setState, getOneProduct, dataOneProduct, dataOptional, handleCountProducts, handleAddProducts, state, increase, decrease }) => {
+export const RestaurantProfile = ({ src, name, errorForm, dataForm, handleChange, data, dataCatProducts, SET_OPEN_PRODUCT, setState, getOneProduct, dataOneProduct, dataOptional, handleCountProducts, handleAddProducts, state, increase, decrease, handleChangeClickOnTable }) => {
     const { pName, getStore, ProPrice, ProDescription, ProDescuento, ExtProductFoodsAll } = dataOneProduct || {}
     return (
         <Container>
@@ -94,10 +94,10 @@ export const RestaurantProfile = ({ src, name, errorForm, dataForm, handleChange
                         <InputHooks
                             required
                             TypeTextarea
-                            errors={errorForm?.search}
-                            value={dataForm?.search}
+                            errors={errorForm?.comments}
+                            value={dataForm?.comments}
                             onChange={handleChange}
-                            name='search'
+                            name='comments'
                         />
                         {ExtProductFoodsAll?.length > 0 && <GarnishChoicesHeader>
                             <div>
@@ -126,10 +126,11 @@ export const RestaurantProfile = ({ src, name, errorForm, dataForm, handleChange
                                     <IconMiniCheck size={'15px'} color={'#009b3a'} />
                                 </GarnishChoicesHeader>
                                 {itemOptional?.ExtProductFoodsSubOptionalAll?.map(x => (
-                                    <CardsComponent key={x.exPid}>
+                                    <CardsComponent key={x.opSubExPid}>
                                         <div>
                                             <h3 className="title_card">{x.OptionalSubProName}</h3>
                                         </div>
+                                        <input name='subOptional' value={x?.opSubExPid} type="checkbox" id="cat" onChange={handleChangeClickOnTable} />
                                         <RippleButton bgColor={'transparent'} margin='0px' widthButton='min-content' type="button" onClick={() => console.log(x)} >
                                         </RippleButton>
                                     </CardsComponent>

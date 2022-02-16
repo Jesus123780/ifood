@@ -33,13 +33,10 @@ export const LateralModal = styled.div`
               `}
     `
 export const CardProduct = styled.div`
-    height: 200px;
-    width: 90%;
+    /* height: 200px; */
     position: relative;
-    margin: 10px auto;
-    box-shadow: 0px 4px 10px #6960604d;    
     border-radius: 2px;
-    padding: 20px;
+    padding: 20px 0;
     .footer {
         display: flex;
         justify-content: flex-start;
@@ -48,11 +45,23 @@ export const CardProduct = styled.div`
         position: absolute;
         bottom: 20px;
     }
+    .item-line {
+        border-top: 1px solid #dcdcdc;
+        border-bottom: 1px solid #dcdcdc;
+        margin: 25px 0;
+        padding: 25px 0;
+    }
 `
 export const Content = styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
+    .restaurant-cart-header {
+        color: #717171;
+        font-weight: 300;
+        font-size: .875rem;
+        width: 100%;
+    }
 `
 export const Text = styled.span`
     font-size: ${({ size }) => size || '1.125rem'};
