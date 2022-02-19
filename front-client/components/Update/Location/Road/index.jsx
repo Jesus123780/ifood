@@ -16,7 +16,7 @@ import { IconEdit, IconDost, IconDelete } from '../../../../public/icons'
 
 export const TypeRoad = () => {
     const [createRoadMutation, { loading }] = useMutation(UPDATE_ROAD)
-  //  const { setAlertBox } = useContext(Context)
+   const { setAlertBox } = useContext(Context)
     const [values, setValues] = useState({})
     const [errors, setErrors] = useState({})
     const handleChange = (e, error) => {

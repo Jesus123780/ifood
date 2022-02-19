@@ -4,7 +4,7 @@ import { setContext } from '@apollo/client/link/context'
 import { concatPagination } from '@apollo/client/utilities'
 import { onError } from '@apollo/client/link/error'
 import { createUploadLink } from 'apollo-upload-client'
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import FingerprintJS from "@fingerprintjs/fingerprintjs"
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
 import { URL_BASE } from './urls'

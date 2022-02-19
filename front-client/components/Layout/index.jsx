@@ -9,20 +9,31 @@ import Aside from './Aside'
 import { HeaderMain } from './headerlog'
 import { AsideCheckoutC } from '../../container/AsideCheckout'
 import { AsideCheckout } from '../AsideCheckout'
+import { usePosition } from '../hooks/usePosition'
 
-export const Layout = ({ keyTheme, handleTheme, children }) => {
+export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => {
     const location = useRouter()
     const { error, isSession, setAlertBox, setCollapsed, collapsed, handleMenu, menu } = useContext(Context)
     // console.log(isSession)
     useEffect(() => {
         setAlertBox({ message: '', color: 'success' })
     }, [])
+    const { latitude, longitude, timestamp, accuracy, speed, error: err } = usePosition(watch, settings);
+    const dataLocation = usePosition(watch, settings);
+    useEffect(() => {
+        setAlertBox({ message: '', color: 'success' })
+        if (latitude) {
+            window.localStorage.setItem('latitude', latitude)
+            window.localStorage.setItem('longitude', longitude)
+            window.localStorage.setItem('location', JSON.stringify(dataLocation));
+        }
+    }, [latitude, longitude, timestamp, accuracy, speed])
     return (
         <div>
 
             <AlertBox err={error} />
             <Main aside={!['/', '/login', '/entrar', '/restaurante', '/entrar/email', '/contact', '/varify-email', '/checkout/[id]', '/add-payment-method', '/register', '/terms_and_conditions', '/email/confirm/[code]', '/forgotpassword', '/teams/invite/[id]', '/autho', '/contact-us', '/switch-options'].find(x => x === location.pathname)} >
-                {!isSession && !['/login', '/', '/entrar', '/restaurantes', '/entrar/email', '/entrar/email/[verify]', '/register', '/varify-email', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact', '/delivery/[location]/[name]/[id]',].find(x => x === location.pathname) && <Header />}
+                {/* {!isSession && !['/login', '/', '/entrar', '/restaurantes', '/entrar/email', '/entrar/email/[verify]', '/register', '/varify-email', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact', '/delivery/[location]/[name]/[id]',].find(x => x === location.pathname) && <Header />} */}
                 <AsideCheckout handleMenu={handleMenu} menu={menu} />
                 {/* {!isSession && !['/login', '/', '/entrar/email', '/entrar', '/delivery/[location]/[name]/[id]', '/contact'].find(x => x === location.pathname) && <AsideCheckoutC handleMenu={handleMenu} menu={menu} />} */}
                 {!isSession && !['/login', '/', '/entrar/email', '/entrar', '/contact'].find(x => x === location.pathname) && <HeaderMain handleMenu={handleMenu} menu={menu} />}

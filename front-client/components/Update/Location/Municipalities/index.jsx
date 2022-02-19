@@ -16,7 +16,7 @@ import { IconEdit, IconDost, IconDelete } from '../../../../public/icons'
 
 export const Municipalities = () => {
     const [createCity, { loading }] = useMutation(UPDATE_MUNICIPALITIES)
-  //  const { setAlertBox } = useContext(Context)
+   const { setAlertBox } = useContext(Context)
     const [values, setValues] = useState({})
     const [errors, setErrors] = useState({})
     const handleChange = (e, error) => {

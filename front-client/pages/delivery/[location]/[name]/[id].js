@@ -1,14 +1,16 @@
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useCallback, useContext, useEffect, useState } from 'react'
+import { CREATE_SHOPPING_CARD } from '../../../../components/AsideCheckout/querys'
 import { useFormTools } from '../../../../components/BaseForm'
 import { useSetState } from '../../../../components/hooks/useState'
 import { GET_ALL_CATEGORIES_WITH_PRODUCT, GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, GET_ONE_PRODUCTS_FOOD, GET_ONE_STORE_BY_ID } from '../../../../container/queries'
+import { GET_ALL_SHOPPING_CARD } from '../../../../container/restaurantes/queries'
 import { RestaurantProfile } from '../../../../container/RestaurantProfile'
 import { Context } from '../../../../context'
-import { numberFormat } from '../../../../utils'
+import { numberFormat, updateCache } from '../../../../utils'
 
 export default function HomeView() {
   // STATES
@@ -19,6 +21,7 @@ export default function HomeView() {
   const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
   const [searchFilter, setSearchFilter] = useState({ subOptional: [] })
   const { dispatch, setAlertBox, state_product_card, handleMenu } = useContext(Context)
+  const [registerShoppingCard] = useMutation(CREATE_SHOPPING_CARD)
 
   const [showMore, setShowMore] = useState(100)
   const [dataCatProducts, setData] = useState([])
@@ -44,12 +47,12 @@ export default function HomeView() {
   }, [dataProductAndCategory, searchFilter])
 
   useEffect(() => {
-    getCatProductsWithProductClient({ variables: { max: 100 } })
+    getCatProductsWithProductClient({ variables: { max: 100, idStore: id } })
   }, [searchFilter, showMore])
   useEffect(() => {
     getOneStore({ variables: { idStore: id, StoreName: name } })
 
-  }, [name, id])
+  }, [])
   // HANDLES
   /**
    *
@@ -63,13 +66,12 @@ export default function HomeView() {
     productFoodsOne({ variables: { pId: food.pId } })
     ExtProductFoodsOptionalAll({ variables: { pId: food.pId } })
   }
-  const [filter, setFilter] = useState({ subOptional:[] })
+  const [filter, setFilter] = useState({ subOptional: [] })
   const handleChangeClickOnTable = e => {
     const { name, value, checked } = e.target
     !checked ? setFilter(s => ({ ...s, [name]: s[name].filter(f => f !== value) })) : setFilter({ ...filter, [name]: [...filter[name], value] })
     setSearchFilter({ ...filter })
   }
-
   const handleAddProducts = food => {
     const val = state_product_card.PRODUCT?.find(x => x.pId === food.pId)
     handleMenu(1)
@@ -77,14 +79,36 @@ export default function HomeView() {
       setAlertBox({ message: `El producto ${food.pName} ya esta en la cesta` })
     } else {
       const result = { ...food, cantProducts: state, comments: dataForm.comments, subOptional: filter?.subOptional || [] };
-      dispatch({ type: 'ADD_PRODUCT', payload: result })
+      const newArray = filter?.subOptional.map(x => { return { _id: x } })
+      registerShoppingCard({
+        variables: {
+          input: {
+            cState: 1,
+            pId: food.pId,
+            idStore: food.getStore.idStore,
+            id: 'MjcyMDg4ODE0ODUxNTE2NDUw',
+            comments: dataForm.comments,
+            cName: 'puta madre',
+            cantProducts: state,
+            csDescription: 'csDescription',
+          },
+          idSubArray: {
+            setID: newArray || []
+          }
+        }, update: (cache, { data: { getAllShoppingCard } }) => updateCache({
+          cache,
+          query: GET_ALL_SHOPPING_CARD,
+          nameFun: 'getAllShoppingCard',
+          dataNew: getAllShoppingCard
+        })
+      })
+      // dispatch({ type: 'ADD_PRODUCT', payload: result })
     }
   }
   const handleCountProducts = useCallback((ProPrice, state) => {
     const price = parseFloat(ProPrice)
-    return state <= 0 ? price : numberFormat((Math.abs(state * price)).toFixed(3))
+    return state <= 0 ? price : numberFormat((Math.abs(state * price)))
   }, [dataOneProduct])
-  console.log(dataOneProduct)
   return (
     <div >
       <Head>

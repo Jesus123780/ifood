@@ -94,6 +94,12 @@ export const FoodComponent = ({ datafatures,
                         required
                         onChange={handleChange}
                         range={{ min: 0, max: 180 }} />
+                    <InputHook label='ValueDelivery'
+                        value={numberFormat(values.ValueDelivery)}
+                        name='ValueDelivery'
+                        required
+                        onChange={handleChange}
+                        range={{ min: 0, max: 180 }} />
                     <InputHook label='Descuento'
                         value={values.ProDescuento}
                         name='ProDescuento'

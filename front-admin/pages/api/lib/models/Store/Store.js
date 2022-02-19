@@ -8,7 +8,8 @@ const DepartmentsModel = require('../information/DepartmentsModel')
 const Users = require('../Users')
 const sequelize = connect()
 
-// 
+// sequelize.sync()
+sequelize.sync()
 
 const Store = sequelize.define('store', {
     idStore: {
@@ -32,6 +33,7 @@ const Store = sequelize.define('store', {
         type: Sequelize.INTEGER,
         onUpdate: null,
         onDelete: null,
+        unique: true,
         references: {
             model: Users,
             key: 'id'

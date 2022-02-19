@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AdicionalComponent, Anchor, FooterComponent, Text, Time, Timer, UseSize } from './styled'
 import ActiveLink from '../common/Link'
 import { IconConfig, IconHome, IconLogo, IconSearch, IconUser } from '../../public/icons'
@@ -9,8 +9,11 @@ import useWindowSize from '../hooks/useWindowSize'
 import { Options } from './options'
 import { Map } from '../Map'
 import { RippleButton } from '../Ripple'
+import { Context } from '../../context'
 
 export const HeaderMain = ({ menu, handleMenu }) => {
+  const { setAlertBox } = useContext(Context)
+
   const style = useScrollHook();
   const { offsetY } = useScrollY();
   const { scrollNav } = useScrollColor();
@@ -32,32 +35,34 @@ export const HeaderMain = ({ menu, handleMenu }) => {
   }
   const [time, changeTime] = useState(new Date().toLocaleTimeString());
   const [showModal, setShowModal] = useState(false);
-  useEffect(function () {
-    setInterval(() => {
-      changeTime(new Date().toLocaleTimeString());
-    }, 1000);
-  }, []);
+  // useEffect(function () {
+  //   setInterval(() => {
+  //     changeTime(new Date().toLocaleTimeString());
+  //   }, 1000);
+  // }, []);
   const size = useWindowSize();
   return (
-    <ContentHeader>
-      <HeaderMainC scrollNav={scrollNav} style={style} >
-        <div style={{ transform: `translateX(${offsetY * 0.8}px)` }} >
-          <ActiveLink href={'/'}>
-            <a>
-              <IconLogo size='80px' color={PColor} />
-            </a>
-          </ActiveLink>
-        </div>
-        <div>
-          <InputSearch />
-        </div>
-        <div>
-          <RippleButton onClick={() => handleMenu(1)}>Open</RippleButton>
-        </div>
-        {/* <Map setShowModal={setShowModal} modal={1} showModal={showModal} /> */}
-        <Options menu={menu} handleMenu={handleMenu} />
-      </HeaderMainC>
-    </ContentHeader>
+    <div>
+      <ContentHeader>
+        <HeaderMainC scrollNav={scrollNav} style={style} >
+          <div style={{ transform: `translateX(${offsetY * 0.8}px)` }} >
+            <ActiveLink href={'/restaurantes'}>
+              <a>
+                <IconLogo size='80px' color={PColor} />
+              </a>
+            </ActiveLink>
+          </div>
+          <div>
+            <InputSearch />
+          </div>
+          <div>
+            <button onClick={() => setShowModal(!showModal)}>Open</button>
+          </div>
+          <Options menu={menu} handleMenu={handleMenu} />
+        </HeaderMainC>
+      </ContentHeader>
+      {/* <Map setShowModal={setShowModal} modal={1} showModal={showModal} /> */}
+    </div>
   )
 }
 
@@ -100,9 +105,9 @@ export const HeaderMainC = styled.header`
     width: 100%;
     max-width: 1366px!important;
     & > div {
-      justify-content: center;
-      place-content: center;
-      display: flex;
+    justify-content: center;
+    place-content: center;
+    display: flex;
     height: fit-content;
     align-items: center;
     align-self: center;

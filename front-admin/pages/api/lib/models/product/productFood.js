@@ -153,10 +153,14 @@ const productModelFood = sequelize.define('productmodelfood', {
         allowNull: false,
     },
     ProPrice: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: true
     },
     ProDescuento: {
+        type: Sequelize.INTEGER,
+        allowNull: true
+    },
+    ValueDelivery: {
         type: Sequelize.INTEGER,
         allowNull: true
     },

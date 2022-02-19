@@ -17,7 +17,7 @@ import { IconEdit, IconDost, IconDelete } from '../../../../public/icons'
 
 export const Countries = () => {
     const [createCountry, { loading }] = useMutation(UPDATE_COUNTRIES)
-  //  const { setAlertBox } = useContext(Context)
+    const { setAlertBox } = useContext(Context)
     const [values, setValues] = useState({})
     const [errors, setErrors] = useState({})
     const handleChange = (e, error) => {
@@ -47,15 +47,17 @@ export const Countries = () => {
         }
         try {
             if (!errorSubmit) {
-                createCountry({ variables: { input : { cName: values.cName, cCalCod: values.cCalCod } }, update(cache) {
-                    cache.modify({
-                        fields: {
-                            countries(dataOld=[]){
-                                return cache.writeQuery({ query: GET_COUNTRY, data: dataOld })
+                createCountry({
+                    variables: { input: { cName: values.cName, cCalCod: values.cCalCod } }, update(cache) {
+                        cache.modify({
+                            fields: {
+                                countries(dataOld = []) {
+                                    return cache.writeQuery({ query: GET_COUNTRY, data: dataOld })
+                                }
                             }
-                        }
-                    })
-                } }).catch(err=> setAlertBox({ message: `${ err }`, duration: 7000 }))
+                        })
+                    }
+                }).catch(err => setAlertBox({ message: `${err}`, duration: 7000 }))
             }
         } catch (error) {
             setValues({})
@@ -161,7 +163,7 @@ const Options = ({ icon, name }) => {
             </div>
             <div>
                 <Text>
-                    {name ? ` + ${ name }` : 'COD'}
+                    {name ? ` + ${name}` : 'COD'}
                 </Text>
             </div>
         </React.Fragment>
@@ -169,13 +171,13 @@ const Options = ({ icon, name }) => {
 }
 export const LabelInput = styled.span`
     position: absolute;
-    font-size: ${ ({ value }) => value ? '11px' : '13px' };
-    top: ${ ({ value }) => value ? '-17px' : '10px' };
-    left: ${ ({ left }) => left ? left : '10px' };
-    color: ${ ({ value }) => value ? SFColor : SFVColor };
+    font-size: ${({ value }) => value ? '11px' : '13px'};
+    top: ${({ value }) => value ? '-17px' : '10px'};
+    left: ${({ left }) => left ? left : '10px'};
+    color: ${({ value }) => value ? SFColor : SFVColor};
     transition: .3s;
     pointer-events: none;
-    font-weight: ${ ({ value }) => value ? 600 : 400 };
+    font-weight: ${({ value }) => value ? 600 : 400};
 `
 export const Text = styled.span`
     font-size: 16px !important;
@@ -184,7 +186,7 @@ export const Text = styled.span`
 
 export const TextArea = styled.textarea`
     width: 100%;
-    height: ${ ({ height }) => height ? height : '0' };
+    height: ${({ height }) => height ? height : '0'};
     font-size: 15px;
     padding: 15px;
     outline: none;
@@ -192,12 +194,12 @@ export const TextArea = styled.textarea`
     min-width: 99%;
     min-height: 200px;
     border: 1px solid #cccccc42;
-    &:focus ~ ${ LabelInput } {
+    &:focus ~ ${LabelInput} {
         top: -17px;
         font-size: 15px;
     }
-    & ~ ${ LabelInput } {
-        top: ${ ({ value }) => value ? '-17px' : '10px' };
+    & ~ ${LabelInput} {
+        top: ${({ value }) => value ? '-17px' : '10px'};
         font-size: 13px;
     }
 `

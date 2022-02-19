@@ -17,7 +17,7 @@ import { IconDelete, IconDost, IconEdit } from '../../../../public/icons'
 
 export const Departments = () => {
     const [createDepartments, { loading }] = useMutation(UPDATE_DEPARTMENT)
-  //  const { setAlertBox } = useContext(Context)
+   const { setAlertBox } = useContext(Context)
     const [values, setValues] = useState({})
     const [errors, setErrors] = useState({})
     const handleChange = (e, error) => {

@@ -34,6 +34,20 @@ input InputStorePedidos {
   pDatMod: DateTime
 }
 
+# ShoppingCard Input
+input INPUT_SHOPPING_PRODUCTS {
+  ShoppingCard: ID
+  idStore: ID
+}
+input SET_INPUT_SHOPPING_PRODUCTS_ITEMS {
+  setInput: [INPUT_SHOPPING_PRODUCTS]
+  change: Int
+  pickUp: Int
+  pCodeRef: String
+  pPStateP: Int # 5 estados - confirmado - proceso - preparacion - salida - cancelado  
+  payMethodPState: Int  
+  pPRecoger: Int
+}
 type Query {
 """Response for find one Store"""
   getOnePedidoStore(StoreName: String, idStore: ID): StorePedidos
@@ -41,8 +55,9 @@ type Query {
 }
 
 type Mutation {
-  """"registra Store data"""
+  """"registra Store data Order"""
   createOnePedidoStore(input: InputStorePedidos): AuthPayload
+  createMultipleOrderStore(input: SET_INPUT_SHOPPING_PRODUCTS_ITEMS): Response
 }
 
 type Subscription {

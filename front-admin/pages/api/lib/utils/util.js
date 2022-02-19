@@ -6,7 +6,7 @@ const codeRed = async model => {
     let result = '', error = false
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
-    /** creación de codigo */
+    /** creación de código */
     for (let i = 0; i < 10; i++) {
         result += characters.charAt(Math.floor(Math.random() * characters.length))
     }

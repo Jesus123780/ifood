@@ -11,12 +11,13 @@ import { Context } from '../../context'
 
 export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
     const { client } = useApolloClient()
-    const { state_product_card } = useContext(Context)
+    const { state_product_card, itemProducts } = useContext(Context)
 
     const [show, setShow] = useState(false)
     const location = useRouter()
     const onClickLogout = () => {
         client?.clearStore()
+        location.replace('/')
     }
     useEffect(() => {
         const body = document.body
@@ -48,7 +49,7 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
             </ButtonOption>
             <ButtonOption onClick={() => handleMenu(1)}>
                 <div className="count_product">
-                    {state_product_card?.PRODUCT?.length <= 9 ? state_product_card?.PRODUCT?.length : '+9' }
+                    {itemProducts <= 9 ? itemProducts : '+9' }
                 </div>
                 <IconShopping size='25px' color={PColor} />
             </ButtonOption>

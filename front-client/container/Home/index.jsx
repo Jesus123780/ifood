@@ -8,7 +8,6 @@ import { useRouter } from 'next/router'
 export const Home = () => {
     const [close, setClose] = useState(false)
     const [name, setName] = useState(false)
-    console.log(close)
     const location = useRouter()
     function capFirst(string) {
         if (typeof string !== 'undefined') {

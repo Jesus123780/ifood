@@ -183,8 +183,8 @@ query getOneStore($StoreName: String, $idStore: ID){
 }
 `
 export const GET_ALL_CATEGORIES_WITH_PRODUCT = gql`
-query getCatProductsWithProductClient($search: String, $min: Int, $max: Int, $gender: [String], $desc: [String], $categories: [ID], $carProId: ID ) {
-  getCatProductsWithProductClient(search: $search, min: $min, max: $max, gender: $gender, desc: $desc, categories: $categories, carProId: $carProId) {
+query getCatProductsWithProductClient($search: String, $min: Int, $max: Int, $gender: [String], $desc: [String], $categories: [ID], $carProId: ID $idStore: ID ) {
+  getCatProductsWithProductClient(search: $search, min: $min, max: $max, gender: $gender, desc: $desc, categories: $categories, carProId: $carProId idStore: $idStore) {
     carProId
     pState
     pState
@@ -203,6 +203,7 @@ query getCatProductsWithProductClient($search: String, $min: Int, $max: Int, $ge
         carProId
         cId
         dId
+        ValueDelivery
         ctId
         idStore
         caId
@@ -274,6 +275,7 @@ query productFoodsOne($pId: ID){
         caId
         dId
         ctId
+        ValueDelivery
         tpId
         fId
         pName

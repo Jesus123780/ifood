@@ -174,7 +174,7 @@ export const getCatProductsWithProduct = async (root, args, context, info) => {
     return data
 }
 export const getCatProductsWithProductClient = async (root, args, context, info) => {
-    const { search, min, max, carProId, gender, desc, categories } = args
+    const { search, min, max, carProId, gender, desc, categories, idStore } = args
     console.log(search, min, max, carProId, gender, desc, categories)
     linkBelongsTo(catProducts, productModelFood, 'pId', 'carProId')
     let whereSearch = {}
@@ -192,9 +192,7 @@ export const getCatProductsWithProductClient = async (root, args, context, info)
             [Op.or]: [
                 {
                     // get restaurant
-                    // idStore: deCode(context.restaurant),
-                    // get user
-                    // id: deCode(context.User.id),
+                    idStore: deCode(idStore),
                     // Productos state
                     pState: { [Op.gt]: 0 },
                 }

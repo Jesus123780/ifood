@@ -11,8 +11,8 @@ import Link from 'next/link'
 import Tabs from '../../components/Tabs';
 import { Range } from '../../components/InputRange';
 import { useQuery } from '@apollo/client';
-import { GET_ALL_COUNTRIES } from '../../gql/Location';
-import { GET_ALL_RESTAURANT } from './queries';
+import { GET_ALL_SHOPPING_CARD, GET_ALL_RESTAURANT, GET_ALL_CAT_STORE } from './queries';
+import Image from 'next/image';
 
 export const Restaurant = () => {
   // STATES
@@ -20,7 +20,9 @@ export const Restaurant = () => {
   const OPEN_MODAL_ORGANICE = useSetState(0)
   const OPEN_MODAL_FILTER = useSetState(0)
   const { data: dataRestaurant } = useQuery(GET_ALL_RESTAURANT)
-  console.log(dataRestaurant)
+  const { data: getCatStoreLOL } = useQuery(GET_ALL_SHOPPING_CARD)
+  console.log(getCatStoreLOL)
+  const { data: getCatStore } = useQuery(GET_ALL_CAT_STORE)
   // HANDLES
   const handleAddProduct = elem => {
     handleMenu(1)
@@ -32,50 +34,10 @@ export const Restaurant = () => {
       dispatch({ type: 'ADD_PRODUCT', payload: elem })
     }
   }
-  const data = [
-    {
-      pId: 1,
-      idStore: 8,
-      carProId: 8,
-      pName: 'Jugo natural',
-      ProPrice: 4.534,
-      ProDescuento: 4.534,
-      ProDescription: 4.534
-    },
-    {
-      pId: 2,
-      idStore: 8,
-      carProId: 8,
-      pName: 'Gaeosa litro',
-      ProPrice: 4.534,
-      ProDescuento: 4.534,
-      ProDescription: 4.534
-    },
-    {
-      pId: 3,
-      idStore: 8,
-      carProId: 8,
-      pName: 'Perro caliente cubano',
-      ProPrice: 4.534,
-      ProDescuento: 4.534,
-      ProDescription: 4.534
-    },
-    {
-      pId: 4,
-      idStore: 8,
-      carProId: 8,
-      pName: 'Perro caliente cubano',
-      ProPrice: 4.534,
-      ProDescuento: 4.534,
-      // ProDescription: 4.534Quedamos atentos al envío de muestras de sus trabajos al correo sistemas@proyeccionhumana.org
-    },
-  ]
   const [openModal, setOpenModal] = useState(false);
   const handleOpenProducts = products => {
     setOpenModal(!openModal)
   }
-
-
   return (
     <Content>
       <ContainerFilter>
@@ -88,32 +50,33 @@ export const Restaurant = () => {
         <ItemFilter onClick={() => OPEN_MODAL_FILTER.setState(!OPEN_MODAL_FILTER.state)}>Filtros</ItemFilter>
       </ContainerFilter>
       {/* CATEGORIES */}
+      <H2>Categorías</H2>
       <List>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]?.map(products => (
-          <Link href={`/categories/${products.StoreName}/${products.pId}`}>
+        {getCatStore?.getAllCatStore?.map(cat => (
+          <Link href={`/categories/${cat.StoreName}/${cat.pId}`}>
             <a>
-              <ItemCategory key={products.pId}>
-                {/* <Img src={products.images} alt={products.pName} /> */}
+              <ItemCategory key={cat.pId}>
+                <Image
+                  objectFit='contain'
+                  width={90}
+                  height={90}
+                  src={'/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
+                  alt="Picture of the author"
+                // blurDataURL="data:..." automatically provided
+                // placeholder="blur" // Optional blur-up while loading
+
+                />
               </ItemCategory>
+              <h2 className="title-cat">{cat.cName}</h2>
             </a>
           </Link>
         ))}
       </List>
       {/* PRODUCT DEMO */}
-      <ContainerCardProduct>
-        {data?.map(products => (
-          <CardProduct key={products.pId} onClick={() => handleOpenProducts(products)}>
-            {products.pName}
-            <RippleButton onClick={() => handleAddProduct(products)}>
-              <IconPlus color={PColor} size={40} />
-            </RippleButton>
-          </CardProduct>
-        ))}
-      </ContainerCardProduct>
       {/* BEST RESTAURANT */}
       <H2>Los mejores restaurantes para ti</H2>
       <List>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]?.map(products => (
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(products => (
           <Link href={`/categories/${products.StoreName}/${products.pId}`}>
             <a>
               <ItemCategory key={products.pId}>

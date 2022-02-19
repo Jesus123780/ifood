@@ -12,15 +12,40 @@ import { deCode, filterKeyObject, getAttributes } from '../../utils/util'
 const { Op } = require('sequelize')
 
 export const createOnePedidoStore = async (_, { input }, ctx) => {
-    const { id, idStore, pId } = input || {}
+    const { id, idStore, ShoppingCard, change, pickUp, pCodeRef, payMethodPState, pPRecoger } = input || {}
+    console.log(id, idStore, ShoppingCard, change, pickUp, pCodeRef, payMethodPState, pPRecoger)
     let res = {}
     try {
-        res = await pedidosModel.create({ ...input, uState: 1, id: deCode(id), idStore: deCode(idStore), pId: deCode(pId) })
+        res = await pedidosModel.create({
+            ...input,
+            pPStateP: 1,
+            id: deCode(id),
+            idStore: deCode(idStore),
+            ShoppingCard: deCode(ShoppingCard),
+            pCodeRef,
+            pPRecoger,
+            payMethodPState
+        })
         return {
             success: true,
-            idStore: 'res.idStore',
-            message: 'Tienda creada',
+            message: '',
         }
+    } catch (error) {
+        return { success: false, message: error }
+    }
+}
+const createMultipleOrderStore = async (_, { input }, ctx) => {
+    const { setInput, change, pickUp, pCodeRef, payMethodPState, pPRecoger } = input || {}
+    // console.log(input)
+    let res = {}
+    const id = 'MjcyMDg4ODE0ODUxNTE2NDUw'
+    try {
+        for (let i = 0; i < setInput.length; i++) {
+            const { ShoppingCard, idStore } = setInput[i]
+            await createOnePedidoStore(null, { input: { id, idStore, ShoppingCard, change, pickUp, pCodeRef, payMethodPState, pPRecoger } })
+            // console.log(ShoppingCard, idStore)
+        }
+        return { success: true, message: 'Update' }
     } catch (error) {
         return { success: false, message: error }
     }
@@ -29,9 +54,24 @@ export const createOnePedidoStore = async (_, { input }, ctx) => {
 export const getAllPedidoStore = async (_, args, ctx, info) => {
     const { idStore } = args
     try {
-        const attributes = getAttributes(pedidosModel, info)
+        // const attributes = getAttributes(pedidosModel, info)
+        // console.log(attributes)
         const data = await pedidosModel.findAll({
-            attributes,
+            attributes: [
+                'pdpId',
+                // 'id',
+                // 'idStore',   
+                'pId',
+                // 'ppState',
+                // 'pCodeRef',
+                // 'pPDate',
+                // 'pPStateP',
+                // 'payMethodPState',
+                // 'pPRecoger',
+                // 'unidProducts',
+                // 'pDatCre',
+                // 'pDatMod'
+            ],
             where: {
                 [Op.or]: [
                     {
@@ -40,8 +80,7 @@ export const getAllPedidoStore = async (_, args, ctx, info) => {
                         idStore: idStore ? deCode(idStore) : deCode(ctx.restaurant),
                     }
                 ]
-            },
-            order: [['pCodeRef', 'DESC']]
+            }
         })
         return data
     } catch (error) {
@@ -82,5 +121,6 @@ export default {
     },
     MUTATIONS: {
         createOnePedidoStore,
+        createMultipleOrderStore,
     }
 }

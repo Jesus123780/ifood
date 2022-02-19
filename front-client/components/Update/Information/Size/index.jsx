@@ -19,7 +19,7 @@ export const Size = () => {
     const [createSize] = useMutation(UPDATE_SIZE);
     const { data } = useQuery(GET_ALL_SIZE)
     const [show, setShow] = useState(false)
-  //  const { setAlertBox } = useContext(Context)
+   const { setAlertBox } = useContext(Context)
     // Mutación para subir unA TALLA
     const handleSubmit = e => {
         e.preventDefault()

@@ -4,17 +4,15 @@ const sequelize = connect()
 const { enCode } = require('../../utils/util')
 const productModelFood = require('../product/productFood')
 const Users = require('../Users')
-const ShoppingCard = require('./ShoppingCard')
+const SubProducts = require('./shoppingCardSubProduct')
 const Store = require('./Store')
 
-sequelize.sync()
-
-const pedidosModel = sequelize.define('storepedidos', {
-    pdpId: {
+const ShoppingCard = sequelize.define('shoppingcards', {
+    ShoppingCard: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        get(x) { return enCode(this.getDataValue(x)) },
+        get(x) { return enCode(this.getDataValue(x)) }
     },
     id: {
         type: Sequelize.INTEGER,
@@ -27,17 +25,18 @@ const pedidosModel = sequelize.define('storepedidos', {
         },
         get(x) { return enCode(this.getDataValue(x)) },
     },
-    ShoppingCard: {
+    pId: {
         type: Sequelize.INTEGER,
-        allowNull: true,
+        allowNull: false,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
         references: {
-            model: ShoppingCard,
-            key: 'ShoppingCard'
+            model: productModelFood,
+            key: 'pId'
         },
         get(x) { return enCode(this.getDataValue(x)) },
     },
+    // id store
     idStore: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -47,49 +46,40 @@ const pedidosModel = sequelize.define('storepedidos', {
             model: Store,
             key: 'idStore'
         },
-        get(x) { return enCode(this.getDataValue(x)) },
+        get(x) { return enCode(this.getDataValue(x)) }
     },
-    ppState: {
-        type: Sequelize.TINYINT,
-        allowNull: false,
-        defaultValue: 0
-    },
-    pCodeRef: {
-        type: Sequelize.STRING(15),
+    ShoppingCardRefCode: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         allowNull: false
     },
-    pPDate: {
-        type: Sequelize.DATE,
-        // defaultValue: Date.now()
+    discountCardProduct: {
+        type: Sequelize.STRING(100),
+        allowNull: true
     },
-    pPStateP: {
-        type: Sequelize.TINYINT,
-        defaultValue: 0
+    comments: {
+        type: Sequelize.STRING(100),
+        allowNull: true
     },
-    payMethodPState: {
-        type: Sequelize.TINYINT,
-        defaultValue: 0
-    },
-    pPRecoger: {
-        type: Sequelize.TINYINT,
-        defaultValue: 0
-    },
-    unidProducts: {
+    cantProducts: {
         type: Sequelize.INTEGER,
         allowNull: true
     },
-    pDatCre: {
-        type: 'TIMESTAMP',
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-        allowNull: false
+    cState: {
+        type: Sequelize.SMALLINT,
+        defaultValue: 1
     },
-    pDatMod: {
-        type: 'TIMESTAMP',
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-        allowNull: false
+    cDatCre: {
+        type: Sequelize.DATE,
+        default: Date.now()
+    },
+    cDatMod: {
+        type: Sequelize.DATE,
+        default: Date.now()
     }
 }, {
-    timestamps: true,
+    timestamps: false
 })
 
-module.exports = pedidosModel
+
+module.exports = ShoppingCard

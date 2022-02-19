@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { BGColor } from '../../public/colors';
 
 export const RippleButton = props => {
-    const { label, onClick, style, family, standard, active, type, widthButton } = props;
+    const { label, onClick, style, family, standard, active, type, widthButton, disabled } = props;
     const button = useRef(null);
 
     useEffect(() => {
@@ -29,7 +29,7 @@ export const RippleButton = props => {
     }, []);
 
     return (
-        <Button widthButton={widthButton} type={type} active={active} standard={standard} family={family} padding={ props.padding } color={ props.color } margin={ props.margin } bgColor={ props.bgColor} ref={button} onClick={onClick} className="ripple-button" style={style}>
+        <Button disabled={disabled} widthButton={widthButton} type={type} active={active} standard={standard} family={family} padding={ props.padding } color={ props.color } margin={ props.margin } bgColor={ props.bgColor} ref={button} onClick={onClick} className="ripple-button" style={style}>
             <span id="ripple-button-label">{label}</span>
             {props.children}
         </Button>
@@ -53,7 +53,8 @@ const Button = styled.button`
  ${ ({ widthButton }) => widthButton && css`
     width: ${ widthButton };`
 }
-
 ${ props=> props.active && css`
+    border-radius: 0;
 border-bottom: 3px solid red; ` }
+
 `

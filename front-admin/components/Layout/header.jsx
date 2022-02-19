@@ -40,7 +40,7 @@ export const Header = () => {
     <HeaderC scrollNav={scrollNav} style={style} >
       <>
         <div style={{ transform: `translateX(${offsetY * 0.8}px)` }} >
-          <ActiveLink href={'/'}>
+          <ActiveLink href={'/dashboard'}>
             <a>
               <IconLogo size='80px' color={PColor} />
             </a>

@@ -1,5 +1,6 @@
 import { ApolloError } from 'apollo-server-micro'
 import CatStore from '../../models/information/CategorieStore'
+import ShoppingCard from '../../models/Store/ShoppingCard'
 import CitiesModel from '../../models/information/CitiesModel'
 import colorModel from '../../models/information/color'
 import CountriesModel from '../../models/information/CountriesModel'
@@ -193,7 +194,6 @@ export const desCategoryStore = async (_root, { catStore, cState }, _context, _i
         await CatStore.update({ cState: cState === 0 ? 1 : 0 }, { where: { catStore: deCode(catStore) } })
         return true
     } catch (e) {
-        console.log(e);
         throw new ApolloError('No ha sido posible procesar su solicitud.', 500, e)
     }
 }
@@ -228,6 +228,7 @@ export default {
         typeIdentities,
         getAllColor,
         getAllCatStore,
+        // aquiiiiiiiiii
     },
     MUTATIONS: {
         createCity,

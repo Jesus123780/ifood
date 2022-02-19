@@ -117,15 +117,16 @@ export const Food = () => {
     // Contexto de las notificaciones
     const handleRegister = async e => {
         e.preventDefault()
-        const { ProPrice, ProDescuento, ProDescription, ProWeight, ProHeight } = values
+        const { ProPrice, ProDescuento, ProDescription, ProWeight, ProHeight, ValueDelivery } = values
         const ProImage = 'https://http2.mlstatic.com/D_NQ_NP_621798-MLA45543191295_042021-W.webp'
         try {
             updateProductFoods({
                 variables: {
                     input: {
                         idStore: dataStore?.getStore?.idStore || '',
-                        ProPrice: ProPrice,
+                        ProPrice: parseFloat(ProPrice.replace(/\./g, '')),
                         ProDescuento: ProDescuento,
+                        ValueDelivery: parseFloat(ValueDelivery),
                         ProDescription: ProDescription,
                         pName: names,
                         pState: 1,

@@ -79,6 +79,8 @@ export const ItemCategory = styled.div`
     border: 1px solid ${SFVColor};
     border-radius: 3% ;
     height: 100px;
+    align-items: center;
+    display: grid;
 ` 
 export const ContentStores = styled.div`
     width: 100%;
@@ -126,6 +128,13 @@ export const List = styled.div`
     overflow: hidden;
     grid-template-columns: 9% repeat(auto-fill, 9%);
     margin: 0 30px 30px auto;
+   
+    .title-cat {
+        margin-top: 10px;
+        font-size: 14px;
+        font-family: PFont-Light;
+        font-weight: 400;
+    }
 ` 
 export const ContainerFilter = styled.div` 
     margin: 30px 0;

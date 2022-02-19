@@ -28,7 +28,7 @@ export const Colors = () => {
     const [createColor] = useMutation(UPDATE_COLOR);
     const { data } = useQuery(GET_ALL_COLOR)
     const [show, setShow] = useState(false)
-  //  const { setAlertBox } = useContext(Context)
+   const { setAlertBox } = useContext(Context)
 
     const handleSubmit = (e, colorId) => {
         e.preventDefault()

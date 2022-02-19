@@ -28,6 +28,7 @@ const Provider = ({ children }) => {
     useEffect(() => { }, [isCompany])
     // Verify state
     const [menu, setMenu] = useState(0)
+    const [itemProducts, setCountItemProduct] = useState(0)
     const handleMenu = index => setMenu(index === menu ? false : index)
     const initialCompanyState = {
         idStore: undefined
@@ -113,6 +114,9 @@ const Provider = ({ children }) => {
         setCollapsed,
         isCompany,
         handleMenu,
+        // cuenta los productos
+        setCountItemProduct,
+        itemProducts,
         // Menu Ctx
         menu,
         collapsed,

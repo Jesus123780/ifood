@@ -187,6 +187,36 @@ export const productsLogis = async (root, args, context, info) => {
         return error
     }
 }
+export const updateUserLocations = async (root, input) => {
+    try {
+        console.log(input.input)
+        const { 
+            id,
+            cId,
+            dId,
+            ctId,
+            uLatitud,
+            uLongitude,
+            uLocationKnow,
+            uPiso,
+            DatCre,
+            DatMod } = input.input || {}
+        const data = await UserLocation.create({ id: deCode(id), uLocationKnow, uPiso, uLongitude, uLatitud, ctId: deCode(ctId), dId: deCode(dId), cId: deCode(cId)})
+        return data
+    } catch (e) {
+        const error = new ApolloError('Lo sentimos, ha ocurrido un error interno', 400)
+        return e
+    }
+}
+export const getUserLocations = async (_root, _args, _context, info) => {
+    try {
+        const attributes = getAttributes(UserLocation, info)
+        const data = await UserLocation.findAll({ attributes, where: { uLocationState: { [Op.gt]: 0 } }, order: [['DatCre', 'DESC']] })
+        return data
+    } catch (e) {
+        throw ApolloError('Lo sentimos, ha ocurrido un error interno')
+    }
+}
 
 export default {
     TYPES: {
@@ -206,8 +236,6 @@ export default {
                 }
             },
             getStore: async (parent, _args, _context, info) => {
-                // linkBelongsTo(ExtraProductModel, productModelFood, 'exPid', 'pId')
-                console.log(1);
                 try {
                     const attributes = getAttributes(Store, info)
                     const data = await Store.findOne({

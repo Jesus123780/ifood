@@ -2,13 +2,13 @@
 import React, { useCallback, useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
-// import { GoogleMap, Marker, LoadScript } from '@react-google-maps/api'
+import { GoogleMap, Marker, LoadScript } from '@react-google-maps/api'
 import mapStyle from './mapStyles'
 import { IconArrowLeft } from '../../public/icons'
 import { BGColor, PColor } from '../../public/colors'
 import { Span } from './styled'
 import { useMutation, useQuery, useLazyQuery } from '@apollo/client'
-import { SAVE_LOCATION_USER } from './queries'
+import { GET_ALL_LOCATIONS, SAVE_LOCATION_USER } from './queries'
 // import { Context } from '../../../../context'
 import InputHooks from '../InputHooks/InputHooks'
 import { RippleButton } from '../Ripple'
@@ -16,11 +16,8 @@ import { useFormTools } from '../BaseForm'
 import { GET_ALL_CITIES, GET_ALL_COUNTRIES, GET_ALL_DEPARTMENTS, GET_ALL_ROAD } from '../../gql/Location'
 import NewSelect from '../NewSelectHooks/NewSelect'
 
-export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
-  // const [animationTrans, setAnimationTrans] = useState(false)
+export const Map = ({ showModal, setShowModal, modal }) => {
   const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
-  // const { console.log } = useContext(Context)
-
   const mapContainerStyle = {
     height: '70vh',
     width: '100%',
@@ -34,7 +31,6 @@ export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
   }
   const [map, setMap] = useState(null)
   const fetchData = async () => {
-    // const API = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}${city}${province}${country}&key=${process.env.REACT_APP_API_KEY}`;
     const API = `https://maps.googleapis.com/maps/api/geocode/json?address=${dataForm.address}${dataForm.city}${dataForm.province}&key=AIzaSyAy0SY1G3OFqesWSTQRHJvzyJzNgURPoN8`;
     fetch(API)
       .then(response => response.json())
@@ -52,6 +48,8 @@ export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
     lat: -3.745,
     lng: -38.523
   };
+  const handleClickMap = (params) => {
+  }
   const hableSearchLocation = (params) => {
     handleClickMap(2)
     fetchData();
@@ -68,13 +66,24 @@ export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
       lng: e.latLng.lng(),
     }])
   })
-  const [saveLocation] = useMutation(SAVE_LOCATION_USER)
+  // const [getUserLocations, { data: dataLocation }] = useLazyQuery(GET_ALL_LOCATIONS)
+  const  { data: dataLocation } = useQuery(GET_ALL_LOCATIONS)
+  const [updateUserLocations] = useMutation(SAVE_LOCATION_USER)
   const handleSave = async () => {
-    return saveLocation({
+    // getUserLocations()
+    return updateUserLocations({
       variables: {
-        country: 'colcasda',
-        lat: map ? map[0]?.geometry?.location?.lat : 10,
-        long: map ? map[0]?.geometry?.location?.lng : 10
+        input: {
+          cId: values.countryId,
+          ctId: values.ctId,
+          dId: values.dId,
+          uLatitud: '10',
+          uLongitude: '10',
+          uLocationKnow: dataForm.uLocationKnow,
+          uPiso: 1,
+          id: 'MjcyMDg4ODE0ODUxNTE2NDUw',
+
+        }
       }
     }).catch(err => console.log({ message: 'error' }))
   }
@@ -84,12 +93,11 @@ export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
   }, [])
   const [values, setValues] = useState({})
   const [errors, setErrors] = useState({})
-  
+
   const [getDepartments, { data: dataDepartments }] = useLazyQuery(GET_ALL_DEPARTMENTS)
   const [getCities, { data: dataCities }] = useLazyQuery(GET_ALL_CITIES)
   const { data: dataRoad, loading: loadRoad } = useQuery(GET_ALL_ROAD)
   const { data: dataCountries, loading: loadCountries } = useQuery(GET_ALL_COUNTRIES)
-
   const handleChangeLocation = (e, error) => {
     setValues({ ...values, [e.target.name]: e.target.value })
     setErrors({ ...errors, [e.target.name]: error })
@@ -103,7 +111,7 @@ export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
   const countries = dataCountries?.countries || []
   const road = dataRoad?.road || []
   const cities = dataCities?.cities || []
-  
+
   return (
     <ContainerModal showModal={showModal} onClick={() => setShowModal(!showModal)}>
       <AwesomeModal onClick={e => e.stopPropagation()} showModal={showModal}>
@@ -112,7 +120,15 @@ export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
           <NewSelect name='dId' options={departments} id='dId' onChange={handleChangeSearch} error={errors?.dId} optionName='dName' value={values?.dId} title='Departamento' />
           <NewSelect name='ctId' options={cities} id='ctId' onChange={handleChangeSearch} error={errors?.ctId} optionName='cName' value={values?.ctId} title='Ciudad' />
           <NewSelect name='rId' options={road} id='rId' onChange={handleChangeSearch} error={errors?.rId} optionName='rName' value={values?.rId} title='Tipo de via' />
-          <RippleButton widthButton={'100%'} onClick={() => hableSearchLocation()}><Text>Search Address</Text></RippleButton>
+          <InputHooks
+            title='Ingresa tu dirección como la conoces'
+            required
+            errors={errorForm?.uLocationKnow}
+            value={dataForm?.uLocationKnow}
+            onChange={handleChange}
+            name='uLocationKnow'
+          />
+          <RippleButton widthButton={'100%'} onClick={() => handleSave()}><Text>Search Address</Text></RippleButton>
         </Container>}
         <ContainerMap modal={modal === 2}>
           <MapHeader>
@@ -121,7 +137,7 @@ export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
             </button>
             <Span>{dataForm?.address}</Span><div></div>
           </MapHeader>
-          {/*<LoadScript googleMapsApiKey='AIzaSyBjsZdzx04Ol7DQ7v4BXimgxC1JwNCAnj0'>
+          <LoadScript googleMapsApiKey='AIzaSyBjsZdzx04Ol7DQ7v4BXimgxC1JwNCAnj0'>
              <GoogleMap
               mapContainerStyle={mapContainerStyle}
               zoom={9}
@@ -136,7 +152,7 @@ export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
             {1 && <ContentButton>
               <RippleButton style={{ width: '40%' }} onClick={handleSave}>Confirmar</RippleButton>
             </ContentButton>}
-          </LoadScript> */}
+          </LoadScript>
         </ContainerMap>
       </AwesomeModal>
     </ContainerModal>

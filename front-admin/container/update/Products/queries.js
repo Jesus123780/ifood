@@ -63,6 +63,7 @@ mutation updateProductFoods($input: InputProductFood){
     ProPrice
     ProDescuento
 	  ProUniDisponibles
+	  ValueDelivery
 	  ProDescription
 	  ProProtegido
 	  ProAssurance

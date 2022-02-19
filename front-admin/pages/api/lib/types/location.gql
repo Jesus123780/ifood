@@ -1,0 +1,44 @@
+# types
+type UserLocation {
+    locationId: ID
+    id: ID
+    cId: ID
+    dId: ID
+    ctId: ID
+    uLatitud: String
+    uLongitude: String
+    uLocationKnow: String
+    uPiso: Int
+    DatCre: DateTime
+    DatMod: DateTime
+}
+# Inputs
+input InputUserLocation {
+    locationId: ID
+    id: ID
+    cId: ID
+    dId: ID
+    ctId: ID
+    uLatitud: String
+    uLongitude: String
+    uLocationKnow: String
+    uPiso: Int
+    DatCre: DateTime
+    DatMod: DateTime
+}
+input IDeleteUserLocation {
+    locationId: ID
+}
+
+# Queries
+type Query {
+    getUserLocations: [UserLocation]
+}
+
+# Mutations
+type Mutation {
+    "Registra una location"
+    updateUserLocations(input: InputUserLocation): UserLocation
+    "Borra un location"
+    deleteUserLocations(input: IDeleteUserLocation): UserLocation
+}

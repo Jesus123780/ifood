@@ -9,7 +9,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { numberFormat } from 'utils'
 
-export const ListPedidos = () => {
+export const ListPedidos = ({ data }) => {
     const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
     return (
         <div>
@@ -104,7 +104,7 @@ export const ListPedidos = () => {
                     { name: '', justify: 'flex-center', width: '1fr' },
                 ]}
                 labelBtn='Product'
-                data={[1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5]}
+                data={data}
                 renderBody={(dataB, titles) => dataB?.map((elem, i) => <Section odd padding='10px 0' columnWidth={titles} key={i}>
                     <Item>
                         <span> Restaurante</span>
