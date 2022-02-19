@@ -11,9 +11,10 @@ import Tabs from 'components/Tabs'
 
 const PedidosStore = () => {
   const { data } = useQuery(GET_ALL_PEDIDOS)
+  console.log(data)
   const { setAlertBox, setCountPedido, countPedido } = useContext(Context)
   useEffect(() => {
-    setCountPedido(data?.getAllPedidoStore?.length || 0)
+    setCountPedido(data?.getAllPedidoStoreFinal?.length || 0)
   }, [data])
   return (
     <div>
@@ -21,14 +22,12 @@ const PedidosStore = () => {
         <LocationName />
         <Tabs width={['33.33%', '33.33%', '33.330%']} >
           <Tabs.Panel label={`Pedidos`}>
-            <ListPedidos data={data?.getAllPedidoStore} />
+            <ListPedidos data={data?.getAllPedidoStoreFinal} />
           </Tabs.Panel>
           <Tabs.Panel label={``}>
 
           </Tabs.Panel>
         </Tabs>
-
-
       </Container>
     </div>
   )

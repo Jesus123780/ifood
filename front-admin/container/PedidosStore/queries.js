@@ -1,73 +1,59 @@
 import { gql } from '@apollo/client'
 
 export const GET_ALL_PEDIDOS = gql`
-query getAllPedidoStore($idStore: ID){
-    getAllPedidoStore(idStore: $idStore ){
-      pdpId
-      id
-      idStore
-      pId
-      ppState
-      pCodeRef
-      pPDate
-      pPStateP
-      payMethodPState
-      pPRecoger
-      unidProducts
-      pDatCre
-      pDatMod
-    productFoodsOne {
-          pId
-          carProId
-          sizeId
-          colorId
-          idStore
-          cId
-          caId
-          dId
-          ctId
-          tpId
-          fId
-          pName
-          ProPrice
-          ProDescuento
-          ProUniDisponibles
-          ProDescription
-          ProProtegido
-          ProAssurance
-          ProImage
-          ProStar
-          ProWidth
-          ProHeight
-          ProLength
-          ProWeight
-          ProQuantity
-          ProOutstanding
-          ProDelivery
-          ProVoltaje
-          pState
-          sTateLogistic
-          pDatCre
-          pDatMod
-    }
+query getAllPedidoStoreFinal($idStore: ID) {
+  getAllPedidoStoreFinal(idStore: $idStore) {
+    pdpId
+    idStore
+    pCodeRef
+    payMethodPState
+    pPRecoger
+    pSState
+    pDatCre
+    pDatMod
+    totalProductsPrice
     getUser{
-      id
+       id
       name
       username
-      lastName
       email
-      avatar
-      uToken
-      uPhoNum
-      ULocation
-      upLat
-      uState
-      upLon
-      upIdeDoc
-      siteWeb
       description
-      password
-      createAt
+      ULocation
+      upLon
+      upLat
+    }
+    getAllPedidoStore{
+        pdpId
+      	pId
+        id
+      	idStore
+      	ShoppingCard
+        pCodeRef
+        pPStateP
+        payMethodPState
+        pPRecoger
+        pDatCre
+        pDatMod
+      getAllShoppingCard {
+        ShoppingCard
+        id
+        pId
+        productFood{
+          pId
+          carProId
+          colorId
+          idStore
+          ProPrice
+          ProDescuento
+          ProDescription
+          ValueDelivery
+          ProImage
+          ProStar
+          pState
+          pDatCre
+          pDatMod
+        }
+      }
     }
   }
 }

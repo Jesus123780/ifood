@@ -5,12 +5,16 @@ import { RippleButton } from 'components/Ripple'
 import { Table } from 'components/Table'
 import { Section } from 'components/Table/styled'
 import { BGColor, PColor, PLColor } from 'public/colors'
-import React from 'react'
-import styled from 'styled-components'
+import React, { useState } from 'react'
+import styled, { css, keyframes } from 'styled-components'
+import moment from 'moment'
 import { numberFormat } from 'utils'
+import { onPulses } from 'components/animations'
+import { AwesomeModal } from 'components/AwesomeModal'
 
 export const ListPedidos = ({ data }) => {
     const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
+    const [modal, setModal] = useState(0)
     return (
         <div>
             <Card>
@@ -98,40 +102,42 @@ export const ListPedidos = ({ data }) => {
                     { name: 'Date', justify: 'flex-center', width: '1fr' },
                     { name: 'Canal', justify: 'flex-center', width: '1fr' },
                     { name: 'Método de pago', justify: 'flex-center', width: '1fr' },
-                    { name: 'Costo', justify: 'flex-center', width: '1fr' },
+                    { name: 'Costo total', justify: 'flex-center', width: '1fr' },
                     { name: 'Numero de Entrega', justify: 'flex-center', width: '1fr' },
                     { name: 'Cupon', justify: 'flex-center', width: '1fr' },
                     { name: '', justify: 'flex-center', width: '1fr' },
                 ]}
                 labelBtn='Product'
                 data={data}
-                renderBody={(dataB, titles) => dataB?.map((elem, i) => <Section odd padding='10px 0' columnWidth={titles} key={i}>
+                renderBody={(dataB, titles) => dataB?.map((x, i) => <Section odd padding='10px 0' columnWidth={titles} key={i}>
                     <Item>
                         <span> Restaurante</span>
                     </Item>
                     <Item>
-                        <span> 7597</span>
+                        <span> {x.pCodeRef}</span>
                     </Item>
                     <Item>
-                        <span> 20/03/2020 - 12:43</span>
+                        <span> {moment(x.pDatCre).format('DD/MM/YYYY')} - {moment(x.pDatCre).format('h:mma')} </span>
                     </Item>
                     <Item>
                         <span> DELIVERY-APP </span>
                     </Item>
                     <Item>
-                        <span> EFECTIVO</span>
+                        <span> {x.payMethodPState ? 'EFECTIVO' : 'TRANSFERENCIA'}</span>
                     </Item>
                     <Item>
-                        <span> $ {numberFormat(12000)} </span>
+                        <span> $ {numberFormat(x.totalProductsPrice)} </span>
                     </Item>
                     <Item>
-                        <span> $ {numberFormat(2000)}</span>
+                        <CircleStatus pulse={true}>
+
+                        </CircleStatus>
                     </Item>
                     <Item>
                         <span> {i + 1}</span>
                     </Item>
                     <Item>
-                        <Button>
+                        <Button onClick={() => setModal(!modal)}>
                             Ver detalles
                         </Button>
                     </Item>
@@ -141,9 +147,34 @@ export const ListPedidos = ({ data }) => {
                 <RippleButton padding='10px' margin='30px 0'>Mas antiguos</RippleButton>
                 <RippleButton padding='10px' margin='30px 0'>Cargar Mas</RippleButton>
             </Action>
+            <CheckStatus
+                setModal={setModal}
+                modal={modal}
+            />
         </div>
     )
 }
+
+
+export const CheckStatus = ({ setModal, modal }) => {
+    return (
+        <div>
+            <AwesomeModal
+                show={modal}
+                onCancel={() => setModal(false)}
+                onHide={() => setModal(false)}
+                btnConfirm={false}
+                header={false}
+                footer={false}
+                padding='20px'
+                size='large'
+            >
+                asdasda
+            </AwesomeModal>
+        </div>
+    )
+}
+
 
 const Button = styled.button`
     color: ${PColor};
@@ -165,6 +196,34 @@ const Card = styled.div`
         flex-wrap: wrap;
 
     }
+`
+const pulse = keyframes`
+  0% {
+    box-shadow: 0 0 0 0 ${PColor};
+  }
+  70% {
+      box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+  }
+  100% {
+      box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+  }
+`
+export const CircleStatus = styled.div` 
+  border-radius: 50%;
+  height: 30px;
+  background-color: ${PColor};
+  width: 30px;
+  min-height: 30px;
+  text-align: center;
+  display: grid;
+  place-content: center;
+  min-width: 30px;
+  ${props => props.pulse
+        ? css`
+    animation: ${pulse} 2s infinite;
+  `
+        : css`
+  ` }
 `
 const Item = styled.div`
     padding: 15px 1px;

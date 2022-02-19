@@ -49,17 +49,20 @@ export const Checkout = () => {
         onCompleted: data => {
             if (data.createMultipleOrderStore.success === true) {
                 router.push('/proceso-de-compra/finalizar')
-            }
+            }   
         }
     })
     const newArray = dataShoppingCard?.getAllShoppingCard.map(x => { return { ShoppingCard: x.ShoppingCard, idStore: x.getStore.idStore } })
+    console.log(newArray)
+    const [totalProductPrice, setTotalProductPrice] = useState(0)
     const handleSubmitPedido = async e => {
         await createMultipleOrderStore({
             variables: {
                 input: {
                     setInput: newArray,
-                    change: parseInt(dataForm.change.replace(/\./g, '')),
+                    change: parseInt(dataForm?.change?.replace(/\./g, '')),
                     pickUp: 1,
+                    totalProductsPrice: totalProductPrice,
                     pCodeRef: code,
                     payMethodPState: 1,
                     pPRecoger: 1,
@@ -84,7 +87,6 @@ export const Checkout = () => {
         return delivery ? priceFinal + delivery : priceFinal
     }
     const refs = useRef([React.createRef(), React.createRef()])
-    const [totalProductPrice, setTotalProductPrice] = useState(0)
     let total = 0
     let suma = 0
     // const sumSubTotal = arr => arr && arr?.reduce((sum, { values }) => sum + values, 0)

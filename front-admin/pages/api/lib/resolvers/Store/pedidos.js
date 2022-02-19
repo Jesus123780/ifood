@@ -5,6 +5,8 @@ import CountriesModel from '../../models/information/CountriesModel'
 import DepartmentsModel from '../../models/information/DepartmentsModel'
 import productModelFood from '../../models/product/productFood'
 import pedidosModel from '../../models/Store/pedidos'
+import ShoppingCard from '../../models/Store/ShoppingCard'
+import StatusPedidosModel from '../../models/Store/statusPedidoFinal'
 import Store from '../../models/Store/Store'
 import Users from '../../models/Users'
 import { LoginEmail } from '../../templates/LoginEmail'
@@ -35,11 +37,11 @@ export const createOnePedidoStore = async (_, { input }, ctx) => {
     }
 }
 const createMultipleOrderStore = async (_, { input }, ctx) => {
-    const { setInput, change, pickUp, pCodeRef, payMethodPState, pPRecoger } = input || {}
-    // console.log(input)
+    const { setInput, change, pickUp, pCodeRef, payMethodPState, pPRecoger, totalProductsPrice } = input || {}
     let res = {}
     const id = 'MjcyMDg4ODE0ODUxNTE2NDUw'
     try {
+        await StatusPedidosModel.create({ id: deCode(id), idStore: deCode(setInput[0].idStore), pSState: 0, pCodeRef: pCodeRef, change: change, payMethodPState: payMethodPState, pickUp, totalProductsPrice })
         for (let i = 0; i < setInput.length; i++) {
             const { ShoppingCard, idStore } = setInput[i]
             await createOnePedidoStore(null, { input: { id, idStore, ShoppingCard, change, pickUp, pCodeRef, payMethodPState, pPRecoger } })
@@ -47,6 +49,7 @@ const createMultipleOrderStore = async (_, { input }, ctx) => {
         }
         return { success: true, message: 'Update' }
     } catch (error) {
+        console.log(error)
         return { success: false, message: error }
     }
 }
@@ -87,6 +90,28 @@ export const getAllPedidoStore = async (_, args, ctx, info) => {
         return error
     }
 }
+// store
+export const getAllPedidoStoreFinal = async (_, args, ctx, info) => {
+    const { idStore } = args || {}
+    try {
+        const attributes = getAttributes(StatusPedidosModel, info)
+        const data = await StatusPedidosModel.findAll({
+            attributes,
+            where: {
+                [Op.or]: [
+                    {
+                        // ID STORE
+                        idStore: idStore ? deCode(idStore) : deCode(ctx.restaurant),
+                    }
+                ]
+            }
+        })
+        return data
+    } catch (error) {
+        return error
+    }
+}
+
 export default {
     TYPES: {
         StorePedidos: {
@@ -114,10 +139,38 @@ export default {
                     return null
                 }
             },
-        }
+            getAllPedidoStore: async (parent, _args, _context, info) => {
+                try {
+                    const attributes = getAttributes(pedidosModel, info)
+                    const data = await pedidosModel.findAll({
+                        attributes,
+                        where: { pCodeRef: parent.pCodeRef }
+                    })
+                    return data
+                } catch {
+                    return null
+                }
+            },
+            getAllShoppingCard: async (parent, _args, _context, info) => {
+                console.log(0, parent)
+
+                try {
+                    console.log(0, parent.pCodeRef)
+                    const attributes = getAttributes(ShoppingCard, info)
+                    const data = await ShoppingCard.findOne({
+                        attributes,
+                        where: { ShoppingCard: deCode(parent.ShoppingCard) }
+                    })
+                    return data
+                } catch {
+                    return null
+                }
+            }
+        },
     },
     QUERIES: {
-        getAllPedidoStore
+        getAllPedidoStore,
+        getAllPedidoStoreFinal,
     },
     MUTATIONS: {
         createOnePedidoStore,
