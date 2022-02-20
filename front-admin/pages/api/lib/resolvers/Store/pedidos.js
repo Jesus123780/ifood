@@ -36,6 +36,26 @@ export const createOnePedidoStore = async (_, { input }, ctx) => {
         return { success: false, message: error }
     }
 }
+const changePPStatePPedido = async (_, { pPStateP, pCodeRef }, ctx) => {
+    try {
+        console.log(pPStateP, pCodeRef)
+       const data = await StatusPedidosModel.update({ pSState: pPStateP }, { where: { pCodeRef: pCodeRef } })
+        return {
+            success: true,
+            message:  pPStateP === 1
+             ? 'El pedido fue marcado como aprobado' 
+             : pPStateP === 2 ? 'El pedido fue marcado como en proceso' 
+             : pPStateP === 3 ? 'El pedido Esta listo para salir'
+             : pPStateP === 4 ? 'Pedido fue pagado con éxito por el cliente (Concluido)' 
+             : 'Pedido rechazado'   
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: error
+        }
+    }
+}
 const createMultipleOrderStore = async (_, { input }, ctx) => {
     const { setInput, change, pickUp, pCodeRef, payMethodPState, pPRecoger, totalProductsPrice } = input || {}
     let res = {}
@@ -152,10 +172,7 @@ export default {
                 }
             },
             getAllShoppingCard: async (parent, _args, _context, info) => {
-                console.log(0, parent)
-
                 try {
-                    console.log(0, parent.pCodeRef)
                     const attributes = getAttributes(ShoppingCard, info)
                     const data = await ShoppingCard.findOne({
                         attributes,
@@ -175,5 +192,6 @@ export default {
     MUTATIONS: {
         createOnePedidoStore,
         createMultipleOrderStore,
+        changePPStatePPedido,
     }
 }

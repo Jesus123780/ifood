@@ -1,55 +1,17 @@
 import { useMemo } from 'react'
 import { ApolloClient, from, HttpLink, InMemoryCache } from '@apollo/client'
+import { split } from '@apollo/client/core'
 import { setContext } from '@apollo/client/link/context'
-import { concatPagination } from '@apollo/client/utilities'
+import { concatPagination, getMainDefinition } from '@apollo/client/utilities'
 import { onError } from '@apollo/client/link/error'
 import { createUploadLink } from 'apollo-upload-client'
 import FingerprintJS from "@fingerprintjs/fingerprintjs"
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
-import { URL_BASE } from './urls'
+import { URL_BASE, URL_BASE_WS } from './urls'
 import { typeDefs } from './schema'
 
-export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
 
-let apolloClient
-let userAgent
-export const getDeviceId = async () => {
-    const fp = await FingerprintJS.load()
-    const result = await fp.get()
-    userAgent = window.navigator.userAgent
-    return result.visitorId
-}
-
-const errorHandler = onError(({ graphQLErrors }) => {
-    if (graphQLErrors) {
-        graphQLErrors?.length && graphQLErrors.forEach(err => {
-            const { code } = err.extensions
-            if (code === 'UNAUTHENTICATED' || code === 'FORBIDDEN') console.log('Papuuuuuuuu')
-            else if (code === 403) {
-                console.log('Papuuuuuuuu')
-            }
-        })
-    }
-})
-
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-    if (graphQLErrors)
-      graphQLErrors.map(({ message, locations, path }) => {
-        console.log(
-          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-        )
-      })
-    //   
-      graphQLErrors?.length && graphQLErrors.forEach(err => {
-        const { code } = err.extensions
-        if (code === 'UNAUTHENTICATED' || code === 'FORBIDDEN') console.log('Papuuuuuuuu')
-        else if (code === 403) {
-            console.log('Papuuuuuuuu')
-        }
-    })
-    if (networkError) console.log(`[Network error]: ${networkError}`)
-  })
 
 const authLink = setContext(async (_, { headers }) => {
     const lol = await getDeviceId()
@@ -67,19 +29,18 @@ const authLink = setContext(async (_, { headers }) => {
     }
 })
 
-const httpLink = createUploadLink({
-    uri: `${URL_BASE}graphql`, // Server URL (must be absolute)
-    credentials: 'same-origin' // Additional fetch() options like `credentials` or `headers`
-})
+
 function createApolloClient() {
     return new ApolloClient({
         connectToDevTools: true,
         ssrMode: typeof window === 'undefined',
+        // assumeImmutableResults: true,
+        // queryDeduplication: true,
         link: from([
-            errorLink,
             authLink,
             httpLink,
-            // errorHandler
+            // errorLink,
+            // splitLink
         ]),
         typeDefs,
         cache: new InMemoryCache({

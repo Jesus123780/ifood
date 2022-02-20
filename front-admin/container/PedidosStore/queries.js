@@ -1,5 +1,15 @@
 import { gql } from '@apollo/client'
 
+export const CHANGE_STATE_STORE_PEDIDO = gql`
+mutation changePPStatePPedido($pPStateP: Int, $pCodeRef: String) {
+  changePPStatePPedido(pPStateP: $pPStateP, pCodeRef: $pCodeRef){
+    success
+    message
+    
+  }
+}
+
+`
 export const GET_ALL_PEDIDOS = gql`
 query getAllPedidoStoreFinal($idStore: ID) {
   getAllPedidoStoreFinal(idStore: $idStore) {
@@ -8,24 +18,13 @@ query getAllPedidoStoreFinal($idStore: ID) {
     pCodeRef
     payMethodPState
     pPRecoger
+    totalProductsPrice
     pSState
     pDatCre
     pDatMod
-    totalProductsPrice
-    getUser{
-       id
-      name
-      username
-      email
-      description
-      ULocation
-      upLon
-      upLat
-    }
     getAllPedidoStore{
         pdpId
       	pId
-        id
       	idStore
       	ShoppingCard
         pCodeRef
@@ -34,15 +33,17 @@ query getAllPedidoStoreFinal($idStore: ID) {
         pPRecoger
         pDatCre
         pDatMod
-      getAllShoppingCard {
-        ShoppingCard
-        id
-        pId
+      	getAllShoppingCard {
+          ShoppingCard
+          comments
+          cantProducts
+          pId
         productFood{
           pId
           carProId
           colorId
           idStore
+          pName
           ProPrice
           ProDescuento
           ProDescription

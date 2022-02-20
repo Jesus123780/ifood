@@ -11,7 +11,6 @@ import Tabs from 'components/Tabs'
 
 const PedidosStore = () => {
   const { data } = useQuery(GET_ALL_PEDIDOS)
-  console.log(data)
   const { setAlertBox, setCountPedido, countPedido } = useContext(Context)
   useEffect(() => {
     setCountPedido(data?.getAllPedidoStoreFinal?.length || 0)

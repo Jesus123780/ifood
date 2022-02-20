@@ -4,17 +4,33 @@ import NewSelect from 'components/NewSelectHooks/NewSelect'
 import { RippleButton } from 'components/Ripple'
 import { Table } from 'components/Table'
 import { Section } from 'components/Table/styled'
-import { BGColor, PColor, PLColor } from 'public/colors'
-import React, { useState } from 'react'
+import { APColor, BColor, BGColor, BGVColor, PColor, PLColor, SCColor, SECColor, TBGEColor, WColor } from 'public/colors'
+import React, { useContext, useState } from 'react'
 import styled, { css, keyframes } from 'styled-components'
 import moment from 'moment'
-import { numberFormat } from 'utils'
+import { useQuery, useMutation } from '@apollo/client'
+import { numberFormat, updateCache } from 'utils'
 import { onPulses } from 'components/animations'
 import { AwesomeModal } from 'components/AwesomeModal'
+import Image from 'next/image'
+import { CHANGE_STATE_STORE_PEDIDO, GET_ALL_PEDIDOS } from './queries'
+import { Context } from 'context/Context'
+moment.locale('es');
 
 export const ListPedidos = ({ data }) => {
+    const moment = require('moment');
     const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
-    const [modal, setModal] = useState(0)
+    const [modal, setModal] = useState(true)
+    const [dataModal, setDataModal] = useState(null)
+
+    const m1 = moment(new Date('2019/06/01 3:04:03'));
+    const m2 = m1.clone().add(59, 'seconds');
+
+    const duration = moment.duration();
+    const handleOpenModal = elem => {
+        setModal(!modal)
+        setDataModal(elem)
+    }
     return (
         <div>
             <Card>
@@ -114,7 +130,7 @@ export const ListPedidos = ({ data }) => {
                         <span> Restaurante</span>
                     </Item>
                     <Item>
-                        <span> {x.pCodeRef}</span>
+                        <span># {x.pCodeRef}</span>
                     </Item>
                     <Item>
                         <span> {moment(x.pDatCre).format('DD/MM/YYYY')} - {moment(x.pDatCre).format('h:mma')} </span>
@@ -129,7 +145,7 @@ export const ListPedidos = ({ data }) => {
                         <span> $ {numberFormat(x.totalProductsPrice)} </span>
                     </Item>
                     <Item>
-                        <CircleStatus pulse={true}>
+                        <CircleStatus pulse={true} status={x.pSState}>
 
                         </CircleStatus>
                     </Item>
@@ -137,7 +153,7 @@ export const ListPedidos = ({ data }) => {
                         <span> {i + 1}</span>
                     </Item>
                     <Item>
-                        <Button onClick={() => setModal(!modal)}>
+                        <Button onClick={() => handleOpenModal(x)}>
                             Ver detalles
                         </Button>
                     </Item>
@@ -150,13 +166,39 @@ export const ListPedidos = ({ data }) => {
             <CheckStatus
                 setModal={setModal}
                 modal={modal}
+                dataModal={dataModal}
             />
         </div>
     )
 }
 
 
-export const CheckStatus = ({ setModal, modal }) => {
+export const CheckStatus = ({ setModal, modal, dataModal }) => {
+    // STATES
+    const { setAlertBox } = useContext(Context)
+    const { pCodeRef, getAllPedidoStore, totalProductsPrice, pDatCre } = dataModal || {}
+    // QUERIES
+    const [changePPStatePPedido] = useMutation(CHANGE_STATE_STORE_PEDIDO, {
+        onCompleted: data => {
+            setAlertBox({ message: data?.changePPStatePPedido?.message })
+        }
+    })
+    // HANDLES
+
+    const HandleChangeState = (stateNumber) => {
+        changePPStatePPedido({
+            variables: {
+                pPStateP: stateNumber,
+                pCodeRef: pCodeRef
+            }, update: (cache, { data: { getAllPedidoStoreFinal } }) => updateCache({
+                cache,
+                query: GET_ALL_PEDIDOS,
+                nameFun: 'getAllPedidoStoreFinal',
+                dataNew: getAllPedidoStoreFinal
+            })
+
+        })
+    }
     return (
         <div>
             <AwesomeModal
@@ -167,15 +209,300 @@ export const CheckStatus = ({ setModal, modal }) => {
                 header={false}
                 footer={false}
                 padding='20px'
+                zIndex='9999'
                 size='large'
             >
-                asdasda
+                <ModalContainer>
+                    <Text size='2em'>{moment(pDatCre).format('DD/MM/YYYY')} - {moment(pDatCre).format('h:mma')}</Text>
+                    <CardTicket>
+                        <Text size='25px'># {pCodeRef}</Text>
+                    </CardTicket>
+                    {getAllPedidoStore && getAllPedidoStore.map(p => {
+                        const { getAllShoppingCard } = p || {}
+                        const { productFood, comments } = getAllShoppingCard || {}
+                        return (
+                            <div key={p.ShoppingCard}>
+                                <Card>
+                                    <CardProductsModal>
+                                        <Image
+                                            className='store_image'
+                                            width={250}
+                                            height={250}
+                                            objectFit='contain'
+                                            src={'/images/hamb.jpg'}
+                                            alt="Picture"
+                                            blurDataURL="data:..."
+                                            placeholder="blur" // Optional blur-up while loading
+                                        />
+                                        <ContentInfo>
+                                            <HeadSticky>
+                                                <Text size='1.9em'>{p?.getAllShoppingCard?.productFood?.pName}</Text>
+                                                <Text size='1.5em'>Cantidad: {p.getAllShoppingCard.cantProducts} </Text>
+                                            </HeadSticky>
+                                            <Text size='14px' margin='20px 0' color='#676464'>{'ProDescription'}</Text>
+                                            <Flex>
+                                                <Text margin='12px 0' size='.875rem' color={APColor}>$ {numberFormat(p?.getAllShoppingCard?.productFood.ProPrice)}</Text>
+                                                <Text margin='12px 0 0 5px' size='14px' color={PLColor} style={{ textDecoration: 'line-through' }} >$ {numberFormat(p?.getAllShoppingCard?.productFood.ProDescuento)}</Text>
+                                            </Flex>
+                                            <DisRestaurant>
+                                                <Text className='dish-restaurant__header' margin='12px 0' size='14px'> {'getStore?.storeName'}</Text>
+                                                <div className="dish-restaurant__divisor"></div>
+                                                <label tabindex="0" className="dish-observation-form__label" for="observations-form">¿Algún comentario?</label>
+                                            </DisRestaurant>
+                                            <DisRestaurant>
+                                                <Text size='1.4'>{p?.getAllShoppingCard.comments}</Text>
+                                            </DisRestaurant>
+                                            {0 > 0 && <GarnishChoicesHeader>
+                                                <div>
+                                                    <p className="garnish-choices__title">Adicionales</p>
+                                                    <p className="garnish-choices__title-desc">Escoge hasta opciones.</p>
+                                                </div>
+                                                {/* <IconMiniCheck size={'15px'} color={'#009b3a'} /> */}
+                                            </GarnishChoicesHeader>}
+                                            {/* {ExtProductFoodsAll?.map(extra => (
+                                            <CardsComponent key={extra.exPid}>
+                                                <div>
+                                                    <h3 className="title_card">{extra.extraName}</h3>
+                                                    <h3 className="price"> $ {extra.extraPrice}</h3>
+                                                </div>
+                                                <RippleButton bgColor={'transparent'} margin='0px' widthButton='min-content' type="button" onClick={() => console.log(extra)} >
+                                                </RippleButton>
+                                            </CardsComponent>
+                                        ))} */}
+                                            {![1, 2, 4]?.map(itemOptional => (
+                                                <div>
+                                                    <GarnishChoicesHeader key={itemOptional?.opExPid}>
+                                                        <div>
+                                                            <p className="garnish-choices__title">{itemOptional?.OptionalProName}</p>
+                                                            <p className="garnish-choices__title-desc">Escoge hasta {itemOptional?.numbersOptionalOnly} opciones.</p>
+                                                        </div>
+                                                        {/* <IconMiniCheck size={'15px'} color={'#009b3a'} /> */}
+                                                    </GarnishChoicesHeader>
+                                                    {itemOptional?.ExtProductFoodsSubOptionalAll?.map(x => (
+                                                        <CardsComponent key={x.opSubExPid}>
+                                                            <div>
+                                                                <h3 className="title_card">{x.OptionalSubProName}</h3>
+                                                            </div>
+                                                            <input name='subOptional' value={x?.opSubExPid} type="checkbox" id="cat" onChange={handleChangeClickOnTable} />
+                                                            <RippleButton bgColor={'transparent'} margin='0px' widthButton='min-content' type="button" onClick={() => console.log(x)} >
+                                                            </RippleButton>
+                                                        </CardsComponent>
+
+                                                    ))}
+                                                </div>
+                                            ))}
+                                        </ContentInfo>
+                                        <div />
+                                    </CardProductsModal>
+                                </Card>
+                            </div>
+                        )
+                    })}
+                </ModalContainer>
+                <Text size='2em'>Total: $ {numberFormat(totalProductsPrice)}</Text>
+                <RippleButton onClick={() => HandleChangeState(1)}> Confirmar pedido</RippleButton>
+                <RippleButton onClick={() => HandleChangeState(2)}>  Pedido en proceso</RippleButton>
+                <RippleButton onClick={() => HandleChangeState(3)}>  Pedido en listo para entrega</RippleButton>
+                {/* <RippleButton onClick={() => HandleChangeState(4)}>  Pedido con ref</RippleButton> */}
+                <RippleButton onClick={() => HandleChangeState(5)}>Rechazar pedido</RippleButton>
             </AwesomeModal>
-        </div>
+        </div >
     )
 }
+export const ModalContainer = styled.div`
+    max-width: 1366px;
+    margin: 30px auto 20px;
+    overflow-y: auto;
+    height: 700px;
+`
+export const Text = styled.span`
+    font-size: ${({ size }) => size || '12px'};
+    text-align:  ${({ align }) => align || 'start'};
+    ${({ lineHeight }) => lineHeight && css`line-height: ${lineHeight};`}
+    ${({ padding }) => padding && css`padding: ${padding};`}
+    margin: ${({ margin }) => margin || '0'};
+    color: ${({ color }) => color || BColor};
+    /* justify-content: ${({ justify }) => justify || 'flex-start'}; */
+    display: flex;
+    font-family: ${({ font }) => font || 'PFont-Regular'};
+    word-break: break-word;
+`
+export const GarnishChoicesHeader = styled.div`
+    padding: 12px 20px 10px;
+    display: flex;
+    place-content: center;
+    align-items: center;
+    justify-content: space-between;
+    background: #f2f2f2;
+    position: sticky;
+    top: 0;
+    border-bottom: 1px solid #ccc;
+    z-index: 99;
+    .garnish-choices__title { 
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.25em;
+        font-weight: 500;
+        color: #3f3e3e;
+    }
+    .garnish-choices__title-desc {
+        font-weight: 100;
+        font-size: .875rem;
+        line-height: 17px;
+        display: block;
+        color: #717171;
+    }
+     .marmita-minitag{
+        -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    --screen-x: 1495px;
+    --screen-y: 937px;
+    font-family: SulSans,Helvetica,sans-serif;
+    box-sizing: border-box;
+    display: inline-block;
+    background: #fff;
+    border-radius: 3px;
+    margin: 0 3px 0 0;
+    height: 20px;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+    font-size: .5625rem;
+    line-height: 1;
+    background-color: #717171;
+    color: #f5f0eb;
+    border: none;
+    padding: 6px 6px 4px;
+     }
+     .garnish-choices {
+            justify-content: space-around;
+            display: flex;
+            
 
+     }
+`
+export const Flex = styled.div`
+  display: flex;
+  width: 100%;
+  
+  `
+export const DisRestaurant = styled.div`
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(63,62,62,.1);
+  border-radius: 4px;
+  width: 100%;
+  margin: auto;
+  padding: 10px;
+  height: auto;
+  padding: 11px 20px;
+  .dish-observation-form__label {
+    line-height: 1.15;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #717171;
+  }
+  .dish-restaurant__header {
+    line-height: 1.15;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .dish-restaurant__divisor {
+    line-height: 1.15;
+    font-size: 16px;
+    cursor: pointer;
+    box-sizing: border-box;
+    border-top: 2px dashed #f2f2f2;
+    margin: 8px 0;
+  }
+`
+export const HeadSticky = styled.div`
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    padding: 5px 0;
+    width: 100%;
+`
 
+const CardsComponent = styled.div`
+    background-color: ${BGColor};
+    padding: 10px;
+    margin: 15px 0;
+    border-bottom: 1px solid #ccc;
+    grid-template-columns: 5fr 10%;
+    gap: 20px;
+    cursor: move;
+    display: grid;
+    .title_card{
+        word-break: break-word;
+        font-family: PFont-Light;
+        color: ${BColor};
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.25em;
+        font-weight: 500;
+    }
+    .price {
+        word-break: break-word;
+        font-family: PFont-Light;
+        color: ${PColor};
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.25em;
+        font-weight: 600;
+    }
+`
+const CardTicket = styled.div`
+    border: 1px dotted #ccc;
+    border-radius: 7px;
+    padding: 20px;
+`
+export const CardProductsContent = styled.div`
+    width: 100%;  
+    border: 1px solid #ccc;
+    height: min-content;
+    padding: 10px;
+    border-radius: 4px;
+    grid-template-columns: 5fr 140px;
+    grid-column-gap: 20px;
+    cursor: pointer;
+    display: grid;
+    padding: 16px;
+    .Name {
+      margin-bottom: 10px;
+      font-size: 16px;
+      font-family: PFont-Light;
+    }
+    .store_info {
+      color: ${`${BGVColor}`};
+    }
+    .store_image{
+      background-color: ${BGColor};
+      box-shadow: 1px 1px 10px #00000012;
+    }
+    `
+export const ContentInfo = styled.div` 
+    width: 100%;
+    flex-direction: column;
+    padding: 24px 16px;
+    overflow-y: auto;
+    position: relative;
+`
+export const CardProductsModal = styled(CardProductsContent)`
+  border: none;
+  padding: 0px;
+  grid-template-columns: 1fr 50%;
+  margin: 10px 0;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 100%;
+  }
+`
 const Button = styled.button`
     color: ${PColor};
     text-decoration: underline;
@@ -211,7 +538,7 @@ const pulse = keyframes`
 export const CircleStatus = styled.div` 
   border-radius: 50%;
   height: 30px;
-  background-color: ${PColor};
+  background-color: ${({ status }) => status === 1 ? `${WColor}` : status === 2 ? `${TBGEColor}` : status === 3 ? `${SCColor}` : status === 4 ? `${PColor}` : SECColor};
   width: 30px;
   min-height: 30px;
   text-align: center;
