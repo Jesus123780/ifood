@@ -6,19 +6,17 @@ import { RippleButton } from '../../components/Ripple'
 import { APColor, BGColor, EColor } from '../../public/colors'
 import { useMutation } from '@apollo/client'
 import ActiveLink from '../../components/common/Link'
-import { URL_BASE } from '../../apollo/urls'
+import { OUR_URL_BASE, URL_BASE } from '../../apollo/urls'
 import { CREATE_CURRENT_SESSION } from './queries'
 import fetchJson from '../../components/hooks/fetchJson'
 import { useRouter } from 'next/router'
 import { Facebook, IconGoogleFullColor } from '../../public/icons'
-// import { getDeviceId } from 'apollo/apolloClient'
 import { Context } from '../../context/index'
 import { getDeviceId } from '../../apollo/apolloClient'
 
 const Login = ({ watch, settings }) => {
     const router = useRouter()
     const { setAlertBox } = useContext(Context)
-
     const responseFacebook = response => {
     }
     const [location, setLocation] = useState({})
@@ -40,67 +38,54 @@ const Login = ({ watch, settings }) => {
             })
         return locationFormat ?? locationFormat[0].formatted_address
     }
-    const responseGoogle = async (e) => {
-        e.preventDefault()
+    const responseGoogle = async (response) => {
+        // e.preventDefault()
         const dataLocation = await fetchData()
-        // window.localStorage.setItem('sessionGoogle', JSON.stringify(response.profileObj))
-        // const { name, googleId, email, imageUrl } = response?.profileObj
-        // const body = {
-        //     name: name,
-        //     username: name,
-        //     lastName: name,
-        //     email: email,
-        //     password: googleId,
-        //     locationFormat: locationFormat[0]?.formatted_address,
-        //     useragent: window.navigator.userAgent,
-        //     deviceid: await getDeviceId() || '',
-        // }
-        const bodyfalse = {
-            name: 'odavalencia002@gmail.com',
-            username: 'odavalencia002@gmail.com',
-            lastName: 'odavalencia002@gmail.com',
-            email: 'odavalencia002@gmail.com',
-            password: '113561675852804771364',
+        window.localStorage.setItem('sessionGoogle', JSON.stringify(response.profileObj))
+        const { name, googleId, email, imageUrl } = response?.profileObj
+        const body = {
+            name: name,
+            username: name,
+            lastName: name,
+            email: email,
+            password: googleId,
             locationFormat: locationFormat[0]?.formatted_address,
             useragent: window.navigator.userAgent,
-            deviceid: '23423423432',
+            deviceid: await getDeviceId() || '',
         }
-        await fetchJson(`${URL_BASE}auth`, {
+        // const bodyfalse = {
+        //     name: 'odavalencia002@gmail.com',
+        //     username: 'odavalencia002@gmail.com',
+        //     lastName: 'odavalencia002@gmail.com',
+        //     email: 'odavalencia002@gmail.com',
+        //     password: '113561675852804771364',
+        //     locationFormat: locationFormat[0]?.formatted_address,
+        //     useragent: window.navigator.userAgent,
+        //     deviceid: '23423423432',
+        // }
+        await fetchJson(`${OUR_URL_BASE}auth`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(bodyfalse)
+            body: JSON.stringify(body)
         }).then(res => {
             console.log(res)
+            const { userId, token } = res || {}
+            window.localStorage.setItem('session', token)
+            window.localStorage.setItem('usuario', userId)
             setAlertBox({ message: `${res.message}`, color: 'success' })
-
-            if (res?.storeUserId) {
-                const { idStore, id } = res?.storeUserId
-                localStorage.setItem('restaurant', idStore)
-                localStorage.setItem('usuario', id)
-                localStorage.setItem('session', res.token)
-                router.push('/dashboard')
-            } else {
-                router.push('/restaurante')
-            }
-            // if (res.success) {
-            //     newRegisterUser({ variables: { input: { name: '23423', username: '3242', lastName: '3242', email: 'hola', password: googleId  } } })
-            //         .then(res => {
-            //         })
-            // }
+            router.push('/restaurantes')
         }).catch(e => {
         })
     }
     return (
         <Content>
-            {/* {useCountLetters()} */}
             <Card>
-                {/* sdfasd */}
             </Card>
             <Form>
                 <Text size='30px'>¡Falta poco para saciar tu hambre!</Text>
                 <Text size='15px'>¿Cómo deseas continuar?</Text>
                 <button onClick={(e) => responseGoogle(e)}>Login falso</button>
-                {/*  <GoogleLogin
+                <GoogleLogin
                     autoLoad={false}
                     clientId='58758655786-u323tp1dpi6broro865rrm488gh4mnpu.apps.googleusercontent.com'
                     onSuccess={responseGoogle}
@@ -108,11 +93,11 @@ const Login = ({ watch, settings }) => {
                     cookiePolicy={'single_host_origin'}
                     render={renderProps => (
                         <div>
-                            
-                            <ButtonSubmit  size='14px' colorFont='#717171' height='40px' color='2' onClick={renderProps.onClick} disabled={renderProps.disabled}><IconGoogleFullColor size='30px' /> Continue with Google<div style={{ width: 'min-content' }} /> </ButtonSubmit>
+
+                            <ButtonSubmit size='14px' colorFont='#717171' height='40px' color='2' onClick={renderProps.onClick} disabled={renderProps.disabled}><IconGoogleFullColor size='30px' /> Continue with Google<div style={{ width: 'min-content' }} /> </ButtonSubmit>
                         </div>
                     )}
-                /> */}
+                />
                 <FacebookLogin
                     appId="467885964900974"
                     autoLoad={false}

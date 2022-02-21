@@ -14,7 +14,6 @@ import { usePosition } from '../hooks/usePosition'
 export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => {
     const location = useRouter()
     const { error, isSession, setAlertBox, setCollapsed, collapsed, handleMenu, menu } = useContext(Context)
-    // console.log(isSession)
     useEffect(() => {
         setAlertBox({ message: '', color: 'success' })
     }, [])

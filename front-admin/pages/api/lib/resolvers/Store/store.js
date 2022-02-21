@@ -38,7 +38,6 @@ export const newRegisterStore = async (_, { input }, ctx) => {
     }
 }
 export const getStore = async (_root, { id, StoreName, idStore }, context, info) => {
-    console.log('DATA USER', 0);
     const attributes = getAttributes(Store, info)
     const data = await Store.findOne({
         attributes,
@@ -60,7 +59,6 @@ export const oneCategoriesStore = async (parent, _args, _context, info) => {
 const updateExtraProduct = async ({ input }) => {
     try {
         const { _id, id, pId } = input || {}
-        console.log(input)
         await SubProducts.create({ pId: deCode(pId), id: deCode(id), opExPid: deCode(_id) })
         return input
     } catch (e) {
@@ -88,23 +86,22 @@ export const deleteOneItem = async (root, args, context, _info) => {
 }
 export const registerShoppingCard = async (root, input, context, _info) => {
     const { idSubArray } = input || {}
-    const { cName, cantProducts, cState, csDescription, pId, id, comments, idStore } = input.input || {}
+    const { id } = context.User
+    const { cName, cantProducts, cState, csDescription, pId, comments, idStore } = input.input || {}
     const { setID } = idSubArray || {}
     try {
         const data = await ShoppingCard.create({ pId: deCode(pId), id: deCode(id), comments, cantProducts, idStore: deCode(idStore) })
         for (let i = 0; i < setID.length; i++) {
             const { _id } = setID[i]
-            console.log(i)
             await updateExtraProduct({ input: { _id, id, pId } })
         }
-
         return data
     } catch (e) {
         const error = new Error('Lo sentimos, ha ocurrido un error interno')
         return error
     }
 }
-export const getAllShoppingCard = async (_root, { input }, _context, info) => {
+export const getAllShoppingCard = async (_root, { input }, context, info) => {
     try {
         const attributes = getAttributes(ShoppingCard, info)
         const data = await ShoppingCard.findAll({
@@ -113,6 +110,7 @@ export const getAllShoppingCard = async (_root, { input }, _context, info) => {
                 [Op.or]: [
                     {
                         // state
+                        id: deCode(context.User.id),
                         cState: { [Op.gt]: 0 }
                     }
                 ]
@@ -136,7 +134,6 @@ export const getAllStoreInStore = async (root, args, context, _info) => {
             }
         }
         const attributes = getAttributes(Store, _info)
-        // console.log(...filterKeyObject(attributes, ['catStore']), 3)
         const data = await Store.findAll({
             attributes: [
                 'idStore', 'cId',
@@ -172,7 +169,6 @@ export const getAllStoreInStore = async (root, args, context, _info) => {
         })
         return data
     } catch (e) {
-        console.log(e)
         const error = new Error('Lo sentimos, ha ocurrido un error interno')
         return error
     }

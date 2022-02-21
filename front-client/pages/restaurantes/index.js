@@ -10,6 +10,8 @@ import { PromosBanner } from '../../container/restaurantes/PromosBanner'
 import { Section } from '../../container/restaurantes/styled'
 import { ListRestaurant } from '../../container/restaurantes/restaurant'
 import { GET_ALL_COUNTRIES } from '../../gql/Location'
+import withSession from '../../apollo/session'
+import { decodeToken } from '../../utils'
 
 export default function RestaurantHome() {
   const { data } = useQuery(GET_ONE_STORE)
@@ -34,3 +36,22 @@ export default function RestaurantHome() {
     </div>
   )
 }
+
+export const getServerSideProps = withSession(async function ({ req, res }) {
+  const user = req?.session?.get('user')
+  if (!user) {
+    res.setHeader('location', '/entrar')
+    res.statusCode = 302
+    res.end()
+    return { props: {} }
+  }
+  const { token } = user || {}
+  const data = decodeToken(token)
+  const { id } = data || {}
+  if (!req.cookies[process.env.SESSION_NAME]) return { redirect: { destination: '/entrar' } }
+
+  return {
+    props: {}
+  }
+}
+)

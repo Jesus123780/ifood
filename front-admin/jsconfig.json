@@ -29,7 +29,7 @@
     "incremental": true
   },
   "include": [
-    "next-env.d.ts",
+    "next-env.d.js",
     "**/*.js",
     "**/*.jsx"
   ],

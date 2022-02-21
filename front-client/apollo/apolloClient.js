@@ -5,17 +5,25 @@ import { concatPagination } from '@apollo/client/utilities'
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
 import { URL_BASE } from './urls'
+import FingerprintJS from "@fingerprintjs/fingerprintjs"
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
 
 let apolloClient
+let userAgent
+export const getDeviceId = async () => {
+    const fp = await FingerprintJS.load()
+    const result = await fp.get()
+    userAgent = window.navigator.userAgent
+    return result.visitorId
+}
 
 const authLink = setContext((_, { headers }) => {
-    const token = localStorage.getItem('vs1-tk')
+    const token = localStorage.getItem('session')
     return {
         headers: {
             ...headers,
-            authorization: token ? token : '',
+            authorization: `Bearer ${token}` ? `Bearer ${token}` : '',
         }
     }
 })

@@ -5,8 +5,8 @@ type UserLocation {
     cId: ID
     dId: ID
     ctId: ID
-    uLatitud: String
-    uLongitude: String
+    uLatitud: Float
+    uLongitude: Float
     uLocationKnow: String
     uPiso: Int
     DatCre: DateTime
@@ -19,8 +19,8 @@ input InputUserLocation {
     cId: ID
     dId: ID
     ctId: ID
-    uLatitud: String
-    uLongitude: String
+    uLatitud: Float
+    uLongitude: Float
     uLocationKnow: String
     uPiso: Int
     DatCre: DateTime

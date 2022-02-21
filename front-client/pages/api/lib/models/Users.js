@@ -1,13 +1,16 @@
 const Sequelize = require('sequelize')
 const connect = require('../db')
 const sequelize = connect()
-// sequelize.sync()
+const { enCode } = require('../utils/util')
+
+sequelize.sync()
 
 const Users = sequelize.define('users', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
+        get(x) {return enCode(this.getDataValue(x))}
     },
     name: {
         type: Sequelize.STRING,
@@ -48,6 +51,9 @@ const Users = sequelize.define('users', {
     },
     upLat: {
         type: Sequelize.STRING(30)
+    },
+    uState: {
+        type: Sequelize.INTEGER(30)
     },
     upLon: {
         type: Sequelize.STRING(30)

@@ -61,7 +61,6 @@ export const getDevice = async ({ input }) => {
 
 export default withSession(async (req, res) => {
     const { name, username, lastName, email, password, useragent, deviceid, locationFormat } = req.body
-    console.log(req.body, 100)
     try {
         const { token, message, success, roles, storeUserId, userId } = await newRegisterUser(null, { name, username, lastName, email, password })
         const detector = new DeviceDetector;

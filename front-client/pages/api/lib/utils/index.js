@@ -106,7 +106,7 @@ export const generateToken = async dataUser => {
 export const createToken = function () {
     const payload = {
         iat: moment().unix(), // Guardamos la fecha en formato unix
-        exp: moment().add(30, 'days').unix// Damos 30 dias de duracion del token en formato unix para poder compara posteriormente
+        exp: moment().add(30, 'days').unix// Damos 30 días de duracion del token en formato unix para poder compara posteriormente
     }
     return jwt.encode(payload, process.env.AUTHO_USER_KEY)
 }

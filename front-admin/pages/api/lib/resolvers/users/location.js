@@ -9,10 +9,9 @@ import { generateCode, generateToken, sendEmail } from '../../utils'
 import { deCode, enCode, getAttributes } from '../../utils/util'
 const { Op } = require('sequelize')
 
-export const updateUserLocations = async (root, input) => {
+export const updateUserLocations = async (root, input, context, info) => {
     try {
         const { 
-            id,
             cId,
             dId,
             ctId,
@@ -22,7 +21,7 @@ export const updateUserLocations = async (root, input) => {
             uPiso,
             DatCre,
             DatMod } = input.input || {}
-        const data = await UserLocation.create({ id: deCode(id), uLocationKnow, uPiso, uLongitude, uLatitud, ctId: deCode(ctId), dId: deCode(dId), cId: deCode(cId)})
+        const data = await UserLocation.create({ id: deCode(context.User.id), uLocationKnow, uPiso, uLongitude, uLatitud, ctId: deCode(ctId), dId: deCode(dId), cId: deCode(cId)})
         return data
     } catch (e) {
         const error = new ApolloError('Lo sentimos, ha ocurrido un error interno', 400)

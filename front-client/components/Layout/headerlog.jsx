@@ -61,7 +61,7 @@ export const HeaderMain = ({ menu, handleMenu }) => {
           <Options menu={menu} handleMenu={handleMenu} />
         </HeaderMainC>
       </ContentHeader>
-      {/* <Map setShowModal={setShowModal} modal={1} showModal={showModal} /> */}
+      <Map setShowModal={setShowModal} showModal={showModal} />
     </div>
   )
 }

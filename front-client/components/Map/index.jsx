@@ -16,7 +16,8 @@ import { useFormTools } from '../BaseForm'
 import { GET_ALL_CITIES, GET_ALL_COUNTRIES, GET_ALL_DEPARTMENTS, GET_ALL_ROAD } from '../../gql/Location'
 import NewSelect from '../NewSelectHooks/NewSelect'
 
-export const Map = ({ showModal, setShowModal, modal }) => {
+export const Map = ({ showModal, setShowModal }) => {
+  const [modal, setModal] = useState(0)
   const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
   const mapContainerStyle = {
     height: '70vh',
@@ -27,11 +28,10 @@ export const Map = ({ showModal, setShowModal, modal }) => {
     styles: mapStyle,
     disableDefaultUI: true,
     zoomControl: false
-
   }
   const [map, setMap] = useState(null)
-  const fetchData = async () => {
-    const API = `https://maps.googleapis.com/maps/api/geocode/json?address=${dataForm.address}${dataForm.city}${dataForm.province}&key=AIzaSyAy0SY1G3OFqesWSTQRHJvzyJzNgURPoN8`;
+  const fetchData = useCallback(async () => {
+    const API = `https://maps.googleapis.com/maps/api/geocode/json?address=colombia &key=AIzaSyAy0SY1G3OFqesWSTQRHJvzyJzNgURPoN8`;
     fetch(API)
       .then(response => response.json())
       .then(response => {
@@ -39,19 +39,18 @@ export const Map = ({ showModal, setShowModal, modal }) => {
       })
       .catch(() => {
       })
-  }
+  }, [])
+  console.log(map)
   const defaultCenter = {
-    lat: map && parseFloat(map[0]?.geometry?.location?.lat),
-    lng: map && parseFloat(map[0]?.geometry?.location?.lng)
+    lat: map && parseInt(map[0]?.geometry?.location?.lat),
+    lng: map && parseInt(map[0]?.geometry?.location?.lng)
   }
   const center = {
     lat: -3.745,
     lng: -38.523
   };
-  const handleClickMap = (params) => {
-  }
   const hableSearchLocation = (params) => {
-    handleClickMap(2)
+    setModal(2)
     fetchData();
   }
   const onLoad = useCallback(function callback(map) {
@@ -67,7 +66,7 @@ export const Map = ({ showModal, setShowModal, modal }) => {
     }])
   })
   // const [getUserLocations, { data: dataLocation }] = useLazyQuery(GET_ALL_LOCATIONS)
-  const  { data: dataLocation } = useQuery(GET_ALL_LOCATIONS)
+  const { data: dataLocation } = useQuery(GET_ALL_LOCATIONS)
   const [updateUserLocations] = useMutation(SAVE_LOCATION_USER)
   const handleSave = async () => {
     // getUserLocations()
@@ -77,17 +76,14 @@ export const Map = ({ showModal, setShowModal, modal }) => {
           cId: values.countryId,
           ctId: values.ctId,
           dId: values.dId,
-          uLatitud: '10',
-          uLongitude: '10',
+          uLatitud: 10,
+          uLongitude: 10,
           uLocationKnow: dataForm.uLocationKnow,
-          uPiso: 1,
-          id: 'MjcyMDg4ODE0ODUxNTE2NDUw',
-
+          uPiso: parent(dataForm.piso),
         }
       }
     }).catch(err => console.log({ message: 'error' }))
   }
-
   const onUnmount = React.useCallback(function callback(map) {
     setMap(null)
   }, [])
@@ -111,10 +107,24 @@ export const Map = ({ showModal, setShowModal, modal }) => {
   const countries = dataCountries?.countries || []
   const road = dataRoad?.road || []
   const cities = dataCities?.cities || []
-
+  const closeAllState = () => {
+    setShowModal(!showModal)
+    setModal(0)
+  }
+  const [check, setCheck] = useState(false)
+  const handleCheckChange = e => {
+    const { checked } = e.target
+    setCheck(checked ? true : false)
+  }
   return (
-    <ContainerModal showModal={showModal} onClick={() => setShowModal(!showModal)}>
+    <ContainerModal showModal={showModal} onClick={() => closeAllState()}>
       <AwesomeModal onClick={e => e.stopPropagation()} showModal={showModal}>
+        {<Container modal={modal === 0}>
+          <div className="card">
+            <h2>¿Donde quieres recibir tu pedido?</h2>
+            <RippleButton onClick={() => setModal(1)}> Buscar mi ubicación</RippleButton>
+          </div>
+        </Container>}
         {<Container modal={modal === 1}>
           <NewSelect name='countryId' options={countries} id='cId' onChange={handleChangeSearch} error={errors?.countryId} optionName='cName' value={values?.countryId} title='País' />
           <NewSelect name='dId' options={departments} id='dId' onChange={handleChangeSearch} error={errors?.dId} optionName='dName' value={values?.dId} title='Departamento' />
@@ -128,17 +138,32 @@ export const Map = ({ showModal, setShowModal, modal }) => {
             onChange={handleChange}
             name='uLocationKnow'
           />
-          <RippleButton widthButton={'100%'} onClick={() => handleSave()}><Text>Search Address</Text></RippleButton>
+          <div className='flex-center'>
+            <InputHooks
+              title='Numero interior de piso'
+              required
+              errors={errorForm?.piso}
+              value={dataForm?.piso}
+              onChange={handleChange}
+              name='piso'
+              numeric
+              disabled={check}
+            />
+            <div>
+              <input type='checkbox' onChange={e => handleCheckChange(e)} />
+            </div>
+          </div>
+          <RippleButton widthButton={'100%'} onClick={() => hableSearchLocation(2)}><Text>Search Address</Text></RippleButton>
         </Container>}
         <ContainerMap modal={modal === 2}>
           <MapHeader>
-            <button style={{ backgroundColor: 'transparent' }} onClick={() => handleClickMap(1)} >
+            <button style={{ backgroundColor: 'transparent' }} onClick={() => setModal(1)} >
               <IconArrowLeft size={20} color={PColor} />
             </button>
             <Span>{dataForm?.address}</Span><div></div>
           </MapHeader>
           <LoadScript googleMapsApiKey='AIzaSyBjsZdzx04Ol7DQ7v4BXimgxC1JwNCAnj0'>
-             <GoogleMap
+            <GoogleMap
               mapContainerStyle={mapContainerStyle}
               zoom={9}
               onLoad={onLoad}
@@ -147,7 +172,7 @@ export const Map = ({ showModal, setShowModal, modal }) => {
               center={map ? defaultCenter : defaultCenter}
               onUnmount={onUnmount}
             >
-              <Marker position={defaultCenter ? defaultCenter : markers && { lat: parseFloat(markers[0]?.lat), lng: parseFloat(markers[0]?.lng) }} />
+              <Marker position={defaultCenter ? defaultCenter : markers && { lat: parseInt(markers[0]?.lat), lng: parseInt(markers[0]?.lng) }} />
             </GoogleMap>
             {1 && <ContentButton>
               <RippleButton style={{ width: '40%' }} onClick={handleSave}>Confirmar</RippleButton>
@@ -162,7 +187,7 @@ export const Map = ({ showModal, setShowModal, modal }) => {
 Map.propTypes = {
   google: PropTypes.func,
   setShowModal: PropTypes.func,
-  handleClickMap: PropTypes.func,
+  hableSearchLocation: PropTypes.func,
   showModal: PropTypes.bool,
   modal: PropTypes.number
 
@@ -184,6 +209,25 @@ ${({ modal }) => modal
       z-index: -10000;
       opacity: 0;
               `}
+        .card {
+  display: grid;
+  height: auto;
+  opacity: 1;
+  overflow: visible;
+  h2 {
+    color: #3e3e3e;
+    font-size: 1.125rem;
+    line-height: 22px;
+    font-family: PFont-Light;
+    text-align: center;
+    margin: 30px 0;
+  }
+        }
+        .flex-center{
+          display: flex;
+    flex: 1 1 0%;
+    align-items: center;
+        }
 `
 const Text = styled.span`
 
@@ -212,11 +256,7 @@ const AwesomeModal = styled.div`
             /* opacity: 0; */
             z-index: -99999;
               `}
-    &::-webkit-scrollbar {
-        width: 3px;
-        background-color: #dcdcdc;
-        border-radius: 5px;
-    }
+  
 `
 const ContainerModal = styled.div`
     display: flex;

@@ -16,6 +16,8 @@ const apolloServer = new ApolloServer({
     introspection: true,
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground(), httpHeadersPlugin],
     context: withSession(async ({ req, next, connection }) => {
+        let User = {}
+        let tokenClient
         // const DeviceDetector = require('node-device-detector');
         // const detector = new DeviceDetector;
         // const resultOs = detector.parseOs(req.headers.useragent);
@@ -31,17 +33,20 @@ const apolloServer = new ApolloServer({
             const setHeaders = []
             //  Initialize PubSub
             const { token } = req.session.get('user') || {}
-            const idComp = req.headers.authorization?.split(' ')[1]
+            tokenClient = req.headers.authorization?.split(' ')[1]
             const restaurant = req.headers.restaurant || {}
             const excluded = ['/login', '/forgotpassword', '/register', '/teams/invite/[id]', '/teams/manage/[id]']
             if (excluded.indexOf(req.session) > -1) return next()
             const { error } = await getUserFromToken(token)
             // if (error) req.session.destroy()
             if (token) {
-                const User = await jwt.verify(token, process.env.AUTHO_USER_KEY)
-                return { req, setCookies: setCookies || [], setHeaders: setHeaders || [], User: User || {}, idComp, restaurant: restaurant || {} }
+                User = await jwt.verify(token, process.env.AUTHO_USER_KEY)
+                return { req, setCookies: setCookies || [], setHeaders: setHeaders || [], User: User || {}, restaurant: restaurant || {} }
+            } else if (tokenClient) {
+                User = await jwt.verify(tokenClient, process.env.AUTHO_USER_KEY)
+                return { req, setCookies: setCookies || [], setHeaders: setHeaders || [], User: User || {}, restaurant: restaurant || {} }
             }
-            return { req, setCookies: [], setHeaders: [], User: null || {}, idComp: null || {}, restaurant: restaurant || {} }
+            return { req, setCookies: [], setHeaders: [], User: User || {}, restaurant: restaurant || {} }
 
         }
     }),
@@ -62,10 +67,22 @@ const apolloServer = new ApolloServer({
 const startServer = apolloServer.start();
 
 export default cors(async (req, res) => {
-    cors()
+    // res.setHeader("Access-Control-Allow-Credentials", "true");
+    // res.setHeader(
+    //     "Access-Control-Allow-Origin",
+    //     "http://localhost:3000"
+    // );
+    // res.setHeader(
+    //     "Access-Control-Allow-Headers",
+    //     "Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Methods, Access-Control-Allow-Origin, Access-Control-Allow-Credentials, Access-Control-Allow-Headers"
+    // );
+    // res.setHeader(
+    //     "Access-Control-Allow-Methods",
+    //     "POST, GET, PUT, PATCH, DELETE, OPTIONS, HEAD"
+    // );
     if (req.method === 'OPTIONS') {
-        res.end()
-        return
+        res.end();
+        return false;
     }
     await startServer;
     const handler = (apolloServer.createHandler({ path: '/api/graphql' }))

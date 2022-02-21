@@ -21,7 +21,6 @@ export const Restaurant = () => {
   const OPEN_MODAL_FILTER = useSetState(0)
   const { data: dataRestaurant } = useQuery(GET_ALL_RESTAURANT)
   const { data: getCatStoreLOL } = useQuery(GET_ALL_SHOPPING_CARD)
-  console.log(getCatStoreLOL)
   const { data: getCatStore } = useQuery(GET_ALL_CAT_STORE)
   // HANDLES
   const handleAddProduct = elem => {

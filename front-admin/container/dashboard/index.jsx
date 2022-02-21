@@ -134,7 +134,7 @@ const Dashboard = () => {
                             <Text>Recent Activity Feed </Text>
                             <CardOverFloW>
                                 <OlList>
-                                    {[1, 2].map(x => (
+                                    {[1, 2, 3].map(x => (
                                         <FeedItem key={x._id}>
                                             <span className='date'>date, Sep 25</span>
                                             <span className='activity-text'>Pay One Bills</span>

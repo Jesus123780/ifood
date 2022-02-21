@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import Link from '../common/Link'
-
 import styled, { css } from 'styled-components'
 import { PColor } from '../../public/colors'
 import { useApolloClient } from '@apollo/client'
@@ -8,6 +7,7 @@ import { FloatingBox, ButtonOption, FloatingBoxTwo, Overline } from './styled'
 import { IconLogout, IconMessageMain, IconShopping } from '../../public/icons'
 import { useRouter } from 'next/router'
 import { Context } from '../../context'
+import { OUR_URL_BASE, URL_BASE } from '../../apollo/urls'
 
 export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
     const { client } = useApolloClient()
@@ -15,10 +15,29 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
 
     const [show, setShow] = useState(false)
     const location = useRouter()
-    const onClickLogout = () => {
-        client?.clearStore()
-        location.replace('/')
-    }
+    // const onClickLogout = () => {
+    //     client?.clearStore()
+    //     location.replace('/')
+    // }
+
+    const onClickLogout = useCallback(async () => {
+        await window
+            .fetch(`${OUR_URL_BASE}auth/logout/`, {})
+            .then(res => {
+                if (res) {
+                    client?.clearStore()
+                    location.replace('/')
+                }
+            })
+            .catch(() => {
+                console.log({
+                    message: 'Se ha producido un error.',
+                    duration: 30000,
+                    color: 'error'
+                })
+            })
+    }, [client])
+
     useEffect(() => {
         const body = document.body
         body.addEventListener('keyup', e => e.code === 'Escape' && setShow(false))

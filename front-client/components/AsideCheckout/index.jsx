@@ -1,18 +1,19 @@
 import { useMutation, useQuery } from '@apollo/client';
 import Link from 'next/link';
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import { DELETE_ONE_ITEM_SHOPPING_PRODUCT } from '../../container/checkout/queries';
 import { GET_ALL_SHOPPING_CARD } from '../../container/restaurantes/queries';
 import { Context } from '../../context';
 import { APColor, PColor } from '../../public/colors';
 import { IconCancel } from '../../public/icons';
-import { numberFormat, RandomCode } from '../../utils';
+import { numberFormat, RandomCode, updateCache } from '../../utils';
 import { Overline } from '../common/Reusable';
 import { RippleButton } from '../Ripple';
 import { CREATE_SHOPPING_CARD } from './querys';
 import { CardProduct, Content, LateralModal, Text, ActionPay, ContentTotal, GarnishChoicesHeader } from './styled';
 
-export const AsideCheckout = ({ menu, handleMenu }) => {
-  const { setAlertBox, state_product_card, dispatch, setCountItemProduct } = useContext(Context)
+export const AsideCheckout = ({ menu }) => {
+  const { setAlertBox, state_product_card, dispatch, setCountItemProduct, handleMenu } = useContext(Context)
   const [registerShoppingCard] = useMutation(CREATE_SHOPPING_CARD)
   const { data: dataShoppingCard, loading } = useQuery(GET_ALL_SHOPPING_CARD)
   useEffect(() => {
@@ -74,6 +75,29 @@ export const AsideCheckout = ({ menu, handleMenu }) => {
     //   setTotalProductPrice(sum)
     // }
   }, [totalProductPrice, suma, total, dataShoppingCard])
+  const [deleteOneItem] = useMutation(DELETE_ONE_ITEM_SHOPPING_PRODUCT, {
+    onCompleted: data => {
+      setAlertBox({ message: data?.deleteOneItem?.message })
+      if (dataShoppingCard?.getAllShoppingCard.length === 1) {
+        setAlertBox({ message: 'Tu carrito esta vació' })
+        handleMenu(false)
+      }
+    }
+  })
+  const handleDeleteItemShopping = item => {
+    deleteOneItem({
+      variables: {
+        cState: item.cState,
+        ShoppingCard: item.ShoppingCard
+      }, update: (cache, { data: { getAllShoppingCard } }) => updateCache({
+        cache,
+        query: GET_ALL_SHOPPING_CARD,
+        nameFun: 'getAllShoppingCard',
+        dataNew: getAllShoppingCard
+      })
+    })
+
+  }
   return (
     <div>
       <Overline show={menu === 1} onClick={() => handleMenu(1)} />
@@ -82,7 +106,7 @@ export const AsideCheckout = ({ menu, handleMenu }) => {
           <IconCancel size='15px' color={PColor} />
         </RippleButton>
         <Content>
-          <div class="restaurant-cart-header">Tu pedido en</div>
+          <div className="restaurant-cart-header">Tu pedido en</div>
           <div>
             {key?.map(store => {
               return (
@@ -107,7 +131,7 @@ export const AsideCheckout = ({ menu, handleMenu }) => {
                           </div>
                           <div className="footer" style={{ display: 'flex' }}>
                             <Text color={PColor} >Editar</Text>
-                            <Text color='#ccc' margin={'0 0 0 10px'}>Eliminar</Text>
+                            <Text color='#ccc' margin={'0 0 0 10px'} onClick={() => handleDeleteItemShopping(product)}>Eliminar</Text>
                             {/* <Link href={`/proceso-de-compra/${product.productFood?.pId}/${product?.getStore?.idStore}/${RandomCode(20)}`}>
                               <a>
                                 <Text color={PColor} >Pagar</Text>

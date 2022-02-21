@@ -132,6 +132,7 @@ export const getAllPedidoStoreFinal = async (_, args, ctx, info) => {
     }
 }
 
+
 export default {
     TYPES: {
         StorePedidos: {

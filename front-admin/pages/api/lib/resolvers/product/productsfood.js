@@ -187,27 +187,6 @@ export const productsLogis = async (root, args, context, info) => {
         return error
     }
 }
-export const updateUserLocations = async (root, input) => {
-    try {
-        console.log(input.input)
-        const { 
-            id,
-            cId,
-            dId,
-            ctId,
-            uLatitud,
-            uLongitude,
-            uLocationKnow,
-            uPiso,
-            DatCre,
-            DatMod } = input.input || {}
-        const data = await UserLocation.create({ id: deCode(id), uLocationKnow, uPiso, uLongitude, uLatitud, ctId: deCode(ctId), dId: deCode(dId), cId: deCode(cId)})
-        return data
-    } catch (e) {
-        const error = new ApolloError('Lo sentimos, ha ocurrido un error interno', 400)
-        return e
-    }
-}
 export const getUserLocations = async (_root, _args, _context, info) => {
     try {
         const attributes = getAttributes(UserLocation, info)

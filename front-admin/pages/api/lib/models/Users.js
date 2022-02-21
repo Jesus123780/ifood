@@ -2,7 +2,6 @@ const Sequelize = require('sequelize')
 const connect = require('../db')
 const { enCode } = require('../utils/util')
 const sequelize = connect()
-
 // 
 
 const Users = sequelize.define('users', {

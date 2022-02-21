@@ -4,29 +4,29 @@ import NewSelect from 'components/NewSelectHooks/NewSelect'
 import { RippleButton } from 'components/Ripple'
 import { Table } from 'components/Table'
 import { Section } from 'components/Table/styled'
-import { APColor, BColor, BGColor, BGVColor, PColor, PLColor, SCColor, SECColor, TBGEColor, WColor } from 'public/colors'
+import { APColor, BColor, BGColor, BGVColor, PColor, PLColor, SCColor, SECColor, SEGColor, TBGEColor, WColor } from 'public/colors'
 import React, { useContext, useState } from 'react'
 import styled, { css, keyframes } from 'styled-components'
 import moment from 'moment'
 import { useQuery, useMutation } from '@apollo/client'
 import { numberFormat, updateCache } from 'utils'
-import { onPulses } from 'components/animations'
+import { FadeOup, onPulses } from 'components/animations'
 import { AwesomeModal } from 'components/AwesomeModal'
 import Image from 'next/image'
 import { CHANGE_STATE_STORE_PEDIDO, GET_ALL_PEDIDOS } from './queries'
 import { Context } from 'context/Context'
-moment.locale('es');
+moment.locale('SG');
 
 export const ListPedidos = ({ data }) => {
-    const moment = require('moment');
+    const moment = require('moment')
     const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
-    const [modal, setModal] = useState(true)
+    const [modal, setModal] = useState(false)
     const [dataModal, setDataModal] = useState(null)
 
-    const m1 = moment(new Date('2019/06/01 3:04:03'));
-    const m2 = m1.clone().add(59, 'seconds');
+    const m1 = moment(new Date('2019/06/01 3:04:03'))
+    const m2 = m1.clone().add(59, 'seconds')
+    const duration = moment.duration()
 
-    const duration = moment.duration();
     const handleOpenModal = elem => {
         setModal(!modal)
         setDataModal(elem)
@@ -145,8 +145,8 @@ export const ListPedidos = ({ data }) => {
                         <span> $ {numberFormat(x.totalProductsPrice)} </span>
                     </Item>
                     <Item>
-                        <CircleStatus pulse={true} status={x.pSState}>
-
+                        <CircleStatus onClick={() => handleOpenModal(x)} pulse={x.pSState !== 5 } status={x.pSState}>
+                            <Tooltip>{x.pSState === 1 ? 'Aceptado' : x.pSState === 2 ? 'Pedido en proceso' : x.pSState === 3 ? 'listo para entrega' : x.pSState === 4 ? 'Pedido pagado (Concluido)' : 'Rechazado'}</Tooltip>
                         </CircleStatus>
                     </Item>
                     <Item>
@@ -239,7 +239,7 @@ export const CheckStatus = ({ setModal, modal, dataModal }) => {
                                                 <Text size='1.9em'>{p?.getAllShoppingCard?.productFood?.pName}</Text>
                                                 <Text size='1.5em'>Cantidad: {p.getAllShoppingCard.cantProducts} </Text>
                                             </HeadSticky>
-                                            <Text size='14px' margin='20px 0' color='#676464'>{'ProDescription'}</Text>
+                                            <Text size='14px' margin='20px 0' color='#676464'>{p?.getAllShoppingCard?.productFood?.ProDescription}</Text>
                                             <Flex>
                                                 <Text margin='12px 0' size='.875rem' color={APColor}>$ {numberFormat(p?.getAllShoppingCard?.productFood.ProPrice)}</Text>
                                                 <Text margin='12px 0 0 5px' size='14px' color={PLColor} style={{ textDecoration: 'line-through' }} >$ {numberFormat(p?.getAllShoppingCard?.productFood.ProDescuento)}</Text>
@@ -309,6 +309,43 @@ export const CheckStatus = ({ setModal, modal, dataModal }) => {
         </div >
     )
 }
+export const Tooltip = styled.div`
+    border-radius: 2px;
+    z-index: 10;
+    font-size: 10px;
+    font-size: 1em;
+    height: 40px;
+    width: 40px;
+    border: 1px solid;
+    color: #292626;
+    position: absolute;
+    top: -45px;
+    left: 5px;
+    width: 200px;
+    opacity: 0;
+    padding: 10px;
+    filter: drop-shadow(0 3px 5px #ccc);
+    font-family: PFont-Regular;
+    text-align: center;
+    place-content: center;
+    background-color: ${BGColor};
+    border: 1px solid #ccc;
+    margin: auto;
+    left: -85px;
+    bottom: 60px;
+    &:after {
+        content: "";
+        position: absolute;
+        bottom: -9px;
+        left: 50%;
+        margin-left: -9px;
+        width: 18px;
+        height: 18px;
+        background: white;
+        transform: rotate(45deg);
+}
+`
+
 export const ModalContainer = styled.div`
     max-width: 1366px;
     margin: 30px auto 20px;
@@ -538,13 +575,18 @@ const pulse = keyframes`
 export const CircleStatus = styled.div` 
   border-radius: 50%;
   height: 30px;
-  background-color: ${({ status }) => status === 1 ? `${WColor}` : status === 2 ? `${TBGEColor}` : status === 3 ? `${SCColor}` : status === 4 ? `${PColor}` : SECColor};
+  background-color: ${({ status }) => status === 1 ? `${WColor}` : status === 2 ? `${TBGEColor}` : status === 3 ? `${SCColor}` : status === 4 ? `${PColor}` : status === 5 ? SECColor : BGColor};
   width: 30px;
   min-height: 30px;
   text-align: center;
   display: grid;
   place-content: center;
+  position: relative;
   min-width: 30px;
+  &&:hover > ${Tooltip} {
+    opacity: 1;
+                animation: ${FadeOup} 333ms cubic-bezier(.35,0,.5,1) backwards;
+     }
   ${props => props.pulse
         ? css`
     animation: ${pulse} 2s infinite;
