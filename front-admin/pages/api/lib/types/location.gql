@@ -11,6 +11,9 @@ type UserLocation {
     uPiso: Int
     DatCre: DateTime
     DatMod: DateTime
+    pais: Country
+    city: City
+    department: Department
 }
 # Inputs
 input InputUserLocation {
@@ -40,5 +43,5 @@ type Mutation {
     "Registra una location"
     updateUserLocations(input: InputUserLocation): UserLocation
     "Borra un location"
-    deleteUserLocations(input: IDeleteUserLocation): UserLocation
+    deleteUserLocations(locationId: ID, uLocationState:Int): Response
 }

@@ -31,7 +31,7 @@ const Userprofile = sequelize.define('userprofile', {
     },
     upPhone: {
         type: Sequelize.STRING(20),
-        allowNull: false
+        allowNull: true
     },
     upImage: {
         type: Sequelize.STRING(200),

@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useCallback, useContext, useEffect, useState } from 'react'
+import withSession from '../../../../apollo/session'
 import { CREATE_SHOPPING_CARD } from '../../../../components/AsideCheckout/querys'
 import { useFormTools } from '../../../../components/BaseForm'
 import { useSetState } from '../../../../components/hooks/useState'
@@ -140,3 +141,19 @@ export default function HomeView() {
     </div>
   )
 }
+
+export const getServerSideProps = withSession(async function ({ req, res }) {
+  const user = req?.session?.get('user')
+  if (!user) {
+    res.setHeader('location', '/entrar')
+    res.statusCode = 302
+    res.end()
+    return { props: {} }
+  }
+  if (!req.cookies[process.env.SESSION_NAME]) return { redirect: { destination: '/entrar' } }
+
+  return {
+    props: {}
+  }
+}
+)

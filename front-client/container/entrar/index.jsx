@@ -11,7 +11,7 @@ import { CREATE_CURRENT_SESSION } from './queries'
 import fetchJson from '../../components/hooks/fetchJson'
 import { useRouter } from 'next/router'
 import { Facebook, IconGoogleFullColor } from '../../public/icons'
-import { Context } from '../../context/index'
+import { Context } from '../../context'
 import { getDeviceId } from '../../apollo/apolloClient'
 
 const Login = ({ watch, settings }) => {
@@ -39,34 +39,34 @@ const Login = ({ watch, settings }) => {
         return locationFormat ?? locationFormat[0].formatted_address
     }
     const responseGoogle = async (response) => {
-        // e.preventDefault()
-        const dataLocation = await fetchData()
-        window.localStorage.setItem('sessionGoogle', JSON.stringify(response.profileObj))
-        const { name, googleId, email, imageUrl } = response?.profileObj
-        const body = {
-            name: name,
-            username: name,
-            lastName: name,
-            email: email,
-            password: googleId,
-            locationFormat: locationFormat[0]?.formatted_address,
-            useragent: window.navigator.userAgent,
-            deviceid: await getDeviceId() || '',
-        }
-        // const bodyfalse = {
-        //     name: 'odavalencia002@gmail.com',
-        //     username: 'odavalencia002@gmail.com',
-        //     lastName: 'odavalencia002@gmail.com',
-        //     email: 'odavalencia002@gmail.com',
-        //     password: '113561675852804771364',
+        response.preventDefault()
+        // const dataLocation = await fetchData()
+        // window.localStorage.setItem('sessionGoogle', JSON.stringify(response.profileObj))
+        // const { name, googleId, email, imageUrl } = response?.profileObj
+        // const body = {
+        //     name: name,
+        //     username: name,
+        //     lastName: name,
+        //     email: email,
+        //     password: googleId,
         //     locationFormat: locationFormat[0]?.formatted_address,
         //     useragent: window.navigator.userAgent,
-        //     deviceid: '23423423432',
+        //     deviceid: await getDeviceId() || '',
         // }
+        const bodyfalse = {
+            name: 'odavalencia002@gmail.com',
+            username: 'odavalencia002@gmail.com',
+            lastName: 'odavalencia002@gmail.com',
+            email: 'odavalencia002@gmail.com',
+            password: '113561675852804771364',
+            locationFormat: locationFormat[0]?.formatted_address,
+            useragent: window.navigator.userAgent,
+            deviceid: '23423423432',
+        }
         await fetchJson(`${OUR_URL_BASE}auth`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
+            body: JSON.stringify(bodyfalse)
         }).then(res => {
             console.log(res)
             const { userId, token } = res || {}

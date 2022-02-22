@@ -105,10 +105,21 @@ const Provider = ({ children }) => {
         }
     }
     const [state_product_card, dispatch] = useReducer(product, initialState)
-
+    const [modalLocation, setModalLocation] = useState(false)
+    const [locationStr, setLocationString] = useState('')
+    useEffect(() => {
+        let location = localStorage.getItem('location.data')
+        if (!location) {
+            setModalLocation(true)
+        }
+    }, [locationStr, modalLocation])
     const value = {
         error,
         DataCompany,
+        modalLocation,
+        setModalLocation,
+        locationStr,
+        setLocationString,
         // Link
         setCompanyLink,
         setCollapsed,

@@ -1,8 +1,11 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { useContext } from 'react'
 import { Checkout } from '../../container/checkout'
+import { Context } from '../../context'
 
 export default function procesoView() {
+    const { setAlertBox, setCountItemProduct } = useContext(Context)
   return (
     <div >
       <Head>
@@ -11,7 +14,8 @@ export default function procesoView() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Checkout 
-      
+      setAlertBox={setAlertBox} 
+      setCountItemProduct={setCountItemProduct}
       />
     </div>
   )

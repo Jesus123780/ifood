@@ -7,7 +7,7 @@ import { Anchor, Body, Card, CardPro, Column, ContainerAnimation, ContainerAnima
 import ActiveLink from '../../components/common/Link';
 import { numberFormat, RandomCode, updateCache } from '../../utils';
 import InputHooks from '../../components/InputHooks/InputHooks'
-import { Context } from '../../context';
+import { Context } from '../../Context';
 import { GET_ALL_SHOPPING_CARD } from '../restaurantes/queries';
 import { CREATE_SHOPPING_CARD } from '../../components/AsideCheckout/querys';
 import { useFormTools } from '../../components/BaseForm'
@@ -17,9 +17,9 @@ import { CREATE_MULTIPLE_ORDER_PRODUCTS, DELETE_ONE_ITEM_SHOPPING_PRODUCT } from
 import { useRouter } from 'next/router';
 import { CREATE_ONE_STORE_PEDIDO } from '../confirmCheckout/queries';
 
-export const Checkout = () => {
+export const Checkout = ({ setAlertBox, setCountItemProduct  }) => {
     // STATE
-    const { setAlertBox, setCountItemProduct } = useContext(Context)
+    // const { setAlertBox, setCountItemProduct } = useContext(Context)
     const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
     const [active, setActive] = useState(1)
     const router = useRouter()
@@ -53,7 +53,6 @@ export const Checkout = () => {
         }
     })
     const newArray = dataShoppingCard?.getAllShoppingCard.map(x => { return { ShoppingCard: x.ShoppingCard, idStore: x.getStore.idStore } })
-    console.log(newArray)
     const [totalProductPrice, setTotalProductPrice] = useState(0)
     const handleSubmitPedido = async e => {
         await createMultipleOrderStore({

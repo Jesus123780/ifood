@@ -199,6 +199,7 @@ const updateUserProfile = async (_root, { input }, context) => {
 }
 
 export const setUserProfile = async (_root, { input }, context) => {
+    console.log(input)
     const data = input
     const { user, ...res } = data || {}
     const { id } = user || {}
@@ -218,6 +219,7 @@ export const setUserProfile = async (_root, { input }, context) => {
             return { ...data }
         }
     } catch (e) {
+        console.log(e)
         const error = new Error('Lo sentimos, ha ocurrido un error interno')
         return error
     }

@@ -11,8 +11,7 @@ import productModelFood from '../../models/product/productFood'
 import trademarkModel from '../../models/product/trademark'
 import Store from '../../models/Store/Store'
 import ThirdPartiesModel from '../../models/thirdParties/ThirdPartiesModel'
-import { LoginEmail } from '../../templates/LoginEmail'
-import { deCode, filterKeyObject, getAttributes, linkBelongsTo } from '../../utils/util'
+import { deCode, getAttributes } from '../../utils/util'
 const { Op } = require('sequelize')
 
 export const productsOne = async (root, { pId }, context, info) => {
@@ -187,16 +186,6 @@ export const productsLogis = async (root, args, context, info) => {
         return error
     }
 }
-export const getUserLocations = async (_root, _args, _context, info) => {
-    try {
-        const attributes = getAttributes(UserLocation, info)
-        const data = await UserLocation.findAll({ attributes, where: { uLocationState: { [Op.gt]: 0 } }, order: [['DatCre', 'DESC']] })
-        return data
-    } catch (e) {
-        throw ApolloError('Lo sentimos, ha ocurrido un error interno')
-    }
-}
-
 export default {
     TYPES: {
         ProductFood: {

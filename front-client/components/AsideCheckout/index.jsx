@@ -106,7 +106,7 @@ export const AsideCheckout = ({ menu }) => {
           <IconCancel size='15px' color={PColor} />
         </RippleButton>
         <Content>
-          <div className="restaurant-cart-header">Tu pedido en</div>
+          {dataShoppingCard?.getAllShoppingCard.length > 0 &&   <div className="restaurant-cart-header">Tu pedido en</div>}
           <div>
             {key?.map(store => {
               return (
@@ -161,7 +161,7 @@ export const AsideCheckout = ({ menu }) => {
             })}
           </div>
         </Content>
-        <ActionPay>
+       {dataShoppingCard?.getAllShoppingCard.length > 0 && <ActionPay>
           <ContentTotal>
             <Text bold='900'>Total</Text>
             <Text bold='900'>$ {numberFormat(dataShoppingCard?.getAllShoppingCard.length > 0 && totalProductPrice)}</Text>
@@ -171,7 +171,7 @@ export const AsideCheckout = ({ menu }) => {
               <RippleButton widthButton='100%' margin={'auto'} >Eligir método de pago</RippleButton>
             </a>
           </Link>
-        </ActionPay>
+        </ActionPay>}
       </LateralModal>
     </div>
   );

@@ -12,7 +12,6 @@ import { OUR_URL_BASE, URL_BASE } from '../../apollo/urls'
 export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
     const { client } = useApolloClient()
     const { state_product_card, itemProducts } = useContext(Context)
-
     const [show, setShow] = useState(false)
     const location = useRouter()
     // const onClickLogout = () => {
@@ -59,8 +58,12 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
         <>
             <Overline onClick={() => setShow(!true)} show={show} />
             <ButtonOption>
-                <Enlace href='/messages'>
-                    <IconMessageMain size='25px' color={PColor} />
+                <Enlace href='/profile'>
+                    <a>
+                        <button type="button">
+                            <IconMessageMain size='25px' color={PColor} />
+                        </button>
+                    </a>
                 </Enlace>
             </ButtonOption>
             <ButtonOption onClick={onClickLogout}>
@@ -68,7 +71,7 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
             </ButtonOption>
             <ButtonOption onClick={() => handleMenu(1)}>
                 <div className="count_product">
-                    {itemProducts <= 9 ? itemProducts : '+9' }
+                    {itemProducts <= 9 ? itemProducts : '+9'}
                 </div>
                 <IconShopping size='25px' color={PColor} />
             </ButtonOption>

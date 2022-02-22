@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AdicionalComponent, Anchor, FooterComponent, Text, Time, Timer, UseSize } from './styled'
 import ActiveLink from '../common/Link'
-import { IconConfig, IconHome, IconLogo, IconSearch, IconUser } from '../../public/icons'
+import { IconConfig, IconHome, IconLocationMap, IconLogo, IconSearch, IconUser } from '../../public/icons'
 import { PColor } from '../../public/colors'
 import styled from 'styled-components'
 import useScrollHook, { useScrollColor, useScrollY } from '../hooks/useScroll'
@@ -12,7 +12,7 @@ import { RippleButton } from '../Ripple'
 import { Context } from '../../context'
 
 export const HeaderMain = ({ menu, handleMenu }) => {
-  const { setAlertBox } = useContext(Context)
+  const { setAlertBox, modalLocation, setModalLocation, setLocationString, locationStr } = useContext(Context)
 
   const style = useScrollHook();
   const { offsetY } = useScrollY();
@@ -34,13 +34,18 @@ export const HeaderMain = ({ menu, handleMenu }) => {
     customColor.color = '#090c10';
   }
   const [time, changeTime] = useState(new Date().toLocaleTimeString());
-  const [showModal, setShowModal] = useState(false);
+  // const [locationData, setLocationData] = useState(false);
   // useEffect(function () {
   //   setInterval(() => {
   //     changeTime(new Date().toLocaleTimeString());
   //   }, 1000);
   // }, []);
   const size = useWindowSize();
+  useEffect(() => {
+    let location = localStorage.getItem('location.data')
+    setLocationString(JSON.parse(location))
+  }, [])
+  const { department, pais, uLocationKnow, city } = locationStr || {}
   return (
     <div>
       <ContentHeader>
@@ -55,13 +60,14 @@ export const HeaderMain = ({ menu, handleMenu }) => {
           <div>
             <InputSearch />
           </div>
-          <div>
-            <button onClick={() => setShowModal(!showModal)}>Open</button>
+          <div className='delivery-location' onClick={() => setModalLocation(!modalLocation)}>
+            <button ><IconLocationMap color={PColor} size={20} /> {uLocationKnow ? uLocationKnow : !!pais ? `${pais?.cName} ${department?.dName} ${city?.cName}` : null}</button>
+            <span className='sub-location'>{pais && `${pais?.cName} ${department?.dName} ${city?.cName}`}</span>
           </div>
           <Options menu={menu} handleMenu={handleMenu} />
         </HeaderMainC>
       </ContentHeader>
-      <Map setShowModal={setShowModal} showModal={showModal} />
+      <Map setShowModal={setModalLocation} showModal={modalLocation} />
     </div>
   )
 }
@@ -106,12 +112,32 @@ export const HeaderMainC = styled.header`
     max-width: 1366px!important;
     & > div {
     justify-content: center;
-    place-content: center;
+    /* place-content: center; */
     display: flex;
     height: fit-content;
     align-items: center;
     align-self: center;
     }
     @media (min-width: 992px) {
+    }
+    .delivery-location {
+      font-family: PFont-Light;
+      font-size: 100%;
+      line-height: 1.15;
+      width: 80%;
+      cursor: pointer;
+      /* text-align: center; */
+      display: flex;
+      /* place-content: center; */
+      /* align-items: center; */
+      margin-right: 12px;
+      flex-direction: column;
+      & button {
+        background-color: transparent;
+      }
+      .sub-location {
+        font-family: PFont-Light;
+        font-size: 10px;
+      }
     }
     `

@@ -7,9 +7,13 @@ import Userprofile from '../../models/users/UserProfileModel'
 import { LoginEmail } from '../../templates/LoginEmail'
 import { generateCode, generateToken, sendEmail } from '../../utils'
 import { deCode, enCode, getAttributes } from '../../utils/util'
+import CountriesModel from '../../models/information/CountriesModel'
+import DepartmentsModel from '../../models/information/DepartmentsModel'
+import CitiesModel from '../../models/information/CitiesModel'
 const { Op } = require('sequelize')
 
 export const updateUserLocations = async (root, input, context, info) => {
+    console.log(input)
     try {
         const { 
             cId,
@@ -28,10 +32,27 @@ export const updateUserLocations = async (root, input, context, info) => {
         return e
     }
 }
-export const getUserLocations = async (_root, _args, _context, info) => {
+export const deleteUserLocations = async (root, { uLocationState, locationId }, context, info) => {
+    try {
+        await UserLocation.update({ uLocationState: uLocationState === 1 ? 0 : 1 }, { where: { locationId: deCode(locationId) } })
+        return {
+            success: true,
+            message: 'Ubicación eliminada'
+        }
+    } catch (e) {
+        const error = new ApolloError('Lo sentimos, ha ocurrido un error interno', 400)
+        return e
+    }
+}
+export const getUserLocations = async (_root, _args, context, info) => {
     try {
         const attributes = getAttributes(UserLocation, info)
-        const data = await UserLocation.findAll({ attributes, where: { uLocationState: { [Op.gt]: 0 } } })
+        const data = await UserLocation.findAll({
+            attributes, where: {
+                id: deCode(context.User.id),
+                uLocationState: { [Op.gt]: 0 }
+            }, order: [['DatCre', 'DESC']]
+        })
         return data
     } catch (e) {
         throw ApolloError('Lo sentimos, ha ocurrido un error interno')
@@ -40,11 +61,50 @@ export const getUserLocations = async (_root, _args, _context, info) => {
 
 export default {
     TYPES: {
+        UserLocation: {
+            pais: async (parent, _args, _context, info) => {
+                try {
+                    const attributes = getAttributes(CountriesModel, info)
+                    const data = await CountriesModel.findOne({
+                        attributes,
+                        where: { cId: deCode(parent.cId) }
+                    })
+                    return data
+                } catch {
+                    return null
+                }
+            },
+            department: async (parent, _args, _context, info) => {
+                try {
+                    const attributes = getAttributes(DepartmentsModel, info)
+                    const data = await DepartmentsModel.findOne({
+                        attributes,
+                        where: { dId: deCode(parent.dId) }
+                    })
+                    return data
+                } catch {
+                    return null
+                }
+            },
+            city: async (parent, _args, _context, info) => {
+                try {
+                    const attributes = getAttributes(CitiesModel, info)
+                    const data = await CitiesModel.findOne({
+                        attributes,
+                        where: { ctId: deCode(parent.ctId) }
+                    })
+                    return data
+                } catch {
+                    return null
+                }
+            },
+        },
     },
     QUERIES: {
         getUserLocations
     },
     MUTATIONS: {
-        updateUserLocations
+        updateUserLocations,
+        deleteUserLocations
     }
 }

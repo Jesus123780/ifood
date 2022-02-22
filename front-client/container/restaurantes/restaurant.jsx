@@ -30,7 +30,7 @@ export const ListRestaurant = () => {
         {data?.getAllStoreInStore?.map(x => {
           const nameStore = x.storeName?.replace(/\s/g, '-')
           return (
-            <Link href={`delivery/${x?.city?.cName?.toLocaleLowerCase()}-${x?.department?.dName?.toLocaleLowerCase()}/${nameStore}/${x?.idStore}`}>
+            <Link key={x.idStore}  href={`delivery/${x?.city?.cName?.toLocaleLowerCase()}-${x?.department?.dName?.toLocaleLowerCase()}/${nameStore}/${x?.idStore}`}>
               <a>
                 <ItemWrapper key={x.idStore}>
                   <Image

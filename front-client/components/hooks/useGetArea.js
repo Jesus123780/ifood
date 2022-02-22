@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { useContext, useEffect, useState } from 'react'
-import { Context } from '../../Context'
+import { Context } from '../../Context/index'
 import { GET_ALL_AREAS } from '../../gql/Areas'
 
 export const useGetAreas = () => {

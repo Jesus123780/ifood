@@ -349,6 +349,11 @@ export const filterKeyObjectOLD = (data, filters) => {
 
     return values
 }
+export const filterObject = (obj, filters) => {
+    let values = {}
+    values = Object.keys(obj).filter((key) => !key.includes(filters)).reduce((cur, key) => { return Object.assign(cur, { [key]: obj[key] }) }, {});
+    return values
+}
 /**
  * @description Funcion que valida los formularios, funciona para trabajar los errores con estados
  * @version 0.1.1
@@ -1047,12 +1052,12 @@ export const getFileSizeByUnit = (file, unit = "B") => {
     return [unitFormula[unitStr] ? unitFormula[unitStr](originFileSize) : 0, { unit }]
 };
 export function RandomCode(length) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-        result += characters.charAt(Math.floor(Math.random() * 
-    charactersLength));
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() *
+            charactersLength));
     }
     return result;
 }

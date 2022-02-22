@@ -17,11 +17,20 @@ mutation updateUserLocations($input: InputUserLocation) {
   }
 }
 `
+export const DELETE_ONE_LOCATIONS = gql`
+  mutation deleteUserLocations($locationId: ID, $uLocationState: Int) {
+  deleteUserLocations(locationId: $locationId, uLocationState:$uLocationState) {
+    success
+    message
+  }
+}
+`
 export const GET_ALL_LOCATIONS = gql`
+
 query getUserLocations {
   getUserLocations {
     locationId
-    id
+    # id
     cId
     dId
     ctId
@@ -31,6 +40,30 @@ query getUserLocations {
     uPiso
     DatCre
     DatMod
+       pais {
+        cId
+        cName
+        cCalCod
+        cState
+        cDatCre
+        cDatMod
+      }
+      city {
+        ctId
+        dId
+        cName
+        cState
+        cDatCre
+        cDatMod
+      } 
+      department {
+        dId
+        cId
+        dName
+        dState
+        dDatCre
+        dDatMod
+      }
   }
 }
 `
