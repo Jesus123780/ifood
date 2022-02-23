@@ -24,7 +24,11 @@ export const getStore = async (root, args, context, info) => {
     const attributes = getAttributes(Store, info)
     const data = await Store.findOne({
         attributes,
-        where: { id: deCode(context.User.id) }
+        where: { 
+            idStore: deCode(context.restaurant),
+            // idStore: deCode(args.id) 
+            }
+        // where: { id: deCode('NjUzMDEzMTU1NjQzNjM5NTAwMA==') }
     })
     return data
 }

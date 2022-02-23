@@ -2,13 +2,19 @@ import styled, { css } from "styled-components";
 import { BColor, BGColor, BGVColor, EColor, PColor } from "../../public/colors";
 import Link from 'next/link'
 export const Container = styled.div`
+  /* max-width: 1366px; */
+  /* margin: 30px auto 20px; */
+  overflow: hidden;
+`
+export const ContentSearch = styled.div`
   max-width: 1366px;
   margin: 30px auto 20px;
-
-`
+  `
 export const ContainerCarrusel = styled.div`
   display: grid;
   grid-gap: 28px;
+  max-width: 1366px;
+  margin: 30px auto 20px;
   @media only screen and (min-width: 960px) {
     grid-template-columns: repeat(2,1fr);
     padding: 0;
@@ -22,6 +28,7 @@ export const ContainerCarrusel = styled.div`
 `
 export const ContentCategoryProducts = styled.div`
     margin: 30px 0;
+
 `
 export const HeadCategory = styled.div`
   height: auto;
@@ -65,6 +72,8 @@ export const MerchantBannerWrapperInfo = styled.div`
     padding-left: 30px;
     background-color: rgba(0,0,0,.7);
     background-blend-mode: overlay;
+    max-width: 1366px;
+    margin: 30px auto 20px;
     background-image: ${({ bannerImage }) => bannerImage && (bannerImage)};
     .merchant-banner__status-description {
       line-height: 1.15;

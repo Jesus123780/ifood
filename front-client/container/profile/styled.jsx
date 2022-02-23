@@ -1,8 +1,14 @@
 import styled, { css, keyframes } from "styled-components";
 import { FadeDown } from "../../components/animations";
-import { BColor, BGColor, EColor, PColor } from "../../public/colors";
+import { BColor, BGColor, EColor, PColor, SECColor } from "../../public/colors";
 import Link from 'next/link'
 
+
+export const Text = styled.h1`
+    font-size: 1.5em;
+    text-align: center;
+    color: ${SECColor};
+`
 export const Section = styled.section`
 line-height: 1.15;
 margin: 0;
@@ -133,4 +139,50 @@ ${ props=> props.active === 1 ? css`animation: ${ AnimationRight } 200ms;` : css
 export const ContainerAnimationTow = styled.div`
 ${ props=> props.active === 2 ? css`animation: ${ AnimationLeft } 200ms;` : css`animation: ${ AnimationLeft } 200ms;` }
 
+`
+export const CardDevice = styled.button`
+    align-items: center;
+    display: flex;
+    min-height: 69px;
+    padding: 0.9375rem 1.25rem;
+    position: relative;
+    text-align: left;
+    background: none;
+    border: 0;
+    border: 1px solid #ccc;
+    width: 100%;
+    .device__icon{
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+    outline: none;
+    box-sizing: border-box;
+    font-family: Sul Sans,sans-serif;
+    }
+    .device__info{
+      margin-left: 1.3125rem;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+    outline: none;
+    box-sizing: border-box;
+    font-family: Sul Sans,sans-serif;
+    }
+    .device__description-wrapper{
+      align-items: baseline;
+      display: flex;
+    }
+    .device__description{
+      color: #3e3e3e;
+    margin-right: 0.5rem;
+    font-size: 1rem;
+    line-height: 1.375rem;
+    }
+    .device__current{
+      color: #50a773;
+      font-size: .75rem;
+    line-height: 1rem;
+    font-weight: 500;
+    }
+    .device__localization {
+      color: #717171;
+      font-size: .875rem;
+    line-height: 1.25rem;
+    }
 `

@@ -20,12 +20,10 @@ export const getDeviceUsers = async (_root, _args, context, info) => {
         const data = await UserDeviceModel.findAll({
             attributes,
             where: {
-                // dState: 1
                 id: deCode(context.User.id)
             }
         })
         return data
-        // console.log('deviceResolver')
     } catch (e) {
         const error = new Error('Lo sentimos, ha ocurrido un error interno', e, 400)
         return error

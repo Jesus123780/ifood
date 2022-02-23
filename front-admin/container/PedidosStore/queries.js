@@ -21,6 +21,7 @@ query getAllPedidoStoreFinal($idStore: ID) {
     totalProductsPrice
     pSState
     pDatCre
+    locationUser
     pDatMod
     getAllPedidoStore{
         pdpId

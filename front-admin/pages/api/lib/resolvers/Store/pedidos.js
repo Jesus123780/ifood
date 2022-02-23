@@ -15,7 +15,6 @@ const { Op } = require('sequelize')
 
 export const createOnePedidoStore = async (_, { input }, ctx) => {
     const { id, idStore, ShoppingCard, change, pickUp, pCodeRef, payMethodPState, pPRecoger } = input || {}
-    console.log(id, idStore, ShoppingCard, change, pickUp, pCodeRef, payMethodPState, pPRecoger)
     let res = {}
     try {
         res = await pedidosModel.create({
@@ -57,14 +56,13 @@ const changePPStatePPedido = async (_, { pPStateP, pCodeRef }, ctx) => {
     }
 }
 const createMultipleOrderStore = async (_, { input }, ctx) => {
-    const { setInput, change, pickUp, pCodeRef, payMethodPState, pPRecoger, totalProductsPrice } = input || {}
+    const { setInput, change, pickUp, pCodeRef, payMethodPState, pPRecoger, totalProductsPrice, locationUser } = input || {}
     let res = {}
-    const id = 'MjcyMDg4ODE0ODUxNTE2NDUw'
     try {
-        await StatusPedidosModel.create({ id: deCode(id), idStore: deCode(setInput[0].idStore), pSState: 0, pCodeRef: pCodeRef, change: change, payMethodPState: payMethodPState, pickUp, totalProductsPrice })
+        await StatusPedidosModel.create({ id: deCode(ctx.User.id), locationUser,  idStore: deCode(setInput[0].idStore), pSState: 0, pCodeRef: pCodeRef, change: change, payMethodPState: payMethodPState, pickUp, totalProductsPrice })
         for (let i = 0; i < setInput.length; i++) {
             const { ShoppingCard, idStore } = setInput[i]
-            await createOnePedidoStore(null, { input: { id, idStore, ShoppingCard, change, pickUp, pCodeRef, payMethodPState, pPRecoger } })
+            await createOnePedidoStore(null, { input: { id: ctx.User.id, idStore, ShoppingCard, change, pickUp, pCodeRef, payMethodPState, pPRecoger } })
             // console.log(ShoppingCard, idStore)
         }
         return { success: true, message: 'Update' }
@@ -122,6 +120,26 @@ export const getAllPedidoStoreFinal = async (_, args, ctx, info) => {
                     {
                         // ID STORE
                         idStore: idStore ? deCode(idStore) : deCode(ctx.restaurant),
+                    }
+                ]
+            }
+        })
+        return data
+    } catch (error) {
+        return error
+    }
+}
+export const getAllPedidoUserFinal = async (_, args, ctx, info) => {
+    const { id } = args || {}
+    try {
+        const attributes = getAttributes(StatusPedidosModel, info)
+        const data = await StatusPedidosModel.findAll({
+            attributes,
+            where: {
+                [Op.or]: [
+                    {
+                        // ID STORE
+                        id: id ? deCode(id) : deCode(ctx.User.id),
                     }
                 ]
             }
@@ -189,6 +207,8 @@ export default {
     QUERIES: {
         getAllPedidoStore,
         getAllPedidoStoreFinal,
+        // User
+        getAllPedidoUserFinal,
     },
     MUTATIONS: {
         createOnePedidoStore,

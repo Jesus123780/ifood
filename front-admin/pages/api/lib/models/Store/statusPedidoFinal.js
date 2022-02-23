@@ -42,6 +42,10 @@ const StatusPedidosModel = sequelize.define('statuspedidos', {
         type: Sequelize.TINYINT,
         defaultValue: 0
     },
+    locationUser: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
     pCodeRef: {
         type: Sequelize.STRING(100),
         unique: true,

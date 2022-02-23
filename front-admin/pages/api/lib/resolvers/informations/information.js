@@ -197,6 +197,7 @@ export const desCategoryStore = async (_root, { catStore, cState }, _context, _i
         throw new ApolloError('No ha sido posible procesar su solicitud.', 500, e)
     }
 }
+
 export const getAllCatStore = async (_root, { input }, _context, info) => {
     try {
         const attributes = getAttributes(CatStore, info)
@@ -209,26 +210,72 @@ export const getAllCatStore = async (_root, { input }, _context, info) => {
         throw new ApolloError('Lo sentimos, ha ocurrido un error interno')
     }
 }
+export const getOneCatStore = async (_root, { catStore: idCat }, _context, info) => {
+    try {
+        const attributes = getAttributes(CatStore, info)
+        const data = await CatStore.findOne({
+            attributes,
+            where: { catStore: deCode(idCat)}
+        })
+        return data
+    } catch (e) {
+        // console.log(e)
+        throw new ApolloError('Lo sentimos, ha ocurrido un error interno')
+    }
+}
+export const getOneCountry = async (_root, { cId }, _context, info) => {
+    try {
+        const attributes = getAttributes(CountriesModel, info)
+        const data = await CountriesModel.findOne({ attributes, where: { cId: deCode(cId) } })
+        return data
+    } catch (e) {
+        throw ApolloError('Lo sentimos, ha ocurrido un error interno')
+    }
 
+}
+export const getOneDepartment = async (_root, { dId }, _context, info) => {
+    try {
+        const attributes = getAttributes(DepartmentsModel, info)
+        const data = await DepartmentsModel.findOne({ attributes, where: { dId: deCode(dId) } })
+        return data
+    } catch (e) {
+        throw ApolloError('Lo sentimos, ha ocurrido un error interno')
+    }
+
+}
+export const getOneCities = async (_root, { ctId }, _context, info) => {
+    try {
+        const attributes = getAttributes(CitiesModel, info)
+        const data = await CitiesModel.findOne({ attributes, where: { ctId: deCode(ctId) } })
+        return data
+    } catch (e) {
+        throw ApolloError('Lo sentimos, ha ocurrido un error interno')
+    }
+
+}
 export default {
     TYPES: {
+
     },
     QUERIES: {
         getCities,
         cities,
         // countries
         countries,
+        getOneCountry,
+        getOneCities,
         // depart
         departments,
         department,
+        getOneDepartment,
         // road
         road,
         // sizes,
         getSizes,
+        getOneCatStore,
         typeIdentities,
         getAllColor,
         getAllCatStore,
-        // aquiiiiiiiiii
     },
     MUTATIONS: {
         createCity,

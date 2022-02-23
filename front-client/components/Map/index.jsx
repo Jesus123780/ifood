@@ -12,7 +12,7 @@ import { DELETE_ONE_LOCATIONS, GET_ALL_LOCATIONS, SAVE_LOCATION_USER } from './q
 import InputHooks from '../InputHooks/InputHooks'
 import { RippleButton } from '../Ripple'
 import { useFormTools } from '../BaseForm'
-import { GET_ALL_CITIES, GET_ALL_COUNTRIES, GET_ALL_DEPARTMENTS, GET_ALL_ROAD } from '../../gql/Location'
+import { GET_ALL_CITIES, GET_ALL_COUNTRIES, GET_ALL_DEPARTMENTS, GET_ALL_ROAD, GET_ONE_CITY, GET_ONE_COUNTRY, GET_ONE_DEPARTMENT } from '../../gql/Location'
 import NewSelect from '../NewSelectHooks/NewSelect'
 import { filterKeyObject, updateCache } from '../../utils'
 import { Context } from '../../context'
@@ -21,6 +21,8 @@ import { API_GOOGLE_GEOLOCATION_PRIVATE, API_GOOGLE_MAPS } from '../../apollo/ur
 
 export const Map = ({ showModal, setShowModal }) => {
   const [modal, setModal] = useState(0)
+  const { latitude, longitude, timestamp, accuracy, speed, error: err } = usePosition();
+
   const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
   const [show, setShow] = useState(false)
   const { setAlertBox, modalLocation, setLocationString } = useContext(Context)
@@ -35,9 +37,12 @@ export const Map = ({ showModal, setShowModal }) => {
     disableDefaultUI: true,
     zoomControl: false
   }
+  const [getOneCountry, { data: dataCountry }] = useLazyQuery(GET_ONE_COUNTRY)
+  const [getOneDepartment, { data: dataDepartment }] = useLazyQuery(GET_ONE_DEPARTMENT)
+  const [getOneCities, { data: dataGetOneCity }] = useLazyQuery(GET_ONE_CITY)
   const [map, setMap] = useState(null)
   const fetchData = useCallback(async () => {
-    const API = `https://maps.googleapis.com/maps/api/geocode/json?address=colombia &key=${API_GOOGLE_GEOLOCATION_PRIVATE}`;
+    const API = `https://maps.googleapis.com/maps/api/geocode/json?address=${dataCountry && dataCountry?.getOneCountry?.cName} ${dataDepartment && dataDepartment?.getOneDepartment?.dName} ${dataGetOneCity && dataGetOneCity?.getOneCities?.cName} ${latitude} ${longitude}&key=${API_GOOGLE_GEOLOCATION_PRIVATE}`;
     fetch(API)
       .then(response => response.json())
       .then(response => {
@@ -71,18 +76,19 @@ export const Map = ({ showModal, setShowModal }) => {
     }])
   })
   // const [getUserLocations, { data: dataLocation }] = useLazyQuery(GET_ALL_LOCATIONS)
-  const { data: dataLocation } = useQuery(GET_ALL_LOCATIONS)
+  const { data: dataLocation, loading: LoadL } = useQuery(GET_ALL_LOCATIONS)
   const [updateUserLocations] = useMutation(SAVE_LOCATION_USER)
   const [deleteUserLocations] = useMutation(DELETE_ONE_LOCATIONS)
   const handleSave = async () => {
+    setModal(0)
     return updateUserLocations({
       variables: {
         input: {
           cId: values.countryId,
           ctId: values.ctId,
           dId: values.dId,
-          uLatitud: 10,
-          uLongitude: 10,
+          uLatitud:  parseInt(map[0]?.geometry?.location?.lat),
+          uLongitude:  parseInt(map[0]?.geometry?.location?.lng),
           uLocationKnow: dataForm.uLocationKnow,
           uPiso: 1,
         }
@@ -92,7 +98,9 @@ export const Map = ({ showModal, setShowModal }) => {
         nameFun: 'getUserLocations',
         dataNew: getUserLocations
       })
-    }).catch(err => console.log({ message: err }))
+    })
+    .then(z => setAlertBox({ message: 'ubicación guardada exitosamente' }))
+    .catch(err => console.log({ message: err }))
   }
   const onUnmount = React.useCallback(function callback(map) {
     setMap(null)
@@ -109,10 +117,19 @@ export const Map = ({ showModal, setShowModal }) => {
     setErrors({ ...errors, [e.target.name]: error })
   }
   const handleChangeSearch = e => {
-    if (e.target.name === 'countryId') getDepartments({ variables: { cId: e.target.value } })
-    else if (e.target.name === 'dId') getCities({ variables: { dId: e.target.value } })
+    if (e.target.name === 'countryId') {
+      getDepartments({ variables: { cId: e.target.value } })
+      getOneCountry({ variables: { cId: e.target.value } })
+    }
+    else if (e.target.name === 'dId') {
+      getCities({ variables: { dId: e.target.value } })
+      getOneDepartment({ variables: { dId: e.target.value } })
+    } else if (e.target.name === 'ctId') {
+      getOneCities({ variables: { ctId: e.target.value } })
+    }
     handleChangeLocation(e)
   }
+
   const departments = dataDepartments?.departments || []
   const countries = dataCountries?.countries || []
   const road = dataRoad?.road || []
@@ -120,6 +137,7 @@ export const Map = ({ showModal, setShowModal }) => {
   const closeAllState = () => {
     setShowModal(!showModal)
     setModal(0)
+    setValues({})
     setShow(false)
   }
   const [check, setCheck] = useState(false)
@@ -154,16 +172,17 @@ export const Map = ({ showModal, setShowModal }) => {
   useEffect(() => {
     const location = localStorage.getItem('location.data')
     setSelected(JSON.parse(location))
-  }, [])
+    if (!LoadL && !dataLocation?.getUserLocations?.length > 0) {
+        localStorage.removeItem('location.data')
+    }
+  }, [dataLocation])
 
-  const { latitude, longitude, timestamp, accuracy, speed, error: err } = usePosition();
   const handleMyLocation = async () => {
     localStorage.removeItem('location.data');
     const API = `https://maps.googleapis.com/maps/api/geocode/json?address=${latitude} ${longitude} &key=${API_GOOGLE_GEOLOCATION_PRIVATE}`;
     fetch(API)
       .then(response => response.json())
       .then(response => {
-        console.log(response?.results)
         setLocationString({ uLocationKnow: response?.results[0].formatted_address })
         const data = {
           uLocationKnow: response?.results[0].formatted_address
@@ -179,7 +198,7 @@ export const Map = ({ showModal, setShowModal }) => {
         {<Container modal={modal === 0}>
           <div className="content-location">
             <h2>¿Donde quieres recibir tu pedido?</h2>
-           
+
             {dataLocation?.getUserLocations?.length > 0 ? dataLocation?.getUserLocations.map(index => {
               const { cName } = index.city
               const { dName } = index.department
@@ -187,8 +206,7 @@ export const Map = ({ showModal, setShowModal }) => {
               return (
                 <ContainerTask show={show === index} selected={selected?.locationId === index.locationId} key={index.locationId} onClick={() => handleSelectLocation(index)}>
                   <OptionsFunction show={show === index}>
-                    <Button onClick={() => HandleDeleteUserLocations(index)}><IconDelete size={30} /></Button>
-                    <Button onClick={() => setEdit({ id: index, value: index.cName })} ><IconEdit size={30} /></Button>
+                    <Button onClick={() => HandleDeleteUserLocations(index)}><IconDelete color={PColor} size={30} /></Button>
                   </OptionsFunction>
                   <ListTask show={show === index}>
                     <div>
@@ -207,10 +225,15 @@ export const Map = ({ showModal, setShowModal }) => {
                 Usar mi ubicación
               </ContainerTask>
             )}
-             <RippleButton widthButton={'100%'} onClick={() => setModal(1)}> Buscar mi ubicación</RippleButton>
+            <RippleButton widthButton={'100%'} onClick={() => setModal(1)}> Buscar mi ubicación</RippleButton>
           </div>
         </Container>}
         {<Container modal={modal === 1}>
+          {/* <Select name="select" onChange={(e) => handleChangeSelect(e)}>
+            {countries?.map(x => (
+              <option value={x.cName}>{x.cName}</option>
+            ))}
+          </Select> */}
           <NewSelect name='countryId' options={countries} id='cId' onChange={handleChangeSearch} error={errors?.countryId} optionName='cName' value={values?.countryId} title='País' />
           <NewSelect name='dId' options={departments} id='dId' onChange={handleChangeSearch} error={errors?.dId} optionName='dName' value={values?.dId} title='Departamento' />
           <NewSelect name='ctId' options={cities} id='ctId' onChange={handleChangeSearch} error={errors?.ctId} optionName='cName' value={values?.ctId} title='Ciudad' />
@@ -241,7 +264,7 @@ export const Map = ({ showModal, setShowModal }) => {
           />
           <div className='flex-center'>
             <RippleButton widthButton={'100%'} onClick={() => setModal(0)}><Text>Volver</Text></RippleButton>
-            <RippleButton widthButton={'100%'} onClick={() => hableSearchLocation(2)}><Text>Search Address</Text></RippleButton>
+            <RippleButton disabled={!dataForm?.uLocationKnow} widthButton={'100%'} onClick={() => hableSearchLocation(2)}><Text>Search Address</Text></RippleButton>
           </div>
         </Container>}
         <ContainerMap modal={modal === 2}>
@@ -249,19 +272,23 @@ export const Map = ({ showModal, setShowModal }) => {
             <button style={{ backgroundColor: 'transparent' }} onClick={() => setModal(1)} >
               <IconArrowLeft size={20} color={PColor} />
             </button>
-            <Span>{dataForm?.address}</Span><div></div>
+            <Span>{dataCountry && dataCountry?.getOneCountry?.cName} {dataDepartment && dataDepartment?.getOneDepartment?.dName} {dataGetOneCity && dataGetOneCity?.getOneCities?.cName}</Span><div></div>
           </MapHeader>
-          <LoadScript googleMapsApiKey={`${API_GOOGLE_MAPS}`}>
+          <LoadScript
+            // region="ES"
+            // language="es"
+            libraries={["places"]}
+            googleMapsApiKey={`${API_GOOGLE_MAPS}`}>
             <GoogleMap
               mapContainerStyle={mapContainerStyle}
-              zoom={9}
+              zoom={15}
               onLoad={onLoad}
               options={options}
               onClick={onMapClick}
               center={map ? defaultCenter : defaultCenter}
               onUnmount={onUnmount}
             >
-              <Marker position={defaultCenter ? defaultCenter : markers ? { lat: parseInt(markers[0]?.lat), lng: parseInt(markers[0]?.lng) } : center} />
+              <Marker position={defaultCenter ? defaultCenter : { lat: parseInt(markers[0]?.lat), lng: parseInt(markers[0]?.lng) }} />
             </GoogleMap>
             {modal === 2 && <ContentButton>
               <RippleButton style={{ width: '40%' }} onClick={handleSave}>Confirmar</RippleButton>
@@ -280,6 +307,16 @@ Map.propTypes = {
   modal: PropTypes.number
 
 }
+export const Select = styled.select`
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #dcdcdc;
+  padding: 13px 20px;
+  height: 48px;
+  color: #3e3e3e;
+  width: 100%;
+  background-color: #fff;
+`
 export const ListTask = styled.div`
     transition: all 200ms ease-in-out;
     display: flex;

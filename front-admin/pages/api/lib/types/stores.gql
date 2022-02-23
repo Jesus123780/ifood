@@ -53,6 +53,7 @@
     pais: Country
     city: City
     department: Department
+    getStoreSchedules: [StoreSchedule]
   }
   input IStore {
     idStore: ID

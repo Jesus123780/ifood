@@ -63,8 +63,8 @@ export const AsideCheckout = ({ menu }) => {
     dataShoppingCard?.getAllShoppingCard.forEach((a) => {
       const { productFood, cantProducts } = a || {}
       const { ProPrice, ValueDelivery } = productFood || {}
-      const PriceFinal = cantProducts * (ProPrice + ValueDelivery)
-      suma = total += PriceFinal
+      let PriceFinal = (ProPrice * cantProducts) + ValueDelivery
+      suma += PriceFinal
       setTotalProductPrice(suma)
     })
     // let sum = 0;
@@ -166,9 +166,9 @@ export const AsideCheckout = ({ menu }) => {
             <Text bold='900'>Total</Text>
             <Text bold='900'>$ {numberFormat(dataShoppingCard?.getAllShoppingCard.length > 0 && totalProductPrice)}</Text>
           </ContentTotal>
-          <Link href='/proceso-de-compra'>
+          <Link href='/proceso-de-compra' >
             <a>
-              <RippleButton widthButton='100%' margin={'auto'} >Eligir método de pago</RippleButton>
+              <RippleButton widthButton='100%' margin={'auto'} onClick={() => handleMenu(false)}>Eligir método de pago</RippleButton>
             </a>
           </Link>
         </ActionPay>}

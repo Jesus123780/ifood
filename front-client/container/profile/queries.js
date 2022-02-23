@@ -21,7 +21,6 @@ export const GET_ALL_DEVICES = gql`
 query getDeviceUsers{
   getDeviceUsers{
       dId
-      id
       locationFormat
       deviceId
       deviceName

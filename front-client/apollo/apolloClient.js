@@ -18,8 +18,10 @@ export const getDeviceId = async () => {
     return result.visitorId
 }
 
-const authLink = setContext((_, { headers }) => {
+const authLink = setContext(async (_, { headers }) => {
     const token = localStorage.getItem('session')
+    const lol = await getDeviceId()
+    window.localStorage.setItem('deviceid', lol)
     return {
         headers: {
             ...headers,

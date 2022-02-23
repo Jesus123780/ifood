@@ -113,6 +113,79 @@ const Provider = ({ children }) => {
             setModalLocation(true)
         }
     }, [locationStr, modalLocation])
+    // HEADER PRODUCTS STORE
+    const initialState2 = {
+        containerRef: null,
+        stickyRefs: new Map(),
+        debug: false
+    };
+    // No operation
+    const noop = () => { };
+
+    const initialDispatch = {
+        setContainerRef: noop,
+        addStickyRef: noop
+    };
+
+    const StickyStateContext = createContext(initialState2);
+    const StickyDispatchContext = createContext(initialDispatch);
+    const ActionType = {
+        setContainerRef: "set container ref",
+        addStickyRef: "add sticky ref",
+        toggleDebug: "toggle debug"
+    };
+    function reducer(state, action) {
+        const { type, payload } = action;
+        switch (type) {
+            case ActionType.setContainerRef:
+                // Reassigning a new ref, will infinitely re-load!
+                return Object.assign(state, {
+                    containerRef: { current: payload.containerRef }
+                });
+            case ActionType.addStickyRef:
+                const { topSentinelRef, bottomSentinelRef, stickyRef } = payload;
+
+                state.stickyRefs.set(topSentinelRef.current, stickyRef);
+                state.stickyRefs.set(bottomSentinelRef.current, stickyRef);
+
+                return Object.assign(state, {
+                    stickyRefs: state.stickyRefs
+                });
+            case ActionType.toggleDebug:
+                return { ...state, debug: !state.debug };
+            default:
+                return state;
+        }
+    }
+
+    function StickyProvider({ children }) {
+        const [state, dispatch] = useReducer(reducer, initialState);
+
+        const setContainerRef = containerRef =>
+            dispatch({ type: ActionType.setContainerRef, payload: { containerRef } });
+
+        const addStickyRef = (topSentinelRef, bottomSentinelRef, stickyRef) =>
+            dispatch({
+                type: ActionType.addStickyRef,
+                payload: { topSentinelRef, bottomSentinelRef, stickyRef }
+            });
+
+        const toggleDebug = () => dispatch({ type: ActionType.toggleDebug });
+
+        const actions = {
+            setContainerRef,
+            addStickyRef,
+            toggleDebug
+        };
+
+        return (
+            <StickyStateContext.Provider value={state}>
+                <StickyDispatchContext.Provider value={actions}>
+                    {children}
+                </StickyDispatchContext.Provider>
+            </StickyStateContext.Provider>
+        );
+    }
     const value = {
         error,
         DataCompany,

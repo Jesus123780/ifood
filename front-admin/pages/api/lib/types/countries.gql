@@ -33,6 +33,7 @@ input IDeleteCountries {
 type Query {
     "Consulta todos los países"
     countries: [Country]
+    getOneCountry(cId: ID): Country
 }
 
 # Mutations

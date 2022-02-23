@@ -140,14 +140,11 @@ export const FloatingBox = styled.div`
   ${ ({ show }) => show
         ? css`
                   visibility: visible;
-                  opacity: 1;
                   transform: translateY(0);
-              `
+                  `
         : css`
                 
-                  margin: 0;
-                  visibility: hidden;
-                  opacity: 0;
+                visibility: hidden;
                   transform: translateY(-50px);
               ` }
     @media only screen and (min-width: 960px){
@@ -155,14 +152,13 @@ export const FloatingBox = styled.div`
 `
 export const FloatingBoxTwo = styled(FloatingBox)`
     margin: 0 0 0 30px;
-    left: -220px;
+    /* left: -220px; */
     max-width: 250px;
     min-width: 250px;
     width: 250px;
-    top: 90px;
+    top: 28px;
     overflow: hidden;
     box-shadow: -1px 2px 8px 2px #dcdcdc;
-
     @media only screen and (min-width: 960px){
     }
   

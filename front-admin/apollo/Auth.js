@@ -3,6 +3,7 @@ import { gql, useQuery, useMutation } from '@apollo/client'
 import { isLoggedVar } from './cache'
 import { UPDATE_TOKEN } from './queries'
 import { useRouter } from 'next/router'
+import { getDeviceId } from './apolloClient'
 
 export default ({ children }) => {
     const [updateToken, { data, called }] = useMutation(UPDATE_TOKEN)
@@ -50,8 +51,10 @@ export default ({ children }) => {
 
     useEffect(() => {
         updateToken().catch(() => setIsMount(true))
-    }, [location.pathname, updateToken])
+        const dataDevice = getDeviceId()
+        window.localStorage.setItem('deviceid', dataDevice)
 
+    }, [location.pathname, updateToken])
     return (
         <Fragment>
             {children}

@@ -51,8 +51,10 @@ export const Restaurant = () => {
       {/* CATEGORIES */}
       <H2>Categorías</H2>
       <List>
-        {getCatStore?.getAllCatStore?.map(cat => (
-          <Link href={`/categories/${cat.StoreName}/${cat.pId}`}>
+        {getCatStore?.getAllCatStore?.map(cat => {
+          const nameCat = cat?.cName?.replace(/\s/g, '-')?.toLowerCase();
+          return(
+          <Link href={`/categories/${nameCat}/${cat.catStore}`}>
             <a>
               <ItemCategory key={cat.pId}>
                 <Image
@@ -69,7 +71,7 @@ export const Restaurant = () => {
               <h2 className="title-cat">{cat.cName}</h2>
             </a>
           </Link>
-        ))}
+        )})}
       </List>
       {/* PRODUCT DEMO */}
       {/* BEST RESTAURANT */}

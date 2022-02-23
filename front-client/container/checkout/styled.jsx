@@ -59,15 +59,32 @@ export const Column = css`
     flex-direction: column;
 `
 export const Wrapper = styled.div`
-    border: ${({ border }) =>  border && `1px solid ${PColor}`};
+    border: ${({ border }) => border && `1px solid ${PColor}`};
     border-radius: 5px;
     ${props => props.styles && props.styles}
 `
 
 export const ContentInfo = styled.div`
-    padding: 30px 0;
-    background-color: ${BGColor};
-    border-radius: 3px;
+        padding: 30px 0;
+        background-color: ${BGColor};
+        border-radius: 3px;
+    .delivery-location {
+      font-family: PFont-Light;
+      width: 80%;
+      cursor: pointer;
+      display: flex;
+      margin-right: 12px;
+      flex-direction: column;
+      & button {
+        background-color: transparent;
+      }
+    }
+    .ctn-location {
+        display: flex;
+        place-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
 `
 export const Body = styled.div`
     line-height: 1.15;

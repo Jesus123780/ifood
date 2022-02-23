@@ -27,6 +27,7 @@ export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => 
             window.localStorage.setItem('location', JSON.stringify(dataLocation));
         }
     }, [latitude, longitude, timestamp, accuracy, speed])
+    const val = !['/delivery/[location]/[name]/[id]'].find(x => x === location.pathname)
     return (
         <div>
 
@@ -36,7 +37,7 @@ export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => 
                 <AsideCheckout handleMenu={handleMenu} menu={menu} />
                 {/* {!isSession && !['/login', '/', '/entrar/email', '/entrar', '/delivery/[location]/[name]/[id]', '/contact'].find(x => x === location.pathname) && <AsideCheckoutC handleMenu={handleMenu} menu={menu} />} */}
                 {!isSession && !['/login', '/', '/entrar/email', '/entrar', '/contact'].find(x => x === location.pathname) && <HeaderMain handleMenu={handleMenu} menu={menu} />}
-                <div style={{ gridArea: 'main', overflowY: 'auto' }}>
+                <div style={{ gridArea: 'main',  overflowY: val ? 'auto' : 'hidden' }}>
                     {children}
                 </div>
                 {!['/login', '/register', '/varify-email', '/restaurante', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => x === location.pathname) && <Footer />}

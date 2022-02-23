@@ -5,7 +5,7 @@ import { Checkout } from '../../container/checkout'
 import { Context } from '../../context'
 
 export default function procesoView() {
-    const { setAlertBox, setCountItemProduct } = useContext(Context)
+    const { setAlertBox, setCountItemProduct, locationStr, setModalLocation } = useContext(Context)
   return (
     <div >
       <Head>
@@ -14,8 +14,10 @@ export default function procesoView() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Checkout 
-      setAlertBox={setAlertBox} 
-      setCountItemProduct={setCountItemProduct}
+        setAlertBox={setAlertBox} 
+        setModalLocation={setModalLocation} 
+        locationStr={locationStr} 
+        setCountItemProduct={setCountItemProduct}
       />
     </div>
   )

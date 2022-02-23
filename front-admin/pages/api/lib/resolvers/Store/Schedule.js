@@ -40,6 +40,7 @@ export const setStoreScheduleReserve = async (_root, { input }) => {
     }
 }
 export const setStoreSchedule = async (_root, { input }, context, _info) => {
+    console.log(input)
     try {
         await ScheduleStore.create({ ...input, idStore: deCode(context.restaurant), id: deCode(context.User.id) })
         return true
@@ -55,7 +56,7 @@ const getStoreSchedules = async (root, { schDay }, context, info) => {
                 'idStore',
                 'schId',
                 // 'id',
-                // 'schDay',
+                'schDay',   
                 'schHoSta',
                 'schHoEnd',
                 'schState',
@@ -81,11 +82,43 @@ const getStoreSchedules = async (root, { schDay }, context, info) => {
         return error
     }
 }
+const getOneStoreSchedules = async (root, { schDay }, context, info) => {
+    console.log(schDay)
+    try {
+        const data = await ScheduleStore.findOne({
+            attributes: [
+                // 'idStore',
+                'schId',
+                // 'id',
+                'schDay',   
+                'schHoSta',
+                'schHoEnd',
+                'schState',
+                // 'store'
+            ],
+            where: {
+                [Op.or]: [
+                    {
+                        // schState: 1,
+                        schDay: schDay,
+                        // ID Store
+                        idStore: deCode(context.restaurant)
+                    }
+                ]
+            }
+        })
+        return data
+    } catch (e) {
+        const error = new ApolloError(e || 'Lo sentimos, ha ocurrido un error interno')
+        return error
+    }
+}
 export default {
     TYPES: {
     },
     QUERIES: {
-        getStoreSchedules
+        getStoreSchedules,
+        getOneStoreSchedules,
     },
     MUTATIONS: {
         setStoreSchedule,

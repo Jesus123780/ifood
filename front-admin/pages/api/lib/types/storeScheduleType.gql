@@ -25,6 +25,7 @@ input IsStoreSchedule {
 
 type Query {
   getStoreSchedules(schDay: Int, schState: Int, idStore: ID): [StoreSchedule]
+  getOneStoreSchedules(schDay: Int, schState: Int, idStore: ID): StoreSchedule
 }
 
 type Mutation {

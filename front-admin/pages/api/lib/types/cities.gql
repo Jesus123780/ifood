@@ -28,6 +28,7 @@ type Query {
     "Consulta todas las ciudades de un departamento"
     cities(dId: ID!): [City]
     getCities: [City]
+    getOneCities(ctId: ID): City
 }
 
 # Mutations

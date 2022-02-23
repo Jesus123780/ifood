@@ -8,6 +8,8 @@ type CatStore {
     cDatCre: DateTime
     cDatMod: DateTime
     csDescription: String
+    getAllStore: [Store]
+
 }
 # CatStore Type
 
@@ -23,6 +25,7 @@ input ICatStore {
 # Query
 type Query {
   getAllCatStore: [CatStore]
+  getOneCatStore(catStore: ID): CatStore
 }
 # Mutations
 type Mutation {

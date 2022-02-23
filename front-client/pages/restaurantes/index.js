@@ -1,10 +1,10 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { useQuery } from '@apollo/client'
+import { useLazyQuery, useQuery } from '@apollo/client'
 import styles from '../../styles/Home.module.css'
 import { GET_ONE_STORE } from '../../container/queries'
 import { Restaurant } from '../../container/restaurantes'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Context } from '../../context'
 import { PromosBanner } from '../../container/restaurantes/PromosBanner'
 import { Section } from '../../container/restaurantes/styled'
@@ -12,11 +12,26 @@ import { ListRestaurant } from '../../container/restaurantes/restaurant'
 import { GET_ALL_COUNTRIES } from '../../gql/Location'
 import withSession from '../../apollo/session'
 import { decodeToken } from '../../utils'
+import { GET_ALL_RESTAURANT } from '../../container/restaurantes/queries'
 
 export default function RestaurantHome() {
   const { data } = useQuery(GET_ONE_STORE)
   const { data: dataEy } = useQuery(GET_ALL_COUNTRIES)
   const { setAlertBox, dispatch, state_product_card } = useContext(Context)
+  // ********************************LIST RESTAURANT********************************
+  const [dataStore, setData] = useState([])
+  const [showMore, setShowMore] = useState(100)
+  const [getAllStoreInStore, { data: dataListStore }] = useLazyQuery(GET_ALL_RESTAURANT)
+  /* Filtro  */
+  const [searchFilter, setSearchFilter] = useState({ gender: [], desc: [], speciality: [] })
+  const [filter, setFilter] = useState({ gender: [], desc: [], speciality: [] })
+  useEffect(() => {
+    // setData([data?.getAllStoreInStore])
+  }, [searchFilter])
+  useEffect(() => {
+    getAllStoreInStore({ variables: { max: showMore } })
+  }, [searchFilter, showMore])
+  // ********************************LIST RESTAURANT FIN********************************
   return (
     <div className={styles.container}>
       <Head>
@@ -31,7 +46,9 @@ export default function RestaurantHome() {
         <Restaurant />
       </Section>
       <Section>
-        <ListRestaurant />
+        <ListRestaurant
+          data={dataListStore?.getAllStoreInStore || []}
+        />
       </Section>
     </div>
   )

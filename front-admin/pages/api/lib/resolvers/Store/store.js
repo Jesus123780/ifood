@@ -5,6 +5,7 @@ import CitiesModel from '../../models/information/CitiesModel'
 import CountriesModel from '../../models/information/CountriesModel'
 import DepartmentsModel from '../../models/information/DepartmentsModel'
 import productModelFood from '../../models/product/productFood'
+import ScheduleStore from '../../models/Store/ScheduleStore'
 import ShoppingCard from '../../models/Store/ShoppingCard'
 import SubProducts from '../../models/Store/shoppingCardSubProduct'
 import Store from '../../models/Store/Store'
@@ -41,7 +42,10 @@ export const getStore = async (_root, { id, StoreName, idStore }, context, info)
     const attributes = getAttributes(Store, info)
     const data = await Store.findOne({
         attributes,
-        where: { idStore: deCode(context.restaurant), id: deCode(context.User.id) }
+        where: { 
+            idStore: deCode(context.restaurant),
+            // idStore: deCode(id) 
+        }
         // where: { id: deCode('NjUzMDEzMTU1NjQzNjM5NTAwMA==') }
     })
     return data
@@ -188,6 +192,21 @@ export const getOneStore = async (parent, args, context, info) => {
 
 export default {
     TYPES: {
+        CatStore: {
+            getAllStore: async (parent, _args, _context, info) => {
+                try {
+                    const attributes = getAttributes(Store, info)
+                    const data = await Store.findAll({
+                        attributes,
+                        where: { catStore: deCode(parent.catStore) }
+                    })
+                    return data
+                } catch {
+                    return null
+                }
+
+            }
+        },
         ShoppingCard: {
             getStore: async (parent, _args, _context, info) => {
                 try {
@@ -215,6 +234,18 @@ export default {
             },
         },
         Store: {
+            getStoreSchedules: async (parent, _args, _context, info) => {
+                try {
+                    const attributes = getAttributes(ScheduleStore, info)
+                    const data = await ScheduleStore.findAll({
+                        attributes,
+                        where: { idStore: deCode(parent.idStore) }
+                    })
+                    return data
+                } catch {
+                    return null
+                }
+            },
             cateStore: oneCategoriesStore,
             pais: async (parent, _args, _context, info) => {
                 try {

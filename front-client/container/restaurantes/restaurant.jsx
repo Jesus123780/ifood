@@ -11,23 +11,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useLazyQuery, useQuery } from '@apollo/client'
 import { GET_ALL_RESTAURANT } from './queries'
-export const ListRestaurant = () => {
-  const [dataStore, setData] = useState([])
-  const [showMore, setShowMore] = useState(100)
-  const [getAllStoreInStore, { data }] = useLazyQuery(GET_ALL_RESTAURANT)
-  /* Filtro  */
-  const [searchFilter, setSearchFilter] = useState({ gender: [], desc: [], speciality: [] })
-  const [filter, setFilter] = useState({ gender: [], desc: [], speciality: [] })
-  useEffect(() => {
-    // setData([data?.getAllStoreInStore])
-  }, [searchFilter])
-  useEffect(() => {
-    getAllStoreInStore({ variables: { max: showMore } })
-  }, [searchFilter, showMore])
+export const ListRestaurant = ({ data }) => {
+
   return (
     <Content>
       <MerchantListWrapper>
-        {data?.getAllStoreInStore?.map(x => {
+        {data?.map(x => {
           const nameStore = x.storeName?.replace(/\s/g, '-')
           return (
             <Link key={x.idStore}  href={`delivery/${x?.city?.cName?.toLocaleLowerCase()}-${x?.department?.dName?.toLocaleLowerCase()}/${nameStore}/${x?.idStore}`}>

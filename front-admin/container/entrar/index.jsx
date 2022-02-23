@@ -64,7 +64,7 @@ export const Login = ({ watch, settings }) => {
             password: '113561675852804771364',
             locationFormat: locationFormat[0]?.formatted_address,
             useragent: window.navigator.userAgent,
-            deviceid: await getDeviceId() || '',
+            deviceid: '234232342423423asdasd',
         }
         await fetchJson(`${URL_BASE}auth`, {
             method: 'POST',

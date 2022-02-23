@@ -15,6 +15,7 @@ const PedidosStore = () => {
   useEffect(() => {
     setCountPedido(data?.getAllPedidoStoreFinal?.length || 0)
   }, [data])
+  console.log(data)
   return (
     <div>
       <Container>

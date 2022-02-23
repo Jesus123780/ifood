@@ -15,6 +15,7 @@ import { AwesomeModal } from 'components/AwesomeModal'
 import Image from 'next/image'
 import { CHANGE_STATE_STORE_PEDIDO, GET_ALL_PEDIDOS } from './queries'
 import { Context } from 'context/Context'
+import { IconLocationMap } from 'public/icons'
 moment.locale('SG');
 
 export const ListPedidos = ({ data }) => {
@@ -145,7 +146,7 @@ export const ListPedidos = ({ data }) => {
                         <span> $ {numberFormat(x.totalProductsPrice)} </span>
                     </Item>
                     <Item>
-                        <CircleStatus onClick={() => handleOpenModal(x)} pulse={x.pSState !== 5 } status={x.pSState}>
+                        <CircleStatus onClick={() => handleOpenModal(x)} pulse={x.pSState !== 5} status={x.pSState}>
                             <Tooltip>{x.pSState === 1 ? 'Aceptado' : x.pSState === 2 ? 'Pedido en proceso' : x.pSState === 3 ? 'listo para entrega' : x.pSState === 4 ? 'Pedido pagado (Concluido)' : 'Rechazado'}</Tooltip>
                         </CircleStatus>
                     </Item>
@@ -176,7 +177,10 @@ export const ListPedidos = ({ data }) => {
 export const CheckStatus = ({ setModal, modal, dataModal }) => {
     // STATES
     const { setAlertBox } = useContext(Context)
-    const { pCodeRef, getAllPedidoStore, totalProductsPrice, pDatCre } = dataModal || {}
+    const { pCodeRef, getAllPedidoStore, totalProductsPrice, pDatCre, locationUser } = dataModal || {}
+    const dataLocation = locationUser && JSON.parse(locationUser) || {}
+    console.log(dataLocation)
+    const { cName, country, dName, uLocationKnow } = dataLocation || {}
     // QUERIES
     const [changePPStatePPedido] = useMutation(CHANGE_STATE_STORE_PEDIDO, {
         onCompleted: data => {
@@ -216,6 +220,13 @@ export const CheckStatus = ({ setModal, modal, dataModal }) => {
                     <Text size='2em'>{moment(pDatCre).format('DD/MM/YYYY')} - {moment(pDatCre).format('h:mma')}</Text>
                     <CardTicket>
                         <Text size='25px'># {pCodeRef}</Text>
+                    </CardTicket>
+                    <CardTicket>
+                        <IconLocationMap size={30} color={PColor} />
+                        <Text size='25px'>{cName}</Text>
+                        <Text size='25px'>{country}</Text>
+                        <Text size='25px'>{dName}</Text>
+                        <Text size='25px'>{uLocationKnow}</Text>
                     </CardTicket>
                     {getAllPedidoStore && getAllPedidoStore.map(p => {
                         const { getAllShoppingCard } = p || {}

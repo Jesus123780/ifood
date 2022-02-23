@@ -236,9 +236,9 @@ export const AnchorRouter = styled.a`
         color: ${BGColor};
         border-radius: 50%;
         padding: 1px;
-        height: 18px;
+        height: 28px;
         font-size: 12px;
-        width: 18px;
+        width: 28px;
         align-items: center;
         display: flex;
         place-content: center;

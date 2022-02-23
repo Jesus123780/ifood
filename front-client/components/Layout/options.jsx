@@ -20,6 +20,7 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
     // }
 
     const onClickLogout = useCallback(async () => {
+        localStorage.removeItem('location.data')
         await window
             .fetch(`${OUR_URL_BASE}auth/logout/`, {})
             .then(res => {

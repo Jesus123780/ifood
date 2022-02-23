@@ -14,7 +14,6 @@ const UserProfileSettings = ({ handleSubmit, onChange, dataForm, dataDevice }) =
     useEffect(() => {
         setDeviceId(window.localStorage.getItem('deviceid'))
     }, [])
-    console.log(deviceId)
     return <div>
         <Container>
             <RippleButton margin='40px 0' onClick={() => setShowModal(!showModal)}>Registrar Ubicacion</RippleButton>

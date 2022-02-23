@@ -26,7 +26,7 @@ export const Options = ({ keyTheme, handleTheme }) => {
                 if (res) {
                     client?.clearStore()
                     // window.localStorage.clear()
-                    location.replace('/')
+                    location.replace('/entrar')
                 }
             })
             .catch(() => {

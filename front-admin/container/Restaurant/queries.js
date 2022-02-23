@@ -40,6 +40,15 @@ NitStore
 typeRegiments
 typeContribute
 addressStore
+  getStoreSchedules {
+      idStore
+      schId
+      id
+      schDay
+      schHoSta
+      schHoEnd
+      schState
+  }
 createAt
   cateStore {
     catStore

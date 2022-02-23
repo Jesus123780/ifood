@@ -21,7 +21,7 @@ type StorePedidos {
   productFoodsOne: ProductFood
   getAllPedidoStore: [StorePedidos]
   getAllShoppingCard: ShoppingCard
-
+  locationUser: String
 }
 input InputStorePedidos {
   pdpId: ID
@@ -54,12 +54,14 @@ input SET_INPUT_SHOPPING_PRODUCTS_ITEMS {
   payMethodPState: Int  
   pPRecoger: Int
   totalProductsPrice: Int
+  locationUser: String
 }
 type Query {
 """Response for find one Store"""
   getOnePedidoStore(StoreName: String, idStore: ID): StorePedidos
   getAllPedidoStore(StoreName: String, idStore: ID): [StorePedidos]
   getAllPedidoStoreFinal(idStore: ID): [StorePedidos]
+  getAllPedidoUserFinal(id: ID): [StorePedidos]
 }
   
 type Mutation {

@@ -64,12 +64,12 @@ const UserLocation = sequelize.define('userLocation', {
     // latitud
     uLatitud: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
     },
     // longitude
     uLongitude: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
     },
     uLocationKnow: {
         type: Sequelize.STRING,

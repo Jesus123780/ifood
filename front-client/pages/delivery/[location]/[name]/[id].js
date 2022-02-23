@@ -2,7 +2,7 @@ import { useLazyQuery, useMutation } from '@apollo/client'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState, useRef } from 'react'
 import withSession from '../../../../apollo/session'
 import { CREATE_SHOPPING_CARD } from '../../../../components/AsideCheckout/querys'
 import { useFormTools } from '../../../../components/BaseForm'
@@ -87,7 +87,6 @@ export default function HomeView() {
             cState: 1,
             pId: food.pId,
             idStore: food.getStore.idStore,
-            id: 'MjcyMDg4ODE0ODUxNTE2NDUw',
             comments: dataForm.comments,
             cName: 'puta madre',
             cantProducts: state,
@@ -110,15 +109,30 @@ export default function HomeView() {
     const price = parseFloat(ProPrice)
     return state <= 0 ? price : numberFormat((Math.abs(state * price)))
   }, [dataOneProduct])
+
+  const refs = useRef([React.createRef(), React.createRef()])
+  const refInterSection = useRef(null)
+  useEffect(() => {
+    refs.current = refs.current.splice(0, dataCatProducts?.length)
+    for (let i = 0; i < dataCatProducts?.length; i++) {
+      refs.current[i] = refs.current[i] || React.createRef()
+    }
+    refs.current = refs.current.map(item => item || React.createRef())
+  }, [dataCatProducts,refs])
+  const ArrayValues = refs.current.map(item => { return { value: item?.current } })
+  console.log(ArrayValues)
   return (
-    <div >
+    <div>
       <Head>
         <title>Delivery Restaurante - {name?.toLocaleLowerCase()} - {locationName?.toLocaleLowerCase()} </title>
         <meta name="description" content={location.query.name} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <RestaurantProfile
         dataForm={dataForm}
+        refs={refs}
+        refInterSection={refInterSection}
         dataOptional={dataOptional?.ExtProductFoodsOptionalAll}
         dataCatProducts={dataCatProducts}
         getOneProduct={getOneProduct}

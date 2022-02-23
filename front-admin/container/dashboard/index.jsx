@@ -1,29 +1,23 @@
-import React, { useContext, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
-import { BColor, BGColor, PColor, PLColor, SFVColor, TBGBColor } from '../../public/colors'
-import { Loading } from '../../components/Loading'
+import React, { useContext, useEffect, useState } from 'react'
+import { useQuery } from '@apollo/client'
+import { SFVColor } from '../../public/colors'
 import { RippleButton } from '../../components/Ripple'
 import Link from 'next/link'
 import router, { useRouter } from 'next/router'
 import { useSetState } from '../../components/hooks/useState'
-// import { LineChart } from '@/components/Chart/multiAxis'
 import { useFormTools } from '../../components/BaseForm'
 import { useUser } from '../../components/hooks/useUser'
-import { getToken } from '../../utils'
 import { useStore } from '../../components/hooks/useStore'
 import { AwesomeModal } from '../../components/AwesomeModal'
-import { GET_ALL_EMPLOYEE_STORE } from './queriesStore'
+import { GET_ALL_EMPLOYEE_STORE, GET_ONE_SCHEDULE_STORE } from './queriesStore'
 import { GET_ALL_DEVICES } from 'container/profile/queries'
 import moment from 'moment'
-import { TextH2Main } from 'components/common/h2'
-import { Rate } from 'components/Rate'
-import { IconShopping } from 'public/icons'
 import { LastedStatistic } from './LastedStatistic'
 import { OurFood } from './OurFood'
 import { AlertStatistic } from './AlertClients'
 import { DeliveryFood } from './Delivery'
 import { Avatar, Card, CardPrimary, Container, Content, Text, Wrapper, WrapperRow, CardOverFloW, CircleCompany, CircleUser, ButtonTheme, SwitchButton, ContentToggle, OlList, FeedItem, ItemTeam, ItemInf, CardDevice, MediaValue, ButtonStore } from './styled'
+moment.locale('es')
 
 const Dashboard = () => {
     // STATE
@@ -31,16 +25,11 @@ const Dashboard = () => {
     // const token = getToken({ restaurant: 'restaurant' })
     const loading = false
     const { data: dataDevice } = useQuery(GET_ALL_DEVICES)
-
     const [baseHandle, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
     const HandleClickEdit = item => {
         // create func
         if (item.view === 1) {
-            // setModal(true)
-            // setDisable(true)
-            // edit func
         } else if (item.view === 2) {
-            // setDisable(false)
             // View func
         } else if (item.view === 3) {
             // isEdit.setState(true)
@@ -71,6 +60,17 @@ const Dashboard = () => {
         }).catch(err => setAlertBox({ message: `${err}`, duration: 8000 }))
         if (results) setAlertBox({ message: 'successfully removed', duration: 8000, color: 'success' })
     }
+    const [hour, setHour] = useState(null)
+    const [day, setDay] = useState()
+    useEffect(() => {
+        let date = new Date().getTime()
+        let dateDay = new Date().getUTCDay()
+        setDay(dateDay)
+        setHour(moment(date).format('hh:mm'))
+    })
+    const { data: DATALOL } = useQuery(GET_ONE_SCHEDULE_STORE, { variables: { schDay: day } })
+    console.log(DATALOL)
+
     // EFFECT
     const Switch = {}
     const [dataUser, { loading: loUser }] = useUser()
@@ -79,6 +79,10 @@ const Dashboard = () => {
     const { storeName, idStore } = dataStore || {}
     const SHOW_MODAL_RESTAURANT = useSetState(true)
     const { data: dataEmployees, loading: loadEmployees, error: errEmployees } = useQuery(GET_ALL_EMPLOYEE_STORE)
+    const [deviceId, setDeviceId] = useState(false)
+    useEffect(() => {
+        setDeviceId(window.localStorage.getItem('deviceid'))
+    }, [])
     if (loUser || LoadingRes || loadEmployees || errEmployees) return <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNjAwIDMyMDAiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KICAgIDxzdHlsZT4KICAgICAgICBzdmcgewogICAgICAgICAgICBmb250LXNpemU6IDE2cHg7CiAgICAgICAgfQoKICAgICAgICAvKioKICAgICAgICAqIEFkYXB0aXZlIG1lZGlhIHF1ZXJpZXMgdGlsbCAyNDAwcHggd2lkZSBnZW5lcmF0ZWQgdmlhIGh0dHBzOi8vY29kZXBlbi5pby9qYWtvYnVkL3Blbi92bUtMWWIKICAgICAgICAqIFZhbHVlczogJG1hcDogKDEyMDBweDogMjEuMzNweCwgMTYwMHB4OiAxNnB4LCAyNDAwcHg6IDEwLjY2N3B4LCAzMjAwOiA4cHgsIDQyMDA6IDYuMXB4KTsKICAgICAgICAqLwoKICAgICAgICBAbWVkaWEgKG1pbi13aWR0aDogMTAwcHgpIHsKICAgICAgICAgICAgc3ZnIHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogY2FsYygtMTcwLjd2dyArIDQyNi43cHgpOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBAbWVkaWEgKG1pbi13aWR0aDogMTUwcHgpIHsKICAgICAgICAgICAgc3ZnIHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogY2FsYygtODUuM3Z3ICsgMjk4LjZweCk7CiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIEBtZWRpYSAobWluLXdpZHRoOiAyMDBweCkgewogICAgICAgICAgICBzdmcgewogICAgICAgICAgICAgICAgZm9udC1zaXplOiBjYWxjKC00Mi42NnZ3ICsgMjEzLjMycHgpOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBAbWVkaWEgKG1pbi13aWR0aDogMzAwcHgpIHsKICAgICAgICAgICAgc3ZnIHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogY2FsYygtMjEuMzR2dyArIDE0OS4zNnB4KTsKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgQG1lZGlhIChtaW4td2lkdGg6IDQwMHB4KSB7CiAgICAgICAgICAgIHN2ZyB7CiAgICAgICAgICAgICAgICBmb250LXNpemU6IGNhbGMoLTEyLjh2dyArIDExNS4ycHgpOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBAbWVkaWEgKG1pbi13aWR0aDogNTAwcHgpIHsKICAgICAgICAgICAgc3ZnIHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogY2FsYygtOC41NHZ3ICsgOTMuOXB4KTsKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgQG1lZGlhIChtaW4td2lkdGg6IDYwMHB4KSB7CiAgICAgICAgICAgIHN2ZyB7CiAgICAgICAgICAgICAgICBmb250LXNpemU6IGNhbGMoLTUuMzN2dyArIDc0LjY0cHgpOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBAbWVkaWEgKG1pbi13aWR0aDogODAwcHgpIHsKICAgICAgICAgICAgc3ZnIHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogY2FsYygtMy4ydncgKyA1Ny42cHgpOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBAbWVkaWEgKG1pbi13aWR0aDogMTAwMHB4KSB7CiAgICAgICAgICAgIHN2ZyB7CiAgICAgICAgICAgICAgICBmb250LXNpemU6IGNhbGMoLTIuMTM1dncgKyA0Ni45NXB4KTsKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgQG1lZGlhIChtaW4td2lkdGg6IDEyMDBweCkgewogICAgICAgICAgICBzdmcgewogICAgICAgICAgICAgICAgZm9udC1zaXplOiBjYWxjKC0xLjMzMjV2dyArIDM3LjMycHgpOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBAbWVkaWEgKG1pbi13aWR0aDogMTYwMHB4KSB7CiAgICAgICAgICAgIHN2ZyB7CiAgICAgICAgICAgICAgICBmb250LXNpemU6IGNhbGMoLTAuNjY2N3Z3ICsgMjYuNjdweCk7CiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIEBtZWRpYSAobWluLXdpZHRoOiAyNDAwcHgpIHsKICAgICAgICAgICAgc3ZnIHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogY2FsYygtMC4zMzMzN3Z3ICsgMTguNjdweCk7CiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIEBtZWRpYSAobWluLXdpZHRoOiAzMjAwcHgpIHsKICAgICAgICAgICAgc3ZnIHsKICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogY2FsYygtMC4xOXZ3ICsgMTQuMDhweCk7CiAgICAgICAgICAgIH0KICAgICAgICB9CgoKICAgICAgICByZWN0Om5vdChbZmlsbF0pIHsKICAgICAgICAgICAgZmlsbDogdXJsKCNsaW5lYXIpOwogICAgICAgIH0KCiAgICAgICAgcmVjdCB7CiAgICAgICAgICAgIHJ4OiAwLjI1ZW07CiAgICAgICAgfQoKICAgICAgICBjaXJjbGU6bm90KFtmaWxsXSkgewogICAgICAgICAgICBmaWxsOiB1cmwoI2xpbmVhcik7CiAgICAgICAgfQoKICAgICAgICBsaW5lOm5vdChbZmlsbF0pIHsKICAgICAgICAgICAgc3Ryb2tlOiB1cmwoI2xpbmVhcik7CiAgICAgICAgfQoKICAgICAgICBsaW5lIHsKICAgICAgICAgICAgc3Ryb2tlLXdpZHRoOiAwLjE1ZW07CiAgICAgICAgfQogICAgPC9zdHlsZT4KCiAgICA8ZGVmcz4KICAgICAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImxpbmVhciIgeDE9IjBlbSIgeTE9IjBlbSIgeDI9IjEwMGVtIiB5Mj0iMTBlbSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9Ii4xMCIgc3RvcC1jb2xvcj0iI2Y0ZjVmNyI+CiAgICAgICAgICAgICAgICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJvZmZzZXQiIGZyb209Ii0uMTAiIHRvPSIxLjQiIGR1cj0iMnMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiAvPgogICAgICAgICAgICA8L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIG9mZnNldD0iLjE1IiBzdG9wLWNvbG9yPSIjZTdlOWVjIj4KICAgICAgICAgICAgICAgIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9Im9mZnNldCIgZnJvbT0iLS4wNSIgdG89IjEuNDUiIGR1cj0iMnMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiAvPgogICAgICAgICAgICA8L3N0b3A+CiAgICAgICAgICAgIDxzdG9wIG9mZnNldD0iLjIwIiBzdG9wLWNvbG9yPSIjZjRmNWY3Ij4KICAgICAgICAgICAgICAgIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9Im9mZnNldCIgZnJvbT0iMCIgdG89IjEuNTAiIGR1cj0iMnMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiAvPgogICAgICAgICAgICA8L3N0b3A+CiAgICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDwvZGVmcz4KCiAgICAKCiAgICA8IS0tIEJyZWFkY3J1bWJzIC0tPgogICAgPHJlY3QgeD0iMGVtIiB5PSIxLjVlbSIgd2lkdGg9IjMuMjVlbSIgaGVpZ2h0PSIwLjYyNWVtIiAgcng9IjEiLz4KICAgIDxyZWN0IHg9IjRlbSIgeT0iMS41ZW0iIHdpZHRoPSI1ZW0iIGhlaWdodD0iMC42MjVlbSIgIHJ4PSIxIi8+CiAgICA8cmVjdCB4PSIwZW0iIHk9IjMuNWVtIiB3aWR0aD0iOWVtIiBoZWlnaHQ9IjFlbSIgIHJ4PSIxIi8+CgogICAgPCEtLSBnaHgtbW9kZXMtdG9vbHMgLS0+CiAgICA8cmVjdCB4PSJjYWxjKDEwMCUgLSA5LjVlbSkiIHk9IjNlbSIgd2lkdGg9IjJlbSIgaGVpZ2h0PSIyZW0iICByeD0iMSIvPgogICAgPHJlY3QgeD0iY2FsYygxMDAlIC0gN2VtKSIgeT0iM2VtIiB3aWR0aD0iMmVtIiBoZWlnaHQ9IjJlbSIgIHJ4PSIxIi8+CiAgICA8cmVjdCB4PSJjYWxjKDEwMCUgLSA0LjVlbSkiIHk9IjNlbSIgd2lkdGg9IjJlbSIgaGVpZ2h0PSIyZW0iICByeD0iMSIvPgoKICAgIDwhLS0gZ2h4LW9wZXJhdGlvbnMgLS0+CiAgICA8cmVjdCB4PSIwZW0iIHk9IjYuNWVtIiB3aWR0aD0iOS41ZW0iIGhlaWdodD0iMmVtIiAgcng9IjEiLz4KICAgIDxjaXJjbGUgY3g9IjExLjVlbSIgY3k9ImNhbGMoNi41ZW0gKyAxZW0pIiByPSIxZW0iIC8+CiAgICA8Y2lyY2xlIGN4PSIxNGVtIiBjeT0iY2FsYyg2LjVlbSArIDFlbSkiIHI9IjFlbSIgLz4KICAgIDxyZWN0IHg9IjE2ZW0iIHk9IjYuNWVtIiB3aWR0aD0iNS41ZW0iIGhlaWdodD0iMmVtIiAgcng9IjEiLz4KICAgIDxyZWN0IHg9IjIyZW0iIHk9IjYuNWVtIiB3aWR0aD0iNS41ZW0iIGhlaWdodD0iMmVtIiAgcng9IjEiLz4KICAgIDxyZWN0IHg9ImNhbGMoMTAwJSAtIDhlbSkiIHk9IjYuNWVtIiB3aWR0aD0iNS41ZW0iIGhlaWdodD0iMmVtIiAgcng9IjEiLz4KCiAgICA8IS0tIGdoeC1jb2x1bW4gLS0+CiAgICA8cmVjdCB4PSIwZW0iIHk9IjEwLjVlbSIgd2lkdGg9ImNhbGMoMjAlIC0gMWVtKSIgaGVpZ2h0PSIxMDAlIiAgcng9IjEiLz4KCiAgICA8IS0tIGdoeC1jb2x1bW4gLS0+CiAgICA8cmVjdCB4PSJjYWxjKDIwJSAtIDAuMjVlbSkiIHk9IjEwLjVlbSIgd2lkdGg9ImNhbGMoMjAlIC0gMWVtKSIgaGVpZ2h0PSIxMDAlIiBvcGFjaXR5PSIwLjgiICByeD0iMSIvPgoKICAgIDwhLS0gZ2h4LWNvbHVtbiAtLT4KICAgIDxyZWN0IHg9ImNhbGMoNDAlIC0gMC41ZW0pIiB5PSIxMC41ZW0iIHdpZHRoPSJjYWxjKDIwJSAtIDFlbSkiIGhlaWdodD0iMTAwJSIgb3BhY2l0eT0iMC42IiAgcng9IjEiLz4KCiAgICA8IS0tIGdoeC1jb2x1bW4gLS0+CiAgICA8cmVjdCB4PSJjYWxjKDYwJSAtIDAuNzVlbSkiIHk9IjEwLjVlbSIgd2lkdGg9ImNhbGMoMjAlIC0gMWVtKSIgaGVpZ2h0PSIxMDAlIiBvcGFjaXR5PSIwLjQiICByeD0iMSIvPgoKICAgIDwhLS0gZ2h4LWNvbHVtbiAtLT4KICAgIDxyZWN0IHg9ImNhbGMoODAlIC0gMWVtKSIgeT0iMTAuNWVtIiB3aWR0aD0iY2FsYygyMCUgLSAxZW0pIiBoZWlnaHQ9IjEwMCUiIG9wYWNpdHk9IjAuMiIgIHJ4PSIxIi8+CgoKCgo8L3N2Zz4K" alt="Cargando..." />
     return (<>
         {LoadingRes && dataStore === null && <AwesomeModal backdrop='static' zIndex='9990' padding='25px' height='90vh' show={SHOW_MODAL_RESTAURANT.state} onHide={() => { SHOW_MODAL_RESTAURANT.setState(!SHOW_MODAL_RESTAURANT.state) }} onCancel={() => false} size='90%' btnCancel={false} btnConfirm={true} onConfirm={() => router.push('/restaurante')} header={false} footer={true} borderRadius='10px' >
@@ -155,7 +159,7 @@ const Dashboard = () => {
                                     <div className="device__info">
                                         <div className="device__description-wrapper">
                                             <span className="device__description"> {x.deviceName} - {x.platform} </span>
-                                            {<span className="device__current">Current device </span>}
+                                            {deviceId === x.deviceId && <span className="device__current">Current device </span>}
                                         </div>
                                         <span className="device__localization" tabIndex="0"> {x.short_name}</span>
                                         <span className="device__localization" tabIndex="0"> {x.locationFormat}</span>

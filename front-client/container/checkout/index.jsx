@@ -1,25 +1,20 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types'
-import { APColor, PColor, PLColor } from '../../public/colors';
-import Link from 'next/link'
+import React, { useEffect, useRef, useState } from 'react';
+import { APColor, PColor } from '../../public/colors';
 import { RippleButton } from '../../components/Ripple'
 import { Anchor, Body, Card, CardPro, Column, ContainerAnimation, ContainerAnimationTow, ContentInfo, flex, Text, Wrapper } from './styled';
-import ActiveLink from '../../components/common/Link';
 import { numberFormat, RandomCode, updateCache } from '../../utils';
 import InputHooks from '../../components/InputHooks/InputHooks'
-import { Context } from '../../Context';
 import { GET_ALL_SHOPPING_CARD } from '../restaurantes/queries';
-import { CREATE_SHOPPING_CARD } from '../../components/AsideCheckout/querys';
 import { useFormTools } from '../../components/BaseForm'
 import { useMutation, useQuery } from '@apollo/client';
 import { CardProduct, ContentTotal, GarnishChoicesHeader } from '../../components/AsideCheckout/styled';
 import { CREATE_MULTIPLE_ORDER_PRODUCTS, DELETE_ONE_ITEM_SHOPPING_PRODUCT } from './queries';
 import { useRouter } from 'next/router';
 import { CREATE_ONE_STORE_PEDIDO } from '../confirmCheckout/queries';
+import { IconGoogleLocation, IconLocationMap } from '../../public/icons';
 
-export const Checkout = ({ setAlertBox, setCountItemProduct  }) => {
+export const Checkout = ({ setAlertBox, setCountItemProduct, locationStr, setModalLocation }) => {
     // STATE
-    // const { setAlertBox, setCountItemProduct } = useContext(Context)
     const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
     const [active, setActive] = useState(1)
     const router = useRouter()
@@ -40,7 +35,7 @@ export const Checkout = ({ setAlertBox, setCountItemProduct  }) => {
             setAlertBox({ message: data?.deleteOneItem?.message })
             if (dataShoppingCard?.getAllShoppingCard.length === 1) {
                 setAlertBox({ message: 'Tu carrito esta vació' })
-                router.replace('/restaurantes')
+                // router.replace('/restaurantes')
             }
         }
     })
@@ -48,10 +43,16 @@ export const Checkout = ({ setAlertBox, setCountItemProduct  }) => {
     const [createMultipleOrderStore] = useMutation(CREATE_MULTIPLE_ORDER_PRODUCTS, {
         onCompleted: data => {
             if (data.createMultipleOrderStore.success === true) {
-                router.push('/proceso-de-compra/finalizar')
-            }   
+                // router.push('/proceso-de-compra/finalizar')
+            }
         }
     })
+    const { department, pais, uLocationKnow, city } = locationStr || {}
+    const { dName } = department || {}
+    const { cName } = city || {}
+    const { cName: country } = pais || {}
+    const objLocation = { dName, uLocationKnow, cName, country }
+    console.log(objLocation)
     const newArray = dataShoppingCard?.getAllShoppingCard.map(x => { return { ShoppingCard: x.ShoppingCard, idStore: x.getStore.idStore } })
     const [totalProductPrice, setTotalProductPrice] = useState(0)
     const handleSubmitPedido = async e => {
@@ -65,11 +66,12 @@ export const Checkout = ({ setAlertBox, setCountItemProduct  }) => {
                     pCodeRef: code,
                     payMethodPState: 1,
                     pPRecoger: 1,
+                    locationUser: JSON.stringify(objLocation)
                 }
             }
         }).then(x => {
 
-        }).catch(err => setAlertBox({ message: `${ err }`, duration: 7000 }))
+        }).catch(err => setAlertBox({ message: `${err}`, duration: 7000 }))
     }
     // EFFECTS
     useEffect(() => {
@@ -82,6 +84,7 @@ export const Checkout = ({ setAlertBox, setCountItemProduct  }) => {
     const sumProduct = (ProPrice, ProDelivery, cant) => {
         const price = parseInt(ProPrice)
         const priceFinal = cant * price
+
         const delivery = parseInt(ProDelivery ? ProDelivery : 0)
         return delivery ? priceFinal + delivery : priceFinal
     }
@@ -93,8 +96,8 @@ export const Checkout = ({ setAlertBox, setCountItemProduct  }) => {
         dataShoppingCard?.getAllShoppingCard.forEach((a) => {
             const { productFood, cantProducts } = a || {}
             const { ProPrice, ValueDelivery } = productFood || {}
-            const PriceFinal = cantProducts * (ProPrice + ValueDelivery)
-            suma = total += PriceFinal
+            let PriceFinal = (ProPrice * cantProducts) + ValueDelivery
+            suma += PriceFinal
             setTotalProductPrice(suma)
         })
     }, [totalProductPrice, suma, total, dataShoppingCard])
@@ -119,6 +122,15 @@ export const Checkout = ({ setAlertBox, setCountItemProduct  }) => {
                 <RippleButton active={active === 1} margin='0px 5px' borderRadius='0' color="red" padding="10px" bgColor='transparent' label='Entrega' onClick={() => active !== 1 && handleClick(1)} />
                 {/* <RippleButton active={active === 2} margin='0px 5px' borderRadius='0' color="red" padding="10px" bgColor='transparent' label='Recoger' onClick={() => active !== 2 && handleClick(2)} /> */}
                 <ContentInfo>
+                    <div className="ctn-location" onClick={() => setModalLocation(true)}>
+                        <button >
+                            <IconGoogleLocation color={PColor} size={70} />
+                        </button>
+                        <div className='delivery-location' onClick={() => setModalLocation(true)}>
+                            <span ><IconLocationMap color={PColor} size={20} /> {uLocationKnow ? uLocationKnow : !!pais ? `${pais?.cName} ${department?.dName} ${city?.cName}` : null}</span>
+                            <span className='sub-location'>{pais && `${pais?.cName} ${department?.dName} ${city?.cName}`}</span>
+                        </div>
+                    </div>
                     {active === 1 ?
                         <ContainerAnimation>
                             <InputHooks

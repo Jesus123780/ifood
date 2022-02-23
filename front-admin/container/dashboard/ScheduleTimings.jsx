@@ -12,13 +12,14 @@ import { AwesomeModal } from '../../components/AwesomeModal'
 import { CREATE_STORE_CALENDAR } from './queries'
 import { useFormTools } from '../../components/BaseForm'
 import { RippleButton } from '../../components/Ripple'
+import { updateCache } from 'utils'
 
 export const ScheduleTimings = () => {
     const { data, loading, error } = useQuery(GET_SCHEDULE_STORE, { variables: { schDay: 1 } })
     const [showTiming, setShowTiming] = useState(0)
     const SHOW_TIMING = useSetState(false)
     const SHOW_ALERT = useSetState(false)
-
+    console.log(data)
     const handleClick = n => {
         setShowTiming(n)
         SHOW_TIMING.setState(!SHOW_TIMING.state)
@@ -41,8 +42,15 @@ export const ScheduleTimings = () => {
             return setMessage('La Hora final no puede ser igual que la Hora de inicio.')
         } else {
             setMessage('')
+            console.log(showTiming)
             return setStoreSchedule({
-                variables: { input: { schHoSta: values.startTime, schHoEnd: values.endTime, schState: 1, schDay: showTiming } }
+                variables: { input: { schHoSta: values.startTime, schHoEnd: values.endTime, schState: 1, schDay: showTiming } },
+                 update: (cache, { data: { getStoreSchedules } }) => updateCache({
+                    cache,
+                    query: GET_SCHEDULE_STORE,
+                    nameFun: 'getStoreSchedules',
+                    dataNew: getStoreSchedules
+                })
             })
         }
     }
@@ -71,7 +79,7 @@ export const ScheduleTimings = () => {
                 </Form>
             </AwesomeModal>
             {data?.getStoreSchedules?.map((s, i) => (
-                <Card key={i +1}>
+                <Card key={i + 1}>
                     <div>
                         {s.schDay === 1 ? 'Lunes' : s.schDay === 2 ? 'Martes ' : s.schDay === 3 ? 'Miercoles' : s.schDay === 4 ? 'Jueves ' : s.schDay === 5 ? 'Viernes ?' : s.schDay === 6 ? 'Sabado' : s.schDay === 7 ? 'Domingo' : null}
                     </div>
@@ -90,19 +98,29 @@ export const ScheduleTimings = () => {
 const SelectInfo = ({ title, name, value, handleChange, index, hide }) => (
     <ModalSelectC hide={hide} >
         <CardSelectLabel>{title} </CardSelectLabel>
-        <ModalSelect name={name} id={index} value={value} onChange={handleChange}>
+        <Select name={name} id={index} value={value} onChange={handleChange}>
             <CardSelectOption>Seleccionar</CardSelectOption>
             {[6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(x => <Fragment key={x}>
                 <CardSelectOption value={`${x}:00`}> {moment(`${x}:00`, 'HH:mm:ss').format('hh:mm A')}</CardSelectOption>
                 <CardSelectOption value={`${x}:30`}> {moment(`${x}:30`, 'HH:mm:ss').format('hh:mm A')}</CardSelectOption>
             </Fragment>)}
-        </ModalSelect>
+        </Select>
     </ModalSelectC>
 )
 ScheduleTimings.propTypes = {
 
 }
 
+export const Select = styled.select`
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #dcdcdc;
+  padding: 13px 20px;
+  height: 48px;
+  color: #3e3e3e;
+  width: 100%;
+  background-color: #fff;
+`
 export const CardSelectLabel = styled.label`
     margin: 20px 0px 12px 0px;
     font-size: 15px;
