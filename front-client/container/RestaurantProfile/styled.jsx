@@ -8,7 +8,11 @@ export const Container = styled.div`
 `
 export const ContentSearch = styled.div`
   max-width: 1366px;
-  margin: 30px auto 20px;
+  margin: 5px auto;
+  font-size: 1.5rem;
+  line-height: 1em;
+  flex-grow: 1;
+  font-family: PFont-Light;
   `
 export const ContainerCarrusel = styled.div`
   display: grid;

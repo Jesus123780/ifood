@@ -7,8 +7,14 @@ import { MerchantBannerWrapperInfo, Container, ContainerCarrusel, ContentCategor
 import { RippleButton } from '../../components/Ripple';
 import { IconMiniCheck, IconPlus } from '../../public/icons';
 import { Sticky, StickyBoundary, StickyViewport } from './stickyheader';
+import ScrollNav from '../../components/hooks/useScrollNav';
+import { useEffect, useRef, useState } from 'react';
+import { GET_ONE_SCHEDULE_STORE } from '../queries';
+import { useQuery } from '@apollo/client';
+import moment from 'moment';
+import { Story } from '../story';
 
-export const RestaurantProfile = ({ src, name, errorForm, dataForm, handleChange, data, dataCatProducts, refs, refInterSection, SET_OPEN_PRODUCT, setState, getOneProduct, dataOneProduct, dataOptional, handleCountProducts, handleAddProducts, state, increase, decrease, handleChangeClickOnTable }) => {
+export const RestaurantProfile = ({ src, id, errorForm, dataForm, handleChange, data, dataCatProducts, refs, refInterSection, SET_OPEN_PRODUCT, setState, getOneProduct, dataOneProduct, dataOptional, handleCountProducts, handleAddProducts, state, increase, decrease, handleChangeClickOnTable }) => {
     const { pName, getStore, ProPrice, ProDescription, ProDescuento, ExtProductFoodsAll } = dataOneProduct || {}
     const containerStyle = {
         height: "100vh",
@@ -30,27 +36,63 @@ export const RestaurantProfile = ({ src, name, errorForm, dataForm, handleChange
         target.style.boxShadow = ''
     };
     const handleStuck = target => {
+        // target.style.BorderStyle = "solid"
+        // target.style.BorderColor = "#e6e6e6"
         // target.style.backgroundColor = PColor
-        target.style.boxShadow =
-            '0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12)'
+        target.style.boxShadow = '0 6px 10px 0 rgba(0, 0, 0, 0.14)'
     };
-    const stickySectionElements = Array.from(dataCatProducts)?.map((x, key) => (
-        <StickyBoundary key={key} onStuck={handleStuck} onUnstuck={handleUnstuck} onChange={handleChangeLol} >
-            <Sticky id={key} as="h1">
-                <ContentSearch>
-                    {x.pName}
-                </ContentSearch>
-            </Sticky>
-            <ContainerCarrusel>
-                {x.productFoodsAll ? x.productFoodsAll.map(food => {
-                    return (
-                        <CardProduct food={food} key={food.pId} onClick={() => getOneProduct(food)} />
-                    )
-                }) : <div>No products</div>}
-            </ContainerCarrusel>
-        </StickyBoundary>
-    )
+    const section1Ref = useRef();
+
+    const stickySectionElements = Array.from(dataCatProducts)?.map((x, key) => {
+        return (
+            <div>
+                <StickyBoundary key={key} onStuck={handleStuck} onUnstuck={handleUnstuck} onChange={handleChangeLol} >
+                    <Sticky id={key} ref={x.section1Ref} as="h1" name={x.pName}>
+                        <ContentSearch>
+                            {x.pName}
+                        </ContentSearch>
+                    </Sticky>
+                    <ContainerCarrusel  >
+                        {x.productFoodsAll ? x.productFoodsAll.map(food => {
+                            return (
+                                <CardProduct food={food} key={food.pId} onClick={() => getOneProduct(food)} />
+                            )
+                        }) : <div>No products</div>}
+                    </ContainerCarrusel>
+                </StickyBoundary>
+                <ScrollNav navHeader={Nav || []} />
+            </div>)
+    }
     );
+    const Nav = dataCatProducts?.map((x, key) => { return { headerTitle: x.pName, headerID: `${key}`, headerRef: section1Ref } })
+    const [hour, setHour] = useState(null)
+    const [day, setDay] = useState()
+    const [open, setOpen] = useState(false)
+    const { data: dataSchedule, loading: loadTime } = useQuery(GET_ONE_SCHEDULE_STORE, { variables: { schDay: day, idStore: id } })
+    const { data: dataScheduleTomorrow } = useQuery(GET_ONE_SCHEDULE_STORE, { variables: { schDay: day, idStore: id } })
+    useEffect(() => {
+        let date = new Date().getTime()
+        let dateDay = new Date().getUTCDay()
+        setDay(dateDay)
+        setHour(moment(date).format('hh:mm'))
+        const { getOneStoreSchedules } = dataSchedule || {}
+        const { schDay, schHoEnd, schHoSta } = getOneStoreSchedules || {}
+        let endTime = moment(`${schHoEnd}:00`, 'HH:mm:ss').format('hh:mm')
+        let starTime = moment(`${schHoSta}:00`, 'HH:mm:ss').format('hh:mm')
+        console.log(hour)
+        console.log(schHoEnd, 'end')
+        console.log(moment(schHoEnd).isAfter(hour))
+        if (moment(starTime).isAfter(endTime)) {
+            setOpen(true)
+        }
+
+        // console.log(moment(`${schHoSta}:00`, 'HH:mm:ss').format('hh:mm'))
+        // let time = !loadTime ? moment(dataSchedule.getOneStoreSchedules.schHoEnd).format('HH:mm:ss') : null
+    }, [dataSchedule, dataScheduleTomorrow])
+    // console.log(open)
+    // console.log(schDay, schHoEnd, schHoSta)
+    // console.log(dataSchedule?.getOneStoreSchedules?.schHoEnd, 'end')
+    // console.log(dataSchedule?.getOneStoreSchedules?.schHoEnd > hour)
     return (
         <Container>
             <StickyViewport as="main" style={containerStyle}>
@@ -60,11 +102,12 @@ export const RestaurantProfile = ({ src, name, errorForm, dataForm, handleChange
                     </span>
                     <div className="merchant-banner__status-description" data-test-id="merchant-banner-status-description">
                         <h2 className="merchant-banner__status-title">{data?.storeName}</h2>
-                        <h2 className="merchant-banner__status-title">Restaurante  cerrado</h2>
-                        {/* <h3 className="merchant-banner__status-message">Abre mañana a las 11:00</h3> */}
+                        <h2 className="merchant-banner__status-title">{open && 'Restaurante  cerrado'}</h2>
+                        <h3 className="merchant-banner__status-message">{open ? `Abre mañana a las ${dataScheduleTomorrow?.getOneStoreSchedules?.schHoSta}` : null}</h3>
                     </div>
                 </MerchantBannerWrapperInfo>
                 <ContentSearch>
+                    <Story />
                     <InputHooks required
                         placeholder='Buscar en el menu'
                         errors={errorForm?.search}

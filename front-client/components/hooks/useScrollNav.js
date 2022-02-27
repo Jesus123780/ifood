@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { PColor } from '../../public/colors';
 
+
 /**
  * @param {number} currentPosition Current Scroll position
  * @param {Array} sectionPositionArray Array of positions of all sections
@@ -10,7 +11,7 @@ import { PColor } from '../../public/colors';
  * @param {number} endIndex End index of array
  * @return {number} Current Active index
  */
-const nearestIndex = (
+ const nearestIndex = (
     currentPosition,
     sectionPositionArray,
     startIndex,
@@ -90,6 +91,7 @@ export default function ScrollNav({ navHeader }) {
         </Content>
     );
 }
+
 
 const Anchor = styled.a`
     font-size: 11px;

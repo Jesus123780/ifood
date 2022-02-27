@@ -84,6 +84,30 @@ getOneCatStore(catStore: $catStore){
       secVia
       addressStore
       createAt
+      pais {
+        cId
+        cName
+        cCalCod
+        cState
+        cDatCre
+        cDatMod
+      }
+      city {
+        ctId
+        dId
+        cName
+        cState
+        cDatCre
+        cDatMod
+      } 
+      department {
+        dId
+        cId
+        dName
+        dState
+        dDatCre
+        dDatMod
+      }
   }
   }
 }

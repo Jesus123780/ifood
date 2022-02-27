@@ -82,8 +82,7 @@ const getStoreSchedules = async (root, { schDay }, context, info) => {
         return error
     }
 }
-const getOneStoreSchedules = async (root, { schDay }, context, info) => {
-    console.log(schDay)
+const getOneStoreSchedules = async (root, { schDay, idStore }, context, info) => {
     try {
         const data = await ScheduleStore.findOne({
             attributes: [
@@ -102,7 +101,7 @@ const getOneStoreSchedules = async (root, { schDay }, context, info) => {
                         // schState: 1,
                         schDay: schDay,
                         // ID Store
-                        idStore: deCode(context.restaurant)
+                        idStore: idStore ? deCode(idStore) : deCode(context.restaurant)
                     }
                 ]
             }

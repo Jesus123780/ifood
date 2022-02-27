@@ -368,3 +368,14 @@ query productFoodsOne($pId: ID){
 	}
 }
 `
+export const GET_ONE_SCHEDULE_STORE = gql`
+ query getOneStoreSchedules($schDay: Int, $idStore: ID) {
+        getOneStoreSchedules(schDay: $schDay, idStore: $idStore){
+            schId
+            schDay
+            schHoSta
+            schHoEnd
+            schState
+        }
+    }
+`

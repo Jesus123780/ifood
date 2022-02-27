@@ -91,6 +91,7 @@ export const deleteOneItem = async (root, args, context, _info) => {
 export const registerShoppingCard = async (root, input, context, _info) => {
     const { idSubArray } = input || {}
     const { id } = context.User
+    console.log(context.User)
     const { cName, cantProducts, cState, csDescription, pId, comments, idStore } = input.input || {}
     const { setID } = idSubArray || {}
     try {
@@ -101,8 +102,9 @@ export const registerShoppingCard = async (root, input, context, _info) => {
         }
         return data
     } catch (e) {
+        console.log(e)
         const error = new Error('Lo sentimos, ha ocurrido un error interno')
-        return error
+        return e
     }
 }
 export const getAllShoppingCard = async (_root, { input }, context, info) => {

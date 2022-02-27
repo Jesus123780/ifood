@@ -1,7 +1,7 @@
 .sticky {
   position: sticky;
   top: 0;
-  padding: 1rem;
+  padding: 2px;
   color: #000000;
   z-index: 988;
 }

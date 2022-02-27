@@ -13,10 +13,15 @@ import { GET_ALL_COUNTRIES } from '../../gql/Location'
 import withSession from '../../apollo/session'
 import { decodeToken } from '../../utils'
 import { GET_ALL_RESTAURANT } from '../../container/restaurantes/queries'
+import { GET_MESSAGES } from '../../gql/test'
 
 export default function RestaurantHome() {
   const { data } = useQuery(GET_ONE_STORE)
   const { data: dataEy } = useQuery(GET_ALL_COUNTRIES)
+  const {data: dataM } = useQuery(GET_MESSAGES, {
+    context: { clientName: "subscriptions" }
+  });
+  console.log(dataM, 'hola') 
   const { setAlertBox, dispatch, state_product_card } = useContext(Context)
   // ********************************LIST RESTAURANT********************************
   const [dataStore, setData] = useState([])

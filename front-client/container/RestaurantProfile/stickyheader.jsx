@@ -1,4 +1,5 @@
 import React, { useContext, useRef } from "react";
+import ScrollNav from "../../components/hooks/useScrollNav";
 import { useObserveBottomSentinels, useObserveTopSentinels, useSentinelOffsets } from "../../components/hooks/useSetHeader";
 import { StickyProvider, StickySectionContext, useStickyActions, useStickyState } from "../../context/contextsticky";
 import styles from './Home.module.css'

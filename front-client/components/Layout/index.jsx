@@ -60,7 +60,7 @@ const Main = styled.main`
         'main main main right'
         'main main main right';
     text-align: center;
-    grid-gap: 0.25rem;
+    grid-gap: 0;
     /* grid-gap: 10px; */
     @media (min-width: 960px) {
         ${props => !props.aside &&

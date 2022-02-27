@@ -1,0 +1,24 @@
+type Roles {
+  id: ID
+  name: String
+}
+input IRole {
+  id: ID
+  name: String
+}
+type Query {
+"""Response for Role"""
+  getRole(id: ID, name: String): Roles
+  getRoles: [Roles]
+  getMessage: String
+}
+
+"""Response for Role"""
+type RolePayload {
+  success: Boolean
+  message: String
+}
+type Mutation {
+"""Response for user login"""
+  createRoleMutation(input: IRole) : Roles
+}

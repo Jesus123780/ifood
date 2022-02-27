@@ -11,15 +11,20 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useLazyQuery, useQuery } from '@apollo/client'
 import { GET_ALL_RESTAURANT } from './queries'
-export const ListRestaurant = ({ data }) => {
-
-  return (
+export const ListRestaurant = ({ data, catStoreId }) => {
+  return (  
     <Content>
       <MerchantListWrapper>
         {data?.map(x => {
           const nameStore = x.storeName?.replace(/\s/g, '-')
           return (
-            <Link key={x.idStore}  href={`delivery/${x?.city?.cName?.toLocaleLowerCase()}-${x?.department?.dName?.toLocaleLowerCase()}/${nameStore}/${x?.idStore}`}>
+            <Link key={x.idStore} passHref shallow
+              href={ catStoreId? {
+                pathname: `/delivery/${x?.city?.cName?.toLocaleLowerCase()}-${x?.department?.dName?.toLocaleLowerCase()}/${nameStore}/${x.idStore}`,
+                query: { categories: catStoreId },
+              }: `delivery/${encodeURIComponent(x?.city?.cName?.toLocaleLowerCase())}-${encodeURIComponent(x?.department?.dName?.toLocaleLowerCase())}/${encodeURIComponent(nameStore)}/${x?.idStore}`}
+            >
+
               <a>
                 <ItemWrapper key={x.idStore}>
                   <Image

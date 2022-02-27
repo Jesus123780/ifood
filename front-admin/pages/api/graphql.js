@@ -34,6 +34,7 @@ const apolloServer = new ApolloServer({
             //  Initialize PubSub
             const { token } = req.session.get('user') || {}
             tokenClient = req.headers.authorization?.split(' ')[1]
+            console.log(req.headers)
             const restaurant = req.headers.restaurant || {}
             const excluded = ['/login', '/forgotpassword', '/register', '/teams/invite/[id]', '/teams/manage/[id]']
             if (excluded.indexOf(req.session) > -1) return next()

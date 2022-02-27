@@ -74,6 +74,7 @@ export default function HomeView() {
     setSearchFilter({ ...filter })
   }
   const handleAddProducts = food => {
+    console.log(food)
     const val = state_product_card.PRODUCT?.find(x => x.pId === food.pId)
     handleMenu(1)
     if (val) {
@@ -101,7 +102,7 @@ export default function HomeView() {
           nameFun: 'getAllShoppingCard',
           dataNew: getAllShoppingCard
         })
-      })
+      }).catch(err => console.log(err));
       // dispatch({ type: 'ADD_PRODUCT', payload: result })
     }
   }
@@ -120,7 +121,6 @@ export default function HomeView() {
     refs.current = refs.current.map(item => item || React.createRef())
   }, [dataCatProducts,refs])
   const ArrayValues = refs.current.map(item => { return { value: item?.current } })
-  console.log(ArrayValues)
   return (
     <div>
       <Head>
@@ -132,6 +132,7 @@ export default function HomeView() {
       <RestaurantProfile
         dataForm={dataForm}
         refs={refs}
+        id={id}
         refInterSection={refInterSection}
         dataOptional={dataOptional?.ExtProductFoodsOptionalAll}
         dataCatProducts={dataCatProducts}
