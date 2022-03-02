@@ -3,24 +3,28 @@ import InputHooks from '../../components/InputHooks/InputHooks';
 import CardProduct from './CardProducts';
 import Image from 'next/image';
 import { AwesomeModal } from '../../components/AwesomeModal';
-import { MerchantBannerWrapperInfo, Container, ContainerCarrusel, ContentCategoryProducts, HeadCategory, CardProductsContent, CardProductsModal, ContentInfo, HeadSticky, Text, Flex, DisRestaurant, ActionButton, GarnishChoicesHeader, CardsComponent, ContentSearch } from './styled';
 import { RippleButton } from '../../components/Ripple';
-import { IconMiniCheck, IconPlus } from '../../public/icons';
+import { IconLove, IconMiniCheck, IconPlus } from '../../public/icons';
 import { Sticky, StickyBoundary, StickyViewport } from './stickyheader';
 import ScrollNav from '../../components/hooks/useScrollNav';
 import { useEffect, useRef, useState } from 'react';
 import { GET_ONE_SCHEDULE_STORE } from '../queries';
 import { useQuery } from '@apollo/client';
 import moment from 'moment';
+import { MerchantBannerWrapperInfo, Container, ContainerCarrusel, ContentCategoryProducts, HeadCategory, CardProductsContent, CardProductsModal, ContentInfo, HeadSticky, Text, Flex, DisRestaurant, ActionButton, GarnishChoicesHeader, CardsComponent, ContentSearch, ButtonLike } from './styled';
 import { Story } from '../story';
+import { Rate } from '../../components/Rate';
 
-export const RestaurantProfile = ({ src, id, errorForm, dataForm, handleChange, data, dataCatProducts, refs, refInterSection, SET_OPEN_PRODUCT, setState, getOneProduct, dataOneProduct, dataOptional, handleCountProducts, handleAddProducts, state, increase, decrease, handleChangeClickOnTable }) => {
+export const RestaurantProfile = ({ src, id, errorForm, RemoveFav, dataForm, handleChange, addFav, dataOneFav, data, dataCatProducts, refs, refInterSection, SET_OPEN_PRODUCT, setState, getOneProduct, dataOneProduct, dataOptional, handleCountProducts, handleAddProducts, state, increase, decrease, handleChangeClickOnTable }) => {
     const { pName, getStore, ProPrice, ProDescription, ProDescuento, ExtProductFoodsAll } = dataOneProduct || {}
+    const { fState } = dataOneFav
     const containerStyle = {
         height: "100vh",
         overflowY: "auto",
 
     };
+
+    console.log(dataOneFav)
     const handleChangeLol = ({ target, type }) => {
         if (type === "stuck") {
             // target.style.backgroundColor = PColor;
@@ -83,7 +87,6 @@ export const RestaurantProfile = ({ src, id, errorForm, dataForm, handleChange, 
         if (moment(starTime).isAfter(endTime)) {
             setOpen(true)
         }
-
         // console.log(moment(`${schHoSta}:00`, 'HH:mm:ss').format('hh:mm'))
         // let time = !loadTime ? moment(dataSchedule.getOneStoreSchedules.schHoEnd).format('HH:mm:ss') : null
     }, [dataSchedule, dataScheduleTomorrow])
@@ -91,6 +94,9 @@ export const RestaurantProfile = ({ src, id, errorForm, dataForm, handleChange, 
     // console.log(schDay, schHoEnd, schHoSta)
     // console.log(dataSchedule?.getOneStoreSchedules?.schHoEnd, 'end')
     // console.log(dataSchedule?.getOneStoreSchedules?.schHoEnd > hour)
+    const [OpenRate, setOpenRate] = useState(false)
+    const [rating, setRating] = useState(0);
+
     return (
         <Container>
             <StickyViewport as="main" style={containerStyle}>
@@ -106,6 +112,15 @@ export const RestaurantProfile = ({ src, id, errorForm, dataForm, handleChange, 
                 </MerchantBannerWrapperInfo>
                 <ContentSearch>
                     <Story />
+                    <Flex>
+                        <ButtonLike onClick={() => fState === 1 ? RemoveFav(data?.idStore, fState) : addFav(data?.idStore)}><IconLove color={fState === 1 ? 'red' : '#ccc'} size='29px' /></ButtonLike>
+                        <ButtonLike onClick={() => setOpenRate(!OpenRate)}><Text>Calificar Restaurante</Text> </ButtonLike>
+                    </Flex>
+                    <AwesomeModal zIndex='999' padding='20px' show={OpenRate} onHide={() => setOpenRate(!OpenRate)} onCancel={() => setOpenRate(!OpenRate)} size='small' header={false} footer={false} borderRadius='10px'>
+                        <Text>Calificar Restaurante</Text>
+                        <Rate rating={rating} onRating={rate => setRating(rate)} size={20} />
+                        <ButtonLike color={BGColor}>Subir</ButtonLike>
+                    </AwesomeModal>
                     <InputHooks required
                         placeholder='Buscar en el menu'
                         errors={errorForm?.search}

@@ -22,6 +22,8 @@ export const FooterComponent = styled.footer`
     }
 `
 export const Button = styled.button`
+    background-color: transparent;  
+    cursor: pointer;
 `
 export const ContentFooter = styled.footer`
     display: flex;
@@ -78,7 +80,7 @@ position: relative;
 `
 export const Time = styled.time`
     font-family: PFont-Regular;
-    color: ${ PColor };
+    color: ${PColor};
     text-align: center;
     @media only screen and (min-width: 960px){
     }
@@ -96,7 +98,7 @@ export const UseSize = styled.div`
     bottom: -45px;
     width: 60px;
     max-width: 60px;
-    background-color: ${ ({ theme }) => theme.InvColor };
+    background-color: ${({ theme }) => theme.InvColor};
     border-radius: 50%;
     height: 60px;
     align-items: center;
@@ -116,7 +118,7 @@ export const ButtonOption = styled.button`
     cursor: pointer;
     z-index: 999;
     background-color:  transparent;
-    ${ props => props.space &&css`
+    ${props => props.space && css`
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -131,7 +133,7 @@ export const ButtonOption = styled.button`
         place-content: center;
         display: flex;
         align-items: center;
-        color: ${ ({ theme }) => `${ theme.PColor }` };
+        color: ${({ theme }) => `${theme.PColor}`};
     }
     ` }
     @media only screen and (min-width: 960px){
@@ -158,10 +160,10 @@ export const FloatingBox = styled.div`
     grid-gap: 0 10px;
     display: grid;
     transition: all 200ms ease-in-out;
-    background-color: ${ BGColor };
+    background-color: ${BGColor};
     padding: 10px;
     z-index: 99999;
-  ${ ({ show }) => show
+  ${({ show }) => show
         ? css`
                   visibility: visible;
                   opacity: 1;
@@ -192,8 +194,8 @@ export const FloatingBoxTwo = styled(FloatingBox)`
   
 `
 export const Container = styled.div`
-    background-color: ${ BGColor };
-    /* border-top: 1px solid ${ PColor }; */
+    background-color: ${BGColor};
+    /* border-top: 1px solid ${PColor}; */
     padding: 30px;
     width: 100%;
     height: auto;
@@ -208,7 +210,7 @@ export const Container = styled.div`
 `
 
 export const Enlace = styled(Link)`
-    color: ${ PLColor };
+    color: ${PLColor};
     font-weight: 300;
     line-height: 29px;
     list-style: initial;
@@ -248,7 +250,7 @@ export const Content = styled(Link)`
     display: grid;
     grid-template-columns: repeat(4, auto);
     grid-column-gap: 10px;
-    ${ props => props.grid &&css`
+    ${props => props.grid && css`
         display: grid;
         align-items: center;
         grid-gap: 0 20px;
@@ -262,8 +264,8 @@ export const Content = styled(Link)`
 
 // Social
 export const ContainerSocial = styled.div`
-    background-color: ${ BGColor };
-    /* border-top: 1px solid ${ PColor }; */
+    background-color: ${BGColor};
+    /* border-top: 1px solid ${PColor}; */
     padding: 30px;
     width: 100%;
     height: auto;
@@ -297,7 +299,7 @@ export const Overline = styled.div`
     height: 100vh;
     width: 100%;
     background-color: transparent;
-    ${ props => props.show ? css`display: block` : css`display: none;` };
+    ${props => props.show ? css`display: block` : css`display: none;`};
     @media only screen and (min-width: 960px){
     }
   

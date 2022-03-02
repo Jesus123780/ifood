@@ -1,4 +1,4 @@
-import { useLazyQuery, useMutation } from '@apollo/client'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -7,6 +7,7 @@ import withSession from '../../../../apollo/session'
 import { CREATE_SHOPPING_CARD } from '../../../../components/AsideCheckout/querys'
 import { useFormTools } from '../../../../components/BaseForm'
 import { useSetState } from '../../../../components/hooks/useState'
+import { GET_ALL_FAV_STORE, GET_ONE_FAV_STORE, SET_FAVORITES_STORE } from '../../../../container/profile/queries'
 import { GET_ALL_CATEGORIES_WITH_PRODUCT, GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, GET_ONE_PRODUCTS_FOOD, GET_ONE_STORE_BY_ID } from '../../../../container/queries'
 import { GET_ALL_SHOPPING_CARD } from '../../../../container/restaurantes/queries'
 import { RestaurantProfile } from '../../../../container/RestaurantProfile'
@@ -29,7 +30,7 @@ export default function HomeView() {
   const SET_OPEN_PRODUCT = useSetState(false)
   const { increase, setState, state, decrease, reset } = useSetState(1)
   // QUERIES
-  const [getOneStore, { data }] = useLazyQuery(GET_ONE_STORE_BY_ID)
+  const [getOneStore, { data, refetch }] = useLazyQuery(GET_ONE_STORE_BY_ID)
   const [productFoodsOne, { data: dataOneProduct }] = useLazyQuery(GET_ONE_PRODUCTS_FOOD)
   const [ExtProductFoodsOptionalAll, { error: errorOptional, data: dataOptional }] = useLazyQuery(GET_EXTRAS_PRODUCT_FOOD_OPTIONAL)
   const [getCatProductsWithProductClient, { data: dataProductAndCategory, loading: loadCatPro }] = useLazyQuery(GET_ALL_CATEGORIES_WITH_PRODUCT, {
@@ -52,7 +53,6 @@ export default function HomeView() {
   }, [searchFilter, showMore])
   useEffect(() => {
     getOneStore({ variables: { idStore: id, StoreName: name } })
-
   }, [])
   // HANDLES
   /**
@@ -61,7 +61,7 @@ export default function HomeView() {
    * @author {autor} Jesus Juvinao
    * @action Obtiene un producto de DB  
    */
-
+  console.log(data)
   const getOneProduct = food => {
     SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state)
     productFoodsOne({ variables: { pId: food.pId } })
@@ -119,8 +119,53 @@ export default function HomeView() {
       refs.current[i] = refs.current[i] || React.createRef()
     }
     refs.current = refs.current.map(item => item || React.createRef())
-  }, [dataCatProducts,refs])
+  }, [dataCatProducts, refs])
   const ArrayValues = refs.current.map(item => { return { value: item?.current } })
+  const { data: dataOneFav } = useQuery(GET_ONE_FAV_STORE, {
+    variables: {
+      idStore: id
+    }
+  })
+  const [setFavorites, { loading: loadfav }] = useMutation(SET_FAVORITES_STORE)
+  const RemoveFav = (idStore, fState) => {
+    console.log(idStore, fState)
+    return setFavorites({
+      variables: {
+        data: {
+          idStore,
+          fState: fState,
+        }
+      },
+      update: (cache, { data: { getOneFavorite } }) => updateCache({
+        cache,
+        query: GET_ONE_FAV_STORE,
+        nameFun: 'getOneFavorite',
+        dataNew: getOneFavorite
+      })
+    }).then(res => {
+      setAlertBox({
+        message: res?.data?.setFavorites?.message,
+        color: !res?.data?.setFavorites?.success ? 'error' : 'success'
+      })
+    }).catch(e => console.log(e))
+  }
+  const addFav = idStore => setFavorites({
+    variables: { data: { idStore: idStore } },
+    update: (cache, { data: { getOneFavorite } }) => updateCache({
+      cache,
+      query: GET_ONE_FAV_STORE,
+      nameFun: 'getOneFavorite',
+      dataNew: getOneFavorite
+    })
+  })
+    .then(res => {
+      refetch({ idStore: idStore })
+      setAlertBox({
+        message: res?.data?.setFavorites?.message,
+        color: !res?.data?.setFavorites?.success ? 'error' : 'success'
+      })
+    })
+    .catch(e => console.log(e))
   return (
     <div>
       <Head>
@@ -131,9 +176,12 @@ export default function HomeView() {
 
       <RestaurantProfile
         dataForm={dataForm}
+        addFav={addFav}
+        RemoveFav={RemoveFav}
         refs={refs}
         id={id}
         refInterSection={refInterSection}
+        dataOneFav={dataOneFav?.getOneFavorite || {}}
         dataOptional={dataOptional?.ExtProductFoodsOptionalAll}
         dataCatProducts={dataCatProducts}
         getOneProduct={getOneProduct}

@@ -100,3 +100,31 @@ query getOneUserProfile($id: ID) {
   }
 }
 `
+
+export const SET_FAVORITES_STORE = gql`
+    mutation setFavorites($data: IFavorites!) {
+    setFavorites(input: $data) {
+        success
+        message
+    }
+}
+`
+
+export const GET_ALL_FAV_STORE = gql`
+query getFavorite {
+  getFavorite {
+    fIStoreId
+    fState
+    idStore
+  }
+}
+`
+export const GET_ONE_FAV_STORE = gql`
+query getOneFavorite($idStore: ID) {
+  getOneFavorite(idStore: $idStore) {
+    fIStoreId
+    fState
+    idStore
+  }
+}
+`

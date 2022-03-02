@@ -19,6 +19,11 @@
     updateAt: DateTime
   }
 
+  type FavoriteStore {
+    fIStoreId: ID
+    fState: Int
+    idStore: ID
+  }
   type Store {
     idStore: ID
     cId: ID
@@ -94,12 +99,20 @@
     getAllStoreInStore(pId: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int): [Store]
     getOneStore(id: ID, StoreName: String, idStore: ID): Store
     getOneCOntractStore(StoreName: String, idStore: ID): ContractType
+    getFavorite: [FavoriteStore]
+    getOneFavorite(idStore: ID): FavoriteStore
   }
 
+input IFavorites{
+  fIStoreId: ID
+  fState: Int
+  idStore: ID!
+}
 type Mutation {
   """"registra Store data"""
   newRegisterStore(input: IStore): AuthPayload
   createOneContract(input: InputContractType): AuthPayload
+  setFavorites(input: IFavorites!): Response!
 }
 
 type Subscription {

@@ -1,10 +1,10 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import Link from '../common/Link'
 import styled, { css } from 'styled-components'
-import { PColor } from '../../public/colors'
+import { BGColor, PColor } from '../../public/colors'
 import { useApolloClient } from '@apollo/client'
-import { FloatingBox, ButtonOption, FloatingBoxTwo, Overline } from './styled'
-import { IconLogout, IconMessageMain, IconShopping } from '../../public/icons'
+import { FloatingBox, ButtonOption, FloatingBoxTwo, Overline, Button } from './styled'
+import { IconLogout, IconMessageMain, IconShopping, IconUser } from '../../public/icons'
 import { useRouter } from 'next/router'
 import { Context } from '../../context'
 import { OUR_URL_BASE, URL_BASE } from '../../apollo/urls'
@@ -55,17 +55,28 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
     const activeSettings = () => {
         setActive(!activeLogin)
     }
+    const [openOption, setOpenOption] = useState(false)
     return (
         <>
             <Overline onClick={() => setShow(!true)} show={show} />
-            <ButtonOption>
-                <Enlace href='/profile'>
-                    <a>
-                        <button type="button">
-                            <IconMessageMain size='25px' color={PColor} />
-                        </button>
-                    </a>
-                </Enlace>
+            <ButtonOption onClick={() => setOpenOption(!openOption)}>
+                <IconUser size='25px' color={PColor} />
+                <LeftNav show={openOption}>
+                    <Enlace href='/profile'>
+                        <a>
+                            <Button type="button">
+                                <IconUser size='25px' color={PColor} />
+                            </Button>
+                        </a>
+                    </Enlace>
+                    <Enlace href='/historial'>
+                        <a>
+                            <Button type="button">
+                                <IconShopping size='25px' color={PColor} />
+                            </Button>
+                        </a>
+                    </Enlace>
+                </LeftNav>
             </ButtonOption>
             <ButtonOption onClick={onClickLogout}>
                 <IconLogout size='20px' color={PColor} />
@@ -96,6 +107,48 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
         </>
     )
 }
+export const LeftNav = styled.div`
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: ${BGColor};
+    transition: all 200ms ease 0s;
+    background-color: #fff;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+    z-index: 999;
+    border-radius: 5px;
+    // overflow: hidden;
+    width: 200px;
+    gap: 10px;
+    height: auto;
+    h2 {
+        font-size: 13px;
+        font-weight: 500;
+        margin: 5% 0;
+    }
+    top: 80px;
+    right: -100px;
+    @media (max-width: 768px){ 
+        left: 0;
+        top: 40.988px;
+        width: 100%;
+        right: 0;
+        margin: auto;
+    }
+    ${({ show }) => show
+        ? css`
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+                `
+        : css`
+                
+            margin: 0;
+            visibility: hidden;
+            opacity: 0;
+            transform: translateY(-50px);
+    `}
+`
 const ContainerOption = styled.div`
     width: min-content;
     position: relative;

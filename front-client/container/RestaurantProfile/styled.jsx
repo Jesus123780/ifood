@@ -32,7 +32,11 @@ export const ContainerCarrusel = styled.div`
 `
 export const ContentCategoryProducts = styled.div`
     margin: 30px 0;
-
+`
+export const ButtonLike = styled.button`
+  margin: 30px 0;
+  cursor: pointer;
+  
 `
 export const HeadCategory = styled.div`
   height: auto;
@@ -163,7 +167,8 @@ export const HeadSticky = styled.div`
 export const Flex = styled.div`
   display: flex;
   width: 100%;
-  
+  align-items: center;
+  /* justify-content: space-evenly */
   `
 export const ActionButton = styled.div`
   /* position: absolute; */

@@ -5,6 +5,7 @@ import CitiesModel from '../../models/information/CitiesModel'
 import CountriesModel from '../../models/information/CountriesModel'
 import DepartmentsModel from '../../models/information/DepartmentsModel'
 import productModelFood from '../../models/product/productFood'
+import FavoritesModel from '../../models/Store/FavoritesModel'
 import ScheduleStore from '../../models/Store/ScheduleStore'
 import ShoppingCard from '../../models/Store/ShoppingCard'
 import SubProducts from '../../models/Store/shoppingCardSubProduct'
@@ -42,7 +43,7 @@ export const getStore = async (_root, { id, StoreName, idStore }, context, info)
     const attributes = getAttributes(Store, info)
     const data = await Store.findOne({
         attributes,
-        where: { 
+        where: {
             idStore: deCode(context.restaurant),
             // idStore: deCode(id) 
         }
@@ -167,7 +168,7 @@ export const getAllStoreInStore = async (root, args, context, _info) => {
                         uState: 2
                         // // ID departamento
                         // dId: dId ? deCode(dId) : { [Op.gt]: 0 },
-                        // // ID Cuidad
+                        // // ID Cidad
                         // ctId: ctId ? deCode(ctId) : { [Op.gt]: 0 },
                     }
                 ]
@@ -192,6 +193,76 @@ export const getOneStore = async (parent, args, context, info) => {
 }
 
 
+export const updateFavorites = async (_root, { input }, context) => {
+    try {
+        const { fState, idStore } = input || {}
+        await FavoritesModel.update({ fState: fState === 0 ? 1 : 0 }, { where: { idStore: deCode(idStore), id: deCode(context.User.id) } })
+        return { ...input, id: deCode(context.User.id) }
+
+    } catch (e) {
+        const error = new Error('Lo sentimos, ha ocurrido un error interno')
+        return e
+    }
+}
+export const getFavorite = async (_root, args, context, info) => {
+    try {
+        const attributes = getAttributes(FavoritesModel, info)
+        const data = await FavoritesModel.findAll({
+            attributes: ['id', 'fState', 'fIStoreId', 'idStore'],
+            where: { id: deCode(context.User.id), fState: 1 }
+        })
+        return data
+    } catch (e) {
+        const error = new Error('Lo sentimos, ha ocurrido un error interno')
+        return e
+    }
+}
+export const getOneFavorite = async (_root, { idStore }, context, info) => {
+    try {
+        // console.log(idStore)
+        const data = await FavoritesModel.findOne({
+            attributes: ['id', 'fState', 'fIStoreId', 'idStore'],
+            where: { idStore: deCode(idStore), id: deCode(context.User.id) }
+        })
+        return data
+    } catch (e) {
+        const error = new Error('Lo sentimos, ha ocurrido un error interno')
+        return e
+    }
+}
+export const setFavorites = async (_root, { input }, context) => {
+    try {
+        const data = input
+        console.log(data)
+        const { idStore } = data || {}
+        if (data.fState) {
+            await updateFavorites(null, { input: data }, context)
+            return { success: false, message: 'El Restaurante ha sido eliminado de tus favoritos' }
+        } else {
+            const isFavorites = await FavoritesModel.findOne({
+                attributes: ['id', 'fState', 'fIStoreId', 'idStore'],
+                where: { idStore: deCode(idStore) }
+            })
+            if (isFavorites) {
+                await FavoritesModel.update({ fState: isFavorites.fState === 0 ? 1 : 0 }, { where: { idStore: deCode(idStore), id: deCode(context.User.id) } })
+
+                if (isFavorites.fState === 0) {
+                    return { success: true, message: 'El Restaurante ha sido agregado nuevamente a tus favoritos' }
+                } else {
+                    return { success: false, message: 'El Restaurante ha sido eliminado de tus favoritos' }
+                }
+            } else {
+                await FavoritesModel.create({ fState: 1, id: deCode(context.User.id), idStore: deCode(idStore) })
+                return { success: true, message: 'El Restaurante ha sido agregado a tus favoritos' }
+            }
+        }
+    } catch (e) {
+        console.log(e)
+        return e
+    }
+}
+
+
 export default {
     TYPES: {
         CatStore: {
@@ -200,7 +271,7 @@ export default {
                     const attributes = getAttributes(Store, info)
                     const data = await Store.findAll({
                         attributes,
-                        where: { catStore: deCode(parent.catStore), uState: 2  }
+                        where: { catStore: deCode(parent.catStore), uState: 2 }
                     })
                     return data
                 } catch {
@@ -289,6 +360,8 @@ export default {
     },
     QUERIES: {
         getStore,
+        getFavorite,
+        getOneFavorite,
         getAllShoppingCard,
         getAllStoreInStore,
         getOneStore
@@ -296,6 +369,7 @@ export default {
     },
     MUTATIONS: {
         newRegisterStore,
+        setFavorites,
         deleteOneItem,
         registerShoppingCard,
     }
