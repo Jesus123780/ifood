@@ -40,6 +40,30 @@ NitStore
 typeRegiments
 typeContribute
 addressStore
+pais {
+        cId
+        cName
+        cCalCod
+        cState
+        cDatCre
+        cDatMod
+      }
+      city {
+        ctId
+        dId
+        cName
+        cState
+        cDatCre
+        cDatMod
+      } 
+      department {
+        dId
+        cId
+        dName
+        dState
+        dDatCre
+        dDatMod
+      }
   getStoreSchedules {
       idStore
       schId

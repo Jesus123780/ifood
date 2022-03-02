@@ -170,6 +170,7 @@ export const ModalBody = styled.div`
     display: ${({ display }) => display || 'block'};
     height: ${({ height }) => height || 'auto'};
     padding: ${({ padding }) => padding || '0'};
+    background-color: ${BGColor};
 `
 
 export const ModalFooter = styled.div`

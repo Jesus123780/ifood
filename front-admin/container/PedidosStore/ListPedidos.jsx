@@ -25,9 +25,6 @@ export const ListPedidos = ({ data }) => {
     const [dataModal, setDataModal] = useState(null)
 
     const m1 = moment(new Date('2019/06/01 3:04:03'))
-    const m2 = m1.clone().add(59, 'seconds')
-    const duration = moment.duration()
-
     const handleOpenModal = elem => {
         setModal(!modal)
         setDataModal(elem)

@@ -154,7 +154,7 @@ export const getCatProductsWithProduct = async (root, args, context, info) => {
             {
                 attributes: ['pId', 'carProId'],
                 model: productModelFood,
-                required: true,
+                // required: true,
             }
         ],
         where: {
@@ -185,7 +185,7 @@ export const getCatProductsWithProductClient = async (root, args, context, info)
             {
                 attributes: ['pId', 'carProId'],
                 model: productModelFood,
-                required: true,
+                // required: true,
             }
         ],
         where: {

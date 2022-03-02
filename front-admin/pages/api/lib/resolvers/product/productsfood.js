@@ -61,6 +61,7 @@ export const productFoodsAll = async (root, args, context, info) => {
     try {
         const { search, min, max, pId, gender, desc, categories } = args
         let whereSearch = {}
+        console.log(args, 'hola')
         if (search) {
             whereSearch = {
                 [Op.or]: [
@@ -119,7 +120,6 @@ export const productFoodsAll = async (root, args, context, info) => {
 }
 
 export const updateProductFoods = async (_root, { input }, context) => {
-    console.log(input, 0);
     const { sizeId, colorId, cId, dId, ctId, pId, pState } = input
     try {
         if (!pId) {
@@ -139,11 +139,6 @@ export const updateProductFoods = async (_root, { input }, context) => {
         }
         else {
             await productModelFood.update({ pState: pState === 1 ? 0 : 1 }, { where: { pId: deCode(pId) } })
-            if (isExist) {
-            }
-            else {
-                throw new ApolloError('No se pudo eliminar el producto debido a un error interno.')
-            }
         }
     } catch (e) {
         throw new ApolloError('No ha sido posible procesar su solicitud.', 500, e)

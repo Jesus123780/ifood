@@ -37,7 +37,6 @@ export const Content = styled.div`
 export const Container = styled.div`
     font-family: PFont-Regular;
     height: 100%;
-    z-index: 999;
     position: relative;
     padding: 30px;
     width: 100%;

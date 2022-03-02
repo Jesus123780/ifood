@@ -60,36 +60,66 @@ export  const MerchantListWrapper = styled.div`
     grid-template-columns: repeat(auto-fill,minmax(280px,1fr));
     gap: 10px;
     @media only screen and (min-width: 560px) {
-        grid-template-columns: repeat(auto-fill,minmax(360px,1fr));
+      grid-template-columns: repeat(2,minmax(320px,1fr));
+      grid-gap: 30px;
+      padding: 0 20px;
     }
 `
 export const CardProductsContent = styled.div`
-    width: 100%;  
-    border: 1px solid #ccc;
-    height: min-content;
-    padding: 10px;
+   grid-template-columns: 1fr 146px;
+    grid-gap: 15px;
+    padding: 15px;
+    min-width: 320px;
+    border: 1px solid #f2f2f2;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 5%);
     border-radius: 4px;
-    grid-template-columns: 5fr 140px;
-    grid-column-gap: 20px;
-    cursor: pointer;
+    position: relative;
     display: grid;
-    padding: 16px;
-    .Name {
-      margin-bottom: 10px;
-      font-size: 16px;
-      font-family: PFont-Light;
+    min-height: 190px;
+    width: 100%;
+    height: 147px;
+    background: #fff;
+    padding: 20px;
+    text-decoration: none;
+    transition: .2s;
+    overflow: hidden;
+    height: 100%;
+    .footer  {
+      position: absolute;
+      bottom: 15px;
     }
-    .store_info {
-      color: ${`${BGVColor}`};
+    .card__price, .card__des  {
+      font-size: 1rem;
+      line-height: 1.25rem;
+      font-weight: 400;
+      color: #3e3e3e;
+      &:nth-child(2) {
+        margin-left: 10px;
+      }
     }
-    .store_image{
-      background-color: ${BGColor};
-      box-shadow: 1px 1px 10px #00000012;
+    .card__des {
+      text-decoration: line-through;
+    }
+    .card__description {
+      list-style: none;
+      cursor: pointer;
+      box-sizing: border-box;
+      color: #3e3e3e;
+      font-weight: 400;
+      margin-top: 0;
+      font-size: 1.125rem;
+      line-height: 1.5rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    &&:hover {
+      border: 1px solid #dbdad9;
     }
     `
 export const CardProductsModal = styled(CardProductsContent)`
   border: none;
   padding: 0px;
+  height: min-content;
   grid-template-columns: 1fr 50%;
   @media (max-width: 768px) {
     grid-template-columns: 100%;

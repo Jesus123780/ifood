@@ -25,7 +25,7 @@ export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
     }
     const router = useRouter()
     const [idCat, setIdCat] = useState('')
-     const [dataProducto, setData] = useState([])
+    const [dataProducto, setData] = useState([])
     const [showMore, setShowMore] = useState(100)
     const [openModalProducts, setOpenModalProducts] = useState(false)
     const openModal = (carProId) => {
@@ -98,8 +98,8 @@ export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
                 SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state)
             }
         })
-    
-   
+
+
     useEffect(() => {
         dataProduct?.productFoodsAll && setData([...dataProduct?.productFoodsAll])
     }, [dataProduct])
@@ -149,10 +149,9 @@ export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
             }
         })
     }
-    // const newTags = dataForm?.tags?.map(x => ({ _id: x.id, TName: x.tName }))
     return (
         <>
-            <AwesomeModal backdrop='static' zIndex='90' bgColor='transparent' padding='25px' height='600px' show={SHOW_CATEGORIES.state} onHide={() => { SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state) }} onCancel={() => false} size='1000px' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
+            <AwesomeModal backdrop='static' zIndex='90' bgColor='transparent' padding='25px' show={SHOW_CATEGORIES.state} onHide={() => { SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state) }} onCancel={() => false} size='medium' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
                 <form onSubmit={(e) => handleForm(e)}>
                     <InputHooks
                         title='Nombre de la categoría'
@@ -195,7 +194,7 @@ export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
                     </Card>
                 ))}
             </ContentCard>
-            <AwesomeModal backdrop='static' zIndex='990' bgColor='transparent' padding='25px' height='100vh' show={openModalProducts} onHide={() => setOpenModalProducts(!openModalProducts)} onCancel={() => setOpenModalProducts(!openModalProducts)} size='large' btnCancel={true} btnConfirm={true} onConfirm={() => handleUpdateCatInProduct()} header={true} footer={true} borderRadius='10px' >
+            <AwesomeModal backdrop='static' zIndex='990' bgColor='transparent' padding='25px' show={openModalProducts} onHide={() => setOpenModalProducts(!openModalProducts)} onCancel={() => setOpenModalProducts(!openModalProducts)} size='medium' btnCancel={true} btnConfirm={true} onConfirm={() => handleUpdateCatInProduct()} header={true} footer={true} borderRadius='10px' >
                 <ContainerCardProduct grid={false}>
                     {!dataProducto?.length ? <SkeletonP /> : dataProducto?.map(product => (
                         <CardProduct grid={false} key={product.carProId} >
@@ -221,7 +220,6 @@ export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
                     ))}
                 </ContainerCardProduct>
                 <ContainerCardProduct>
-
                     {product?.PRODUCT?.map((x, idx) => (
                         <Card radius='10px' margin='20px' height='300px' width='100%' key={idx.carProId}>
                             <div >

@@ -79,8 +79,6 @@ export const RestaurantProfile = ({ src, id, errorForm, dataForm, handleChange, 
         const { schDay, schHoEnd, schHoSta } = getOneStoreSchedules || {}
         let endTime = moment(`${schHoEnd}:00`, 'HH:mm:ss').format('hh:mm')
         let starTime = moment(`${schHoSta}:00`, 'HH:mm:ss').format('hh:mm')
-        console.log(hour)
-        console.log(schHoEnd, 'end')
         console.log(moment(schHoEnd).isAfter(hour))
         if (moment(starTime).isAfter(endTime)) {
             setOpen(true)
@@ -117,7 +115,6 @@ export const RestaurantProfile = ({ src, id, errorForm, dataForm, handleChange, 
                     />
                 </ContentSearch>
                 <ContainerCarrusel>
-
                 </ContainerCarrusel>
                 {stickySectionElements}
             </StickyViewport>

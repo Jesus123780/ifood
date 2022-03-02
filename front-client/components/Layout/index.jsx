@@ -10,6 +10,7 @@ import { HeaderMain } from './headerlog'
 import { AsideCheckoutC } from '../../container/AsideCheckout'
 import { AsideCheckout } from '../AsideCheckout'
 import { usePosition } from '../hooks/usePosition'
+import { FooterDesktop } from './FooterDesktop'
 
 export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => {
     const location = useRouter()
@@ -37,8 +38,9 @@ export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => 
                 <AsideCheckout handleMenu={handleMenu} menu={menu} />
                 {/* {!isSession && !['/login', '/', '/entrar/email', '/entrar', '/delivery/[location]/[name]/[id]', '/contact'].find(x => x === location.pathname) && <AsideCheckoutC handleMenu={handleMenu} menu={menu} />} */}
                 {!isSession && !['/login', '/', '/entrar/email', '/entrar', '/contact'].find(x => x === location.pathname) && <HeaderMain handleMenu={handleMenu} menu={menu} />}
-                <div style={{ gridArea: 'main',  overflowY: val ? 'auto' : 'hidden' }}>
+                <div style={{ gridArea: 'main', overflowY: val ? 'auto' : 'hidden' }}>
                     {children}
+                    {val && <FooterDesktop />}
                 </div>
                 {!['/login', '/register', '/varify-email', '/restaurante', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => x === location.pathname) && <Footer />}
                 <div style={{ gridArea: 'right' }}>

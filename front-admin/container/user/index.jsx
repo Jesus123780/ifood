@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { RippleButton } from '../../components/Ripple'
 import { APColor, BColor, EColor, PLColor } from '../../public/colors'
 import InputHooks from '../../components/InputHooks/InputHooks'
@@ -12,21 +12,26 @@ import { CREATE_USER_SESSION } from './queries'
 import { Context } from '../../context/Context'
 import fetchJson from '../../components/hooks/fetchJson'
 import { URL_BASE } from '../../apollo/urls'
+import { decodeToken, hiddenEmail } from 'utils'
 
 export const RegisterUser = () => {
     const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
     const [step, setStep] = useState(0)
     const router = useRouter()
     const [newRegisterUser, { loading }] = useMutation(CREATE_USER_SESSION)
-    const setAlertBox = useContext(Context)
+    const [locationFormat, setLocationFormat] = useState('')
+    const { setAlertBox } = useContext(Context)
     const body = {
         name: dataForm?.email,
         username: dataForm.email,
         lastName: dataForm.email,
         email: dataForm.email,
         password: dataForm.pass,
+        locationFormat: 'galapa',
+        useragent: 'window.navigator.userAgent',
+        deviceid: '234232342423423asdasd',
     }
-    const handleForm = (e, show) => handleSubmit({
+    const handleForm = (e) => handleSubmit({
         event: e,
         action: () => {
             return fetchJson(`${URL_BASE}auth`, {
@@ -34,7 +39,20 @@ export const RegisterUser = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body)
             }).then(res => {
-                router.push('/dashboard')
+                console.log(res)
+                setAlertBox({ message: `${res.message}`, color: 'success' })
+                const decode = decodeToken(res?.token)
+                localStorage.setItem('userlogin', JSON.stringify(decode))
+                console.log(decode)
+                if (res?.storeUserId) {
+                    const { idStore, id } = res?.storeUserId
+                    localStorage.setItem('restaurant', idStore)
+                    localStorage.setItem('usuario', id)
+                    localStorage.setItem('session', res.token)
+                    router.push('/dashboard')
+                } else {
+                    router.push('/restaurante')
+                }
             }).catch(e => {
             })
 
@@ -43,6 +61,12 @@ export const RegisterUser = () => {
             setDataValue({})
         }
     })
+    const [email, setEmail] = useState('')
+    useEffect(() => {
+        const dataLocalStorage = localStorage.getItem('userlogin')
+        const dataUser = JSON.parse(dataLocalStorage) || {}
+        setEmail(dataUser.username)
+    }, [email])
     return (
         <Content>
             <Card>
@@ -51,6 +75,12 @@ export const RegisterUser = () => {
                 <GoBack onClick={() => router.back()}>
                     <IconArrowLeft color={`${PLColor}`} size='25px' />
                 </GoBack>
+                {email !== '' &&
+                    <div>
+                        <h2>quieres iniciar session nuevamente con :</h2>
+                        <span>{email && hiddenEmail(email)}</span>
+                    </div>
+                }
                 <InputHooks title='Informa tu correo.' width='100%' required error={errorForm?.email} value={dataForm?.email} onChange={handleChange} name='email' />
                 <InputHooks title='Informa Contraseña.' width='100%' required error={errorForm?.pass} value={dataForm?.pass} onChange={handleChange} name='pass' />
                 <RippleButton widthButton='100%' margin='20px auto' type='submit' onClick={() => setStep(1)} bgColor={EColor}>Correo</RippleButton>

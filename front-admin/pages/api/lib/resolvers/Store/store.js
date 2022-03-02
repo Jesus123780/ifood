@@ -164,7 +164,7 @@ export const getAllStoreInStore = async (root, args, context, _info) => {
                     {
                         ...whereSearch,
                         // ID Productos
-                        uState: 1
+                        uState: 2
                         // // ID departamento
                         // dId: dId ? deCode(dId) : { [Op.gt]: 0 },
                         // // ID Cuidad
@@ -200,7 +200,7 @@ export default {
                     const attributes = getAttributes(Store, info)
                     const data = await Store.findAll({
                         attributes,
-                        where: { catStore: deCode(parent.catStore) }
+                        where: { catStore: deCode(parent.catStore), uState: 2  }
                     })
                     return data
                 } catch {

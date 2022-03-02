@@ -1,12 +1,14 @@
 import { useMemo } from 'react'
-import { ApolloClient, from, HttpLink, InMemoryCache, ApolloLink } from '@apollo/client'
+import { ApolloClient, from, HttpLink, InMemoryCache, ApolloLink, split } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
-import { concatPagination } from '@apollo/client/utilities'
+import { concatPagination, getMainDefinition } from '@apollo/client/utilities'
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
 import { URL_BASE } from './urls'
 import FingerprintJS from "@fingerprintjs/fingerprintjs"
 import { onError } from '@apollo/client/link/error'
+import { SubscriptionClient, addGraphQLSubscriptions } from 'subscriptions-transport-ws';
+import { WebSocketLink } from "@apollo/client/link/ws";
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
 
@@ -18,7 +20,21 @@ export const getDeviceId = async () => {
     userAgent = window.navigator.userAgent
     return result.visitorId
 }
-
+const wsLink = process.browser ? new WebSocketLink({
+    uri: `ws://localhost:4000/graphql`,
+    options: {
+        reconnect: true,
+    },
+}) : null
+// const wsLink = new WebSocketLink({
+//     uri: `ws://localhost:4000/graphql`,
+//     options: {
+//         reconnect: true,
+//         connectionParams: {
+//             authToken: 'localStorage.getItem(AUTH_TOKEN)'
+//         }
+//     }
+// });
 const authLink = setContext(async (_, { headers }) => {
     const token = localStorage.getItem('session')
     const lol = await getDeviceId()
@@ -38,13 +54,13 @@ const httpLink = new HttpLink({
 })
 
 // Create Second Link
-const subscriptions = new HttpLink({
+const subscriptions = process.browser ? new HttpLink({
     uri: 'http://localhost:4000/graphql',
     headers: {
         authorization: 'pija'
     }
     // other link options...
-});
+}) : null
 // const thirdLink = new HttpLink({
 //     uri: 'http://localhost:3000/',
 //     headers: {
@@ -58,13 +74,13 @@ const subscriptions = new HttpLink({
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)
-      graphQLErrors.map(({ message, locations, path }) => {
-        console.log(
-          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-        )
-      })
+        graphQLErrors.map(({ message, locations, path }) => {
+            console.log(
+                `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+            )
+        })
     //   
-      graphQLErrors?.length && graphQLErrors.forEach(err => {
+    graphQLErrors?.length && graphQLErrors.forEach(err => {
         const { code } = err.extensions
         if (code === 'UNAUTHENTICATED' || code === 'FORBIDDEN') console.log('Papuuuuuuuu')
         else if (code === 403) {
@@ -72,8 +88,22 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
         }
     })
     if (networkError) console.log(`[Network error]: ${networkError}`)
-  })
+})
 
+
+// const splitLink = split(
+//     ({ query }) => {
+//         console.log(query)
+//         const definition = getMainDefinition(query);
+//         return (
+//             definition.kind === 'OperationDefinition' &&
+//             definition.operation === 'subscription'
+//         );
+//     },
+//     wsLink,
+//     authLink,
+//     httpLink,
+// );
 function createApolloClient() {
     return new ApolloClient({
         // connectToDevTools: true,
@@ -86,13 +116,20 @@ function createApolloClient() {
         //     subscriptions,
         //     // otherLinks
         // ),
+        // link: from([
+        //     errorLink,
+        //     authLink,
+        //     httpLink,
+        //     operation => operation.getContext().clientName === "subscriptions", // Routes the query to the proper client
+        //     // subscriptions
+        // ]),
         link: from([
-            errorLink,
             authLink,
+            errorLink,
             httpLink,
-            operation => operation.getContext().clientName === "subscriptions", // Routes the query to the proper client
-            // subscriptions
+            
         ]),
+        // link: splitLink,
         cache: new InMemoryCache({
             typePolicies: {
                 Query: {
@@ -105,7 +142,8 @@ function createApolloClient() {
     })
 }
 
-export function initializeApollo(initialState = null) {
+export function initializeApollo(initialState = null, ctx) {
+    console.log(initialState)
     const _apolloClient = apolloClient ?? createApolloClient()
 
     // If your page has Next.js data fetching methods that use Apollo Client, the initial state
@@ -145,6 +183,6 @@ export function addApolloState(client, pageProps) {
 
 export function useApollo(pageProps) {
     const state = pageProps[APOLLO_STATE_PROP_NAME]
-    const store = useMemo(() => initializeApollo(state), [state])
+    const store = useMemo(() => initializeApollo(state, pageProps), [state])
     return store
 }

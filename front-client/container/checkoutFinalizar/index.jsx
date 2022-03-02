@@ -9,7 +9,6 @@ import moment from 'moment';
 export const CheckoutFinalizar = () => {
     // STATE
     const { data } = useQuery(GET_ALL_PEDIDOS_STATUS)
-    console.log(data)
     return (
         <Wrapper>
             <div>

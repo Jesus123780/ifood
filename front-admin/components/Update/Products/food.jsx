@@ -1,22 +1,17 @@
-import ReactDOM from 'react-dom'
 import { useState } from 'react';
 import { InputHook } from './Input';
-import { ViewProducts } from './ViewProducts';
 import { Rate } from '../../Rate';
-import NewSelect from '../../NewSelectHooks/NewSelect'
 import { numberFormat } from '../../../utils';
 import { RippleButton } from '../../Ripple';
 import { Skeleton } from '../../Skeleton/SkeletonCard';
 import { SliderAreas } from './SliderAreas';
 import { Discount } from './ViewProducts/styled';
-import { SliderCategory } from './SliderCategories';
 import { LoadingBabel } from '../../Loading/LoadingBabel';
 import { Range } from '../../InputRange';
-import { SliderCategoryUpdate } from './SliderCategoriesUpdate';
 import { IconArrowRight, IconDelete, IconDollar, IconEdit, IconLove } from '../../../public/icons';
-import { APColor, PColor, PVColor, SEGColor, TFSColor } from '../../../public/colors';
+import { APColor, PColor, PVColor, TFSColor } from '../../../public/colors';
 import { FoodCardPreview } from './FoodPreview';
-import { Container, FormProducts, Card, Button, CardOne, Label, ContainerCardProduct, CardProduct, Img, ContentImg, Title, Text, ContentInfo, ContentIconFav, ButtonCard, ActionName, ReadMore, ContentProducts, CardInput, CardCheckBox, CardRadioLabel, ContainerFilter, ItemFilter, ContainerBurger, Footer, LateralModal, WrapperProducts, Grid } from './styled';
+import { Container, Card, Button, CardOne, Label, ContainerCardProduct, CardProduct, Img, ContentImg, Title, Text, ContentInfo, ContentIconFav, ButtonCard, ActionName, ReadMore, ContentProducts, CardInput, CardCheckBox, CardRadioLabel, ContainerFilter, ItemFilter, ContainerBurger, Footer, LateralModal, WrapperProducts, Grid } from './styled';
 import { useRouter } from 'next/router';
 import { useSetState } from '../../hooks/useState';
 import { AwesomeModal } from '../../AwesomeModal';
@@ -25,14 +20,13 @@ export const FoodComponent = ({ datafatures,
     finalDataAreas,
     features,
     search,
-    state,
     handleChangeFilter,
     data,
     setShowMore,
     values,
     handleRegister,
+    currentYear,
     dispatch,
-    handleAddProductR,
     handleChange,
     countries,
     setRating,
@@ -51,7 +45,6 @@ export const FoodComponent = ({ datafatures,
     onClickClear,
     handleCheckEnvioGratis,
     onClickSearch,
-    dataCategories,
     state: grid,
     setLocalStorage,
     intPorcentaje,
@@ -187,32 +180,8 @@ export const FoodComponent = ({ datafatures,
                 <div style={{ display: 'block', width: '30%', height: 'min-content', position: 'sticky' }}>
                     <CardProduct width='90%'>
                         <InputHook label='Busca tus productos' name='search' value={search} onChange={handleChangeFilter} type='text' range={{ min: 0, max: 20 }} />
-                        <i>Filtro de precio</i>
-                        <InputHook
-                            type='range'
-                            label={`${data[0]?.ProPrice}`}
-                            // value={data[0]?.ProPrice}
-                            name='price'
-                            maxLength={data[0]?.ProPrice}
-                            minLength={data[0]?.ProPrice}
-                            onChange={handleChange}
-                            range={{ min: 0, max: 180 }}
-                        />
-                    </CardProduct>
-                    <CardProduct width='90%' id='space'>
-                        <Text size='20px'>Filtrar productos</Text>
-                        <div>
-                            <CardInput onChange={handleChangeClick}>
-                                <CardCheckBox name='gender' value="1" type="checkbox" id="checkboxF" />
-                                <CardRadioLabel htmlFor='checkboxF'>Envío gratis</CardRadioLabel>
-                            </CardInput>
-                            <CardInput onChange={handleChangeClick}>
-                                <CardCheckBox name='desc' value="1" type="checkbox" id="checkboxF" />
-                                <CardRadioLabel htmlFor='checkboxF'>Ofertas</CardRadioLabel>
-                            </CardInput>
-                        </div>
-                        <RippleButton onClick={() => onClickSearch()} bgColor={PVColor}>Buscar</RippleButton>
-                        <Range min={1962} max={2018} value={2018} label="Year" />
+                        <i>Filtro de Año</i>
+                        <Range min={currentYear} max={currentYear} value={currentYear} label="Year" />
                     </CardProduct>
                 </div>
                 <ContainerCardProduct grid={grid}>
@@ -224,14 +193,24 @@ export const FoodComponent = ({ datafatures,
                                     Eliminar
                                 </ActionName>
                             </ButtonCard>
-                            <ButtonCard grid={grid} delay='.1s' top={'80px'}>
+                            <ButtonCard grid={grid} delay='.1s' top={'80px'} onClick={() => router.push(`/producto/editar/${product.pId}`)}>
                                 <IconEdit size={20} color={PColor} />
                                 <ActionName>
                                     Editar
                                 </ActionName>
                             </ButtonCard>
                             <ContentImg grid={grid}>
-                                {!product.ProImage ? <i>No img</i> : <Img src={product.ProImage} alt={product.ProImage} />}
+                                <Image
+                                    className='store_image'
+                                    width={300}
+                                    objectFit='cover'
+                                    height={250}
+                                    src={'/images/202109081904_64O5_i.webp'}
+                                    alt={"Picture of the author"}
+                                    blurDataURL="/images/DEFAULTBANNER.png"
+                                    placeholder="blur" // Optional blur-up while loading
+                                />
+                                {/* {!product.ProImage ? <i>No img</i> : <Img src={product.ProImage} alt={product.ProImage} />} */}
                             </ContentImg>
                             <ContentInfo>
                                 <ContentIconFav grid={grid} onClick={() => router.push(`/producto/editar/${product.pId}`)}>
@@ -239,9 +218,10 @@ export const FoodComponent = ({ datafatures,
                                 </ContentIconFav>
                                 {product.ProDescuento && <Discount discount={product.ProDescuento} > {numberFormat(product.ProDescuento)}</Discount>}
                                 <Title>{product.pName}</Title>
+                                <Text color={APColor}>{product.ProDelivery === 1 ? 'Envio Gratis' : ''}</Text>
                                 <Text>{numberFormat(product.ProPrice)}</Text>
                                 <ContentInfo /* direction */>
-                                    <Rate rating={product.ProStar} onRating={() => setRating(product.ProStar)} size={20} value={product.ProStar} />
+                                    {/* <Rate rating={product.ProStar} onRating={() => setRating(product.ProStar)} size={20} value={product.ProStar} /> */}
                                     {product.ProDelivery === 1 && <span>Gratis</span>}
                                 </ContentInfo>
                             </ContentInfo>
@@ -249,7 +229,7 @@ export const FoodComponent = ({ datafatures,
                     ))}
                 </ContainerCardProduct>
             </WrapperProducts>
-            <ReadMore onClick={() => setShowMore(s => s + 5)}>'Cargar Más' </ReadMore>
+            <RippleButton widthButton='100%' margin='20px auto' onClick={() => setShowMore(s => s + 5)}>'Cargar Más' </RippleButton>
         </ContentProducts>
         <AwesomeModal backdrop='static' height='100vh' zIndex='9999' padding='25px' show={OPEN_MODAL_ORGANICE.state} onHide={() => { OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state) }} onCancel={() => false} size='90%' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
             <Grid gridColumns={3} gridRows={1} gridColGap='30px' gridRowsGap='20px' height='100%'>
@@ -266,12 +246,14 @@ export const FoodComponent = ({ datafatures,
                     <ComponentCardProduct data={product_state?.PRODUCT_EFFECTIVE} dispatch={dispatch} REMOVE={'REMOVE_EFFECTIVE'} />
                 </div>
             </Grid>
+
         </AwesomeModal >
 
     </div>
     )
 }
 import React from 'react';
+import Image from 'next/image';
 
 const ComponentCardProduct = ({ data, dispatch, ADD_TO_EFFECTIVE, REMOVE, ADD_PRODUCT }) => {
     return <div>
@@ -289,7 +271,7 @@ const ComponentCardProduct = ({ data, dispatch, ADD_TO_EFFECTIVE, REMOVE, ADD_PR
                         Editar
                     </ActionName>
                 </ButtonCard>
-                <ButtonCard grid={true} delay='.1s' top={'140px'} onClick={() => dispatch({ type: ADD_PRODUCT  && ADD_PRODUCT, payload: product })}>
+                <ButtonCard grid={true} delay='.1s' top={'140px'} onClick={() => dispatch({ type: ADD_PRODUCT && ADD_PRODUCT, payload: product })}>
                     <IconDollar color={TFSColor} size={30} />
                     <ActionName>
                         Agregar

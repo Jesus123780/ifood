@@ -19,7 +19,7 @@ export const ScheduleTimings = () => {
     const [showTiming, setShowTiming] = useState(0)
     const SHOW_TIMING = useSetState(false)
     const SHOW_ALERT = useSetState(false)
-    console.log(data)
+
     const handleClick = n => {
         setShowTiming(n)
         SHOW_TIMING.setState(!SHOW_TIMING.state)

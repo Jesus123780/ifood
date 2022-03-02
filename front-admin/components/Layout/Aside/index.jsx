@@ -11,6 +11,7 @@ import { URL_BASE } from 'apollo/urls'
 import { ButtonOption } from '../styled'
 import { useStore } from 'components/hooks/useStore'
 import { Context } from 'context/Context'
+import Link from 'next/link'
 
 const Aside = () => {
   const { client } = useApolloClient()
@@ -39,7 +40,6 @@ const Aside = () => {
   }, [client])
   const [dataStore, { loading: LoadingRes }] = useStore()
   const { storeName, idStore } = dataStore || {}
-
   return (
     <>
       <ContainerAside>
@@ -92,7 +92,12 @@ const Aside = () => {
                 </ActiveLink>
               </Info>
             </LeftNav>
-            <h1 className="title_store">{storeName}</h1>
+
+            <Link href={`/dashboard/${storeName?.replace(/\s/g, '-').toLowerCase()}/${idStore}`}>
+              <a>
+                <h1 className="title_store">{storeName}</h1>
+              </a>
+            </Link>
             <div className="program_state">
               <IconLogo size='20px' color={PColor} />
               <h3 className="sub_title_store">En pausa programada</h3>

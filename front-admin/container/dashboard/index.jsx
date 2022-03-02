@@ -69,7 +69,6 @@ const Dashboard = () => {
         setHour(moment(date).format('hh:mm'))
     })
     const { data: DATALOL } = useQuery(GET_ONE_SCHEDULE_STORE, { variables: { schDay: day } })
-    console.log(DATALOL)
 
     // EFFECT
     const Switch = {}

@@ -83,11 +83,6 @@ export const Login = ({ watch, settings }) => {
             } else {
                 router.push('/restaurante')
             }
-            // if (res.success) {
-            //     newRegisterUser({ variables: { input: { name: '23423', username: '3242', lastName: '3242', email: 'hola', password: googleId  } } })
-            //         .then(res => {
-            //         })
-            // }
         }).catch(e => {
         })
     }
@@ -101,7 +96,7 @@ export const Login = ({ watch, settings }) => {
                 <Text size='30px'>¡Falta poco para saciar tu hambre!</Text>
                 <Text size='15px'>¿Cómo deseas continuar?</Text>
                 <button onClick={(e) => responseGoogle(e)}>Login falso</button>
-                {/*  <GoogleLogin
+                  <GoogleLogin
                     autoLoad={false}
                     clientId='58758655786-u323tp1dpi6broro865rrm488gh4mnpu.apps.googleusercontent.com'
                     onSuccess={responseGoogle}
@@ -113,7 +108,7 @@ export const Login = ({ watch, settings }) => {
                             <ButtonSubmit  size='14px' colorFont='#717171' height='40px' color='2' onClick={renderProps.onClick} disabled={renderProps.disabled}><IconGoogleFullColor size='30px' /> Continue with Google<div style={{ width: 'min-content' }} /> </ButtonSubmit>
                         </div>
                     )}
-                /> */}
+                />
                 <FacebookLogin
                     appId="467885964900974"
                     autoLoad={false}

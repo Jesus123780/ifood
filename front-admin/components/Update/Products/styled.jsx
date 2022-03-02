@@ -80,7 +80,8 @@ export const ContainerCardProduct = styled.div`
 export const ContentProducts = styled.div` 
     max-width: 1366px !important;
     margin: auto;
-    margin-top: 50px;
+    margin-top: 100px;
+    margin-bottom: 100px;
     @media only screen and (max-width: 960px){
     }
    
@@ -157,7 +158,7 @@ export const CardProduct = styled.div`
     border-radius: 8px;
     background-color: #FFFFFF;
     border: 1px solid rgba(0,0,0,.1);
-    height: 300px;
+    height: 450px;
     &:hover  ${ ButtonCard } {
         right: 15px;
     }
@@ -269,6 +270,7 @@ export const ContentIconFav = styled.button`
 `
 export const Text = styled.h3` 
     font-size: ${ ({ size })=> size ? size : '15px' };
+    color: ${ ({ color })=> color || BColor };
     width: 100%;
     margin: 5px 0px;
     font-weight: 400;

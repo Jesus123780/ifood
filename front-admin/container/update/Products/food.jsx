@@ -15,6 +15,7 @@ import { CREATE_FOOD_PRODUCT } from '../../dashboard/queries';
 import { GET_ONE_STORE } from '../../Restaurant/queries';
 import { convertBase64, getFileSizeByUnit } from '../../../utils';
 import { GET_ALL_PRODUCT_STORE } from '../../dashboard/queriesStore';
+import { Context } from 'context/Context';
 export const Food = () => {
     const [errors, setErrors] = useState({})
     const [values, setValues] = useState({})
@@ -23,7 +24,7 @@ export const Food = () => {
     const [names, setName] = useLocalStorage('namefood', '');
     // Estado para las estrellas del producto
     const [rating, setRating] = useState(0);
-    //  const { setAlertBox } = useContext(Context)
+    const { setAlertBox } = useContext(Context)
     // Filtrar product
     const [dataProducto, setData] = useState([])
     const [showMore, setShowMore] = useState(100)
@@ -47,8 +48,17 @@ export const Food = () => {
     const [getDepartments, { data: dataDepartments }] = useLazyQuery(GET_ALL_DEPARTMENTS)
     // Subir producto
     const [getCities, { data: dataCities }] = useLazyQuery(GET_ALL_CITIES)
-    // llama a los productos y espera una accion
-    const [productFoodsAll, { data: dataProduct }] = useLazyQuery(GET_ALL_PRODUCT_STORE)
+    // llama a los productos y espera una acción
+    const [productFoodsAll, { data: dataProduct }] = useLazyQuery(GET_ALL_PRODUCT_STORE, {
+        fetchPolicy: 'network-only',
+        variables:
+        {
+            search: search,
+            gender: searchFilter?.gender,
+            desc: searchFilter?.desc,
+            categories: searchFilter?.speciality,
+        }
+    })
     // ------------ HANDLES ------------
     const handleChange = (e, error) => {
         setValues({ ...values, [e.target.name]: e.target.value })
@@ -147,12 +157,12 @@ export const Food = () => {
                             }
                         }
                     })
-                    // setAlertBox({ message: `El producto ${pName} subido con éxito`, color: 'success', duration: 7000 })
+                    setAlertBox({ message: `El producto ${names} subido con éxito`, color: 'success', duration: 7000 })
                 }
-            }).catch(err => console.log({ message: `${err}`, duration: 7000 }))
+            }).catch(err => setAlertBox({ message: `${err}`, duration: 7000 }))
         }
         catch (error) {
-            // setAlertBox({ message: `${error.message}`, duration: 7000 })
+            setAlertBox({ message: `${error.message}`, duration: 7000 })
         }
     }
     const handleChangeFilter = e => {
@@ -172,23 +182,21 @@ export const Food = () => {
 
     useEffect(() => {
         dataProduct?.productFoodsAll && setData([...dataProduct?.productFoodsAll])
-    }, [dataProduct, searchFilter])
+    }, [dataProduct, searchFilter, search])
     useEffect(() => {
-        productFoodsAll({ variables: { max: showMore } })
-    }, [searchFilter, showMore])
+        productFoodsAll({ variables: { max: showMore, search: search } })
+    }, [searchFilter, showMore, search])
     const onChangeRange = () => {
         // const { value } = e.target
         // setFilterPrice(s => ({ ...s, [name]: s[name].filter(f => f !== value) }))
     }
     // ----------- HANDLE PARA ELIMINAR-----------
     const handleDelete = product => {
-        console.log(product)
-        const { pId, pState } = product || {}
-        // const pState = value[0]?.pState
+        const { pId, pState, pName } = product || {}
         updateProductFoods({
             variables: {
                 input: {
-                    pId, 
+                    pId,
                     pState
                 }
             }, update(cache) {
@@ -199,7 +207,7 @@ export const Food = () => {
                         }
                     }
                 })
-                setAlertBox({ message: `El producto ${value[0].pName} ha sido eliminado`, color: 'error', duration: 7000 })
+                setAlertBox({ message: `El producto ${pName} ha sido eliminado`, color: 'error', duration: 7000 })
             }
         }).catch(err => setAlertBox({ message: `${err}`, duration: 7000 }))
     }
@@ -209,26 +217,13 @@ export const Food = () => {
     const intPorcentaje = Math.round(impDesc);
     // Filtramos los productos con envio gratis
     const freeDelivery = dataProductFree => {
-        return dataProductFree.ProDelivery === true
+        return dataProductFree.ProDelivery === 1
     }
-    const [isDragula, setisDragula] = useState(true);
     const productFree = dataProducto.filter(freeDelivery)
-    useEffect(() => {
-        // isDragula = Dragula();
-        // isDragula.containers = /* [document.getElementById('products'), document.getElementById('categoriesToOrder')] */
-
-    }, [isDragula, setisDragula])
-    // const bannerPopularContainer = document.getElementById('orderBannerPopular')
-    // const bannerOffersContainer = document.getElementById('orderBannerOffers')
-    // const drake = Dragula([bannerPopularContainer, bannerOffersContainer])
-    // drake.on('drop', () => {
-    //     // this.setState({ stateBtnSave: true })
-    // })
     const initialStateInvoice = {
         PRODUCT_RECOGER: [],
         PRODUCT_EFFECTIVE: [],
     }
-
     const productRecoger = (state, action) => {
         switch (action.type) {
             case 'ADD_PRODUCT':
@@ -271,9 +266,30 @@ export const Food = () => {
             dispatch({ type: 'ADD_PRODUCT', payload: elem })
         }
     }
+    const YearArray = dataProduct?.productFoodsAll.map(x => { return parseInt(x.pDatCre?.replace(/\D/gi, '').substring(0, 4)) })
+    let min = YearArray
+    let years = [];
+    const currentYear = new Date().getFullYear()
+    useEffect(() => {
+        const Years = (startYear) => {
+            for (var i = 0; i < YearArray?.length; i++) {
+                if (YearArray[i] < min) {
+                    min = YearArray[i];
+                }
+            }
+            
+            while (startYear <= currentYear) {
+                years.push(startYear++);
+            }
+            return years;
+        }
+            const year = Years(min)
+    }, [YearArray, dataProduct, years])
+    
     return (
         <FoodComponent
             features={features}
+            currentYear={currentYear}
             names={names}
             product_state={product_state || []}
             dispatch={dispatch}

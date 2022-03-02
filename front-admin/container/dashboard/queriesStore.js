@@ -107,6 +107,8 @@ query productFoodsAll($search: String, $min: Int, $max: Int, $gender: [String], 
 	  ProWeight
 	  ProQuantity
 	  ProOutstanding
+    pDatCre
+    pDatMod
 	  ProDelivery
 	  ProVoltaje
     pState
