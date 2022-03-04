@@ -29,7 +29,7 @@ import { IconArrowRight, IconDelete, IconEdit, IconLove } from '../../../public/
 import { APColor, PColor, PVColor, SEGColor } from '../../../public/colors';
 import InputHooks from '../../InputHooks/InputHooks';
 
-export const Kit = ({ 
+export const Kit = ({
     datafatures,
     finalDataAreas,
     features,
@@ -247,7 +247,7 @@ export const Kit = ({
                     <RippleButton widthButton='100%' margin='20px auto' type='submit' bgColor={APColor}>Subir</RippleButton>
                 </FormProducts>
             </CardOne>
-          
+
         </Container>
     </div>
     )
@@ -255,8 +255,8 @@ export const Kit = ({
 export const SkeletonP = () => {
     return <>
         <>
-            {[1, 2, 3, 4].map(x => (
-                <CardProduct key={x.id}>
+            {[1, 2, 3, 4].map((x, i) => (
+                <CardProduct key={i + 1}>
                     <Skeleton />
                 </CardProduct>
             ))}

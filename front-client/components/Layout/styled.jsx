@@ -112,8 +112,9 @@ export const UseSize = styled.div`
 `
 
 // options
-export const ButtonOption = styled.button`
+export const ButtonOption = styled.div`
     margin: 0 0 0 30px;
+    width: min-content;
     position: relative;
     cursor: pointer;
     z-index: 999;
@@ -139,22 +140,23 @@ export const ButtonOption = styled.button`
     @media only screen and (min-width: 960px){
     }
     .count_product {
-    background-color: ${PColor};
-    color: ${BGColor};
-    border-radius: 50%;
-    padding: 1px;
-    height: 20px;
-    font-size: 12px;
-    width: 20px;
-    align-items: center;
-    display: flex;
-    place-content: center;
-    position: absolute;
-    right: 0;
-    bottom: 20px;
-
+        background-color: ${PColor};
+        color: ${BGColor};
+        border-radius: 50%;
+        padding: 1px;
+        height: 20px;
+        font-size: 12px;
+        width: 20px;
+        align-items: center;
+        display: flex;
+        place-content: center;
+        position: absolute;
+        right: 0;
+        bottom: 20px;
+        
     }
-`
+    `
+
 export const FloatingBox = styled.div`
     position: absolute;
     grid-gap: 0 10px;
@@ -163,6 +165,7 @@ export const FloatingBox = styled.div`
     background-color: ${BGColor};
     padding: 10px;
     z-index: 99999;
+
   ${({ show }) => show
         ? css`
                   visibility: visible;
@@ -184,14 +187,25 @@ export const FloatingBoxTwo = styled(FloatingBox)`
     left: -220px;
     max-width: 250px;
     min-width: 250px;
+    min-height: 250px;
+    height: 250px;
     width: 250px;
-    top: 90px;
-    overflow: hidden;
-    box-shadow: -1px 2px 8px 2px #dcdcdc;
+    top: 40px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-shadow: -1px 2px 8px 2px #dcdcdc39;
 
     @media only screen and (min-width: 960px){
     }
   
+`
+export const ButtonOptionFav = styled(ButtonOption)`
+      /* &:hover ~ ${FloatingBoxTwo} {
+        margin: 0;
+        visibility: visible;
+        opacity: ;
+        transform: translateY(-50px);
+    } */
 `
 export const Container = styled.div`
     background-color: ${BGColor};

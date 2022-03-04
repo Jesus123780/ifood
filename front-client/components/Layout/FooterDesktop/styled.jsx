@@ -55,7 +55,7 @@ export const ContainerLogo = styled.div`
     min-width: 50px;
     grid-area: logo-link;
 `
-export const Content = styled.a`
+export const Content = styled.div`
     display: grid;
     grid-template-columns: repeat(4, auto);
     grid-column-gap: 10px;

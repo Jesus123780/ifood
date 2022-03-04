@@ -7,8 +7,8 @@ import withSession from '../../../../apollo/session'
 import { CREATE_SHOPPING_CARD } from '../../../../components/AsideCheckout/querys'
 import { useFormTools } from '../../../../components/BaseForm'
 import { useSetState } from '../../../../components/hooks/useState'
-import { GET_ALL_FAV_STORE, GET_ONE_FAV_STORE, SET_FAVORITES_STORE } from '../../../../container/profile/queries'
-import { GET_ALL_CATEGORIES_WITH_PRODUCT, GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, GET_ONE_PRODUCTS_FOOD, GET_ONE_STORE_BY_ID } from '../../../../container/queries'
+import { GET_ALL_FAV_STORE, GET_ONE_FAV_STORE, SET_FAVORITES_STORE, SET_START_STORE } from '../../../../container/profile/queries'
+import { GET_ALL_CATEGORIES_WITH_PRODUCT, GET_ALL_RATING_START_STORE, GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, GET_MIN_PEDIDO, GET_ONE_PRODUCTS_FOOD, GET_ONE_RATING_STORE, GET_ONE_STORE_BY_ID, SET_RATING_STORE } from '../../../../container/queries'
 import { GET_ALL_SHOPPING_CARD } from '../../../../container/restaurantes/queries'
 import { RestaurantProfile } from '../../../../container/RestaurantProfile'
 import { Context } from '../../../../context'
@@ -24,6 +24,7 @@ export default function HomeView() {
   const [searchFilter, setSearchFilter] = useState({ subOptional: [] })
   const { dispatch, setAlertBox, state_product_card, handleMenu } = useContext(Context)
   const [registerShoppingCard] = useMutation(CREATE_SHOPPING_CARD)
+  const [setRating] = useMutation(SET_RATING_STORE)
 
   const [showMore, setShowMore] = useState(100)
   const [dataCatProducts, setData] = useState([])
@@ -31,6 +32,9 @@ export default function HomeView() {
   const { increase, setState, state, decrease, reset } = useSetState(1)
   // QUERIES
   const [getOneStore, { data, refetch }] = useLazyQuery(GET_ONE_STORE_BY_ID)
+  const [getAllRatingStar, { data: dataStartStore }] = useLazyQuery(GET_ALL_RATING_START_STORE)
+  const [getMinPrice, { data: dataMinPedido }] = useLazyQuery(GET_MIN_PEDIDO)
+  const [getOneRating, { data: dataRating, loading: loadRating }] = useLazyQuery(GET_ONE_RATING_STORE)
   const [productFoodsOne, { data: dataOneProduct }] = useLazyQuery(GET_ONE_PRODUCTS_FOOD)
   const [ExtProductFoodsOptionalAll, { error: errorOptional, data: dataOptional }] = useLazyQuery(GET_EXTRAS_PRODUCT_FOOD_OPTIONAL)
   const [getCatProductsWithProductClient, { data: dataProductAndCategory, loading: loadCatPro }] = useLazyQuery(GET_ALL_CATEGORIES_WITH_PRODUCT, {
@@ -53,7 +57,16 @@ export default function HomeView() {
   }, [searchFilter, showMore])
   useEffect(() => {
     getOneStore({ variables: { idStore: id, StoreName: name } })
-  }, [])
+    getAllRatingStar({ variables: { idStore: id } })
+    getMinPrice({ variables: { idStore: id } })
+    
+  }, [dataStartStore, data, dataMinPedido])
+  const [stars, setStars] = useState(null)
+  useEffect(() => {
+    let suma = 0
+    const avg = dataStartStore?.getAllRatingStar?.map((x, index) => (suma += x.rScore)/(index+1))
+    !!avg && setStars((avg[avg.length-1])?.toFixed(1))
+  }, [dataStartStore])
   // HANDLES
   /**
    *
@@ -61,7 +74,6 @@ export default function HomeView() {
    * @author {autor} Jesus Juvinao
    * @action Obtiene un producto de DB  
    */
-  console.log(data)
   const getOneProduct = food => {
     SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state)
     productFoodsOne({ variables: { pId: food.pId } })
@@ -74,7 +86,6 @@ export default function HomeView() {
     setSearchFilter({ ...filter })
   }
   const handleAddProducts = food => {
-    console.log(food)
     const val = state_product_card.PRODUCT?.find(x => x.pId === food.pId)
     handleMenu(1)
     if (val) {
@@ -102,7 +113,7 @@ export default function HomeView() {
           nameFun: 'getAllShoppingCard',
           dataNew: getAllShoppingCard
         })
-      }).catch(err => console.log(err));
+      }).catch(err => setAlertBox({ message: err }));
       // dispatch({ type: 'ADD_PRODUCT', payload: result })
     }
   }
@@ -126,9 +137,10 @@ export default function HomeView() {
       idStore: id
     }
   })
+  const [rating, setRatingState] = useState(0);
   const [setFavorites, { loading: loadfav }] = useMutation(SET_FAVORITES_STORE)
+  const [setRatingStar, { loading: loadStart }] = useMutation(SET_START_STORE)
   const RemoveFav = (idStore, fState) => {
-    console.log(idStore, fState)
     return setFavorites({
       variables: {
         data: {
@@ -147,8 +159,39 @@ export default function HomeView() {
         message: res?.data?.setFavorites?.message,
         color: !res?.data?.setFavorites?.success ? 'error' : 'success'
       })
-    }).catch(e => console.log(e))
+    }).catch(e => setAlertBox({ message: e }))
   }
+  /**
+   * RATING
+   */
+  const [like, setLike] = useState(0);
+  const [appearance, SetAppearance] = useState(0);
+  const [rTasty, setTasty] = useState(0);
+  const [rGoodTemperature, setGoodTemperature] = useState(0);
+  const [rGoodCondition, setGoodCondition] = useState(0);
+  useEffect(() => {
+    SetAppearance(dataRating?.getOneRating?.rAppearance || 0)
+    setTasty(dataRating?.getOneRating?.rTasty || 0)
+    setGoodTemperature(dataRating?.getOneRating?.rGoodTemperature || 0)
+    setGoodCondition(dataRating?.getOneRating?.rGoodCondition || 0)
+  }, [dataRating])
+
+  const handleRating = idStore => setRating({
+    variables: {
+      data: {
+        idStore: idStore,
+        rAppearance: appearance,
+        rTasty,
+        rGoodTemperature,
+        rGoodCondition
+      }
+    }
+  }).then(res => {
+    setAlertBox({
+      message: res?.data?.setRating?.message,
+      color: !res?.data?.setRating?.success ? 'error' : 'success'
+    })
+  }).catch(e => setAlertBox({ message: e }))
   const addFav = idStore => setFavorites({
     variables: { data: { idStore: idStore } },
     update: (cache, { data: { getOneFavorite } }) => updateCache({
@@ -165,21 +208,46 @@ export default function HomeView() {
         color: !res?.data?.setFavorites?.success ? 'error' : 'success'
       })
     })
-    .catch(e => console.log(e))
+    .catch(e => setAlertBox({ message: e }))
+
+  const handleGetRating = idStore => getOneRating({
+    variables: {
+      idStore
+    }
+  })
+  const Nav = dataCatProducts?.map((x, key) => { return { x } })
   return (
     <div>
       <Head>
-        <title>Delivery Restaurante - {name?.toLocaleLowerCase()} - {locationName?.toLocaleLowerCase()} </title>
+        <title>Delivery - {name?.toLocaleLowerCase()} - {locationName?.toLocaleLowerCase()} </title>
         <meta name="description" content={location.query.name} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <RestaurantProfile
         dataForm={dataForm}
+        setLike={setLike}
+        dataMinPedido={numberFormat(dataMinPedido?.getMinPrice)}
+        setRating={setRating}
+        setRatingState={setRatingState}
+        rating={rating}
+        SetAppearance={SetAppearance}
+        rTasty={rTasty}
+        rGoodTemperature={rGoodTemperature}
+        appearance={appearance}
+        rGoodCondition={rGoodCondition}
+        handleGetRating={handleGetRating}
+        setTasty={setTasty}
+        setGoodTemperature={setGoodTemperature}
+        setGoodCondition={setGoodCondition}
+        like={like}
         addFav={addFav}
+        stars={stars}
+        setRatingStar={setRatingStar}
         RemoveFav={RemoveFav}
+        handleRating={handleRating}
         refs={refs}
         id={id}
+        dataRating={dataRating?.getOneRating || {}}
         refInterSection={refInterSection}
         dataOneFav={dataOneFav?.getOneFavorite || {}}
         dataOptional={dataOptional?.ExtProductFoodsOptionalAll}

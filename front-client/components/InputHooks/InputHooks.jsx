@@ -237,7 +237,6 @@ const InputHooks = ({
             disabled={disabled}
             checked={checked}
             onBlur={onBlur || handleBlur}
-            // autoComplete="off"
             size={fontSize}
             radius={radius}
             border={border}

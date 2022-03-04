@@ -892,6 +892,14 @@ export const ContentAction = styled.div`
   padding: 20px;
   border-top: .5px solid #eaeaea ;
 `
+export const CtnItems = styled.div`
+    margin: auto;
+    margin: 50px 0px;
+    place-content: center;
+    display: grid;
+    gap: 5px;
+    grid-template-columns: 50% repeat(auto-fill, 50%);
+`
 export const Card = styled.div`
   display: ${({ display }) => display || 'flex'};
   flex-wrap: ${({ wrap }) => wrap || 'wrap'};

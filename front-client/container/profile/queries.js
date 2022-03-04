@@ -109,6 +109,14 @@ export const SET_FAVORITES_STORE = gql`
     }
 }
 `
+export const SET_START_STORE = gql`
+  mutation setRatingStar($data: IStar!) {
+    setRatingStar(input: $data) {
+      success 
+      message      
+  }
+}
+`
 
 export const GET_ALL_FAV_STORE = gql`
 query getFavorite {

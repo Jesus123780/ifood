@@ -334,13 +334,13 @@ export const CardProducts = ({ food }) => {
                             <Text margin='12px 0' size='.875rem' color={APColor}>$ {ProPrice}</Text>
                             <Text margin='12px 0 0 5px' size='14px'>$ {ProDescuento}</Text>
                         </Flex>
-                        <DisRestaurant>{console.log(store)}
+                        <DisRestaurant>
                             {store && <Link
                                 passHref
                                 shallow
                                 replace
                                 href={store && {
-                                    pathname: `${CLIENT_URL_BASE}/delivery/${store?.city?.cName?.toLocaleLowerCase()}-${store?.department?.dName?.toLocaleLowerCase()}/${nameStore.replace(/\s/g, '-').toLocaleLowerCase()}/${store.idStore}`,
+                                    pathname: `${CLIENT_URL_BASE}delivery/${store?.city?.cName?.toLocaleLowerCase()}-${store?.department?.dName?.toLocaleLowerCase()}/${nameStore.replace(/\s/g, '-').toLocaleLowerCase()}/${store.idStore}`,
                                     query: { shared: '' }
                                 }} >
                                 <a target="_blank">
@@ -348,7 +348,7 @@ export const CardProducts = ({ food }) => {
                                 </a>
                             </Link>}
                             <div className="dish-restaurant__divisor"></div>
-                            <label tabindex="0" className="dish-observation-form__label" for="observations-form">¿Algún comentario?</label>
+                            <label tabIndex="0" className="dish-observation-form__label" for="observations-form">¿Algún comentario?</label>
                         </DisRestaurant>
                         <ExtrasProductsItems
                             pId={pId}

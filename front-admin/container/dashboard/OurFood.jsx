@@ -3,28 +3,73 @@ import { Rate } from 'components/Rate'
 import Image from 'next/image'
 import { PColor } from 'public/colors'
 import { IconShopping } from 'public/icons'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Content, MediaValue, Text } from './styled'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { GET_All_RATING_STORE } from './queriesStore'
 
 export const OurFood = () => {
+  const { data: dataRating, loading: loadRating } = useQuery(GET_All_RATING_STORE)
+  console.log(dataRating)
+  const [appearance, SetAppearance] = useState(0);
+  const [rTasty, setTasty] = useState(0);
+  const [rGoodTemperature, setGoodTemperature] = useState(0);
+  const [rGoodCondition, setGoodCondition] = useState(0);
+  useEffect(() => {
+    let rGoodCondition = 0
+    let goodCondition = 0
+    let goodTemperature = 0
+    let rTasty = 0
+    let totalAppearance = 0, numeros = [1, 2, 3, 4, 5];
+    dataRating?.getAllRating?.forEach(function (a) {
+      totalAppearance += a.rAppearance
+      rTasty += a.rTasty
+      rGoodCondition += a.rGoodCondition
+      goodTemperature += a.rGoodTemperature
+    });
+    SetAppearance(totalAppearance)
+    setTasty(rTasty)
+    setGoodTemperature(goodTemperature)
+    setGoodCondition(rGoodCondition)
+    console.log(totalAppearance, 'holaaaaaa');
+  }, [dataRating])
+  console.log(dataRating?.getAllRating)
+  const dataArr = [
+    {
+      name: 'Buena apariencia',
+      value: appearance,
+    },
+    {
+      name: 'Es deliciosa',
+      value: rTasty,
+    },
+    {
+      name: 'Buenas condiciones',
+      value: rGoodCondition,
+    },
+    {
+      name: 'Buena temperatura',
+      value: rGoodTemperature,
+    },
+  ]
   return (
     <MainCard noneShadow={true} title={'Sobre Su comida'}>
       <WrapSlide>
-
-        {[1, 2, 3, 4, 5].map((item => (
+        {dataArr?.map((item => (
           <Box key={item._id}>
             <Image
               className='store_image'
               width={100}
-              objectFit='contain'
+              objectFit='cover'
               height={100}
-              src={'/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
+              src={'/images/202109081904_64O5_i.webp'}
               alt={"Picture of the author"}
               blurDataURL="/images/DEFAULTBANNER.png"
-              placeholder="blur" // Optional blur-up while loading
+              placeholder="blur"
             />
-            <Text size='1em' color='#3f3e3e'>Buen sabor</Text>
+            <Text size='1em' color='#3f3e3e'>{item.name}</Text>
+            <Text size='1em' color='#3f3e3e'>{item.value}</Text>
           </Box>
         )))}
       </WrapSlide>

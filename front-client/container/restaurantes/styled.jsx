@@ -74,6 +74,12 @@ export  const Section = styled.div`
     text-decoration: none;
 }
   `
+export const CtnBox = styled.div`
+    &:hover{
+        transform: scale(1.05); 
+        transition: transform .2s ease-out;
+    }
+`
 export const ItemCategory = styled.div`
     width: 100%;
     border: 1px solid ${SFVColor};

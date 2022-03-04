@@ -108,6 +108,13 @@ getOneCatStore(catStore: $catStore){
         dDatCre
         dDatMod
       }
+      getAllRatingStar {
+      rSId
+      rScore
+      idStore
+      createAt
+      
+    }
   }
   }
 }

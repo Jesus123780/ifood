@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { BColor, BGColor, PColor } from '../../../public/colors';
+import { BColor, BGColor, PColor,PLColor  } from '../../../public/colors';
 
 export const Button = styled.button` 
     position: absolute;
@@ -53,13 +53,23 @@ export const Label = styled.span`
 export const WrapperProducts = styled.div`
     display: flex;
 `  
+export const Item = styled.div`
+    padding: 15px 1px;
+    margin: auto;
+    /* background-color: ${BGColor}; */
+    border-radius: 5px;
+    display: grid;
+    place-content: center;
+    & span {
+        color: ${PLColor};
+    }
+`
 export const ContainerCardProduct = styled.div` 
-    /* display: flex; */
     max-width: 1366px !important;
     margin: auto;
     margin: 50px 0px;
+    place-content: center;
     display: grid;
-    overflow: hidden;
     gap: 5px;
     grid-template-columns: 24% repeat(auto-fill, 24%) 24%;
     @media only screen and (max-width: 960px){

@@ -103,7 +103,7 @@ export const CustomTable = props => {
                                         <span>{list?.cards?.length}</span>
                                         <CicleStatus status={list.title} />
                                         <List list={list} index={index} />
-                                        <Input aria-disabled autoFocus autoComplete={false} onChange={(e) => setTitle(e.target.value)} value={listID.title} name='title' placeholder='enter card' />
+                                        <Input aria-disabled autoFocus onChange={(e) => setTitle(e.target.value)} value={listID.title} name='title' placeholder='enter card' />
                                         <RippleButton widthButton='100%' margin='20px auto' type="button" onClick={() => handleAdd({ listId: listID })}>Add list</RippleButton>
                                         {provided.placeholder}
                                     </div>

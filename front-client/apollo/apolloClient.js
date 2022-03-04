@@ -35,18 +35,14 @@ const wsLink = process.browser ? new WebSocketLink({
 //         }
 //     }
 // });
-const authLink = setContext(async (_, { headers }) => {
+const authLink = async (_) => {
     const token = localStorage.getItem('session')
     const lol = await getDeviceId()
     window.localStorage.setItem('deviceid', lol)
     return {
-        headers: {
-            ...headers,
-            authorization: `Bearer ${token}` ? `Bearer ${token}` : '',
-        }
+        authorization: `Bearer ${token}` ? `Bearer ${token}` : '',
     }
-})
-
+}
 const httpLink = new HttpLink({
     uri: `${URL_BASE}graphql`, // Server URL (must be absolute)
     authorization: 'pija',
@@ -61,17 +57,6 @@ const subscriptions = process.browser ? new HttpLink({
     }
     // other link options...
 }) : null
-// const thirdLink = new HttpLink({
-//     uri: 'http://localhost:3000/',
-//     headers: {
-//     }
-//     // other link options...
-//   });
-// const otherLinks = ApolloLink.split(
-//     operation => operation.getContext().clientName === "main", // Routes the query to the proper client
-//     thirdLink,  
-// );
-
 const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)
         graphQLErrors.map(({ message, locations, path }) => {
@@ -101,35 +86,34 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 //         );
 //     },
 //     wsLink,
-//     authLink,
-//     httpLink,
 // );
+const getLink = async (operation) => {
+    // await splitLink({ query: operation.query })
+    const headers = await authLink()
+    const definition = getMainDefinition(operation.query);
+    const service = operation.getContext().clientName
+    let uri = `${URL_BASE}graphql`
+    if (service === 'subscriptions') uri = 'http://localhost:4000/graphql'
+    if (service === 'main') uri = 'http://localhost:3000/api/graphql'
+    const link = new HttpLink({
+        uri,
+        credentials: 'same-origin',
+        authorization: '',
+        headers: {
+            ...headers,
+        }
+    })
+    return link.request(operation)
+}
 function createApolloClient() {
     return new ApolloClient({
         // connectToDevTools: true,
-        connectToDevTools: process.browser,
+        connectToDevTools: true,
         ssrMode: typeof window === 'undefined',
-        // link: ApolloLink.split(
-        //     operation => operation.getContext().clientName === "subscriptions", // Routes the query to the proper client
-        //     authLink,
-        //     httpLink,
-        //     subscriptions,
-        //     // otherLinks
-        // ),
-        // link: from([
-        //     errorLink,
-        //     authLink,
-        //     httpLink,
-        //     operation => operation.getContext().clientName === "subscriptions", // Routes the query to the proper client
-        //     // subscriptions
-        // ]),
-        link: from([
-            authLink,
+        link: ApolloLink.split(() => true, operation => getLink(operation),
+            // ,
             errorLink,
-            httpLink,
-            
-        ]),
-        // link: splitLink,
+        ),
         cache: new InMemoryCache({
             typePolicies: {
                 Query: {
@@ -143,7 +127,6 @@ function createApolloClient() {
 }
 
 export function initializeApollo(initialState = null, ctx) {
-    console.log(initialState)
     const _apolloClient = apolloClient ?? createApolloClient()
 
     // If your page has Next.js data fetching methods that use Apollo Client, the initial state

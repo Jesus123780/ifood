@@ -57,6 +57,25 @@ export const productFoodsOne = async (root, { pId }, context, info) => {
         return error
     }
 }
+export const getMinPrice = async (root, { idStore }, context, info) => {
+    const data = await productModelFood.findAll({
+        attributes: ['ProPrice'],
+        where: {
+            [Op.or]: [
+                {
+                    idStore: idStore ? deCode(idStore) : deCode(context.restaurant)
+                }
+            ]
+        }, order: [['ProPrice', 'DESC']]
+    })
+    let myArray = []
+    var N = 0
+    if (data?.length > 0) {
+        myArray =  data.map(x => { return x.ProPrice })
+        N = Math.min.apply(null, myArray);
+        return N
+    }
+}
 export const productFoodsAll = async (root, args, context, info) => {
     try {
         const { search, min, max, pId, gender, desc, categories } = args
@@ -321,6 +340,7 @@ export default {
     },
     QUERIES: {
         productFoodsAll,
+        getMinPrice,
         productFoodsOne,
         productsOne
     },

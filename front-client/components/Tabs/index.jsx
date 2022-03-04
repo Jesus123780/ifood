@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { PColor, PVColor } from '../../public/colors';
 
 const TabPanel = ({ children }) => (
-    <TabContent role="tabpanel" tabindex="0">
+    <TabContent role="tabpanel" tabIndex="0">
         {children}
     </TabContent>
 );

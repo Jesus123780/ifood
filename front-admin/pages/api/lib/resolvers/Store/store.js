@@ -8,10 +8,12 @@ import productModelFood from '../../models/product/productFood'
 import FavoritesModel from '../../models/Store/FavoritesModel'
 import ScheduleStore from '../../models/Store/ScheduleStore'
 import ShoppingCard from '../../models/Store/ShoppingCard'
+import RatingStore from '../../models/Store/ratingStore'
 import SubProducts from '../../models/Store/shoppingCardSubProduct'
 import Store from '../../models/Store/Store'
 import { LoginEmail } from '../../templates/LoginEmail'
 import { deCode, getAttributes } from '../../utils/util'
+import ratingStoreStart from '../../models/Store/ratingStoreStart'
 const { Op } = require('sequelize')
 
 export const newRegisterStore = async (_, { input }, ctx) => {
@@ -53,10 +55,12 @@ export const getStore = async (_root, { id, StoreName, idStore }, context, info)
 }
 export const oneCategoriesStore = async (parent, _args, _context, info) => {
     try {
-        const attributes = getAttributes(CatStore, info)
-        const data = CatStore.findOne({ attributes, where: { catStore: deCode(parent.catStore) } })
+        // const attributes = getAttributes(CatStore, info)
+
+        const data = CatStore.findOne({ attributes: ['catStore'], where: { catStore: deCode(parent.catStore) } })
         return data
     } catch (e) {
+        console.log(e)
         const error = new Error('Lo sentimos, ha ocurrido un error interno')
         return error
     }
@@ -82,6 +86,7 @@ const updateExtraProduct = async ({ input }) => {
 export const deleteOneItem = async (root, args, context, _info) => {
     try {
         const { ShoppingCard: id, cState } = args || {}
+        // ShoppingCard.destroy({ where: { ShoppingCard: deCode(id) } })
         await ShoppingCard.update({ cState: cState === 1 ? 0 : 1 }, { where: { ShoppingCard: deCode(id) } })
         return { success: true, message: 'Eliminado del carrito' }
 
@@ -132,6 +137,7 @@ export const getAllShoppingCard = async (_root, { input }, context, info) => {
 export const getAllStoreInStore = async (root, args, context, _info) => {
     try {
         const { search, min, max } = args
+        console.log( search, min, max)
         let whereSearch = {}
         if (search) {
             whereSearch = {
@@ -168,7 +174,6 @@ export const getAllStoreInStore = async (root, args, context, _info) => {
                         uState: 2
                         // // ID departamento
                         // dId: dId ? deCode(dId) : { [Op.gt]: 0 },
-                        // // ID Cidad
                         // ctId: ctId ? deCode(ctId) : { [Op.gt]: 0 },
                     }
                 ]
@@ -176,6 +181,7 @@ export const getAllStoreInStore = async (root, args, context, _info) => {
         })
         return data
     } catch (e) {
+        console.log(e)
         const error = new Error('Lo sentimos, ha ocurrido un error interno')
         return error
     }
@@ -230,10 +236,103 @@ export const getOneFavorite = async (_root, { idStore }, context, info) => {
         return e
     }
 }
+export const getOneRating = async (_root, args, context, info) => {
+    const { idStore } = args || {}
+    try {
+        const attributes = getAttributes(RatingStore, info)
+        const data = await RatingStore.findOne({
+            attributes,
+            where: { idStore: deCode(idStore), id: /* deCode(context.User.id) */ deCode(context.User.id) }
+        })
+        return data
+
+    } catch (e) {
+        const error = new Error('Lo sentimos, ha ocurrido un error interno')
+        return error
+    }
+
+}
+export const getAllRating = async (_root, args, ctx, info) => {
+    const { idStore } = args || {}
+    try {
+        const attributes = getAttributes(RatingStore, info)
+        const data = await RatingStore.findAll({
+            attributes,
+            where: { idStore: idStore ? deCode(idStore) : deCode(ctx.restaurant),}
+        })
+        return data
+
+    } catch (e) {
+        const error = new Error('Lo sentimos, ha ocurrido un error interno')
+        return error
+    }
+
+}
+export const getAllRatingStar = async (_root, { idStore }, ctx, info) => {
+    const data = await ratingStoreStart.findAll({
+        attributes: ['rScore', 'idStore', 'rSId', 'createAt'],
+        where: { idStore: idStore ? deCode(idStore) : deCode(ctx.restaurant),}
+    })
+    return data
+}
+export const setRatingStar = async (_root, { input }, context) => {
+    const { idStore, rScore } = input || {}
+    console.log(idStore, rScore)
+    try {
+        const [rating, _created] = await ratingStoreStart.findOrCreate({
+            where: { id: deCode(context.User.id) },
+            defaults: {
+                id: deCode(context.User.id),
+                idStore: deCode(idStore),
+                rScore
+            }
+        })
+        if (rating) {
+            await ratingStoreStart.update({
+                rScore
+            }, { where: { id: deCode(context.User.id) } })
+            return { success: true, message: '' }
+        }
+        return { success: true, message: 'Subido con éxito' }
+    } catch (error) {
+        return { success: false, message: error }
+    }
+
+}
+export const setRating = async (_root, { input }, context) => {
+    const { idStore, rAppearance, rTasty, rGoodTemperature, rGoodCondition } = input || {}
+    try {
+        const [rating, _created] = await RatingStore.findOrCreate({
+            where: { id: deCode(context.User.id) },
+            defaults: {
+                id: deCode(context.User.id),
+                idStore: deCode(idStore),
+                rAppearance,
+                rGoodTemperature,
+                rTasty,
+                rGoodCondition,
+                rState: 1
+            }
+        })
+        if (rating) {
+            await RatingStore.update({
+                rState: 1,
+                rAppearance,
+                rGoodTemperature,
+                rTasty,
+                rGoodCondition,
+            }, { where: { idStore: deCode(idStore) } })
+            return { success: true, message: 'Campos subidos' }
+        }
+        return { success: true, message: 'Subido con éxito' }
+    } catch (error) {
+        return { success: false, message: error }
+    }
+
+}
 export const setFavorites = async (_root, { input }, context) => {
     try {
         const data = input
-        console.log(data)
         const { idStore } = data || {}
         if (data.fState) {
             await updateFavorites(null, { input: data }, context)
@@ -307,6 +406,13 @@ export default {
             },
         },
         Store: {
+            getAllRatingStar: async (parent, _args, _context, info) => {
+                const data = await ratingStoreStart.findAll({
+                    attributes: ['rScore', 'idStore', 'rSId', 'createAt'],
+                    where: { idStore: deCode(parent.idStore) }
+                })
+                return data
+            },
             getStoreSchedules: async (parent, _args, _context, info) => {
                 try {
                     const attributes = getAttributes(ScheduleStore, info)
@@ -361,7 +467,10 @@ export default {
     QUERIES: {
         getStore,
         getFavorite,
+        getAllRatingStar,
+        getOneRating,
         getOneFavorite,
+        getAllRating,
         getAllShoppingCard,
         getAllStoreInStore,
         getOneStore
@@ -370,7 +479,9 @@ export default {
     MUTATIONS: {
         newRegisterStore,
         setFavorites,
+        setRatingStar,
         deleteOneItem,
+        setRating,
         registerShoppingCard,
     }
 }

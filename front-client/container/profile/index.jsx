@@ -120,7 +120,6 @@ export const Profile = () => {
                                     onChange={handleChange}
                                     title="Contraseña"
                                     required
-                                    autoComplete='none'
                                     type="password"
                                     range={{ min: 0, max: 180 }}
                                 />

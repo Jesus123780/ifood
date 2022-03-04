@@ -175,9 +175,9 @@ export const ModalBody = styled.div`
 
 export const ModalFooter = styled.div`
      position: fixed;
-    bottom: -1px;
+    bottom: 0;
     left: 0;
-    width: 95%;
+    width: 100%;
     right: 0;
     margin: auto;
     background-color: ${BGColor};

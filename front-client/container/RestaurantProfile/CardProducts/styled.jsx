@@ -50,4 +50,20 @@ export const Card = styled.div`
     &&:hover {
       border: 1px solid #dbdad9;
     }
+    .card__description_main {
+    font-family: SulSans,Helvetica,sans-serif;
+    list-style: none;
+    cursor: pointer;
+    font-weight: lighter;
+    color: #717171;
+    word-break: break-word;
+    margin-bottom: 10px;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    }
 `

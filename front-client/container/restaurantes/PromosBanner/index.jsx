@@ -1,17 +1,12 @@
 import React, { useContext, useState } from 'react';
-import { AsideCheckout } from '../../../components/AsideCheckout';
-import { RippleButton } from '../../../components/Ripple';
 import { Context } from '../../../context';
-import { PColor } from '../../../public/colors';
-import { AddPlusCircle, IconPlus } from '../../../public/icons';
-import { BannerPromo, CardProduct, ContainerCardProduct, Content, Img } from './styled';
+import { BannerPromo, ContainerCardProduct, Content, Img } from './styled';
 import Link from 'next/link'
 
 export const PromosBanner = () => {
   // STATES
   const { dispatch, setAlertBox, state_product_card, handleMenu } = useContext(Context)
   const [color, setActiveColor] = useState(null)
-  console.log(color)
   // HANDLES
   const handleAddProduct = elem => {
     handleMenu(1)
@@ -62,7 +57,7 @@ export const PromosBanner = () => {
     <Content>
       <ContainerCardProduct>
         {data?.map(products => (
-          <Link href={`/restaurantes/promos/${products.StoreName}/${products.pId}`}>
+          <Link key={products.pId} href={`/restaurantes/promos/${products.StoreName}/${products.pId}`}>
             <a>
               <BannerPromo color={color} onMouseOut={() => setActiveColor('red')} onMouseOver={() => setActiveColor('blue')} key={products.pId}>
                 <Img src={products.images} alt={products.pName} />

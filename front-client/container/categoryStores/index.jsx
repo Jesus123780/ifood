@@ -13,8 +13,6 @@ export const CategoryStores = ({ data, src }) => {
                 </span>
                 <div className="merchant-banner__status-description" data-test-id="merchant-banner-status-description">
                     <h2 className="merchant-banner__status-title">{data?.cName}</h2>
-                    {/* <h2 className="merchant-banner__status-title">{open && 'Restaurante  cerrado'}</h2> */}
-                    {/* <h3 className="merchant-banner__status-message">{open ? `Abre mañana a las ${dataScheduleTomorrow?.getOneStoreSchedules?.schHoSta}` : null}</h3> */}
                 </div>
             </MerchantBannerWrapperInfo>
             <Text margin='30px 0'>{data?.cName}</Text>

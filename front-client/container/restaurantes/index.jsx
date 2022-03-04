@@ -6,7 +6,7 @@ import { RippleButton } from '../../components/Ripple';
 import { Context } from '../../context';
 import { PColor } from '../../public/colors';
 import { AddPlusCircle, IconLogo, IconPlus } from '../../public/icons';
-import { CardProduct, ContainerCardProduct, ContainerFilter, Content, ContentFilter, ContentStores, CtnItemFilter, H2, ItemCategory, ItemFilter, List, WrapFlex } from './styled';
+import { CardProduct, ContainerCardProduct, ContainerFilter, Content, ContentFilter, ContentStores, CtnBox, CtnItemFilter, H2, ItemCategory, ItemFilter, List, WrapFlex } from './styled';
 import Link from 'next/link'
 import Tabs from '../../components/Tabs';
 import { Range } from '../../components/InputRange';
@@ -53,34 +53,38 @@ export const Restaurant = () => {
       <List>
         {getCatStore?.getAllCatStore?.map(cat => {
           const nameCat = cat?.cName?.replace(/\s/g, '-')?.toLowerCase();
-          return(
-          <Link href={`/categories/${nameCat}/${cat.catStore}`}>
-            <a>
-              <ItemCategory key={cat.pId}>
-                <Image
-                  objectFit='contain'
-                  width={90}
-                  height={90}
-                  src={'/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
-                  alt="Picture of the author"
-                // blurDataURL="data:..." automatically provided
-                // placeholder="blur" // Optional blur-up while loading
+          return (
+            <CtnBox key={cat.catStore}>
+              <Link href={`/categories/${nameCat}/${cat.catStore}`}>
+                <a>
+                  <ItemCategory>
+                    <Image
+                      objectFit='contain'
+                      width={90}
+                      height={90}
+                      src={'/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
+                      alt="Picture of the author"
+                      blurDataURL="data:..."
+                      unoptimized={true}
+                      placeholder="blur" // Optional blur-up while loading
 
-                />
-              </ItemCategory>
-              <h2 className="title-cat">{cat.cName}</h2>
-            </a>
-          </Link>
-        )})}
+                    />
+                  </ItemCategory>
+                  <h2 className="title-cat">{cat.cName}</h2>
+                </a>
+              </Link>
+            </CtnBox>
+          )
+        })}
       </List>
       {/* PRODUCT DEMO */}
       {/* BEST RESTAURANT */}
       <H2>Los mejores restaurantes para ti</H2>
       <List>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(products => (
-          <Link href={`/categories/${products.StoreName}/${products.pId}`}>
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((products, i) => (
+          <Link key={products + i} href={`/categories/${products.StoreName}/${products.pId}`}>
             <a>
-              <ItemCategory key={products.pId}>
+              <ItemCategory>
                 {/* <Img src={products.images} alt={products.pName} /> */}
               </ItemCategory>
             </a>
@@ -108,22 +112,22 @@ export const Restaurant = () => {
           </Tabs.Panel>
           <Tabs.Panel label={`Categorías`}>
             <WrapFlex>
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map((item, index) => <ItemFilter key={item._id} onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Entrega a domicilio</ItemFilter>)}
+              {/* {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map((item, index) => <ItemFilter key={index + 1} onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Entrega a domicilio</ItemFilter>)} */}
             </WrapFlex>
             <RippleButton widthButton='100%'>Ver resultados </RippleButton>
           </Tabs.Panel>
           <Tabs.Panel label={`Métodos de pago`}>
             <h2>Peso promedio</h2>
             <WrapFlex>
-              {[1, 2, 3, 4, 5].map((item, index) => <ItemFilter key={item._id} onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>$$$$$</ItemFilter>)}
+              {/* {[1, 2, 3, 4, 5].map((item, index) => <ItemFilter key={item._id} onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>$$$$$</ItemFilter>)} */}
             </WrapFlex>
             <h2>Pago de la app</h2>
             <WrapFlex>
-              {[1, 2, 3, 4, 5].map((item, index) => <ItemFilter key={item._id} onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Amex</ItemFilter>)}
+              {/* {[1, 2, 3, 4, 5].map((item, index) => <ItemFilter key={item._id} onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Amex</ItemFilter>)} */}
             </WrapFlex>
             <h2>Pago contra entrega</h2>
             <WrapFlex>
-              {[1, 2, 3, 4, 5].map((item, index) => <ItemFilter key={item._id} onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Amex</ItemFilter>)}
+              {/* {[1, 2, 3, 4, 5].map((item, index) => <ItemFilter key={item._id} onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Amex</ItemFilter>)} */}
             </WrapFlex>
             <RippleButton widthButton='100%'>Ver resultados </RippleButton>
           </Tabs.Panel>
@@ -132,8 +136,8 @@ export const Restaurant = () => {
       <AwesomeModal zIndex='9990' padding='25px' height='40vh' show={OPEN_MODAL_FILTER.state} onHide={() => { OPEN_MODAL_FILTER.setState(!OPEN_MODAL_FILTER.state) }} onCancel={() => false} size='60%' btnCancel={false} btnConfirm={true} onConfirm={() => router.push('/restaurante')} header={false} footer={true} borderRadius='10px' >
         <h2>Ordenar por </h2>
         <ContentFilter>
-          {[1, 2, 3, 4, 5].map(x => (
-            <CtnItemFilter key={x._id}>
+          {[1, 2, 3, 4, 5].map((x, i) => (
+            <CtnItemFilter key={i + 1}>
               <IconLogo color={PColor} size='52px' />
             </CtnItemFilter>
           ))}

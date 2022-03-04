@@ -106,15 +106,15 @@ export const AsideCheckout = ({ menu }) => {
           <IconCancel size='15px' color={PColor} />
         </RippleButton>
         <Content>
-          {dataShoppingCard?.getAllShoppingCard.length > 0 &&   <div className="restaurant-cart-header">Tu pedido en</div>}
+          {dataShoppingCard?.getAllShoppingCard.length > 0 && <div className="restaurant-cart-header">Tu pedido en</div>}
           <div>
-            {key?.map(store => {
+            {key?.map((store, i) => {
               return (
-                <div>
+                <div key={i + 1}>
                   <GarnishChoicesHeader>
                     <Text className='garnish-choices__title' size='30px'>{store}</Text>
                   </GarnishChoicesHeader>
-                  <div key={store.store}>
+                  <div>
                     {dataShoppingCard?.getAllShoppingCard.length > 0 ? result2[store]?.map((product, idx) => (
                       <CardProduct key={product.ShoppingCard}>
                         {/* <Link href={`delivery/${product.getStore.city.cName?.toLocaleLowerCase()}-${product.getStore.department.dName?.toLocaleLowerCase()}/${product.getStore.storeName}/${product.getStore.idStore}`}>
@@ -161,7 +161,7 @@ export const AsideCheckout = ({ menu }) => {
             })}
           </div>
         </Content>
-       {dataShoppingCard?.getAllShoppingCard.length > 0 && <ActionPay>
+        {dataShoppingCard?.getAllShoppingCard.length > 0 && <ActionPay>
           <ContentTotal>
             <Text bold='900'>Total</Text>
             <Text bold='900'>$ {numberFormat(dataShoppingCard?.getAllShoppingCard.length > 0 && totalProductPrice)}</Text>

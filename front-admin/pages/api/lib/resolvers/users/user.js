@@ -75,6 +75,9 @@ export const newRegisterUser = async (root, input) => {
     }
 }
 
+export const sayHello = async (_, { input }, ctx) => {
+    return 'Hello Pero que pasa chavales todo bien todo correcto...'
+}
 export const registerEmailLogin = async (_, { input }, ctx) => {
     const { uEmail } = input
     try {
@@ -237,6 +240,7 @@ export default {
     },
     QUERIES: {
         getUser,
+        sayHello,
         getOneUser,
         getOneUserProfile,
     },

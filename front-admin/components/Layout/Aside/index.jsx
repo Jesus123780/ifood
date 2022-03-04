@@ -39,7 +39,8 @@ const Aside = () => {
 
   }, [client])
   const [dataStore, { loading: LoadingRes }] = useStore()
-  const { storeName, idStore } = dataStore || {}
+  const { storeName, idStore, uState } = dataStore || {}
+
   return (
     <>
       <ContainerAside>
@@ -98,10 +99,10 @@ const Aside = () => {
                 <h1 className="title_store">{storeName}</h1>
               </a>
             </Link>
-            <div className="program_state">
+           {uState == 1 && <div className="program_state">
               <IconLogo size='20px' color={PColor} />
               <h3 className="sub_title_store">En pausa programada</h3>
-            </div>
+            </div>}
           </Info>
           <Router>
             <ActiveLink activeClassName="active" href="/dashboard">

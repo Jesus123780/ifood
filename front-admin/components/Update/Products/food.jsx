@@ -50,6 +50,7 @@ export const FoodComponent = ({ datafatures,
     intPorcentaje,
     dataFree,
 }) => {
+    console.log(data, 'fdlskdjflksj')
     const [stateCard, setState] = useState(false)
     const handleClick = () => {
         setState(!stateCard)
@@ -304,8 +305,8 @@ const ComponentCardProduct = ({ data, dispatch, ADD_TO_EFFECTIVE, REMOVE, ADD_PR
 export const SkeletonP = () => {
     return <>
         <>
-            {[1, 2, 3, 4].map(x => (
-                <CardProduct key={x.id}>
+            {[1, 2, 3, 4].map((x, i) => (
+                <CardProduct key={i + 1}>
                     <Skeleton />
                 </CardProduct>
             ))}

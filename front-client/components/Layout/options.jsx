@@ -3,8 +3,8 @@ import Link from '../common/Link'
 import styled, { css } from 'styled-components'
 import { BGColor, PColor } from '../../public/colors'
 import { useApolloClient } from '@apollo/client'
-import { FloatingBox, ButtonOption, FloatingBoxTwo, Overline, Button } from './styled'
-import { IconLogout, IconMessageMain, IconShopping, IconUser } from '../../public/icons'
+import { FloatingBox, ButtonOption, FloatingBoxTwo, Overline, Button, ButtonOptionFav } from './styled'
+import { IconArrowBottom, IconLogout, IconMessageMain, IconShopping, IconUser } from '../../public/icons'
 import { useRouter } from 'next/router'
 import { Context } from '../../context'
 import { OUR_URL_BASE, URL_BASE } from '../../apollo/urls'
@@ -59,9 +59,9 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
     return (
         <>
             <Overline onClick={() => setShow(!true)} show={show} />
-            <ButtonOption onClick={() => setOpenOption(!openOption)}>
+            <ButtonOption onClick={() => handleClick(1)}>
                 <IconUser size='25px' color={PColor} />
-                <LeftNav show={openOption}>
+                <LeftNav show={show === 1}>
                     <Enlace href='/profile'>
                         <a>
                             <Button type="button">
@@ -87,21 +87,18 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
                 </div>
                 <IconShopping size='25px' color={PColor} />
             </ButtonOption>
+            <ButtonOptionFav onMouseOut={() => setShow(0)} onMouseOver={() => setShow(2)} >
+                <Enlace href='/favoritos'>
+                    <a>
+                        <Button type="button">
+                            <IconArrowBottom size='15px' color={PColor} />
+                        </Button>
+                    </a>
+                </Enlace>
+            </ButtonOptionFav>
             <ContainerOption>
                 <FloatingBoxTwo show={show === 2}>
-                    <Option Theme={false} >
-                        <Text>Pantalla y accesibilidad</Text>
-                        <ButtonTheme
-                            onClick={() => keyTheme === 'light' ? handleTheme('dark') : handleTheme('light')}>
-                            <Switch active={'dark' === 'dark' ? '40px' : '1px'} />
-                        </ButtonTheme>
-                    </Option>
-                    <Option Theme={false} >
-                        <ButtonOption space onClick={onClickLogout}>
-                            <span>Cerrar sesión</span>
-                            <IconLogout size='20px' color={PColor} />
-                        </ButtonOption>
-                    </Option>
+                    sadasñlk
                 </FloatingBoxTwo>
             </ContainerOption>
         </>
@@ -126,7 +123,7 @@ export const LeftNav = styled.div`
         font-weight: 500;
         margin: 5% 0;
     }
-    top: 80px;
+    top: 52px;
     right: -100px;
     @media (max-width: 768px){ 
         left: 0;
@@ -149,7 +146,7 @@ export const LeftNav = styled.div`
             transform: translateY(-50px);
     `}
 `
-const ContainerOption = styled.div`
+export const ContainerOption = styled.div`
     width: min-content;
     position: relative;
 `

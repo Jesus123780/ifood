@@ -2,7 +2,7 @@ import React, { useEffect, useReducer, useState } from 'react'
 import { useMutation, useQuery, useLazyQuery } from '@apollo/client'
 import PropTypes from 'prop-types'
 import { CREATE_SCHEDULE_STORE, GET_ALL_PRODUCT_STORE, GET_CAT_OF_PRODUCTS, GET_SCHEDULE_STORE, REGISTER_CAT_OF_PRODUCTS } from './queriesStore'
-import { Card, ContentAction, ContentCard, Text } from './styled'
+import { Card, ContentAction, ContentCard, CtnItems, Text } from './styled'
 import { useFormTools } from '../../components/BaseForm'
 import InputHooks from '../../components/InputHooks/InputHooks'
 import { AwesomeModal } from '../../components/AwesomeModal'
@@ -13,11 +13,15 @@ import { DELETE_ONE_CAT_PRODUCTS, GET_ULTIMATE_CATEGORY_PRODUCTS, UPDATE_CAT_IN_
 import { AddPlusCircle, IconDelete, IconEdit, IconLove } from '../../public/icons'
 import { RippleButton } from '../../components/Ripple'
 import { BGColor, PColor, PVColor, WColor } from '../../public/colors'
-import { CardProduct, ContainerCardProduct, ContentIconFav, ContentImg, ContentInfo, Img } from '../../components/Update/Products/styled'
+import { CardProduct, ContainerCardProduct, ContentIconFav, ContentImg, ContentInfo, Img, Item } from '../../components/Update/Products/styled'
 import { SkeletonP } from '../../components/Update/Products/food'
 import { Discount, Title } from '../../components/Update/Products/ViewProducts/styled'
 import { Rate } from '../../components/Rate'
 import { useRouter } from 'next/router'
+import { Table } from 'components/Table'
+import moment from 'moment'
+import styled from 'styled-components'
+import { Section } from 'components/Table/styled'
 
 export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
     const initialStateInvoice = {
@@ -153,49 +157,47 @@ export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
         <>
             <AwesomeModal backdrop='static' zIndex='90' bgColor='transparent' padding='25px' show={SHOW_CATEGORIES.state} onHide={() => { SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state) }} onCancel={() => false} size='medium' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
                 <form onSubmit={(e) => handleForm(e)}>
-                    <InputHooks
-                        title='Nombre de la categoría'
-                        width='100%'
-                        required
-                        error={errorForm?.catName}
-                        value={dataForm?.catName}
-                        onChange={handleChange}
-                        name='catName'
-                    />
-                    <InputHooks
-                        TypeTextarea
-                        title='Description'
-                        width='100%'
-                        required
-                        error={errorForm?.catDescription}
-                        value={dataForm?.catDescription}
-                        onChange={handleChange}
-                        name='catDescription'
-                    />
+                    <InputHooks title='Nombre de la categoría' width='100%' required error={errorForm?.catName} value={dataForm?.catName} onChange={handleChange} name='catName' />
+                    <InputHooks TypeTextarea title='Description' width='100%' required error={errorForm?.catDescription} value={dataForm?.catDescription} onChange={handleChange} name='catDescription' />
                     <ButtonAction type='submit'>
                         Submit
                     </ButtonAction>
                 </form>
-                <ButtonAction onClick={() => SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state)}>
-                    Registrar  Categorías de productos
-                </ButtonAction>
+                <ButtonAction onClick={() => SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state)}> Registrar  Categorías de productos </ButtonAction>
             </AwesomeModal>
-            <ButtonAction onClick={() => SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state)}> Registrar Categorías</ButtonAction>
-            <ContentCard>
-                {datCat?.catProductsAll?.map(x => (
-                    <Card active={x.carProId === idCat} radius='10px' margin='20px' height='300px' width='30%' key={x.carProId} onClick={() => openModal(x.carProId)}>
-                        <div >
-                            <Text size='20px' >{x.pName}</Text>
-                            <Text size='20px' >{x.ProDescription}</Text>
-                        </div>
-                        <RippleButton onClick={() => deleteCatOfProducts({ variables: { idPc: x.carProId, pState: x.pState } })}>
-                            <IconDelete size={20} color={BGColor} />
-                        </RippleButton>
-                    </Card>
-                ))}
-            </ContentCard>
-            <AwesomeModal backdrop='static' zIndex='990' bgColor='transparent' padding='25px' show={openModalProducts} onHide={() => setOpenModalProducts(!openModalProducts)} onCancel={() => setOpenModalProducts(!openModalProducts)} size='medium' btnCancel={true} btnConfirm={true} onConfirm={() => handleUpdateCatInProduct()} header={true} footer={true} borderRadius='10px' >
-                <ContainerCardProduct grid={false}>
+            <ButtonAction onClick={() => SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state)}> Adicionar Categorías</ButtonAction>
+            <Table
+                titles={[
+                    { name: 'Nombre', key: '', justify: 'flex-center', width: '1fr' },
+                    { name: 'Descripción', justify: 'flex-center', width: '1fr' },
+                    { name: '', justify: 'flex-center', width: '1fr' },
+                    { name: '', justify: 'flex-center', width: '1fr' },
+                ]}
+                labelBtn='Product'
+                data={datCat?.catProductsAll}
+                renderBody={(dataB, titles) => dataB?.map((x, i) => <Section odd padding='10px 0' columnWidth={titles} key={i}>
+                    <Item>
+                        <span># {x.pName}</span>
+                    </Item>
+                    <Item>
+                        <span> {x.ProDescription}</span>
+                    </Item>
+                    <Item>
+                        <Button onClick={() => openModal(x.carProId)}>
+                            Seleccionar
+                        </Button>
+                    </Item>
+                    <Item>
+                        <button onClick={() => deleteCatOfProducts({ variables: { idPc: x.carProId, pState: x.pState } })}>
+                            <IconDelete size={20} color={PColor} />
+                        </button>
+                    </Item>
+                </Section>)
+                }
+            />
+            < AwesomeModal height='70vh' backdrop='static' zIndex='990' bgColor='transparent' padding='25px' show={openModalProducts} onHide={() => setOpenModalProducts(!openModalProducts)} onCancel={() => setOpenModalProducts(!openModalProducts)} size='medium' btnCancel={false} btnConfirm={false} onConfirm={() => handleUpdateCatInProduct()} header={true} footer={true} borderRadius='10px' >
+                <RippleButton padding='5px' onClick={() => SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state)}> Subir productos</RippleButton >
+                <CtnItems>
                     {!dataProducto?.length ? <SkeletonP /> : dataProducto?.map(product => (
                         <CardProduct grid={false} key={product.carProId} >
                             <ContentImg grid={false}>
@@ -218,11 +220,11 @@ export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
                             </ContentInfo>
                         </CardProduct>
                     ))}
-                </ContainerCardProduct>
-                <ContainerCardProduct>
+                </CtnItems>
+                <CtnItems>
                     {product?.PRODUCT?.map((x, idx) => (
                         <Card radius='10px' margin='20px' height='300px' width='100%' key={idx.carProId}>
-                            <div >
+                            <div >{console.log(x)}
                                 <Text size='20px' >{x.pName}</Text>
                                 <Text size='20px' >{x.ProDescription}</Text>
                             </div>
@@ -233,9 +235,15 @@ export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
                             </ContentAction>
                         </Card>
                     ))}
-                </ContainerCardProduct>
-                <RippleButton onClick={() => SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state)}> Subir productos</RippleButton >
-            </AwesomeModal>
+                </CtnItems>
+            </AwesomeModal >
         </>
     )
 }
+
+const Button = styled.button`
+    color: ${PColor};
+    text-decoration: underline;
+    background-color: transparent;
+    cursor: pointer;
+`

@@ -6,7 +6,7 @@
     username: String
     lastName: String
     email: String
-    avatar: String
+    avatar: String  
     uToken: String
     uPhoNum: String
     ULocation: String
@@ -24,8 +24,7 @@
 type Token {
   token: String
 }
-
-  # Login user
+# Login user
 input LoginInput {
   email: String!
   password: String!
@@ -65,6 +64,7 @@ input LoginInput {
     getUser(id: ID, userName: String): User
     getOneUser(id: ID, uEmail: String): User
     getUsers: [User]
+    users: [User]
     validateToken(uEmail: String, uToken: String) : AuthPayload
     getListBuckets: String
     showPrivateStuff: String

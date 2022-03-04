@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Container, Wrapper, Modal, ModalHeader, ModalTitle, BtnClose, ModalBody, ModalFooter, BtnCancel, BtnConfirm } from './styled'
 import { MODAL_SIZES, BUTTONS_TEXT } from './constanst'
-import PropTypes from 'prop-types'
 import { IconCancel } from '../../public/icons'
 import { BGColor } from '../../public/colors'
 
@@ -88,35 +87,4 @@ export const AwesomeModal = ({
             </Wrapper>
         </Container>
     )
-}
-
-AwesomeModal.propTypes = {
-    title: PropTypes.node,
-    display: PropTypes.string,
-    size: PropTypes.string,
-    padding: PropTypes.string,
-    zIndex: PropTypes.string,
-    show: PropTypes.bool,
-    openLateral: PropTypes.bool,
-    disabled: PropTypes.bool,
-    backdrop: PropTypes.bool,
-    keyboard: PropTypes.bool,
-    footer: PropTypes.bool,
-    btnCancel: PropTypes.bool,
-    btnConfirm: PropTypes.bool,
-    useScroll: PropTypes.bool,
-    children: PropTypes.object,
-    hiddeOnConfirm: PropTypes.bool,
-    showLateral: PropTypes.bool,
-    timeOut: PropTypes.number,
-    height: PropTypes.string,
-    header: PropTypes.bool,
-    submit: PropTypes.bool,
-    onHidde: PropTypes.func,
-    onCancel: PropTypes.func,
-    onConfirm: PropTypes.func,
-    hideOnConfirm: PropTypes.func || PropTypes.bool,
-    closeIcon: PropTypes.bool,
-    borderRadius: PropTypes.string,
-    onHide: PropTypes.func
 }

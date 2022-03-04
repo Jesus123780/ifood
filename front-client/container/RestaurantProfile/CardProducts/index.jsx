@@ -3,14 +3,16 @@ import PropTypes from 'prop-types'
 import { Card } from './styled'
 import Image from 'next/image'
 import { APColor } from '../../../public/colors'
+import { Text } from '../styled'
 
 const CardProduct = ({ food, onClick }) => {
     return (
         <Card onClick={onClick}>
             <div>
                 <h3 className="card__description">{food.pName}</h3>
-                <h3 className="card__description">{food.ProDescription}</h3>
+                <h3 className="card__description_main">{food.ProDescription}</h3>
                 <div className='footer'>
+                    <Text color={APColor}>{food.ProDelivery === 1 ? 'Envio Gratis' : ''}</Text>
                     <span className="card__price">$ {food.ProPrice}</span>
                     <span className="card__des" style={{ color: APColor }}>$ {food.ProDescuento}</span>
                 </div>

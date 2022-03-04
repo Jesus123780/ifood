@@ -36,6 +36,10 @@ export const ContentCategoryProducts = styled.div`
 export const ButtonLike = styled.button`
   margin: 30px 0;
   cursor: pointer;
+  background-color: hsla(0,0%,100%,.7);
+  border: none;
+  cursor: pointer;
+  z-index: 2;
   
 `
 export const HeadCategory = styled.div`
@@ -78,10 +82,10 @@ export const MerchantBannerWrapperInfo = styled.div`
     position: relative;
     justify-content: unset;
     padding-left: 30px;
-    background-color: rgba(0,0,0,.7);
+    background-color: rgb(0 0 0 / 26%);
     background-blend-mode: overlay;
     max-width: 1366px;
-    margin: 30px auto 20px;
+    margin: 130px auto 20px;
     background-image: ${({ bannerImage }) => bannerImage && (bannerImage)};
     .merchant-banner__status-description {
       line-height: 1.15;
@@ -116,6 +120,35 @@ export const MerchantBannerWrapperInfo = styled.div`
         }
       }
     }
+`
+export const CardItemRating = styled.div`
+  display: flex;
+  place-content: center;
+  flex-direction: column;
+  align-items: center; 
+  width: 30%;
+  .option {
+    background-color: #cccccc67;
+    border-radius: 5px; 
+    display: flex;
+    place-content: space-around;
+    align-items: center; 
+  }
+`
+export const CtnItemFilter = styled.div`
+    padding: 10px;
+    place-content: center;
+    flex-direction: column;
+    display: flex;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 60%;
+    height: 100px;
+    align-items: center;
+    min-height: 100px;
+    width: 100px;
+    min-width: 100px;
+
 `
 export const CardProductsContent = styled.div`
     width: 100%;  
@@ -164,11 +197,26 @@ export const HeadSticky = styled.div`
     padding: 5px 0;
     width: 100%;
 `
+export const Title = styled.h1`
+  text-rendering: optimizeLegibility;
+  font-family: PFont-Light;
+  box-sizing: border-box;
+  display: inline;
+  color: #3e3e3e;
+  margin: 0 0 2px;
+  margin-right: 10px;
+  font-weight: 400;
+  letter-spacing: -1px;
+  font-size: 2.25rem;
+  line-height: 44px;
+  margin-bottom: 0;
+  width: fit-content;
+`
 export const Flex = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
-  /* justify-content: space-evenly */
+  justify-content: space-between;
   `
 export const ActionButton = styled.div`
   /* position: absolute; */

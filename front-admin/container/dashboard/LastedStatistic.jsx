@@ -2,20 +2,33 @@ import { MainCard } from 'components/common/Reusable/ShadowCard'
 import { Rate } from 'components/Rate'
 import { PColor } from 'public/colors'
 import { IconShopping } from 'public/icons'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Content, MediaValue, Text } from './styled'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { GET_ALL_RATING_START_STORE, GET_MIN_PEDIDO } from './queriesStore'
 
-export const LastedStatistic = () => {
+export const LastedStatistic = ({ idStore }) => {
+  const [getAllRatingStar, { data: dataStartStore }] = useLazyQuery(GET_ALL_RATING_START_STORE)
+  const [stars, setStars] = useState(null)
+  useEffect(() => {
+    getAllRatingStar()
+    getMinPrice()
+    let suma = 0
+    const avg = dataStartStore?.getAllRatingStar?.map((x, index) => (suma += x.rScore)/(index+1))
+    !!avg && setStars((avg[avg.length-1])?.toFixed(1))
+    
+  }, [dataStartStore, dataMinPedido])
+  const [getMinPrice, { data: dataMinPedido }] = useLazyQuery(GET_MIN_PEDIDO)
+  console.log(dataMinPedido)
   return (
     <div>
-
       <div>
         <MainCard title={'Ultimos 90 dias'}>
           <Content>
             <div style={{ width: '30%' }}>
               <div style={{ display: 'flex', justifyContent: 'start', alignItems: 'center' }}>
-                <MediaValue>4.5</MediaValue>
-                <Rate size={35} rating={4.5} onRating={rate => console('rate')} />
+                <MediaValue>{stars}</MediaValue>
+                <Rate size={35} rating={stars} onRating={rate => console('rate')} />
               </div>
               <Text size='1.2em' color='#3f3e3e'>Media de calificaciones</Text>
             </div>

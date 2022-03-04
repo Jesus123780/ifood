@@ -76,13 +76,13 @@ export const Categories = ({
                                 <ButtonCard onClick={() => handleDelete(product?.caId)}>
                                     <IconDelete size={20} color={PColor} />
                                     <ActionName >
-                                Eliminarais
+                                        Eliminarais
                                     </ActionName>
                                 </ButtonCard>
                                 <ButtonCard delay='.1s' top={'80px'}>
                                     <IconEdit size={20} color={PColor} />
                                     <ActionName>
-                                Editar
+                                        Editar
                                     </ActionName>
                                 </ButtonCard>
                                 <ContentImg>
@@ -107,8 +107,8 @@ export const Categories = ({
 export const SkeletonP = () => {
     return <>
         <>
-            {[1, 2, 3, 4].map(x => (
-                <CardProduct key={x.id}>
+            {[1, 2, 3, 4].map((x, i) => (
+                <CardProduct key={i + 1}>
                     <Skeleton />
                 </CardProduct>
             ))}

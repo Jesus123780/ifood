@@ -379,3 +379,43 @@ export const GET_ONE_SCHEDULE_STORE = gql`
         }
     }
 `
+export const SET_RATING_STORE = gql`
+   mutation setRating($data: InputRatingStore) {
+    setRating(input: $data) {
+        success
+        message      
+    }
+}
+
+`
+export const GET_ONE_RATING_STORE = gql`
+query getOneRating($idStore: ID){
+getOneRating(idStore: $idStore){
+  idStore
+  rId
+  id
+  rAppearance
+  rTasty
+  rGoodTemperature
+  rGoodCondition
+  rState
+  createAt
+  updateAt
+  }
+}
+`
+export const GET_ALL_RATING_START_STORE = gql`
+query getAllRatingStar($idStore: ID){
+getAllRatingStar(idStore: $idStore){
+  rSId
+  rScore
+  idStore
+  createAt 
+  }
+}
+`
+export const GET_MIN_PEDIDO = gql`
+query getMinPrice($idStore: ID){
+getMinPrice(idStore: $idStore)
+}
+`

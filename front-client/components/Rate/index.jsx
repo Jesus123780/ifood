@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { WColor } from '../../public/colors';
 import { IconRate } from '../../public/icons';
 import { ContentIcon } from './styled';
 export const Rate = ({ count, rating, color, onRating, size }) => {
@@ -40,7 +41,7 @@ Rate.defaultProps = {
     count: 5,
     rating: 0,
     color: {
-        filled: '#0eacf5',
+        filled: WColor,
         unfilled: '#DCDCDC',
     },
 };

@@ -1,6 +1,5 @@
-
-  # Stores
-  type ContractType {
+# Stores
+type ContractType {
     ctrId: ID
     id: ID
     idStore: ID
@@ -8,8 +7,8 @@
     catDescription: String
     createAt: DateTime
     updateAt: DateTime
-  }
-  input InputContractType {
+}
+input InputContractType {
     ctrId: ID
     id: ID
     idStore: ID
@@ -17,14 +16,47 @@
     catDescription: String
     createAt: DateTime
     updateAt: DateTime
-  }
-
-  type FavoriteStore {
+}
+# numero de estrellas
+type Star {
+  rSId: ID
+  rScore: Float
+  idStore: ID,
+  # id: ID
+  createAt: DateTime
+}
+input IStar {
+    rScore: Float
+    idStore: ID
+}
+type FavoriteStore {
     fIStoreId: ID
     fState: Int
     idStore: ID
-  }
-  type Store {
+}
+type RatingStore {
+    idStore: ID
+    rId: ID
+    id: ID
+    rAppearance: Int
+    rTasty: Int
+    rGoodTemperature: Int
+    rGoodCondition: Int
+    rState: Int
+    createAt: DateTime
+    updateAt: DateTime
+}
+input InputRatingStore {
+    idStore: ID
+    rId: ID
+    id: ID
+    rAppearance: Int
+    rTasty: Int
+    rGoodTemperature: Int
+    rGoodCondition: Int
+    rState: Int
+}
+type Store {
     idStore: ID
     cId: ID
     id: ID
@@ -59,8 +91,9 @@
     city: City
     department: Department
     getStoreSchedules: [StoreSchedule]
-  }
-  input IStore {
+    getAllRatingStar: [Star]
+}
+input IStore {
     idStore: ID
     cId: ID
     id: ID
@@ -90,31 +123,48 @@
     secVia: String
     addressStore: String
     createAt: DateTime
-  }
+}
 
-  type Query {
-"""Response for find one Store"""
+type Query {
+    """
+    Response for find one Store
+    """
     getStore(id: ID, StoreName: String, idStore: ID): Store
     getAllStore(id: ID, StoreName: String, idStore: ID): [Store]
-    getAllStoreInStore(pId: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int): [Store]
+    getAllStoreInStore(
+        pId: ID
+        cId: ID
+        dId: ID
+        ctId: ID
+        search: String
+        min: Int
+        max: Int
+    ): [Store]
     getOneStore(id: ID, StoreName: String, idStore: ID): Store
     getOneCOntractStore(StoreName: String, idStore: ID): ContractType
     getFavorite: [FavoriteStore]
     getOneFavorite(idStore: ID): FavoriteStore
-  }
+    getOneRating(idStore: ID): RatingStore
+    getAllRating(idStore: ID): [RatingStore]
+    getAllRatingStar(idStore: ID): [Star]
+}
 
-input IFavorites{
-  fIStoreId: ID
-  fState: Int
-  idStore: ID!
+input IFavorites {
+    fIStoreId: ID
+    fState: Int
+    idStore: ID!
 }
 type Mutation {
-  """"registra Store data"""
-  newRegisterStore(input: IStore): AuthPayload
-  createOneContract(input: InputContractType): AuthPayload
-  setFavorites(input: IFavorites!): Response!
+    """
+    "registra Store data
+    """
+    newRegisterStore(input: IStore): AuthPayload
+    createOneContract(input: InputContractType): AuthPayload
+    setFavorites(input: IFavorites!): Response!
+    setRating(input: InputRatingStore): Response!
+    setRatingStar(input: IStar): Response!
 }
 
 type Subscription {
-  newStore: Store
+    newStore: Store
 }

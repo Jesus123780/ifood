@@ -255,7 +255,7 @@ export const CheckStatus = ({ setModal, modal, dataModal }) => {
                                             <DisRestaurant>
                                                 <Text className='dish-restaurant__header' margin='12px 0' size='14px'> {'getStore?.storeName'}</Text>
                                                 <div className="dish-restaurant__divisor"></div>
-                                                <label tabindex="0" className="dish-observation-form__label" for="observations-form">¿Algún comentario?</label>
+                                                <label tabIndex="0" className="dish-observation-form__label" for="observations-form">¿Algún comentario?</label>
                                             </DisRestaurant>
                                             <DisRestaurant>
                                                 <Text size='1.4'>{p?.getAllShoppingCard.comments}</Text>

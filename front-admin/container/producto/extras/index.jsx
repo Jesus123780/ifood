@@ -148,7 +148,7 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
                 nameFun: 'ExtProductFoodsOptionalAll',
                 dataNew: ExtProductFoodsOptionalAll
             })
-        }).then(res => setAlertBox({ message: res?.message?.DeleteExtFoodSubsOptional?.message  }))
+        }).then(res => setAlertBox({ message: res?.message?.DeleteExtFoodSubsOptional?.message }))
     }
 
 
@@ -432,7 +432,7 @@ export const OptionalExtraProducts = ({ pId, dataOptional }) => {
         {data?.listIds?.map((listID, index) => {
             const list = data.lists[listID]
             return (
-                <DragDropContext onDragEnd={onDragEnd}>
+                <DragDropContext onDragEnd={onDragEnd} key={index + 1}>
                     <Droppable droppableId={listID} type='list' direction='vertical'>
                         {
                             (provided) => (
@@ -455,7 +455,7 @@ export const OptionalExtraProducts = ({ pId, dataOptional }) => {
                                         </GarnishChoicesHeader>
                                         <span>{list?.cards?.length}</span>
                                         <List list={list} index={index} setData={setData} data={data} />
-                                        <Input card aria-disabled autoFocus autoComplete={false} onKeyDown={(event) => (event.key === 'Enter' && handleAdd({ listId: listID }))} onChange={(e) => setTitle(e.target.value)} value={listID.title} name='title' placeholder='enter card' />
+                                        <Input card aria-disabled autoFocus onKeyDown={(event) => (event.key === 'Enter' && handleAdd({ listId: listID }))} onChange={(e) => setTitle(e.target.value)} value={listID.title} name='title' placeholder='enter card' />
                                         <RippleButton widthButton='100%' margin='20px auto' onClick={(e) => handleAdd({ listId: listID })} onKeyPress={(e) => {
                                             if (e.key === 'Enter') {
                                                 handleAdd({ listId: listID })

@@ -13,7 +13,6 @@ export default function HomeView() {
     const id = location.query.id
     const [dataCatStores, setDataCatStore] = useState([])
     const [getOneCatStore, { data: dataCatSto }] = useLazyQuery(GET_ONE_STORE_IN_CATEGORY)
-    console.log(dataCatSto)
 
     useEffect(() => {
         getOneCatStore({

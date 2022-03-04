@@ -414,8 +414,8 @@ export const Products = ({ datafatures,
 export const SkeletonP = () => {
     return <>
         <>
-            {[1, 2, 3, 4].map(x => (
-                <CardProduct key={x.id}>
+            {[1, 2, 3, 4].map((x, i) => (
+                <CardProduct key={i +1}>
                     <Skeleton />
                 </CardProduct>
             ))}

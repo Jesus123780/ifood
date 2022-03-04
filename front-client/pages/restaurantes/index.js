@@ -18,10 +18,10 @@ import { GET_MESSAGES } from '../../gql/test'
 export default function RestaurantHome() {
   const { data } = useQuery(GET_ONE_STORE)
   const { data: dataEy } = useQuery(GET_ALL_COUNTRIES)
-  const {data: dataM } = useQuery(GET_MESSAGES, {
+  const { data: dataM } = useQuery(GET_MESSAGES, {
     context: { clientName: "subscriptions" }
   });
-  console.log(dataM, 'hola') 
+  console.log(dataM, 'hola')
   const { setAlertBox, dispatch, state_product_card } = useContext(Context)
   // ********************************LIST RESTAURANT********************************
   const [dataStore, setData] = useState([])

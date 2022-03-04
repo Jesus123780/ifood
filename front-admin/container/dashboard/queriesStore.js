@@ -126,3 +126,35 @@ query productFoodsAll($search: String, $min: Int, $max: Int, $gender: [String], 
 }
 
 `
+export const GET_ALL_RATING_START_STORE = gql`
+query getAllRatingStar($idStore: ID){
+getAllRatingStar(idStore: $idStore){
+  rSId
+  rScore
+  idStore
+  createAt 
+  }
+}
+`
+export const GET_MIN_PEDIDO = gql`
+query getMinPrice($idStore: ID){
+getMinPrice(idStore: $idStore)
+}
+`
+
+export const GET_All_RATING_STORE = gql`
+query getAllRating($idStore: ID){
+  getAllRating(idStore: $idStore){
+  idStore
+  rId
+  id
+  rAppearance
+  rTasty
+  rGoodTemperature
+  rGoodCondition
+  rState
+  createAt
+  updateAt
+  }
+}
+`

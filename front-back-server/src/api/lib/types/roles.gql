@@ -6,12 +6,41 @@ input IRole {
   id: ID
   name: String
 }
+
+  type User {
+    id: Int!
+    username: String!
+    email: String!
+    createdAt: String!
+    updatedAt: String! 
+    boards: [Board!]!
+    suggestions: [Suggestion!]!
+  }
+  type Subscription {
+    userAdded: User!
+  }
+  type Suggestion {
+    id: Int!
+    text: String!
+    creator: User!
+  }
+  type Board {
+    id: Int!
+    name: String!
+    suggestions: [Suggestion!]!
+    owner: Int!
+  }
 type Query {
 """Response for Role"""
   getRole(id: ID, name: String): Roles
   getRoles: [Roles]
   getMessage: String
+   allUsers: [User]
+  me: User
+  userBoards(owner: String!): [Board!]!
+  userSuggestions(creatorId: String!): [Suggestion!]!
 }
+
 
 """Response for Role"""
 type RolePayload {
