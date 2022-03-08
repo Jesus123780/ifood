@@ -23,9 +23,6 @@ export const ListRestaurant = ({ data, catStoreId }) => {
               <a>
                 <ItemWrapper key={x.idStore}>
                   <div>
-                    <button type='button' onClick={() => {}}>
-                      <IconLove color={PVColor} size={15} />
-                    </button>
                     <Image
                       className='store_image'
                       width={100}

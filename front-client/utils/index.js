@@ -1061,27 +1061,131 @@ export function RandomCode(length) {
     }
     return result;
 }
-export function getActiveToken (input, cursorPosition) {
+export function getActiveToken(input, cursorPosition) {
     // recuperamos la posición actual del cursor
     if (cursorPosition === undefined) return undefined
     // creamos un array temporal para guardar las palabras
     const words = []
     // recorremos el texto y lo separamos por espacios y saltos de línea
     input.split(/[\s\n]/).forEach((word, index) => {
-      // recuperamos la palabra anterior
-      const previous = words[index - 1]
-      // calculamos el rango de la palabra
-      // recuperamos el índice inicial de la palabra
-      const start = index === 0 ? index : previous.range[1] + 1
-      // recuperamos donde termina la palabra
-      const end = start + word.length
-      // guardamos la palabra y su rango en el texto
-      words.push({ word, range: [start, end] })
+        // recuperamos la palabra anterior
+        const previous = words[index - 1]
+        // calculamos el rango de la palabra
+        // recuperamos el índice inicial de la palabra
+        const start = index === 0 ? index : previous.range[1] + 1
+        // recuperamos donde termina la palabra
+        const end = start + word.length
+        // guardamos la palabra y su rango en el texto
+        words.push({ word, range: [start, end] })
     })
-  
     // buscamos en qué palabra estamos dependiendo de la posición del cursor
     return words.find(
-      ({ range }) => range[0] <= cursorPosition && range[1] >= cursorPosition
+        ({ range }) => range[0] <= cursorPosition && range[1] >= cursorPosition
     )
-  }
-  
+}
+
+export const DEFAULT_CVC_LENGTH = 3;
+export const DEFAULT_ZIP_LENGTH = 5;
+export const DEFAULT_CARD_FORMAT = /(\d{1,4})/g;
+export const CARD_TYPES = {
+    amex: {
+        name: "Amex",
+        color: "green"
+    },
+    visa: {
+        name: "Visa",
+        color: "lime"
+    },
+    diners: {
+        name: "Diners",
+        color: "orange"
+    },
+    discover: {
+        name: "Discover",
+        color: "purple"
+    },
+    jcb: {
+        name: "Jcb",
+        color: "red"
+    },
+    jcb15: {
+        name: "Jcb",
+        color: "red"
+    },
+    maestro: {
+        name: "Maestro",
+        color: "yellow"
+    },
+    mastercard: {
+        name: "Mastercard",
+        color: "lightblue"
+    },
+    unionpay: {
+        name: "Unipay",
+        color: "cyan"
+    }
+};
+
+export const getCardType = (cardNum) => {
+    var payCardType = "";
+    var regexMap = [
+        { regEx: /^4[0-9]{5}/gi, cardType: "VISA" },
+        { regEx: /^5[1-5][0-9]{4}/gi, cardType: "MASTERCARD" },
+        { regEx: /^3[47][0-9]{3}/gi, cardType: "AMEX" },
+        { regEx: /^6[0-9]{5}/gi, cardType: "DISCOVER" },
+        { regEx: /^(5[06-8]\d{4}|6\d{5})/gi, cardType: "MAESTRO" }
+    ];
+
+    for (var j = 0; j < regexMap.length; j++) {
+        if (cardNum.match(regexMap[j].regEx)) {
+            payCardType = regexMap[j].cardType;
+            break;
+        }
+    }
+    console.log(payCardType);
+    if (
+        cardNum.indexOf("50") === 0 ||
+        cardNum.indexOf("60") === 0 ||
+        cardNum.indexOf("65") === 0
+    ) {
+        var g = "508500-508999|606985-607984|608001-608500|652150-653149";
+        var i = g.split("|");
+        for (var d = 0; d < i.length; d++) {
+            var c = parseInt(i[d].split("-")[0], 10);
+            var f = parseInt(i[d].split("-")[1], 10);
+            if (
+                cardNum.substr(0, 6) >= c &&
+                cardNum.substr(0, 6) <= f &&
+                cardNum.length >= 6
+            ) {
+                payCardType = "RUPAY";
+                break;
+            }
+        }
+    }
+    return payCardType;
+};
+
+export function copyToClipboard(text) {
+    var data = [new ClipboardItem({ "text/plain": new Blob([text || ''], { type: "text/plain" }) })];
+    navigator.clipboard.write(data).then(function () {
+        console.log("Copied to clipboard successfully!");
+    }, function () {
+        console.error("Unable to write to clipboard. :-(");
+    });
+}
+
+// 'midudev'.Length // 7
+// 'midudev' [1] // i
+// 'midudev'.includes('dev') // true
+// 'midudev'.index0f ('midu') // 0
+// 'midudev'.startsWith('midu') // true
+// 'midudev'.endsWith('paint') // false
+// 'midudev'.slice(0, 4) // 'midu'
+// 'midudev'.slice(4) // 'dev'
+// 'midudev'.toUpperCase() // 'MIDUDEV'
+// 'MiduDev'.toLowerCase() // 'midudev'
+// 'midudev'.replace('dev',') // 'midu
+// 'midu'.repeat(3) // 'midumidumidu'
+//  ' mi du '. trim() // 'mi du'
+// 'mi du dev'.split(' ') // [ 'mi', 'du', 'dev' ]

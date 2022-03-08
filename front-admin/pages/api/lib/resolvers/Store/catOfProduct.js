@@ -81,7 +81,7 @@ export const updateCatInProduct = async (_root, { input }) => {
     try {
         await productModelFood.update({ carProId: deCode(idCat) }, { where: { pId: deCode(idProduct) } })
     } catch (e) {
-        const error = new Error('Lo sentimos, ha ocurrido un error interno2')
+        const error = new Error('Lo sentimos, ha ocurrido un error interno')
         return error
     }
 }

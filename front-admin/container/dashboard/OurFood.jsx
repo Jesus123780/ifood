@@ -11,7 +11,6 @@ import { GET_All_RATING_STORE } from './queriesStore'
 
 export const OurFood = () => {
   const { data: dataRating, loading: loadRating } = useQuery(GET_All_RATING_STORE)
-  console.log(dataRating)
   const [appearance, SetAppearance] = useState(0);
   const [rTasty, setTasty] = useState(0);
   const [rGoodTemperature, setGoodTemperature] = useState(0);
@@ -32,9 +31,8 @@ export const OurFood = () => {
     setTasty(rTasty)
     setGoodTemperature(goodTemperature)
     setGoodCondition(rGoodCondition)
-    console.log(totalAppearance, 'holaaaaaa');
   }, [dataRating])
-  console.log(dataRating?.getAllRating)
+  
   const dataArr = [
     {
       name: 'Buena apariencia',

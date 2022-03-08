@@ -147,7 +147,7 @@ export const updateExtraInProduct = async (_root, { input }) => {
         })
         return input
     } catch (e) {
-        const error = new Error('Lo sentimos, ha ocurrido un error interno2')
+        const error = new Error('Lo sentimos, ha ocurrido un error interno')
         return error
     }
 }

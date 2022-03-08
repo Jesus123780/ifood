@@ -7,7 +7,7 @@ const initialState = {
 };
 
 // No operation
-const noop = () => {};
+const noop = () => { };
 
 const initialDispatch = {
   setContainerRef: noop,
@@ -50,14 +50,12 @@ function reducer(state, action) {
 function StickyProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const setContainerRef = containerRef =>
-    dispatch({ type: ActionType.setContainerRef, payload: { containerRef } });
+  const setContainerRef = containerRef => dispatch({ type: ActionType.setContainerRef, payload: { containerRef } });
 
-  const addStickyRef = (topSentinelRef, bottomSentinelRef, stickyRef) =>
-    dispatch({
-      type: ActionType.addStickyRef,
-      payload: { topSentinelRef, bottomSentinelRef, stickyRef }
-    });
+  const addStickyRef = (topSentinelRef, bottomSentinelRef, stickyRef) => dispatch({
+    type: ActionType.addStickyRef,
+    payload: { topSentinelRef, bottomSentinelRef, stickyRef }
+  });
 
   const toggleDebug = () => dispatch({ type: ActionType.toggleDebug });
 

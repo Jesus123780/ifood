@@ -160,6 +160,7 @@ export const FloatingBoxTwo = styled(FloatingBox)`
     overflow: hidden;
     box-shadow: -1px 2px 8px 2px #dcdcdc;
     @media only screen and (min-width: 960px){
+    
     }
   
 `

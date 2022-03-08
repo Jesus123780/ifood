@@ -26,19 +26,24 @@ export  const Img = styled.img`
 export  const BannerPromo = styled.div`
     border-radius: 4%;
     cursor: pointer;
-    box-shadow: 1px 1px 3px #7c7c7c54;
+    box-shadow: 1px 1px 3px #00000052;
     margin: auto;
     place-content: center;
-    height: 250px;
-    ${props => props.color && css`
+    height: 190px;
+    min-height: 190px;
+    /* margin: 0 40px; */
+    /* ${props => props.color && css`
         background-color: ${props.color}
-    `}
+    `} */
+
 
 `
 export  const ContainerCardProduct = styled.div`
-    display: grid;
-    gap: 5px;
+    /* display: flex; */
+    margin: 0 40px ;
+    /* grid-template-columns: repeat(100, 100px); */
+    /* padding: 5px; */
     /* grid-template: 1fr/ 20% 20% 20% 20% 20% ; */
-    grid-template-columns: 33% repeat(auto-fill, 33%) 33%;
+    /* grid-template-columns: 33% repeat(auto-fill, 33%) 33%; */
 
 `

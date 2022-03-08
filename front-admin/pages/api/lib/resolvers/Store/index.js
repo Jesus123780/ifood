@@ -5,6 +5,8 @@ import createCatOfProductResolver from './catOfProduct'
 import emplooyeResolver from './emplooye'
 import ContractResolver from './contrac'
 import pedidosResolver from './pedidos'
+import setVisitorStore from './VisitorStore'
+import storyStore from './storyStore'
 
 export default {
     TYPES: {
@@ -12,7 +14,9 @@ export default {
         ...emplooyeResolver.TYPES,
         ...ScheduleStoreResolver.TYPES,
         ...createCatOfProductResolver.TYPES,
+        ...setVisitorStore.TYPES,
         ...pedidosResolver.TYPES,
+        ...storyStore.TYPES,
         ...createCatOfProductsResolver.TYPES,
     },
     QUERIES: {
@@ -21,16 +25,20 @@ export default {
         ...ScheduleStoreResolver.QUERIES,
         ...createCatOfProductsResolver.QUERIES,
         ...pedidosResolver.QUERIES,
+        ...setVisitorStore.QUERIES,
         ...createCatOfProductResolver.QUERIES,
+        ...storyStore.QUERIES,
         ...ContractResolver.QUERIES,
     },
     MUTATIONS: {
         ...storeResolver.MUTATIONS,
         ...ContractResolver.MUTATIONS,
+        ...setVisitorStore.MUTATIONS,
         ...ScheduleStoreResolver.MUTATIONS,
         ...pedidosResolver.MUTATIONS,
         ...emplooyeResolver.MUTATIONS,
         ...createCatOfProductResolver.MUTATIONS,
+        ...storyStore.MUTATIONS,
         ...createCatOfProductsResolver.MUTATIONS,
     }
 }

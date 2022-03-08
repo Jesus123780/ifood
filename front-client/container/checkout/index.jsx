@@ -43,7 +43,7 @@ export const Checkout = ({ setAlertBox, setCountItemProduct, locationStr, setMod
     const [createMultipleOrderStore] = useMutation(CREATE_MULTIPLE_ORDER_PRODUCTS, {
         onCompleted: data => {
             if (data.createMultipleOrderStore.success === true) {
-                // router.push('/proceso-de-compra/finalizar')
+                router.push('/proceso-de-compra/finalizar')
             }
         }
     })

@@ -1,4 +1,5 @@
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { CLIENT_URL_BASE } from 'apollo/urls'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -13,7 +14,7 @@ import { GET_ALL_SHOPPING_CARD } from '../../../../container/restaurantes/querie
 import { RestaurantProfile } from '../../../../container/RestaurantProfile'
 import { Context } from '../../../../context'
 import { numberFormat, updateCache } from '../../../../utils'
-
+// import url from '/y2mate.com - Whatsapp Web sonido de notificación.mp3'
 export default function HomeView() {
   // STATES
   const location = useRouter()
@@ -48,8 +49,30 @@ export default function HomeView() {
     }
   })
   // EFFECTS
+  const [audio, setAudio] = useState();
   useEffect(() => {
+    // let audio = new Audio('public/y2mate.mp3')
+    // audio.play()
     dataProductAndCategory?.getCatProductsWithProductClient && setData([...dataProductAndCategory?.getCatProductsWithProductClient])
+    let lengths = ["Bilbo", "Gandalf", "Nazgul"].map(item => item.length);
+    // console.log(lengths); // 
+    const lol = [1, -2, 15, 2, 0, 8].sort(function (a, b) {
+      // console.log(a + " <> " + b);
+      return a - b;
+    });
+    let nombres = 'Bilbo, Gandalf, Nazgul';
+
+    let arr = nombres.split(', ');
+
+    for (let name of arr) {
+      // console.log(`Un mensaje para ${name}.`); // Un mensaje para Bilbo  (y los otros nombres)
+    }
+    // console.log(lol)
+    let value = arr.reduce(function (accumulator, item, index, array) {
+      // ...
+      // console.log(accumulator, item, index, array)
+      // console.log(audio)
+    }, []);
   }, [dataProductAndCategory, searchFilter])
 
   useEffect(() => {
@@ -59,13 +82,13 @@ export default function HomeView() {
     getOneStore({ variables: { idStore: id, StoreName: name } })
     getAllRatingStar({ variables: { idStore: id } })
     getMinPrice({ variables: { idStore: id } })
-    
+
   }, [dataStartStore, data, dataMinPedido])
   const [stars, setStars] = useState(null)
   useEffect(() => {
     let suma = 0
-    const avg = dataStartStore?.getAllRatingStar?.map((x, index) => (suma += x.rScore)/(index+1))
-    !!avg && setStars((avg[avg.length-1])?.toFixed(1))
+    const avg = dataStartStore?.getAllRatingStar?.map((x, index) => (suma += x.rScore) / (index + 1))
+    !!avg && setStars((avg[avg.length - 1])?.toFixed(1))
   }, [dataStartStore])
   // HANDLES
   /**
@@ -215,7 +238,28 @@ export default function HomeView() {
       idStore
     }
   })
-  const Nav = dataCatProducts?.map((x, key) => { return { x } })
+  const [share, setShare] = useState(false)
+  const { pId } = dataOneProduct?.productFoodsOne || {}
+  useEffect(() => {
+    setShare(`${CLIENT_URL_BASE}${location.asPath.slice(1, -1)}?food${pId}`)
+  }, [dataOneProduct, share])
+
+  const handlerShare = index => {
+    if (index === 1) {
+      setShare(`${CLIENT_URL_BASE}${location.asPath.slice(1, -1)}?food${pId}`)
+    }
+    if (index === 2) {
+      window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(`${CLIENT_URL_BASE}${location.asPath.slice(1, -1)}?food${pId}`),
+        'facebook-share-dialog',
+        'width=626,height=436')
+    }
+    if (index === 3) {
+      window.open(`https://api.whatsapp.com/send?text=Mira este producto ${CLIENT_URL_BASE}${location.asPath.slice(1, -1)}?food${pId}?phone=34123456789`)
+    }
+    if (index === 4) {
+      window.open(`https://twitter.com/intent/tweet?text=Mira este producto ${CLIENT_URL_BASE}${location.asPath.slice(1, -1)}?food${pId}`)
+    }
+  }
   return (
     <div>
       <Head>
@@ -225,7 +269,10 @@ export default function HomeView() {
       </Head>
       <RestaurantProfile
         dataForm={dataForm}
+        setShare={setShare}
+        share={share}
         setLike={setLike}
+        handlerShare={handlerShare}
         dataMinPedido={numberFormat(dataMinPedido?.getMinPrice)}
         setRating={setRating}
         setRatingState={setRatingState}

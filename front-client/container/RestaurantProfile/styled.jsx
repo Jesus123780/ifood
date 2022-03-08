@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { BColor, BGColor, BGVColor, EColor, PColor } from "../../public/colors";
 import Link from 'next/link'
 export const Container = styled.div`
@@ -33,13 +33,63 @@ export const ContainerCarrusel = styled.div`
 export const ContentCategoryProducts = styled.div`
     margin: 30px 0;
 `
+const hollow = `%3Csvg width='24' height='22' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.88 1.168a5.87 5.87 0 013.622.269 5.435 5.435 0 012.634 2.314h0L12 5.234l.864-1.482a5.414 5.414 0 012.635-2.306 5.907 5.907 0 013.634-.267c1.112.273 2.133.874 2.845 1.795C22.618 3.8 23 4.882 23 6.192c0 3.891-4.231 7.784-9.305 12.741-.554.542-1.12 1.095-1.695 1.66a590.654 590.654 0 00-1.7-1.664C5.23 13.973 1 10.082 1 6.192c0-1.31.384-2.394 1.027-3.223.714-.923 1.737-1.527 2.852-1.8z' fill-rule='nonzero' stroke='%23232323' stroke-width='2' fill='none'/%3E%3C/svg%3E`;
+const filled = `%3Csvg width='24' height='22' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 3.248C8.852-2.154 0-.577 0 6.192 0 10.853 5.571 15.619 12 22c6.43-6.381 12-11.147 12-15.808C24-.6 15.125-2.114 12 3.248z' fill='red' fill-rule='nonzero'/%3E%3C/svg%3E`;
+const pop = keyframes`
+  from { opacity: 1; transform: scale(1) }
+  to { opacity: 0; transform: scale(2) }
+`;
+
 export const ButtonLike = styled.button`
-  margin: 30px 0;
-  cursor: pointer;
-  background-color: hsla(0,0%,100%,.7);
+  appearance: none;
   border: none;
+  display: block;
+  position: relative;
+  width: 32px;
+  height: 32px;
+  background: url("data:image/svg+xml,${hollow}") no-repeat center bottom;
+  background-size: 100%;
   cursor: pointer;
-  z-index: 2;
+  opacity: ${(props) => (props.isLiked ? 1 : 0.5)};
+  transition: opacity .25s ease;
+
+  :hover {
+    opacity: 1;
+  }
+  :focus {
+    outline: none;
+  }
+  
+  ::before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 32px;
+    height: 32px; 
+    background: url("data:image/svg+xml,${filled}") no-repeat center bottom;
+    background-size: 100%;
+    top: 0;
+    left: 0;
+    opacity: ${(props) => (props.isLiked ? 1 : 0)};
+  }
+
+  ${(props) =>
+    props.isLiked &&
+    css`
+    ::after {
+      content: "";
+      position: absolute;
+      display: block;
+      width: 32px;
+      height: 32px; 
+      background: url("data:image/svg+xml,${filled}") no-repeat center bottom;
+      background-size: 100%;
+      top: 0;
+      left: 0;
+      animation: ${pop} .5s ease;
+      animation-direction: forward;
+    }
+  `}
   
 `
 export const HeadCategory = styled.div`
@@ -182,6 +232,82 @@ export const CardProductsModal = styled(CardProductsContent)`
     grid-template-columns: 100%;
   }
 `
+export const ContainerShare = styled.div`
+  position: absolute;
+  height: 200px;
+  display: none;
+  width: 240px;
+  box-shadow: 0 0 1.5rem rgb(18 38 63 / 9%);
+  z-index: 99;
+  background-color: ${BGColor};
+  border-radius: 10px;
+  padding: 6px;
+  bottom: 17px;
+  transition: all .5s ease;
+  .icon-WhatsApp {
+    background-color: #01e675;
+    border-radius: 50%;
+    height: 30px;
+    min-height: 30px;
+    max-height: 30px;
+    width: 30px;
+    min-width: 30px;
+    max-width: 30px;
+    display: flex;
+    place-content: center;
+    align-items: center;
+  }
+  .icon-face {
+    background-color: #1196f5;
+    border-radius: 50%;
+    height: 30px;
+    min-height: 30px;
+    max-height: 30px;
+    width: 30px;
+    min-width: 30px;
+    max-width: 30px;
+    display: flex;
+    place-content: center;
+    align-items: center;
+  }
+  &::after {
+  content: " ";
+  position: absolute;
+  top: 100%; /* At the bottom of the tooltip */
+  right: 10px;
+  margin-left: -10px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: ${BGColor} transparent transparent transparent;
+}
+  button {
+    color: ${BColor};
+    padding: 10px;
+    transition: .5 ease;
+    width: 100%;
+    cursor: pointer;
+    background-color: ${BGColor};
+  }
+  button:hover {
+    background-color: #ededed69;
+  }
+  `
+export const ContentShare = styled.div`
+    position: relative;
+    cursor: pointer;
+    color: red;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    margin: 0;
+
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    &:hover  > ${ContainerShare} {
+        display: block;
+    }
+` 
 export const ContentInfo = styled.div` 
     width: 100%;
     flex-direction: column;
@@ -207,7 +333,7 @@ export const Title = styled.h1`
   margin-right: 10px;
   font-weight: 400;
   letter-spacing: -1px;
-  font-size: 2.25rem;
+  font-size: ${({ size })=> size || '2.25rem'};
   line-height: 44px;
   margin-bottom: 0;
   width: fit-content;
@@ -220,8 +346,11 @@ export const Flex = styled.div`
   `
 export const ActionButton = styled.div`
   /* position: absolute; */
-  /* bottom: 15px; */
   display: grid;
+  position: absolute;
+  bottom: 30px;
+  width: 50%;
+  right: 0;
   place-content: center;
   grid-template-columns: 60% 40%;
 

@@ -8,6 +8,21 @@ type ContractType {
     createAt: DateTime
     updateAt: DateTime
 }
+
+# visit Store
+type VisitorStoreType {
+    visitStoreId: ID!
+    id: ID
+    idStore: ID
+    createAt: DateTime
+    updateAt: DateTime
+}
+input InputVisitorStoreType {
+    visitStoreId: ID
+    id: ID!
+    idStore: ID!
+}
+# visit Store
 input InputContractType {
     ctrId: ID
     id: ID
@@ -147,6 +162,7 @@ type Query {
     getOneRating(idStore: ID): RatingStore
     getAllRating(idStore: ID): [RatingStore]
     getAllRatingStar(idStore: ID): [Star]
+    getAllVisitorStore(idStore: ID): [VisitorStoreType]
 }
 
 input IFavorites {
@@ -163,6 +179,7 @@ type Mutation {
     setFavorites(input: IFavorites!): Response!
     setRating(input: InputRatingStore): Response!
     setRatingStar(input: IStar): Response!
+    setVisitorStore(input: InputVisitorStoreType): Response
 }
 
 type Subscription {

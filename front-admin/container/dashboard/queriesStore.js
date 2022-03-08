@@ -136,6 +136,17 @@ getAllRatingStar(idStore: $idStore){
   }
 }
 `
+export const GET_ALL_VISITOR_STORE = gql`
+query getAllVisitorStore($idStore: ID) {
+  getAllVisitorStore(idStore: $idStore) {
+    visitStoreId
+    id
+    idStore
+    createAt
+    updateAt
+  }
+}
+`
 export const GET_MIN_PEDIDO = gql`
 query getMinPrice($idStore: ID){
 getMinPrice(idStore: $idStore)

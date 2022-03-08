@@ -13,27 +13,27 @@ export const SliderCategoryUpdate = props => {
     } = props
     function reducer(state, action) {
         switch (action?.type) {
-        case 'NEXT':
-            return {
-                ...state,
-                currentIndex: state?.currentIndex + (1 % dataCategories?.length),
+            case 'NEXT':
+                return {
+                    ...state,
+                    currentIndex: state?.currentIndex + (1 % dataCategories?.length),
 
-            };
-        case 'PREV':
-            return {
-                ...state,
-                currentIndex: state?.currentIndex - (1 % dataCategories?.features?.length)
-            };
-        case 'GOTO':
-            return {
-                ...state,
-                currentIndex: action?.index
-            };
-        case 'RESET':
-            return { ...state, currentIndex: 0, currentPosition: 0, };
+                };
+            case 'PREV':
+                return {
+                    ...state,
+                    currentIndex: state?.currentIndex - (1 % dataCategories?.features?.length)
+                };
+            case 'GOTO':
+                return {
+                    ...state,
+                    currentIndex: action?.index
+                };
+            case 'RESET':
+                return { ...state, currentIndex: 0, currentPosition: 0, };
 
-        default:
-            return { state };
+            default:
+                return { state };
         }
     }
     const [state, dispatch] = useReducer(reducer, {
@@ -47,8 +47,8 @@ export const SliderCategoryUpdate = props => {
                 <SliderWrapper
                     // 500ms
                     style={{
-                        transform: `translateX(${ -(state?.currentIndex * div.current?.clientWidth) }px)`,
-                        transition: `transform ${ duration } ease 0s`,
+                        transform: `translateX(${-(state?.currentIndex * div.current?.clientWidth)}px)`,
+                        transition: `transform ${duration} ease 0s`,
                     }}
                 >
                     {dataCategories && dataCategories?.map((i, index) => {
@@ -69,7 +69,7 @@ export const SliderCategoryUpdate = props => {
                         return (
                             <NavigationItem
                                 active={index === state?.currentIndex}
-                                onClick={() => dispatch({ type: 'GOTO', index })} key={`nav${ i.caId }`} >
+                                onClick={() => dispatch({ type: 'GOTO', index })} key={`nav${i.caId}`} >
                             </NavigationItem>
                         );
                     })}
@@ -86,7 +86,7 @@ export const SliderCategoryUpdate = props => {
 const Slide = ({ item, div, handleChangeClick }) => {
     return (
         <SliderItem ref={div} >
-            <Img src={item?.cpImage} alt={item?.cpImage}/>
+            <Img src={item?.cpImage} alt={item?.cpImage} />
             <ContentList>
                 <CardCheckBox name='speciality' value={item?.caId} type="checkbox" id="cat" onChange={handleChangeClick} />
                 <i>{item.cpName} </i> &nbsp;

@@ -49,6 +49,7 @@ export const InputFilesProductos = ({ onChange, reset }) => {
         setImages(newImages)
         setPreviewImg(previewNewImages)
     }
+
     function reducer(state, action) {
         switch (action?.type) {
         case 'NEXT':
@@ -143,7 +144,7 @@ export const InputFilesProductos = ({ onChange, reset }) => {
                     />
                 </DropZone>
             </Box>
-            { !!previewImg?.length === null && <CustomSlider state={state} state={previewImg} setModal={setModal} modal={modal} autoPlayTime={4000} duration={'500ms'} dispatch={dispatch} /> }
+            { !!previewImg?.length === null && <CustomSlider state={state} setModal={setModal} modal={modal} autoPlayTime={4000} duration={'500ms'} dispatch={dispatch} /> }
 
         </>
     )
