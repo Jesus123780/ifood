@@ -52,7 +52,7 @@ export function Story({ idStore }) {
           </SwiperSlide>
         ))}
       </CustomSlider>
-      {OpenModal.state && <SlideStory closeModal={closeModal} dataItem={dataItem?.getAllStoryItemPhotoStore || []} OpenModalInfo={OpenModalInfo} />}
+      {OpenModal.state && <SlideStory closeModal={closeModal} data={data?.getAllStoryStore || []} dataItem={dataItem?.getAllStoryItemPhotoStore || []} OpenModalInfo={OpenModalInfo} />}
     </Wrap>
   );
 }

@@ -8,7 +8,12 @@ import moment from 'moment';
 
 export const CheckoutFinalizar = () => {
     // STATE
-    const { data } = useQuery(GET_ALL_PEDIDOS_STATUS)
+    const { data } = useQuery(GET_ALL_PEDIDOS_STATUS, {
+        pollInterval: 20000,
+        fetchPolicy: 'cache-and-network',
+        onError: (e) => console.log(e),
+        onCompleted: (data) => console.log(data)
+    })
     return (
         <Wrapper>
             <div>

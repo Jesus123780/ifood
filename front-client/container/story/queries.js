@@ -8,8 +8,17 @@ query getAllStoryStore($idStore: ID) {
     iStoId
     sState
     nameStore
-    createAt  
+    createAt
     updateAt
+    getAllStoryComment {
+        cStoId
+        stoId
+        from
+        comments
+        messageState
+        createAt
+        updateAt
+    }
   }
 }
 `
@@ -22,6 +31,34 @@ query getAllStoryItemPhotoStore($idStore: ID, $stoId: ID) {
     itemImage
     createAt
     updateAt
+  }
+}
+`
+export const REGISTER_COMMENT_STORY = gql`
+mutation registerStoryComment($input: IStoryComment) {
+  registerStoryComment(input: $input) {
+    cStoId
+    stoId
+    from
+    comments
+    username
+    messageState
+    createAt
+    updateAt
+  }
+}
+`
+export const GET_ALL_COMMENT_STORY = gql`
+query getAllStoryComment($stoId: ID){
+  getAllStoryComment(stoId: $stoId) {
+      cStoId
+      stoId
+      from
+      username
+      comments
+      messageState
+      createAt
+      updateAt
   }
 }
 `

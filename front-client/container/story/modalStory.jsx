@@ -1,23 +1,75 @@
-import { BColor, BGColor, PColor } from 'public/colors'
-import { useEffect, useReducer, useState } from 'react'
+import { BColor, BGColor, PColor, PLColor } from 'public/colors'
+import { useEffect, useReducer, useRef, useState } from 'react'
 import { Title } from './story-item'
 import ReactDOM from 'react-dom'
-import styled from 'styled-components'
-import { IconCancel, IconFacebook, IconTwitter, IconWhatsApp, IconEnlace } from 'public/icons'
+import styled, { css } from 'styled-components'
+import { IconCancel, IconFacebook, IconTwitter, IconWhatsApp, IconEnlace, IconSendMessage, IconSendMessageTwo } from 'public/icons'
 import CustomSlider from 'components/Slider'
 import { SwiperSlide } from 'swiper/react'
 import useTimeAgo from 'components/hooks/useTimeAgo'
 import { CLIENT_URL_BASE } from 'apollo/urls'
 import { useRouter } from 'next/router'
-import { copyToClipboard } from 'utils'
+import { copyToClipboard, decodeToken, updateCache, updateCacheMod } from 'utils'
 import { Flex } from 'container/RestaurantProfile/styled'
+import { GET_ALL_COMMENT_STORY, REGISTER_COMMENT_STORY } from './queries'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { RippleButton } from 'components/Ripple'
+import { useUser } from 'components/hooks/useUser'
 
 export const SlideStory = ({ closeModal, OpenModalInfo, dataItem }) => {
+  const { nameStore, createAt, getAllStoryComment, stoId } = OpenModalInfo.state || {}
   const [browser, setBrowser] = useState(false)
+  const [user, setUser] = useState(false)
   const location = useRouter()
-
-  const { nameStore, createAt } = OpenModalInfo.state || {}
   const timeAgo = useTimeAgo(new Date(createAt).getTime())
+  const [registerStoryComment] = useMutation(REGISTER_COMMENT_STORY)
+  const [getAllComment, { data: dataComment }] = useLazyQuery(GET_ALL_COMMENT_STORY,
+    {
+      notifyOnNetworkStatusChange: true, 
+      pollInterval: 1000
+    })
+  const input = useRef(null)
+  console.log(stoId)
+  console.log(dataComment)
+  useEffect(() => {
+    setUser(window.localStorage.getItem('session'))
+    getAllComment({ variables: { stoId } })
+  }, [OpenModalInfo, stoId])
+  const messagesEndRef = useRef(null)
+
+  const decode = decodeToken(user)
+  const [dataUser, { loading: loUser }] = useUser()
+  console.log(dataUser)
+
+  const [message, setMessage] = useState({
+    stoId: stoId,
+    comments: '',
+    from: window.localStorage.getItem('usuario'),
+    username: dataUser?.username.slice(0, 3).toUpperCase() || '',
+  })
+  const onSend = () => {
+    if (message.comments.length > 0) {
+      registerStoryComment({
+        variables: {
+          input: message
+        }, update: (cache, { data: { getAllStoryComment } }) => updateCacheMod({
+          cache,
+          type: 2,
+          query: GET_ALL_COMMENT_STORY,
+          nameFun: 'getAllStoryComment',
+          dataNew: getAllStoryComment
+        }),
+      });
+    }
+    setMessage({
+      ...message,
+      comments: '',
+    });
+    input.current.focus()
+    input.current.value = ''
+    // messagesEndRef?.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   useEffect(() => {
     setBrowser(true)
   }, [])
@@ -94,25 +146,38 @@ export const SlideStory = ({ closeModal, OpenModalInfo, dataItem }) => {
         </CustomSlider>
       </Card>
       <Card margin={'0 auto'} flex='0 0 544px' padding='0' bgColor='transparent'>
-
-        <h2>{nameStore}</h2>
-        <date>{timeAgo}</date>
-        <ContentShare>
-          compartir
-          <ContainerShare>
-            <button onClick={() => handlerShare(2)}> <div className="icon facebook"><IconFacebook color={BGColor} size='20px' /></div>  </button>
-            <button onClick={() => handlerShare(3)}> <div className='icon whatsApp'><IconWhatsApp color={BGColor} size='20px' /> </div></button>
-            <button onClick={() => handlerShare(4)}> <div> <IconTwitter color={'#00acee '} size='20px' /> </div></button>
-            <button onClick={() => copyToClipboard(`${CLIENT_URL_BASE}${location.asPath.slice(1, -1)}`)}> <div> <IconEnlace size='20px' /> </div></button>
-          </ContainerShare>
-        </ContentShare>
-        <CopyLink>
-          <input value={`${CLIENT_URL_BASE}${location.asPath.slice(1, -1)}`} className='input-copy' />
-          <button className='' onClick={() => copyToClipboard(`${CLIENT_URL_BASE}${location.asPath.slice(1, -1)}`)}>Copiar enlace</button>
-        </CopyLink>
+        <Header>
+          <h2>{nameStore}</h2>
+          <date>{timeAgo}</date>
+          <ContentShare>
+            compartir
+            <ContainerShare>
+              <button onClick={() => handlerShare(2)}> <div className='icon facebook'><IconFacebook color={BGColor} size='20px' /></div>  </button>
+              <button onClick={() => handlerShare(3)}> <div className='icon whatsApp'><IconWhatsApp color={BGColor} size='20px' /> </div></button>
+              <button onClick={() => handlerShare(4)}> <div> <IconTwitter color={'#00acee '} size='20px' /> </div></button>
+              <button onClick={() => copyToClipboard(`${CLIENT_URL_BASE}${location.asPath.slice(1, -1)}`)}> <div> <IconEnlace size='20px' /> </div></button>
+            </ContainerShare>
+          </ContentShare>
+          <CopyLink>
+            <input value={`${CLIENT_URL_BASE}${location.asPath.slice(1, -1)}`} className='input-copy' />
+            <button className='' onClick={() => copyToClipboard(`${CLIENT_URL_BASE}${location.asPath.slice(1, -1)}`)}>Copiar enlace</button>
+          </CopyLink>
+        </Header>
         <ContainerCom>
-
+          {dataComment?.getAllStoryComment?.length ? dataComment?.getAllStoryComment.map(comment => (
+            <div className='item-comment' key={comment?.cStoId}>
+              <span className='user'>{comment.username}</span>
+              <p>{comment.comments}</p>
+            </div>
+          )) : <span>No hay comentarios aun</span>}
+          <div ref={messagesEndRef} />
         </ContainerCom>
+        <ContentInput>
+          <Flex>
+            <Input ref={input} placeholder='Aa' value={state.content} onChange={evt => setMessage({ ...message, comments: evt.target.value })} onKeyUp={evt => { if (evt.key === 'Enter') { onSend(); } }} />
+            <ButtonSend onClick={() => { onSend() }}>Publicar</ButtonSend>
+          </Flex>
+        </ContentInput>
       </Card>
     </ContentPortal>
   )
@@ -124,6 +189,44 @@ export const SlideStory = ({ closeModal, OpenModalInfo, dataItem }) => {
 
   }
 }
+export const ButtonSend = styled.button`
+  color: rgba(22, 24, 35, 0.34);
+    font-size: 14px;
+    cursor: default;
+    flex: 0 0 48px;
+    line-height: 39px;
+    text-align: right;
+    margin-right: 4px;
+`
+const Input = styled.input`
+    padding: 10px;
+    outline: 0;
+    border: 1px solid #eee;
+    font-weight: 200;
+    font-size: 13px;
+    width: 100%;
+    border-radius: 5px;
+    
+`
+const Header = styled.div`
+  flex: 0 0 auto;
+  background-color: rgb(255, 255, 255);
+  margin: 0px auto;
+  padding: 21px 0px;
+  /* position: absolute; */
+  top: 0;
+  left: 0;
+  border-bottom: 1px solid ${`${PLColor}69`};
+`
+const ContentInput = styled.div`
+  flex: 0 0 auto;
+  background-color: rgb(255, 255, 255);
+  margin: 0px auto;
+  padding: 21px 0px;
+  border-top: 1px solid ${`${PLColor}69`};
+  position: fixed;
+  bottom: 0;
+`
 export const ContainerShare = styled.div`
   position: absolute;
   display: none;
@@ -156,7 +259,7 @@ export const ContainerShare = styled.div`
     background-color: #1196f5;
   }
   &::after {
-    content: " ";
+    content: ' ';
     position: absolute;
     top: 50%;
     right: -20px;
@@ -223,15 +326,38 @@ export const CopyLink = styled.div`
     }
 `
 export const ContainerCom = styled.div`
-      width: 100%;
+    width: 100%;
     padding: 24px 32px;
-    box-sizing: border-box;
     background-color: rgb(248, 248, 248);
     border-top: 1px solid rgba(18, 18, 18, 0.12);
     border-bottom: 1px solid rgba(18, 18, 18, 0.12);
     overflow: hidden auto;
-    -webkit-box-flex: 1;
+    /* min-height: 100vh;
+    height: 100vh; */
+    height: calc(100vh - 80px);
+    min-height: calc(100vh - 100px);
     flex-grow: 1;
+    margin-bottom: 100px;
+    padding-bottom: 100px;
+    p {
+      font-size: 16px;
+      line-height: 22px;
+      white-space: pre-line;
+      word-break: break-word;
+      margin-bottom: 6px;
+    }
+    .item-comment {
+      margin-bottom: 16px;
+      flex: 1 1 auto;
+    }
+    .user {
+      color: rgb(22, 24, 35);
+      text-decoration: none;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 25px;
+  }
 `
 export const Img = styled.img`
   width: 100%;
