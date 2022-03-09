@@ -163,6 +163,8 @@ type Query {
     getAllRating(idStore: ID): [RatingStore]
     getAllRatingStar(idStore: ID): [Star]
     getAllVisitorStore(idStore: ID): [VisitorStoreType]
+    getAllMatchesStore(id: ID, pfId: ID, FoodProductName: String, search: String, min: Int, max: Int,  gender: [String]  desc: [String], categories: [ID]): [Store]
+
 }
 
 input IFavorites {

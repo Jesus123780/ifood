@@ -1,9 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import PropTypes from 'prop-types'
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
-import { BColor, BGColor, PColor, PLColor, TBGBColor, APColor } from '../../public/colors'
-import { Loading, SpinnerColor, SpinnerColorJust } from '../../components/Loading'
-import { RippleButton } from '../../components/Ripple'
+import { BGColor, PColor, PLColor, TBGBColor, APColor } from '../../public/colors'
+import { SpinnerColor } from '../../components/Loading'
 import Link from 'next/link'
 import Image from 'next/image'
 import router, { useRouter } from 'next/router'
@@ -65,7 +63,6 @@ const DashboardStore = ({ StoreId, setAlertBox }) => {
     useEffect(() => {
         getCatProductsWithProduct({ variables: { max: showMore } })
     }, [searchFilter, showMore])
-    console.log(dataProductAndCategory)
     // HANDLES
     const HandleClickEdit = item => {
         // create func

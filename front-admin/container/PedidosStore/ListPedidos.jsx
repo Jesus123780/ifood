@@ -9,6 +9,7 @@ import React, { useContext, useState } from 'react'
 import styled, { css, keyframes } from 'styled-components'
 import moment from 'moment'
 import { useQuery, useMutation } from '@apollo/client'
+import Link from 'next/link'
 import { numberFormat, updateCache } from 'utils'
 import { FadeOup, onPulses } from 'components/animations'
 import { AwesomeModal } from 'components/AwesomeModal'
@@ -16,6 +17,8 @@ import Image from 'next/image'
 import { CHANGE_STATE_STORE_PEDIDO, GET_ALL_PEDIDOS } from './queries'
 import { Context } from 'context/Context'
 import { IconLocationMap } from 'public/icons'
+import { useStore } from '../../components/hooks/useStore'
+import { CLIENT_URL_BASE } from 'apollo/urls'
 moment.locale('SG');
 
 export const ListPedidos = ({ data }) => {
@@ -200,19 +203,11 @@ export const CheckStatus = ({ setModal, modal, dataModal }) => {
 
         })
     }
+    const [dataStore, { loading: LoadingRes }] = useStore()
+    console.log(dataStore)
     return (
         <div>
-            <AwesomeModal
-                show={modal}
-                onCancel={() => setModal(false)}
-                onHide={() => setModal(false)}
-                btnConfirm={false}
-                header={false}
-                footer={false}
-                padding='20px'
-                zIndex='9999'
-                size='large'
-            >
+            <AwesomeModal show={modal} onCancel={() => setModal(false)} onHide={() => setModal(false)} btnConfirm={false} header={false} footer={false} padding='20px' zIndex='9999' size='medium' >
                 <ModalContainer>
                     <Text size='2em'>{moment(pDatCre).format('DD/MM/YYYY')} - {moment(pDatCre).format('h:mma')}</Text>
                     <CardTicket>
@@ -225,7 +220,7 @@ export const CheckStatus = ({ setModal, modal, dataModal }) => {
                         <Text size='25px'>{dName}</Text>
                         <Text size='25px'>{uLocationKnow}</Text>
                     </CardTicket>
-                    {getAllPedidoStore && getAllPedidoStore.map(p => {
+                    {getAllPedidoStore && getAllPedidoStore?.map(p => {
                         const { getAllShoppingCard } = p || {}
                         const { productFood, comments } = getAllShoppingCard || {}
                         return (
@@ -251,9 +246,19 @@ export const CheckStatus = ({ setModal, modal, dataModal }) => {
                                             <Flex>
                                                 <Text margin='12px 0' size='.875rem' color={APColor}>$ {numberFormat(p?.getAllShoppingCard?.productFood.ProPrice)}</Text>
                                                 <Text margin='12px 0 0 5px' size='14px' color={PLColor} style={{ textDecoration: 'line-through' }} >$ {numberFormat(p?.getAllShoppingCard?.productFood.ProDescuento)}</Text>
-                                            </Flex>
+                                            </Flex>{console.log(p)}
                                             <DisRestaurant>
-                                                <Text className='dish-restaurant__header' margin='12px 0' size='14px'> {'getStore?.storeName'}</Text>
+                                                {dataStore && <Link
+                                                    passHref
+                                                    shallow
+                                                    replace
+                                                    href={{
+                                                        pathname: `${CLIENT_URL_BASE}delivery/${dataStore?.city?.cName?.toLocaleLowerCase()}-${dataStore?.department?.dName?.toLocaleLowerCase()}/${dataStore.storeName.replace(/\s/g, '-').toLocaleLowerCase()}/${dataStore.idStore}`,
+                                                    }} >
+                                                    <a target="_blank">
+                                                        <Text margin='12px 0 0 5px' size='19px'>$ {dataStore.storeName}</Text>
+                                                    </a>
+                                                </Link>}
                                                 <div className="dish-restaurant__divisor"></div>
                                                 <label tabIndex="0" className="dish-observation-form__label" for="observations-form">¿Algún comentario?</label>
                                             </DisRestaurant>

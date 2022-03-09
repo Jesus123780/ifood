@@ -44,6 +44,7 @@ type Query {
 """Response for find one FoodProduct"""
   getFoodOneProduct(id: ID, pfId: ID, FoodProductName: String, search: String, min: Int, max: Int,  gender: [String]  desc: [String], categories: [ID]): FoodProduct
   getFoodAllProduct(id: ID, pfId: ID, FoodProductName: String, search: String, min: Int, max: Int,  gender: [String]  desc: [String], categories: [ID]): [FoodProduct]
+  getAllMatchesProducts(id: ID, pfId: ID, FoodProductName: String, search: String, min: Int, max: Int,  gender: [String]  desc: [String], categories: [ID]): [FoodProduct]
 }
 
 

@@ -16,6 +16,7 @@
         "duracion",
         "envio",
         "fingerprintjs",
+        "hamb",
         "headerlog",
         "hpqr",
         "idstore",
@@ -42,6 +43,7 @@
         "USERDB",
         "uuid",
         "UUIDV",
+        "varify",
         "Viaprincipal"
     ]
 }

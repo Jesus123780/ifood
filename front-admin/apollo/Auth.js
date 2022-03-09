@@ -53,7 +53,6 @@ export default ({ children }) => {
         updateToken().catch(() => setIsMount(true))
         const dataDevice = getDeviceId()
         window.localStorage.setItem('deviceid', dataDevice)
-
     }, [location.pathname, updateToken])
     return (
         <Fragment>

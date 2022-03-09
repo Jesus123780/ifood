@@ -224,7 +224,7 @@ export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
                 <CtnItems>
                     {product?.PRODUCT?.map((x, idx) => (
                         <Card radius='10px' margin='20px' height='300px' width='100%' key={idx.carProId}>
-                            <div >{console.log(x)}
+                            <div >
                                 <Text size='20px' >{x.pName}</Text>
                                 <Text size='20px' >{x.ProDescription}</Text>
                             </div>

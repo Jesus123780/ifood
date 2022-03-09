@@ -48,7 +48,6 @@ export const Restaurant = () => {
         <ItemFilter>Promociones</ItemFilter>
         <ItemFilter onClick={() => OPEN_MODAL_FILTER.setState(!OPEN_MODAL_FILTER.state)}>Filtros</ItemFilter>
       </ContainerFilter>
-      {/* CATEGORIES */}
       <H2>Categorías</H2>
       <List>
         {getCatStore?.getAllCatStore?.map(cat => {

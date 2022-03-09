@@ -7,6 +7,7 @@ import colorModel from '../../models/information/color'
 import CountriesModel from '../../models/information/CountriesModel'
 import DepartmentsModel from '../../models/information/DepartmentsModel'
 import productModel from '../../models/product/product'
+import productModelFood from '../../models/product/productFood'
 import trademarkModel from '../../models/product/trademark'
 import Store from '../../models/Store/Store'
 import ThirdPartiesModel from '../../models/thirdParties/ThirdPartiesModel'
@@ -160,6 +161,43 @@ export const productsLogis = async (root, args, context, info) => {
         return error
     }
 }
+export const getAllMatchesProducts = async (root, args, context, info) => {
+    try {
+        const { search, min, max, pId } = args
+        console.log(search)
+        let whereSearch = {}
+        if (search) {
+            whereSearch = {
+                [Op.or]: [
+                    { pName: { [Op.substring]: search.replace(/\s+/g, ' ') } },
+                    { ProPrice: { [Op.substring]: search.replace(/\s+/g, ' ') } },
+                    { ProDescuento: { [Op.substring]: search.replace(/\s+/g, ' ') } }
+                ]
+            }
+        }
+        const attributes = getAttributes(productModelFood, info)
+        const data = await productModelFood.findAll({
+            attributes,
+            where: {
+                [Op.or]: [
+                    {
+                        ...whereSearch,
+                        // ID Productos
+                        pState: 1
+                        // // ID departamento
+                        // dId: dId ? deCode(dId) : { [Op.gt]: 0 },
+                        // // ID Cuidad
+                        // ctId: ctId ? deCode(ctId) : { [Op.gt]: 0 },
+                    }
+                ]
+            }, limit: [min || 0, max || 100], order: [['pName', 'ASC']]
+        })
+        return data
+    } catch (e) {
+        const error = new Error('Lo sentimos, ha ocurrido un error interno')
+        return error
+    }
+}
 export default {
     TYPES: {
         Product: {
@@ -271,6 +309,7 @@ export default {
     },
     QUERIES: {
         productsAll,
+        getAllMatchesProducts,
         productsOne
     },
     MUTATIONS: {

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { IconLove, IconRate } from '../../public/icons';
 import { PVColor, WColor } from '../../public/colors';
-export const ListRestaurant = ({ data, catStoreId }) => {
+export const ListRestaurant = ({ data, catStoreId, setShowMore }) => {
   return (
     <Content>
       <MerchantListWrapper>
@@ -35,7 +35,7 @@ export const ListRestaurant = ({ data, catStoreId }) => {
                   </div>
                   <div>
                     <h2 className="Name">{x.storeName}</h2>
-                   {avg && <span className="store_info"><IconRate color={WColor} size={15} /> {avg[avg.length-1]?.toFixed(1)}</span>}
+                   {avg.length > 0 && <span className="store_info"><IconRate color={WColor} size={15} /> {avg[avg.length-1]?.toFixed(1)}</span>}
                   </div>
                 </ItemWrapper>
               </a>
@@ -43,7 +43,7 @@ export const ListRestaurant = ({ data, catStoreId }) => {
           )
         })}
       </MerchantListWrapper>
-      <RippleButton onClick={(z) => setShowMore(z + 100)} widthButton='100%'>Ver más</RippleButton>
+     {data?.length > 0 && <RippleButton onClick={(z) => setShowMore(z + 100)} widthButton='100%'>Ver más</RippleButton>}
     </Content>
   );
 };

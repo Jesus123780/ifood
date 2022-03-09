@@ -72,7 +72,7 @@ export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
   const handleSave = async () => {
     return saveLocation({
       variables: {
-        country: 'colcasda',
+        country: '',
         lat: map ? map[0]?.geometry?.location?.lat : 10,
         long: map ? map[0]?.geometry?.location?.lng : 10
       }

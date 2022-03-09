@@ -25,9 +25,9 @@ const errorHandler = onError(({ graphQLErrors }) => {
     if (graphQLErrors) {
         graphQLErrors?.length && graphQLErrors.forEach(err => {
             const { code } = err.extensions
-            if (code === 'UNAUTHENTICATED' || code === 'FORBIDDEN') console.log('Papuuuuuuuu')
+            if (code === 'UNAUTHENTICATED' || code === 'FORBIDDEN') console.log('')
             else if (code === 403) {
-                console.log('Papuuuuuuuu')
+                console.log('')
             }
         })
     }

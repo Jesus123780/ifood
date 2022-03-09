@@ -1,4 +1,4 @@
-import { BColor, BGColor, PColor, PLColor } from 'public/colors'
+import { BColor, BGColor, PColor, PLColor, PVColor } from 'public/colors'
 import { useEffect, useReducer, useRef, useState } from 'react'
 import { Title } from './story-item'
 import ReactDOM from 'react-dom'
@@ -17,7 +17,7 @@ import { RippleButton } from 'components/Ripple'
 import { useUser } from 'components/hooks/useUser'
 
 export const SlideStory = ({ closeModal, OpenModalInfo, dataItem }) => {
-  const { nameStore, createAt, getAllStoryComment, stoId } = OpenModalInfo.state || {}
+  const { nameStore, createAt, stoId } = OpenModalInfo.state || {}
   const [browser, setBrowser] = useState(false)
   const [user, setUser] = useState(false)
   const location = useRouter()
@@ -25,7 +25,7 @@ export const SlideStory = ({ closeModal, OpenModalInfo, dataItem }) => {
   const [registerStoryComment] = useMutation(REGISTER_COMMENT_STORY)
   const [getAllComment, { data: dataComment }] = useLazyQuery(GET_ALL_COMMENT_STORY,
     {
-      notifyOnNetworkStatusChange: true, 
+      notifyOnNetworkStatusChange: true,
       pollInterval: 1000
     })
   const input = useRef(null)
@@ -39,13 +39,13 @@ export const SlideStory = ({ closeModal, OpenModalInfo, dataItem }) => {
 
   const decode = decodeToken(user)
   const [dataUser, { loading: loUser }] = useUser()
-  console.log(dataUser)
+  console.log(dataUser?.username)
 
   const [message, setMessage] = useState({
     stoId: stoId,
     comments: '',
     from: window.localStorage.getItem('usuario'),
-    username: dataUser?.username.slice(0, 3).toUpperCase() || '',
+    username: dataUser?.username?.slice(0, 3).toUpperCase(),
   })
   const onSend = () => {
     if (message.comments.length > 0) {
@@ -166,8 +166,13 @@ export const SlideStory = ({ closeModal, OpenModalInfo, dataItem }) => {
         <ContainerCom>
           {dataComment?.getAllStoryComment?.length ? dataComment?.getAllStoryComment.map(comment => (
             <div className='item-comment' key={comment?.cStoId}>
-              <span className='user'>{comment.username}</span>
-              <p>{comment.comments}</p>
+              <UserCircle>
+                {comment.username.slice(0, 1).toUpperCase()}
+              </UserCircle>
+              <div>
+                <span className='user'>{comment.username}</span>
+                <p>{comment.comments}</p>
+              </div>
             </div>
           )) : <span>No hay comentarios aun</span>}
           <div ref={messagesEndRef} />
@@ -325,6 +330,20 @@ export const CopyLink = styled.div`
     padding: 7px 18px;
     }
 `
+export const UserCircle = styled.div`
+  min-width: 40px;
+  width: 40px;
+  min-height: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: ${PVColor};
+  color: ${BGColor};
+  font-size: 25px;
+  display: flex;
+  place-content: center;
+  margin-right: 10px;
+  align-items: center;
+`
 export const ContainerCom = styled.div`
     width: 100%;
     padding: 24px 32px;
@@ -349,6 +368,7 @@ export const ContainerCom = styled.div`
     .item-comment {
       margin-bottom: 16px;
       flex: 1 1 auto;
+      display: flex;
     }
     .user {
       color: rgb(22, 24, 35);

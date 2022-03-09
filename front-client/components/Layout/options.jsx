@@ -3,11 +3,13 @@ import Link from '../common/Link'
 import styled, { css } from 'styled-components'
 import { BGColor, PColor } from '../../public/colors'
 import { useApolloClient } from '@apollo/client'
-import { FloatingBox, ButtonOption, FloatingBoxTwo, Overline, Button, ButtonOptionFav } from './styled'
+import { FloatingBox, ButtonOption, FloatingBoxTwo, Button, ButtonOptionFav } from './styled'
 import { IconArrowBottom, IconLogout, IconMessageMain, IconShopping, IconUser } from '../../public/icons'
 import { useRouter } from 'next/router'
 import { Context } from '../../context'
 import { OUR_URL_BASE, URL_BASE } from '../../apollo/urls'
+import { useUser } from 'components/hooks/useUser'
+import { Overline } from 'components/common/Reusable'
 
 export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
     const { client } = useApolloClient()
@@ -47,6 +49,7 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
     const handleClick = index => {
         setShow(index === show ? false : index)
     }
+    const [dataUser, { loading: loUser }] = useUser()
     useEffect(() => {
         setShow(false)
     }, [location]);
@@ -57,11 +60,12 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
     }
     const [openOption, setOpenOption] = useState(false)
     return (
-        <>
-            <Overline onClick={() => setShow(!true)} show={show} />
+        <div>
+            <Overline onClick={() => setShow(!show)} show={show} />
             <ButtonOption onClick={() => handleClick(1)}>
                 <IconUser size='25px' color={PColor} />
                 <LeftNav show={show === 1}>
+                    <Name>Hola, {dataUser?.username}</Name>
                     <Enlace href='/profile'>
                         <a>
                             <Button type="button">
@@ -101,9 +105,18 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
                     sadasñlk
                 </FloatingBoxTwo>
             </ContainerOption>
-        </>
+        </div>
     )
 }
+export const Name = styled.span`
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 20px;
+    line-height: 1.18;
+    padding-bottom: 8px;
+    padding-right: 10px;
+    word-break: break-word; 
+`
 export const LeftNav = styled.div`
     position: absolute;
     display: flex;

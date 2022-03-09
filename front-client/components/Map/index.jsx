@@ -52,8 +52,8 @@ export const Map = ({ showModal, setShowModal }) => {
       })
   }, [])
   const defaultCenter = {
-    lat: map && parseInt(map[0]?.geometry?.location?.lat),
-    lng: map && parseInt(map[0]?.geometry?.location?.lng)
+    lat: !!map ? parseInt(map[0]?.geometry?.location?.lat) : 987,
+    lng: !!map ? parseInt(map[0]?.geometry?.location?.lng) : 987
   }
   const center = {
     lat: -3.745,
@@ -87,8 +87,8 @@ export const Map = ({ showModal, setShowModal }) => {
           cId: values.countryId,
           ctId: values.ctId,
           dId: values.dId,
-          uLatitud:  parseInt(map[0]?.geometry?.location?.lat),
-          uLongitude:  parseInt(map[0]?.geometry?.location?.lng),
+          uLatitud: parseInt(map[0]?.geometry?.location?.lat),
+          uLongitude: parseInt(map[0]?.geometry?.location?.lng),
           uLocationKnow: dataForm.uLocationKnow,
           uPiso: 1,
         }
@@ -99,8 +99,8 @@ export const Map = ({ showModal, setShowModal }) => {
         dataNew: getUserLocations
       })
     })
-    .then(z => setAlertBox({ message: 'ubicación guardada exitosamente' }))
-    .catch(err => console.log({ message: err }))
+      .then(z => setAlertBox({ message: 'ubicación guardada exitosamente' }))
+      .catch(err => console.log({ message: err }))
   }
   const onUnmount = React.useCallback(function callback(map) {
     setMap(null)
@@ -173,7 +173,7 @@ export const Map = ({ showModal, setShowModal }) => {
     const location = localStorage.getItem('location.data')
     setSelected(JSON.parse(location))
     if (!LoadL && !dataLocation?.getUserLocations?.length > 0) {
-        localStorage.removeItem('location.data')
+      localStorage.removeItem('location.data')
     }
   }, [dataLocation])
 
@@ -192,13 +192,13 @@ export const Map = ({ showModal, setShowModal }) => {
       .catch(() => {
       })
   }
+  console.log(markers[0]?.lat)
   return (
     <ContainerModal showModal={showModal} onClick={() => closeAllState()}>
       <AwesomeModal onClick={e => e.stopPropagation()} showModal={showModal}>
         {<Container modal={modal === 0}>
           <div className="content-location">
             <h2>¿Donde quieres recibir tu pedido?</h2>
-
             {dataLocation?.getUserLocations?.length > 0 ? dataLocation?.getUserLocations.map(index => {
               const { cName } = index.city
               const { dName } = index.department
@@ -288,7 +288,7 @@ export const Map = ({ showModal, setShowModal }) => {
               center={map ? defaultCenter : defaultCenter}
               onUnmount={onUnmount}
             >
-              <Marker position={defaultCenter ? defaultCenter : { lat: parseInt(markers[0]?.lat), lng: parseInt(markers[0]?.lng) }} />
+              <Marker position={defaultCenter ? defaultCenter : { lat: markers[0]?.lat ? parseInt(markers[0]?.lat) : 34543, lng: markers[0]?.lng ? parseInt(markers[0]?.lng) : 932423 }} />
             </GoogleMap>
             {modal === 2 && <ContentButton>
               <RippleButton style={{ width: '40%' }} onClick={handleSave}>Confirmar</RippleButton>

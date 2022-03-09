@@ -103,6 +103,7 @@ export const H2 = styled.h2`
     font-size: 20px;
     margin: 20px 0 20px 0;
     font-family: PFont-Light;
+    font-weight: 400;
 `
 export const ContentFilter = styled.div`
     padding: 10px;

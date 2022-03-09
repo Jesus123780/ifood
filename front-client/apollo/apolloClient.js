@@ -36,7 +36,7 @@ const wsLink = process.browser ? new WebSocketLink({
 //     }
 // });
 const authLink = async (_) => {
-    const token = localStorage.getItem('session')
+    const token = window.localStorage.getItem('session')
     const lol = await getDeviceId()
     window.localStorage.setItem('deviceid', lol)
     return {

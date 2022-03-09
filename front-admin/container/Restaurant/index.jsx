@@ -33,6 +33,7 @@ export const Restaurant = () => {
     })
     const [dataUser] = useUser()
     const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
+    console.log(dataForm)
     const handleForm = (e, show) =>
         handleSubmit({
             event: e,
@@ -81,7 +82,6 @@ export const Restaurant = () => {
     const { data: dataCountries, loading: loadCountries } = useQuery(GET_ALL_COUNTRIES)
     const { data: dataRoad, loading: loadRoad } = useQuery(GET_ALL_ROAD)
     const { data: dataCatStore } = useQuery(GET_ALL_CAT_STORE)
-
     const [getDepartments, { data: dataDepartments }] = useLazyQuery(GET_ALL_DEPARTMENTS)
     const [getCities, { data: dataCities }] = useLazyQuery(GET_ALL_CITIES)
     const [values, setValues] = useState({})
@@ -102,7 +102,7 @@ export const Restaurant = () => {
     const catStore = dataCatStore?.getAllCatStore || []
     const [showLocation, setShowLocation] = useState(false)
     const handleBlur = e => {
-        const { name, value, checked } = e.target
+        const { checked } = e.target
         setShowLocation(checked ? true : false)
     }
     const validateRouter = () => {
@@ -112,6 +112,8 @@ export const Restaurant = () => {
             setModalConfirm(true)
         }
     }
+
+    console.log(values)
     return (
         <Content>
             <AwesomeModal size={'small'} backdrop show={modalConfirm} onHide={() => setModalConfirm(false)} btnCancel={false} btnConfirm={false} footer={false} header={false} >
@@ -124,7 +126,7 @@ export const Restaurant = () => {
             </AwesomeModal>
             <Card></Card>
             <div className='container-step'>
-            <StepsComponent titles={['', '', '', '']} current={nextStep} status='finish' status='error' status='wait' status='progress' />
+                <StepsComponent titles={['', '', '', '']} current={nextStep} /* status='finish' status='error' status='wait' */ status='progress' />
                 <Form onSubmit={e => handleForm(e, 1)}>
                     <GoBack onClick={() => validateRouter()}>
                         <IconArrowLeft color={`${PLColor}`} size='25px' />

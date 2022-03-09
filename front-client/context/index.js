@@ -107,12 +107,23 @@ const Provider = ({ children }) => {
     const [state_product_card, dispatch] = useReducer(product, initialState)
     const [modalLocation, setModalLocation] = useState(false)
     const [locationStr, setLocationString] = useState('')
+    const setLocationActive = useCallback(
+        location => setModalLocation(location),
+        [locationStr, modalLocation]
+    )
+    const stateLocation = useMemo(
+        () => ({
+            modalLocation
+        }),
+        [modalLocation]
+    )
     useEffect(() => {
         let location = localStorage.getItem('location.data')
         if (!location) {
-            setModalLocation(true)
+            setLocationActive(true)
         }
-    }, [locationStr, modalLocation])
+    }, [locationStr, modalLocation, setModalLocation, setLocationString])
+
     // HEADER PRODUCTS STORE
     const initialState2 = {
         containerRef: null,
@@ -189,6 +200,7 @@ const Provider = ({ children }) => {
     const value = {
         error,
         DataCompany,
+        stateLocation,
         modalLocation,
         setModalLocation,
         locationStr,

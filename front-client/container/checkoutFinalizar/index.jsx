@@ -9,7 +9,7 @@ import moment from 'moment';
 export const CheckoutFinalizar = () => {
     // STATE
     const { data } = useQuery(GET_ALL_PEDIDOS_STATUS, {
-        pollInterval: 20000,
+        pollInterval: 60000,
         fetchPolicy: 'cache-and-network',
         onError: (e) => console.log(e),
         onCompleted: (data) => console.log(data)
@@ -24,7 +24,7 @@ export const CheckoutFinalizar = () => {
                     <div key={x.pCodeRef}>
                             <OlList>
                                 <FeedItem pulse={true}>
-                                    <span className='activity-text'>{x.pSState === 1 ? 'Aceptado' : x.pSState === 2 ? 'Pedido en proceso' : x.pSState === 3 ? 'listo para entrega' : x.pSState === 4 ? 'Pedido pagado (Concluido)' : 'Rechazado'}</span>
+                                    <span className='activity-text'>{x.pSState === 1 ? 'Aceptado' : x.pSState === 2 ? 'Pedido en proceso' : x.pSState === 3 ? 'listo para entrega' : x.pSState === 4 ? 'Pedido pagado (Concluido)'  : x.pSState === 5 ? 'Rechazado' : 'Pedido en espera de confirmacion'}</span>
                                     <div>
                                         <span className='text-info'>Enviamos el pedido al restaurante</span>
                                         <span className='date'>{moment(x.pDatMod).format('DD/MM/YYYY')}</span>

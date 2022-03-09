@@ -10,12 +10,17 @@ import { ListPedidos } from './ListPedidos'
 import Tabs from 'components/Tabs'
 
 const PedidosStore = () => {
-  const { data } = useQuery(GET_ALL_PEDIDOS)
+  const { data } = useQuery(GET_ALL_PEDIDOS, {
+    pollInterval: 60000,
+    fetchPolicy: 'cache-and-network',
+    onError: (e) => console.log(e),
+    onCompleted: (data) => console.log(data)
+  })
   const { setAlertBox, setCountPedido, countPedido } = useContext(Context)
   useEffect(() => {
     setCountPedido(data?.getAllPedidoStoreFinal?.length || 0)
   }, [data])
-  
+
   return (
     <div>
       <Container>

@@ -110,7 +110,7 @@ const Aside = () => {
             </ActiveLink>
             <ActiveLink activeClassName="active" href="/pedidos">
               <AnchorRouter>
-                <div className="count_pedidos">{!countPedido > 100 ? countPedido : '+99'}</div>
+                <div className="count_pedidos">{countPedido}</div>
                 <IconShopping size='15px' />Pedidos
               </AnchorRouter>
             </ActiveLink>

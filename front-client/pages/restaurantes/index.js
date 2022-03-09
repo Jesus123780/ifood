@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { useLazyQuery, useQuery } from '@apollo/client'
+import { gql, useLazyQuery, useQuery, useSubscription } from '@apollo/client'
 import styles from '../../styles/Home.module.css'
 import { GET_ONE_STORE } from '../../container/queries'
 import { Restaurant } from '../../container/restaurantes'
@@ -22,8 +22,11 @@ export default function RestaurantHome() {
     context: { clientName: "subscriptions" }
   });
   console.log(dataM, 'hola')
-  const { setAlertBox, dispatch, state_product_card } = useContext(Context)
-  // ********************************LIST RESTAURANT********************************
+  const NEW_MESSAGE = gql`
+  subscription {
+  numberIncremented
+}
+  `
   const [dataStore, setData] = useState([])
   const [showMore, setShowMore] = useState(100)
   const [getAllStoreInStore, { data: dataListStore }] = useLazyQuery(GET_ALL_RESTAURANT)

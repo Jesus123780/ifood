@@ -217,7 +217,6 @@ export const RestaurantProfile = ({ src, id, errorForm, handlerShare, share, set
             </StickyViewport>
             <ContentCategoryProducts>
             </ContentCategoryProducts>
-
             <AwesomeModal zIndex='999' padding='20px' show={SET_OPEN_PRODUCT.state} onHide={() => { SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state), setState(1) }} onCancel={() => false} size='medium' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
                 <CardProductsModal>
                     <div>

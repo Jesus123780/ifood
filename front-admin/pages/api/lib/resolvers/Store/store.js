@@ -21,7 +21,7 @@ export const newRegisterStore = async (_, { input }, ctx) => {
     const { idStore, cId, dId, ctId, id, catStore, neighborhoodStore, Viaprincipal, storeOwner, storeName, emailStore, storePhone, socialRaz, Image, banner, documentIdentifier, uPhoNum, ULocation, upLat, upLon, uState, siteWeb, description, NitStore, typeRegiments, typeContribute, addressStore, createAt, } = input
     try {
         let res = {}
-        res = await Store.create({ ...input, uState: 1, cId: deCode(cId), id: deCode(id), dId: deCode(dId), ctId: deCode(ctId), catStore: deCode(catStore) })
+        res = await Store.create({ ...input, uState: 2, cId: deCode(cId), id: deCode(id), dId: deCode(dId), ctId: deCode(ctId), catStore: deCode(catStore) })
         // sendEmail({
         //     from: 'juvi69elpapu@gmail.com',
         //     to: uEmail,
@@ -137,7 +137,6 @@ export const getAllShoppingCard = async (_root, { input }, context, info) => {
 export const getAllStoreInStore = async (root, args, context, _info) => {
     try {
         const { search, min, max } = args
-        console.log( search, min, max)
         let whereSearch = {}
         if (search) {
             whereSearch = {
@@ -150,7 +149,8 @@ export const getAllStoreInStore = async (root, args, context, _info) => {
         const data = await Store.findAll({
             attributes: [
                 'idStore', 'cId',
-                'id', 'dId',
+                'id',
+                'dId',
                 'ctId',
                 // 'catStore',
                 'neighborhoodStore', 'Viaprincipal',
@@ -177,7 +177,13 @@ export const getAllStoreInStore = async (root, args, context, _info) => {
                         // ctId: ctId ? deCode(ctId) : { [Op.gt]: 0 },
                     }
                 ]
-            }, limit: [min || 0, max || 100], order: [['storeName', 'DESC']]
+            }, limit: [min || 0, max || 100],
+            order: [
+                // [ratingStoreStart, 'rScore', 'ASC']
+                ['createdAt', 'DESC'],
+                ['storeName', 'DESC'],
+                ['id', 'DESC']
+            ]
         })
         return data
     } catch (e) {
@@ -258,7 +264,7 @@ export const getAllRating = async (_root, args, ctx, info) => {
         const attributes = getAttributes(RatingStore, info)
         const data = await RatingStore.findAll({
             attributes,
-            where: { idStore: idStore ? deCode(idStore) : deCode(ctx.restaurant),}
+            where: { idStore: idStore ? deCode(idStore) : deCode(ctx.restaurant), }
         })
         return data
 
@@ -271,7 +277,7 @@ export const getAllRating = async (_root, args, ctx, info) => {
 export const getAllRatingStar = async (_root, { idStore }, ctx, info) => {
     const data = await ratingStoreStart.findAll({
         attributes: ['rScore', 'idStore', 'rSId', 'createAt'],
-        where: { idStore: idStore ? deCode(idStore) : deCode(ctx.restaurant),}
+        where: { idStore: idStore ? deCode(idStore) : deCode(ctx.restaurant), }
     })
     return data
 }
@@ -361,7 +367,43 @@ export const setFavorites = async (_root, { input }, context) => {
     }
 }
 
-
+export const getAllMatchesStore = async (root, args, context, info) => {
+    try {
+        const { search, min, max, pId } = args
+        let whereSearch = {}
+        if (search) {
+            whereSearch = {
+                [Op.or]: [
+                    { storeName: { [Op.substring]: search.replace(/\s+/g, ' ') } },
+                    { emailStore: { [Op.substring]: search.replace(/\s+/g, ' ') } },
+                    { Viaprincipal: { [Op.substring]: search.replace(/\s+/g, ' ') } }
+                ]
+            }
+        }
+        const attributes = getAttributes(Store, info)
+        const data = await Store.findAll({
+            attributes,
+            where: {
+                [Op.or]: [
+                    {
+                        ...whereSearch,
+                        // ID Productos
+                        // pState: 1
+                        // // ID departamento
+                        // dId: dId ? deCode(dId) : { [Op.gt]: 0 },
+                        // // ID Cuidad
+                        // ctId: ctId ? deCode(ctId) : { [Op.gt]: 0 },
+                    }
+                ]
+            }, limit: [min || 0, max || 100], order: [['storeName', 'ASC']]
+        })
+        return data
+    } catch (e) {
+        console.log(e)
+        const error = new Error('Lo sentimos, ha ocurrido un error interno')
+        return error
+    }
+}
 export default {
     TYPES: {
         CatStore: {
@@ -469,6 +511,7 @@ export default {
         getFavorite,
         getAllRatingStar,
         getOneRating,
+        getAllMatchesStore,
         getOneFavorite,
         getAllRating,
         getAllShoppingCard,

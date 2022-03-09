@@ -10,9 +10,10 @@ import { Options } from './options'
 import { Map } from '../Map'
 import { RippleButton } from '../Ripple'
 import { Context } from '../../context'
+import { InputSearch } from 'container/InputSearch'
 
 export const HeaderMain = ({ menu, handleMenu }) => {
-  const { setAlertBox, modalLocation, setModalLocation, setLocationString, locationStr } = useContext(Context)
+  const { setAlertBox, modalLocation, setModalLocation, setLocationString, locationStr, stateLocation } = useContext(Context)
 
   const style = useScrollHook();
   const { offsetY } = useScrollY();
@@ -67,19 +68,10 @@ export const HeaderMain = ({ menu, handleMenu }) => {
           <Options menu={menu} handleMenu={handleMenu} />
         </HeaderMainC>
       </ContentHeader>
-      {/* <Map setShowModal={setModalLocation} showModal={modalLocation} /> */}
+      {modalLocation && <Map setShowModal={setModalLocation} showModal={modalLocation} />}
     </div>
   )
 }
-
-
-export const InputSearch = () => {
-  return (<ContentInputSearch>
-    <IconSearch size='20px' color={PColor} />
-    <input placeholder='Buscar' />
-  </ContentInputSearch>);
-};
-
 export const ContentHeader = styled.div`
   width: 100%;
   box-shadow: inset 0 -1px 0 #dcdcdc;
