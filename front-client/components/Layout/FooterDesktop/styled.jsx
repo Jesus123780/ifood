@@ -16,6 +16,9 @@ export const Container = styled.div`
     gap: 16px;
     border-top: 1px solid #dcdcdc;
     padding: 40px 0 10px;
+    @media only screen and (max-width: 960px){
+    display: none;
+    }
 `
 
 export const Enlace = styled.a`
@@ -86,6 +89,9 @@ export const ContainerSocial = styled.div`
     margin-bottom: 0;
     border-top: 1px solid #dcdcdc;
     padding: 40px 0 10px;
+    @media only screen and (max-width: 960px){
+    display: none;
+    }
 `
 export const ContentSocial = styled.div`
     flex-basis: 50%;

@@ -20,15 +20,15 @@ export const FormProducts = styled.form`
 export const Container = styled.div`
     display: flex;
     border-radius: 4px;
-    background-color: ${ ({ theme }) => theme.InvColor };
+    background-color: ${({ theme }) => theme.InvColor};
     transition:  6s ease;
     padding-bottom: 30px;
     border-bottom: 1px solid rgba(0,0,0,.1);
 `
 export const Card = styled.div` 
     position: relative;
-    width: ${ props => props.state ? '100%' : '70%' };
-    background-color: ${ ({ theme }) => theme.InvColor };
+    width: ${props => props.state ? '100%' : '70%'};
+    background-color: ${({ theme }) => theme.InvColor};
 
 `
 export const ContainerButton = styled.div` 
@@ -62,7 +62,7 @@ export const ContainerCardProduct = styled.div`
     @media only screen and (max-width: 760px){
         grid-template-columns: 50% repeat(auto-fill, 50%) 50%;
     }
-    ${ props => props.grid && css`
+    ${props => props.grid && css`
     width: 100%;
     grid-template-columns: 100% repeat(auto-fill, 100%) 100%; 
       @media only screen and (max-width: 760px){
@@ -99,23 +99,23 @@ export const ButtonCard = styled.button`
     transition: .4s ease;
     width: 50px;
     height: 50px;
-    top: ${ ({ top }) => top ? top : '20px' };
-    transition-delay: ${ ({ delay }) => delay ? delay : 'auto' };
+    top: ${({ top }) => top ? top : '20px'};
+    transition-delay: ${({ delay }) => delay ? delay : 'auto'};
     max-height: 50px;
     max-width: 50px;
     border-radius: 50%;
     align-items: center;
     display: grid;
     justify-content: center;
-    background-color: ${ BGColor };
-    &:hover  ${ ActionName } {
+    background-color: ${BGColor};
+    &:hover  ${ActionName} {
         opacity: 1;
         z-index: 900;
     }
-    ${ props => props.grid && css`
-        top: ${ ({ top }) => top ? top : '80px' };
+    ${props => props.grid && css`
+        top: ${({ top }) => top ? top : '80px'};
         `
-}
+    }
 `
 export const CardProduct = styled.div` 
     flex: 0 1 auto;
@@ -129,14 +129,14 @@ export const CardProduct = styled.div`
     background-color: #FFFFFF;
     border: 1px solid rgba(0,0,0,.1);
     height: 450px;
-    &:hover  ${ ButtonCard } {
+    &:hover  ${ButtonCard} {
         right: 15px;
     }
     &#space {
         padding: 30px;
         justify-content: space-between;
     }
-    ${ props => props.grid && css`
+    ${props => props.grid && css`
     height: min-content;
     flex-direction: row;
 
@@ -158,7 +158,7 @@ export const CardCheckBox = styled.input`
 `
 export const CardRadioLabel = styled.label`
     margin-left: 8px;
-    color: ${ ({ theme }) => theme.SFSColor };
+    color: ${({ theme }) => theme.SFSColor};
 `
 export const Footer = styled.div`
     position: fixed;
@@ -180,7 +180,7 @@ export const ContentImg = styled.div`
     border-radius: 8px 8px 0px 0px;
     /* background-color: #ededed; */
     border-bottom: 1px solid #eaeaea;
-    ${ props => props.grid && css`
+    ${props => props.grid && css`
     border-bottom: none;
     width: max-content;
 
@@ -199,7 +199,7 @@ export const ContentInfo = styled.div`
     flex-direction: column;
     padding: 24px 16px;
     position: relative;
-    ${ props=> props.direction &&css`
+    ${props => props.direction && css`
     padding: 0;
     flex-direction: row;
     display: flex;
@@ -226,15 +226,15 @@ export const ContentIconFav = styled.div`
     align-items: center;
     display: grid;
     justify-content: center;
-    background-color: ${ BGColor };
-    ${ props => props.grid && css`
+    background-color: ${BGColor};
+    ${props => props.grid && css`
         top: 20px;
 
 ` }
 
 `
 export const Text = styled.h3` 
-    font-size: ${ ({ size })=> size ? size : '15px' };
+    font-size: ${({ size }) => size ? size : '15px'};
     width: 100%;
     margin: 5px 0px;
     font-weight: 400;
@@ -263,14 +263,19 @@ export const ItemFilter = styled.button`
     font-family: PFont-Light;
 `
 export const ContainerBurger = styled.div`
+   margin: 0 10px 0 auto;
+    width: min-content; 
     .BurgerMenu__container {
     display: flex;
+    margin: 0 10px 0 auto;
+    width: min-content;
     align-items: center;
+ 
     flex-direction: column;    
     span {
-      background-color: ${ PColor };
+      background-color: ${PColor};
       width: 30px;
-      height: 2px;
+      height: 1.5px;
       margin: 4px;
       border-radius: 1px;
       transition: all .3s ease-out;
@@ -286,10 +291,24 @@ export const ContainerBurger = styled.div`
       transform: rotate(-45deg) translateY(-7px) translateX(9px);
     }
 }`
+export const ContainerActions = styled.div`
+    display: flex;
+    align-items: center;
+    width: 30%;
+    
+`
+export const OnlyMovil = styled.div`
+    display: flex;
+    margin: auto;
+    width: min-content;
+    @media only screen and (min-width: 768px){
+        display: none;
+    }
+`
 export const ReadMore = styled.button`
     align-items: center;
     cursor: pointer;
-    color: ${ ({ theme }) => theme.BGAColor };
+    color: ${({ theme }) => theme.BGAColor};
     justify-content: center;
     align-self: center;
     display: flex;
@@ -307,6 +326,6 @@ export const ReadMore = styled.button`
 `
 
 export const CardOne = styled(Card)` 
-    ${ props => props.state ? css`width: 0%` : css`width: 30%;` }
+    ${props => props.state ? css`width: 0%` : css`width: 30%;`}
     transition:  .6s ease;
 `

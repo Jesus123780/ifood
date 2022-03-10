@@ -3,13 +3,14 @@ import Link from '../common/Link'
 import styled, { css } from 'styled-components'
 import { BGColor, PColor } from '../../public/colors'
 import { useApolloClient } from '@apollo/client'
-import { FloatingBox, ButtonOption, FloatingBoxTwo, Button, ButtonOptionFav } from './styled'
+import { FloatingBox, ButtonOption, FloatingBoxTwo, Button, ButtonOptionFav, Count } from './styled'
 import { IconArrowBottom, IconLogout, IconMessageMain, IconShopping, IconUser } from '../../public/icons'
 import { useRouter } from 'next/router'
 import { Context } from '../../context'
 import { OUR_URL_BASE, URL_BASE } from '../../apollo/urls'
 import { useUser } from 'components/hooks/useUser'
 import { Overline } from 'components/common/Reusable'
+import { ContainerActions, ContainerBurger, OnlyMovil } from 'components/Update/Products/styled'
 
 export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
     const { client } = useApolloClient()
@@ -20,6 +21,7 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
     //     client?.clearStore()
     //     location.replace('/')
     // }
+    const [status, setStatus] = useState('close')
 
     const onClickLogout = useCallback(async () => {
         localStorage.removeItem('location.data')
@@ -60,8 +62,27 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
     }
     const [openOption, setOpenOption] = useState(false)
     return (
-        <div>
+        <ContainerActions>
             <Overline onClick={() => setShow(!show)} show={show} />
+            <OnlyMovil>
+                <ContainerBurger onClick={handleMenu} >
+                    <div
+                        className="BurgerMenu__container"
+                        role="button"
+                        onClick={() => { setStatus(status === 'open' ? 'close' : 'open') }}
+                    >
+                        <span className={status}></span>
+                        <span className={status}></span>
+                        <span className={status}></span>
+                    </div>
+                </ContainerBurger>
+                <Count onClick={() => handleMenu(1)}>
+                    <div className="count_product">
+                        {itemProducts <= 9 ? itemProducts : '+9'}
+                    </div>
+                    <IconShopping size='25px' color={PColor} />
+                </Count>
+            </OnlyMovil>
             <ButtonOption onClick={() => handleClick(1)}>
                 <IconUser size='25px' color={PColor} />
                 <LeftNav show={show === 1}>
@@ -82,6 +103,7 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
                     </Enlace>
                 </LeftNav>
             </ButtonOption>
+
             <ButtonOption onClick={onClickLogout}>
                 <IconLogout size='20px' color={PColor} />
             </ButtonOption>
@@ -105,7 +127,7 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
                     sadasñlk
                 </FloatingBoxTwo>
             </ContainerOption>
-        </div>
+        </ContainerActions>
     )
 }
 export const Name = styled.span`

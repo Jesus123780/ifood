@@ -112,6 +112,64 @@ export const UseSize = styled.div`
 `
 
 // options
+const ContainerBurger = styled.div`
+    .BurgerMenu__container {
+    display: flex;
+    flex-direction: column;    
+    span {
+      background-color: ${PColor};
+      width: 25px;
+      height: 1px;
+      margin: 4px;
+      border-radius: 1px;
+      transition: all .1s ease-out;
+    }
+    .open:nth-child(1) {
+      transform: rotate(45deg) translateY(4px) translateX(6px);
+
+    }
+    .open:nth-child(2) {
+      opacity: 0;
+    }
+    .open:nth-child(3) {
+      transform: rotate(-45deg) translateY(-7px) translateX(9px);
+    }
+    .close:nth-child(1) {
+      transform: rotate(0) translateY(0);
+    }
+    .close:nth-child(2) {
+      opacity: 1;
+    }
+    .close:nth-child(3) {
+      transform: rotate(0) translateY(0);
+    }
+}
+@media only screen and (min-width: 768px){
+    display: none;
+    }
+`
+export const Count = styled.div`
+position: relative;
+width: 55px;
+ .count_product {
+    background-color: ${PColor};
+    color: ${BGColor};
+    border-radius: 50%;
+    padding: 1px;
+    height: 20px;
+    font-size: 12px;
+    width: 20px;
+    align-items: center;
+    display: flex;
+    place-content: center;
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+    @media  (max-width: 768px) {
+        right: 20px;
+    }
+    }
+`
 export const ButtonOption = styled.div`
     margin: 0 0 0 30px;
     width: min-content;
@@ -137,8 +195,7 @@ export const ButtonOption = styled.div`
         color: ${({ theme }) => `${theme.PColor}`};
     }
     ` }
-    @media only screen and (min-width: 960px){
-    }
+ 
     .count_product {
         background-color: ${PColor};
         color: ${BGColor};
@@ -151,12 +208,13 @@ export const ButtonOption = styled.div`
         display: flex;
         place-content: center;
         position: absolute;
-        right: 0;
+        right: -10px;
         bottom: 20px;
-        
     }
-    `
-
+    @media only screen and (max-width: 768px){
+    display: none;
+    }
+`
 export const FloatingBox = styled.div`
     position: absolute;
     grid-gap: 0 10px;

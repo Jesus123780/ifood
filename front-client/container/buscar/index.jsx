@@ -1,8 +1,7 @@
 import { useLazyQuery } from '@apollo/client';
+import { LocationName } from 'components/hooks/useLocationName';
 // import { MerchantBannerWrapperInfo } from 'container/RestaurantProfile/styled';
 import { BGColor } from 'public/colors';
-import React, { useContext, useEffect, useState } from 'react'
-import { GET_ALL_PRODUCTS_SEARCH } from './queries';
 import { Container, MerchantBannerWrapperInfo } from './styled';
 
 
@@ -17,6 +16,7 @@ export const Buscar = ({ src, type }) => {
                     <h2 className="merchant-banner__status-title">{type}</h2>
                 </div>
             </MerchantBannerWrapperInfo>
+            {/* <LocationName /> */}
         </Container>
     )
 }

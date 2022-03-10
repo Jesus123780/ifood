@@ -70,9 +70,11 @@ export const Card = styled.div`
 }
 `
 export const Container = styled.div`
+max-width: 1366px;
+margin: auto;
     /* width: 100%;
-    margin: auto;
     padding: 0 30px;
+
     max-width: 900px;   */
 `
 export const Title = styled.h1`

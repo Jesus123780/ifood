@@ -65,9 +65,9 @@ export const Wrapper = styled.div`
 `
 
 export const ContentInfo = styled.div`
-        padding: 30px 0;
-        background-color: ${BGColor};
-        border-radius: 3px;
+    padding: 30px 0;
+    background-color: ${BGColor};
+    border-radius: 3px;
     .delivery-location {
       font-family: PFont-Light;
       width: 80%;
@@ -75,6 +75,9 @@ export const ContentInfo = styled.div`
       display: flex;
       margin-right: 12px;
       flex-direction: column;
+      @media (max-width: 768px){
+
+      }
       & button {
         background-color: transparent;
       }

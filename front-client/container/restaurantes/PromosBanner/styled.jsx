@@ -8,7 +8,7 @@ export  const Content = styled.div`
     flex-grow: 1;
     justify-content: space-between;
     width: 100%;
-    max-width: 1366px!important;
+    max-width: 1766px!important;
 `
 export  const CardProduct = styled.div`
     height: 300px;
@@ -40,7 +40,7 @@ export  const BannerPromo = styled.div`
 `
 export  const ContainerCardProduct = styled.div`
     /* display: flex; */
-    margin: 0 40px ;
+    /* margin: 0 40px ; */
     /* grid-template-columns: repeat(100, 100px); */
     /* padding: 5px; */
     /* grid-template: 1fr/ 20% 20% 20% 20% 20% ; */

@@ -403,7 +403,7 @@ export const filterKeyObject = (data, filters, dataFilter) => {
 /**
  * busca en el localstore la información y la parsea si es necesario
  * @version 0.0.1
- * @param {*} jsonValue clave de busqueda
+ * @param {*} jsonValue clave de búsqueda
  * @param {boolean} isParse si se quiere parsear o no
  * @return {boolean} devuelve el valor parseado o false si pudo guardar en localStorage
  */

@@ -32,14 +32,14 @@ export default function HomeView() {
             <Buscar
                 type={type}
             />
-            {type === 'RESTAURANT' && <ListRestaurant
+            {type === 'RESTAURANT' || 'TODO' && <ListRestaurant
                 setShowMore={setShowMore}
                 catStoreId={type}
                 showMore={showMore}
                 data={dataStore?.getAllMatchesStore || []}
             />
             }
-            {type === 'PLATOS' && <ContainerProductSearch>
+            {type === 'PLATOS' || 'TODO' && <ContainerProductSearch>
                 {data?.getAllMatchesProducts ? data?.getAllMatchesProducts.map(food => {
                     return (
                         <CardProduct food={food} key={food.pId} /* onClick={() => getOneProduct(food)} */ />

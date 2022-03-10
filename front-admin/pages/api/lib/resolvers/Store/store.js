@@ -11,7 +11,6 @@ import ShoppingCard from '../../models/Store/ShoppingCard'
 import RatingStore from '../../models/Store/ratingStore'
 import SubProducts from '../../models/Store/shoppingCardSubProduct'
 import Store from '../../models/Store/Store'
-import { LoginEmail } from '../../templates/LoginEmail'
 import { deCode, getAttributes } from '../../utils/util'
 import ratingStoreStart from '../../models/Store/ratingStoreStart'
 const { Op } = require('sequelize')
@@ -97,7 +96,6 @@ export const deleteOneItem = async (root, args, context, _info) => {
 export const registerShoppingCard = async (root, input, context, _info) => {
     const { idSubArray } = input || {}
     const { id } = context.User
-    console.log(context.User)
     const { cName, cantProducts, cState, csDescription, pId, comments, idStore } = input.input || {}
     const { setID } = idSubArray || {}
     try {
@@ -196,7 +194,7 @@ export const getOneStore = async (parent, args, context, info) => {
     const { idStore, StoreName } = args
     try {
         const attributes = getAttributes(Store, info)
-        const data = Store.findOne({ attributes, where: { idStore: deCode(idStore) } })
+        const data = Store.findOne({ attributes, where: { idStore: idStore ? deCode(idStore) : deCode(parent.idStore) } })
         return data
     } catch (e) {
         const error = new Error('Lo sentimos, ha ocurrido un error interno')
@@ -220,7 +218,7 @@ export const getFavorite = async (_root, args, context, info) => {
     try {
         const attributes = getAttributes(FavoritesModel, info)
         const data = await FavoritesModel.findAll({
-            attributes: ['id', 'fState', 'fIStoreId', 'idStore'],
+            attributes: ['id', 'fState', 'fIStoreId', 'idStore', 'updateAt', 'createAt'],
             where: { id: deCode(context.User.id), fState: 1 }
         })
         return data
@@ -406,6 +404,9 @@ export const getAllMatchesStore = async (root, args, context, info) => {
 }
 export default {
     TYPES: {
+        FavoriteStore: {
+            getOneStore
+        },
         CatStore: {
             getAllStore: async (parent, _args, _context, info) => {
                 try {

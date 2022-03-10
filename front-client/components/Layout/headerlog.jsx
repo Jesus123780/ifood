@@ -3,7 +3,7 @@ import { AdicionalComponent, Anchor, FooterComponent, Text, Time, Timer, UseSize
 import ActiveLink from '../common/Link'
 import { IconConfig, IconHome, IconLocationMap, IconLogo, IconSearch, IconUser } from '../../public/icons'
 import { PColor } from '../../public/colors'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import useScrollHook, { useScrollColor, useScrollY } from '../hooks/useScroll'
 import useWindowSize from '../hooks/useWindowSize'
 import { Options } from './options'
@@ -14,7 +14,6 @@ import { InputSearch } from 'container/InputSearch'
 
 export const HeaderMain = ({ menu, handleMenu }) => {
   const { setAlertBox, modalLocation, setModalLocation, setLocationString, locationStr, stateLocation } = useContext(Context)
-
   const style = useScrollHook();
   const { offsetY } = useScrollY();
   const { scrollNav } = useScrollColor();
@@ -50,21 +49,23 @@ export const HeaderMain = ({ menu, handleMenu }) => {
   return (
     <div>
       <ContentHeader>
-        <HeaderMainC scrollNav={scrollNav} style={style} >
-          <div style={{ transform: `translateX(${offsetY * 0.8}px)` }} >
+        <HeaderMainC>
+          <ItemHeader style={{ transform: `translateX(${offsetY * 0.8}px)` }} >
             <ActiveLink href={'/restaurantes'}>
               <a>
                 <IconLogo size='80px' color={PColor} />
               </a>
             </ActiveLink>
-          </div>
-          <div>
+          </ItemHeader>
+          <ItemHeader width='70%'>
             <InputSearch />
-          </div>
-          <div className='delivery-location' onClick={() => setModalLocation(!modalLocation)}>
-            <button ><IconLocationMap color={PColor} size={20} /> {uLocationKnow ? uLocationKnow : !!pais ? `${pais?.cName} ${department?.dName} ${city?.cName}` : null}</button>
-            <span className='sub-location'>{pais && `${pais?.cName} ${department?.dName} ${city?.cName}`}</span>
-          </div>
+          </ItemHeader>
+          <ItemHeader media>
+            <div className='delivery-location' onClick={() => setModalLocation(!modalLocation)}>
+              <button ><IconLocationMap color={PColor} size={20} /> {uLocationKnow ? uLocationKnow : !!pais ? `${pais?.cName} ${department?.dName} ${city?.cName}` : null}</button>
+              <span className='sub-location'>{pais && `${pais?.cName} ${department?.dName} ${city?.cName}`}</span>
+            </div>
+          </ItemHeader>
           <Options menu={menu} handleMenu={handleMenu} />
         </HeaderMainC>
       </ContentHeader>
@@ -76,6 +77,11 @@ export const ContentHeader = styled.div`
   width: 100%;
   box-shadow: inset 0 -1px 0 #dcdcdc;
   grid-area: head;
+  justify-content: center;
+  display: flex;
+  height: fit-content;
+  align-items: center;
+  align-self: center;
   background-color: ${({ scrollNav }) => (scrollNav ? 'none' : 'transparent')};
 `
 export const ContentInputSearch = styled.div`
@@ -89,8 +95,19 @@ export const ContentInputSearch = styled.div`
     border: none;
   }
  `
+export const ItemHeader = styled.div`
+  justify-content: center;
+  display: flex;
+  height: fit-content;
+  align-items: center;
+  align-self: center;
+   @media only screen and (max-width: 960px){
+    width: ${({ width }) => width || '30%'};
+    ${props => props.media && css`display: none;`}
+    }
+    
+`
 export const HeaderMainC = styled.header`
-  margin: auto;
     box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
     width: 100%;
     display: flex;
@@ -101,29 +118,21 @@ export const HeaderMainC = styled.header`
     flex-grow: 1;
     justify-content: space-between;
     width: 100%;
-    max-width: 1366px!important;
-    & > div {
-    justify-content: center;
-    /* place-content: center; */
+    max-width: 1366px;
+    .delivery-location {
+    font-family: PFont-Light;
+    font-size: 100%;
+    line-height: 1.15;
+    width: 80%;
+    cursor: pointer;
     display: flex;
-    height: fit-content;
+    flex-direction: column;
+    display: flex;
     align-items: center;
     align-self: center;
+    @media(max-width: 768px){
+      display: none;
     }
-    @media (min-width: 992px) {
-    }
-    .delivery-location {
-      font-family: PFont-Light;
-      font-size: 100%;
-      line-height: 1.15;
-      width: 80%;
-      cursor: pointer;
-      /* text-align: center; */
-      display: flex;
-      /* place-content: center; */
-      /* align-items: center; */
-      margin-right: 12px;
-      flex-direction: column;
       & button {
         background-color: transparent;
       }

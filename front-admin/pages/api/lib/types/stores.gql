@@ -48,6 +48,10 @@ type FavoriteStore {
     fIStoreId: ID
     fState: Int
     idStore: ID
+    getOneStore: Store
+    createAt: DateTime
+    updateAt: DateTime
+    
 }
 type RatingStore {
     idStore: ID

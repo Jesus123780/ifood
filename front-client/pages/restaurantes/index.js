@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import { gql, useLazyQuery, useQuery, useSubscription } from '@apollo/client'
 import styles from '../../styles/Home.module.css'
 import { GET_ONE_STORE } from '../../container/queries'

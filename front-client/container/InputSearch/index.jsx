@@ -66,22 +66,21 @@ export const InputSearch = () => {
             setTodos([...historySearch, todo]);
         }
     };
-    const markComplete = item =>  setTodos(historySearch.filter((elem, i) => i !== item))
-    
+    const markComplete = item =>  setTodos(historySearch.filter((_, i) => i !== item))
     useEffect(() => {
         localStorage.setItem("historySearch", JSON.stringify(historySearch));
     }, [historySearch]);
     const isCharacterInsearchHistory = (favorite) => searchHistory.searchHistory.find((character) => character === favorite);
     const handleSearch = (elem, type, selected) => {
-        console.log(elem)
+        ref.current.focus()
         if (elem) return location.push(`/buscar/${elem}/${type}`)
-        if (!values.search) return;
+        if (!values.search || values.search === ' ') return;
         // handleFavorite(values.search)
         addTodos(values.search)
         if (selected) {
             location.push(`/buscar/${values.search}/${type}`)
         }
-        ref.current.focus()
+        
     }
     // INITIAL REDUCER
     const initializer = (initialValue = initialState) => JSON.parse(localStorage.getItem("localCart")) || initialValue
@@ -93,13 +92,13 @@ export const InputSearch = () => {
 
 
     return (<ContentInputSearch>
-        <button className="btn btn-primary" onClick={() => handleSearch(null, 1)}>
-            <IconSearch size='30px' color={PColor} />
+        <button className="btn btn-primary" onClick={() => handleSearch(null, 'TODO', true)}>
+            <IconSearch size='20px' color={PColor} />
         </button>
         <Input ref={ref} type="text" aria-label="Busca por platillo o restaurante" role="search" tabIndex={'0'} autoComplete="off" placeholder='Buscar platillo o restaurante' onChange={(e) => handleChange(e)} value={values.search} name='search'
             onKeyPress={(e) => {
                 if (e.key === 'Enter') {
-                    handleSearch(null, 'TODO')
+                    handleSearch(null, 'TODO', true)
                     e.target.blur()
                 }
             }}

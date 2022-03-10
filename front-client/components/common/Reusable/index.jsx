@@ -10,6 +10,7 @@ export const Overline = styled.div`
     background-color: ${({ bgColor }) => bgColor || 'transparent'};
     ${props => props.show ? css`display: block` : css`display: none;`};
     @media only screen and (min-width: 960px){
+        display: none;
     }
   
 `

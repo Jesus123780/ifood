@@ -119,11 +119,38 @@ export const SET_START_STORE = gql`
 `
 
 export const GET_ALL_FAV_STORE = gql`
-query getFavorite {
-  getFavorite {
+query getFavorite{
+  getFavorite{
     fIStoreId
     fState
+    createAt
+    updateAt
     idStore
+    getOneStore {
+      idStore
+      cId
+      id
+      ctId
+      dId
+      storeName
+      Image
+      city{
+        ctId
+        dId
+        cName
+      }
+      department {
+        dId
+        cId
+        dName
+        
+      }
+      pais {
+        cId
+        cName
+        
+      }
+    }
   }
 }
 `

@@ -9,10 +9,15 @@ export const ContentInputSearch = styled.div`
   place-content: center;
   align-items: center;
   position: relative;
-  .btn {
-      background-color: transparent;
-      cursor: pointer;
-  }
+  @media(max-width: 768px){
+    .btn {
+        display: none;
+    }
+    }
+    .btn {
+    background-color: transparent;
+    cursor: pointer;
+    }
 `
 export const SearchTarget = styled.div`
     position: absolute;
@@ -28,6 +33,7 @@ export const SearchTarget = styled.div`
     background-color: ${BGColor};
     border-radius: 8px;
     display: ${({ values }) => values ? 'block' : 'none'};
+
   button {
     border-bottom: 1px solid #d4d2d2;
     padding: 10px 5px;
@@ -46,27 +52,34 @@ export const SearchTarget = styled.div`
         display: block;
         padding: 10px 5px !important;
         width: 95%;
+        @media only screen and (max-width: 768px){
+    display: none;
+}
     }
+    
     }
     .recent-span {
         color: ${BColor};
-    font-weight: 300;
-    line-height: 29px;
-    list-style: initial;
-    font-family: PFont-Light;
-    margin: 0 25px;
-    font-size: 17px;
-    display: block;
+        font-weight: 300;
+        line-height: 29px;
+        list-style: initial;
+        font-family: PFont-Light;
+        margin: 0 25px;
+        font-size: 17px;
+        display: block;
     }
-.item-recent {
-    padding: 10px 5px;
-    margin: 10px;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    width: 90%;
-    margin: auto;
-    align-items: center;
+    .item-recent {
+        padding: 10px 5px;
+        margin: 10px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        width: 90%;
+        margin: auto;
+        align-items: center;
+    }
+    @media only screen and (max-width: 768px){
+    display: none !important;
     }
 `
 export const Button = styled.button`
@@ -89,8 +102,12 @@ export const Input = styled.input`
     font-weight: 300;
     border-radius: 8px;
     min-width: 320px;
-     width: 100%;
-     &:focus ~ ${SearchTarget} {
+    width: 100%;
+    &:focus ~ ${SearchTarget} {
         display: block;
     }  
+    @media(max-width: 768px){
+        min-width: 100%;    
+        font-size: 12px;
+    }
      `
