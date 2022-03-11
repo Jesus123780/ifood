@@ -1,0 +1,29 @@
+  type DetailSales {
+    _id: ID
+    idUser: ID
+    idComp:ID
+    legalEntity: String
+    numTransactions: Int
+    resultsCFM: Int
+    diffTxns: Int
+    transactionDate: DateTime
+    totalCardSales: Float
+    dailySalesByProduct: String
+    detailedTransactions: String
+
+  }
+  type Query {
+    hello: String
+  }
+  type Query {
+    DailySalesSchema: [DetailSales]
+  }
+
+  # type Mutation {
+  #   updateDetailSalesMutation(input: IDetailSales, inputLineItems: ILineItemsFinal!, setTagsInput: ITgasItemsFinal): DetailSales
+  # }
+  type Subscription {
+    newDetailSales: DetailSales
+     testEmit: String
+  }
+

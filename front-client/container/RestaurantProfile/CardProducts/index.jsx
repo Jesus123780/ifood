@@ -4,8 +4,11 @@ import { Card } from './styled'
 import Image from 'next/image'
 import { APColor } from '../../../public/colors'
 import { Text } from '../styled'
-
+const myLoader = ({ src, width, quality }) => {
+    return `https://cdn.pixabay.com/photo/2022/01/11/21/48/link-6931554_960_720.png`
+}
 const CardProduct = ({ food, onClick }) => {
+    console.log(food)
     return (
         <Card onClick={onClick}>
             <div>
@@ -21,10 +24,14 @@ const CardProduct = ({ food, onClick }) => {
                 className='store_image'
                 width={100}
                 height={100}
-                src={'/images/hamb.jpg'}
+                priority
+                objectPosition='cover'
+                // loader={!!food.ProImage && myLoader}
+                layout='responsive'
+                src={`${food.ProImage}`}
                 alt={food.ProImage || "Picture of the author"}
-                blurDataURL="/images/DEFAULTBANNER.png"
-                placeholder="blur" // Optional blur-up while loading
+                // blurDataURL="/images/DEFAULTBANNER.png"
+                // placeholder="blur" // Optional blur-up while loading
             />
         </Card>
     )

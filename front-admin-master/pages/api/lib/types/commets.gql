@@ -1,0 +1,25 @@
+type Comments {
+  _id: ID
+  user: ID
+  content: String
+  postUserId: ID
+  postId: ID
+  likes: Int
+}
+input IComments {
+  user: ID
+  content: String
+  postUserId: ID
+  postId: ID
+  likes: Int
+}
+
+# Query
+type Query {
+  getAllComments(idComp: ID): [Comments]
+}
+
+# Mutations
+type Mutation {
+  postAComments(input: IComments): Comments
+}

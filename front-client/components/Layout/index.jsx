@@ -41,7 +41,7 @@ export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => 
                 {/* {!isSession && !['/login', '/', '/entrar/email', '/entrar', '/delivery/[location]/[name]/[id]', '/contact'].find(x => x === location.pathname) && <AsideCheckoutC handleMenu={handleMenu} menu={menu} />} */}
                 {!isSession && !['/login', '/', '/entrar/email', '/entrar', '/contact'].find(x => x === location.pathname) && <HeaderMain handleMenu={handleMenu} menu={menu} />}
                 <div style={{ gridArea: 'main', overflowY: val ? 'auto' : 'hidden' }}>
-                    {menuMobile && <NavHeaderMobile setOpenMenuMobile={setOpenMenuMobile} menuMobile={menuMobile} />}
+                    {<NavHeaderMobile setOpenMenuMobile={setOpenMenuMobile} menuMobile={menuMobile} />}
                     {children}
                     {val && <FooterDesktop />}
                 </div>

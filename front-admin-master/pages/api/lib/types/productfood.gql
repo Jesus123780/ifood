@@ -1,0 +1,114 @@
+# types
+type ProductFood {
+    pId: ID!
+    carProId: ID
+    sizeId: ID #Talla
+    colorId: ID #Color
+    idStore: ID #Store
+    cId: ID #Country
+    caId: ID #Categorías de productFoodos
+    dId: ID #Department
+    ctId: ID #Cuidad
+    tpId: ID #Características
+    fId: ID #Características principales
+    pName: String
+    ProPrice: Float
+    ProDescuento: String
+    ProUniDisponibles: String
+    ProDescription: String
+    ValueDelivery: Float
+    ProProtegido: String
+    ProAssurance: String
+    ProImage: String
+    ProStar: Int
+    ProWidth: Int
+    ProHeight: Float
+    ProLength: String
+    ProWeight: String
+    ProQuantity: Int
+    ProOutstanding: Int
+    ProDelivery: Int
+    ProVoltaje: String
+    pState: Int
+    sTateLogistic: Int
+    pDatCre: DateTime
+    pDatMod: DateTime
+    thirdParties: ThirdParties
+    area: [Area]
+    feat: [Feature]
+    pais: Country
+    city: City
+    department: Department
+    # Marca
+    mark: Trademark
+    color: Color
+    getStore: Store
+    ExtProductFoodsAll: [ExtProductFood]
+}
+# Inputs
+input ICategories {
+    caId: ID
+    cpName: String
+    cpImage: String
+    cpState: Int
+}
+
+# Inputs    
+input InputProductFood {
+    pId: ID
+    sizeId: ID
+    colorId: ID
+    carProId: ID
+    cId: ID #Country
+    dId: ID #Department
+    ctId: ID #Cuidad
+    idStore: ID #Store
+    caId: ID #Categorías de productFood
+    fId: ID #Características principales
+    pName: String
+    ProPrice: Float
+    ProDescuento: String
+    ProUniDisponibles: String
+    ProDescription: String
+    ProProtegido: String
+    ProAssurance: String
+    ProImage: String
+    ProStar: Int
+    ProWidth: Int
+    ProHeight: Float
+    ValueDelivery: Float
+    ProLength: String
+    ProWeight: String
+    ProQuantity: Int
+    ProOutstanding: Int
+    ProDelivery: Int
+    ProVoltaje: String
+    pState: Int
+    sTateLogistic: Int
+    pDatCre: DateTime
+    pDatMod: DateTime
+}
+# Input delete productFoods
+input IDeleteProductFood {
+    pId: ID
+}
+
+# Queries
+type Query {
+    "Consulta todos los productFoodos"
+    getProductFoods: [ProductFood]
+    productFoods: [ProductFood]
+    productFoodsOne(pId: ID, cId: ID, dId: ID, ctId: ID ): ProductFood
+    productFoodsAll(pId: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int,  gender: [String]  desc: [String], categories: [ID]  ): [ProductFood]
+    productFoodsLogis(pId: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int  ): [ProductFood]
+    getMinPrice(idStore: ID): Float
+}
+
+
+# Mutations
+type Mutation {
+    "Registra un productFoodo"
+     updateProductFoods(input: InputProductFood): ProductFood
+    "Borra un productFoodo"
+     deleteProductFoods(input: IDeleteProductFood): ProductFood
+}

@@ -12,7 +12,7 @@ import Tabs from '../../components/Tabs';
 import { Range } from '../../components/InputRange';
 import { useQuery } from '@apollo/client';
 import { GET_ALL_SHOPPING_CARD, GET_ALL_RESTAURANT, GET_ALL_CAT_STORE } from './queries';
-import Image from 'next/image';
+import { Categories } from './categories';
 
 export const Restaurant = () => {
   // STATES
@@ -49,33 +49,7 @@ export const Restaurant = () => {
         <ItemFilter onClick={() => OPEN_MODAL_FILTER.setState(!OPEN_MODAL_FILTER.state)}>Filtros</ItemFilter>
       </ContainerFilter>
       <H2>Categorías</H2>
-      <List>
-        {getCatStore?.getAllCatStore?.map(cat => {
-          const nameCat = cat?.cName?.replace(/\s/g, '-')?.toLowerCase();
-          return (
-            <CtnBox key={cat.catStore}>
-              <Link href={`/categories/${nameCat}/${cat.catStore}`}>
-                <a>
-                  <ItemCategory>
-                    <Image
-                      objectFit='contain'
-                      width={90}
-                      height={90}
-                      src={'/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
-                      alt="Picture of the author"
-                      blurDataURL="data:..."
-                      unoptimized={true}
-                      placeholder="blur" // Optional blur-up while loading
-
-                    />
-                  </ItemCategory>
-                  <h2 className="title-cat">{cat.cName}</h2>
-                </a>
-              </Link>
-            </CtnBox>
-          )
-        })}
-      </List>
+      <Categories />
       {/* PRODUCT DEMO */}
       {/* BEST RESTAURANT */}
       <H2>Los mejores restaurantes para ti</H2>

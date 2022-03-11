@@ -1189,3 +1189,13 @@ export function copyToClipboard(text) {
 // 'midu'.repeat(3) // 'midumidumidu'
 //  ' mi du '. trim() // 'mi du'
 // 'mi du dev'.split(' ') // [ 'mi', 'du', 'dev' ]
+// var todayDate = new Date().toISOString().slice(0, 10);
+// var d = new Date(todayDate);
+// d.setMonth(d.getMonth() -3);
+// console.log(todayDate)
+// console.log(d.toISOString().slice(0, 10));
+var threeMonthsAgo = moment().subtract(3, 'months');
+
+console.log(threeMonthsAgo.format()); // 2015-10-13T09:37:35+02:00
+var d = new Date(); d.setMonth(d.getMonth() - 3);
+console.log(d);

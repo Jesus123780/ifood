@@ -1,0 +1,34 @@
+
+
+type CatStore {
+    catStore: ID
+    idUser: ID
+    cName: String
+    cState: Int
+    cDatCre: DateTime
+    cDatMod: DateTime
+    csDescription: String
+    getAllStore: [Store]
+
+}
+# CatStore Type
+
+# CatStore Input
+input ICatStore {
+    cName: String
+    cState: Int
+    cDatCre: DateTime
+    cDatMod: DateTime
+    csDescription: String
+}
+
+# Query
+type Query {
+  getAllCatStore: [CatStore]
+  getOneCatStore(catStore: ID): CatStore
+}
+# Mutations
+type Mutation {
+  registerCategoryStore(input: ICatStore): CatStore
+  desCategoryStore(catStore: ID, cState: Int): Boolean
+}

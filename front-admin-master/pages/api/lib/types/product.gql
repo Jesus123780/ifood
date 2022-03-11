@@ -1,0 +1,106 @@
+# types
+type Product {
+    pId: ID!
+    sizeId: ID #Talla
+    colorId: ID #Color
+    cId: ID #Country
+    caId: ID #Categorías de productos
+    dId: ID #Department
+    ctId: ID #Cuidad
+    tpId: ID #Características
+    fId: ID #Características principales
+    pName: String
+    ProPrice: String
+    ProDescuento: String
+    ProUniDisponibles: String
+    ProDescription: String
+    ProProtegido: String
+    ProAssurance: String
+    ProImage: String
+    ProStar: Int
+    ProWidth: Int
+    ProHeight: Int
+    ProLength: String
+    ProWeight: String
+    ProQuantity: Int
+    ProOutstanding: Int
+    ProDelivery: Int
+    ProVoltaje: String
+    pState: Int
+    sTateLogistic: Int
+    pDatCre: DateTime
+    pDatMod: DateTime
+    thirdParties: ThirdParties
+    area: [Area]
+    feat: [Feature]
+    pais: Country
+    city: City
+    department: Department
+    # Marca
+    mark: Trademark
+    color: Color
+}
+# Inputs
+input ICategories {
+    caId: ID
+    cpName: String
+    cpImage: String
+    cpState: Int
+}
+
+# Inputs    
+input InputProduct {
+    pId: ID
+    sizeId: ID
+    colorId: ID
+    cId: ID #Country
+    dId: ID #Department
+    ctId: ID #Cuidad
+
+    caId: ID #Categorías de productos
+    fId: ID #Características principales
+    pName: String
+    ProPrice: String
+    ProDescuento: String
+    ProUniDisponibles: String
+    ProDescription: String
+    ProProtegido: String
+    ProAssurance: String
+    ProImage: String
+    ProStar: Int
+    ProWidth: Int
+    ProHeight: Int
+    ProLength: String
+    ProWeight: String
+    ProQuantity: Int
+    ProOutstanding: Int
+    ProDelivery: Int
+    ProVoltaje: String
+    pState: Int
+    sTateLogistic: Int
+    pDatCre: DateTime
+    pDatMod: DateTime
+}
+# Input delete products
+input IDeleteProduct {
+    pId: ID
+}
+
+# Queries
+type Query {
+    "Consulta todos los productos"
+    getProducts: [Product]
+    products: [Product]
+    productsOne(pId: ID, cId: ID, dId: ID, ctId: ID ): Product
+    productsAll(pId: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int,  gender: [String]  desc: [String], categories: [ID]  ): [Product]
+    productsLogis(pId: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int  ): [Product]
+}
+
+
+# Mutations
+type Mutation {
+    "Registra un producto"
+     updateProducts(input: InputProduct): Product
+    "Borra un producto"
+     deleteProducts(input: IDeleteProduct): Product
+}

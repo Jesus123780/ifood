@@ -1,0 +1,243 @@
+type CommissionLineItems {
+    _id: ID
+    subtotalTicketsSold: Float
+    ticketType: String
+    lineSalesReceived: Float
+    lineSubtotal: Float
+    hasBeenSent: Boolean
+    lineCommSubtotal: Float
+    currency: String
+    lineItemVATOnComm: Float
+    ticketCategoryTotalDue: Float
+    totalTicketTypeDiscount: Float
+    subtotalTicketTypeLessDiscount: Float
+    ticketPrice: Float
+    agentDetails: AgentDetails
+    newArray: [NewArray]
+}
+input InputCommissionLineItems {
+    _id: ID
+    subtotalTicketsSold: Float
+    ticketType: String
+    lineSalesReceived: Float
+    lineSubtotal: Float
+    hasBeenSent: Boolean
+    lineCommSubtotal: Float
+    lineItemVATOnComm: Float
+    ticketCategoryTotalDue: Float
+    totalTicketTypeDiscount: Float
+    subtotalTicketTypeLessDiscount: Float
+    ticketPrice: Float
+    newArray: [InputNewArray]
+}
+input ICommissionLineItems {
+    _id: ID
+    idInvoice: ID
+    subtotalTicketsSold: Float
+    ticketType: String
+    lineSalesReceived: Float
+    lineSubtotal: Float
+    eventName: String
+    hasBeenSent: Boolean
+    hasBeenReceived: Boolean
+    lineCommSubtotal: Float
+    lineItemVATOnComm: Float
+    ticketCategoryTotalDue: Float
+    totalTicketTypeDiscount: Float
+    subtotalTicketTypeLessDiscount: Float
+    ticketPrice: Float
+    idUser: ID
+    idComp: ID
+    uploaded: DateTime
+    invoiceDate: DateTime
+    invoiceRef: String
+    invoiceTo: String
+    invoiceFrom: String
+    eventRef: String
+    eventCommences: String
+    eventType: String
+    invoiceTotal: Float
+    totalCommDue: Float
+    totalSalesReceived: Float
+    totalDiscounts: Float
+    vatOnComms: Float
+    isVATRegistered: Boolean
+    isApprovedByInvoiceSender: Boolean
+    isPaid: Boolean
+    isRedo: Boolean
+    datePaid: DateTime
+    isOnStatement: Boolean
+    statementId: String
+    newArray: [InputNewArray]
+
+}
+type CommissionInvoice {
+    _id: ID
+    idUser: ID
+    idComp: ID
+    uploaded: DateTime
+    invoiceDate: DateTime
+    invoiceRef: String
+    invoiceTo: String
+    invoiceFrom: String
+    eventRef: String
+    eventName: String
+    eventCommences: String
+    currency: String
+    eventType: String
+    invoiceTotal: Float
+    totalCommDue: Float
+    totalSalesReceived: Float
+    totalDiscounts: Float
+    vatOnComms: Float
+    isVATRegistered: Boolean
+    isApprovedByInvoiceSender: Boolean
+    isPaid: Boolean
+    isRedo: Boolean
+    datePaid: DateTime
+    hasBeenReceived: Boolean
+    isOnStatement: Boolean
+    statementId: String
+    agentDetails: AgentDetails
+    lineItemsArray: [CommissionLineItems]
+}
+input ICommissionInvoice {
+     _id: ID
+    idUser: ID
+    idComp: ID
+    uploaded: DateTime
+    invoiceDate: DateTime
+    invoiceRef: String
+    invoiceTo: String
+    invoiceFrom: String
+    eventRef: String
+    eventName: String
+    eventCommences: String
+    eventType: String
+    invoiceTotal: Float
+    totalCommDue: Float
+    totalSalesReceived: Float
+    totalDiscounts: Float
+    currency: String
+    vatOnComms: Float
+    isVATRegistered: Boolean
+    isApprovedByInvoiceSender: Boolean
+    isPaid: Boolean
+    isRedo: Boolean
+    datePaid: DateTime
+    hasBeenReceived: Boolean
+    isOnStatement: Boolean
+    statementId: String
+}
+type CommissionLineItems {
+    _id: ID
+    subtotalTicketsSold: Float
+    ticketType: String
+    lineSalesReceived: Float
+    lineSubtotal: Float
+    lineCommSubtotal: Float
+    ticketCategoryTotalDue: Float
+    totalTicketTypeDiscount: Float
+    subtotalTicketTypeLessDiscount: Float
+    ticketPrice: Float
+}
+type AgentDetails {
+    legalName: String
+    agentContact: String
+    agentTradingName: String
+    agentEmail: String
+    agentAddress1: String
+    agentAddress2: String
+    agentAddress3: String
+    agentCity: String
+    agentCounty: String
+    agentCountry: String
+    agentPostCode: String
+    VATRegNo: String
+    agentVATRegistered: Boolean
+    agentCompanyNumber: String
+}
+input InputAgentDetails {
+    idInvoice: ID
+    legalName: String
+    agentContact: String
+    agentTradingName: String
+    agentEmail: String
+    agentAddress1: String
+    agentAddress2: String
+    agentAddress3: String
+    agentCity: String
+    agentCounty: String
+    agentCountry: String
+    agentPostCode: String
+    VATRegNo: String
+    agentVATRegistered: Boolean
+    agentCompanyNumber: String
+}
+type NewArray {
+        id: String,
+        bookingRef: String,
+        bookedOn: DateTime,
+        client: String,
+        ticketoption: String,
+        ticketquantity: Float,
+        ticketprice: Float,
+        totaldue: Float,
+        totaldueCalc: Float,
+        totalpaid: Float,
+        balancedue: Float,
+        commissionRatePercent: String,
+        commissionpayable: String,
+        agentCode: String,
+        clientOwnerAtPurchaseDate: String,
+        bookingStatus: String,
+        eventName: String,
+        eventOwner: String,
+        eventCommences: String,
+        discountRate: Float,
+        discountTotal: String,
+        discountedTotalDue: String,
+        eventRef: String,
+        eventType: String
+}
+input InputNewArray {
+        id: String,
+        bookingRef: String,
+        bookedOn: DateTime,
+        client: String,
+        ticketoption: String,
+        ticketquantity: Float,
+        ticketprice: Float,
+        totaldue: Float,
+        totaldueCalc: Float,
+        totalpaid: Float,
+        balancedue: Float,
+        commissionRatePercent: String,
+        commissionpayable: String,
+        agentCode: String,
+        clientOwnerAtPurchaseDate: String,
+        bookingStatus: String,
+        eventName: String,
+        eventOwner: String,
+        eventCommences: String,
+        discountRate: Float,
+        discountTotal: String,
+        discountedTotalDue: String,
+        eventRef: String,
+        eventType: String
+}
+type Query {
+  getAllCommissionInvoiceReceived(idComp: ID, CompName: String, idUser: ID, search: String, min: Int, max: Int): [CommissionInvoice]
+  getAllCommissionInvoiceSent(idComp: ID, CompName: String, idUser: ID, search: String, min: Int, max: Int, datePaid: String, updatedAt: String, invoiceFrom: String, invoiceTo: String): [CommissionInvoice]
+  getOneCommissionInvoice(idInvoice: ID, idUser: ID): CommissionInvoice
+}
+
+type Mutation {
+  createCommissionInvoiceMutation(input: ICommissionInvoice): CommissionInvoice
+  sendEmailPaymentInvoice(ToEmail: String!, uEmail: String!, idInvoice: ID!): Response
+  isPaidStateInvoice(idInvoice: ID, ToEmail: String!, uEmail: String!): Response
+  isRedoStateInvoice(idInvoice: ID, ToEmail: String!, uEmail: String!): Response
+  isApprovedByInvoiceSenderMutation(idInvoice: ID, ToEmail: String!, uEmail: String!): Response
+  hasBeenReceived(idInvoice: ID, ToEmail: String!, uEmail: String!): Response
+  hasBeenSent(idInvoice: ID, ToEmail: String!, uEmail: String!): Response
+}

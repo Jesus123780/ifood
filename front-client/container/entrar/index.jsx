@@ -54,10 +54,10 @@ const Login = ({ watch, settings }) => {
         //     deviceid: await getDeviceId() || '',
         // }
         const bodyfalse = {
-            name: '77@gmail.com',
-            username: '77@gmail.com',
-            lastName: '77@gmail.com',
-            email: '77@gmail.com',
+            name: 'juvinaojesusd@gmail.com',
+            username: 'juvinaojesusd@gmail.com',
+            lastName: 'juvinaojesusd@gmail.com',
+            email: 'juvinaojesusd@gmail.com',
             password: '113561675852804771364',
             locationFormat: locationFormat[0]?.formatted_address,
             useragent: window.navigator.userAgent,

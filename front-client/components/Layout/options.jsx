@@ -114,7 +114,7 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
                 </div>
                 <IconShopping size='25px' color={PColor} />
             </ButtonOption>
-            <ButtonOptionFav onClick={() => setShow(2)} >
+            <ButtonOptionFav onClick={() => handleClick(2)} >
                         <Button type="button">
                     <IconArrowBottom size='15px' color={PColor} />
                 </Button>

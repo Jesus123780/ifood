@@ -1,0 +1,42 @@
+# Supplier Type
+type Supplier {
+    _id: ID
+    idUser: ID
+    idComp: ID
+    sCurrency: ID
+    sName: String
+    currency: Currency
+}
+
+type ReSupplier {
+    _id: ID
+    idUser: ID
+    idComp: ID
+    sCurrency: Currency
+    sName: String
+}
+
+# Supplier Input
+input ISupplier {
+    _id: ID
+    idComp: ID!
+    sName: String
+    sCurrency: ID
+}
+
+# Query
+type Query {
+  getSuppliersForCompany(idC:ID): [ReSupplier]
+  getSuppliersAtSales(idC:ID): [Supplier]
+  getOneSuppliers(id: ID): ReSupplier
+  getSuppliersOneForCompany(_id: String, idComp: String): [Supplier]
+}
+
+# Mutations
+type Mutation {
+  newSupplierForCompany(input: ISupplier): Supplier
+  "Edit Supplier"
+  editSupplierForCompany(input: ISupplier): Supplier
+   "Remove One Supplier"
+    DeleteOneSupplier(id: ID): Boolean
+}

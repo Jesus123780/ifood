@@ -1,16 +1,37 @@
+import { useApolloClient } from '@apollo/client'
+import { OUR_URL_BASE } from 'apollo/urls'
 import ActiveLink from 'components/common/Link'
 import { useUser } from 'components/hooks/useUser'
-import { IconLove, IconUser } from 'public/icons'
-import React from 'react'
+import { PColor } from 'public/colors'
+import { IconLogout, IconLove, IconUser } from 'public/icons'
+import React, { useCallback } from 'react'
 import { CicleUser, NavHeaderMenuMobileContent, Anchor } from './styled'
 
 export const NavHeaderMobile = ({ menuMobile, setOpenMenuMobile }) => {
-  console.log(menuMobile)
-  const [dataUser, { loading: loUser }] = useUser()
+  const [dataUser] = useUser()
+    const { client } = useApolloClient()
+    const onClickLogout = useCallback(async () => {
+    localStorage.removeItem('location.data')
+    await window
+      .fetch(`${OUR_URL_BASE}auth/logout/`, {})
+      .then(res => {
+        if (res) {
+          client?.clearStore()
+          location.replace('/')
+        }
+      })
+      .catch(() => {
+        console.log({
+          message: 'Se ha producido un error.',
+          duration: 30000,
+          color: 'error'
+        })
+      })
+  }, [client])
 
   return (
-    <NavHeaderMenuMobileContent>
-      {menuMobile && <div>
+    <NavHeaderMenuMobileContent height={menuMobile}>
+      <div>
         <CicleUser>
           {dataUser?.username?.slice(0, 2)}
         </CicleUser>
@@ -34,8 +55,11 @@ export const NavHeaderMobile = ({ menuMobile, setOpenMenuMobile }) => {
           <ActiveLink activeClassName="active" href="/categorias">
             <Anchor><IconUser size='30px' color={'#ccc'} />Categorías </Anchor>
           </ActiveLink>
+          <button onClick={() => onClickLogout()}>
+            <IconLogout size='20px' color={PColor} />
+          </button>
         </div>
-      </div>}
+      </div>
     </NavHeaderMenuMobileContent>
   )
 }

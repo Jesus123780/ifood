@@ -1,6 +1,9 @@
 const { ADMIN_URL } = process.env
 
 module.exports = {
+        images: {
+        domains: ['http2.mlstatic.com'],
+    },
     async rewrites() {
         return [
             {
@@ -17,7 +20,7 @@ module.exports = {
             },
             {
                 source: '/api/:path*',
-                destination:  `${ADMIN_URL}/:path*`,
+                destination: `${ADMIN_URL}/:path*`,
             },
         ]
     },

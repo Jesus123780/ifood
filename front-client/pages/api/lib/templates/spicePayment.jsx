@@ -1,4 +1,4 @@
-import { dateFormat } from "../../utils";
+// import { dateFormat } from "../../utils";
 
 const Styles = {
     body: {
@@ -422,7 +422,7 @@ export const SpicePayment = () => {
                                 <h5 style={Styles.LateralInfo}>INVOICE DATE:  </h5>
                             </div>
                             <div style={Styles.block}>
-                                <h5 style={Styles.LateralInfo}>{dateFormat(data[0].Date)} </h5>
+                                {/* <h5 style={Styles.LateralInfo}>{dateFormat(data[0].Date)} </h5> */}
                             </div>
                         </div>
                     </div>

@@ -1,0 +1,41 @@
+# Taxes Type
+type Taxes {
+    _id: ID
+    idUser: ID
+    idComp: ID!
+    TaxName: String!
+    started: DateTime
+    vatDate: DateTime
+    status: Int!
+    TaxBalance: Int
+}
+
+# Product Input
+input ITaxes {
+    _id: ID
+    idUser: ID!
+    idComp: ID!
+    TaxName: String!
+    started: DateTime
+    vatDate: DateTime
+    status: Int!
+    TaxBalance: Int
+}
+
+# Query
+type Query {
+    "GET ALL TAX AND GET ONE TAX FROM MONGODB"
+  getAllTax(idComp: ID): [Taxes]
+  getOneTaxForCompany(_id: String, idComp: ID): Taxes
+}
+
+# Mutations
+type Mutation {
+    "ADD A NEW Taxes"
+  newTaxesForCompany(input: ITaxes): Taxes
+    "Edit One Taxes"
+  editOneTaxes(input: ITaxes): Taxes
+    "Remove One Taxes"
+    DeleteOneTaxes(id: ID): Boolean
+
+}

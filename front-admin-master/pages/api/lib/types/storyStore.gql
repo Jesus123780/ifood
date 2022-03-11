@@ -1,0 +1,72 @@
+
+
+type StoryStore {
+    id: ID
+    idStore: ID
+    stoId: ID
+    iStoId: ID # ITEM PHOTO
+    sState: Int
+    nameStore: String
+    createAt: DateTime
+    updateAt: DateTime
+    getAllStoryComment: [StoryComment]
+}
+# comment
+type StoryComment {
+    cStoId: ID
+    stoId: ID
+    from: ID
+    username: String
+    comments: String!
+    messageState: Int 
+    createAt: DateTime
+    updateAt: DateTime
+}
+input IStoryComment {
+    cStoId: ID
+    stoId: ID
+    from: ID
+    username: String!
+    comments: String!
+    messageState: Int 
+}
+# StoryStore Input
+input IStoryStore {
+    id: ID
+    idStore: ID
+    iStoId: ID # ITEM PHOTO
+    sState: Int
+    nameStore: String
+    createAt: DateTime
+    updateAt: DateTime
+}
+type StoryItemPhotoStore {
+    idStore: ID
+    iStoId: ID # ITEM PHOTO
+    stoId: ID #main
+    itemImage: String
+    createAt: DateTime
+    updateAt: DateTime
+}
+input IStoryItemPhotoStore {
+    idStore: ID
+    iStoId: ID # ITEM PHOTO
+    stoId: ID #main
+    itemImage: String
+    createAt: DateTime
+    updateAt: DateTime
+}
+# Query
+type Query {
+  getAllStoryStore(idStore: ID): [StoryStore]
+  getAllStoryComment(idStore: ID, stoId: ID): [StoryComment]
+  getAllStoryItemPhotoStore(idStore: ID, stoId: ID): [StoryItemPhotoStore]
+}
+# Mutations
+type Mutation {
+  registerStoryStore(input: IStoryStore): StoryStore
+  registerStoryComment(input: IStoryComment): StoryComment
+  registerStoryItemPhotoStore(input: IStoryItemPhotoStore): StoryItemPhotoStore
+  EditStoryStores(input: IStoryStore): StoryStore
+  DeleteOneStoryStores(id: ID): Boolean
+}

@@ -1,0 +1,193 @@
+# Stores
+type ContractType {
+    ctrId: ID
+    id: ID
+    idStore: ID
+    ctCode: String
+    catDescription: String
+    createAt: DateTime
+    updateAt: DateTime
+}
+
+# visit Store
+type VisitorStoreType {
+    visitStoreId: ID!
+    id: ID
+    idStore: ID
+    createAt: DateTime
+    updateAt: DateTime
+}
+input InputVisitorStoreType {
+    visitStoreId: ID
+    id: ID!
+    idStore: ID!
+}
+# visit Store
+input InputContractType {
+    ctrId: ID
+    id: ID
+    idStore: ID
+    ctCode: String
+    catDescription: String
+    createAt: DateTime
+    updateAt: DateTime
+}
+# numero de estrellas
+type Star {
+  rSId: ID
+  rScore: Float
+  idStore: ID,
+  # id: ID
+  createAt: DateTime
+}
+input IStar {
+    rScore: Float
+    idStore: ID
+}
+type FavoriteStore {
+    fIStoreId: ID
+    fState: Int
+    idStore: ID
+    getOneStore: Store
+    createAt: DateTime
+    updateAt: DateTime
+    
+}
+type RatingStore {
+    idStore: ID
+    rId: ID
+    id: ID
+    rAppearance: Int
+    rTasty: Int
+    rGoodTemperature: Int
+    rGoodCondition: Int
+    rState: Int
+    createAt: DateTime
+    updateAt: DateTime
+}
+input InputRatingStore {
+    idStore: ID
+    rId: ID
+    id: ID
+    rAppearance: Int
+    rTasty: Int
+    rGoodTemperature: Int
+    rGoodCondition: Int
+    rState: Int
+}
+type Store {
+    idStore: ID
+    cId: ID
+    id: ID
+    dId: ID
+    ctId: ID
+    catStore: ID
+    neighborhoodStore: String
+    Viaprincipal: String
+    storeOwner: String
+    storeName: String
+    emailStore: String
+    storePhone: String
+    socialRaz: String
+    Image: String
+    banner: String
+    documentIdentifier: String
+    uPhoNum: String
+    ULocation: String
+    upLat: String
+    upLon: String
+    uState: String
+    siteWeb: String
+    description: String
+    NitStore: String
+    typeRegiments: String
+    typeContribute: String
+    secVia: String
+    addressStore: String
+    createAt: DateTime
+    cateStore: CatStore
+    pais: Country
+    city: City
+    department: Department
+    getStoreSchedules: [StoreSchedule]
+    getAllRatingStar: [Star]
+}
+input IStore {
+    idStore: ID
+    cId: ID
+    id: ID
+    dId: ID
+    ctId: ID
+    catStore: ID
+    neighborhoodStore: String
+    Viaprincipal: String
+    storeOwner: String
+    storeName: String
+    emailStore: String
+    storePhone: String
+    socialRaz: String
+    Image: String
+    banner: String
+    documentIdentifier: String
+    uPhoNum: String
+    ULocation: String
+    upLat: String
+    upLon: String
+    uState: String
+    siteWeb: String
+    description: String
+    NitStore: String
+    typeRegiments: String
+    typeContribute: String
+    secVia: String
+    addressStore: String
+    createAt: DateTime
+}
+
+type Query {
+    """
+    Response for find one Store
+    """
+    getStore(id: ID, StoreName: String, idStore: ID): Store
+    getAllStore(id: ID, StoreName: String, idStore: ID): [Store]
+    getAllStoreInStore(
+        pId: ID
+        cId: ID
+        dId: ID
+        ctId: ID
+        search: String
+        min: Int
+        max: Int
+    ): [Store]
+    getOneStore(id: ID, StoreName: String, idStore: ID): Store
+    getOneCOntractStore(StoreName: String, idStore: ID): ContractType
+    getFavorite: [FavoriteStore]
+    getOneFavorite(idStore: ID): FavoriteStore
+    getOneRating(idStore: ID): RatingStore
+    getAllRating(idStore: ID): [RatingStore]
+    getAllRatingStar(idStore: ID): [Star]
+    getAllVisitorStore(idStore: ID): [VisitorStoreType]
+    getAllMatchesStore(id: ID, pfId: ID, FoodProductName: String, search: String, min: Int, max: Int,  gender: [String]  desc: [String], categories: [ID]): [Store]
+
+}
+
+input IFavorites {
+    fIStoreId: ID
+    fState: Int
+    idStore: ID!
+}
+type Mutation {
+    """
+    "registra Store data
+    """
+    newRegisterStore(input: IStore): AuthPayload
+    createOneContract(input: InputContractType): AuthPayload
+    setFavorites(input: IFavorites!): Response!
+    setRating(input: InputRatingStore): Response!
+    setRatingStar(input: IStar): Response!
+    setVisitorStore(input: InputVisitorStoreType): Response
+}
+
+type Subscription {
+    newStore: Store
+}

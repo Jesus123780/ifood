@@ -34,8 +34,6 @@ export const CicleUser = styled.div`
     ${flexCenter}
 `
 export const NavHeaderMenuMobileContent = styled.div`
-    padding: 18px 24px;
-    height: auto;
     display: none;
     background-color: ${BGColor};
     @media only screen and (max-width: 960px) {
@@ -51,4 +49,13 @@ export const NavHeaderMenuMobileContent = styled.div`
     border-bottom: solid 1px #e6e6e6;
     font-size: 14px;
     }
+    padding: 0 24px;
+
+    height: ${({ height }) => height ? '70%' : '0'};
+    ${props => props.height && css`
+
+    `}
+    overflow: hidden;
+    transition: height .2s ease-in-out;
+
 `
