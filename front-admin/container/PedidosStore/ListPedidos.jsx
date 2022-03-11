@@ -314,10 +314,10 @@ export const CheckStatus = ({ setModal, modal, dataModal }) => {
                 </ModalContainer>
                 <Text size='2em'>Total: $ {numberFormat(totalProductsPrice)}</Text>
                 <RippleButton onClick={() => HandleChangeState(1)}> Confirmar pedido</RippleButton>
-                <RippleButton onClick={() => HandleChangeState(2)}>  Pedido en proceso</RippleButton>
-                <RippleButton onClick={() => HandleChangeState(3)}>  Pedido en listo para entrega</RippleButton>
-                {/* <RippleButton onClick={() => HandleChangeState(4)}>  Pedido con ref</RippleButton> */}
-                <RippleButton onClick={() => HandleChangeState(5)}>Rechazar pedido</RippleButton>
+                <RippleButton onClick={() => HandleChangeState(2)}> Pedido en proceso</RippleButton>
+                <RippleButton onClick={() => HandleChangeState(3)}> Pedido en listo para entrega</RippleButton>
+                <RippleButton onClick={() => HandleChangeState(4)}> Pedido concluido</RippleButton>
+                <RippleButton onClick={() => HandleChangeState(5)}> Rechazar pedido</RippleButton>
             </AwesomeModal>
         </div >
     )

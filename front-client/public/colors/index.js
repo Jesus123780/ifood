@@ -20,7 +20,7 @@ export const SECColor = '#393a3d'
 export const BGColor = '#FFFFFF'
 export const BGAColor = '#f6f6f9'
 export const BGVColor = '#000000'
-export const APColor = '#21b478'
+export const APColor = '#34a853'
 /** Fuente */
 export const PFont = 'Tahoma'
 export const SCColor = '#1FB4D2'

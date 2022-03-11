@@ -33,6 +33,7 @@ const Provider = ({ children }) => {
     const initialCompanyState = {
         idStore: undefined
     }
+
     // Context LastCompany
     const [company, setCompanyId] = useState(initialCompanyState)
     const useCompany = idStore => {
@@ -197,10 +198,23 @@ const Provider = ({ children }) => {
             </StickyStateContext.Provider>
         );
     }
+    const [menuMobile, setOpenMenuMobile] = useState(false)
+    const [status, setStatus] = useState('close')
+
+    useEffect(() => {
+        handleMenu(false)
+        setOpenMenuMobile(false)
+        setStatus('close')
+    }, [router])
+    
     const value = {
         error,
         DataCompany,
         stateLocation,
+        setStatus,
+        status,
+        setOpenMenuMobile,
+        menuMobile,
         modalLocation,
         setModalLocation,
         locationStr,

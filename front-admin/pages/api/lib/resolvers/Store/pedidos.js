@@ -11,6 +11,7 @@ import Store from '../../models/Store/Store'
 import Users from '../../models/Users'
 import { LoginEmail } from '../../templates/LoginEmail'
 import { deCode, filterKeyObject, getAttributes } from '../../utils/util'
+import { deleteOneItem, getOneStore } from './store'
 const { Op } = require('sequelize')
 
 export const createOnePedidoStore = async (_, { input }, ctx) => {
@@ -38,15 +39,15 @@ export const createOnePedidoStore = async (_, { input }, ctx) => {
 const changePPStatePPedido = async (_, { pPStateP, pCodeRef }, ctx) => {
     try {
         console.log(pPStateP, pCodeRef)
-       const data = await StatusPedidosModel.update({ pSState: pPStateP }, { where: { pCodeRef: pCodeRef } })
+        const data = await StatusPedidosModel.update({ pSState: pPStateP }, { where: { pCodeRef: pCodeRef } })
         return {
             success: true,
-            message:  pPStateP === 1
-             ? 'El pedido fue marcado como aprobado' 
-             : pPStateP === 2 ? 'El pedido fue marcado como en proceso' 
-             : pPStateP === 3 ? 'El pedido Esta listo para salir'
-             : pPStateP === 4 ? 'Pedido fue pagado con éxito por el cliente (Concluido)' 
-             : 'Pedido rechazado'   
+            message: pPStateP === 1
+                ? 'El pedido fue marcado como aprobado'
+                : pPStateP === 2 ? 'El pedido fue marcado como en proceso'
+                    : pPStateP === 3 ? 'El pedido Esta listo para salir'
+                        : pPStateP === 4 ? 'Pedido fue pagado con éxito por el cliente (Concluido)'
+                            : 'Pedido rechazado'
         }
     } catch (error) {
         return {
@@ -59,9 +60,10 @@ const createMultipleOrderStore = async (_, { input }, ctx) => {
     const { setInput, change, pickUp, pCodeRef, payMethodPState, pPRecoger, totalProductsPrice, locationUser } = input || {}
     let res = {}
     try {
-        await StatusPedidosModel.create({ id: deCode(ctx.User.id), locationUser,  idStore: deCode(setInput[0].idStore), pSState: 0, pCodeRef: pCodeRef, change: change, payMethodPState: payMethodPState, pickUp, totalProductsPrice })
+        await StatusPedidosModel.create({ id: deCode(ctx.User.id), locationUser, idStore: deCode(setInput[0].idStore), pSState: 0, pCodeRef: pCodeRef, change: change, payMethodPState: payMethodPState, pickUp, totalProductsPrice })
         for (let i = 0; i < setInput.length; i++) {
             const { ShoppingCard, idStore } = setInput[i]
+            await deleteOneItem(null, { ShoppingCard, cState: 1 })
             await createOnePedidoStore(null, { input: { id: ctx.User.id, idStore, ShoppingCard, change, pickUp, pCodeRef, payMethodPState, pPRecoger } })
             // console.log(ShoppingCard, idStore)
         }
@@ -154,6 +156,7 @@ export const getAllPedidoUserFinal = async (_, args, ctx, info) => {
 export default {
     TYPES: {
         StorePedidos: {
+            getOneStore,
             productFoodsOne: async (parent, _args, _context, info) => {
                 try {
                     const attributes = getAttributes(productModelFood, info)

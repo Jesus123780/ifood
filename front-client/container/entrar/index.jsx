@@ -68,7 +68,6 @@ const Login = ({ watch, settings }) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(bodyfalse)
         }).then(res => {
-            console.log(res)
             const { userId, token } = res || {}
             window.localStorage.setItem('session', token)
             window.localStorage.setItem('usuario', userId)

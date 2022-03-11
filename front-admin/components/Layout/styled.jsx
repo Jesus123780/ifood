@@ -40,7 +40,7 @@ export const Text = styled.span`
 `
 export const Anchor = styled.a`
     &.active {
-        border-top: 2px solid #61d2b4;
+        border-top: 2px solid ${PColor};
         & > svg {
             fill: red !important;
         }

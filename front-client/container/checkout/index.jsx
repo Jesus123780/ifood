@@ -23,8 +23,15 @@ export const Checkout = ({ setAlertBox, setCountItemProduct, locationStr, setMod
     const handleClick = index => {
         setActive(index === active ? true : index)
     }
+
     // QUERIES
     const { data: dataShoppingCard, loading } = useQuery(GET_ALL_SHOPPING_CARD)
+    // useEffect(() => {
+    //   if (!dataShoppingCard?.getAllShoppingCard.length) {
+    //     setAlertBox({ message: 'Tu carrito esta vació' })
+    //     router.back()
+    //   }
+    // }, [router, dataShoppingCard])
     const result = dataShoppingCard?.getAllShoppingCard.reduce(function (r, a) {
         r[a.getStore?.storeName] = r[a.getStore?.storeName] || [];
         r[a.getStore?.storeName].push(a);
@@ -35,7 +42,7 @@ export const Checkout = ({ setAlertBox, setCountItemProduct, locationStr, setMod
             setAlertBox({ message: data?.deleteOneItem?.message })
             if (dataShoppingCard?.getAllShoppingCard.length === 1) {
                 setAlertBox({ message: 'Tu carrito esta vació' })
-                // router.replace('/restaurantes')
+                router.replace('/restaurantes')
             }
         }
     })
@@ -55,7 +62,7 @@ export const Checkout = ({ setAlertBox, setCountItemProduct, locationStr, setMod
     console.log(objLocation)
     const newArray = dataShoppingCard?.getAllShoppingCard.map(x => { return { ShoppingCard: x.ShoppingCard, idStore: x.getStore.idStore } })
     const [totalProductPrice, setTotalProductPrice] = useState(0)
-    const handleSubmitPedido = async e => {
+    const handleSubmitPedido = async () => {
         await createMultipleOrderStore({
             variables: {
                 input: {
@@ -68,7 +75,12 @@ export const Checkout = ({ setAlertBox, setCountItemProduct, locationStr, setMod
                     pPRecoger: 1,
                     locationUser: JSON.stringify(objLocation)
                 }
-            }
+            }, update: (cache, { data: { getAllShoppingCard } }) => updateCache({
+                cache,
+                query: GET_ALL_SHOPPING_CARD,
+                nameFun: 'getAllShoppingCard',
+                dataNew: getAllShoppingCard
+            })
         }).then(x => {
 
         }).catch(err => setAlertBox({ message: `${err}`, duration: 7000 }))
@@ -114,11 +126,10 @@ export const Checkout = ({ setAlertBox, setCountItemProduct, locationStr, setMod
                 dataNew: getAllShoppingCard
             })
         })
-
     }
     return (
         <Body>
-            <Card>
+            {dataShoppingCard?.getAllShoppingCard?.length > 0 ? <Card>
                 <RippleButton active={active === 1} margin='0px 5px' borderRadius='0' color="red" padding="10px" bgColor='transparent' label='Entrega' onClick={() => active !== 1 && handleClick(1)} />
                 {/* <RippleButton active={active === 2} margin='0px 5px' borderRadius='0' color="red" padding="10px" bgColor='transparent' label='Recoger' onClick={() => active !== 2 && handleClick(2)} /> */}
                 <ContentInfo>
@@ -153,10 +164,10 @@ export const Checkout = ({ setAlertBox, setCountItemProduct, locationStr, setMod
                             : null}
                     <RippleButton widthButton='100%' margin='20px auto' disabled={false} onClick={() => handleSubmitPedido()}>Hacer pedido</RippleButton>
                 </ContentInfo>
-            </Card>
-            <Card>
+            </Card> : <div>Carrito vacio</div>}
+            {dataShoppingCard?.getAllShoppingCard?.length > 0 && <Card>
                 <CardPro>
-                    {key?.map(store => {
+                    {dataShoppingCard?.getAllShoppingCard?.length > 0 ? key?.map(store => {
                         return (
                             <div>
                                 <div>
@@ -197,7 +208,7 @@ export const Checkout = ({ setAlertBox, setCountItemProduct, locationStr, setMod
                                 </div>
                             </div>
                         )
-                    })}
+                    }) : <div>Carrito vacio</div>}
                     <Wrapper styles={flex}>
 
                         <Text bold='900' size='30px' >Total</Text>
@@ -205,7 +216,7 @@ export const Checkout = ({ setAlertBox, setCountItemProduct, locationStr, setMod
                     </Wrapper>
                 </CardPro>
 
-            </Card>
+            </Card>}
         </Body>
     )
 };

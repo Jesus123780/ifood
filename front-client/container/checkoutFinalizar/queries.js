@@ -10,6 +10,37 @@ query getAllPedidoUserFinal($id: ID) {
     pPRecoger
     totalProductsPrice
     pSState
+    getOneStore {
+idStore
+cId
+id
+dId
+ctId
+neighborhoodStore
+Viaprincipal
+storeOwner
+storeName
+emailStore
+storePhone
+Image
+pais {
+  cId
+  cName
+  
+}
+city {
+  ctId
+  cName
+  dId
+}
+department {
+  dId
+  cId
+  dName
+  
+}
+      
+    }
     pDatCre
     locationUser
     pDatMod

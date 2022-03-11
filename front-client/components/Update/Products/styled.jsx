@@ -275,7 +275,9 @@ export const ContainerBurger = styled.div`
     span {
       background-color: ${PColor};
       width: 30px;
-      height: 1.5px;
+      height: 1px;
+      min-height: 1px;
+      max-height: 1px;
       margin: 4px;
       border-radius: 1px;
       transition: all .3s ease-out;

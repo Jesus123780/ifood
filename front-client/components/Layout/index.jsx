@@ -12,10 +12,11 @@ import { AsideCheckout } from '../AsideCheckout'
 import { usePosition } from '../hooks/usePosition'
 import { FooterDesktop } from './FooterDesktop'
 import { BGColor } from '../../public/colors'
+import { NavHeaderMobile } from './NavHeaderMobile'
 
 export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => {
     const location = useRouter()
-    const { error, isSession, setAlertBox, setCollapsed, collapsed, handleMenu, menu } = useContext(Context)
+    const { error, isSession, setAlertBox, setCollapsed, collapsed, handleMenu, menu, setOpenMenuMobile, menuMobile } = useContext(Context)
     useEffect(() => {
         setAlertBox({ message: '', color: 'success' })
     }, [])
@@ -40,6 +41,7 @@ export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => 
                 {/* {!isSession && !['/login', '/', '/entrar/email', '/entrar', '/delivery/[location]/[name]/[id]', '/contact'].find(x => x === location.pathname) && <AsideCheckoutC handleMenu={handleMenu} menu={menu} />} */}
                 {!isSession && !['/login', '/', '/entrar/email', '/entrar', '/contact'].find(x => x === location.pathname) && <HeaderMain handleMenu={handleMenu} menu={menu} />}
                 <div style={{ gridArea: 'main', overflowY: val ? 'auto' : 'hidden' }}>
+                    {menuMobile && <NavHeaderMobile setOpenMenuMobile={setOpenMenuMobile} menuMobile={menuMobile} />}
                     {children}
                     {val && <FooterDesktop />}
                 </div>

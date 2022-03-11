@@ -9,17 +9,17 @@ export const Footer = () => {
     <>
       <FooterComponent>
         <>
-          <ActiveLink activeClassName="active" href="/dashboard">
-            <Anchor><IconHome color={PColor} size='20px' />&nbsp;<Text>Home</Text></Anchor>
+          <ActiveLink activeClassName="active" href="/restaurantes">
+            <Anchor><IconHome color={PColor} size='20px' />&nbsp;<Text>Inicio</Text></Anchor>
           </ActiveLink>
           <ActiveLink activeClassName="active" href="/search">
-            <Anchor><IconSearch color={PColor} size='20px' />&nbsp;<Text>Explore</Text></Anchor>
+            <Anchor><IconSearch color={PColor} size='20px' />&nbsp;<Text>Explorar</Text></Anchor>
           </ActiveLink>
           <ActiveLink activeClassName="active" href="/config">
-            <Anchor><IconConfig color={PColor} size='20px' />&nbsp;<Text>Config</Text></Anchor>
+            <Anchor><IconConfig color={PColor} size='20px' />&nbsp;<Text>Config de cuenta</Text></Anchor>
           </ActiveLink>
           <ActiveLink activeClassName="active" href="/profile">
-            <Anchor><IconUser color={PColor} size='20px' />&nbsp;<Text>Profile</Text></Anchor>
+            <Anchor><IconUser color={PColor} size='20px' />&nbsp;<Text>Perfil</Text></Anchor>
           </ActiveLink>
         </>
       </FooterComponent>

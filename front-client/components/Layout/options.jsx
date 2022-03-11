@@ -14,14 +14,13 @@ import { ContainerActions, ContainerBurger, OnlyMovil } from 'components/Update/
 
 export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
     const { client } = useApolloClient()
-    const { state_product_card, itemProducts } = useContext(Context)
+    const { state_product_card, itemProducts, setOpenMenuMobile, menuMobile, setStatus, status } = useContext(Context)
     const [show, setShow] = useState(false)
     const location = useRouter()
     // const onClickLogout = () => {
     //     client?.clearStore()
     //     location.replace('/')
     // }
-    const [status, setStatus] = useState('close')
 
     const onClickLogout = useCallback(async () => {
         localStorage.removeItem('location.data')
@@ -60,7 +59,10 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
     const activeSettings = () => {
         setActive(!activeLogin)
     }
-    const [openOption, setOpenOption] = useState(false)
+    const handleOpenMenu = () => {
+        setOpenMenuMobile(!menuMobile)
+        setStatus(status === 'open' ? 'close' : 'open')
+    }
     return (
         <ContainerActions>
             <Overline onClick={() => setShow(!show)} show={show} />
@@ -69,7 +71,7 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
                     <div
                         className="BurgerMenu__container"
                         role="button"
-                        onClick={() => { setStatus(status === 'open' ? 'close' : 'open') }}
+                        onClick={() => handleOpenMenu()}
                     >
                         <span className={status}></span>
                         <span className={status}></span>
@@ -103,7 +105,6 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
                     </Enlace>
                 </LeftNav>
             </ButtonOption>
-
             <ButtonOption onClick={onClickLogout}>
                 <IconLogout size='20px' color={PColor} />
             </ButtonOption>
@@ -113,18 +114,14 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
                 </div>
                 <IconShopping size='25px' color={PColor} />
             </ButtonOption>
-            <ButtonOptionFav onMouseOut={() => setShow(0)} onMouseOver={() => setShow(2)} >
-                <Enlace href='/favoritos'>
-                    <a>
+            <ButtonOptionFav onClick={() => setShow(2)} >
                         <Button type="button">
-                            <IconArrowBottom size='15px' color={PColor} />
-                        </Button>
-                    </a>
-                </Enlace>
+                    <IconArrowBottom size='15px' color={PColor} />
+                </Button>
             </ButtonOptionFav>
             <ContainerOption>
                 <FloatingBoxTwo show={show === 2}>
-                    sadasñlk
+                    lorem*1
                 </FloatingBoxTwo>
             </ContainerOption>
         </ContainerActions>

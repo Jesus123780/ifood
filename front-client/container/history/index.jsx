@@ -51,7 +51,7 @@ export const Historial = ({ dataFav }) => {
                     <Item>
                         <Button>
                             <Link passHref shallow
-                                href={`delivery/${encodeURIComponent(x?.getOneStore.city?.cName?.toLocaleLowerCase())}-${encodeURIComponent(x?.getOneStore?.department?.dName?.toLocaleLowerCase())}/${encodeURIComponent(x?.getOneStore?.storeName?.replace(/\s/g, '-')?.toLocaleLowerCase())}/${x?.idStore}`}>
+                                href={`/delivery/${encodeURIComponent(x?.getOneStore.city?.cName?.toLocaleLowerCase())}-${encodeURIComponent(x?.getOneStore?.department?.dName?.toLocaleLowerCase())}/${encodeURIComponent(x?.getOneStore?.storeName?.replace(/\s/g, '-')?.toLocaleLowerCase())}/${x?.idStore}`}>
                                 <a>
                                     Ver detalles
                                 </a>

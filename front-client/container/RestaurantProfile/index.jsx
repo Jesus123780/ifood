@@ -135,7 +135,6 @@ export const RestaurantProfile = ({ src, id, errorForm, handlerShare, share, set
                                 <CtnItemFilter >
                                     <IconTicker size='30px' />
                                 </CtnItemFilter>
-
                                 <div className='option'>
                                     <button onClick={() => setTasty(1)}>
                                         <IconLike size='30px' />

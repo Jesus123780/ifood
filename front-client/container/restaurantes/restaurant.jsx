@@ -18,7 +18,7 @@ export const ListRestaurant = ({ data, catStoreId, setShowMore }) => {
               href={catStoreId ? {
                 pathname: `/delivery/${x?.city?.cName?.toLocaleLowerCase()}-${x?.department?.dName?.toLocaleLowerCase()}/${nameStore}/${x.idStore}`,
                 query: { categories: catStoreId },
-              } : `delivery/${encodeURIComponent(x?.city?.cName?.toLocaleLowerCase())}-${encodeURIComponent(x?.department?.dName?.toLocaleLowerCase())}/${encodeURIComponent(nameStore)}/${x?.idStore}`}
+              } : `/delivery/${encodeURIComponent(x?.city?.cName?.toLocaleLowerCase())}-${encodeURIComponent(x?.department?.dName?.toLocaleLowerCase())}/${encodeURIComponent(nameStore)}/${x?.idStore}`}
             >
               <a>
                 <ItemWrapper key={x.idStore}>

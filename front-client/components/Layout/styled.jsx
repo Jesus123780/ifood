@@ -43,7 +43,7 @@ export const Text = styled.span`
 `
 export const Anchor = styled.a`
     &.active {
-        border-top: 2px solid #61d2b4;
+        border-top: 2px solid ${PColor};
         & > svg {
             fill: red !important;
         }
@@ -249,8 +249,7 @@ export const FloatingBoxTwo = styled(FloatingBox)`
     height: 250px;
     width: 250px;
     top: 40px;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden auto;
     box-shadow: -1px 2px 8px 2px #dcdcdc39;
 
     @media only screen and (min-width: 960px){

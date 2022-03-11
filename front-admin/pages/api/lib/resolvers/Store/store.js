@@ -84,11 +84,11 @@ const updateExtraProduct = async ({ input }) => {
  */
 export const deleteOneItem = async (root, args, context, _info) => {
     try {
+        console.log(args)
         const { ShoppingCard: id, cState } = args || {}
         // ShoppingCard.destroy({ where: { ShoppingCard: deCode(id) } })
         await ShoppingCard.update({ cState: cState === 1 ? 0 : 1 }, { where: { ShoppingCard: deCode(id) } })
         return { success: true, message: 'Eliminado del carrito' }
-
     } catch (error) {
         return { success: false, message: 'No pudo ser eliminado' }
     }

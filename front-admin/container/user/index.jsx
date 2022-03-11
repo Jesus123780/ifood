@@ -39,7 +39,6 @@ export const RegisterUser = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body)
             }).then(res => {
-                console.log(res)
                 setAlertBox({ message: `${res.message}`, color: 'success' })
                 const decode = decodeToken(res?.token)
                 localStorage.setItem('userlogin', JSON.stringify(decode))
