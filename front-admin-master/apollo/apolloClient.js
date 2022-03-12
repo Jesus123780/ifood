@@ -1,13 +1,13 @@
 import { useMemo } from 'react'
-import { ApolloClient, from, HttpLink, InMemoryCache } from '@apollo/client'
+import { ApolloClient, from, HttpLink, InMemoryCache, ApolloLink } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
-import { concatPagination } from '@apollo/client/utilities'
+import { concatPagination, getMainDefinition } from '@apollo/client/utilities'
 import { onError } from '@apollo/client/link/error'
 import { createUploadLink } from 'apollo-upload-client'
 import FingerprintJS from "@fingerprintjs/fingerprintjs"
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
-import { URL_BASE } from './urls'
+import { URL_ADMIN_SERVER, URL_BASE } from './urls'
 import { typeDefs } from './schema'
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
@@ -35,13 +35,13 @@ const errorHandler = onError(({ graphQLErrors }) => {
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)
-      graphQLErrors.map(({ message, locations, path }) => {
-        console.log(
-          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-        )
-      })
+        graphQLErrors.map(({ message, locations, path }) => {
+            console.log(
+                `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+            )
+        })
     //   
-      graphQLErrors?.length && graphQLErrors.forEach(err => {
+    graphQLErrors?.length && graphQLErrors.forEach(err => {
         const { code } = err.extensions
         if (code === 'UNAUTHENTICATED' || code === 'FORBIDDEN') console.log('Papuuuuuuuu')
         else if (code === 403) {
@@ -49,9 +49,20 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
         }
     })
     if (networkError) console.log(`[Network error]: ${networkError}`)
-  })
+})
 
-const authLink = setContext(async (_, { headers }) => {
+const authLink = async (_) => {
+    const token = window.localStorage.getItem('session')
+    const lol = await getDeviceId()
+    window.localStorage.setItem('deviceid', lol)
+    return {
+        authorization: `Bearer ${token}` ? `Bearer ${token}` : '',
+        userAgent: userAgent ? userAgent : '',
+        // restaurant: restaurant ?? restaurant,
+        deviceid: await getDeviceId() || '',
+    }
+}
+const authLinks = setContext(async (_, { headers }) => {
     const lol = await getDeviceId()
     window.localStorage.setItem('deviceid', lol)
     const token = localStorage.getItem('sma.sv1')
@@ -67,20 +78,45 @@ const authLink = setContext(async (_, { headers }) => {
     }
 })
 
+
+
 const httpLink = createUploadLink({
     uri: `${URL_BASE}graphql`, // Server URL (must be absolute)
     credentials: 'same-origin' // Additional fetch() options like `credentials` or `headers`
 })
+
+const getLink = async (operation) => {
+    // await splitLink({ query: operation.query })
+    const headers = await authLink()
+    const definition = getMainDefinition(operation.query);
+    const service = operation.getContext().clientName
+    let uri = `${URL_BASE}graphql`
+    if (service === 'subscriptions') uri = 'http://localhost:4000/graphql'
+    if (service === 'main') uri = 'http://localhost:3000/api/graphql'
+    if (service === 'admin-server') uri = `${URL_ADMIN_SERVER}graphql`
+    const link = createUploadLink({
+        uri,
+        credentials: 'same-origin',
+        authorization: '',
+        headers: {
+            ...headers,
+        }
+    })
+    return link.request(operation)
+}
+
 function createApolloClient() {
     return new ApolloClient({
         connectToDevTools: true,
         ssrMode: typeof window === 'undefined',
-        link: from([
-            errorLink,
-            authLink,
-            httpLink,
-            // errorHandler
-        ]),
+        link: ApolloLink.split(() => true, operation => getLink(operation)
+            // link: from([
+            //     // errorLink,
+            //     authLink,
+            //     httpLink,
+            //     // errorHandler
+            // ]),
+        ),
         typeDefs,
         cache: new InMemoryCache({
             typePolicies: {

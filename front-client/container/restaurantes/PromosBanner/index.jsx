@@ -1,15 +1,22 @@
 import React, { useContext, useState } from 'react';
 import { Context } from '../../../context';
-import { BannerPromo, ContainerCardProduct, Content, Img } from './styled';
+import { BannerPromo, ContainerCardProduct, Content, Img, ContainerSliderPromo, CardPromo, ImageBannerPromo } from './styled';
 import Link from 'next/link'
 import CustomSlider from 'components/Slider';
 import { SwiperSlide } from 'swiper/react'
+import { GET_ALL_BANNERS, GET_ALL_BANNERS_PROMO } from 'gql/getBanners';
+import { useQuery } from '@apollo/client';
 
 export const PromosBanner = () => {
   // STATES
   const { dispatch, setAlertBox, state_product_card, handleMenu } = useContext(Context)
   const [color, setActiveColor] = useState(null)
   // HANDLES
+  const { data } = useQuery(GET_ALL_BANNERS, {
+    context: { clientName: "admin-server" }
+  })
+
+  // console.log(datapro.getAllPromoBanners)
   const handleAddProduct = elem => {
     handleMenu(1)
     let includes = state_product_card?.PRODUCT.includes(elem);
@@ -20,114 +27,19 @@ export const PromosBanner = () => {
       dispatch({ type: 'ADD_PRODUCT', payload: elem })
     }
   }
-  const data = [
-    {
-      pId: 1,
-      idStore: 8,
-      StoreName: 'Remo comida',
-      carProId: 8,
-      images: 'images/DEFAULTBANNER.png',
-      pName: 'Jugo natural',
-      ProPrice: 4.534,
-      ProDescuento: 4.534,
-      ProDescription: 4.534
-    },
-    {
-      pId: 2,
-      idStore: 8,
-      StoreName: 'Remo comida',
-      images: 'images/DEFAULTBANNER.png',
-      carProId: 8,
-      pName: 'Gaeosa litro',
-      ProPrice: 4.534,
-      ProDescuento: 4.534,
-      ProDescription: 4.534
-    },
-    {
-      pId: 3,
-      idStore: 8,
-      StoreName: 'Remo comida',
-      images: 'images/DEFAULTBANNER.png',
-      carProId: 8,
-      pName: 'Perro caliente cubano',
-      ProPrice: 4.534,
-      ProDescuento: 4.534,
-      ProDescription: 4.534
-    },
-    {
-      pId: 4,
-      idStore: 8,
-      StoreName: 'Remo comida',
-      images: 'images/DEFAULTBANNER.png',
-      carProId: 8,
-      pName: 'Perro caliente cubano',
-      ProPrice: 4.534,
-      ProDescuento: 4.534,
-      ProDescription: 4.534
-    },
-    {
-      pId: 5,
-      idStore: 8,
-      StoreName: 'Remo comida',
-      images: 'images/DEFAULTBANNER.png',
-      carProId: 8,
-      pName: 'Perro caliente cubano',
-      ProPrice: 4.534,
-      ProDescuento: 4.534,
-      ProDescription: 4.534
-    },
-    {
-      pId: 6,
-      idStore: 8,
-      StoreName: 'Remo comida',
-      images: 'images/DEFAULTBANNER.png',
-      carProId: 8,
-      pName: 'Perro caliente cubano',
-      ProPrice: 4.534,
-      ProDescuento: 4.534,
-      ProDescription: 4.534
-    },
-    {
-      pId: 7,
-      idStore: 8,
-      StoreName: 'Remo comida',
-      images: 'images/DEFAULTBANNER.png',
-      carProId: 8,
-      pName: 'Perro caliente cubano',
-      ProPrice: 4.534,
-      ProDescuento: 4.534,
-      ProDescription: 4.534
-    },
-    {
-      pId: 8,
-      idStore: 8,
-      StoreName: 'Remo comida',
-      images: 'images/DEFAULTBANNER.png',
-      carProId: 8,
-      pName: 'Perro caliente cubano',
-      ProPrice: 4.534,
-      ProDescuento: 4.534,
-      ProDescription: 4.534
-    },
-  ]
+
   return (
     <Content>
       <ContainerCardProduct>
-        <CustomSlider
-          spaceBetween={35}
-          centeredSlides
-          infinite={true}
-          autoplay={true}
-          slidesToShow={4}
-          direction='horizontal' >
-          {data?.map(products => (
+        <CustomSlider spaceBetween={35} centeredSlides infinite={false} autoplay={false} slidesToShow={4} direction='horizontal' >
+          {data && data?.getAllMasterBanners?.map(banner => (
             <SwiperSlide
               style={{ margin: '20px' }}
-              key={products.pId}>
-              <Link href={`/restaurantes/promos/${products.StoreName}/${products.pId}`}>
+              key={banner.BannerId}>
+              <Link href={`/restaurantes/promos/${banner.name.replace(/\s/g, '-')}/${banner.BannerId}`}>
                 <a>
-                  <BannerPromo color={color} onMouseOut={() => setActiveColor('red')} onMouseOver={() => setActiveColor('blue')} key={products.pId}>
-                    <Img src={products.images} alt={products.pName} />
+                  <BannerPromo color={color} onMouseOut={() => setActiveColor('red')} onMouseOver={() => setActiveColor('blue')} key={banner.pId}>
+                    <Img src={banner.path} alt={banner.description} />
                   </BannerPromo>
                 </a>
               </Link>
@@ -138,3 +50,25 @@ export const PromosBanner = () => {
     </Content >
   );
 };
+
+export const PromoBannerStores = () => {
+  const { data: datapro } = useQuery(GET_ALL_BANNERS_PROMO, {
+    context: { clientName: "admin-server" }
+  })
+  const chartColor = ['rgba(1,25,71, 0.0001)', 'rgb(1,25,71)', 'rgb(255 0 0 / 0%)']
+// const final = 
+  const final = `0deg, ${chartColor[(Math.random() * (3 - 0) + 0).toFixed(0)]} 0%, ${chartColor[(Math.random() * (3 - 0) + 0).toFixed(0)]} 100%`
+
+  return (
+    <ContainerSliderPromo>
+      {datapro && datapro?.getAllPromoBanners?.map(pb => (
+        <CardPromo final={final} key={pb.bpId}>
+          <ImageBannerPromo src={pb.path} alt={pb.description} />
+          <div className="goto-action">
+            <span className="text">{pb.name}</span>
+          </div>
+        </CardPromo>
+      ))}
+    </ContainerSliderPromo>
+  )
+}

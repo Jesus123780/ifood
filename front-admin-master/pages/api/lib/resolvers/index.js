@@ -5,6 +5,7 @@ import UserResolvers from './users'
 import products from './product'
 import deviceResolver from './device'
 import categoriesResolver from '../resolvers/Category'
+import bannerResolver from '../resolvers/banners'
 import informationResolver from './informations'
 export default {
     ...UserResolvers.TYPES,
@@ -12,6 +13,7 @@ export default {
     ...informationResolver.TYPES,
     ...products.TYPES,
     ...deviceResolver.TYPES,
+    ...bannerResolver.TYPES,
     ...categoriesResolver.TYPES,
     DateTime: dateTimeScalar,
     // Upload: GraphQLUpload,
@@ -20,6 +22,7 @@ export default {
         ...categoriesResolver.QUERIES,
         ...informationResolver.QUERIES,
         ...storeResolver.QUERIES,
+        ...bannerResolver.QUERIES,
         ...products.QUERIES,
         ...deviceResolver.QUERIES,
     },
@@ -28,6 +31,7 @@ export default {
         ...categoriesResolver.MUTATIONS,
         ...storeResolver.MUTATIONS,
         ...informationResolver.MUTATIONS,
+        ...bannerResolver.MUTATIONS,
         ...products.MUTATIONS,
         ...deviceResolver.MUTATIONS,
     }

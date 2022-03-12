@@ -6,15 +6,31 @@ import { ApolloServer, gql } from 'apollo-server-express'
 import { PubSub } from 'graphql-subscriptions'
 import { SubscriptionServer } from 'subscriptions-transport-ws'
 import { makeExecutableSchema } from '@graphql-tools/schema'
+import { graphqlUploadExpress, graphqlUploadKoa } from 'graphql-upload';
+import multer from 'multer';
 // @ts-ignore
 import typeDefs from './api/lib/typeDefs'
 import resolvers from './api/lib/resolvers'
 import express from 'express'
+import path from 'path'
 
 (async () => {
     const PORT = 4000;
     const pubsub = new PubSub();
     const app = express();
+    app.post('/image', (req, res) => {
+        res.json('/image api');
+    });
+    app.use('/static', express.static('public'))
+    // @ts-ignore
+    app.use(graphqlUploadExpress({ maxFileSize: 1000000000, maxFiles: 10 }));
+    // const storage = multer.diskStorage({
+    //     destination: path.join(__dirname, '../public'),
+    //     filename: (req, file, next) => {
+    //         next(null, new Date().getTime() + path.extname(file.originalname))
+    //     }
+    // })
+    // app.use(graphqlUploadKoa({ maxFileSize: 10000000, maxFiles: 10 }))
     const httpServer = createServer(app);
     const schema = makeExecutableSchema({ typeDefs, resolvers });
     const server = new ApolloServer({

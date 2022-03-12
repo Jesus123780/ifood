@@ -13,6 +13,7 @@ import { Range } from '../../components/InputRange';
 import { useQuery } from '@apollo/client';
 import { GET_ALL_SHOPPING_CARD, GET_ALL_RESTAURANT, GET_ALL_CAT_STORE } from './queries';
 import { Categories } from './categories';
+import { PromoBannerStores } from './PromosBanner';
 
 export const Restaurant = () => {
   // STATES
@@ -52,6 +53,7 @@ export const Restaurant = () => {
       <Categories />
       {/* PRODUCT DEMO */}
       {/* BEST RESTAURANT */}
+      <PromoBannerStores />
       <H2>Los mejores restaurantes para ti</H2>
       <List>
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((products, i) => (

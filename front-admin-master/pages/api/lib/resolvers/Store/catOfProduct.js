@@ -201,6 +201,29 @@ export const getCatProductsWithProductClient = async (root, args, context, info)
     })
     return data
 }
+export const uploadFile = async (_, { file }, ctx) => {
+    // Upload the files
+    // const idUser = ctx.User.id
+    // const idComp = ctx.idComp
+    try {
+        console.log(file, 0)
+        // const fileUpload = await file
+        // const { createReadStream, filename, encoding } = fileUpload
+        // const extFile = filename.substring(filename.lastIndexOf('.'), filename.length)
+        // const fileStream = createReadStream()
+        // const newFilename = new FileUploadSchema({ ...input, idUser, BillLink: '', mimetype: extFile, SalesLink: '', idComp, idFile: '', encoding, filename })
+        // client.putObject(`smartreportzuploads${ idComp }`, filename, fileStream, '', extFile, function (e) {
+        //     if (e) {
+        //         return e
+        //     }
+        // })
+
+        // await newFilename.save(newFilename)
+    } catch (error) {
+        console.log(error)
+        throw new ApolloError('Your request could not be processed.', 500)
+    }
+}
 export default {
     TYPES: {
         catProductsWithProduct: {
@@ -226,6 +249,7 @@ export default {
     },
     MUTATIONS: {
         updatedProducts,
+        uploadFile,
         updatedCatWithProducts,
         deleteCatOfProducts,
     }

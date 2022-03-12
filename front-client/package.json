@@ -2,6 +2,7 @@
   "name": "app",
   "private": true,
   "scripts": {
+    "clean-install": "rm -rf node_modules && npm install",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

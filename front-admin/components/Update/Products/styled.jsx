@@ -220,12 +220,14 @@ export const ContentImg = styled.div`
     max-height: 70%;
     object-fit: cover;
     cursor: pointer;
+    position: relative;
     border-radius: 8px 8px 0px 0px;
     /* background-color: #ededed; */
     border-bottom: 1px solid #eaeaea;
     ${ props => props.grid && css`
     border-bottom: none;
     width: max-content;
+
 
 ` }
 `

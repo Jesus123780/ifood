@@ -204,7 +204,8 @@ export const FoodComponent = ({ datafatures,
                                 <Image
                                     className='store_image'
                                     width={300}
-                                    objectFit='cover'
+                                    objectFit='contain'
+                                    layout='fill'
                                     height={250}
                                     src={'/images/202109081904_64O5_i.webp'}
                                     alt={"Picture of the author"}

@@ -13,8 +13,9 @@ export const useUser = () => {
     },
     onError: (err) => {
       if (err) {
-        router.replace('/')
-        setAlertBox({ message: `Su session a terminado`, duration: 8000 })
+        // router.replace('/')
+        // setAlertBox({ message: `Su session a terminado`, duration: 8000 })
+
       }
     }
   })

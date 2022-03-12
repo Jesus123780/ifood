@@ -4,7 +4,7 @@ import { setContext } from '@apollo/client/link/context'
 import { concatPagination, getMainDefinition } from '@apollo/client/utilities'
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
-import { URL_BASE } from './urls'
+import { URL_ADMIN, URL_ADMIN_SERVER, URL_BASE } from './urls'
 import FingerprintJS from "@fingerprintjs/fingerprintjs"
 import { onError } from '@apollo/client/link/error'
 import { SubscriptionClient, addGraphQLSubscriptions } from 'subscriptions-transport-ws';
@@ -95,11 +95,13 @@ const getLink = async (operation) => {
     let uri = `${URL_BASE}graphql`
     if (service === 'subscriptions') uri = 'http://localhost:4000/graphql'
     if (service === 'main') uri = 'http://localhost:3000/api/graphql'
+    if (service === 'admin') uri = `${URL_ADMIN}graphql`
+    if (service === 'admin-server') uri = `${URL_ADMIN_SERVER}graphql`
     const link = new HttpLink({
         uri,
         credentials: 'same-origin',
         authorization: '',
-        headers: {
+        headers: {  
             ...headers,
         }
     })
