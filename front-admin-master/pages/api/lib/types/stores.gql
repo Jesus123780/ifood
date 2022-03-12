@@ -159,6 +159,16 @@ type Query {
         min: Int
         max: Int
     ): [Store]
+    getAllStoreAdmin(
+        pId: ID
+        cId: ID
+        dId: ID
+        ctId: ID
+        search: String
+        min: Int
+        uState: Int
+        max: Int
+    ): [Store]
     getOneStore(id: ID, StoreName: String, idStore: ID): Store
     getOneCOntractStore(StoreName: String, idStore: ID): ContractType
     getFavorite: [FavoriteStore]
@@ -186,6 +196,7 @@ type Mutation {
     setRating(input: InputRatingStore): Response!
     setRatingStar(input: IStar): Response!
     setVisitorStore(input: InputVisitorStoreType): Response
+    setChangeStatus(idStore: ID, uState: String): Response
 }
 
 type Subscription {

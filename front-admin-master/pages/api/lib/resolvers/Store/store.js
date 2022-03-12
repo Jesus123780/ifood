@@ -402,6 +402,82 @@ export const getAllMatchesStore = async (root, args, context, info) => {
         return error
     }
 }
+export const setChangeStatus = async (root, { idStore, uState }, context, _info) => {
+    try {
+        console.log(idStore, uState )
+        await Store.update({ uState: uState == 2 ? 1 : 2 }, { where: { idStore: deCode(idStore) } })
+        return { success: true, message: uState == 2 ? 'El restaurante ha sido puesto en estado Inactivo' : 'El restaurante ha sido puesto en estado activo' }
+        
+    } catch (error) {
+        console.log(error)
+        return { success: false, message: 'no se completó la tarea' }
+        
+    }
+
+}
+export const getAllStoreAdmin = async (root, args, context, _info) => {
+    try {
+        const { search, min, max, cId, dId, ctId, uState = 2 } = args
+        console.log(uState, 9)
+        let whereSearch = {}
+        console.log(cId, dId, ctId)
+        if (search) {
+            whereSearch = {
+                [Op.or]: [
+                    { storeName: { [Op.substring]: search.replace(/\s+/g, ' ') } },
+                    { cId: { [Op.substring]: cId.replace(/\s+/g, ' ') } },
+                    { dId: { [Op.substring]: dId.replace(/\s+/g, ' ') } },
+                    { ctId: { [Op.substring]: ctId.replace(/\s+/g, ' ') } },
+                ]
+            }
+        }
+        const data = await Store.findAll({
+            attributes: [
+                'idStore', 'cId',
+                'id',
+                'dId',
+                'ctId',
+                // 'catStore',
+                'neighborhoodStore', 'Viaprincipal',
+                'storeOwner', 'storeName',
+                'emailStore', 'storePhone',
+                'socialRaz', 'Image',
+                'banner', 'documentIdentifier',
+                'uPhoNum', 'ULocation',
+                'upLat', 'upLon',
+                'uState', 'siteWeb',
+                'description', 'NitStore',
+                'typeRegiments', 'typeContribute',
+                'secVia', 'addressStore',
+                'createAt'
+            ],
+            where: {
+                [Op.or]: [
+                    {
+                        ...whereSearch,
+                        // ID Productos
+                        uState: uState,
+                        // // ID departamento
+                        cId: cId ? deCode(cId) : { [Op.gt]: 0 },
+                        dId: dId ? deCode(dId) : { [Op.gt]: 0 },
+                        ctId: ctId ? deCode(ctId) : { [Op.gt]: 0 },
+                    }
+                ]
+            }, limit: [min || 0, max || 100],
+            order: [
+                ['cId', 'DESC'],
+                ['createdAt', 'DESC'],
+                ['storeName', 'DESC'],
+                ['id', 'DESC']
+            ]
+        })
+        return data
+    } catch (e) {
+        console.log(e)
+        const error = new Error('Lo sentimos, ha ocurrido un error interno')
+        return error
+    }
+}
 export default {
     TYPES: {
         FavoriteStore: {
@@ -514,6 +590,7 @@ export default {
         getOneRating,
         getAllMatchesStore,
         getOneFavorite,
+        getAllStoreAdmin,
         getAllRating,
         getAllShoppingCard,
         getAllStoreInStore,
@@ -526,6 +603,7 @@ export default {
         setRatingStar,
         deleteOneItem,
         setRating,
+        setChangeStatus,
         registerShoppingCard,
     }
 }

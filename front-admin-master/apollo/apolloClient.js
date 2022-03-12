@@ -7,7 +7,7 @@ import { createUploadLink } from 'apollo-upload-client'
 import FingerprintJS from "@fingerprintjs/fingerprintjs"
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
-import { URL_ADMIN_SERVER, URL_BASE } from './urls'
+import { URL_ADMIN, URL_ADMIN_SERVER, URL_BASE } from './urls'
 import { typeDefs } from './schema'
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
@@ -93,6 +93,7 @@ const getLink = async (operation) => {
     let uri = `${URL_BASE}graphql`
     if (service === 'subscriptions') uri = 'http://localhost:4000/graphql'
     if (service === 'main') uri = 'http://localhost:3000/api/graphql'
+    if (service === 'admin-store') uri = `${URL_ADMIN}graphql`
     if (service === 'admin-server') uri = `${URL_ADMIN_SERVER}graphql`
     const link = createUploadLink({
         uri,

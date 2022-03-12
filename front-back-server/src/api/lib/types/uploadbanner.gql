@@ -1,0 +1,21 @@
+# Types
+type Banner {
+    uuid: String
+    content: String
+    from: String
+    to: String
+    aDatCre: String
+}
+# Queries
+type Query {
+    "Consulta todos los mensajes"
+    getBanners(from: String): [Banner]
+    currentNumber: Int
+
+}
+
+# Mutations
+type Mutation {
+    "Registra un mensaje"
+    sendBanner(to: String!, content: String!): Banner
+}

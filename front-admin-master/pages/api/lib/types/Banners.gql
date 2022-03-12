@@ -1,0 +1,28 @@
+type MasterBanners {
+  BannerId: ID 
+  name: String
+  path: String 
+  description: String 
+  BannersState: Int 
+  createAt: DateTime 
+  updateAt: DateTime 
+}
+
+"Entradas para el registro o actualización del perfil de paciente"
+input IMasterBanners{
+  path: String 
+  description: String 
+  name: String 
+  BannersState: Int
+  image: Upload!
+}
+
+type Query {
+  getAllMasterBanners(search: String, min: Int, max: Int): [MasterBanners]
+  getOneMasterBanners(search: String, min: Int, max: Int): MasterBanners
+
+}
+
+type Mutation {
+  setBanners(input: IMasterBanners): MasterBanners
+}

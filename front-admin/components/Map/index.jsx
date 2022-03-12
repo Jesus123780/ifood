@@ -85,10 +85,10 @@ export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
   const [values, setValues] = useState({})
   const [errors, setErrors] = useState({})
   
+  const { data: dataCountries, loading: loadCountries } = useQuery(GET_ALL_COUNTRIES)
   const [getDepartments, { data: dataDepartments }] = useLazyQuery(GET_ALL_DEPARTMENTS)
   const [getCities, { data: dataCities }] = useLazyQuery(GET_ALL_CITIES)
   const { data: dataRoad, loading: loadRoad } = useQuery(GET_ALL_ROAD)
-  const { data: dataCountries, loading: loadCountries } = useQuery(GET_ALL_COUNTRIES)
 
   const handleChangeLocation = (e, error) => {
     setValues({ ...values, [e.target.name]: e.target.value })

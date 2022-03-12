@@ -159,6 +159,15 @@ type Query {
         min: Int
         max: Int
     ): [Store]
+    getAllStoreAdmin(
+        pId: ID
+        cId: ID
+        dId: ID
+        ctId: ID
+        search: String
+        min: Int
+        max: Int
+    ): [Store]
     getOneStore(id: ID, StoreName: String, idStore: ID): Store
     getOneCOntractStore(StoreName: String, idStore: ID): ContractType
     getFavorite: [FavoriteStore]
