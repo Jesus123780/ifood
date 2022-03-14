@@ -3,7 +3,6 @@ import styled, { css } from "styled-components";
 
 export const Content = styled.div`
     margin: auto;
-    box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
     font-size: 16px;
     display: flex;
     flex-grow: 1;
@@ -67,7 +66,6 @@ export const ImageBannerPromo = styled.img`
 export const CardPromo = styled.div`
     position: relative;
     border-radius: 5px;
-    margin: 0 40px;
     border-radius: 6px;
     display: block;
     height: 250px;

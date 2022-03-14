@@ -14,6 +14,7 @@ import { useQuery } from '@apollo/client';
 import { GET_ALL_SHOPPING_CARD, GET_ALL_RESTAURANT, GET_ALL_CAT_STORE } from './queries';
 import { Categories } from './categories';
 import { PromoBannerStores } from './PromosBanner';
+import { BestRestaurant } from './BestRestaurant';
 
 export const Restaurant = () => {
   // STATES
@@ -55,17 +56,7 @@ export const Restaurant = () => {
       {/* BEST RESTAURANT */}
       <PromoBannerStores />
       <H2>Los mejores restaurantes para ti</H2>
-      <List>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((products, i) => (
-          <Link key={products + i} href={`/categories/${products.StoreName}/${products.pId}`}>
-            <a>
-              <ItemCategory>
-                {/* <Img src={products.images} alt={products.pName} /> */}
-              </ItemCategory>
-            </a>
-          </Link>
-        ))}
-      </List>
+      <BestRestaurant />
       <AwesomeModal zIndex='9990' padding='25px' height='60vh' show={OPEN_MODAL_ORGANICE.state} onHide={() => { OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state) }} onCancel={() => false} size='80%' btnCancel={false} btnConfirm={true} onConfirm={() => router.push('/restaurante')} header={false} footer={true} borderRadius='10px' >
         <Tabs width={['33.33%', '33.33%', '33.330%']} >
           <Tabs.Panel label={`Básicos`}>

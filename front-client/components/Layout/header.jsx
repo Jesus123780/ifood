@@ -41,7 +41,9 @@ export const Header = () => {
       <>
         <div style={{ transform: `translateX(${offsetY * 0.8}px)` }} >
           <ActiveLink href={'/'}>
-            <IconLogo size='80px' color={PColor} />
+            <a>
+              <IconLogo size='80px' color={PColor} />
+            </a>
           </ActiveLink>
         </div>
         <AdicionalComponent>
@@ -69,7 +71,6 @@ export const HeaderC = styled.header`
     height: auto;
     grid-area: head;
     background-color: ${({ scrollNav }) => (scrollNav ? 'none' : 'transparent')};
-    box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
     flex-direction: row;
     justify-content: space-between;
     width: 100%;

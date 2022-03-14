@@ -1095,3 +1095,21 @@ export const getFileSizeByUnit = (file, unit = "B") => {
 //       color: "#" + Math.floor(Math.random() * 16777215).toString(16)
 //     });
 //   }, 2000)
+
+// Event
+// .findAndCountAll({
+//     include: [
+//       {
+//         model: Tag,
+//         as: 'tags',
+//         where: { id: {in: [1,2,3,4]} },
+//       }
+//     ],
+//     order: order,
+//     limit: pageSize,
+//     offset: pageSize * (page - 1),
+// })
+// .success(function(result) {
+
+//     ...
+// });

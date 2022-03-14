@@ -61,8 +61,10 @@ type Query {
 """Response for find one Store"""
   getOnePedidoStore(StoreName: String, idStore: ID): StorePedidos
   getAllPedidoStore(StoreName: String, idStore: ID): [StorePedidos]
-  getAllPedidoStoreFinal(idStore: ID): [StorePedidos]
+  getAllPedidoStoreFinal(idStore: ID, cId: ID dId: ID ctId: ID search: String min: Int fromDate: DateTime toDate: DateTime max: Int): [StorePedidos]
+  getAllSalesStore(idStore: ID, pId: ID cId: ID dId: ID ctId: ID search: String min: Int fromDate: DateTime toDate: DateTime max: Int): [StorePedidos]
   getAllPedidoUserFinal(id: ID): [StorePedidos]
+  getOneSalesStore(pCodeRef: String): StorePedidos
 }
   
 type Mutation {

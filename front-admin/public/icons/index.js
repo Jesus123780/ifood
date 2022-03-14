@@ -334,3 +334,4 @@ export const IconRepublDom = ({ size }) => <svg x="0px" y="0px" width={size} hei
 36.2,16.8 "/>
     <circle fill="#1F714D" cx="32" cy="21" r="4.3" />
 </svg>
+export const IconPause = ({ style = {}, size, color }) =><svg fill={color} width={size} height={size} style={style} data-name="Capa 1" viewBox="0 0 63 63"><circle fill='transparent' cx="31.5" cy="31.5" r="31"/><path d="M125,19.5A30.5,30.5,0,1,1,94.5,50,30.53,30.53,0,0,1,125,19.5m0-1A31.5,31.5,0,1,0,156.5,50,31.5,31.5,0,0,0,125,18.5Z" transform="translate(-93.5 -18.5)"/><rect x="16" y="17" width="9" height="29"/><path d="M118,36V64h-8V36h8m1-1H109V65h10V35Z" transform="translate(-93.5 -18.5)"/><rect x="38" y="17" width="9" height="29"/><path d="M140,36V64h-8V36h8m1-1H131V65h10V35Z" transform="translate(-93.5 -18.5)"/></svg>

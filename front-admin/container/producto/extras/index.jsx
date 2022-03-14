@@ -101,7 +101,6 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
             })
             setModal(false)
         } catch (error) {
-            console.log(error);
         }
     }
     // DELETE ADICIONAL
@@ -136,8 +135,6 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
     }
     const handleDeleteItemSubOptional = async elem => {
         const { state, opSubExPid } = elem || {}
-        console.log(state, opSubExPid)
-        console.log(elem)
         DeleteExtFoodSubsOptional({
             variables: {
                 state: state,
@@ -153,7 +150,6 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
 
 
     const handleOpenExtra = async elem => {
-        console.log(elem)
         OPEN_MODAL_CAT_EXTRA.setState(!OPEN_MODAL_CAT_EXTRA.state)
         INFO_EXTRA.setState(elem)
         handleForcedData({ ...elem })
@@ -287,7 +283,7 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
                         </RippleButton>
                     </GarnishChoicesHeader>
                     <InputHooks required onChange={handleChange} name='OptionalProName' value={dataForm.OptionalProName} />
-                    <RippleButton margin='0px' widthButton='25%' padding='5' type="button" onClick={() => console.log('asdasd')} >
+                    <RippleButton margin='0px' widthButton='25%' padding='5' type="button" onClick={() => {}} >
                         Editar
                     </RippleButton>
                 </ContentModal>

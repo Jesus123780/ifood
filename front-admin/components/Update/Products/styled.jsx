@@ -60,6 +60,9 @@ export const Item = styled.div`
     border-radius: 5px;
     display: grid;
     place-content: center;
+    .btn {
+        background-color: transparent;
+    }
     & span {
         color: ${PLColor};
     }

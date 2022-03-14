@@ -30,8 +30,8 @@ const CustomSlider = ({ children, spaceBetween, slidesToShow, touchMove = true, 
             },
             { breakpoint: 1280,
                 settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 4,
+                    slidesToShow: 7,
+                    slidesToScroll: 7,
                 }
             },
         ]}

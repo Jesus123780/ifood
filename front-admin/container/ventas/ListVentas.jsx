@@ -4,25 +4,54 @@ import NewSelect from 'components/NewSelectHooks/NewSelect'
 import { RippleButton } from 'components/Ripple'
 import { Table } from 'components/Table'
 import { Section } from 'components/Table/styled'
+import { gql, useQuery, useMutation, useLazyQuery } from '@apollo/client'
 import { BGColor, PColor, PLColor, SFColor } from 'public/colors'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { numberFormat } from 'utils'
+import { GET_ALL_SALES, GET_ONE_SALES } from './queries'
+import moment from 'moment'
+import { GetOneSales } from './getOneSales'
 
 export const ListVentas = () => {
+    let total = 0
+    let suma = 0
     const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
+    const [valuesDates, setValuesDates] = useState({ fromDate: moment().format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD') })
+    const onChangeInput = (e) => setValuesDates({ ...valuesDates, [e.target.name]: e.target.value })
+    const [more, setMore] = useState(100)
+    const [getAllSalesStore, { data, fetchMore, loading }] = useLazyQuery(GET_ALL_SALES)
+    const [getOneSalesStore, { data: dataOneSales, loading: loa }] = useLazyQuery(GET_ONE_SALES)
+    const [totalProductPrice, setTotalProductPrice] = useState(0)
+    useEffect(() => {
+        getAllSalesStore({ variables: { min: 0 } })
+        data?.getAllSalesStore.forEach((a) => {
+            const { totalProductsPrice } = a || {}
+            suma += totalProductsPrice
+            setTotalProductPrice(suma)
+        })
+    }, [totalProductPrice, suma, total, data])
+    const [open, setOpen] = useState(false)
+    const HandleGetOne = (pCodeRef) => {
+        getOneSalesStore({ variables: { pCodeRef: pCodeRef } })
+        setOpen(!open)
+    }
+    const getFromDataToData = async e => {
+        getAllSalesStore({ variables: { fromDate: valuesDates?.fromDate, toDate: valuesDates?.toDate } })
+    }
     return (
         <div>
+            <GetOneSales setOpen={setOpen} open={open} data={dataOneSales?.getOneSalesStore || []} />
             <Card>
                 <form>
                     <InputHooks
                         title='Desde'
                         width={'20%'}
                         required
-                        error={errorForm?.Desde}
-                        value={dataForm?.Desde}
-                        onChange={handleChange}
-                        name='Desde'
+                        // error={errorForm?.Desde}
+                        value={valuesDates?.fromDate}
+                        onChange={onChangeInput}
+                        name='fromDate'
                         type='date'
                     />
                     <InputHooks
@@ -30,10 +59,9 @@ export const ListVentas = () => {
                         width='20%'
                         required
                         type='date'
-                        error={errorForm?.ProDescuento}
-                        value={dataForm?.ProDescuento}
-                        onChange={handleChange}
-                        name='ProDescuento'
+                        value={valuesDates?.toDate}
+                        onChange={onChangeInput}
+                        name='toDate'
                     />
                     <InputHooks
                         title='Numero'
@@ -54,98 +82,76 @@ export const ListVentas = () => {
                         onChange={handleChange}
                         name='ProPrice'
                     />
-                    <NewSelect
-                        width='33.33%'
-                        name='colorId'
-                        options={[1, 2]}
-                        id='colorId'
-                        onChange={handleChange}
-                        optionName='colorName'
-                        value={dataForm?.Color}
-                        title='Restaurante'
-                    />
-                    <NewSelect
-                        width='33.33%'
-                        name='colorId'
-                        options={[1, 2]}
-                        id='colorId'
-                        onChange={handleChange}
-                        optionName='colorName'
-                        value={dataForm?.Color}
-                        title='Método de pago'
-                    />
-                    <NewSelect
-                        width='33.33%'
-                        name='colorId'
-                        options={[1, 2]}
-                        id='colorId'
-                        onChange={handleChange}
-                        optionName='colorName'
-                        value={dataForm?.Color}
-                        title='STATUS'
-                    />
                     <Button type='submit'>
                         Mas opciones
                     </Button>
-                    <RippleButton padding='10px' margin='30px'>Consultar</RippleButton>
+                    <RippleButton padding='10px' margin='30px' type='button' onClick={() => getFromDataToData()}>Consultar</RippleButton>
                     <RippleButton padding='10px' margin='30px'>Consultar y exportar</RippleButton>
                 </form>
             </Card>
             <Table
                 titles={[
+                    { name: 'Numero', justify: 'flex-center', width: '.5fr' },
                     { name: 'Cancelado por', key: '', justify: 'flex-center', width: '1fr' },
                     { name: 'Pedido', key: 'bDescription', justify: 'flex-center', width: '1fr' },
                     { name: 'Date', justify: 'flex-center', width: '1fr' },
                     { name: 'Canal', justify: 'flex-center', width: '1fr' },
                     { name: 'Método de pago', justify: 'flex-center', width: '1fr' },
-                    { name: 'Costo', justify: 'flex-center', width: '1fr' },
                     { name: 'Numero de Entrega', justify: 'flex-center', width: '1fr' },
-                    { name: 'Cupon', justify: 'flex-center', width: '1fr' },
                     { name: '', justify: 'flex-center', width: '1fr' },
                 ]}
                 labelBtn='Product'
-                data={[1, 2, 3, 4, 5]}
-                renderBody={(dataB, titles) => dataB?.map((elem, i) => <Section odd padding='10px 0' columnWidth={titles} key={i}>
+                data={data?.getAllSalesStore || []}
+                renderBody={(dataB, titles) => dataB?.map((x, i) => <Section odd padding='10px 0' columnWidth={titles} key={i}>
+                    <Item>
+                        <span> {i + 1}</span>
+                    </Item>
                     <Item>
                         <span> Restaurante</span>
                     </Item>
                     <Item>
-                        <span> 7597</span>
+                        <span> {x.pCodeRef}</span>
                     </Item>
                     <Item>
-                        <span> 20/03/2020 - 12:43</span>
+                        <span> {moment(x.pDatCre).format('DD-MM-YYYY')} - {moment(x.pDatCre).format('HH:mm A')}</span>
                     </Item>
                     <Item>
                         <span> DELIVERY-APP </span>
                     </Item>
                     <Item>
-                        <span> EFECTIVO</span>
+                        <span> {x.payMethodPState ? 'EFECTIVO' : 'TRANSFERENCIA'}</span>
                     </Item>
                     <Item>
-                        <span> $ {numberFormat(12000)} </span>
+                        <span> $ {numberFormat(x.totalProductsPrice)}</span>
                     </Item>
+
                     <Item>
-                        <span> $ {numberFormat(2000)}</span>
-                    </Item>
-                    <Item>
-                        <span> {i + 1}</span>
-                    </Item>
-                    <Item>
-                        <Button>
+                        <Button onClick={() => HandleGetOne(x.pCodeRef)}>
                             Ver detalles
                         </Button>
                     </Item>
                 </Section>)}
             />
             <Action>
-                <RippleButton padding='10px' margin='30px 0'>Mas antiguos</RippleButton>
-                <RippleButton padding='10px' margin='30px 0'>Cargar Mas</RippleButton>
+                <RippleButton padding='10px' margin='30px 0' onClick={() => {
+                    setMore(more + 100)
+                    fetchMore({
+                        variables: { max: more, min: 0 },
+                        updateQuery: (prevResult, { fetchMoreResult }) => {
+                            if (!fetchMoreResult) return prevResult
+                            return {
+                                getAllSalesStore: [...fetchMoreResult.getAllSalesStore]
+
+                            }
+                        }
+                    })
+                }}>{loading ? '...Cargando' : 'Cargar Mas'}</RippleButton>
             </Action>
             <CardInfo>
                 <div className="wrapper-card-info">
                     <div className="item">
                         <span>Total de ventas realizadas </span>
-                        <h3>$ {numberFormat(300000)}</h3>
+                        <h3>$ {numberFormat(totalProductPrice)}</h3>
                         <Button>Ver mas information</Button>
                     </div>
                     <div className="wrapper-acquisition__card">
@@ -163,7 +169,7 @@ export const ListVentas = () => {
                 </div>
                 <div className="wrapper-card-info">
                     <span>Total de ventas realizadas </span>
-                    <h3>$ {numberFormat(300000)}</h3>
+                    <h3>$ {numberFormat(totalProductPrice)}</h3>
                     <Button>Ver mas information</Button>
                 </div>
             </CardInfo>

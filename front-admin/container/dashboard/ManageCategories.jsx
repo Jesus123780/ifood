@@ -9,8 +9,8 @@ import { AwesomeModal } from '../../components/AwesomeModal'
 import { useSetState } from '../../components/hooks/useState'
 import { ButtonAction, ButtonCard } from './styledStore'
 import { numberFormat, updateCache } from '../../utils'
-import { DELETE_ONE_CAT_PRODUCTS, GET_ULTIMATE_CATEGORY_PRODUCTS, UPDATE_CAT_IN_PRODUCT } from './queries'
-import { AddPlusCircle, IconDelete, IconEdit, IconLove } from '../../public/icons'
+import { DELETE_ONE_CAT_PRODUCTS, DELETE_ONE_CAT_PRODUCTS_FINAL, GET_ULTIMATE_CATEGORY_PRODUCTS, UPDATE_CAT_IN_PRODUCT } from './queries'
+import { AddPlusCircle, IconDelete, IconEdit, IconLove, IconPause } from '../../public/icons'
 import { RippleButton } from '../../components/Ripple'
 import { BGColor, PColor, PVColor, WColor } from '../../public/colors'
 import { CardProduct, ContainerCardProduct, ContentIconFav, ContentImg, ContentInfo, Img, Item } from '../../components/Update/Products/styled'
@@ -38,6 +38,23 @@ export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
     }
     const [updatedProducts, { loading, error }] = useMutation(REGISTER_CAT_OF_PRODUCTS)
     const [deleteCatOfProducts] = useMutation(DELETE_ONE_CAT_PRODUCTS, {
+        onError: (error) => {
+            console.error({
+                message: error.graphQLErrors[0].message,
+                color: WColor
+            })
+        },
+        update(cache) {
+            cache.modify({
+                fields: {
+                    catProductsAll(dataOld = []) {
+                        return cache.writeQuery({ query: GET_ULTIMATE_CATEGORY_PRODUCTS, data: dataOld })
+                    }
+                }
+            })
+        }
+    })
+    const [deleteCatFinalOfProducts] = useMutation(DELETE_ONE_CAT_PRODUCTS_FINAL, {
         onError: (error) => {
             console.error({
                 message: error.graphQLErrors[0].message,
@@ -170,6 +187,7 @@ export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
                 titles={[
                     { name: 'Nombre', key: '', justify: 'flex-center', width: '1fr' },
                     { name: 'Descripción', justify: 'flex-center', width: '1fr' },
+                    { name: 'Pausar ventas', justify: 'flex-center', width: '1fr' },
                     { name: '', justify: 'flex-center', width: '1fr' },
                     { name: '', justify: 'flex-center', width: '1fr' },
                 ]}
@@ -183,12 +201,17 @@ export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
                         <span> {x.ProDescription}</span>
                     </Item>
                     <Item>
+                        <button className='btn'onClick={() => deleteCatOfProducts({ variables: { idPc: x.carProId, pState: x.pState } })}>
+                            <IconPause size={30} color={PColor} />
+                        </button>
+                    </Item>
+                    <Item>
                         <Button onClick={() => openModal(x.carProId)}>
                             Seleccionar
                         </Button>
                     </Item>
                     <Item>
-                        <button onClick={() => deleteCatOfProducts({ variables: { idPc: x.carProId, pState: x.pState } })}>
+                        <button onClick={() => deleteCatFinalOfProducts({ variables: { idPc: x.carProId } })}>
                             <IconDelete size={20} color={PColor} />
                         </button>
                     </Item>

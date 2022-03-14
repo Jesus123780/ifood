@@ -36,7 +36,6 @@ export const getServerSideProps = async () => {
     `
   })
   const items = data.getMessage
-  console.log(data)
   return { props: { items } }
 }
 

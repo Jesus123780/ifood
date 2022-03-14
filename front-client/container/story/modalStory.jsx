@@ -26,11 +26,9 @@ export const SlideStory = ({ closeModal, OpenModalInfo, dataItem }) => {
   const [getAllComment, { data: dataComment }] = useLazyQuery(GET_ALL_COMMENT_STORY,
     {
       notifyOnNetworkStatusChange: true,
-      pollInterval: 1000
+      // pollInterval: 1000
     })
   const input = useRef(null)
-  console.log(stoId)
-  console.log(dataComment)
   useEffect(() => {
     setUser(window.localStorage.getItem('session'))
     getAllComment({ variables: { stoId } })
@@ -38,9 +36,7 @@ export const SlideStory = ({ closeModal, OpenModalInfo, dataItem }) => {
   const messagesEndRef = useRef(null)
 
   const decode = decodeToken(user)
-  const [dataUser, { loading: loUser }] = useUser()
-  console.log(dataUser?.username)
-
+  const [dataUser] = useUser()
   const [message, setMessage] = useState({
     stoId: stoId,
     comments: '',

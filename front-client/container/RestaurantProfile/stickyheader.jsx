@@ -24,7 +24,6 @@ function Sticky({ children, as = "div", className = "", ...rest }) {
     const location = useRouter();
     useEffect(() => {
         let UserId = window.localStorage.getItem('usuario')
-        console.log(UserId, 'papuuu')
         setVisitorStore({
             variables: {
                 input: {
@@ -55,7 +54,6 @@ function StickyBoundary({
     const Component = as;
 
     const { debug } = useStickyState();
-    console.log(debug)
     const topSentinelRef = useRef(null);
     const bottomSentinelRef = useRef(null);
 

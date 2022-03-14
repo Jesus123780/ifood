@@ -46,20 +46,6 @@ export const Header = () => {
             </a>
           </ActiveLink>
         </div>
-        {/* <AdicionalComponent>
-          <Time>
-            <Timer>
-              {time}
-            </Timer>
-            <Timer style={customColor}>
-              {displayMessage}
-            </Timer>
-          </Time>
-          <UseSize>
-            <Text>W:{size.width}px</Text>
-            <Text>H:{size.height}px</Text>
-          </UseSize>
-        </AdicionalComponent> */}
         <Options />
       </>
     </HeaderC>
@@ -71,7 +57,6 @@ export const HeaderC = styled.header`
     height: auto;
     grid-area: head;
     background-color: ${({ scrollNav }) => (scrollNav ? 'none' : 'transparent')};
-    box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
     flex-direction: row;
     justify-content: space-between;
     align-items: center;

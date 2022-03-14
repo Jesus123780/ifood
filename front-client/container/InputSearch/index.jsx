@@ -125,7 +125,7 @@ export const InputSearch = () => {
                     {historySearch.length > 0 && <div className='recent'>
                         <span className='recent-span'>Búsquedas recientes</span>
                         {historySearch?.map((todo, i) => (
-                            <div className='item-recent'>
+                            <div className='item-recent' key={i}>
                                 <span className='recent-span' key={i + 1} onClick={() => handleSearch(todo, 'TODO')}>{todo}</span>
                                 <Button onClick={() => markComplete(i)}><IconCancel size="15px" /></Button>
                             </div>

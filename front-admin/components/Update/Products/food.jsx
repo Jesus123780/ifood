@@ -26,6 +26,7 @@ export const FoodComponent = ({ datafatures,
     values,
     handleRegister,
     currentYear,
+    fetchMore,
     dispatch,
     handleChange,
     countries,
@@ -50,7 +51,6 @@ export const FoodComponent = ({ datafatures,
     intPorcentaje,
     dataFree,
 }) => {
-    console.log(data, 'fdlskdjflksj')
     const [stateCard, setState] = useState(false)
     const handleClick = () => {
         setState(!stateCard)
@@ -134,7 +134,7 @@ export const FoodComponent = ({ datafatures,
             <Card state={stateCard} bgColor='#ededed'>
                 <FoodCardPreview
                     features={features}
-                    valuesP={'name'}
+                    valuesP={names}
                     Country={countries}
                     alt={alt}
                     onTargetClick={onTargetClick}
@@ -220,7 +220,7 @@ export const FoodComponent = ({ datafatures,
                                 </ContentIconFav>
                                 {product.ProDescuento && <Discount discount={product.ProDescuento} > {numberFormat(product.ProDescuento)}</Discount>}
                                 <Title>{product.pName}</Title>
-                                <Text color={APColor}>{product.ProDelivery === 1 ? 'Envio Gratis' : ''}</Text>
+                                <Text color={APColor}>{(product.ProDelivery === 1 && !product.ValueDelivery) ? 'Envio Gratis' : ''}</Text>
                                 <Text>{numberFormat(product.ProPrice)}</Text>
                                 <ContentInfo /* direction */>
                                     {/* <Rate rating={product.ProStar} onRating={() => setRating(product.ProStar)} size={20} value={product.ProStar} /> */}
@@ -231,7 +231,22 @@ export const FoodComponent = ({ datafatures,
                     ))}
                 </ContainerCardProduct>
             </WrapperProducts>
-            <RippleButton widthButton='100%' margin='20px auto' onClick={() => setShowMore(s => s + 5)}>'Cargar Más' </RippleButton>
+            {/* <RippleButton widthButton='100%' margin='20px auto' onClick={() => setShowMore(s => s + 5)}>'Cargar Más' </RippleButton> */}
+            <RippleButton widthButton='100%' margin='20px auto' onClick={() => {
+               setShowMore(s => s + 5)
+                // getAllStoreAdmin()
+                fetchMore({
+                    variables: { max: more, min: 0 },
+                    updateQuery: (prevResult, { fetchMoreResult }) => {
+                        if (!fetchMoreResult) return prevResult
+                        productFoodsAll = [...prevResult.productFoodsAll]
+                        return {
+                            productFoodsAll: [...fetchMoreResult.productFoodsAll]
+
+                        }
+                    }
+                })
+            }}>'Cargar Más' </RippleButton>
         </ContentProducts>
         <AwesomeModal backdrop='static' height='100vh' zIndex='9999' padding='25px' show={OPEN_MODAL_ORGANICE.state} onHide={() => { OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state) }} onCancel={() => false} size='90%' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
             <Grid gridColumns={3} gridRows={1} gridColGap='30px' gridRowsGap='20px' height='100%'>

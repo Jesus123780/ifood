@@ -10,6 +10,7 @@ export  const ItemWrapper = styled.div`
     cursor: pointer;
     display: grid;
     padding: 16px;
+    /* background-color: ${BGColor}!important; */
     &:hover {
         background-color: ${`${SFVColor}69`};
     }
@@ -38,7 +39,6 @@ export  const MerchantListWrapper = styled.div`
 `
 export  const Content = styled.div`
     margin: auto;
-    box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
     font-size: 16px;
     display: flex;
     flex-direction: column;
@@ -87,6 +87,8 @@ export const ItemCategory = styled.div`
     height: 100px;
     align-items: center;
     display: grid;
+    /* width: 100px ; */
+    height: 130px ;
 ` 
 export const ContentStores = styled.div`
     width: 100%;
@@ -127,15 +129,12 @@ export const CtnItemFilter = styled.div`
 
 `
 export const List = styled.div`
+    margin: auto;
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
     width: 100%;
-    display: grid;  
-    gap: 5px;
-    grid-auto-flow: column;
-    place-content: space-around;
-    overflow: hidden;
-    grid-template-columns: 9% repeat(auto-fill, 9%);
-    margin: 0 30px 30px auto;
-   
+    max-width: 1766px!important;
     .title-cat {
         margin-top: 10px;
         font-size: 14px;

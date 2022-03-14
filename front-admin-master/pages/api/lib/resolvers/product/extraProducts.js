@@ -22,14 +22,11 @@ export const deleteextraproductfoods = async (_root, { state, id }, context) => 
             success: true,
             message: 'Eliminado'
         }
-
     } catch (error) {
         throw new ApolloError('No ha sido posible procesar su solicitud.', 500)
     }
-
 }
 export const DeleteExtFoodSubsOptional = async (_root, { state, opSubExPid }, _context) => {
-    console.log(state, opSubExPid, 0, 'Hola mundo')
     try {
         await productsSubOptionalExtra.update({ state: state === 1 ? 0 : 1 }, { where: { opSubExPid: deCode(opSubExPid) } })
         return {
@@ -54,7 +51,6 @@ export const updateExtProductFoods = async (_root, { input }, context) => {
                 exState,
                 code,
                 idStore: 1,
-                // idStore:  deCode(context.restaurant),
 
             })
             return data
@@ -206,15 +202,15 @@ export const ExtProductFoodsOptionalAll = async (root, args, context, info) => {
             where: {
                 [Op.or]: [
                     {
-                        pId: deCode(pId),
+                        ...((pId) ? { pId: deCode(pId) } : {}),
                         state: { [Op.gt]: 0 },
+                        idStore: deCode(content.restaurant)
                     }
                 ]
             }, limit: [min || 0, max || 100], order: [['OptionalProName', 'DESC']]
         })
         return data
     } catch (e) {
-        console.log(e)
         const error = new Error('Lo sentimos, ha ocurrido un error interno', e)
         return error
     }

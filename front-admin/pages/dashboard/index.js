@@ -3,7 +3,6 @@ import Image from 'next/image'
 import { useContext } from 'react'
 import withSession from '../../apollo/session'
 import Dashboard from '../../container/dashboard'
-import Context from '../../context/Context'
 import { decodeToken } from '../../utils'
 
 export default function DASHBOARD() {

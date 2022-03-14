@@ -1,6 +1,7 @@
 import GraphQLUpload from 'graphql-upload'
 import dateTimeScalar from './CustomScalar'
 import UserResolvers from './users'
+import recommendationResolver from './recommendation'
 export default {
     ...UserResolvers.TYPES,
     DateTime: dateTimeScalar,
@@ -10,5 +11,6 @@ export default {
     },
     Mutation: {
         ...UserResolvers.MUTATIONS,
+        ...recommendationResolver.MUTATIONS,
     }
 }

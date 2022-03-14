@@ -12,7 +12,6 @@ export const CustomSlider = props => {
         data,
         handleAddFeature } = props
     const div = useRef();
-    console.log(data)
     const [activeArrow, setActiveArrow] = useState({})
     useEffect(() => {
         const timer = setTimeout(() => {

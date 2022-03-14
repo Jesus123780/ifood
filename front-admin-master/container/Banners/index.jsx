@@ -8,11 +8,16 @@ import { RippleButton } from 'components/Ripple'
 import { CREATE_BANNER_MAIN, CREATE_BANNER_PROMO } from 'container/dashboard/queries'
 import React, { useState } from 'react'
 import { GET_ALL_BANNERS } from './queries'
+import { PromoBannerStores, PromosBanner } from 'container/PromosBanner'
+import { GET_ALL_BANNERS_PROMO } from 'gql/getBanners'
+import { updateCache } from 'utils'
 
 export const Banners = () => {
   const [open, setOpen] = useState(false)
   const [openModalPromo, setOpenModalPromo] = useState(false)
   const [image, setImage] = useState('')
+  const [name, setName] = useState('')
+  const [reset, setReset] = useState(false)
   const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
   const [setBanners, { error: Error }] = useMutation(CREATE_BANNER_MAIN, {
     context: { clientName: "admin-server" }
@@ -23,16 +28,15 @@ export const Banners = () => {
   const { data, loading } = useQuery(GET_ALL_BANNERS, {
     context: { clientName: "admin-server" }
   })
-
-
   const handleFileChange = async (param) => {
-    // setImage(e.target.files[0])
-    console.log(param[0])
+    setImage(param[0])
+    setName(param.name)
+  }
+  const handleFileChange2 = async (param) => {
+    setName(param.name)
     setImage(param[0])
   }
-  // const { data: dataM } = useQuery(GET_MESSAGES, {
-  //   context: { clientName: "admin-server" }
-  // });
+  // GET_ALL_BANNERS_PROMO
   const handleForm = (e, show) => handleSubmit({
     event: e,
     action: () => {
@@ -45,7 +49,12 @@ export const Banners = () => {
               name: dataForm.name,
               image: image,
             }
-          }
+          }, update: (cache, { data: { getAllPromoBanners } }) => updateCache({
+            cache,
+            query: GET_ALL_BANNERS_PROMO,
+            nameFun: 'getAllPromoBanners',
+            dataNew: getAllPromoBanners
+          })
         })
       }
       else {
@@ -57,7 +66,12 @@ export const Banners = () => {
               name: dataForm.name,
               image: image,
             }
-          }
+          }, update: (cache, { data: { getAllMasterBanners } }) => updateCache({
+            cache,
+            query: GET_ALL_BANNERS,
+            nameFun: 'getAllMasterBanners',
+            dataNew: getAllMasterBanners
+          })
         }).then(res => {
           if (res) {
             // window.localStorage.setItem('restaurant', res?.idStore)
@@ -68,16 +82,17 @@ export const Banners = () => {
     },
     actionAfterSuccess: () => {
       setDataValue({})
+      setReset(true)
     }
   })
   return (
     <Container>
-      <RippleButton onClick={() => setOpen(!open)}>Open</RippleButton>
-      <RippleButton onClick={() => setOpenModalPromo(!openModalPromo)}>Open PROMO</RippleButton>
-      <AwesomeModal zIndex='99390' padding='20px' show={open} onHide={() => { setOpen(!open) }} onCancel={() => false} size='medium' btnCancel={true} btnConfirm={false} header={true} footer={false} >
+      <PromosBanner />
+      <RippleButton onClick={() => { setOpen(!open), setReset(true) }}>Adicionar Item</RippleButton>
+      <AwesomeModal zIndex='99390' padding='20px' show={open} onHide={() => { setOpen(!open), setReset(true) }} onCancel={() => false} size='medium' btnCancel={true} btnConfirm={false} header={true} footer={false} >
         Banners
         <form onSubmit={(e) => handleForm(e)}>
-          <InputFiles Disable={false} onChange={handleFileChange} reset={false} />
+          <InputFiles Disable={false} onChange={handleFileChange} reset={reset} />
           <InputHooks
             title='Nombre del banner'
             required
@@ -97,10 +112,13 @@ export const Banners = () => {
           <RippleButton type='submit' widthButton='100% '>Subir</RippleButton>
         </form>
       </AwesomeModal>
-      <AwesomeModal zIndex='99390' padding='20px' show={openModalPromo} onHide={() => { setOpenModalPromo(!openModalPromo) }} onCancel={() => false} size='medium' btnCancel={true} btnConfirm={false} header={true} footer={false} >
+      <PromoBannerStores />
+      <RippleButton onClick={() => { setReset(false), setOpenModalPromo(!openModalPromo) }}>Adicionar promo</RippleButton>
+      {/* Adicionar promos */}
+      <AwesomeModal zIndex='99390' padding='20px' show={openModalPromo} onHide={() => { setOpenModalPromo(!openModalPromo), setReset(true) }} onCancel={() => false} size='medium' btnCancel={true} btnConfirm={false} header={true} footer={false} >
         Banner PROMO
         <form onSubmit={(e) => handleForm(e, 1)}>
-          <InputFiles Disable={false} onChange={handleFileChange} reset={false} />
+          <InputFiles Disable={false} onChange={handleFileChange2} reset={reset} />
           <InputHooks
             title='Nombre del banner'
             required
@@ -117,15 +135,9 @@ export const Banners = () => {
             onChange={handleChange}
             name='description'
           />
-          <RippleButton type='submit' widthButton='100% '>Subir</RippleButton>
+          <RippleButton type='submit' widthButton='100% ' onClick={() => setReset(true)}>Subir</RippleButton>
         </form>
       </AwesomeModal>
-
-      {!loading && data?.getAllMasterBanners.length > 0  ? data?.getAllMasterBanners?.map((b) => (
-        <div key={b.BannerId}>
-          {b.description}
-        </div>
-      )) : <span>No hay datos</span>}
     </Container>
   )
 }

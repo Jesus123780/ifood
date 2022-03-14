@@ -25,6 +25,7 @@ input ICatStore {
 # Query
 type Query {
   getAllCatStore: [CatStore]
+  getAllCatStoreRecommended: [CatStore]
   getOneCatStore(catStore: ID): CatStore
 }
 # Mutations

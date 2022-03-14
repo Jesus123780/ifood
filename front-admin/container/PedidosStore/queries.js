@@ -11,8 +11,8 @@ mutation changePPStatePPedido($pPStateP: Int, $pCodeRef: String) {
 
 `
 export const GET_ALL_PEDIDOS = gql`
-query getAllPedidoStoreFinal($idStore: ID) {
-  getAllPedidoStoreFinal(idStore: $idStore) {
+query getAllPedidoStoreFinal($idStore: ID, $search: String, $min: Int, $max: Int) {
+  getAllPedidoStoreFinal(idStore: $idStore, search: $search, min: $min, max: $max) {
     pdpId
     idStore
     pCodeRef

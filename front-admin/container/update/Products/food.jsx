@@ -27,7 +27,7 @@ export const Food = () => {
     const { setAlertBox } = useContext(Context)
     // Filtrar product
     const [dataProducto, setData] = useState([])
-    const [showMore, setShowMore] = useState(100)
+    const [showMore, setShowMore] = useState(50)
     const [search, setSearch] = useState('')
     /* Filtro  */
     const [searchFilter, setSearchFilter] = useState({ gender: [], desc: [], speciality: [] })
@@ -49,7 +49,7 @@ export const Food = () => {
     // Subir producto
     const [getCities, { data: dataCities }] = useLazyQuery(GET_ALL_CITIES)
     // llama a los productos y espera una acción
-    const [productFoodsAll, { data: dataProduct }] = useLazyQuery(GET_ALL_PRODUCT_STORE, {
+    const [productFoodsAll, { data: dataProduct, fetchMore }] = useLazyQuery(GET_ALL_PRODUCT_STORE, {
         fetchPolicy: 'network-only',
         variables:
         {
@@ -97,8 +97,8 @@ export const Food = () => {
     })
     const [check, setCheck] = useState(false)
     const handleCheckEnvioGratis = e => {
-        const { name, value, checked } = e.target
         setCheck(e.target.checked)
+        values.ValueDelivery = ''
     }
     const { data: dataStore } = useQuery(GET_ONE_STORE)
     const fileInputRef = useRef(null)
@@ -320,7 +320,6 @@ export const Food = () => {
             size={size?.getSizes}
             rating={rating}
             setRating={setRating}
-            handleChange={handleChange}
             onChangeSearch={handleChangeSearch}
             handleChangeFilter={handleChangeFilter}
             setName={setName}
@@ -333,6 +332,7 @@ export const Food = () => {
             //   Filtro de check
             handleChangeClick={handleChangeClick}
             handleCheckEnvioGratis={handleCheckEnvioGratis}
+            fetchMore={fetchMore}
             onChangeRange={onChangeRange}
             // Limpiar
             onClickClear={onClickClear}

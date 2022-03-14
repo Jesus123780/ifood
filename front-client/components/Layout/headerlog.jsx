@@ -60,7 +60,7 @@ export const HeaderMain = ({ menu, handleMenu }) => {
           <ItemHeader width='70%'>
             <InputSearch />
           </ItemHeader>
-          <ItemHeader media>
+          <ItemHeader display={'none'}>
             <div className='delivery-location' onClick={() => setModalLocation(!modalLocation)}>
               <button ><IconLocationMap color={PColor} size={20} /> {uLocationKnow ? uLocationKnow : !!pais ? `${pais?.cName} ${department?.dName} ${city?.cName}` : null}</button>
               <span className='sub-location'>{pais && `${pais?.cName} ${department?.dName} ${city?.cName}`}</span>
@@ -103,12 +103,11 @@ export const ItemHeader = styled.div`
   align-self: center;
    @media only screen and (max-width: 960px){
     width: ${({ width }) => width || '30%'};
-    ${props => props.media && css`display: none;`}
+    display: ${({ display }) => display};
     }
     
 `
 export const HeaderMainC = styled.header`
-    box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
     width: 100%;
     display: flex;
     height: 80px;

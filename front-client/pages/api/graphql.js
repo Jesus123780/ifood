@@ -13,8 +13,9 @@ const apolloServer = new ApolloServer({
     resolvers,
     typeDefs,
     introspection: true,
+    playground: process.env.NODE_ENV === 'production',
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground(), httpHeadersPlugin],
-    context: withSession(async ({ req, next, connection }) => {
+    context: withSession(async ({ req, res, next, connection }) => {
         if (connection) {
             // check connection for metadata
             return connection.context;
@@ -32,7 +33,7 @@ const apolloServer = new ApolloServer({
                 const User = await jwt.verify(token, process.env.AUTHO_USER_KEY)
                 return { req, setCookies: setCookies || [], setHeaders: setHeaders || [], User: User || {}, idComp, restaurant: restaurant || {} }
             }
-            return { req, setCookies: [], setHeaders: [], User: null || {}, idComp: null || {},  restaurant: restaurant || {}}
+            return { req, setCookies: [], setHeaders: [], User: null || {}, idComp: null || {}, restaurant: restaurant || {} }
 
         }
     }),

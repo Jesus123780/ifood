@@ -27,6 +27,11 @@ type MasterBanners {
   updateAt: DateTime 
 }
 
+type Response {
+    success: Boolean
+    message: String
+}
+
 "Entradas para el registro o actualización del perfil de paciente"
 input IMasterBanners{
   path: String 
@@ -47,4 +52,6 @@ type Query {
 type Mutation {
   setBanners(input: IMasterBanners): MasterBanners
   setPromoBanners(input: IPromoBanners): PromoBanners
+  deleteOneBannerPromo(bpId: ID, bpState: Int, path: String): Response
+  deleteOneBannerMaster(BannerId: ID, BannersState: Int, path: String): Response
 }

@@ -1,5 +1,6 @@
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { CLIENT_URL_BASE } from 'apollo/urls'
+import { PUSH_RECOMMENDED, PUSH_RECOMMENDED_PRODUCT_NAME } from 'gql/Recommendation'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -26,6 +27,12 @@ export default function HomeView() {
   const { dispatch, setAlertBox, state_product_card, handleMenu } = useContext(Context)
   const [registerShoppingCard] = useMutation(CREATE_SHOPPING_CARD)
   const [setRating] = useMutation(SET_RATING_STORE)
+  const [pushOneRecommendation] = useMutation(PUSH_RECOMMENDED, {
+    context: { clientName: "main" }
+  })
+  const [pushOneRecommendationProduct] = useMutation(PUSH_RECOMMENDED_PRODUCT_NAME, {
+    context: { clientName: "main" }
+  })
 
   const [showMore, setShowMore] = useState(100)
   const [dataCatProducts, setData] = useState([])
@@ -37,6 +44,8 @@ export default function HomeView() {
   const [getMinPrice, { data: dataMinPedido }] = useLazyQuery(GET_MIN_PEDIDO)
   const [getOneRating, { data: dataRating, loading: loadRating }] = useLazyQuery(GET_ONE_RATING_STORE)
   const [productFoodsOne, { data: dataOneProduct }] = useLazyQuery(GET_ONE_PRODUCTS_FOOD)
+  const { pId, getStore } = dataOneProduct?.productFoodsOne || {}
+  const { catStore } = getStore || {}
   const [ExtProductFoodsOptionalAll, { error: errorOptional, data: dataOptional }] = useLazyQuery(GET_EXTRAS_PRODUCT_FOOD_OPTIONAL)
   const [getCatProductsWithProductClient, { data: dataProductAndCategory, loading: loadCatPro }] = useLazyQuery(GET_ALL_CATEGORIES_WITH_PRODUCT, {
     fetchPolicy: 'network-only',
@@ -98,8 +107,13 @@ export default function HomeView() {
    * @action Obtiene un producto de DB  
    */
   const getOneProduct = food => {
+    const { pName } = food || {}
     SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state)
     productFoodsOne({ variables: { pId: food.pId } })
+    console.log(food)
+    pushOneRecommendation({ variables: { input: { carProId: catStore } } })
+    pushOneRecommendationProduct({ variables: { input: { productName: pName } } })
+    // HERE JESUS
     ExtProductFoodsOptionalAll({ variables: { pId: food.pId } })
   }
   const [filter, setFilter] = useState({ subOptional: [] })
@@ -239,7 +253,6 @@ export default function HomeView() {
     }
   })
   const [share, setShare] = useState(false)
-  const { pId } = dataOneProduct?.productFoodsOne || {}
   useEffect(() => {
     setShare(`${CLIENT_URL_BASE}${location.asPath.slice(1, -1)}?food${pId}`)
   }, [dataOneProduct, share])

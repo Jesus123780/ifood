@@ -23,7 +23,6 @@ export const Historial = ({ dataFav }) => {
         setVisibleMenu(true)
     }
     const { getOneStore } = dataFav
-    console.log(dataFav)
     return (
         <Container>
             <Container>

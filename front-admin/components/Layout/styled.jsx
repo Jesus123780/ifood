@@ -21,6 +21,7 @@ export const FooterComponent = styled.footer`
     }
 `
 export const Button = styled.button`
+    color: ${PColor};
 `
 export const ContentFooter = styled.footer`
     display: flex;

@@ -21,7 +21,7 @@ import { useStore } from '../../components/hooks/useStore'
 import { CLIENT_URL_BASE } from 'apollo/urls'
 moment.locale('SG');
 
-export const ListPedidos = ({ data }) => {
+export const ListPedidos = ({ data, fetchMore, setMore, more }) => {
     const moment = require('moment')
     const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
     const [modal, setModal] = useState(false)
@@ -32,6 +32,7 @@ export const ListPedidos = ({ data }) => {
         setModal(!modal)
         setDataModal(elem)
     }
+    // console.log(data)
     return (
         <div>
             <Card>
@@ -121,7 +122,7 @@ export const ListPedidos = ({ data }) => {
                     { name: 'Método de pago', justify: 'flex-center', width: '1fr' },
                     { name: 'Costo total', justify: 'flex-center', width: '1fr' },
                     { name: 'Numero de Entrega', justify: 'flex-center', width: '1fr' },
-                    { name: 'Cupon', justify: 'flex-center', width: '1fr' },
+                    { name: 'Numero', justify: 'flex-center', width: '1fr' },
                     { name: '', justify: 'flex-center', width: '1fr' },
                 ]}
                 labelBtn='Product'
@@ -146,9 +147,7 @@ export const ListPedidos = ({ data }) => {
                         <span> $ {numberFormat(x.totalProductsPrice)} </span>
                     </Item>
                     <Item>
-                        <CircleStatus onClick={() => handleOpenModal(x)} pulse={x.pSState !== 5} status={x.pSState}>
-                            <Tooltip>{x.pSState === 1 ? 'Aceptado' : x.pSState === 2 ? 'Pedido en proceso' : x.pSState === 3 ? 'listo para entrega' : x.pSState === 4 ? 'Pedido pagado (Concluido)' : 'Rechazado'}</Tooltip>
-                        </CircleStatus>
+                        {x.pSState === 1 ? 'Aceptado' : x.pSState === 2 ? 'Pedido en proceso' : x.pSState === 3 ? 'listo para entrega' : x.pSState === 4 ? 'Pedido pagado (Concluido)' : 'Rechazado'} 
                     </Item>
                     <Item>
                         <span> {i + 1}</span>
@@ -161,8 +160,20 @@ export const ListPedidos = ({ data }) => {
                 </Section>)}
             />
             <Action>
-                <RippleButton padding='10px' margin='30px 0'>Mas antiguos</RippleButton>
-                <RippleButton padding='10px' margin='30px 0'>Cargar Mas</RippleButton>
+                <RippleButton padding='10px' margin='30px 0' onClick={() => {
+                    setMore(more + 100)
+                    // getAllStoreAdmin()
+                    fetchMore({
+                        variables: { max: more, min: 0 },
+                        updateQuery: (prevResult, { fetchMoreResult }) => {
+                            if (!fetchMoreResult) return prevResult
+                            return {
+                                getAllPedidoStoreFinal: [...fetchMoreResult.getAllPedidoStoreFinal]
+
+                            }
+                        }
+                    })
+                }}>Cargar Mas</RippleButton>
             </Action>
             <CheckStatus
                 setModal={setModal}
@@ -179,7 +190,6 @@ export const CheckStatus = ({ setModal, modal, dataModal }) => {
     const { setAlertBox } = useContext(Context)
     const { pCodeRef, getAllPedidoStore, totalProductsPrice, pDatCre, locationUser } = dataModal || {}
     const dataLocation = locationUser && JSON.parse(locationUser) || {}
-    console.log(dataLocation)
     const { cName, country, dName, uLocationKnow } = dataLocation || {}
     // QUERIES
     const [changePPStatePPedido] = useMutation(CHANGE_STATE_STORE_PEDIDO, {
@@ -204,7 +214,7 @@ export const CheckStatus = ({ setModal, modal, dataModal }) => {
         })
     }
     const [dataStore, { loading: LoadingRes }] = useStore()
-    console.log(dataStore)
+
     return (
         <div>
             <AwesomeModal show={modal} onCancel={() => setModal(false)} onHide={() => setModal(false)} btnConfirm={false} header={false} footer={false} padding='20px' zIndex='9999' size='medium' >
@@ -246,7 +256,7 @@ export const CheckStatus = ({ setModal, modal, dataModal }) => {
                                             <Flex>
                                                 <Text margin='12px 0' size='.875rem' color={APColor}>$ {numberFormat(p?.getAllShoppingCard?.productFood.ProPrice)}</Text>
                                                 <Text margin='12px 0 0 5px' size='14px' color={PLColor} style={{ textDecoration: 'line-through' }} >$ {numberFormat(p?.getAllShoppingCard?.productFood.ProDescuento)}</Text>
-                                            </Flex>{console.log(p)}
+                                            </Flex>
                                             <DisRestaurant>
                                                 {dataStore && <Link
                                                     passHref

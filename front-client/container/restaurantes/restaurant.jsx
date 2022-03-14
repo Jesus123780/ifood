@@ -1,27 +1,37 @@
-import React, { useState } from 'react'
-import { RippleButton } from '../../components/Ripple'
-import { CardProduct, ContainerCardProduct, ContainerFilter, Content, ContentStores, H2, ItemCategory, ItemFilter, ItemWrapper, List, MerchantListWrapper } from './styled';
+import React from 'react'
+import { Content, ItemWrapper, MerchantListWrapper } from './styled';
 import Link from 'next/link'
 import Image from 'next/image'
-import { IconLove, IconRate } from '../../public/icons';
+import { IconLove, IconLoveFill, IconRate } from '../../public/icons';
 import { PVColor, WColor } from '../../public/colors';
-export const ListRestaurant = ({ data, catStoreId, setShowMore }) => {
+import { PUSH_RECOMMENDED } from 'gql/Recommendation';
+import { useMutation } from '@apollo/client';
+
+export const ListRestaurant = ({ data, catStoreId, like }) => {
+  const [pushOneRecommendation] = useMutation(PUSH_RECOMMENDED, {
+    context: { clientName: "main" }
+  })
   return (
     <Content>
       <MerchantListWrapper>
-        {data?.map(x => {
-          const nameStore = x.storeName?.replace(/\s/g, '-')
+        {data && data?.map(x => {
+          const nameStore = x.storeName || x?.getOneStore?.storeName?.replace(/\s/g, '-').toLocaleLowerCase()
+          let city = like && x?.getOneStore?.city?.cName.toLocaleLowerCase()
           let suma = 0
-          const avg = x?.getAllRatingStar?.map((x, index) => (suma += x.rScore)/(index+1))
+          const avg = x?.getAllRatingStar?.map((x, index) => (suma += x.rScore) / (index + 1))
           return (
-            <Link key={x.idStore} passHref shallow
+            <Link
+            
+              key={x.idStore || x.fIStoreId}
+              passHref
+              shallow
               href={catStoreId ? {
-                pathname: `/delivery/${x?.city?.cName?.toLocaleLowerCase()}-${x?.department?.dName?.toLocaleLowerCase()}/${nameStore}/${x.idStore}`,
+                pathname: `/delivery/${city || x?.city?.cName?.toLocaleLowerCase()}-${x?.department?.dName?.toLocaleLowerCase()}/${nameStore}/${x.idStore}`,
                 query: { categories: catStoreId },
-              } : `/delivery/${encodeURIComponent(x?.city?.cName?.toLocaleLowerCase())}-${encodeURIComponent(x?.department?.dName?.toLocaleLowerCase())}/${encodeURIComponent(nameStore)}/${x?.idStore}`}
+              } : `/delivery/${encodeURIComponent(city || x?.city?.cName?.toLocaleLowerCase())}-${encodeURIComponent(x?.department?.dName || x?.getOneStore?.department?.dName?.toLocaleLowerCase())}/${encodeURIComponent(nameStore)}/${x?.idStore}`}
             >
               <a>
-                <ItemWrapper key={x.idStore}>
+                <ItemWrapper key={x.idStore} onClick={() => pushOneRecommendation({ variables: { input: { id: '', carProId: !like ? x.catStore : x.getOneStore.catStore } } })} >
                   <div>
                     <Image
                       className='store_image'
@@ -29,21 +39,21 @@ export const ListRestaurant = ({ data, catStoreId, setShowMore }) => {
                       height={100}
                       src={'/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
                       alt="Picture of the author"
-                      blurDataURL="data:..." 
+                      blurDataURL="data:..."
                       placeholder="blur" // Optional blur-up while loading
                     />
                   </div>
                   <div>
-                    <h2 className="Name">{x.storeName}</h2>
-                   {avg.length > 0 && <span className="store_info"><IconRate color={WColor} size={15} /> {avg[avg.length-1]?.toFixed(1)}</span>}
+                    <h2 className="Name">{x?.getOneStore?.storeName || x.storeName}</h2>
+                    {avg?.length > 0 && <span className="store_info"><IconRate color={WColor} size={18} /> {avg[avg.length - 1]?.toFixed(1)}</span>}
                   </div>
+                  {x.fState === 1 && <IconLoveFill color={PVColor} size={20} />}
                 </ItemWrapper>
               </a>
             </Link>
           )
         })}
       </MerchantListWrapper>
-     {data?.length > 0 && <RippleButton onClick={(z) => setShowMore(z + 100)} widthButton='100%'>Ver más</RippleButton>}
     </Content>
   );
 };

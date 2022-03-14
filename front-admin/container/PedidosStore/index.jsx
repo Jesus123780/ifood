@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { gql, useQuery, useMutation } from '@apollo/client'
+import { gql, useQuery, useMutation, useLazyQuery } from '@apollo/client'
 import { GET_ALL_PEDIDOS } from './queries'
 import { CardPedido, Text } from './styled'
 import { Context } from 'context/Context'
@@ -10,15 +10,20 @@ import { ListPedidos } from './ListPedidos'
 import Tabs from 'components/Tabs'
 
 const PedidosStore = () => {
-  const { data } = useQuery(GET_ALL_PEDIDOS, {
+  const [more, setMore] = useState(100)
+  const [getAllPedidoStoreFinal, { data, fetchMore }] = useLazyQuery(GET_ALL_PEDIDOS, {
+    notifyOnNetworkStatusChange: true,
+    refetchWritePolicy: 'merge',
     pollInterval: 60000,
     fetchPolicy: 'cache-and-network',
+    nextFetchPolicy: 'cache-first',
     onError: (e) => console.log(e),
     onCompleted: (data) => console.log(data)
   })
   const { setAlertBox, setCountPedido, countPedido } = useContext(Context)
   useEffect(() => {
     setCountPedido(data?.getAllPedidoStoreFinal?.length || 0)
+    getAllPedidoStoreFinal()
   }, [data])
 
   return (
@@ -27,7 +32,7 @@ const PedidosStore = () => {
         <LocationName />
         <Tabs width={['33.33%', '33.33%', '33.330%']} >
           <Tabs.Panel label={`Pedidos`}>
-            <ListPedidos data={data?.getAllPedidoStoreFinal} />
+            <ListPedidos setMore={setMore} more={more} data={data?.getAllPedidoStoreFinal} fetchMore={fetchMore} />
           </Tabs.Panel>
           <Tabs.Panel label={``}>
 

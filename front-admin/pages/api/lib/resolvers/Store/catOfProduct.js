@@ -6,7 +6,6 @@ const { Op } = require('sequelize')
 
 export const updatedProducts = async (_, { input }, ctx) => {
     const id = ctx.User.id || ''
-    console.log(input)
     // const id = 'NjUzMDEzMTU1NjQzNjM5NTAwMA=='
     const { idStore } = input
     // console.log(input);
@@ -103,6 +102,21 @@ export const deleteCatOfProducts = async (_, { idPc, pState }, ctx) => {
         return {
             success: true,
             message: 'Update'
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: 'Error'
+        }
+
+    }
+}
+export const deleteCatFinalOfProducts = async (_, { idPc }, ctx) => {
+    try {
+        await catProducts.destroy({ where: { carProId: deCode(idPc) } })
+        return {
+            success: true,
+            message: 'Borrado'
         }
     } catch (error) {
         return {
@@ -227,6 +241,7 @@ export default {
     MUTATIONS: {
         updatedProducts,
         updatedCatWithProducts,
+        deleteCatFinalOfProducts,
         deleteCatOfProducts,
     }
 }

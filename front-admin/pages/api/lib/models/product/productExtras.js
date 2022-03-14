@@ -2,6 +2,7 @@ const Sequelize = require('sequelize')
 const connect = require('../../db')
 const sequelize = connect()
 const { enCode } = require('../../utils/util')
+const Store = require('../Store/Store')
 const productModelFood = require('./productFood')
 
 sequelize.sync()
@@ -22,6 +23,17 @@ const ExtraProductModel = sequelize.define('extrasproducts', {
         references: {
             model: productModelFood,
             key: 'pId'
+        },
+        get(x) { return enCode(this.getDataValue(x)) }
+    },
+    idStore: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        references: {
+            model: Store,
+            key: 'idStore'
         },
         get(x) { return enCode(this.getDataValue(x)) }
     },

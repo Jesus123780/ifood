@@ -5,12 +5,11 @@ import Image from 'next/image';
 import Link from 'next/link'
 import styled from "styled-components";
 import { GET_ALL_CAT_STORE } from '../queries';
-import { SFVColor } from "../../../public/colors";
+import { PColor, SFVColor } from "../../../public/colors";
 export const Categories = () => {
   const { data: getCatStore } = useQuery(GET_ALL_CAT_STORE)
-
   return (
-    <div>
+    <Container>
       <List>
         {getCatStore?.getAllCatStore?.map(cat => {
           const nameCat = cat?.cName?.replace(/\s/g, '-')?.toLowerCase();
@@ -38,10 +37,26 @@ export const Categories = () => {
           )
         })}
       </List>
-    </div>
+      <Link href={'/categorias'}>
+        <Anchor>
+          Ver todas
+        </Anchor>
+      </Link>
+    </Container>
   )
 }
 
+export const Anchor = styled.a`
+  color: ${PColor};
+  font-size: 12px;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+`
+export const Container = styled.div`
+  text-align: end;
+`
 export const ItemCategory = styled.div`
     width: 100%;
     border: 1px solid ${SFVColor};
@@ -58,7 +73,7 @@ export const List = styled.div`
     place-content: space-around;
     overflow: hidden;
     grid-template-columns: 9% repeat(auto-fill, 9%);
-    margin: 0 30px 30px auto;
+    /* margin: 0 30px 30px auto; */
    
     .title-cat {
         margin-top: 10px;

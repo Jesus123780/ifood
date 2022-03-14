@@ -94,6 +94,8 @@ type Query {
     productsOne(pId: ID, cId: ID, dId: ID, ctId: ID ): Product
     productsAll(pId: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int,  gender: [String]  desc: [String], categories: [ID]  ): [Product]
     productsLogis(pId: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int  ): [Product]
+    productFoodsAllRecommended(pId: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int,  gender: [String]  desc: [String], categories: [ID]  ): [ProductFood]
+
 }
 
 

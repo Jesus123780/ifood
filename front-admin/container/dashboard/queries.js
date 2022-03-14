@@ -27,6 +27,15 @@ export const DELETE_ONE_CAT_PRODUCTS = gql`
   }
 }
 `
+export const DELETE_ONE_CAT_PRODUCTS_FINAL = gql`
+
+mutation  deleteCatFinalOfProducts($idPc: ID){
+  deleteCatFinalOfProducts(idPc: $idPc){
+    success
+    message
+  }
+}
+`
 export const DELETE_EXTRA_PRODUCTS = gql`
   mutation  deleteextraproductfoods($id: ID, $state: Int){
     deleteextraproductfoods(id: $id, state: $state){

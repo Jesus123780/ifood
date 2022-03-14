@@ -1199,3 +1199,14 @@ var threeMonthsAgo = moment().subtract(3, 'months');
 console.log(threeMonthsAgo.format()); // 2015-10-13T09:37:35+02:00
 var d = new Date(); d.setMonth(d.getMonth() - 3);
 console.log(d);
+
+const BASE_URL = 'http://localhost:3000/'
+export const COOKIE_OPTIONS = {
+    // Get part after // and before : (in case port number in URL)
+    domain: BASE_URL.split('//')[1].split(':')[0],
+    httpOnly: true,
+    path: '/',
+    sameSite: true,
+    // secure: !!process.env.BASE_URL.includes('https')
+    secure: false
+}

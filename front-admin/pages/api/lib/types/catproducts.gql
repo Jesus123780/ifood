@@ -58,4 +58,5 @@ type Mutation {
      updatedProducts(input: InputCatProducts): AuthPayload
      updatedCatWithProducts(input: LineItemsIdPro): AuthPayload
      deleteCatOfProducts(idPc: ID!, pState: Int): AuthPayload
+     deleteCatFinalOfProducts(idPc: ID): AuthPayload
 }

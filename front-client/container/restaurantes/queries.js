@@ -8,6 +8,7 @@ query getAllStoreInStore($search: String, $min: Int, $max: Int){
     id
     dId
     ctId
+    catStore
     neighborhoodStore
     Viaprincipal
     storeOwner

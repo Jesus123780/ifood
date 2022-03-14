@@ -13,32 +13,33 @@ import withSession from '../../apollo/session'
 import { decodeToken } from '../../utils'
 import { GET_ALL_RESTAURANT } from '../../container/restaurantes/queries'
 import { GET_MESSAGES } from '../../gql/test'
+import { RippleButton } from 'components/Ripple'
+import { FavoriteStore } from 'container/favoriteStore'
+import { ItMayInterestYou, LastRecommended } from 'container/LastRecomendation'
 
-export default function RestaurantHome() {
+export default function RestaurantHome({ ID_CATEGORIE, PRODUCT_NAME_COOKIE }) {
   const { data } = useQuery(GET_ONE_STORE)
   const { data: dataEy } = useQuery(GET_ALL_COUNTRIES)
   const { data: dataM } = useQuery(GET_MESSAGES, {
     context: { clientName: "subscriptions" }
   });
-  console.log(dataM, 'hola')
   const NEW_MESSAGE = gql`
   subscription {
   numberIncremented
-}
+  }
   `
   const [dataStore, setData] = useState([])
   const [showMore, setShowMore] = useState(100)
-  const [getAllStoreInStore, { data: dataListStore }] = useLazyQuery(GET_ALL_RESTAURANT)
-  /* Filtro  */
-  const [searchFilter, setSearchFilter] = useState({ gender: [], desc: [], speciality: [] })
-  const [filter, setFilter] = useState({ gender: [], desc: [], speciality: [] })
+  const [getAllStoreInStore, { data: dataListStore, fetchMore }] = useLazyQuery(GET_ALL_RESTAURANT, {
+    fetchPolicy: 'cache-and-network',
+    notifyOnNetworkStatusChange: true,
+    nextFetchPolicy: 'cache-first',
+    refetchWritePolicy: 'merge',
+  })
   useEffect(() => {
-    // setData([data?.getAllStoreInStore])
-  }, [searchFilter])
-  useEffect(() => {
-    getAllStoreInStore({ variables: { max: showMore } })
-  }, [searchFilter, showMore])
-  // ********************************LIST RESTAURANT FIN********************************
+    dataListStore?.getAllStoreInStore && setData([...dataListStore?.getAllStoreInStore])
+    getAllStoreInStore()
+  }, [dataStore])
   return (
     <div className={styles.container}>
       <Head>
@@ -57,25 +58,46 @@ export default function RestaurantHome() {
           data={dataListStore?.getAllStoreInStore || []}
         />
       </Section>
+      {<RippleButton
+        onClick={() => {
+          setShowMore(showMore + 100)
+          // getAllStoreInStore()
+          fetchMore({
+            variables: { max: showMore, min: 0 },
+            updateQuery: (prevResult, { fetchMoreResult }) => {
+              if (!fetchMoreResult) return prevResult
+              return {
+                // getAllStoreInStore: [...prevResult.getAllStoreInStore],
+                getAllStoreInStore: [...fetchMoreResult.getAllStoreInStore]
+
+              }
+            }
+          })
+        }}
+        widthButton='100%'>Ver más</RippleButton>}
+      <FavoriteStore />
+      <LastRecommended ID_CATEGORIE={ID_CATEGORIE} />
+      <ItMayInterestYou PRODUCT_NAME_COOKIE={PRODUCT_NAME_COOKIE} />
     </div>
   )
 }
 
 export const getServerSideProps = withSession(async function ({ req, res }) {
   const user = req?.session?.get('user')
+  const { RECOMMENDATION_COOKIE, PRODUCT_NAME_COOKIE } = req.cookies || {}
   if (!user) {
     res.setHeader('location', '/entrar')
     res.statusCode = 302
     res.end()
     return { props: {} }
   }
-  const { token } = user || {}
-  const data = decodeToken(token)
-  const { id } = data || {}
   if (!req.cookies[process.env.SESSION_NAME]) return { redirect: { destination: '/entrar' } }
 
   return {
-    props: {}
+    props: {
+      ID_CATEGORIE: RECOMMENDATION_COOKIE || null,
+      PRODUCT_NAME_COOKIE: PRODUCT_NAME_COOKIE || null,
+    }
   }
 }
 )

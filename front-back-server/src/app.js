@@ -31,6 +31,12 @@ import path from 'path'
     //     }
     // })
     // app.use(graphqlUploadKoa({ maxFileSize: 10000000, maxFiles: 10 }))
+    // Configure multer to accept a single file per post
+    // const storage = multer.memoryStorage();
+    // app.use(multer({
+    //     storage,
+    // }).single('file'));
+    // app.use(multer({dest: path.join(__dirname, '../public/img/uploads')}).single('image'));
     const httpServer = createServer(app);
     const schema = makeExecutableSchema({ typeDefs, resolvers });
     const server = new ApolloServer({

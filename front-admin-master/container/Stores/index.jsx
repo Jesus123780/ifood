@@ -40,7 +40,7 @@ export const Stores = () => {
     getAllStoreAdmin({
       variables: {
         cId: Location.countryId, dId: Location.department, ctId: Location.city, max: more
-      }, 
+      },
     })
   }, [Location])
   const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
@@ -114,9 +114,11 @@ export const Stores = () => {
             <span> {x?.department?.dName}</span>
             <span> {x?.pais?.cName}</span>
           </Item>
-          <Item onClick={() => handleState({ idStore: x.idStore, uState: x.uState })}>
-            <span> $ Cambiar estado</span>
-          </Item>
+          <button onClick={() => handleState({ idStore: x.idStore, uState: x.uState })}>
+            <Item >
+              <span> Cambiar estado</span>
+            </Item>
+          </button>
           <Item>
             <ItemStatus active={x.uState == 1}>
               <span> {x.uState == 1 ? 'PENDIENTE' : 'ACTIVO'}</span>

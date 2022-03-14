@@ -3,7 +3,6 @@ import React from 'react'
 
 export const Login = ({ providers }) => {
     const { data, status } = useSession()
-    console.log(data)
     return (
         <div>
             {Object.values(providers).map((provider) => (

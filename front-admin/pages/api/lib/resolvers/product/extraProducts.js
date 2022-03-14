@@ -29,7 +29,6 @@ export const deleteextraproductfoods = async (_root, { state, id }, context) => 
 
 }
 export const DeleteExtFoodSubsOptional = async (_root, { state, opSubExPid }, _context) => {
-    console.log(state, opSubExPid, 0, 'Hola mundo')
     try {
         await productsSubOptionalExtra.update({ state: state === 1 ? 0 : 1 }, { where: { opSubExPid: deCode(opSubExPid) } })
         return {
@@ -138,11 +137,12 @@ export const ExtProductFoodsOptionalOne = async (root, { pId }, context, info) =
     }
 }
 
-export const updateExtraInProduct = async (_root, { input }) => {
+export const updateExtraInProduct = async (_root, { input }, context) => {
     const { pId } = input || {}
     try {
         await ExtraProductModel.create({
             ...input,
+            idStore: deCode(context.restaurant),
             pId: deCode(pId)
         })
         return input
@@ -175,8 +175,10 @@ export const ExtProductFoodsAll = async (root, args, context, info) => {
                         // // get user
                         // id: deCode(context.User.id),
                         // // ID Productos
-                        pId: pId ? deCode(pId) : { [Op.gt]: 0 },
                         // pId: deCode(pId),
+                        // pId: pId ? deCode(pId) : { [Op.gt]: 0 },
+                        ...((pId) ? { pId: deCode(pId) } : {}),
+                        idStore: deCode(context.restaurant),
                         // // Productos state
                         state: { [Op.gt]: 0 },
                     }
@@ -206,8 +208,9 @@ export const ExtProductFoodsOptionalAll = async (root, args, context, info) => {
             where: {
                 [Op.or]: [
                     {
-                        pId: deCode(pId),
+                        ...((pId) ? { pId: deCode(pId) } : {}),
                         state: { [Op.gt]: 0 },
+                        ...((context.restaurant) ? { idStore: deCode(context.restauran) } : {}),
                     }
                 ]
             }, limit: [min || 0, max || 100], order: [['OptionalProName', 'DESC']]

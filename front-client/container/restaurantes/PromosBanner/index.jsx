@@ -27,7 +27,6 @@ export const PromosBanner = () => {
       dispatch({ type: 'ADD_PRODUCT', payload: elem })
     }
   }
-
   return (
     <Content>
       <ContainerCardProduct>
@@ -36,7 +35,9 @@ export const PromosBanner = () => {
             <SwiperSlide
               style={{ margin: '20px' }}
               key={banner.BannerId}>
-              <Link href={`/restaurantes/promos/${banner.name.replace(/\s/g, '-')}/${banner.BannerId}`}>
+              <Link
+                prefetch={true}
+                href={`/restaurantes/promos/${banner.name.replace(/\s/g, '-')}/${banner.BannerId}`}>
                 <a>
                   <BannerPromo color={color} onMouseOut={() => setActiveColor('red')} onMouseOver={() => setActiveColor('blue')} key={banner.pId}>
                     <Img src={banner.path} alt={banner.description} />
@@ -56,12 +57,12 @@ export const PromoBannerStores = () => {
     context: { clientName: "admin-server" }
   })
   const chartColor = ['rgba(1,25,71, 0.0001)', 'rgb(1,25,71)', 'rgb(255 0 0 / 0%)']
-// const final = 
+  // const final = 
   const final = `0deg, ${chartColor[(Math.random() * (3 - 0) + 0).toFixed(0)]} 0%, ${chartColor[(Math.random() * (3 - 0) + 0).toFixed(0)]} 100%`
-
+  const dataFinal = datapro?.getAllPromoBanners?.slice(0, 3)
   return (
     <ContainerSliderPromo>
-      {datapro && datapro?.getAllPromoBanners?.map(pb => (
+      {datapro && dataFinal?.map(pb => (
         <CardPromo final={final} key={pb.bpId}>
           <ImageBannerPromo src={pb.path} alt={pb.description} />
           <div className="goto-action">

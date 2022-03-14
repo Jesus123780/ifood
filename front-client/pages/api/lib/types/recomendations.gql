@@ -1,0 +1,23 @@
+
+
+type RecommendationType {
+    id: ID
+    carProId: ID
+}
+# Recommendation Type
+
+# Recommendation Input
+input RecommendationInput {
+    id: ID
+    carProId: ID,
+    productName: String
+}
+# Query
+type Query {
+  getOneRecommendation(idComp: ID): [RecommendationType]
+}
+# Mutations
+type Mutation {
+  pushOneRecommendation(input: RecommendationInput): RecommendationType
+  pushOneRecommendationProduct(input: RecommendationInput): RecommendationType
+}

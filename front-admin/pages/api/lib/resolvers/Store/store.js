@@ -150,7 +150,7 @@ export const getAllStoreInStore = async (root, args, context, _info) => {
                 'id',
                 'dId',
                 'ctId',
-                // 'catStore',
+                'catStore',
                 'neighborhoodStore', 'Viaprincipal',
                 'storeOwner', 'storeName',
                 'emailStore', 'storePhone',

@@ -8,7 +8,6 @@ import styles from '../styles/Home.module.css'
 
 export default function HomeView() {
   const { data: dataFav } = useQuery(GET_ALL_FAV_STORE)
-  console.log(dataFav)
   return (
     <div >
       <Head>

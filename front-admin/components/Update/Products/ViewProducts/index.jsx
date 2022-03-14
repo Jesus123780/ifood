@@ -49,12 +49,6 @@ export const ViewProducts = props => {
                         <Info color='#000' margin='0'>{36}</Info> <Info margin='0 10px'> Opiniones </Info>
                     </ContentRate>
                     <Price> $ {price ? numberFormat(price) : 'Precio del producto'}</Price>
-                    <Discount discount={discount} > {/* $ {desc ? numberFormat(desc) : '1.000.000'}, */} El descuento del producto es: {intPorcentaje}% off</Discount>
-                    <Discount discount={discount} > Antes: {price} ahora: {price - intPorcentaje}</Discount>
-                    <Discount discount={discount} >Total: {price - intPorcentaje} </Discount>
-                    <Button>
-                        <Info>Ver los medios de pago</Info>
-                    </Button>
                     <Info size='17px' color={'#1f4e96'}>Compra internacional</Info>
                     <Info size='15px' color={APColor}>Sin costos de importación</Info>
                     <Info size='15px' color={'#000'}>Cantidad {PCant ? numberFormat(PCant) : 50}</Info>

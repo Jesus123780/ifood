@@ -10,6 +10,7 @@ import { GET_ALL_RATING_START_STORE, GET_ALL_VISITOR_STORE, GET_MIN_PEDIDO } fro
 export const LastedStatistic = ({ idStore }) => {
   const [getAllRatingStar, { data: dataStartStore }] = useLazyQuery(GET_ALL_RATING_START_STORE)
   const [getAllVisitorStore, { data: VISITOR }] = useLazyQuery(GET_ALL_VISITOR_STORE)
+  const [getMinPrice, { data: dataMinPedido }] = useLazyQuery(GET_MIN_PEDIDO)
   const [stars, setStars] = useState(null)
   useEffect(() => {
     getAllRatingStar()
@@ -20,7 +21,6 @@ export const LastedStatistic = ({ idStore }) => {
     !!avg && setStars((avg[avg.length - 1])?.toFixed(1))
 
   }, [dataStartStore, dataMinPedido, VISITOR])
-  const [getMinPrice, { data: dataMinPedido }] = useLazyQuery(GET_MIN_PEDIDO)
   return (
     <div>
       <div>
