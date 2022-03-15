@@ -63,8 +63,9 @@ export const deleteOneBannerMaster = async (_, { BannerId, BannersState, path },
 
     }
 }
-const saveImages = async ({ filename, mimetype, fileStream, state }) => {
-    const path = state === 2 ? `public/promo/${filename}` : `public/${filename}`
+export const saveImages = async ({ filename, mimetype, fileStream, state }) => {
+    console.log(state)
+    const path = state === 2 ? `public/promo/${filename}` : state === 3 ? `public/logo/${filename}` : `public/${filename}`
     await fileStream.pipe(fs.createWriteStream(path))
     return path
 }

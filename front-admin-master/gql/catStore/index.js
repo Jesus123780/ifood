@@ -17,6 +17,7 @@ getAllCatStore{
   catStore
   idUser
   cName
+  cPathImage
   cState
   cDatCre
   cDatMod

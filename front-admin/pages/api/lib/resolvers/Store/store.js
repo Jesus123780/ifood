@@ -56,7 +56,7 @@ export const oneCategoriesStore = async (parent, _args, _context, info) => {
     try {
         // const attributes = getAttributes(CatStore, info)
 
-        const data = CatStore.findOne({ attributes: ['catStore'], where: { catStore: deCode(parent.catStore) } })
+        const data = CatStore.findOne({ attributes: ['catStore', 'cName'], where: { catStore: deCode(parent.catStore) } })
         return data
     } catch (e) {
         console.log(e)

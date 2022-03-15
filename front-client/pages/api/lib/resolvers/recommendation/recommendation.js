@@ -21,7 +21,6 @@ const pushOneRecommendation = async (_parent, { input }, { setCookies }) => {
 const pushOneRecommendationProduct = async (_parent, { input }, { setCookies }) => {
     try {
         const { productName } = input || {}
-        console.log(productName)
         const refreshTokenExpiry = new Date(Date.now() + parseInt(process.env.REFRESH_TOKEN_EXPIRY) * 1000)
         setCookies.push({
             name: process.env.PRODUCT_NAME_COOKIE,

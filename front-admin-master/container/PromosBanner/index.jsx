@@ -23,7 +23,6 @@ export const PromosBanner = () => {
   const [deleteOneBannerMaster] = useMutation(DELETE_BANNERS_MASTER, {
     context: { clientName: "admin-server" }
   })
-  console.log(data?.getAllMasterBanners)
   return (
     <Content>
       <ContainerCardProduct>

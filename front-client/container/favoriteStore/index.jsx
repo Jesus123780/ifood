@@ -1,9 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-// import { DropdownMenu } from '../dropdown-menu';
 import { Container/* , Card  */, Title, Paragraph } from './styled';
-// import useFullscreenMode from '../hooks/useFullScreenMode';
-// import { InputTags } from '../InputTagsOne';
-// import { Rate } from '../Rate';
 import { numberFormat, numberFormatM } from '../../utils';
 import Link from 'next/link'
 import { DropdownMenu } from '../../components/dropdown-menu';
@@ -22,6 +18,7 @@ export const FavoriteStore = () => {
     const { data: dataFav } = useQuery(GET_ALL_FAV_STORE)
     return (
         <Container>
+            <Title>Tus restaurantes Favoritos</Title>
             <ListRestaurant
                 like={true}
                 data={dataFav?.getFavorite || []}

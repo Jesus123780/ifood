@@ -13,6 +13,11 @@ query getAllStoreInStore($search: String, $min: Int, $max: Int){
     Viaprincipal
     storeOwner
     storeName
+    cateStore{
+      catStore
+      cName
+      
+    }
     emailStore
     storePhone
     socialRaz
@@ -174,6 +179,7 @@ query getAllCatStore{
 getAllCatStore{
   catStore
   idUser
+  cPathImage
   cName
   cState
   cDatCre

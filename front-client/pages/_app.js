@@ -7,7 +7,6 @@ import { GlobalStyle } from '../public/styles/GlobalStyle'
 import '../public/styles/App.css'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
 function MyApp({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps)
   return (

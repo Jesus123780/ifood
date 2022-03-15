@@ -11,6 +11,7 @@ export const ListRestaurant = ({ data, catStoreId, like }) => {
   const [pushOneRecommendation] = useMutation(PUSH_RECOMMENDED, {
     context: { clientName: "main" }
   })
+  console.log(data)
   return (
     <Content>
       <MerchantListWrapper>
@@ -33,7 +34,7 @@ export const ListRestaurant = ({ data, catStoreId, like }) => {
               <a>
                 <ItemWrapper key={x.idStore} onClick={() => pushOneRecommendation({ variables: { input: { id: '', carProId: !like ? x.catStore : x.getOneStore.catStore } } })} >
                   <div>
-                    <Image
+                    {/* <Image
                       className='store_image'
                       width={100}
                       height={100}
@@ -41,11 +42,12 @@ export const ListRestaurant = ({ data, catStoreId, like }) => {
                       alt="Picture of the author"
                       blurDataURL="data:..."
                       placeholder="blur" // Optional blur-up while loading
-                    />
+                    /> */}
+                    <img src={x.Image} className='store_image' />
                   </div>
                   <div>
                     <h2 className="Name">{x?.getOneStore?.storeName || x.storeName}</h2>
-                    {avg?.length > 0 && <span className="store_info"><IconRate color={WColor} size={18} /> {avg[avg.length - 1]?.toFixed(1)}</span>}
+                    { <span className="store_info">{x?.cateStore?.cName || x.getOneStore?.cateStore?.cName}   {avg?.length > 0 && <><IconRate color={WColor} size={18} /> {avg[avg.length - 1]?.toFixed(1)}</>} </span>}
                   </div>
                   {x.fState === 1 && <IconLoveFill color={PVColor} size={20} />}
                 </ItemWrapper>

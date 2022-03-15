@@ -246,3 +246,129 @@ viewBox="0 0 80 80" >
        c3.337,3.312,7.146,4.954,11.139,4.954c4.889,0,10.053-2.462,14.963-7.337l15.897-15.77C78.03,29.083,80,24.362,80,19.338
        C80,14.316,78.03,9.595,74.454,6.044z"/>
 </svg>
+
+export const IconVenezuela = ({ style = {}, size }) => <svg width={size} height={size} style={style} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 120">
+    <g id="s" transform="translate(0,-36)">
+        <g id="f">
+            <g id="t">
+                <path d="M0,-5V0H3z" fill="#fff" transform="rotate(18,0,-5)" id="o" />
+                <use transform="scale(-1,1)" />
+            </g>
+            <use href="#t" transform="rotate(72)" />
+        </g>
+        <use href="#t" transform="rotate(-72)" />
+        <use href="#f" transform="rotate(144)" />
+    </g>
+    <path d="M0,0H180V120H0z" fill="#cf142b" />
+    <path d="M0,0H180V80H0z" fill="#00247d" />
+    <path d="M0,0H180V40H0z" fill="#ffcc00" />
+    <g transform="translate(90,84)">
+        <g id="s4">
+            <g id="s2">
+                <use href="#s" transform="rotate(10)" />
+                <use href="#s" transform="rotate(30)" />
+            </g>
+            <use href="#s2" transform="rotate(40)" />
+        </g>
+        <use href="#s4" transform="rotate(-80)" />
+    </g>
+</svg>
+// Icono  de Paraguay
+export const IconParaguay = ({ style = {}, size }) => <svg width={size} height={size} style={style} version="1.1" id="svg2" x="0px" y="0px" viewBox="0 0 600 330" >
+    <rect id="rect4" fill='#0038A8' width="600" height="330" />
+    <rect id="rect6" fill='#D52B1E' width="600" height="220" />
+    <rect id="rect8" fill='#fff' width="600" height="110" />
+    <path id="path2542" fill='#fff' stroke='#000000' strokeWidth='1.8429' strokeMiterlimit='10' d="M341.8,165c0,23.1-18.7,41.8-41.8,41.8c-23.1,0-41.8-18.7-41.8-41.8c0-23.1,18.7-41.8,41.8-41.8
+C323.1,123.2,341.8,141.9,341.8,165z" />
+    <path id="path2550" d="M326.1,164.9c0,14.4-11.7,26.1-26.1,26.1s-26.1-11.7-26.1-26.1c0-14.4,11.7-26,26.1-26
+S326.1,150.5,326.1,164.9z" />
+    <path id="path2554" fill='#FEDF00' stroke='#000000' strokeWidth='0.3013' d="M300,155.5l2.2,6.3l6.6,0.1l-5.3,4l1.9,6.3l-5.5-3.8l-5.5,3.8l1.9-6.3l-5.3-4l6.6-0.1L300,155.5z
+" />
+</svg>
+// Icono  de Brazil
+export const IconBrazil = ({ style = {}, size }) => <svg width={size} height={size} style={style} version="1.0" viewBox="-2100 -1470 4200 2940">
+    <rect y="-50%" x="-50%" height="100%" fill="#009b3a" width="100%" />
+    <path d="m-1743 0 1743 1113 1743-1113-1743-1113z" fill="#fedf00" />
+    <circle r="735" fill="#002776" />
+</svg>
+// Icono  de Brazil
+export const IconCostaRica = ({ style = {}, size }) => <svg width={size} height={size} style={style} viewBox="0 0 10 6">
+    <path d="M0,0h10v6H0z" width={size} height={size} fill="#002b7f" />
+    <path d="M0,1h10v4H0z" width={size} height={size} fill="#fff" />
+    <path d="M0,2h10v2H0z" width={size} height={size} fill="#ce1126" />
+</svg>
+// Icono  de Brazil
+export const IconColombia = ({ style = {}, size }) => <svg width={size} height={size} style={style} version="1.1" id="Capa_1" x="0px" y="0px"
+    viewBox="0 0 450 300">
+    <rect fill='#CE1126' width="450" height="300" />
+    <rect fill='#003893' width="450" height="225" />
+    <rect fill='#FCD116' width="450" height="150" />
+</svg>
+// Icono  de Cuba
+export const IconCuba = ({ style = {}, size }) => <svg width={size} height={size} style={style} version="1.1" id="Layer_1" x="0px" y="0px"
+    viewBox="0 0 64 42" >
+
+    <path id="Rounded_Rectangle_7_copy_1_" fill='#0038A8' d="M5.8,0h52.3C61.4,0,64,2.6,64,5.7v30.6c0,3.2-2.6,5.7-5.8,5.7H5.8
+C2.6,42,0,39.4,0,36.3V5.7C0,2.6,2.6,0,5.8,0z"/>
+    <rect y="24.9" fill='#fff' width="64" height="8.4" />
+    <rect y="8.4" fill='#fff' width="64" height="8.4" />
+    <path fill='#CF142B' d="M2.1,40.7L32.9,21L2.1,1.3C0.8,2.4,0,4,0,5.7v30.6C0,38,0.8,39.6,2.1,40.7z" />
+    <polygon fill='#fff' points="11.7,14.8 13.3,19.5 18.4,19.5 14.3,22.4 15.8,27.2 11.7,24.2 7.7,27.2 9.3,22.4 5.2,19.5 10.2,19.5
+"/>
+</svg>
+// Icono  de USA
+export const IconUSA = ({ style = {}, size }) => <svg width={size} height={size} style={style} version="1.1" x="0px" y="0px"
+    viewBox="0 0 64 42" >
+
+    <rect y="9.6" fill='#fff' width="64" height="3.2" />
+    <path fill='#fff' d="M0,36.3c0,0.7,0.1,1.5,0.4,2.1h63.2c0.3-0.7,0.4-1.4,0.4-2.1v-1.1H0V36.3z" />
+    <rect y="22.4" fill='#fff' width="64" height="3.2" />
+    <rect y="28.8" fill='#fff' width="64" height="3.2" />
+    <rect y="16" fill='#fff' width="64" height="3.2" />
+    <path fill='#fff' d="M0,5.7v0.7h64V5.7c0-0.9-0.2-1.7-0.6-2.5H0.6C0.2,4,0,4.8,0,5.7z" />
+    <path fill='#CF142B' d="M58.2,0H5.8C3.5,0,1.5,1.3,0.6,3.2h62.8C62.5,1.3,60.5,0,58.2,0z" />
+    <rect y="6.4" fill='#CF142B' width="64" height="3.2" />
+    <rect y="12.8" fill='#CF142B' width="64" height="3.2" />
+    <rect y="19.2" fill='#CF142B' width="64" height="3.2" />
+    <rect y="25.6" fill='#CF142B' width="64" height="3.2" />
+    <rect y="32" fill='#CF142B' width="64" height="3.2" />
+    <path fill='#CF142B' d="M5.8,42h52.4c2.4,0,4.5-1.5,5.4-3.6H0.4C1.3,40.5,3.3,42,5.8,42z" />
+    <path fill='#0b0b9d' d="M31.5,0H5.8C4.1,0,2.6,0.7,1.6,1.8h0.7L2.6,1l0.3,0.8h0.9L3.1,2.4l0.3,0.9L2.6,2.7L1.9,3.3l0.3-0.9L1.5,1.9
+C0.6,2.9,0,4.2,0,5.7v16.7h31.5V0z"/>
+</svg>
+export const IconMéxico = ({ style = {}, size }) => <svg width={size} height={size} style={style} x="0px" y="0px"
+    viewBox="0 0 64 42" >
+    <path fill='#FFFFFF' d="M5.8,0h52.3C61.4,0,64,2.6,64,5.7v30.6c0,3.2-2.6,5.7-5.8,5.7H5.8
+C2.6,42,0,39.4,0,36.3V5.7C0,2.6,2.6,0,5.8,0z"/>
+    <path fill='#57A863' d="M64,5.3v31.4c0-0.1,0-0.3,0-0.4V5.7C64,5.6,64,5.5,64,5.3z" />
+    <path fill='#006847' d="M5.8,42h15.5V0H5.8C2.6,0,0,2.6,0,5.7v30.7C0,39.5,2.6,42.1,5.8,42z" />
+    <path fill='#CE1126' d="M58.2,42H42.7V0h15.5C61.4,0,64,2.6,64,5.7v30.7C64,39.5,61.4,42.1,58.2,42z" />
+    <circle fill='#EABC28' cx="32" cy="21" r="7" />
+</svg>
+export const IconPeru = ({ size }) => <svg width={size} height={size} version="1.1" x="0px" y="0px"
+    viewBox="0 0 64 42">
+    <path id="Rounded_Rectangle_7_copy" fill='#FFFFFF' d="M5.8,0h52.3C61.4,0,64,2.6,64,5.7v30.6c0,3.2-2.6,5.7-5.8,5.7H5.8
+C2.6,42,0,39.4,0,36.3V5.7C0,2.6,2.6,0,5.8,0z"/>
+    <path fill='#57A863' d="M64,5.3v31.4c0-0.1,0-0.3,0-0.4V5.7C64,5.6,64,5.5,64,5.3z" />
+    <path fill='#CC0000' d="M5.8,42h15.5V0H5.8C2.6,0,0,2.6,0,5.7v30.7C0,39.5,2.6,42.1,5.8,42z" />
+    <path fill='#CC0000' d="M58.2,42H42.7V0h15.5C61.4,0,64,2.6,64,5.7v30.7C64,39.5,61.4,42.1,58.2,42z" />
+</svg>
+export const IconPanama = ({ size }) => <svg width={size} height={size} x="0px" y="0px"
+    viewBox="0 0 64 42">
+    <path id="SVGID_1_" fill='#FFFFFF' d="M58.1,0H36.2h-8.4h-22C2.6,0,0,2.6,0,5.7v11.1v8.4v11.1C0,39.4,2.6,42,5.8,42h22h8.4h22
+c3.2,0,5.8-2.5,5.8-5.7V25.2v-8.4V5.7C64,2.6,61.4,0,58.1,0z"/>
+    <path fill='#CF1033' d="M58.1,0H36.2H32v21h32v-4.2V5.7C64,2.6,61.4,0,58.1,0z" />
+    <path fill='#0063C0' d="M0,21v4.2v11.1C0,39.4,2.6,42,5.8,42h22H32V21H0z" />
+    <polygon fill='#0063C0' points="16.1,4.9 17.4,9.1 21.9,9.1 18.3,11.7 19.7,16 16.1,13.3 12.5,16 13.8,11.7 10.2,9.1 14.7,9.1 " />
+    <polygon fill='#CF1033' points="48,24.4 49.4,28.6 53.8,28.6 50.2,31.2 51.6,35.5 48,32.8 44.4,35.5 45.8,31.2 42.2,28.6 46.6,28.6 " />
+</svg>
+export const IconRepublDom = ({ size }) => <svg x="0px" y="0px" width={size} height={size}
+    viewBox="0 0 64 42" >
+    <path fill="#002D61" d="M27.8,0h-22C2.6,0,0,2.6,0,5.7v11.1h27.8V0z" />
+    <path fill="#CF1033" d="M0,25.2v11.1C0,39.4,2.6,42,5.8,42h22V25.2H0z" />
+    <path fill="#CF1033" d="M58.1,0H36.2v16.8H64V5.7C64,2.6,61.4,0,58.1,0z" />
+    <path fill="#002D61" d="M36.2,42h22c3.2,0,5.8-2.5,5.8-5.7V25.2H36.2V42z" />
+    <polygon fill="#fff" points="36.2,0 27.8,0 27.8,16.8 0,16.8 0,25.2 27.8,25.2 27.8,42 36.2,42 36.2,25.2 64,25.2 64,16.8
+36.2,16.8 "/>
+    <circle fill="#1F714D" cx="32" cy="21" r="4.3" />
+</svg>

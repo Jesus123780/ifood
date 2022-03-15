@@ -6,7 +6,7 @@ import { BGColor } from '../../../../public/colors'
 import { LoadEllipsis } from '../../../LoadingButton'
 export const Location = ({ handleChange, onChangeSearch, countries, cities, departments, road, valuesForm, errorForm, loading }) => {
     return (
-        <h1>
+        <div>
             <Content>
                 <NewSelect name='countryId' options={countries} id='cId' onChange={onChangeSearch} error={errorForm?.countryId} optionName='cName' value={valuesForm?.countryId} title='País' required />
                 <NewSelect name='dId' options={departments} id='dId' onChange={onChangeSearch} error={errorForm?.dId} optionName='dName' value={valuesForm?.dId} title='Departamento' required />
@@ -14,6 +14,6 @@ export const Location = ({ handleChange, onChangeSearch, countries, cities, depa
                 <NewSelect name='rId' options={road} id='rId' onChange={handleChange} error={errorForm?.rId} optionName='rName' value={valuesForm?.rId} title='Tipo de via' required />
                 <ButtonSubmit type='submit' >{loading ? <LoadEllipsis color={BGColor} /> : 'Registrar'} </ButtonSubmit>
             </Content>
-        </h1>
+        </div>
     )
 }

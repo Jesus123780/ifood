@@ -15,14 +15,20 @@ export const Card = styled.div`
 export const Container = styled.div`
     display: flex;
     flex-wrap: wrap;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1366px!important;
+    margin: auto;
 `
-export const Title = styled.h1`
-font-size: 1.625rem;
-    color: ${ PColor };
+export const Title = styled.h2`
+color: #000000;
     margin: 20px 0;
-    text-align: center;
-    font-weight: 500; 
-    font-family:  PFont-Medium;
+    text-align: start;
+    font-weight: 500;
+    font-size: 20px;
+    margin: 20px 0 20px 0;
+    font-family: PFont-Light;
+    font-weight: 400;
 `
 export const Paragraph = styled.p`
     font-weight: 300;

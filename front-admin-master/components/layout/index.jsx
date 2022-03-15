@@ -12,7 +12,7 @@ export const Layout = ({ children }) => {
     const { error, isSession, setAlertBox } = useContext(Context)
 
     return (
-        <div>
+        <>
             <Header />
             <AlertBox err={error} />
             <Main aside={!['/', '/login', '/entrar', '/restaurante', '/entrar/email', '/contact', '/varify-email', '/checkout/[id]', '/add-payment-method', '/register', '/terms_and_conditions', '/email/confirm/[code]', '/forgotpassword', '/teams/invite/[id]', '/autho', '/contact-us', '/switch-options'].find(x => x === location.pathname)} >
@@ -20,11 +20,11 @@ export const Layout = ({ children }) => {
                 <div style={{ gridArea: 'main', overflowY: 'auto' }}>
                     {children}
                 </div>
-                {!['/login', '/register', '/varify-email', '/restaurante', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => x === location.pathname) && <span> Footer</span>}
+                {/* {!['/login', '/register', '/varify-email', '/restaurante', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => x === location.pathname) && <span> Footer</span>} */}
                 <div style={{ gridArea: 'right' }}>
                 </div>
             </Main>
-        </div>
+        </>
     )
 }
 

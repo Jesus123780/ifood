@@ -13,7 +13,7 @@ import { useQuery } from '@apollo/client';
 import { CLIENT_URL_BASE } from 'apollo/urls'
 import { Context } from 'context/Context'
 import { RippleButton } from 'components/Ripple'
-import NewSelect from 'components/NewSelectHooks'
+import NewSelect from 'components/NewSelectHooks/NewSelect'
 import InputHooks from 'components/InputHooks/InputHooks'
 import { useFormTools } from 'components/BaseForm'
 import { Form, Container } from 'components/common/Reusable'

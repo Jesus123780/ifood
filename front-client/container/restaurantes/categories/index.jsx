@@ -8,6 +8,7 @@ import { GET_ALL_CAT_STORE } from '../queries';
 import { PColor, SFVColor } from "../../../public/colors";
 export const Categories = () => {
   const { data: getCatStore } = useQuery(GET_ALL_CAT_STORE)
+  console.log(getCatStore)
   return (
     <Container>
       <List>
@@ -18,7 +19,8 @@ export const Categories = () => {
               <Link href={`/categories/${nameCat}/${cat.catStore}`}>
                 <a>
                   <ItemCategory>
-                    <Image
+                    <img src={cat.cPathImage} alt={cat.cName} />
+                    {/* <Image
                       objectFit='contain'
                       width={90}
                       height={90}
@@ -28,7 +30,7 @@ export const Categories = () => {
                       unoptimized={true}
                       placeholder="blur" // Optional blur-up while loading
 
-                    />
+                    /> */}
                   </ItemCategory>
                   <h2 className="title-cat">{cat.cName}</h2>
                 </a>
@@ -59,7 +61,6 @@ export const Container = styled.div`
 `
 export const ItemCategory = styled.div`
     width: 100%;
-    border: 1px solid ${SFVColor};
     border-radius: 3% ;
     height: 100px;
     align-items: center;

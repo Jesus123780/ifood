@@ -126,10 +126,16 @@ query getFavorite{
     createAt
     updateAt
     idStore
+    
     getOneStore {
       idStore
       cId
       id
+      cateStore{
+      catStore
+      cName
+      
+    }
       ctId
       catStore
       dId

@@ -1,42 +1,64 @@
 import styled, { keyframes } from 'styled-components'
 import { BGColor, PColor } from '../../public/colors'
 
-export const fadeIn = keyframes`
-    from {
-    opacity: 0;
-    top: -50%;
-  }
-  to {
-    opacity: 1;
-    top: 0%;
-  }
+
+const bounceInDown = keyframes`
+    from, 60%, 75%, 90%, to {
+        -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+        animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    0% {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -3000px, 0) scaleY(3);
+        transform: translate3d(0, -3000px, 0) scaleY(3);
+    }
+    60% {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 25px, 0) scaleY(0.9);
+        transform: translate3d(0, 25px, 0) scaleY(0.9);
+    }
+    75% {
+        -webkit-transform: translate3d(0, -10px, 0) scaleY(0.95);
+        transform: translate3d(0, -10px, 0) scaleY(0.95);
+    }
+    90% {
+        -webkit-transform: translate3d(0, 5px, 0) scaleY(0.985);
+        transform: translate3d(0, 5px, 0) scaleY(0.985);
+    }
+    to {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
 `
-export const fadeOut = keyframes`
-     from {
-    top: 0%;
-  }
-  to {
-    top: -50%;
-  }
+const bounceOutUp = keyframes`
+    20% {
+        -webkit-transform: translate3d(0, -10px, 0) scaleY(0.985);
+        transform: translate3d(0, -10px, 0) scaleY(0.985);
+    }
+
+    40%,
+    45% {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 20px, 0) scaleY(0.9);
+        transform: translate3d(0, 20px, 0) scaleY(0.9);
+    }
+
+    to {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -2000px, 0) scaleY(3);
+        transform: translate3d(0, -2000px, 0) scaleY(3);
+    }
 `
-export const ContainerToast = styled.div`
-    animation: ${ ({ error, closed }) => error && (closed ? fadeOut : fadeIn) } 1s forwards;
-    height: ${ props => props.error ? '89px' : 0 };
-    padding: ${ props => props.error ? '15px' : 0 };
-    display: flex;
-    justify-content: space-between;
+export const Container = styled.div`
+    animation: ${ ({ error, closed }) => error && (closed ? bounceOutUp : bounceInDown) } 1s forwards;
+    padding: ${ props => props.error ? '10px' : 0 };
+    top: 0;
     position: fixed;
-    align-items: center;
-    width: 100%;
     margin: auto;
-    z-index: 999999999;
-    transition: 400ms;
-    box-shadow: 0px 0px 6px #00000052;
-    color: ${ BGColor };
-    background-color: ${ ({ color }) => color === 'success' ? '#50a773' : color === 'error' ? `${ PColor };` : color === 'warning' ? '#ebbc26' : 'rgba(0, 0, 0, 0.9)' };
-`
-export const ContentToast = styled.div`
- 
-`
-export const ContainerText = styled.span`
+    text-align: center;
+    width: 100%;
+    background-color: ${ props => props.color || PColor };
+    color: #fff;
+    font-size: 18px;
+    z-index: 99999;
 `

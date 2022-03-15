@@ -8,6 +8,7 @@ type CatStore {
     cDatCre: DateTime
     cDatMod: DateTime
     csDescription: String
+    cPathImage: String
     getAllStore: [Store]
 
 }
@@ -19,6 +20,7 @@ input ICatStore {
     cState: Int
     cDatCre: DateTime
     cDatMod: DateTime
+    cPathImage: String
     csDescription: String
 }
 

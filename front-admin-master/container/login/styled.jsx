@@ -6,7 +6,7 @@ export const Container = styled.div`
     justify-content: flex-start;
     padding-top: 60px;
     white-space: nowrap;
-    height: 80vh;
+    height: 100vh;
 `
 export const ContentImage = styled.div`
     width: 40vw;

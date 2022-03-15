@@ -169,3 +169,11 @@ query getAllRating($idStore: ID){
   }
 }
 `
+export const CREATE_LOGO = gql`
+mutation setALogoStore($logo: Upload, $idStore: ID) {
+  setALogoStore(logo: $logo, idStore: $idStore) {
+    success
+    message
+  }
+}
+`

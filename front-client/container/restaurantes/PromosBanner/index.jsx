@@ -30,7 +30,8 @@ export const PromosBanner = () => {
   return (
     <Content>
       <ContainerCardProduct>
-        <CustomSlider spaceBetween={35} centeredSlides infinite={false} autoplay={false} slidesToShow={4} direction='horizontal' >
+        <CustomSlider 
+        spaceBetween={35} centeredSlides infinite={false} autoplay={false} slidesToShow={4} direction='horizontal' >
           {data && data?.getAllMasterBanners?.map(banner => (
             <SwiperSlide
               style={{ margin: '20px' }}

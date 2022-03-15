@@ -28,7 +28,7 @@ export const LastRecommended = ({ ID_CATEGORIE }) => {
         <Container>
             {dataStoreRecommended?.getAllMatchesStoreRecommended.length > 0 &&
                 <>
-                    <Title>Basado en tu última visita de {cName}  te recomendamos</Title>
+                    <Title>Basado en tu última visita en {cName}  te recomendamos</Title>
                     <ListRestaurant
                         data={dataStoreRecommended?.getAllMatchesStoreRecommended || []}
                     />

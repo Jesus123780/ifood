@@ -48,8 +48,6 @@ export const Login = (props) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
         }).then(res => {
-            console.log(res.success)
-            console.log(res.success)
             if (res.success === true) {
                 window.localStorage.setItem('restaurant', res?.idStore)
                 router.push('/dashboard')
@@ -75,7 +73,7 @@ export const Login = (props) => {
     })
     return (
         <div>
-            {/* <form ref={formRef}>
+            <form ref={formRef}>
                 <button type="button" onClick={onClickHandler}>
                     {props.label}
                 </button>
@@ -88,7 +86,7 @@ export const Login = (props) => {
                     style={{ display: 'none' }}
                     type="file"
                 />
-            </form> */}
+            </form>
             <Container>
                 <ContainerLeft>
                     <ContentImage>

@@ -343,6 +343,17 @@ export const Flex = styled.div`
   width: 100%;
   align-items: center;
   justify-content: space-between;
+  .store_image{
+        border-radius: 50%;
+        background-color: ${BGColor};
+        box-shadow: 1px 1px 10px #00000012;
+        width: 85px;
+        height: 85px;
+        min-width: 85px;
+        object-fit: contain;
+        min-height: 85px;
+        border: 1px solid #f2f2f2;
+    }
   `
 export const ActionButton = styled.div`
   /* position: absolute; */

@@ -20,6 +20,9 @@ const CatStore = sequelize.define('catstore', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    cPathImage: {
+        type: Sequelize.STRING
+    },
     cState: {
         type: Sequelize.SMALLINT,
         defaultValue: 1

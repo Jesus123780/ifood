@@ -3,15 +3,13 @@ import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { useApolloClient } from '@apollo/client'
 import PropTypes from 'prop-types'
 import { PColor } from '../../../public/colors'
-import { IconHome, IconHorario, IconLogo, IconLogout, IconPromo, IconShopping } from '../../../public/icons'
+import { IconHome, IconLogout, IconPromo, IconShopping } from '../../../public/icons'
 import ActiveLink from '../../common/Link'
 import { Anchor, AnchorRouter, ButtonActionLink, ButtonGlobalCreate, ButtonOption, Card, ContainerAside, CtnAnchor, Info, LeftNav, OptionButton, Router, SubMenuModules } from './styled'
 import { useRouter } from 'next/router'
 import { URL_BASE } from 'apollo/urls'
-// import { ButtonOption } from '../styled'
-// import { useStore } from 'components/hooks/useStore'
 import { Context } from 'context/Context'
-import Link from 'next/link'
+import Options from 'components/Acordion/Options'
 
 const Aside = () => {
   const { client } = useApolloClient()
@@ -38,6 +36,28 @@ const Aside = () => {
       })
 
   }, [client])
+  const [menu, setMenu] = useState(false)
+  const handleClick = index => setMenu(index === menu ? false : index)
+  const data = [
+    {
+      mId: 1,
+      mName: 'update',
+      mPath: 'update',
+      subModules: [
+        {
+          smId: 1,
+          smName: 'Location',
+          smPath: 'location',
+        },
+        {
+          smId: 2,
+          smName: 'categoria-de-tienda',
+          smPath: 'categoria-de-tienda',
+        }
+      ]
+    },
+
+  ]
   return (
     <>
       <ContainerAside>
@@ -101,6 +121,27 @@ const Aside = () => {
             <ActiveLink activeClassName="active" href="/stores">
               <AnchorRouter><IconShopping size='15px' />Store</AnchorRouter>
             </ActiveLink>
+            {data?.map((m, i) => (
+              <Options
+                key={m.mId}
+                index={i}
+                active={menu === i}
+                path={m.mPath}
+                label={m.mName}
+                handleClick={() => handleClick(i)}
+              // icon={<FontAwesomeIcon icon={iconModules[x.mIcon]} color={active === i ? '#a6b0cf' : '#a6b0cf'} size='lg' />}
+              >
+                {!!m.subModules && m.subModules.map(sm => <ActiveLink
+                  key={sm.smId}
+                  onClick={e => e.stopPropagation()}
+                  href={`/${m.mPath}/${sm.smPath}`}
+                >
+                  <AnchorRouter><IconShopping size='15px' />{sm.smName}</AnchorRouter>
+
+                </ActiveLink>)}
+              </Options>
+
+            ))}
             <OptionButton>
               <ButtonOption space onClick={onClickLogout}>
                 <IconLogout size='20px' color={PColor} />

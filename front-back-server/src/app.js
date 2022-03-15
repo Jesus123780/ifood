@@ -13,24 +13,42 @@ import typeDefs from './api/lib/typeDefs'
 import resolvers from './api/lib/resolvers'
 import express from 'express'
 import path from 'path'
-
+import morgan from 'morgan'
+import cors from 'cors'
+import indexRoutes from './api/lib/router'
 (async () => {
-    const PORT = 4000;
+    // config ports
+    const GRAPHQL_PORT = 4000;
+    const API_REST_PORT = 5000;
     const pubsub = new PubSub();
+
+    // Initialization apps
     const app = express();
-    app.post('/image', (req, res) => {
-        res.json('/image api');
+    app.set('port', process.env.GRAPHQL_PORT || 4000)
+    app.post('/image', (req, res) => { res.json('/image api') })
+    app.use('/image', (req, res) => {
+        res.send('ONLINE PORT IMAGES!')
+    })
+    // Listen App
+    app.listen(API_REST_PORT, () => {
+        console.log('API SERVER LISTENING ON PORT', API_REST_PORT);
     });
+    // Routes
     app.use('/static', express.static('public'))
-    // @ts-ignore
-    app.use(graphqlUploadExpress({ maxFileSize: 1000000000, maxFiles: 10 }));
+    // this folder for this application will be used to store public files
+    app.use('/uploads', express.static('uploads'));
+    app.use('/api', indexRoutes);
+    // Middleware
+    app.use(morgan('dev'))
+    app.use(express.json({ limit: '50mb' }))
+    app.use(graphqlUploadExpress({ maxFileSize: 1000000000, maxFiles: 10 }))
+
     // const storage = multer.diskStorage({
     //     destination: path.join(__dirname, '../public'),
     //     filename: (req, file, next) => {
     //         next(null, new Date().getTime() + path.extname(file.originalname))
     //     }
     // })
-    // app.use(graphqlUploadKoa({ maxFileSize: 10000000, maxFiles: 10 }))
     // Configure multer to accept a single file per post
     // const storage = multer.memoryStorage();
     // app.use(multer({
@@ -43,9 +61,7 @@ import path from 'path'
         // schema,
         typeDefs, resolvers,
         introspection: true,
-        plugins: [
-            ApolloServerPluginLandingPageGraphQLPlayground(),
-        ],
+        plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
         context: async ({ req, res }) => {
             // check from req
             console.log('Run')
@@ -71,14 +87,12 @@ import path from 'path'
         { server: httpServer, path: server.graphqlPath }
     );
 
-    httpServer.listen(PORT, () => {
+    httpServer.listen(GRAPHQL_PORT, () => {
         console.log(
-            `🚀 Query endpoint ready at http://localhost:${PORT}${server.graphqlPath}`
+            `🚀 Query endpoint ready at http://localhost:${GRAPHQL_PORT}${server.graphqlPath}`
         );
         console.log(
-            `🚀 Subscription endpoint ready at ws://localhost:${PORT}${server.graphqlPath}`
+            `🚀 Subscription endpoint ready at ws://localhost:${GRAPHQL_PORT}${server.graphqlPath}`
         );
     });
-
-
 })();

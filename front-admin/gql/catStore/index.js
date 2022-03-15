@@ -5,6 +5,7 @@ mutation  registerCategoryStore($input: ICatStore){
   registerCategoryStore(input: $input){
     cState
     cName
+    cPathImage
     cDatCre
     cDatMod
     csDescription
@@ -19,6 +20,7 @@ getAllCatStore{
   cName
   cState
   cDatCre
+  cPathImage
   cDatMod
   csDescription
   }

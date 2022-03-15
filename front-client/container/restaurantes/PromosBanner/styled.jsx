@@ -23,21 +23,20 @@ export const Img = styled.img`
     width: 100%;
     height: 100%;
     border-radius: 5px;
-    width: 100%;
     min-height: 120px;
     object-fit: cover;
     border-radius: 4px;
-    /* transition: opacity .2s ease-out;y */
 
 `
 export const BannerPromo = styled.div`
-    border-radius: 4%;
     cursor: pointer;
     box-shadow: 1px 1px 3px #00000052;
     margin: auto;
-    place-content: center;
-    height: 190px;
-    min-height: 190px;
+    /* height: 190px; */
+    /* min-height: 190px; */
+    border: 2px solid transparent;
+
+    /* width: 490px; */
     border-radius: 5px;
     /* margin: 0 40px; */
     /* ${props => props.color && css`

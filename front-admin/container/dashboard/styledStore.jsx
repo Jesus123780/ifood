@@ -115,6 +115,17 @@ export const MerchantInfo = styled.div`
     padding: 0 30px;
     top: 0;
     margin: 30px auto 20px;
+    .logo {
+      width: 85px;
+      height: 85px;
+      border-radius: 50rem;
+      object-fit: contain;
+      border: 1px solid #f2f2f2;
+      /* height: 72px; */
+      /* width: 72px; */
+      transition: transform .2s ease-out;
+  }
+    }
     && > span {
       @media only screen and (min-width: 960px) {
         height: 70px;

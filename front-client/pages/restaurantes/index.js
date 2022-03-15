@@ -16,6 +16,7 @@ import { GET_MESSAGES } from '../../gql/test'
 import { RippleButton } from 'components/Ripple'
 import { FavoriteStore } from 'container/favoriteStore'
 import { ItMayInterestYou, LastRecommended } from 'container/LastRecomendation'
+import { BColor, BGColor, PColor } from 'public/colors'
 
 export default function RestaurantHome({ ID_CATEGORIE, PRODUCT_NAME_COOKIE }) {
   const { data } = useQuery(GET_ONE_STORE)
@@ -59,6 +60,9 @@ export default function RestaurantHome({ ID_CATEGORIE, PRODUCT_NAME_COOKIE }) {
         />
       </Section>
       {<RippleButton
+        bgColor={BGColor}
+        color={BColor}
+        border={`1px solid ${PColor}`}
         onClick={() => {
           setShowMore(showMore + 100)
           // getAllStoreInStore()

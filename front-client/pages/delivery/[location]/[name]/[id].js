@@ -111,7 +111,7 @@ export default function HomeView() {
     SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state)
     productFoodsOne({ variables: { pId: food.pId } })
     console.log(food)
-    pushOneRecommendation({ variables: { input: { carProId: catStore } } })
+    // pushOneRecommendation({ variables: { input: { carProId: catStore } } })
     pushOneRecommendationProduct({ variables: { input: { productName: pName } } })
     // HERE JESUS
     ExtProductFoodsOptionalAll({ variables: { pId: food.pId } })

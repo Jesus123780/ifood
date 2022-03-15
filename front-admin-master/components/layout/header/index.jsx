@@ -8,7 +8,7 @@ import { useApolloClient } from '@apollo/client'
 import { Context } from 'context/Context';
 import { useMutation, useQuery, useLazyQuery } from '@apollo/client'
 import { GET_ALL_CITIES, GET_ALL_COUNTRIES, GET_ALL_DEPARTMENTS, GET_ONE_COUNTRY } from 'gql/Location';
-import NewSelect from 'components/NewSelectHooks';
+import NewSelect from 'components/NewSelectHooks/NewSelect';
 
 export const Header = () => {
     const Router = useRouter();

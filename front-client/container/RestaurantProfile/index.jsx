@@ -67,6 +67,7 @@ export const RestaurantProfile = ({ src, id, errorForm, handlerShare, share, set
             </div>)
     }
     );
+    console.log(data)
     const Nav = dataCatProducts?.map((x, key) => { return { headerTitle: x.pName, headerID: `${key}`, headerRef: section1Ref } })
     const [hour, setHour] = useState(null)
     const [day, setDay] = useState()
@@ -111,6 +112,7 @@ export const RestaurantProfile = ({ src, id, errorForm, handlerShare, share, set
                 <ContentSearch>
                     <Flex>
                         <span>
+                        <img  className='store_image' src={data.Image} />
                             <Flex>
                                 <Title>{data?.storeName}</Title>
                                 <IconRate color={WColor} size={30} />
@@ -118,12 +120,10 @@ export const RestaurantProfile = ({ src, id, errorForm, handlerShare, share, set
                             </Flex>
                         </span>
                         {!!dataMinPedido && <Text size='15px' margin='0 10px'>Pedido mínimo $ {dataMinPedido}</Text>}
-
                     </Flex>
                     <div>
                         <ButtonLike isLiked={fState === 1} onClick={() => fState === 1 ? RemoveFav(data?.idStore, fState) : addFav(data?.idStore)}>
                         </ButtonLike>
-
                     </div>
                     <button onClick={() => { setOpenRate(!OpenRate), handleGetRating(id) }}><Text>Calificar Restaurante</Text> </button>
                     <Story idStore={id} />

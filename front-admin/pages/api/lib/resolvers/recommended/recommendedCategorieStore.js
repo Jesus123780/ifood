@@ -16,14 +16,14 @@ export const getAllMatchesStoreRecommended = async (root, args, context, info) =
                 [Op.or]: [
                     {
                         ...whereSearch,
-                        catStore: deCode(catStore)
+                        ...((catStore) ? { catStore: deCode(catStore) } : {}),
                     }
                 ]
             }, limit: [min || 0, max || 5], order: fn('RAND')
         })
         return data
     } catch (e) {
-        const error = new Error('Lo sentimos, ha ocurrido un error interno')
+        const error = new Error('Lo sentimos, ha ocurrido un error interno en mach store')
         return error
     }
 }
@@ -78,7 +78,7 @@ export const productFoodsAllRecommended = async (root, args, context, info) => {
         })
         return data
     } catch (e) {
-        const error = new Error('Lo sentimos, ha ocurrido un error interno')
+        const error = new Error('Lo sentimos, ha ocurrido un error interno en product recomendante')
         return error
     }
 }

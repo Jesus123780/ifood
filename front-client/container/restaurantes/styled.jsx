@@ -18,6 +18,11 @@ export  const ItemWrapper = styled.div`
         margin-bottom: 10px;
         font-size: 16px;
         font-family: PFont-Light;
+        color: #333;
+        font-size: 20px;
+        line-height: 1.2;
+        padding-right: 10px;
+        font-weight: 300;
     }
     .store_info {
         color: ${`${BGVColor}`};
@@ -26,6 +31,12 @@ export  const ItemWrapper = styled.div`
         border-radius: 50%;
         background-color: ${BGColor};
         box-shadow: 1px 1px 10px #00000012;
+        width: 85px;
+        height: 85px;
+        min-width: 85px;
+        object-fit: contain;
+        min-height: 85px;
+        border: 1px solid #f2f2f2;
     }
 `
 export  const MerchantListWrapper = styled.div`
@@ -78,6 +89,11 @@ export const CtnBox = styled.div`
     &:hover{
         transform: scale(1.05); 
         transition: transform .2s ease-out;
+    }
+    img {
+        object-fit: contain;
+        width: 100%;
+        height: 100%;
     }
 `
 export const ItemCategory = styled.div`

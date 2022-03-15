@@ -3,6 +3,7 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import axios from 'axios';
 export default function Home() {
+
   const onChange = async (formData) => {
     const config = {
       headers: { 'content-type': 'multipart/form-data' },
@@ -12,8 +13,7 @@ export default function Home() {
     };
     const response = await axios.post('/api/uploads', formData, config);
     console.log('response', response.data);
-  };
-
+  }
   return (
     <div>
       <Head>
