@@ -184,7 +184,6 @@ const DashboardStore = ({ StoreId, setAlertBox }) => {
         setHour(moment(date).format('hh:mm'))
     })
     const [table, openTable] = useState(false)
-    console.log(dataStore)
     return (<>
         <Wrapper>
             <Overline onClick={() => setOpenSchedule(!openSchedule)} show={!openSchedule} bgColor='' />

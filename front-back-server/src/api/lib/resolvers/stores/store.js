@@ -6,13 +6,11 @@ import { saveImages } from "../banners/bannerMain"
 
 export const setALogoStore = async (_root, { logo, idStore }, ctx) => {
     try {
-        console.log('HOLA MUNDO')
         const fileUpload = await logo
         const { createReadStream, filename, mimetype, encoding } = fileUpload
         // saveImages()
         const fileStream = createReadStream()
-        const path = await saveImages({ filename, mimetype, fileStream, state: 3 })
-        console.log(logo)
+        await saveImages({ filename, mimetype, fileStream, state: 3 })
         await Store.update({ Image: `${URL_BASE}static/logo/${filename}` }, { where: { idStore: deCode(idStore) } })
         return {
             success: true,

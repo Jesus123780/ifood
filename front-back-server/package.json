@@ -9,7 +9,7 @@
     "build": "babel src/ --out-dir build",
     "start": "cross-env NODE_ENV=production node src/app",
     "babel-node": "babel-node --presets=@babel/preset-env",
-    "dev": "nodemon --exec npm run babel-node  src/app.js src/apprest.js",
+    "dev": "nodemon --exec npm run babel-node  src/app.js",
     "preinstall": "npx npm-force-resolutions"
   },
   "author": "",

@@ -43,9 +43,7 @@ export const Restaurant = () => {
     <Content>
       <ContainerFilter>
         <ItemFilter onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Ordenar</ItemFilter>
-        <ItemFilter>Mas cercano</ItemFilter>
         <ItemFilter>Mejor precio</ItemFilter>
-        <ItemFilter>Mas caro</ItemFilter>
         <ItemFilter>Envíos gratis</ItemFilter>
         <ItemFilter>Promociones</ItemFilter>
         <ItemFilter onClick={() => OPEN_MODAL_FILTER.setState(!OPEN_MODAL_FILTER.state)}>Filtros</ItemFilter>
@@ -83,17 +81,9 @@ export const Restaurant = () => {
             <RippleButton widthButton='100%'>Ver resultados </RippleButton>
           </Tabs.Panel>
           <Tabs.Panel label={`Métodos de pago`}>
-            <h2>Peso promedio</h2>
-            <WrapFlex>
-              {/* {[1, 2, 3, 4, 5].map((item, index) => <ItemFilter key={item._id} onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>$$$$$</ItemFilter>)} */}
-            </WrapFlex>
             <h2>Pago de la app</h2>
             <WrapFlex>
-              {/* {[1, 2, 3, 4, 5].map((item, index) => <ItemFilter key={item._id} onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Amex</ItemFilter>)} */}
-            </WrapFlex>
-            <h2>Pago contra entrega</h2>
-            <WrapFlex>
-              {/* {[1, 2, 3, 4, 5].map((item, index) => <ItemFilter key={item._id} onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Amex</ItemFilter>)} */}
+              {[1, 2, 3, 4, 5].map((item, index) => <ItemFilter key={index + 1} onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Amex</ItemFilter>)}
             </WrapFlex>
             <RippleButton widthButton='100%'>Ver resultados </RippleButton>
           </Tabs.Panel>
