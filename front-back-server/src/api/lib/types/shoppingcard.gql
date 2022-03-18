@@ -1,0 +1,59 @@
+
+
+type ShoppingCard {
+    ShoppingCard: ID
+    # start
+    id: ID
+    pId: ID
+    subProductsId: ID
+    ShoppingCardRefCode: String
+    uuid: String
+    discountCardProduct: String
+    comments: String
+    cantProducts: Int
+    # end
+    idUser: ID
+    idStore: ID
+    cName: String
+    cState: Int
+    cDatCre: DateTime
+    cDatMod: DateTime
+    csDescription: String
+    getStore: Store
+    productFood: ProductFood
+}
+# ShoppingCard Input
+input IID_SUB {
+  _id: ID
+}
+input IID_SUB_ITEMS {
+  setID: [IID_SUB]
+}
+input IShoppingCard {
+    ShoppingCard: ID
+    id: ID
+    pId: ID
+    subProductsId: ID
+    ShoppingCardRefCode: String
+    uuid: String
+    discountCardProduct: String
+    idUser: ID
+    idStore: ID
+    cName: String
+    comments: String
+    cantProducts: Int
+    cState: Int
+    cDatCre: DateTime
+    cDatMod: DateTime
+    csDescription: String
+}
+
+# Query
+type Query {
+  getAllShoppingCard: [ShoppingCard]
+}
+# Mutations
+type Mutation {
+  registerShoppingCard(input: IShoppingCard, idSubArray: IID_SUB_ITEMS): ShoppingCard
+  deleteOneItem(cState: Int,ShoppingCard: ID): Response
+}

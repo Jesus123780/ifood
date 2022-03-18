@@ -197,7 +197,7 @@ export const getCatProductsWithProductClient = async (root, args, context, info)
                     pState: { [Op.gt]: 0 },
                 }
             ]
-        }, limit: [min || 0, max || 100], order: [['pName', 'DESC']]
+        }, limit: [min || 0, max || 2], order: [['pName', 'DESC']]
     })
     return data
 }

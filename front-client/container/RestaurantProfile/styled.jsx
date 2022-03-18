@@ -4,7 +4,7 @@ import Link from 'next/link'
 export const Container = styled.div`
   /* max-width: 1366px; */
   /* margin: 30px auto 20px; */
-  overflow: hidden;
+  /* overflow: hidden; */
 `
 export const ContentSearch = styled.div`
   max-width: 1366px;
@@ -135,7 +135,7 @@ export const MerchantBannerWrapperInfo = styled.div`
     background-color: rgb(0 0 0 / 26%);
     background-blend-mode: overlay;
     max-width: 1366px;
-    margin: 130px auto 20px;
+    margin: 50px auto 20px;
     background-image: ${({ bannerImage }) => bannerImage && (bannerImage)};
     .merchant-banner__status-description {
       line-height: 1.15;
@@ -225,7 +225,7 @@ export const CardProductsContent = styled.div`
     }
     `
 export const CardProductsModal = styled(CardProductsContent)`
-  border: none;
+  /* border: 4px solid ; */
   padding: 0px;
   grid-template-columns: 1fr 50%;
   @media (max-width: 768px) {

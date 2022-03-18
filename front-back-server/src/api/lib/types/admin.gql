@@ -1,0 +1,39 @@
+# Account Type
+type Admin {
+    id: ID
+    # idComp: ID 
+    idRoles: ID
+    lastCompany: String
+    firstName: String
+    lastName: String
+    userName:String
+    uEmail: String
+    uAvatar: String
+    uAddress: String
+    uPhone: Int
+    landLine: Int
+    uPassword: String
+    uBirthday: String
+    lat: Int
+    long: Int
+    iP: Int
+    # Get Company
+    company: [Company]
+    bill: [Bill]
+    # Roles
+    role: [Roles]
+}
+  type Query {
+    bucketExistsQuery(idUser: ID, BucketName: String!): AuthPayload
+    getAlUserLocation(country: String): [User]
+    getAllRoles: [Roles]
+  }
+
+# Mutations
+type Mutation {
+  createRoles: Roles
+  createRoleMutation(input: IRole!): Roles
+  createOneBucket(BucketName: String!): Boolean
+  removeBucketMinio(idUser: ID!, BucketName: String!): Roles
+  removeOneRole(id: ID): Boolean
+}

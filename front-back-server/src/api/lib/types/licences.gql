@@ -1,0 +1,51 @@
+
+
+type Licences {
+    _id: ID
+    idUser: ID
+    LName: String
+    LPrice: Int
+    Ref: String
+    LDescuento: Int
+    Date: DateTime
+    EndDate: DateTime
+    Active: Boolean
+    lineItemsLicences: [LineItemsLicences]
+
+}
+# Account Input
+input ILicences {
+    _id: ID
+    idUser: ID
+    LName: String
+    LPrice: Int
+    Ref: String
+    LDescuento: Int
+    Date: DateTime
+    EndDate: DateTime
+    Active: Boolean
+    lineItemsLicences: [ILineItemsLicences]
+}
+# Query
+type Query {
+  GetLicences(_idUser: ID): [Licences]
+  GetOneLicences(id: ID): Licences
+}
+type LineItemsLicences {
+    _id: ID
+    lineItemsDescription: String
+}
+
+input ILineItemsLicences {
+    _id: ID
+    lineItemsDescription: String
+}
+  input ILineItemsFinalLicence {
+      setDataLicence: [ILineItemsLicences]
+  }
+# Mutations
+type Mutation {
+  registerGetLicences(input: ILicences, inputLineItems: ILineItemsFinalLicence): Licences
+  EditGetLicences(input: ILicences): Licences
+  DeleteGetLicences(id: ID): Boolean,
+}

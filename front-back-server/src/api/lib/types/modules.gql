@@ -1,0 +1,46 @@
+
+type SubModules {
+    _id: ID
+    smName: String
+    smPath: String
+    smState: Int
+}
+input ILineItemsSubModules {
+    _id: ID
+    smName: String
+    smPath: String
+    smState: Int
+}
+# Modules
+type Modules {
+    _id: ID
+    mPath: String
+    mName: String
+    mPriority: Int
+    mIcon: Int
+    SubModules: [SubModules]
+}
+
+# Module Input
+input IModules {
+    _id: ID
+    mPath: String
+    mName: String
+    mPriority: Int
+    mIcon: Int
+}
+
+input InputLineItemsSubModules {
+    setDataModule: [ILineItemsSubModules]
+}
+# Query
+type Query {
+  getAllModules: [Modules]
+}
+
+# Mutations
+type Mutation {
+  registerModule(input: IModules, inputLineItemsMod: InputLineItemsSubModules): Modules
+  EditModules(input: IModules): Modules
+  DeleteOneModules(id: ID): Boolean,
+}

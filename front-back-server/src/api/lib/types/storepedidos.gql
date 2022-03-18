@@ -1,0 +1,79 @@
+
+# Stores
+type StorePedidos {
+  pdpId: ID
+  id: ID
+  idStore: ID
+  pId: ID
+  ppState: Int
+  pCodeRef: String
+  pPDate: DateTime
+  pSState: Int # 5 estados - confirmado - proceso - salida - cancelado  
+  pPStateP: Int 
+  payMethodPState: Int  
+  pPRecoger: Int  
+  totalProductsPrice: Int  
+  unidProducts: Int  
+  pDatCre: DateTime
+  pDatMod: DateTime
+  getUser: User
+  ShoppingCard: ID
+  productFoodsOne: ProductFood
+  getAllPedidoStore: [StorePedidos]
+  getAllShoppingCard: ShoppingCard
+  locationUser: String
+  getOneStore: Store
+}
+input InputStorePedidos {
+  pdpId: ID
+  id: ID
+  pId: ID
+  idStore: ID
+  ppState: Int
+  pCodeRef: String
+  pPDate: DateTime
+  pSState: Int # 5 estados - confirmado - proceso - preparacion - salida - cancelado  
+  pPStateP: Int  
+  payMethodPState: Int  
+  pPRecoger: Int  
+  unidProducts: Int  
+  pDatCre: DateTime
+  pDatMod: DateTime
+}
+
+# ShoppingCard Input
+input INPUT_SHOPPING_PRODUCTS {
+  ShoppingCard: ID
+  idStore: ID
+}
+input SET_INPUT_SHOPPING_PRODUCTS_ITEMS {
+  setInput: [INPUT_SHOPPING_PRODUCTS]
+  change: Int
+  pickUp: Int
+  pCodeRef: String
+  pPStateP: Int # 5 estados - confirmado - proceso - preparacion - salida - cancelado  
+  payMethodPState: Int  
+  pPRecoger: Int
+  totalProductsPrice: Int
+  locationUser: String
+}
+type Query {
+"""Response for find one Store"""
+  getOnePedidoStore(StoreName: String, idStore: ID): StorePedidos
+  getAllPedidoStore(StoreName: String, idStore: ID): [StorePedidos]
+  getAllPedidoStoreFinal(idStore: ID, cId: ID dId: ID ctId: ID search: String min: Int fromDate: DateTime toDate: DateTime max: Int): [StorePedidos]
+  getAllSalesStore(idStore: ID, pId: ID cId: ID dId: ID ctId: ID search: String min: Int fromDate: DateTime toDate: DateTime max: Int): [StorePedidos]
+  getAllPedidoUserFinal(id: ID): [StorePedidos]
+  getOneSalesStore(pCodeRef: String): StorePedidos
+}
+  
+type Mutation {
+  """"Store data Order"""
+  createOnePedidoStore(input: InputStorePedidos): AuthPayload
+  createMultipleOrderStore(input: SET_INPUT_SHOPPING_PRODUCTS_ITEMS): Response
+  changePPStatePPedido(pPStateP: Int, pCodeRef: String): Response
+}
+
+type Subscription {
+  newStorePedidos: StorePedidos
+}

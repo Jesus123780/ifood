@@ -206,7 +206,16 @@ const Provider = ({ children }) => {
         setOpenMenuMobile(false)
         setStatus('close')
     }, [router])
-    
+
+    // MODAL PRODUCT
+    const [openProductModal, setOpenProductModal] = useState(false)
+    const handleProductModal = index => setOpenProductModal(index === openProductModal ? false : index)
+    useEffect(() => {
+        const body = document.body
+        body.addEventListener('keyup', e => e.code === 'Escape' && setOpenProductModal(false))
+        return () => body.removeEventListener('keyup', () => setShow)
+
+    }, [openProductModal, setOpenProductModal])
     const value = {
         error,
         DataCompany,
@@ -214,6 +223,9 @@ const Provider = ({ children }) => {
         setStatus,
         status,
         setOpenMenuMobile,
+        setOpenProductModal,
+        handleProductModal,
+        openProductModal,
         menuMobile,
         modalLocation,
         setModalLocation,

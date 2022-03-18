@@ -210,7 +210,7 @@ export const ExtProductFoodsOptionalAll = async (root, args, context, info) => {
                     {
                         ...((pId) ? { pId: deCode(pId) } : {}),
                         state: { [Op.gt]: 0 },
-                        ...((context.restaurant) ? { idStore: deCode(context.restauran) } : {}),
+                        // ...((context.restaurant) ? { idStore: deCode(context.restauran) } : {}),
                     }
                 ]
             }, limit: [min || 0, max || 100], order: [['OptionalProName', 'DESC']]

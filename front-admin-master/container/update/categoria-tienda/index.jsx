@@ -14,7 +14,6 @@ export const CategoriesStore = ({ setAlertBox }) => {
     const [registerCategoryStore] = useMutation(CREATE_CAT_STORE)
     const { data, loading, error } = useQuery(GET_ALL_CAT_STORE)
     const [desCategoryStore] = useMutation(SET_DES_CAT)
-    console.log(data)
     // ------------ HANDLES ------------
     const handleChange = (e, error) => {
         setValues({ ...values, [e.target.name]: e.target.value })

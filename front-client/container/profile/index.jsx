@@ -81,9 +81,7 @@ export const Profile = () => {
     useEffect(() => {
         let obj = { ...getOneUserProfile, ...data?.getUser }
         setValues({ ...obj })
-        console.log(obj, 7)
     }, [data, getOneUserProfile, dataUp])
-    console.log(getOneUserProfile)
     return (
         <Section bg={email?.slice(0, 8).toUpperCase()}>
             <Container >

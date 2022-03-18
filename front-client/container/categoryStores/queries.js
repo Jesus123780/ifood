@@ -52,6 +52,7 @@ getOneCatStore(catStore: $catStore){
   cName
   cState
   cDatCre
+  cPathImage
   cDatMod
   csDescription
   getAllStore {

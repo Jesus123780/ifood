@@ -1,0 +1,4 @@
+# Mutations
+type Mutation {
+  setCookie(name: String, value: String): Response
+}

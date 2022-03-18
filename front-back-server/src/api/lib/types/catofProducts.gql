@@ -1,0 +1,31 @@
+
+  # CatOfProductss
+type CatOfProducts {
+  id: ID
+  cpId: ID
+  # idStore: ID
+  catName: String
+  catDescription: String
+  schState: Int
+}
+input InputCatOfProducts {
+  id: ID
+  cpId: ID
+  # idStore: ID
+  catName: String
+  catDescription: String
+  schState: Int
+}
+
+
+type Query {
+"""Response for find one CatOfProducts"""
+  CatOfProducts(idStore: ID, CatOfProductsName: String): CatOfProducts
+  getAllCatOfProducts(idStore: ID): [CatOfProducts]
+
+}
+
+type Mutation {
+  """"registra CatOfProducts data"""
+  createCatOfProducts(input: InputCatOfProducts): AuthPayload
+}

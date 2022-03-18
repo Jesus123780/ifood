@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { gql, useLazyQuery, useQuery, useSubscription } from '@apollo/client'
+import { gql, useLazyQuery, useMutation, useQuery, useSubscription } from '@apollo/client'
 import styles from '../../styles/Home.module.css'
 import { GET_ONE_STORE } from '../../container/queries'
 import { Restaurant } from '../../container/restaurantes'
@@ -17,9 +17,13 @@ import { RippleButton } from 'components/Ripple'
 import { FavoriteStore } from 'container/favoriteStore'
 import { ItMayInterestYou, LastRecommended } from 'container/LastRecomendation'
 import { BColor, BGColor, PColor } from 'public/colors'
+import styled from 'styled-components'
 
-export default function RestaurantHome({ ID_CATEGORIE, PRODUCT_NAME_COOKIE }) {
+export default function RestaurantHome({ ID_CATEGORIE, PRODUCT_NAME_COOKIE, ACEPTE_COOKIE }) {
+  const { setAlertBox, openProductModal, setOpenProductModal } = useContext(Context)
+
   const { data } = useQuery(GET_ONE_STORE)
+  const [close, setClose] = useState(ACEPTE_COOKIE)
   const { data: dataEy } = useQuery(GET_ALL_COUNTRIES)
   const { data: dataM } = useQuery(GET_MESSAGES, {
     context: { clientName: "subscriptions" }
@@ -41,6 +45,18 @@ export default function RestaurantHome({ ID_CATEGORIE, PRODUCT_NAME_COOKIE }) {
     dataListStore?.getAllStoreInStore && setData([...dataListStore?.getAllStoreInStore])
     getAllStoreInStore()
   }, [dataStore])
+  const UPDATE_COOKIES = gql`
+mutation setCookie($name: String, $value: String) {
+  setCookie(name: $name, value: $value){
+    success
+    message
+  }
+}
+  `
+  const [setCookie] = useMutation(UPDATE_COOKIES, {
+    context: { clientName: "main" }
+
+  })
   return (
     <div className={styles.container}>
       <Head>
@@ -82,13 +98,69 @@ export default function RestaurantHome({ ID_CATEGORIE, PRODUCT_NAME_COOKIE }) {
       <FavoriteStore />
       <LastRecommended ID_CATEGORIE={ID_CATEGORIE} />
       <ItMayInterestYou PRODUCT_NAME_COOKIE={PRODUCT_NAME_COOKIE} />
+      {!ACEPTE_COOKIE && close !== 'true' &&  <CookieContainer>
+        <div className="cookie-consent-banner-opt-out__message-container">
+          <h2 className="cookie-consent-banner-opt-out__header">Este sitio usa cookies</h2>
+          <button data-testid="action:understood-button" onClick={() => { setClose('true'); setCookie({ variables: { name: 'Hola', value: 'Mundo' } }) }}>Entendido</button>
+          <div className="cookie-consent-banner-opt-out__actions">
+          </div>
+        </div>
+      </CookieContainer>}
     </div>
   )
 }
 
+const CookieContainer = styled.div`
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2147483647;
+    background-color: rgba(0,0,0,.9);
+    color: ${BGColor};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+    padding: 48px 48px 24px;
+    .cookie-consent-banner-opt-out__message-container {
+        margin-right: 50px;
+    max-width: 585px;
+    min-width: 200px;
+    }
+    .cookie-consent-banner-opt-out__header {
+        margin: 0 0 12px;
+        font-size: 20px;
+        font-weight: 600;
+        color: ${BGColor};
+    }
+    .cookie-consent-banner-opt-out__actions {
+        align-items: center;
+        margin: 0 0 24px;
+    }
+    button {
+    color: ${BGColor}!important;
+    border-radius: 6px;
+    background-color: #3483fa;
+    border: none;
+    text-decoration: none;
+    font-weight: 600;
+    line-height: 1em;
+    white-space: nowrap;
+    text-align: center;
+    cursor: pointer;
+    font-family: Proxima Nova,-apple-system,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    margin: 0 8px 8px 0;
+    padding: 16px 24px;
+    font-size: 16px;
+    }
+`
 export const getServerSideProps = withSession(async function ({ req, res }) {
   const user = req?.session?.get('user')
-  const { RECOMMENDATION_COOKIE, PRODUCT_NAME_COOKIE } = req.cookies || {}
+  const { RECOMMENDATION_COOKIE, PRODUCT_NAME_COOKIE, ACEPTE_COOKIE } = req.cookies || {}
   if (!user) {
     res.setHeader('location', '/entrar')
     res.statusCode = 302
@@ -101,6 +173,7 @@ export const getServerSideProps = withSession(async function ({ req, res }) {
     props: {
       ID_CATEGORIE: RECOMMENDATION_COOKIE || null,
       PRODUCT_NAME_COOKIE: PRODUCT_NAME_COOKIE || null,
+      ACEPTE_COOKIE: ACEPTE_COOKIE || null,
     }
   }
 }

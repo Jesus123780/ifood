@@ -8,7 +8,6 @@ import { GET_ALL_CAT_STORE } from '../queries';
 import { PColor, SFVColor } from "../../../public/colors";
 export const Categories = () => {
   const { data: getCatStore } = useQuery(GET_ALL_CAT_STORE)
-  console.log(getCatStore)
   return (
     <Container>
       <List>

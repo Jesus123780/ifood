@@ -1,7 +1,7 @@
 import React from 'react'
 import { BGColor } from '../../public/colors'
 import { ListRestaurant } from '../restaurantes/restaurant'
-import { MerchantBannerWrapperInfo } from '../RestaurantProfile/styled'
+import { Flex, MerchantBannerWrapperInfo } from '../RestaurantProfile/styled'
 import { Container, Text } from './styled'
 
 export const CategoryStores = ({ data, src }) => {
@@ -15,7 +15,10 @@ export const CategoryStores = ({ data, src }) => {
                     <h2 className="merchant-banner__status-title">{data?.cName}</h2>
                 </div>
             </MerchantBannerWrapperInfo>
-            <Text margin='30px 0'>{data?.cName}</Text>
+            <Flex>
+                <img src={data.cPathImage} />
+                <Text margin='30px 0'>{data?.cName}</Text>
+            </Flex>
             <ListRestaurant
                 data={data?.getAllStore}
                 catStoreId={data?.catStore}

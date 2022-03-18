@@ -15,7 +15,6 @@ import { GET_ALL_SHOPPING_CARD } from '../../../../container/restaurantes/querie
 import { RestaurantProfile } from '../../../../container/RestaurantProfile'
 import { Context } from '../../../../context'
 import { numberFormat, updateCache } from '../../../../utils'
-// import url from '/y2mate.com - Whatsapp Web sonido de notificación.mp3'
 export default function HomeView() {
   // STATES
   const location = useRouter()
@@ -46,8 +45,9 @@ export default function HomeView() {
   const [productFoodsOne, { data: dataOneProduct }] = useLazyQuery(GET_ONE_PRODUCTS_FOOD)
   const { pId, getStore } = dataOneProduct?.productFoodsOne || {}
   const { catStore } = getStore || {}
+  const [more, setMore] = useState(100)
   const [ExtProductFoodsOptionalAll, { error: errorOptional, data: dataOptional }] = useLazyQuery(GET_EXTRAS_PRODUCT_FOOD_OPTIONAL)
-  const [getCatProductsWithProductClient, { data: dataProductAndCategory, loading: loadCatPro }] = useLazyQuery(GET_ALL_CATEGORIES_WITH_PRODUCT, {
+  const [getCatProductsWithProductClient, { data: dataProductAndCategory, loading: loadCatPro, fetchMore }] = useLazyQuery(GET_ALL_CATEGORIES_WITH_PRODUCT, {
     fetchPolicy: 'network-only',
     variables:
     {
@@ -85,7 +85,7 @@ export default function HomeView() {
   }, [dataProductAndCategory, searchFilter])
 
   useEffect(() => {
-    getCatProductsWithProductClient({ variables: { max: 100, idStore: id } })
+    getCatProductsWithProductClient({ variables: { max: more, idStore: id } })
   }, [searchFilter, showMore])
   useEffect(() => {
     getOneStore({ variables: { idStore: id, StoreName: name } })
@@ -107,6 +107,7 @@ export default function HomeView() {
    * @action Obtiene un producto de DB  
    */
   const getOneProduct = food => {
+    console.log(food.pId)
     const { pName } = food || {}
     SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state)
     productFoodsOne({ variables: { pId: food.pId } })
@@ -284,6 +285,10 @@ export default function HomeView() {
         dataForm={dataForm}
         setShare={setShare}
         share={share}
+        fetchMore={fetchMore}
+        dataProductAndCategory={dataProductAndCategory}
+        setMore={setMore}
+        more={more}
         setLike={setLike}
         handlerShare={handlerShare}
         dataMinPedido={numberFormat(dataMinPedido?.getMinPrice)}

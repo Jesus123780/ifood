@@ -36,7 +36,7 @@ export const getServerSideProps = async (context) => {
   if (!session) return {
     redirect: {
       permanent: false,
-      destination: '/entrar'
+      destination: '/'
     }
   }
 

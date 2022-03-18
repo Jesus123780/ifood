@@ -1,11 +1,10 @@
 import { APColor, BGColor, PColor, PLColor, WColor } from '../../public/colors';
 import InputHooks from '../../components/InputHooks/InputHooks';
 import CardProduct from './CardProducts';
-import Image from 'next/image';
+import Image from 'next/image'
 import { AwesomeModal } from '../../components/AwesomeModal';
 import { RippleButton } from '../../components/Ripple';
 import Link from 'next/link'
-
 import { IconLove, IconMiniCheck, IconPlus, IconLike, IconDisLike, IconTicker, IconRate, IconLoveFill, IconWhatsApp, IconFacebook, IconTwitter, IconEnlace } from '../../public/icons';
 import { Sticky, StickyBoundary, StickyViewport } from './stickyheader';
 import ScrollNav from '../../components/hooks/useScrollNav';
@@ -18,12 +17,14 @@ import { Story } from '../story';
 import { Rate } from '../../components/Rate';
 import { copyToClipboard, numberFormat } from 'utils';
 import QRCode from 'react-qr-code';
-export const RestaurantProfile = ({ src, id, errorForm, handlerShare, share, setShare, dataMinPedido, stars, rGoodTemperature, rTasty, appearance, setRatingState, setRatingStar, dataRating, rating, rGoodCondition, handleGetRating, setGoodCondition, setTasty, setGoodTemperature, SetAppearance, RemoveFav, like, setLike, dataForm, handleChange, handleRating, addFav, dataOneFav, data, dataCatProducts, refs, refInterSection, SET_OPEN_PRODUCT, setState, getOneProduct, dataOneProduct, dataOptional, handleCountProducts, handleAddProducts, state, increase, decrease, handleChangeClickOnTable }) => {
+import { FetchMoreInteractions } from 'components/hooks';
+import { Loading } from 'components/Loading';
+export const RestaurantProfile = ({ src, more, setMore, id, dataProductAndCategory, errorForm, fetchMore, handlerShare, share, setShare, dataMinPedido, stars, rGoodTemperature, rTasty, appearance, setRatingState, setRatingStar, dataRating, rating, rGoodCondition, handleGetRating, setGoodCondition, setTasty, setGoodTemperature, SetAppearance, RemoveFav, like, setLike, dataForm, handleChange, handleRating, addFav, dataOneFav, data, dataCatProducts, refs, refInterSection, SET_OPEN_PRODUCT, setState, getOneProduct, dataOneProduct, dataOptional, handleCountProducts, handleAddProducts, state, increase, decrease, handleChangeClickOnTable }) => {
     const { pName, getStore, ProPrice, ProDescription, ProDescuento, ExtProductFoodsAll } = dataOneProduct || {}
     const { fState } = dataOneFav
     const containerStyle = {
         height: '100vh',
-        overflowY: 'auto',
+        // overflowY: 'auto',
     };
     const handleChangeLol = ({ target, type }) => {
         if (type === 'stuck') {
@@ -63,11 +64,25 @@ export const RestaurantProfile = ({ src, id, errorForm, handlerShare, share, set
                         }) : <div>No products</div>}
                     </ContainerCarrusel>
                 </StickyBoundary>
+                {/* {key === dataCatProducts.length - 1 && <FetchMoreInteractions fetchMore={key === dataCatProducts.length - 1} callback={() => {
+                    // setMore(s => s + 5)
+                    fetchMore({
+                        variables: { max: 10, min: 0 },
+                        updateQuery: (prevResult, { fetchMoreResult }) => {
+                            if (!fetchMoreResult) return prevResult
+                            let getCatProductsWithProductClient = [...prevResult.getCatProductsWithProductClient]
+                            return {
+                                getCatProductsWithProductClient: [...fetchMoreResult.getCatProductsWithProductClient]
+
+                            }
+                        }
+                    })
+
+                }} render={<Loading />} />} */}
                 <ScrollNav navHeader={Nav || []} />
             </div>)
     }
     );
-    console.log(data)
     const Nav = dataCatProducts?.map((x, key) => { return { headerTitle: x.pName, headerID: `${key}`, headerRef: section1Ref } })
     const [hour, setHour] = useState(null)
     const [day, setDay] = useState()
@@ -112,7 +127,7 @@ export const RestaurantProfile = ({ src, id, errorForm, handlerShare, share, set
                 <ContentSearch>
                     <Flex>
                         <span>
-                        <img  className='store_image' src={data.Image} />
+                            <img className='store_image' src={data.Image} />
                             <Flex>
                                 <Title>{data?.storeName}</Title>
                                 <IconRate color={WColor} size={30} />
@@ -219,8 +234,15 @@ export const RestaurantProfile = ({ src, id, errorForm, handlerShare, share, set
             <AwesomeModal zIndex='999' padding='20px' show={SET_OPEN_PRODUCT.state} onHide={() => { SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state), setState(1) }} onCancel={() => false} size='medium' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
                 <CardProductsModal>
                     <div>
-                        <Image className='store_image' width={450} height={450} objectFit='contain' src={'/images/hamb.jpg'} alt='Picture' blurDataURL='data:...' placeholder='blur' />
-
+                        <Image
+                            className='store_image'
+                            width={450}
+                            height={450}
+                            objectFit='contain'
+                            src={'/images/hamb.jpg'}
+                            alt='Picture'
+                            blurDataURL='data:...'
+                            placeholder='blur' />
                     </div>
                     <ContentInfo>
                         <HeadSticky>

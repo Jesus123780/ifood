@@ -22,7 +22,7 @@ export default function HomeView() {
         })
         setDataCatStore([dataCatSto?.getOneCatStore])
     }, [id, name])
-
+    console.log(dataCatSto)
     return (
         <div >
             <Head>

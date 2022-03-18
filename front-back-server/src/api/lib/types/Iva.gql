@@ -1,0 +1,34 @@
+# Product Type
+type IVA {
+    _id: ID
+    idRefIva: String
+    idUser: ID
+    idComp: ID
+    iPercentage: Float
+    IName: String
+}
+
+# Product Input
+input IIVA {
+    _id: ID
+    idRefIva: String
+    idUser: ID
+    idComp: ID
+    iPercentage: Float
+    IName: String
+}
+
+# Query
+type Query {
+  getAllIva(idComp: ID): [IVA]
+  getOneVat(id: ID): IVA
+
+}
+
+# Mutations
+type Mutation {
+  registerIva(input: IIVA): IVA
+  EditIva(input: IIVA): IVA
+  DeleteOneIva(id: ID): Boolean,
+
+}

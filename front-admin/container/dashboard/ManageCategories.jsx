@@ -218,12 +218,12 @@ export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
                 </Section>)
                 }
             />
-            < AwesomeModal height='70vh' backdrop='static' zIndex='990' bgColor='transparent' padding='25px' show={openModalProducts} onHide={() => setOpenModalProducts(!openModalProducts)} onCancel={() => setOpenModalProducts(!openModalProducts)} size='medium' btnCancel={false} btnConfirm={false} onConfirm={() => handleUpdateCatInProduct()} header={true} footer={true} borderRadius='10px' >
+            <AwesomeModal height='70vh' backdrop='static' zIndex='990' bgColor='transparent' padding='25px' show={openModalProducts} onHide={() => setOpenModalProducts(!openModalProducts)} onCancel={() => setOpenModalProducts(!openModalProducts)} size='medium' btnCancel={true} btnConfirm={true} onConfirm={() => handleUpdateCatInProduct()} header={true} footer={true} borderRadius='10px' >
                 <RippleButton padding='5px' onClick={() => SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state)}> Subir productos</RippleButton >
                 <CtnItems>
                     {!dataProducto?.length ? <SkeletonP /> : dataProducto?.map(product => (
                         <CardProduct grid={false} key={product.carProId} >
-                            <ContentImg grid={false}>
+                            <ContentImg grid={false}>   
                                 {!product.ProImage ? <i>No img</i> : <Img src={product.ProImage} alt={product.ProImage} />}
                             </ContentImg>
                             <ContentInfo>

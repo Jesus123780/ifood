@@ -11,7 +11,6 @@ export const ListRestaurant = ({ data, catStoreId, like }) => {
   const [pushOneRecommendation] = useMutation(PUSH_RECOMMENDED, {
     context: { clientName: "main" }
   })
-  console.log(data)
   return (
     <Content>
       <MerchantListWrapper>

@@ -1,0 +1,44 @@
+
+# DeviceUsers
+type DeviceUser {
+  dId: ID!
+  id: ID
+  deviceId: String!
+  deviceName: String
+  locationFormat: String
+  type: String
+  short_name: String
+  platform: String
+  version: String
+  dState: Int
+  DatCre: DateTime
+  DatMod: DateTime
+}
+
+# Inputs
+input DeviceUserInput {
+  dId: ID
+  id: ID
+  deviceId: String!
+  deviceName: String
+  locationFormat: String
+  type: String
+  short_name: String
+  platform: String
+  version: String
+  dState: Int
+  DatCre: DateTime
+  DatMod: DateTime
+}
+
+type Query {
+"""Response for find one DeviceUser"""
+  getDeviceUser(id: ID, DeviceUserName: String): DeviceUser
+  getDeviceUsers: [DeviceUser]
+}
+
+
+type Mutation {
+  """"registra DeviceUser data"""
+  newRegisterDeviceUser(input: DeviceUserInput): AuthPayload
+}

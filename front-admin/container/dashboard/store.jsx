@@ -47,9 +47,10 @@ const DashboardStore = ({ StoreId, setAlertBox }) => {
     const [showMore, setShowMore] = useState(100)
     const refInput = useRef()
     const [setALogoStore, { error: Error, data: d }] = useMutation(CREATE_LOGO, {
-        onCompleted: (data) => setAlertBox({ message: data?.setALogoStore?.message  }),
+        onCompleted: (data) => setAlertBox({ message: data?.setALogoStore?.message }),
         context: { clientName: "admin-server" }
     })
+
     // QUERY
     const [getCatProductsWithProduct, { data: dataProductAndCategory, loading: loadCatPro }] = useLazyQuery(GET_ALL_CATEGORIES_WITH_PRODUCT, {
         fetchPolicy: 'network-only',
@@ -111,6 +112,7 @@ const DashboardStore = ({ StoreId, setAlertBox }) => {
     const { data } = useQuery(GET_ONE_STORE)
     const [dataUser] = useUser()
     const dataStore = data?.getStore || {}
+    const { idStore } = data?.getStore || {}
     // images
     const fileInputRef = useRef(null)
     const fileInputRefLogo = useRef(null)
@@ -144,7 +146,7 @@ const DashboardStore = ({ StoreId, setAlertBox }) => {
         setALogoStore({
             variables: {
                 logo: files[0],
-                idStore: 'MjcyMDg4ODE0ODUxNTE2NDUw'
+                idStore: idStore
             }, update(cache) {
                 cache.modify({
                     fields: {

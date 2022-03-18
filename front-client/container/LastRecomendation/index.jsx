@@ -1,11 +1,14 @@
 import { useLazyQuery, useQuery } from '@apollo/client';
 import { Container, ContainerProduct, Title } from './styled';
 import { GET_ONE_STORE_IN_CATEGORY } from 'container/categoryStores/queries';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { GET_ALL_PRODUCT_STORE, GET_ALL_STORE_RECOMMENDED } from 'gql/Recommendation';
 import { ListRestaurant } from 'container/restaurantes/restaurant';
 import { RippleButton } from 'components/Ripple';
 import CardProduct from 'container/RestaurantProfile/CardProducts';
+import { Context } from 'context';
+import Link from 'next/link'
+
 // It may interest you
 export const LastRecommended = ({ ID_CATEGORIE }) => {
     const [getOneCatStore, { data: dataCatSto }] = useLazyQuery(GET_ONE_STORE_IN_CATEGORY)
@@ -38,8 +41,9 @@ export const LastRecommended = ({ ID_CATEGORIE }) => {
 }
 
 export const ItMayInterestYou = ({ PRODUCT_NAME_COOKIE }) => {
+    const { setAlertBox, openProductModal, setOpenProductModal, handleProductModal } = useContext(Context)
     let name = PRODUCT_NAME_COOKIE
-    name =  name?.split(" ")[0]
+    name = name?.split(" ")[0]
     // name = name[0]
     const { data: dataProduct, fetchMore } = useQuery(GET_ALL_PRODUCT_STORE, {
         fetchPolicy: 'cache-and-network',
@@ -54,10 +58,23 @@ export const ItMayInterestYou = ({ PRODUCT_NAME_COOKIE }) => {
     })
     return (
         <Container>
-                <Title>Te puede interesar {name} </Title>
-           {!!name && <ContainerProduct>
+            <Title>Te puede interesar {name} </Title>
+            {!!name && <ContainerProduct>
                 {dataProduct?.productFoodsAllRecommended?.length > 0 && dataProduct?.productFoodsAllRecommended?.map(food => (
-                    <CardProduct food={food} key={food.pId} />
+                    <div>
+                        {<Link
+                            passHref
+                            shallow
+                            replace
+                            href={{
+                                pathname: `/restaurantes`,
+                                query: { plato: food.pId }
+                            }} >
+                            <a>
+                                <CardProduct food={food} key={food.pId} onClick={() => setOpenProductModal(!openProductModal)} />
+                            </a>
+                        </Link>}
+                    </div>
                 ))}
             </ContainerProduct>}
         </Container>
