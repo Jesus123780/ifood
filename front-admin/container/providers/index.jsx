@@ -6,73 +6,30 @@ import NewSelect from 'components/NewSelectHooks/NewSelect'
 import { RippleButton } from 'components/Ripple'
 import { Table } from 'components/Table'
 import { Section } from 'components/Table/styled'
-import { useQuery, useMutation } from '@apollo/client'
-
 import moment from 'moment'
 import React from 'react'
-import { CREATE_SHOPPING, GET_ALL_SHOPPING } from './queries'
 import { Button, Item, Container } from './styled'
-import { numberFormat, updateCache } from 'utils'
 
-export const ShoppingC = () => {
+export const ProvidersC = () => {
     const HandleGetOne = () => { }
     const OPEN_MODAL = useSetState()
-    const [newShopping] = useMutation(CREATE_SHOPPING)
-    const { data, loading, error } = useQuery(GET_ALL_SHOPPING)
     const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
-    const handleForm = (e) =>
-        handleSubmit({
-            event: e,
-            action: () => {
-                return newShopping({
-                    variables: {
-                        input: {
-                            shoName: dataForm.shoName,
-                            shoPrice: parseFloat(dataForm.shoPrice),
-                            shoComments: dataForm.shoComments,
-                        }
-                    }, update: (cache, { data: { getAllShopping } }) => updateCache({
-                        cache,
-                        query: GET_ALL_SHOPPING,
-                        nameFun: 'getAllShopping',
-                        dataNew: getAllShopping
-                    })
-                })
-            }
-        })
     return (
         <Container>
+            REPORT
             <RippleButton onClick={() => OPEN_MODAL.setState(!OPEN_MODAL.state)}>Crear nuevo</RippleButton>
-            <AwesomeModal zIndex='9999' padding='25px' show={OPEN_MODAL.state} onHide={() => { OPEN_MODAL.setState(!OPEN_MODAL.state) }} onCancel={() => false} size='small' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
-                <form onSubmit={(e) => handleForm(e)}>
+            <AwesomeModal height='100vh' zIndex='9999' padding='25px' show={OPEN_MODAL.state} onHide={() => { OPEN_MODAL.setState(!OPEN_MODAL.state) }} onCancel={() => false} size='90%' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
+                <form>
                     <InputHooks
-                        title='Nombre'
-                        width={'100%'}
+                        title='Desde'
+                        width={'20%'}
                         required
-                        error={errorForm?.shoName}
-                        value={dataForm?.shoName}
+                        error={errorForm?.Desde}
+                        value={dataForm?.Desde}
                         onChange={handleChange}
-                        name='shoName'
+                        name='Desde'
+                        type='date'
                     />
-                    <InputHooks
-                        title='Precio'
-                        width={'100%'}
-                        required
-                        error={errorForm?.shoPrice}
-                        value={numberFormat(dataForm?.shoPrice)}
-                        onChange={handleChange}
-                        name='shoPrice'
-                    />
-                    <InputHooks
-                        title='Comentario'
-                        width={'100%'}
-                        required
-                        error={errorForm?.shoComments}
-                        value={dataForm.shoComments}
-                        onChange={handleChange}
-                        name='shoComments'
-                    />
-                    <RippleButton type='submit' widthButton='100%' >Crear</RippleButton>
                 </form>
             </AwesomeModal>
             <form>
@@ -153,31 +110,40 @@ export const ShoppingC = () => {
             </form>
             <Table
                 titles={[
-                    { name: '#', justify: 'flex-start', width: '1fr' },
-                    { name: 'Nombre', key: 'shoName', justify: 'flex-start', width: '1fr' },
-                    { name: 'Precio', key: 'shoPrice', justify: 'flex-start', width: '1fr' },
-                    { name: 'Comentario', justify: 'flex-start', width: '1fr' },
-                    { name: 'Date', justify: 'flex-start', width: '1fr' },
-                    { name: '', justify: 'flex-start', width: '1fr' },
+                    { name: 'Numero', justify: 'flex-center', width: '.5fr' },
+                    { name: 'Cancelado por', key: '', justify: 'flex-center', width: '1fr' },
+                    { name: 'Pedido', key: 'bDescription', justify: 'flex-center', width: '1fr' },
+                    { name: 'Date', justify: 'flex-center', width: '1fr' },
+                    { name: 'Canal', justify: 'flex-center', width: '1fr' },
+                    { name: 'Método de pago', justify: 'flex-center', width: '1fr' },
+                    { name: 'Numero de Entrega', justify: 'flex-center', width: '1fr' },
+                    { name: '', justify: 'flex-center', width: '1fr' },
                 ]}
                 labelBtn='Product'
-                data={data?.getAllShopping || []}
+                data={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
                 renderBody={(dataB, titles) => dataB?.map((x, i) => <Section odd padding='10px 0' columnWidth={titles} key={i}>
                     <Item>
                         <span> {i + 1}</span>
                     </Item>
                     <Item>
-                        <span> {x.shoName}</span>
+                        <span> Restaurante</span>
                     </Item>
                     <Item>
-                        <span> {x.shoPrice}</span>
+                        {/* <span> {x.pCodeRef}</span> */}
                     </Item>
                     <Item>
-                        <span> {x.shoComments}</span>
+                        {/* <span> {moment(x.pDatCre).format('DD-MM-YYYY')} - {moment(x.pDatCre).format('HH:mm A')}</span> */}
                     </Item>
                     <Item>
-                        <span> {moment(x.createAt).format('DD-MM-YYYY')}</span>
+                        <span> DELIVERY-APP </span>
                     </Item>
+                    <Item>
+                        {/* <span> {x.payMethodPState ? 'EFECTIVO' : 'TRANSFERENCIA'}</span> */}
+                    </Item>
+                    <Item>
+                        {/* <span> $ {numberFormat(x.totalProductsPrice)}</span> */}
+                    </Item>
+
                     <Item>
                         <Button onClick={() => HandleGetOne({})}>
                             Ver detalles

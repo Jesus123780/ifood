@@ -1,0 +1,95 @@
+# types
+type WalletDebt {
+    debtWalletId: ID!
+    idStore: ID!
+    id: ID!
+    pId: ID
+    UserDebtId: ID
+    gender: Int
+    debtName: String
+    personName: String
+    ccWalletUser: String
+    lastName: String
+    RefDebtCode: String
+    debtAmount: Float
+    debtUuid: String
+    debtComments: String
+    debtState: Int
+    createAt: DateTime
+    updateAt: DateTime
+    getAllWalletDebtProduct: [WalletDebtProduct]
+
+}
+type WalletDebtProduct {
+    pId: ID
+    UserDebtId: ID
+    debtWalletProductId: ID
+    idStore: String
+    RefDebtCode: String
+    debtAmountProduct: Float
+    debtComments: String
+    debtProductState: Int
+    createAt: DateTime
+    updateAt: DateTime
+}
+
+input IWalletDebt {
+    pId: ID
+    UserDebtId: ID
+    gender: Int
+    personName: String
+    ccWalletUser: String
+    lastName: String
+    debtName: String
+    RefDebtCode: String
+    debtAmount: Float
+    debtUuid: String
+    debtComments: String
+    debtState: Int
+    createAt: DateTime
+    updateAt: DateTime
+}
+# wall products
+input ILineItemsProductsWallet {
+    pId: ID
+    UserDebtId: ID
+    debtWalletProductId: ID
+    idStore: String
+    RefDebtCode: String
+    debtAmountProduct: Float
+    debtComments: String
+    debtProductState: Int
+    createAt: DateTime
+    updateAt: DateTime
+}
+input LineItemsIdProductsWallet {
+    setData: [ILineItemsProductsWallet]
+}
+input IWalletDebtProduct {
+    pId: ID
+    UserDebtId: ID
+    debtWalletProductId: ID
+    idStore: String
+    RefDebtCode: String
+    debtAmountProduct: Float
+    debtComments: String
+    debtProductState: Int
+    createAt: DateTime
+    updateAt: DateTime
+}
+
+# Queries
+type Query {
+    "Consulta todos departamentos de un país"
+    WalletDebt: [WalletDebt]
+    getOneWalletDebt(debtWalletId: ID!): WalletDebt
+}
+
+# Mutations
+type Mutation {
+    "Registra un cliente"
+    createWalletDebt(input: IWalletDebt!, inputLineItems: LineItemsIdProductsWallet!): Response
+    createwalletdebtproducts(input: IWalletDebtProduct!): Response
+    editWalletDebt(input: IWalletDebt!): WalletDebt
+    delWalletDebt(input: IWalletDebt!): WalletDebt
+}

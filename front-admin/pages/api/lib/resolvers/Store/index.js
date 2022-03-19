@@ -9,10 +9,12 @@ import setVisitorStore from './VisitorStore'
 import storyStore from './storyStore'
 import shoppingStore from './shopping'
 import contactStore from './contact'
+import walletDebtStore from './walletDebt'
 
 export default {
     TYPES: {
         ...storeResolver.TYPES,
+        ...walletDebtStore.TYPES,
         ...emplooyeResolver.TYPES,
         ...ScheduleStoreResolver.TYPES,
         ...createCatOfProductResolver.TYPES,
@@ -26,6 +28,7 @@ export default {
     QUERIES: {
         ...storeResolver.QUERIES,
         ...emplooyeResolver.QUERIES,
+        ...walletDebtStore.QUERIES,
         ...ScheduleStoreResolver.QUERIES,
         ...createCatOfProductsResolver.QUERIES,
         ...pedidosResolver.QUERIES,
@@ -38,6 +41,7 @@ export default {
     },
     MUTATIONS: {
         ...storeResolver.MUTATIONS,
+        ...walletDebtStore.MUTATIONS,
         ...ContractResolver.MUTATIONS,
         ...shoppingStore.MUTATIONS,
         ...setVisitorStore.MUTATIONS,

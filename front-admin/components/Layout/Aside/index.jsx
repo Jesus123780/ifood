@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { useApolloClient } from '@apollo/client'
 import PropTypes from 'prop-types'
 import { PColor } from '../../../public/colors'
-import { IconHome, IconHorario, IconLogo, IconLogout, IconPromo, IconShopping } from '../../../public/icons'
+import { IconHome, IconHorario, IconLogo, IconLogout, IconPromo, IconShopping, IconWallet } from '../../../public/icons'
 import ActiveLink from '../../common/Link'
 import { Anchor, AnchorRouter, ButtonActionLink, ButtonGlobalCreate, Card, ContainerAside, CtnAnchor, Info, LeftNav, OptionButton, Router, SubMenuModules } from './styled'
 import { useRouter } from 'next/router'
@@ -11,7 +11,9 @@ import { URL_BASE } from 'apollo/urls'
 import { ButtonOption } from '../styled'
 import { useStore } from 'components/hooks/useStore'
 import { Context } from 'context/Context'
+// import Options from '../../../components/Acordion'
 import Link from 'next/link'
+import Options from 'components/Acordion/Options'
 
 const Aside = () => {
   const { client } = useApolloClient()
@@ -40,7 +42,22 @@ const Aside = () => {
   }, [client])
   const [dataStore, { loading: LoadingRes }] = useStore()
   const { storeName, idStore, uState } = dataStore || {}
-
+  const data = [
+    {
+      mId: 1,
+      mName: 'proveedores',
+      mPath: 'update',
+      subModules: [
+        {
+          smId: 1,
+          smName: 'proveedores',
+          smPath: 'proveedores',
+        },
+      ]
+    },
+  ]
+  const [menu, setMenu] = useState(false)
+  const handleClick = index => setMenu(index === menu ? false : index)
   return (
     <>
       <ContainerAside>
@@ -85,7 +102,7 @@ const Aside = () => {
               </Info>
               <Info>
                 <h2>Productos</h2>
-                <ActiveLink activeClassName="active" href="/update/products">
+                <ActiveLink activeClassName="active" href="/proveedores/products">
                   <Anchor>Productos</Anchor>
                 </ActiveLink>
                 <ActiveLink activeClassName="active" href="/dashboard">
@@ -99,7 +116,7 @@ const Aside = () => {
                 <h1 className="title_store">{storeName}</h1>
               </a>
             </Link>
-           {uState == 1 && <div className="program_state">
+            {uState == 1 && <div className="program_state">
               <IconLogo size='20px' color={PColor} />
               <h3 className="sub_title_store">En pausa programada</h3>
             </div>}
@@ -136,13 +153,33 @@ const Aside = () => {
               <AnchorRouter><IconShopping size='15px' />Lealtad</AnchorRouter>
             </ActiveLink>
             <ActiveLink activeClassName="active" href="/billetera">
-              <AnchorRouter><IconShopping size='15px' />Billetera</AnchorRouter>
+              <AnchorRouter>  <IconWallet size='20px' />Billetera</AnchorRouter>
             </ActiveLink>
             <OptionButton>
               <ButtonOption space onClick={onClickLogout}>
                 <IconLogout size='20px' color={PColor} />
               </ButtonOption>
             </OptionButton>
+            {data?.map((m, i) => (
+              <Options
+                key={m.mId}
+                index={i}
+                active={menu === i}
+                path={m.mPath}
+                label={m.mName}
+                handleClick={() => handleClick(i)}
+              // icon={<FontAwesomeIcon icon={iconModules[x.mIcon]} color={active === i ? '#a6b0cf' : '#a6b0cf'} size='lg' />}
+              >
+                {!!m.subModules && m.subModules.map(sm => <ActiveLink
+                  key={sm.smId}
+                  onClick={e => e.stopPropagation()}
+                  href={`/${m.mPath}/${sm.smPath}`}
+                >
+                  <AnchorRouter><IconShopping size='15px' />{sm.smName}</AnchorRouter>
+                </ActiveLink>)}
+              </Options>
+
+            ))}
           </Router>
         </Card>
 

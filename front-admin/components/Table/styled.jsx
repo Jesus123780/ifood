@@ -229,12 +229,12 @@ export const ArrowsLabel = styled.label`
 export const ArrowsCheck = styled.input`
     /* display: none; */
     /* opacity: 0; */
-    top: 14%;
-    z-index: 999;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    opacity: 0;
+    /* top: 14%; */
+    /* z-index: 999; */
+    /* position: absolute; */
+    /* left: 0; */
+    /* bottom: 0; */
+    /* opacity: 0; */
 `
 export const A = styled.a`
     text-decoration:none;
