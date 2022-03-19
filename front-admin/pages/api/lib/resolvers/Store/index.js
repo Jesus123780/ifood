@@ -7,6 +7,8 @@ import ContractResolver from './contrac'
 import pedidosResolver from './pedidos'
 import setVisitorStore from './VisitorStore'
 import storyStore from './storyStore'
+import shoppingStore from './shopping'
+import contactStore from './contact'
 
 export default {
     TYPES: {
@@ -17,6 +19,8 @@ export default {
         ...setVisitorStore.TYPES,
         ...pedidosResolver.TYPES,
         ...storyStore.TYPES,
+        ...shoppingStore.TYPES,
+        ...contactStore.TYPES,
         ...createCatOfProductsResolver.TYPES,
     },
     QUERIES: {
@@ -26,6 +30,8 @@ export default {
         ...createCatOfProductsResolver.QUERIES,
         ...pedidosResolver.QUERIES,
         ...setVisitorStore.QUERIES,
+        ...shoppingStore.QUERIES,
+        ...contactStore.QUERIES,
         ...createCatOfProductResolver.QUERIES,
         ...storyStore.QUERIES,
         ...ContractResolver.QUERIES,
@@ -33,8 +39,10 @@ export default {
     MUTATIONS: {
         ...storeResolver.MUTATIONS,
         ...ContractResolver.MUTATIONS,
+        ...shoppingStore.MUTATIONS,
         ...setVisitorStore.MUTATIONS,
         ...ScheduleStoreResolver.MUTATIONS,
+        ...contactStore.MUTATIONS,
         ...pedidosResolver.MUTATIONS,
         ...emplooyeResolver.MUTATIONS,
         ...createCatOfProductResolver.MUTATIONS,

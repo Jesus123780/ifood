@@ -123,6 +123,21 @@ const Aside = () => {
             <ActiveLink activeClassName="active" href="/ventas">
               <AnchorRouter><IconShopping size='15px' />Ventas</AnchorRouter>
             </ActiveLink>
+            <ActiveLink activeClassName="active" href="/compras">
+              <AnchorRouter><IconShopping size='15px' />Compras</AnchorRouter>
+            </ActiveLink>
+            <ActiveLink activeClassName="active" href="/contactos">
+              <AnchorRouter><IconShopping size='15px' />Contactos</AnchorRouter>
+            </ActiveLink>
+            <ActiveLink activeClassName="active" href="/informes">
+              <AnchorRouter><IconShopping size='15px' />Informes</AnchorRouter>
+            </ActiveLink>
+            <ActiveLink activeClassName="active" href="/fidelizacion">
+              <AnchorRouter><IconShopping size='15px' />Lealtad</AnchorRouter>
+            </ActiveLink>
+            <ActiveLink activeClassName="active" href="/billetera">
+              <AnchorRouter><IconShopping size='15px' />Billetera</AnchorRouter>
+            </ActiveLink>
             <OptionButton>
               <ButtonOption space onClick={onClickLogout}>
                 <IconLogout size='20px' color={PColor} />

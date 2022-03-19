@@ -1,0 +1,42 @@
+# Shopping Type
+type Shopping {
+    shoId: ID
+    id: ID
+    idStore: ID
+    shoName: String!
+    shoPrice: Float!
+    shoComments: String
+    shoState: Int
+    createAt: DateTime
+    updateAt: DateTime
+}
+
+# Product Input
+input IShopping {
+    shoId: ID
+    id: ID
+    idStore: ID
+    shoName: String!
+    shoPrice: Float!
+    shoComments: String
+    shoState: Int
+    createAt: DateTime
+    updateAt: DateTime
+}
+
+# Query
+type Query {
+  getAllShopping(idStore: ID): [Shopping]
+  getOneShopping(shoId: String, idStore: ID): Shopping
+}
+
+# Mutations
+type Mutation {
+    "ADD A NEW Shopping"
+  newShopping(input: IShopping): Response
+    "Edit One Shopping"
+  editOneShopping(input: ITaxes): Response
+    "Remove One Shopping"
+    DeleteOneShopping(shoId: ID): Response
+
+}
