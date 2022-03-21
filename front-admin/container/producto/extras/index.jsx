@@ -231,7 +231,6 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
                                     <InputHookProducts
                                         inputText
                                         color={EColor}
-                                        inputText
                                         margin='10px 0'
                                         placeholder='Precio'
                                         value={numberFormat(salesLine.extraPrice)}

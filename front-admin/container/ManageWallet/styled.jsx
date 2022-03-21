@@ -21,6 +21,31 @@ export const CtnList = styled.div`
     }
 
 `
+export const Grid = styled.div`
+    margin: 50px 0px;
+    place-content: center;
+    display: grid;
+    gap: 5px;
+    height: 400px;
+    overflow: hidden auto;
+    grid-template-columns: 24% repeat(auto-fill,24%) 24%;
+`
+export const LoadingComponent = styled.div`
+    background: linear-gradient(to left, rgb(243, 242, 241), rgb(228, 226, 224), rgb(243, 242, 241)) 0% 0% / 200% 100%;
+    animation: 4s linear 0s infinite normal none running pulse;
+    border-radius: 1rem;
+    padding: 10px;
+    margin: 5px 0;
+    width: ${({ width }) => width || '100%'};
+    @keyframes pulse {
+        0% {
+    background-position: 400% 0;
+        }
+        100% {
+            background-position: 0 0;
+        }
+    }
+`
 export const Content = styled.div`
     /* height: 100vh; */
     display: block;

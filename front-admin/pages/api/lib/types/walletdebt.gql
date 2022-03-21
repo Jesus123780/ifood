@@ -9,6 +9,7 @@ type WalletDebt {
     debtName: String
     personName: String
     ccWalletUser: String
+    phoneWalletUser: String
     lastName: String
     RefDebtCode: String
     debtAmount: Float
@@ -35,10 +36,12 @@ type WalletDebtProduct {
 
 input IWalletDebt {
     pId: ID
+    debtWalletId: ID
     UserDebtId: ID
     gender: Int
     personName: String
     ccWalletUser: String
+    phoneWalletUser: String
     lastName: String
     debtName: String
     RefDebtCode: String
@@ -81,15 +84,15 @@ input IWalletDebtProduct {
 # Queries
 type Query {
     "Consulta todos departamentos de un país"
-    WalletDebt: [WalletDebt]
+    WalletDebt(search: String, min: Int, max: Int, idStore: ID, refDebtCode: String): [WalletDebt]
     getOneWalletDebt(debtWalletId: ID!): WalletDebt
 }
 
 # Mutations
 type Mutation {
     "Registra un cliente"
-    createWalletDebt(input: IWalletDebt!, inputLineItems: LineItemsIdProductsWallet!): Response
+    createWalletDebt(input: IWalletDebt!, inputLineItems: LineItemsIdProductsWallet!): WalletDebt
     createwalletdebtproducts(input: IWalletDebtProduct!): Response
     editWalletDebt(input: IWalletDebt!): WalletDebt
-    delWalletDebt(input: IWalletDebt!): WalletDebt
+    delWalletDebt(input: IWalletDebt!): Response
 }

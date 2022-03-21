@@ -57,6 +57,10 @@ export default conn.define('walletdebt', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    phoneWalletUser: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     personName: {
         type: Sequelize.STRING(100),
         allowNull: false

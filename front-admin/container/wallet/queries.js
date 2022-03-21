@@ -11,14 +11,51 @@ mutation createContacts ($input: IContacts) {
 export const CREATE_WALLET_DEBT = gql`
 mutation createWalletDebt ($input: IWalletDebt! $inputLineItems: LineItemsIdProductsWallet!) {
   createWalletDebt(input: $input, inputLineItems: $inputLineItems) {
+debtWalletId
+idStore
+id
+pId
+UserDebtId
+gender
+debtName
+personName
+ccWalletUser
+phoneWalletUser
+lastName
+RefDebtCode
+debtAmount
+debtUuid
+debtComments
+debtState
+createAt
+updateAt
+getAllWalletDebtProduct {
+      pId
+      UserDebtId
+      debtWalletProductId
+      idStore
+      RefDebtCode
+      debtAmountProduct
+      debtComments
+      debtProductState
+      createAt
+      updateAt
+    }
+  }
+}
+`
+export const DELETE_ONE_WALLET_DEBT = gql`
+mutation delWalletDebt ($input: IWalletDebt!) {
+  delWalletDebt(input: $input) {
     success
     message
+    
   }
 }
 `
 export const GET_ALL_WALLET_DEBT = gql`
-query WalletDebt {
-  WalletDebt {
+query WalletDebt($search: String, $min: Int, $max: Int, $idStore: ID, $refDebtCode: String) {
+  WalletDebt(search: $search, min: $min, max: $max, idStore: $idStore, refDebtCode: $refDebtCode) {
     debtWalletId
     idStore
     # id
@@ -26,6 +63,7 @@ query WalletDebt {
     UserDebtId
     debtName
     personName
+    phoneWalletUser
     RefDebtCode
     debtAmount
     debtUuid
@@ -64,6 +102,7 @@ query getOneWalletDebt($debtWalletId: ID!){
     debtAmount
     debtUuid
     debtComments
+    phoneWalletUser
     debtState
     createAt
     updateAt

@@ -28,7 +28,7 @@ export const createWalletDebt = async (_, { input, inputLineItems }, ctx) => {
     try {
         const { UserDebtId, RefDebtCode } = input || {}
         const { setData } = inputLineItems || {}
-        await Walletdebt.create({
+       const data = await Walletdebt.create({
             ...input,
             debtState: 1,
             id: deCode(ctx.User.id),
@@ -39,38 +39,82 @@ export const createWalletDebt = async (_, { input, inputLineItems }, ctx) => {
             const { pId, debtAmountProduct } = setData[i]
             await createwalletdebtproducts(null, { input: { pId, RefDebtCode, UserDebtId, debtAmountProduct, ctx } })
         }
-        return {
-            success: true,
-            message: 'creada',
-        }
+        return data
     } catch (error) {
         console.log(error)
-        return { success: false, message: error }
     }
 }
-export const WalletDebt = async (_, { idStore }, ctx, info) => {
+export const delWalletDebt = async (_, { input }, ctx, info) => {
+    const { debtWalletId, debtState } = input || {}
+    console.log(debtWalletId, debtState)
+    try {
+        await Walletdebt.update({ debtState: debtState === 1 ? 0 : 1 }, { where: { debtWalletId: deCode(debtWalletId) } })
+        return { success: true, message: 'delete' }
+
+    } catch (error) {
+        return { success: false, message: error }
+    }
+
+}
+export const WalletDebt = async (_, { idStore, search, min, max, refDebtCode }, ctx, info) => {
+    let whereSearch = {}
+    if (search) {
+        whereSearch = {
+            [Op.or]: [
+                { RefDebtCode: { [Op.substring]: search.replace(/\s+/g, ' ') } },
+            ]
+        }
+    }
     try {
         const attributes = getAttributes(Walletdebt, info)
         const data = await Walletdebt.findAll({
             attributes,
             where: {
-                idStore: deCode(ctx.restaurant),
-                id: deCode(ctx.User.id),
-                debtState: { [Op.gt]: 0 }
-            }
+                [Op.or]: [
+                    {
+                        ...whereSearch,
+                        idStore: deCode(ctx.restaurant),
+                        id: deCode(ctx.User.id),
+                        debtState: { [Op.gt]: 0 }
+                    }
+                ]
+            }, limit: [min || 0, max || 100], order: [['debtName', 'DESC']]
         })
         return data
     } catch (e) {
-        const error = new Error('Lo sentimos, ha ocurrido un error interno lol')
+        const error = new Error(e)
         return error
     }
 }
-export const getAllWalletDebtProduct = async (parent, _args, _context, info) => {
+export const getAllWalletDebtProduct = async (parent, args, ctx, info) => {
     try {
+        const { search, min, max } = args
+        let whereSearch = {}
+        if (search) {
+            whereSearch = {
+                [Op.or]: [
+                    { RefDebtCode: { [Op.substring]: search.replace(/\s+/g, ' ') } },
+                ]
+            }
+        }
         const attributes = getAttributes(walletdebtproducts, info)
         const data = await walletdebtproducts.findAll({
             attributes,
-            where: { RefDebtCode: (parent.RefDebtCode) }
+            where: {
+                [Op.or]: [
+                    {
+                        ...whereSearch,
+                        RefDebtCode: (parent.RefDebtCode),
+                        // ...whereSearch,
+                        // ID Productos
+                        idStore: deCode(ctx.restaurant),
+                        debtProductState: { [Op.gt]: 0 }
+                    }
+                ]
+            }, limit: [min || 0, max || 100], order: [['debtProductState', 'DESC']]
+            // where: {
+            //     RefDebtCode: (parent.RefDebtCode)
+            // }
         })
         return data
     } catch {
@@ -83,10 +127,14 @@ export const getOneWalletDebt = async (parent, { debtWalletId }, ctx, info) => {
         const data = await Walletdebt.findOne({
             attributes,
             where: {
-                debtWalletId: deCode(debtWalletId),
-                idStore: deCode(ctx.restaurant),
-                debtState: { [Op.gt]: 0 }
-            }
+                [Op.or]: [
+                    {
+                        debtWalletId: deCode(debtWalletId),
+                        idStore: deCode(ctx.restaurant),
+                        debtState: { [Op.gt]: 0 }
+                    }
+                ]
+            },
         })
         return data
     } catch {
@@ -105,6 +153,7 @@ export default {
     },
     MUTATIONS: {
         createWalletDebt,
+        delWalletDebt,
         createwalletdebtproducts,
     }
 }
