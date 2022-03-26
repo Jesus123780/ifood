@@ -80,7 +80,6 @@ export const productFoodsAll = async (root, args, context, info) => {
     try {
         const { search, min, max, pId, gender, desc, categories } = args
         let whereSearch = {}
-        console.log(args, 'hola')
         if (search) {
             whereSearch = {
                 [Op.or]: [

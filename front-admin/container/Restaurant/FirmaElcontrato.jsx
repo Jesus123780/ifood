@@ -40,7 +40,6 @@ const ContractSignature = props => {
     //       }, 6000)
     // }, [color]);
     const [createOneContract, { loading, error }] = useMutation(REGISTER_CONTRACT_STORE)
-    console.log(code, 'HOLAAAAAAAAAA')
     const handleForm = (e) =>
         handleSubmit({
             event: e,

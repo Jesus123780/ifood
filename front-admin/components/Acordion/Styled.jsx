@@ -29,7 +29,6 @@ export const SideBarLeft = styled.div`
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 9999;
     height: 100%;
     transition: .3s;
 
@@ -74,7 +73,7 @@ export const MenuLeft = styled.button`
     align-items: center;
     justify-content: space-between;
     top: 0;
-    z-index: 99;
+    z-index: auto;
     & a {
         color: ${ props => props.active ? '#a6b0cf' : '#a6b0cf' };
     }
@@ -88,7 +87,7 @@ export const Row = styled.div`
     padding: 8px 30px;
     background-color: transparent;
     position: relative;
-    z-index: 10;
+    /* z-index: 10; */
 `
 export const OptionMenu = styled.div`
     width: 100%;

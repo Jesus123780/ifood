@@ -60,7 +60,7 @@ export const Table = ({ titles = [], bgRow, data, pointer, renderBody = [], entr
     const indexLastElem = properties.currentPage * properties.entriesValue
     const indexFirstElem = indexLastElem - properties.entriesValue
     setProperties({ ...properties, indexLastElem, indexFirstElem })
-  }, [properties.entriesValue, properties.currentPage])
+  }, [properties.entriesValue, properties.currentPage, data])
 
   const handleEntries = event => {
     const { value } = event.target

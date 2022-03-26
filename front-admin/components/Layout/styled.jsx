@@ -114,7 +114,7 @@ export const ButtonOption = styled.button`
     margin: 0 0 0 30px;
     position: relative;
     cursor: pointer;
-    z-index: 999;
+    /* z-index: 999; */
     background-color:  transparent;
     ${ props => props.space &&css`
         display: flex;

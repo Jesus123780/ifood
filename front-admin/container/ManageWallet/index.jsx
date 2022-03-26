@@ -1,21 +1,24 @@
 import moment from 'moment'
 import { useContext, useEffect, useReducer, useState } from "react"
 import { numberFormat } from "../../utils"
-import { IconConfig, IconDelete, IconEdit } from "public/icons"
+import { IconConfig, IconDelete, IconEdit, IconPlus } from "public/icons"
 import { RippleButton } from "components/Ripple"
 import { useSetState } from "components/hooks/useState"
+import Image from 'next/image';
 import { AwesomeModal } from "components/AwesomeModal"
-import { BGColor, PColor } from "public/colors"
-import { GET_ALL_PRODUCT_STORE } from "container/dashboard/queriesStore"
-import { useLazyQuery } from '@apollo/client'
+import { BColor, BGColor, PColor } from "public/colors"
 import { Context } from "context/Context"
-import { Content, CardContent, Action, CtnList, Grid, LoadingComponent } from "./styled"
+import { Content, CardContent, Action, CtnList, Grid, LoadingComponent, SubTitle, Container, CardDynamic, FooterOptionWallet, Input, ContentMenuOptions } from "./styled"
+import { CardProduct } from 'container/wallet/styled'
 
-export const ManageWallet = ({ data, dataProducto, product, dispatch, loading }) => {
-    const { getAllWalletDebtProduct, RefDebtCode, debtName, phoneWalletUser } = data
+export const ManageWallet = ({ data, dataProducto, product, dispatch, loading, search, handleChangeFilter, dataFree, fetchMoreProduct, OPEN_MODAL }) => {
+    const { getAllWalletDebtProduct, RefDebtCode, debtName, phoneWalletUser, debtAmount } = data
     const { setAlertBox } = useContext(Context)
     const [amount, setAmount] = useState(0);
+    const [modalOptions, setOpenModalOptions] = useState(true)
     const [amountPro, setAmountPro] = useState(0);
+    const [showMoreProduct, setShowMoreProducts] = useState(100)
+
     let amountCount = 0
     useEffect(() => {
         getAllWalletDebtProduct?.forEach(function (a) {
@@ -23,77 +26,125 @@ export const ManageWallet = ({ data, dataProducto, product, dispatch, loading })
         });
         setAmount(amountCount)
     }, [getAllWalletDebtProduct])
-    const OPEN_MODAL = useSetState()
     let amountCountPro = 0
     useEffect(() => {
-        product?.PRODUCT?.forEach(function (a) {
+        product?.PRODUCT_WALLET?.forEach(function (a) {
             amountCountPro += a.ProPrice
         });
         setAmountPro(amountCountPro)
     }, [product])
     const handleAddProduct = elem => {
-        // let includes = product?.PRODUCT.includes(elem);
         const { pName } = elem || {}
-        dispatch({ type: 'ADD_PRODUCT', payload: elem })
-        // if (includes) {
-        //     setAlertBox({ message: `El producto ${pName && pName} ya esta agregado a la lista` })
-        // } else {
-        // }
+        dispatch({ type: 'ADD_PRODUCT_WALLET', payload: elem })
     }
-    if (loading) return <div>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(load => (
-            <div style={{ marginTop: '50px' }}>
-                <LoadingComponent />
-                <LoadingComponent width='30%' />
-                <LoadingComponent width='50%' />
-                <LoadingComponent width='10%' />
-            </div>
-        ))}
-    </div>
+    const OPEN_OPTION = useSetState(false)
+    function handleOpen() {
+        OPEN_MODAL.setState(!OPEN_MODAL.state)
+        setOpenModalOptions(!modalOptions)
+    }
     return (
-        <>
+        <Container>
             {<Content>
-                <AwesomeModal padding='25px' show={OPEN_MODAL.state} onHide={() => { OPEN_MODAL.setState(!OPEN_MODAL.state) }} onCancel={() => false} size='medium' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
-                    <Grid>
-                        {dataProducto?.map((x, idx) => (
-                            <div key={idx.carProId}>
-                                <div >
-                                    <button onClick={() => handleAddProduct(x)}>Add</button>
-                                    <div size='20px' >{x.pName}</div>
-                                    <div size='20px' >{x.ProDescription}</div>
-                                    <div size='20px' >precio: {x.ProPrice}</div>
-                                </div>
+                <AwesomeModal height='100vh' show={OPEN_MODAL.state} footer={true} onHide={() => { OPEN_MODAL.setState(!OPEN_MODAL.state) }} onCancel={() => false} size='large' >
+                    <Container>
+                        <CardDynamic display='flex' width={OPEN_OPTION.state ? '100%' : '80%'}>
+                            <div>
+                                {/* <button onClick={() => OPEN_OPTION.setState(!OPEN_OPTION.state)}>{OPEN_OPTION.state ? 'Abrir menu' : 'Cerrar menu'}</button> */}
+                                <SubTitle size='15px' align='start' >Puedes Añadir varios producto a la cartera {debtName} {RefDebtCode} </SubTitle>
+                                <Input autoFocus={true} autoComplete={'off'} label='Busca tus productos' name='search' value={search} onChange={handleChangeFilter} type='text' />
+                                <SubTitle size='15px'>{search && `producto buscado por ${search}`}</SubTitle>
+                                <span>{dataFree.length ? `${dataFree.length} Productos con envio gratis` : 'No hay productos con envio gratis'}</span>
+                                <Grid>
+                                    {dataProducto?.map((x, idx) => (
+                                        <CardProduct width='100%' key={idx.pId}>
+                                            <div className='col'>
+                                                <h3 className='title' size='20px' >{(x.pName)}</h3>
+                                                <p className='description' size='20px' >{x.ProDescription}</p>
+                                                <div size='20px' >precio: $ {numberFormat(x.ProPrice)}</div>
+                                                <button onClick={() => handleAddProduct(x)}>Añadir <IconPlus size='10px' /></button>
+                                            </div>
+                                            <Image
+                                                width={550}
+                                                height={550}
+                                                objectFit='contain'
+                                                src={'/images/hamb.jpg'}
+                                                alt='Picture'
+                                                blurDataURL='data:...'
+                                                placeholder='blur' />
+                                        </CardProduct>
+                                    ))}
+                                </Grid>
+                                <RippleButton widthButton='100%' margin='20px auto' onClick={() => {
+                                    setShowMoreProducts(s => s + 50)
+                                    fetchMoreProduct({
+                                        variables: { max: showMoreProduct, min: 0 },
+                                        updateQuery: (prevResult, { fetchMoreResult }) => {
+                                            if (!fetchMoreResult) return prevResult
+                                            let productFoodsAll = [...prevResult.productFoodsAll]
+                                            return {
+                                                productFoodsAll: [
+                                                    productFoodsAll,
+                                                    ...fetchMoreResult.productFoodsAll]
+                                            }
+                                        }
+                                    })
+                                }}> {loading ? '...Cargando' : 'Cargar Más'}</RippleButton>
                             </div>
-                        ))}
-                    </Grid>
-                    <span>añadir otro producto a la cartera {debtName} {RefDebtCode} </span>
-                    <Grid>
-                        {product?.PRODUCT?.map((x, idx) => (
-                            <div width='100%' key={idx.carProId}>
-                                <div >
-                                    <span size='20px' >{x.pName}</span>
-                                    <span size='20px' >{x.ProDescription}</span>
-                                </div>
-                                <div >
-                                    <RippleButton onClick={() => dispatch({ type: 'REMOVE_PRODUCT', idx })}>
-                                        <IconDelete size={20} color={BGColor} />
+                            <div>
+                                {/* <button type="button"></button> */}
+                                <SubTitle size='15px' align='start'>{product?.PRODUCT_WALLET.length === 0 ? 'Añade un ' : 'añadir otro'} producto a la cartera {debtName} {RefDebtCode} </SubTitle>
+                                <Input autoFocus={true} autoComplete={'off'} label='Busca tus productos' name='search' value={search} onChange={handleChangeFilter} type='text' />
+                                <SubTitle size='15px'>{search && `producto buscado por ${search}`}</SubTitle>
+                                <span>{dataFree.length ? `${dataFree.length} Productos con envio gratis` : 'No hay productos con envio gratis'}</span>
+                                <Grid>
+                                    {product ? product?.PRODUCT_WALLET?.map((x, idx) => (
+                                        <CardProduct width='100%' key={idx.carProId}>
+                                            <div className='col'>
+                                                <h3 className='title' size='20px' >{(x.pName)}</h3>
+                                                <p className='description' size='20px' >{x.ProDescription}</p>
+                                                <div size='20px' >precio: $ {numberFormat(x.ProPrice)}</div>
+                                                <RippleButton padding='0' onClick={() => dispatch({ type: 'REMOVE_PRODUCT_WALLET', idx })}>
+                                                    Eliminar <IconDelete size={15} color={BGColor} />
+                                                </RippleButton>
+                                            </div>
+                                            <Image
+                                                width={550}
+                                                height={550}
+                                                objectFit='contain'
+                                                src={'/images/hamb.jpg'}
+                                                alt='Picture'
+                                                blurDataURL='data:...'
+                                                placeholder='blur' />
+                                        </CardProduct>
+                                    )) : <span>Aun no hay productos</span>}
+                                </Grid>
+                            </div>
+                        </CardDynamic>
+                        {/* OPTIONS */}
+                        <CardDynamic height={'100vh'} width={OPEN_OPTION.state ? '0%' : '20%'}>
+                            <div>
+                                <SubTitle align='start' size='17px'>Deuda anterior $ {numberFormat(debtAmount)}</SubTitle>
+                                {product?.PRODUCT_WALLET.length !== 0 && <SubTitle align='start' size='17px'>Deuda sumada $ {numberFormat(debtAmount + amountPro)}</SubTitle>}
+                                <FooterOptionWallet>
+                                    <RippleButton widthButton='50%' onClick={() => { product?.PRODUCT_WALLET.length === 0 ? setAlertBox({ message: 'Ya no hay productos', duration: 7000 }) : dispatch({ type: 'REMOVE_ALL_WALLET' }) }}>
+                                        Vaciar
                                     </RippleButton>
-                                </div>
+                                    <SubTitle>$ {numberFormat(amountPro)}</SubTitle>
+                                </FooterOptionWallet>
                             </div>
-                        ))}
-                        {numberFormat(amountPro)}
-                    </Grid>
+                        </CardDynamic>
+                    </Container>
                 </AwesomeModal>
-                <button onClick={() => OPEN_MODAL.setState(!OPEN_MODAL.state)}>{'agregar otro producto'}</button>
                 <CardContent>
-                    <span>productos ({getAllWalletDebtProduct?.length || 0})</span>
-                    <span>Total: {numberFormat(amount)}</span>
-                    <span>{RefDebtCode}</span>
-                    <span>{debtName}</span>
-                    <span># {phoneWalletUser}</span>
+                    <SubTitle margin='0' size='12px' align='start'>productos {getAllWalletDebtProduct?.length || 0}</SubTitle>
+                    <SubTitle margin='0' size='12px' align='start'>Total {numberFormat(amount)}</SubTitle>
+                    <SubTitle margin='0' size='12px' align='start'>{RefDebtCode}</SubTitle>
+                    <SubTitle margin='0' size='12px' align='start'>{debtName}</SubTitle>
+                    <SubTitle margin='0' size='12px' align='start'># {phoneWalletUser}</SubTitle>
                 </CardContent>
+                {getAllWalletDebtProduct && <RippleButton bgColor={'#f2f2f2'} type='button' color={BColor} padding='5px' widthButton='100%' onClick={() => OPEN_MODAL.setState(!OPEN_MODAL.state)}>{'agregar otro producto'}</RippleButton>}
                 <CtnList>
-                    {getAllWalletDebtProduct && getAllWalletDebtProduct?.map(x => (
+                    {getAllWalletDebtProduct ? getAllWalletDebtProduct?.map(x => (
                         <div className="items" key={x.debtWalletProductId}>
                             <div>
                                 <div>Monto: $ {numberFormat(x.debtAmountProduct)}</div>
@@ -104,15 +155,13 @@ export const ManageWallet = ({ data, dataProducto, product, dispatch, loading })
                             <button><IconEdit color={PColor} size='25px' /></button>
                             <button><IconConfig color={PColor} size='25px' /></button>
                         </div>
-                    ))}
+                    )) : <span></span>}
                     <Action>
-                        $ {numberFormat(amount)}
-                        <button>Enviar recordatorio</button>
-                        <button>Pagar</button>
+                        <SubTitle align='start'>$ {numberFormat(amount)}</SubTitle>
                     </Action>
                 </CtnList>
             </Content>}
-        </>
+        </Container>
     )
 
 }

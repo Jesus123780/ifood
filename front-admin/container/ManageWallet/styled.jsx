@@ -1,5 +1,5 @@
-import styled, { css } from "styled-components";
-import { BGColor, EColor, PLAColor, PLVColor, PSColor, PVColor, SECColor } from "../../public/colors";
+import styled, { css, keyframes } from "styled-components";
+import { BGColor, EColor, PColor, PLAColor, PLVColor, PSColor, PVColor, SECColor, SFVColor } from "../../public/colors";
 
 export const Action = styled.div`
     background-color: ${BGColor};
@@ -21,14 +21,29 @@ export const CtnList = styled.div`
     }
 
 `
+export const SubTitle = styled.div`
+        color: #3e3e3e;
+    font-weight: 500;
+    font-size: ${({ size }) => size ? size : '1.5rem'};
+    margin: ${({ margin }) => margin || '20px 0' };
+    text-align: ${({ align }) => align ? align : 'center '};
+    line-height: 0.875rem;
+    font-family: PFont-Light;
+    word-break: break-word;
+`
 export const Grid = styled.div`
-    margin: 50px 0px;
-    place-content: center;
+    place-content: space-between;
     display: grid;
-    gap: 5px;
-    height: 400px;
+    gap: 10px;
+    /* height: 400px; */
+    /* min-height: 400px; */
+    /* max-height: 400px; */
     overflow: hidden auto;
-    grid-template-columns: 24% repeat(auto-fill,24%) 24%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,50%) 50%;
+    width: 100%;
+    place-content: space-between;
+    gap: 5px;
 `
 export const LoadingComponent = styled.div`
     background: linear-gradient(to left, rgb(243, 242, 241), rgb(228, 226, 224), rgb(243, 242, 241)) 0% 0% / 200% 100%;
@@ -46,9 +61,93 @@ export const LoadingComponent = styled.div`
         }
     }
 `
+export const Container = styled.div`
+    display: flex;
+    transition: all 1s 1s;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 1366px;
+    margin: 0 auto;
+    margin-bottom: 100px;
+    /* flex-wrap: nowrap; */
+    /* flex-direction: column; */
+    `
+export const Input = styled.input`
+    border: 1px solid #0000000d; 
+    width: 100%;
+    padding: 10px;
+`
+export const CardDynamic = styled.div`
+    width: ${({ width }) => width || '60%'};
+    ${props => props.width === '0%' &&css`
+        opacity: 0;
+        z-index: -11;
+    `}
+    display: ${({ display }) => display || 'block'};
+    transition: width .2s ease;
+    position: relative;
+    ${props => props.height && css`height: ${props.height};`}
+`
+export const FooterOptionWallet = styled.div`
+    /* position: absolute;
+    bottom: 40px;
+    left: 0;
+    display: flex;
+    border-top: 1px solid #dbdddf; */
+`
+const pulse = keyframes`
+  0% {
+    box-shadow: 0 0 0 0 ${PColor};
+  }
+  70% {
+      box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+  }
+  100% {
+      box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+  }
+`
+export const ContentMenuOptions = styled.div`
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: calc(100vw - 180px);
+    border-top: 1px solid ${SFVColor};
+    background-color: ${BGColor};
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+    overflow: hidden;   
+    padding: 48px 48px 24px;
+    z-index: 9;
+    height: ${({ height }) => height || 'auto'};
+    transition: all .5s ease;
+    ${props => props.active ? css`
+    transform: translateY(0px);
+    
+    ` : css`
+    transform: translateY(60px);
+    `
+
+    }
+     .btn-absolute {
+        position: absolute;
+        left: 0;
+        right: 0;
+        width: 100px;
+        background-color: transparent;
+        top: 0;
+        margin: auto;
+    }
+    & div {
+        animation: ${pulse} 2s infinite;
+     
+    }
+`
 export const Content = styled.div`
     /* height: 100vh; */
     display: block;
+    width: 100%;
+    max-width: 1366px;
+    margin: 0 auto;
     position: sticky;
     top: 0;
     background-color: ${BGColor};
@@ -68,7 +167,7 @@ export const CardContent = styled.div`
     display: flex;
     place-content: center;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     background: #f2f2f2;
     /* position: sticky; */
     top: 0;

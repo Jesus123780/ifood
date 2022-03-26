@@ -164,7 +164,6 @@ export const productsLogis = async (root, args, context, info) => {
 export const getAllMatchesProducts = async (root, args, context, info) => {
     try {
         const { search, min, max, pId } = args
-        console.log(search)
         let whereSearch = {}
         if (search) {
             whereSearch = {

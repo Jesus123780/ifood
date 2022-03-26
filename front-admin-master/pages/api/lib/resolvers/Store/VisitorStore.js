@@ -1,10 +1,6 @@
 import { ApolloError } from 'apollo-server-micro'
-import CatStore from '../../models/information/CategorieStore'
-import ScheduleStore from '../../models/Store/ScheduleStore'
-import Store from '../../models/Store/Store'
 import visitUserStore from '../../models/Store/visitUserStore'
-import { LoginEmail } from '../../templates/LoginEmail'
-import { deCode, filterKeyObject, getAttributes } from '../../utils/util'
+import { deCode, getAttributes } from '../../utils/util'
 const { Op } = require('sequelize')
 
 export const setVisitorStore = async (_root, { input }) => {

@@ -26,7 +26,8 @@ export const createwalletdebtproducts = async (_, { input }, context) => {
 }
 export const createWalletDebt = async (_, { input, inputLineItems }, ctx) => {
     try {
-        const { UserDebtId, RefDebtCode } = input || {}
+        const { UserDebtId, RefDebtCode, gender } = input || {}
+        console.log(gender)
         const { setData } = inputLineItems || {}
        const data = await Walletdebt.create({
             ...input,

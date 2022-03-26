@@ -13,7 +13,7 @@ mutation createWalletDebt ($input: IWalletDebt! $inputLineItems: LineItemsIdProd
   createWalletDebt(input: $input, inputLineItems: $inputLineItems) {
 debtWalletId
 idStore
-id
+# id
 pId
 UserDebtId
 gender
@@ -58,7 +58,6 @@ query WalletDebt($search: String, $min: Int, $max: Int, $idStore: ID, $refDebtCo
   WalletDebt(search: $search, min: $min, max: $max, idStore: $idStore, refDebtCode: $refDebtCode) {
     debtWalletId
     idStore
-    # id
     pId
     UserDebtId
     debtName
@@ -67,6 +66,7 @@ query WalletDebt($search: String, $min: Int, $max: Int, $idStore: ID, $refDebtCo
     RefDebtCode
     debtAmount
     debtUuid
+    gender
     debtComments
     debtState
     ccWalletUser
@@ -107,7 +107,6 @@ query getOneWalletDebt($debtWalletId: ID!){
     createAt
     updateAt
     getAllWalletDebtProduct {
-      pId
       UserDebtId
       debtWalletProductId
       idStore

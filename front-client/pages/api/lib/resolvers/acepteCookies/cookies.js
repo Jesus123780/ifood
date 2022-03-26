@@ -1,4 +1,5 @@
 import { COOKIE_OPTIONS } from 'utils'
+import { ApolloError } from 'apollo-server-micro'
 
 const setCookie = async (_parent, { name, value }, { setCookies }) => {
     console.log(name, value)
@@ -13,7 +14,7 @@ const setCookie = async (_parent, { name, value }, { setCookies }) => {
             }
         })
     } catch (error) {
-        console.log(error, 'hola')
+        throw new ApolloError('Ocurrió un error al aceptar las cookies', 500, e)
     }
 }
 

@@ -92,7 +92,7 @@
   position: relative;
   overflow: hidden;
   border: none;
-  line-height: 1.75;
+  /* line-height: 1.75; */
   padding: 5px 20px;
   text-transform: uppercase;
   transition: background-color 0.3s;
@@ -130,7 +130,7 @@
 /* Inicio de Hoja de Normalización */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300&display=swap');
 /* Normalizes margin, padding */
-body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, p, blockquote
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, p, blockquote
     { margin : 0; padding : 0; width: 100%;      text-align: start;  }
 
 /* Normalizes font-size for headers */
@@ -204,17 +204,6 @@ code {
   font-weight: 300;
   font-size: 0.75rem;
   line-height: 0.875rem;
-}
-.ripple-button {
-  position: relative;
-  overflow: hidden;
-  border: none;
-  line-height: 1.75;
-  padding: 5px 20px;
-  text-transform: uppercase;
-  transition: background-color 0.3s;
-  cursor: pointer;
-  border-radius: 4px;
 }
 
 

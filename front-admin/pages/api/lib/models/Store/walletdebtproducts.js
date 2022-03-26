@@ -8,6 +8,7 @@ import productModelFood from '../product/productFood'
 
 const conn = connect()
 conn.sync()
+
 export default conn.define('walletdebtproducts', {
     debtWalletProductId: {
         type: Sequelize.INTEGER,

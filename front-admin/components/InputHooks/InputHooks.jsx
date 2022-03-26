@@ -7,7 +7,7 @@ import { BoxInput, InputV, LabelInput, ShowPass, Tooltip, TextAreaInput, Listbox
 import { IconNoShow, IconShowEye } from '../../public/icons'
 import { SFVColor } from '../../public/colors'
 import { useKeyPress } from '../hooks/useKeypress'
-import {  isEmail, isNull, isPassword, onlyLetters, passwordConfirm, rangeLength } from '../../utils'
+import { isEmail, isNull, isPassword, onlyLetters, passwordConfirm, rangeLength } from '../../utils'
 
 const InputHooks = ({
   reference,
@@ -35,6 +35,7 @@ const InputHooks = ({
   border,
   checked,
   letters,
+  autoComplete,
   range,
   email,
   pass,
@@ -114,7 +115,7 @@ const InputHooks = ({
   const backSpace = useKeyPress('backSpace')
   const arrowDownPressed = useKeyPress('ArrowDown')
   const initialState = { selectedIndex: 0 }
-  function reducer (state, action) {
+  function reducer(state, action) {
     switch (action.type) {
       case 'arrowUp':
         return {
@@ -247,7 +248,7 @@ const InputHooks = ({
             focus={onFocus}
             placeholder={placeholder}
             type={isPasswordShown ? 'text' : type}
-            autoComplete={type === 'password' ? 'current-password' : email ? 'off' : 'true'}
+            autoComplete={type === 'password' ? 'current-password' : email ? 'off' : !autoComplete ? 'off' : autoComplete}
             paddingInput={paddingInput}
           />
           {(email && !!showSuggestions) && (

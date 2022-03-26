@@ -1,9 +1,6 @@
 import { ApolloError } from 'apollo-server-micro'
-import CatStore from '../../models/information/CategorieStore'
 import ScheduleStore from '../../models/Store/ScheduleStore'
-import Store from '../../models/Store/Store'
-import { LoginEmail } from '../../templates/LoginEmail'
-import { deCode, filterKeyObject, getAttributes } from '../../utils/util'
+import { deCode } from '../../utils/util'
 const { Op } = require('sequelize')
 
 export const updateStoreSchedule = async (_root, { input }) => {
@@ -40,7 +37,6 @@ export const setStoreScheduleReserve = async (_root, { input }) => {
     }
 }
 export const setStoreSchedule = async (_root, { input }, context, _info) => {
-    console.log(input)
     try {
         await ScheduleStore.create({ ...input, idStore: deCode(context.restaurant), id: deCode(context.User.id) })
         return true

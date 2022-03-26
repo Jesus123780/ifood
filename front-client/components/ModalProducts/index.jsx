@@ -150,7 +150,7 @@ export const ModalProduct = () => {
                                     </a>
                                 </Link>
                                 <div className='dish-restaurant__divisor'></div>
-                                <label tabIndex='0' className='dish-observation-form__label' for='observations-form'>¿Algún comentario?</label>
+                                <label tabIndex='0' className='dish-observation-form__label'>¿Algún comentario?</label>
                             </DisRestaurant>
                             <InputHooks required TypeTextarea errors={errorForm?.comments} value={dataForm?.comments} onChange={handleChange} name='comments' />
                             {!!ExtProductFoodsAll?.length && <GarnishChoicesHeader>

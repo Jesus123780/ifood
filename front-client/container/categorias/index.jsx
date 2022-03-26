@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 export const Categories = props => {
     const { data: getCatStore } = useQuery(GET_ALL_CAT_STORE)
-
+    console.log(getCatStore?.getAllCatStore)
     return (
         <ContainerCategory>
             {getCatStore?.getAllCatStore?.map(cat => {
@@ -18,7 +18,10 @@ export const Categories = props => {
                         <Link href={`/categories/${nameCat}/${cat.catStore}`}>
                             <a>
                                 <ContentCateItem>
-                                    <Image
+                                    <img
+                                        src={cat.cPathImage}
+                                    />
+                                    {!cat.cPathImage && <Image
                                         objectFit='contain'
                                         width={90}
                                         height={90}
@@ -26,8 +29,8 @@ export const Categories = props => {
                                         alt="Picture of the author"
                                         blurDataURL="data:..."
                                         unoptimized={true}
-                                        placeholder="blur" 
-                                    />
+                                        placeholder="blur"
+                                    />}
                                     <h2 className="title-cat">{cat.cName}</h2>
                                 </ContentCateItem>
                             </a>
@@ -57,5 +60,14 @@ const ContentCateItem = styled.div`
     font-size: 16px;
     padding: 16px;
     font-family: PFont-Regular;
+    .title-cat {
+        color: #3e3e3e;
+        font-weight: 500;
+        font-size: 1.5rem;
+        margin: 20px 0;
+        line-height: 0.875rem;
+        font-family: PFont-Light;
+        word-break: break-word;
+    }
     
 `

@@ -146,7 +146,6 @@ export const AddEmployee = () => {
                         // onClick={() => setNextStep(nextStep + 1)}
                         bgColor={EColor}
                     >
-                        {'Crear'}
                     </RippleButton>
                 </Form >
             </AwesomeModal>
