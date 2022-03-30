@@ -72,8 +72,8 @@ export const AddPlusCircle = ({ style = {}, size, color }) => <svg x='0px' y='0p
 
 export const IconShopping = ({ style = {}, size, color }) => <svg fill={color} style={style} width={size} height={size} fillRule='evenodd' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 23"><path d="M8.7.2c-1.1 0-2 .3-2.6.9-.6.6-1 1.4-1.2 2.2-.2.6-.3 1.1-.3 1.7H2C.9 5 0 5.9 0 7l.1 13c0 1.7 1.3 3 3 3H15c1.7 0 3-1.3 3-3V7c0-1.1-.9-2-2-2h-3.2c-.1-.6-.1-1.1-.3-1.6-.2-.8-.6-1.7-1.2-2.2-.7-.6-1.5-1-2.6-1zm2.7 6.3v2.6c0 .4.3.7.8.7.4 0 .7-.3.7-.8v-.8-1.8H16c.3 0 .5.2.5.5l-.1 13c0 .8-.7 1.5-1.5 1.5H3.1c-.8 0-1.5-.7-1.5-1.5L1.5 7c0-.3.2-.5.5-.5h2.5v2.6c0 .4.3.8.7.8.4 0 .8-.4.8-.8v-.8-1.8h5.4zM11.3 5c0-.4-.1-.8-.2-1.2-.2-.7-.4-1.2-.8-1.5-.4-.3-.8-.5-1.6-.5s-1.3.2-1.6.5c-.4.3-.6.8-.8 1.5-.1.4-.2.8-.2 1.2h5.2z"></path></svg>
 export const IconHorario = ({ style = {}, size, color }) => <svg  fill={color} style={style} width={size} height={size} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23">
-    <circle fill="none" stroke="#5e5f5f" strokeWidth="2px" strokeMiterlimit="10" cx="11.5" cy="11.5" r="10.5" />
-    <polyline fill="#5e5f5f" stroke="#5e5f5f" strokeMiterlimit="10" points="11 7 11 12.57 15.69 12.57" />
+    <circle fill="none" stroke={ color  || "#5e5f5f"} strokeWidth="2px" strokeMiterlimit="10" cx="11.5" cy="11.5" r="10.5" />
+    <polyline fill={ color  || "#5e5f5f"} stroke={ color  || "#5e5f5f"} strokeMiterlimit="10" points="11 7 11 12.57 15.69 12.57" />
 </svg>
 
 export const IconSearch = ({ style = {}, size, color }) => <svg style={style} width={size} height={size} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16.39 16.23"><circle fill="none" stroke={color} cx="6.91" cy="6.91" r="6.41" /><rect fill="none" strokeMiterlimit='10' stroke={color} x="-39.59" y="7.49" width="5.71" height="0.54" rx="0.22" transform="translate(45.89 33.02) rotate(42.94)" /></svg>

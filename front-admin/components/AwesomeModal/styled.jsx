@@ -118,7 +118,7 @@ export const Modal = styled.div`
     ${props => props.backdropA && css`
         animation: ${Pulse} .2s forwards;
     `}
-    min-width: 400px;
+    min-width: 340px;
     height: ${({ height }) => height || 'auto'};
     border-radius: ${({ borderRadius }) => borderRadius};
     border: 1px solid rgba(0,0,0,.2);

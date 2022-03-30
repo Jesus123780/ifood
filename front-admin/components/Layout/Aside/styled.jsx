@@ -190,6 +190,35 @@ export const OptionButton = styled.a`
     bottom: 15px;
     left: 0;
 `
+export const ContentAction = styled.div`
+    position: absolute;
+    left: 180px;
+    overflow: hidden;
+    align-items: center;
+    background-color: ${PColor};
+    opacity: 0;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    z-index: -9999;
+    width: 40px;
+    display: flex;
+    place-content: center;
+    `
+export const DynamicNav = styled.button`
+background-color: transparent;
+padding: 0;
+    &:hover > ${ContentAction} {
+        opacity: 1;
+    z-index: 9999;
+
+        
+    }
+    width: 100%;
+    align-items: center;
+    display: flex;
+    position: relative;
+`
 export const ButtonActionLink = styled.button`
     background-color: transparent;
     width: 100%;
@@ -201,8 +230,6 @@ export const ButtonActionLink = styled.button`
     margin-bottom: 5px;
     color: #3e3e3e;
     font-weight: 500;
-    font-size: .789rem;
-    line-height: 0.875rem;
 
 `
 export const AnchorRouter = styled.a`

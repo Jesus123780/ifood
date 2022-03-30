@@ -8,11 +8,15 @@ import { AlertBox } from '../AlertBox'
 import styled, { css } from 'styled-components'
 import Aside from './Aside'
 import { usePosition } from 'components/hooks/usePosition'
+import { ScheduleTimings } from 'container/dashboard/ScheduleTimings'
 import moment from 'moment'
+import { LateralModal } from 'container/dashboard/styled'
+import { BtnClose } from 'components/AwesomeModal/styled'
+import { IconCancel } from 'public/icons'
 
 export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => {
     const location = useRouter()
-    const { error, isSession, setAlertBox } = useContext(Context)
+    const { error, isSession, setAlertBox, openSchedule, setOpenSchedule } = useContext(Context)
     const { latitude, longitude, timestamp, accuracy, speed, error: err } = usePosition(watch, settings);
     const dataLocation = usePosition(watch, settings);
     useEffect(() => {
@@ -34,6 +38,10 @@ export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => 
                 </div>
                 {!['/login', '/register', '/varify-email', '/restaurante', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => x === location.pathname) && <Footer />}
                 <div style={{ gridArea: 'right' }}>
+                    <LateralModal openSchedule={openSchedule}>
+                        <BtnClose onClick={() => setOpenSchedule(!openSchedule)}><IconCancel size='20px' /></BtnClose>
+                        <ScheduleTimings />
+                    </LateralModal>
                 </div>
             </Main>
         </>

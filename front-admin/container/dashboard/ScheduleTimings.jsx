@@ -3,6 +3,7 @@ import { useMutation, useQuery } from '@apollo/client'
 import { GET_SCHEDULE_STORE } from './queriesStore'
 import moment from 'moment'
 import { Card } from './styled'
+import ReactDOM from 'react-dom'
 import styled, { css } from 'styled-components'
 import { BGColor, EColor, PVColor, TFSColor } from '../../public/colors'
 import { useSetState } from '../../components/hooks/useState'
@@ -14,11 +15,11 @@ import { parseZone } from 'moment'
 import { duration } from 'moment'
 
 export const ScheduleTimings = () => {
+
     const { data, loading, error } = useQuery(GET_SCHEDULE_STORE, { variables: { schDay: 1 } })
     const [showTiming, setShowTiming] = useState(0)
     const SHOW_TIMING = useSetState(false)
     const SHOW_ALERT = useSetState(false)
-
     const handleClick = n => {
         setShowTiming(n)
         SHOW_TIMING.setState(!SHOW_TIMING.state)
@@ -73,9 +74,25 @@ export const ScheduleTimings = () => {
             suma += count
         })
     }, [])
+    const [browser, setBrowser] = useState(false)
+    useEffect(() => {
+        setBrowser(true)
+    }, [])
+    const PortalContent = (
+        <AwesomeModal title={showTiming === 1 ? 'Lunes' : showTiming === 2 ? 'Martes ' : showTiming === 3 ? 'Miercoles' : showTiming === 4 ? 'Jueves ' : showTiming === 5 ? 'Viernes' : showTiming === 6 ? 'Sabado' : showTiming === 7 ? 'Domingo' : null} backdrop='static' zIndex='9990' padding='25px' height='50vh' show={SHOW_TIMING.state} onHide={() => { SHOW_TIMING.setState(!SHOW_TIMING.state) }} onCancel={() => false} size='small' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
+            <Form onSubmit={(e) => handleForm(e)}>
+                {[1]?.map((x, i) => <AModalRow key={i + 10}>
+                    <SelectInfo title='Hora Inicial' name={'startTime'} value={values.schHoSta} handleChange={handleChange} index={i} hide={x.schState} />
+                    <SelectInfo title='Hora Final' name={'endTime'} value={values.schHoEnd} handleChange={handleChange} index={i} hide={x.schState} />
+                </AModalRow>)}
+                <RippleButton label='Guardar' type={'submit'} />
+            </Form>
+        </AwesomeModal>
+    )
+    // if (browser)  return ReactDOM.createPortal(portalContent, document.getElementById('portal'))
     return (
         <div>
-            <AwesomeModal backdrop='static' zIndex='9999' padding='25px' show={SHOW_ALERT.state} onHide={() => { SHOW_ALERT.setState(!SHOW_ALERT.state) }} onCancel={() => false} size='small' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' > <h3>{message}</h3> </AwesomeModal >
+            {PortalContent}
             <ScheduleHeader>
                 <ScheduleHeaderNav onClick={() => handleClick(1)} current={showTiming === 1 && 1}>Lunes</ScheduleHeaderNav>
                 <ScheduleHeaderNav onClick={() => handleClick(2)} current={showTiming === 2 && 1}>Martes</ScheduleHeaderNav>
@@ -85,15 +102,7 @@ export const ScheduleTimings = () => {
                 <ScheduleHeaderNav onClick={() => handleClick(6)} current={showTiming === 6 && 1}>Sábado</ScheduleHeaderNav>
                 <ScheduleHeaderNav onClick={() => handleClick(7)} current={showTiming === 7 && 1}>Domingo</ScheduleHeaderNav>
             </ScheduleHeader>
-            <AwesomeModal title={showTiming === 1 ? 'Lunes' : showTiming === 2 ? 'Martes ' : showTiming === 3 ? 'Miercoles' : showTiming === 4 ? 'Jueves ' : showTiming === 5 ? 'Viernes' : showTiming === 6 ? 'Sabado' : showTiming === 7 ? 'Domingo' : null} backdrop='static' zIndex='9990' padding='25px' height='50vh' show={SHOW_TIMING.state} onHide={() => { SHOW_TIMING.setState(!SHOW_TIMING.state) }} onCancel={() => false} size='small' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
-                <Form onSubmit={(e) => handleForm(e)}>
-                    {[1]?.map((x, i) => <AModalRow key={i + 10}>
-                        <SelectInfo title='Hora Inicial' name={'startTime'} value={values.schHoSta} handleChange={handleChange} index={i} hide={x.schState} />
-                        <SelectInfo title='Hora Final' name={'endTime'} value={values.schHoEnd} handleChange={handleChange} index={i} hide={x.schState} />
-                    </AModalRow>)}
-                    <RippleButton label='Guardar' type={'submit'} />
-                </Form>
-            </AwesomeModal>
+
             <ScheduleHeader>
                 {data ? data?.getStoreSchedules?.map((s, i) => (
                     <Card direction='column' active={s.schDay === showTiming} margin='10px' key={i + 1} onClick={() => handleClick(s.schDay)} current={s.schDay === showTiming}>
@@ -107,7 +116,9 @@ export const ScheduleTimings = () => {
                 )) : <div>Agenda tus horarios</div>}
             </ScheduleHeader>
         </div>
+
     )
+
 }
 
 const SelectInfo = ({ title, name, value, handleChange, index, hide }) => (
@@ -195,13 +206,17 @@ const ScheduleHeaderNav = styled.button`
     }` }
 `
 export const AModalRow = styled.div`
-    display: flex;
+    padding: 10px;
+    /* display: grid; */
+    /* grid-template-columns: repeat( auto-fit, minmax(50%, 1fr) ); */
+    /* display: flex; */
+    /* display: flex;
     justify-content: space-between;
     align-items: center;
     @media only screen and (max-width: 860px){
         width:100%;
         display:block;
-    }
+    } */
 `
 export const AModalBtnDelete = styled.div`
     display:flex;

@@ -2,10 +2,10 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { useApolloClient } from '@apollo/client'
 import PropTypes from 'prop-types'
-import { PColor } from '../../../public/colors'
+import { BGColor, PColor } from '../../../public/colors'
 import { IconHome, IconHorario, IconLogo, IconLogout, IconPromo, IconShopping, IconUser, IconWallet } from '../../../public/icons'
 import ActiveLink from '../../common/Link'
-import { Anchor, AnchorRouter, ButtonActionLink, ButtonGlobalCreate, Card, ContainerAside, CtnAnchor, Info, LeftNav, OptionButton, Router, SubMenuModules } from './styled'
+import { Anchor, AnchorRouter, ButtonActionLink, ButtonGlobalCreate, Card, ContainerAside, ContentAction, CtnAnchor, DynamicNav, Info, LeftNav, OptionButton, Router, SubMenuModules } from './styled'
 import { useRouter } from 'next/router'
 import { URL_BASE } from 'apollo/urls'
 import { ButtonOption } from '../styled'
@@ -14,6 +14,7 @@ import { Context } from 'context/Context'
 // import Options from '../../../components/Acordion'
 import Link from 'next/link'
 import Options from 'components/Acordion/Options'
+import { ContentToggle } from 'container/dashboard/styled'
 
 const Aside = () => {
   const { client } = useApolloClient()
@@ -131,12 +132,14 @@ const Aside = () => {
                 <IconShopping size='15px' />Pedidos
               </AnchorRouter>
             </ActiveLink>
-            <ButtonActionLink onClick={() => setOpenSchedule(!openSchedule)}>
-              <IconHorario size='15px' />Horarios
-            </ButtonActionLink>
-            <ActiveLink activeClassName="active" href="/horarios">
-              <AnchorRouter><IconPromo size='15px' />Horarios</AnchorRouter>
-            </ActiveLink>
+            <DynamicNav>
+              <ActiveLink activeClassName="active" href="/horarios">
+                <AnchorRouter><IconHorario size='15px' />Horarios</AnchorRouter>
+              </ActiveLink>
+              <ContentAction onClick={() => setOpenSchedule(!openSchedule)}>
+                <IconHorario color={BGColor} size='15px' />
+              </ContentAction>
+            </DynamicNav>
             <ActiveLink activeClassName="active" href="/promo">
               <AnchorRouter><IconPromo size='15px' />Promo</AnchorRouter>
             </ActiveLink>

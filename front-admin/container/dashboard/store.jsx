@@ -279,9 +279,7 @@ const DashboardStore = ({ StoreId, setAlertBox }) => {
                     </Section>
                 </RestaurantColumn>
             </Container>
-            <LateralModal openSchedule={openSchedule}>
-                <ScheduleTimings />
-            </LateralModal>
+           
             <AwesomeModal backdrop='static' zIndex='99390' padding='20px' height='100vh' show={SHOW_MODAL_UPDATE_PRODUCTS.state} onHide={() => { SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state) }} onCancel={() => false} size='large' btnCancel={true} btnConfirm={false} header={true} footer={false} >
                 <Food />
             </AwesomeModal>

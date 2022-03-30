@@ -2,7 +2,7 @@ import styled, { css, keyframes } from 'styled-components'
 import { StyleSheet } from '@react-pdf/renderer'
 import { BColor, BGColor, EColor, ESFColor, PColor, SECColor, PVColor, TBGSColor, BGVColor, SFVColor, PLVColor } from '../../public/colors'
 import { fadeIn, fadeOut } from '../../components/AlertBox/styled'
-import { BG_ANIMATION_ } from '../../components/animations'
+import { BG_ANIMATION_, SideIn, SlideInLeft } from '../../components/animations'
 
 const pulse = keyframes`
   0% {
@@ -1175,21 +1175,33 @@ export const CardDevice = styled.button`
     }
 `
 export const LateralModal = styled.div`
-    width: 400px;
-    height: 100vh;
-    background-color: ${`${BGColor}`};
+    width: 380px;
+    height: calc(100vh - 80px);
     position: fixed;
-    top: 0;
+    bottom: 0;
+    z-index: 900;
+    transition: all 350ms cubic-bezier(.32,1.25,.32,1);
+    box-shadow: 0 8px 16px 0 rgb(0 0 0 / 10%);
+    border: 1px solid #d4d7dc;
+    border-top: none ;
+    background-color: #fff;
     right: 0;
-    padding: 30px;
-    z-index: 9999;
-    box-shadow: 0px 1px 4px rgb(0 0 0 / 5%), 0px 4px 16px rgb(0 0 0 / 6%);
-    transition: 300ms ease;
-    ${({ openSchedule }) => openSchedule && css`
-    right: -100%;
-
-    `}
-
+    animation-duration: .3s;
+    animation-fill-mode: both;
+    border-left: 1px solid #d4d7dc;
+    z-index: 1000;
+    ${({ openSchedule }) => openSchedule
+        ? css`
+                 animation-name: ${SideIn};
+                 visibility: visible;
+                 opacity: 1;
+                 transform: translateY(0);
+                 `
+        : css`
+            animation-name: ${SlideInLeft};
+            /* transform: translateY(0); */
+            /* visibility: hidden; */
+              `}
 
 `
 export const TimeSlotsList = styled.div`
