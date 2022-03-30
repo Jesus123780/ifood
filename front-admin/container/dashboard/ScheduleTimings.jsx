@@ -1,18 +1,17 @@
-import React, { Fragment, useState } from 'react'
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
-import PropTypes from 'prop-types'
-import { CREATE_SCHEDULE_STORE, GET_SCHEDULE_STORE } from './queriesStore'
-import { LoadEllipsis } from '../../components/LoadingButton'
+import React, { Fragment, useEffect, useState } from 'react'
+import { useMutation, useQuery } from '@apollo/client'
+import { GET_SCHEDULE_STORE } from './queriesStore'
 import moment from 'moment'
-import { Card, TimeSlotsList } from './styled'
+import { Card } from './styled'
 import styled, { css } from 'styled-components'
-import { BColor, BGColor, EColor, PVColor } from '../../public/colors'
+import { BGColor, EColor, PVColor, TFSColor } from '../../public/colors'
 import { useSetState } from '../../components/hooks/useState'
 import { AwesomeModal } from '../../components/AwesomeModal'
 import { CREATE_STORE_CALENDAR } from './queries'
-import { useFormTools } from '../../components/BaseForm'
 import { RippleButton } from '../../components/Ripple'
 import { updateCache } from 'utils'
+import { parseZone } from 'moment'
+import { duration } from 'moment'
 
 export const ScheduleTimings = () => {
     const { data, loading, error } = useQuery(GET_SCHEDULE_STORE, { variables: { schDay: 1 } })
@@ -42,34 +41,51 @@ export const ScheduleTimings = () => {
             return setMessage('La Hora final no puede ser igual que la Hora de inicio.')
         } else {
             setMessage('')
-            console.log(showTiming)
             return setStoreSchedule({
-                variables: { input: { schHoSta: values.startTime, schHoEnd: values.endTime, schState: 1, schDay: showTiming } },
-                 update: (cache, { data: { getStoreSchedules } }) => updateCache({
-                    cache,
-                    query: GET_SCHEDULE_STORE,
-                    nameFun: 'getStoreSchedules',
-                    dataNew: getStoreSchedules
-                })
-            })
+                variables: {
+                    input:
+                    {
+                        schHoSta: values.startTime,
+                        schHoEnd: values.endTime,
+                        schState: 1, schDay: showTiming
+                    }
+                }, update(cache) {
+                    cache.modify({
+                        fields: {
+                            getStoreSchedules(dataOld = []) {
+                                return cache.writeQuery({ query: GET_SCHEDULE_STORE, data: dataOld })
+                            }
+                        }
+                    })
+                }
+            }).then(e => console.log(e)).catch(e => console.log(e))
         }
     }
+    let suma = 0
+    const [totalH, setTotalH] = useState(0)
+    useEffect(() => {
+        data?.getStoreSchedules.forEach((a) => {
+            let count = 0
+            const { schHoEnd, schHoSta } = a || {}
+            const starTime = parseFloat(starTime ? starTime : 0)
+            const endTime = parseFloat(schHoEnd ? schHoEnd : 0)
+            count = endTime + starTime
+            suma += count
+        })
+    }, [])
     return (
         <div>
-            <AwesomeModal backdrop='static' zIndex='9999' padding='25px' show={SHOW_ALERT.state} onHide={() => { SHOW_ALERT.setState(!SHOW_ALERT.state) }} onCancel={() => false} size='small' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
-                <h3>{message}</h3>
-            </AwesomeModal >
+            <AwesomeModal backdrop='static' zIndex='9999' padding='25px' show={SHOW_ALERT.state} onHide={() => { SHOW_ALERT.setState(!SHOW_ALERT.state) }} onCancel={() => false} size='small' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' > <h3>{message}</h3> </AwesomeModal >
             <ScheduleHeader>
-                <ScheduleHeaderNav onClick={() => handleClick(1)} current={showTiming === 1 && 1}>LUNES</ScheduleHeaderNav>
-                <ScheduleHeaderNav onClick={() => handleClick(2)} current={showTiming === 2 && 1}>MARTES</ScheduleHeaderNav>
-                <ScheduleHeaderNav onClick={() => handleClick(3)} current={showTiming === 3 && 1}>MIÉRCOLES</ScheduleHeaderNav>
-                <ScheduleHeaderNav onClick={() => handleClick(4)} current={showTiming === 4 && 1}>JUEVES</ScheduleHeaderNav>
-                <ScheduleHeaderNav onClick={() => handleClick(5)} current={showTiming === 5 && 1}>VIERNES</ScheduleHeaderNav>
-                <ScheduleHeaderNav onClick={() => handleClick(6)} current={showTiming === 6 && 1}>SÁBADO</ScheduleHeaderNav>
-                <ScheduleHeaderNav onClick={() => handleClick(7)} current={showTiming === 7 && 1}>DOMINGO</ScheduleHeaderNav>
+                <ScheduleHeaderNav onClick={() => handleClick(1)} current={showTiming === 1 && 1}>Lunes</ScheduleHeaderNav>
+                <ScheduleHeaderNav onClick={() => handleClick(2)} current={showTiming === 2 && 1}>Martes</ScheduleHeaderNav>
+                <ScheduleHeaderNav onClick={() => handleClick(3)} current={showTiming === 3 && 1}>Miércoles</ScheduleHeaderNav>
+                <ScheduleHeaderNav onClick={() => handleClick(4)} current={showTiming === 4 && 1}>Jueves</ScheduleHeaderNav>
+                <ScheduleHeaderNav onClick={() => handleClick(5)} current={showTiming === 5 && 1}>Viernes</ScheduleHeaderNav>
+                <ScheduleHeaderNav onClick={() => handleClick(6)} current={showTiming === 6 && 1}>Sábado</ScheduleHeaderNav>
+                <ScheduleHeaderNav onClick={() => handleClick(7)} current={showTiming === 7 && 1}>Domingo</ScheduleHeaderNav>
             </ScheduleHeader>
-
-            <AwesomeModal title={showTiming === 1 ? 'Lunes' : showTiming === 2 ? 'Martes ' : showTiming === 3 ? 'Miercoles' : showTiming === 4 ? 'Jueves ' : showTiming === 5 ? 'Viernes ?' : showTiming === 6 ? 'Sabado' : showTiming === 7 ? 'Domingo' : null} backdrop='static' zIndex='9990' padding='25px' height='50vh' show={SHOW_TIMING.state} onHide={() => { SHOW_TIMING.setState(!SHOW_TIMING.state) }} onCancel={() => false} size='small' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
+            <AwesomeModal title={showTiming === 1 ? 'Lunes' : showTiming === 2 ? 'Martes ' : showTiming === 3 ? 'Miercoles' : showTiming === 4 ? 'Jueves ' : showTiming === 5 ? 'Viernes' : showTiming === 6 ? 'Sabado' : showTiming === 7 ? 'Domingo' : null} backdrop='static' zIndex='9990' padding='25px' height='50vh' show={SHOW_TIMING.state} onHide={() => { SHOW_TIMING.setState(!SHOW_TIMING.state) }} onCancel={() => false} size='small' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
                 <Form onSubmit={(e) => handleForm(e)}>
                     {[1]?.map((x, i) => <AModalRow key={i + 10}>
                         <SelectInfo title='Hora Inicial' name={'startTime'} value={values.schHoSta} handleChange={handleChange} index={i} hide={x.schState} />
@@ -78,19 +94,18 @@ export const ScheduleTimings = () => {
                     <RippleButton label='Guardar' type={'submit'} />
                 </Form>
             </AwesomeModal>
-            {data?.getStoreSchedules?.map((s, i) => (
-                <Card key={i + 1}>
-                    <div>
-                        {s.schDay === 1 ? 'Lunes' : s.schDay === 2 ? 'Martes ' : s.schDay === 3 ? 'Miercoles' : s.schDay === 4 ? 'Jueves ' : s.schDay === 5 ? 'Viernes ?' : s.schDay === 6 ? 'Sabado' : s.schDay === 7 ? 'Domingo' : null}
-                    </div>
-                    <div>
-                        {s.schHoEnd}
-                    </div>
-                    <div>
-                        {s.schHoSta}
-                    </div>
-                </Card>
-            ))}
+            <ScheduleHeader>
+                {data ? data?.getStoreSchedules?.map((s, i) => (
+                    <Card direction='column' active={s.schDay === showTiming} margin='10px' key={i + 1} onClick={() => handleClick(s.schDay)} current={s.schDay === showTiming}>
+                        <Text>
+                            {s.schDay === 1 ? 'Lunes' : s.schDay === 2 ? 'Martes ' : s.schDay === 3 ? 'Miercoles' : s.schDay === 4 ? 'Jueves ' : s.schDay === 5 ? 'Viernes' : s.schDay === 6 ? 'Sabado' : s.schDay === 7 ? 'Domingo' : null}
+                        </Text>
+                        <Text size='1em'>
+                            {s.schHoSta} - {s.schHoEnd}
+                        </Text>
+                    </Card>
+                )) : <div>Agenda tus horarios</div>}
+            </ScheduleHeader>
         </div>
     )
 }
@@ -111,6 +126,13 @@ ScheduleTimings.propTypes = {
 
 }
 
+export const Text = styled.h3`
+    padding: 7px 0;
+    font-size: ${({ size }) => size || '13px'};
+    color: ${TFSColor};
+    font-family:  PFont-Light;
+    font-weight: 400;
+`
 export const Select = styled.select`
   font-size: 1rem;
   border-radius: 4px;
@@ -138,7 +160,7 @@ const ScheduleHeader = styled.div`
     display: grid;
     grid-template-columns: 33.33% repeat(auto-fill, 33.33%);
     flex-wrap:wrap;
-
+    grid-template-columns: repeat( auto-fit,minmax(150px,1fr) );
 `
 export const CardSelect = styled.select`
     font-size: 16px;
@@ -153,13 +175,14 @@ export const ModalSelect = styled(CardSelect)`
 `
 const ScheduleHeaderNav = styled.button`
     margin: 10px;
-    border: 1px solid ${EColor}; 
-    padding: 10px 0;
-    border-radius: 4px;
+    border: 1px solid ${TFSColor}; 
+    padding: 7px 0;
+    border-radius: 20px;
     flex-grow: 1;
-    font-size: 12px;
-    background-color: ${({ current }) => current ? PVColor : EColor};
-    color: ${BGColor};
+    font-size: 11px;
+    background-color: ${({ current }) => current ? PVColor : 'transparent'};
+    color: ${({ current }) => current ? BGColor : TFSColor};
+    /* color: ${TFSColor}; */
     text-align: center;
     transition: 0.3s;
     cursor: pointer;

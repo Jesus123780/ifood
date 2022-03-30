@@ -1,0 +1,44 @@
+# types
+type Clients {
+    cliId: ID
+    idStore: ID
+    idUser: ID
+    clState: Int
+    clientNumber: String
+    ClientAddress: String
+    ccClient: String
+    gender: Int
+    clientLastName: String
+    clientName: String
+    createAt: DateTime
+    updateAt: DateTime
+}
+
+# Inputs    
+input IClients {
+    cliId: ID #Solo para actualizar
+    idStore: ID
+    idUser: ID
+    clState: Int
+    gender: Int
+    clientNumber: String
+    ClientAddress: String
+    ccClient: String
+    clientLastName: String
+    clientName: String
+    createAt: DateTime
+    updateAt: DateTime
+}
+# Queries
+type Query {
+    "Consulta todos los países"
+    getOneClients(cliId: ID): Clients
+    getAllClients(idStore: ID, cId: ID dId: ID ctId: ID search: String min: Int fromDate: DateTime toDate: DateTime max: Int): [Clients]
+}
+
+# Mutations
+type Mutation {
+    "Registra un cliente"
+    createClients(input: IClients): Clients
+    deleteClient(cliId: ID, clState: Int!): Response
+}

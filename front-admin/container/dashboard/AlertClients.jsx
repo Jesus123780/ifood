@@ -2,14 +2,14 @@ import { MainCard } from 'components/common/Reusable/ShadowCard'
 import { PColor, SFVColor } from 'public/colors'
 import React from 'react'
 import styled from 'styled-components'
-import { Content, Text } from './styled'
+import { Content, ContentGrid, Text } from './styled'
 
 export const AlertStatistic = () => {
   return (
     <MainCard title={'Mis clientes dicen'}>
-      <Content>
-        {[1, 2, 3, 4].map(x => (
-          <MainCard key={x._id} width='24%' noneShadow={true}>
+      <ContentGrid>
+        {[1, 2, 3, 4].map((x, i) => (
+          <MainCard key={i + 1} width='100%' noneShadow={true}>
             <Box>
               <CircleStatus active={true}>
                 <Text size='1.2em' color='#3f3e3e'>0</Text>
@@ -18,7 +18,7 @@ export const AlertStatistic = () => {
             </Box>
           </MainCard>
         ))}
-      </Content>
+      </ContentGrid>
     </MainCard>
   )
 }

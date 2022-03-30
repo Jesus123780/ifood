@@ -1,8 +1,7 @@
 import React, { useEffect, useReducer, useState } from 'react'
 import { useMutation, useQuery, useLazyQuery } from '@apollo/client'
-import PropTypes from 'prop-types'
-import { CREATE_SCHEDULE_STORE, GET_ALL_PRODUCT_STORE, GET_CAT_OF_PRODUCTS, GET_SCHEDULE_STORE, REGISTER_CAT_OF_PRODUCTS } from './queriesStore'
-import { Card, ContentAction, ContentCard, CtnItems, Text } from './styled'
+import { GET_ALL_PRODUCT_STORE, GET_SCHEDULE_STORE, REGISTER_CAT_OF_PRODUCTS } from './queriesStore'
+import { Card, ContentAction, CtnItems, Text } from './styled'
 import { useFormTools } from '../../components/BaseForm'
 import InputHooks from '../../components/InputHooks/InputHooks'
 import { AwesomeModal } from '../../components/AwesomeModal'
@@ -201,7 +200,7 @@ export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
                         <span> {x.ProDescription}</span>
                     </Item>
                     <Item>
-                        <button className='btn'onClick={() => deleteCatOfProducts({ variables: { idPc: x.carProId, pState: x.pState } })}>
+                        <button className='btn' onClick={() => deleteCatOfProducts({ variables: { idPc: x.carProId, pState: x.pState } })}>
                             <IconPause size={30} color={PColor} />
                         </button>
                     </Item>
@@ -221,9 +220,9 @@ export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
             <AwesomeModal height='70vh' backdrop='static' zIndex='990' bgColor='transparent' padding='25px' show={openModalProducts} onHide={() => setOpenModalProducts(!openModalProducts)} onCancel={() => setOpenModalProducts(!openModalProducts)} size='medium' btnCancel={true} btnConfirm={true} onConfirm={() => handleUpdateCatInProduct()} header={true} footer={true} borderRadius='10px' >
                 <RippleButton padding='5px' onClick={() => SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state)}> Subir productos</RippleButton >
                 <CtnItems>
-                    {!dataProducto?.length ? <SkeletonP /> : dataProducto?.map(product => (
-                        <CardProduct grid={false} key={product.carProId} >
-                            <ContentImg grid={false}>   
+                    {!dataProducto?.length ? <SkeletonP /> : dataProducto?.map((product, i) => (
+                        <CardProduct grid={false} key={i + 1} >
+                            <ContentImg grid={false}>
                                 {!product.ProImage ? <i>No img</i> : <Img src={product.ProImage} alt={product.ProImage} />}
                             </ContentImg>
                             <ContentInfo>

@@ -206,6 +206,7 @@ export const ButtonActionLink = styled.button`
 
 `
 export const AnchorRouter = styled.a`
+cursor: pointer;
     &.active {
         color: ${PColor};
         border-left: 2px solid ${PColor};

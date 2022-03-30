@@ -53,6 +53,11 @@ const Aside = () => {
           smId: 2,
           smName: 'categoria-de-tienda',
           smPath: 'categoria-de-tienda',
+        },
+        {
+          smId: 3,
+          smName: 'PromoBannerDashboard',
+          smPath: 'PromoBannerDashboard',
         }
       ]
     },

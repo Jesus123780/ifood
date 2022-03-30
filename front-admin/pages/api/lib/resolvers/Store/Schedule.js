@@ -37,12 +37,43 @@ export const setStoreScheduleReserve = async (_root, { input }) => {
     }
 }
 export const setStoreSchedule = async (_root, { input }, context, _info) => {
+    const { schHoSta, schHoEnd, schDay } = input || {}
     try {
-        await ScheduleStore.create({ ...input, idStore: deCode(context.restaurant), id: deCode(context.User.id) })
-        return true
+        const [exist, _created] = await ScheduleStore.findOrCreate({
+            where: {
+                schDay: schDay,
+                // ID Store
+                idStore: deCode(context.restaurant)
+            },
+            defaults: {
+                ...input,
+                idStore: deCode(context.restaurant),
+                id: deCode(context.User.id)
+            }
+        })
+        if (exist) {
+            await ScheduleStore.update({ schHoEnd: schHoEnd, schHoSta: schHoSta },
+                {
+                    where:
+                    {
+                        schDay: schDay,
+                        // ID Store
+                        idStore: deCode(context.restaurant)
+                    }
+                })
+            return {
+                success: true,
+                message: 'actualizado'
+            }
+        } else {
+            return {
+                success: true,
+                message: 'Creado con éxito'
+            }
+        }
     } catch (e) {
-        const error = new Error('Lo sentimos, ha ocurrido un error interno1')
-        return error
+        return { success: false, message: e }
+
     }
 }
 const getStoreSchedules = async (root, { schDay }, context, info) => {
@@ -51,26 +82,19 @@ const getStoreSchedules = async (root, { schDay }, context, info) => {
             attributes: [
                 'idStore',
                 'schId',
-                // 'id',
-                'schDay',   
+                'schDay',
                 'schHoSta',
                 'schHoEnd',
                 'schState',
-                // 'store'
             ],
             where: {
                 [Op.or]: [
                     {
-                        // ID Productos
                         schState: 1,
                         idStore: deCode(context.restaurant)
-                        // // ID departamento
-                        // dId: dId ? deCode(dId) : { [Op.gt]: 0 },
-                        // // ID Cuidad
-                        // ctId: ctId ? deCode(ctId) : { [Op.gt]: 0 },
                     }
                 ]
-            }
+            }, order: [['schDay', 'ASC']]
         })
         return data
     } catch (e) {
@@ -85,7 +109,7 @@ const getOneStoreSchedules = async (root, { schDay, idStore }, context, info) =>
                 // 'idStore',
                 'schId',
                 // 'id',
-                'schDay',   
+                'schDay',
                 'schHoSta',
                 'schHoEnd',
                 'schState',

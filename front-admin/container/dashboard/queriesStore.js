@@ -17,7 +17,6 @@ export const GET_SCHEDULE_STORE = gql`
         getStoreSchedules(schDay: $schDay, idStore: $idStore){
             schId
             idStore
-    				# id
             schDay
             schHoSta
             schHoEnd
@@ -137,8 +136,8 @@ getAllRatingStar(idStore: $idStore){
 }
 `
 export const GET_ALL_VISITOR_STORE = gql`
-query getAllVisitorStore($idStore: ID) {
-  getAllVisitorStore(idStore: $idStore) {
+query getAllVisitorStore($idStore: ID, $search: String,  $min: Int, $max: Int, $fromDate: DateTime, $toDate: DateTime) {
+  getAllVisitorStore(idStore: $idStore, search: $search, min: $min, max: $max, fromDate: $fromDate, toDate: $toDate) {
     visitStoreId
     id
     idStore

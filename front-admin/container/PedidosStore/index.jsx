@@ -18,7 +18,6 @@ const PedidosStore = () => {
     fetchPolicy: 'cache-and-network',
     nextFetchPolicy: 'cache-first',
     onError: (e) => console.log(e),
-    onCompleted: (data) => console.log(data)
   })
   const { setAlertBox, setCountPedido, countPedido } = useContext(Context)
   useEffect(() => {

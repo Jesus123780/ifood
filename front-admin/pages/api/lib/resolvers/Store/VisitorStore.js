@@ -15,18 +15,27 @@ export const setVisitorStore = async (_root, { input }) => {
         })
         return { success: true, message: '' }
     } catch (e) {
-        console.log(e)
         const error = new Error('Lo sentimos, ha ocurrido un error interno2')
         return error
     }
 }
-export const getAllVisitorStore = async (_root, { idStore }, ctx, info) => {
+export const getAllVisitorStore = async (_root, { idStore, fromDate, toDate, max, min }, ctx, info) => {
     try {
         const attributes = getAttributes(visitUserStore, info)
-        const data = await visitUserStore.findAll({ attributes, where: { idStore: idStore ? deCode(idStore) : deCode(ctx.restaurant) } })
+        const data = await visitUserStore.findAll({
+            attributes, where:
+            {
+                [Op.or]: [
+                    {
+                        ...((fromDate && toDate) ? { createAt: { [Op.between]: [fromDate, `${toDate} 23:59:59`] } } : {}),
+                        idStore: idStore ? deCode(idStore) : deCode(ctx.restaurant)
+                    }
+                ]
+            }
+        })
         return data
     } catch (e) {
-        throw ApolloError('Lo sentimos, ha ocurrido un error interno')
+        throw new ApolloError('No ha sido posible procesar su solicitud.', 500, e)
     }
 }
 export default {

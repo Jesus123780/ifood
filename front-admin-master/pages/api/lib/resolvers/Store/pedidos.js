@@ -78,13 +78,13 @@ export const getAllPedidoStore = async (_, args, ctx, info) => {
     const { idStore } = args
     try {
         // const attributes = getAttributes(pedidosModel, info)
-        // console.log(attributes)
+        console.log(attributes)
         const data = await pedidosModel.findAll({
             attributes: [
                 'pdpId',
                 // 'id',
                 // 'idStore',   
-                'pId',
+                // 'pId',
                 // 'ppState',
                 // 'pCodeRef',
                 // 'pPDate',

@@ -13,7 +13,6 @@ export const CheckoutFinalizar = () => {
         pollInterval: 60000,
         fetchPolicy: 'cache-and-network',
         onError: (e) => console.log(e),
-        onCompleted: (data) => console.log(data)
     })
     const handleContact = ({ getOneStore, ref }) => {
         console.log(getOneStore)
@@ -60,7 +59,7 @@ export const CheckoutFinalizar = () => {
                                             </Flex>
                                         </ContainerShare>
                                     </ContentShare>
-                                    <label tabIndex="0" className="dish-observation-form__label" for="observations-form">¿Ocurrió algo? Contacta el restaurante +57 {getOneStore.storePhone}</label>
+                                    <label tabIndex="0" className="dish-observation-form__label" >¿Ocurrió algo? Contacta el restaurante +57 {getOneStore.storePhone}</label>
                                 </DisRestaurant>
                             </div>
                         </div>

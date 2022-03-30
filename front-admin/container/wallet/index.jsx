@@ -7,7 +7,7 @@ import { useMutation, useQuery, useLazyQuery } from '@apollo/client'
 import moment from 'moment'
 import React, { useContext, useEffect, useReducer, useState } from 'react'
 import { CREATE_WALLET_DEBT, DELETE_ONE_WALLET_DEBT, GET_ALL_WALLET_DEBT, GET_ONE_WALLET_DEBT } from './queries'
-import { Button, Item, Container, CardProduct, OrganiceProduct, HeaderStatic, ColumnList } from './styled'
+import { Button, Item, Container, CardProduct, OrganiceProduct, HeaderStatic, ColumnList, ContainerAnimation, ContainerAnimationTow, WrapperClient } from './styled'
 import { numberFormat, RandomCode, updateCache, updateCacheMod } from 'utils'
 import { CustomTable } from '../pruebas'
 import { Card } from './styled'
@@ -23,8 +23,12 @@ import { TextH2Main } from 'components/common/h2'
 import { LocationName } from 'components/hooks/useLocationName'
 import { Table } from 'components/Table'
 import { Section } from 'components/Table/styled'
+import { GET_ALL_CLIENTS } from 'container/clients/queries'
+import { Loading } from 'components/Loading'
 
 export const WalletC = () => {
+    // STATES
+    const [setCheck, setChecker] = useState({})
     const [amount, setAmount] = useState(0);
     const [modalOptions, setOpenModalOptions] = useState(false)
     const [dataWalletUser, setDataWallet] = useState([]);
@@ -32,16 +36,36 @@ export const WalletC = () => {
     const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
     const { setAlertBox } = useContext(Context)
     const OPEN_MODAL = useSetState()
+    const [active, setActive] = useState(1)
     const initialStateInvoice = {
         PRODUCT: [],
         PRODUCT_WALLET: [],
     }
+    // QUERIES
     const [createWalletDebt] = useMutation(CREATE_WALLET_DEBT)
     const [delWalletDebt] = useMutation(DELETE_ONE_WALLET_DEBT)
     const [dataProducto, setData] = useState([])
+    const [index, setIndex] = useState('')
     const [showMoreWalletUser, setShowMoreWalletUser] = useState(100)
+    const [valuesDates, setValuesDates] = useState({ fromDate: moment().format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD') })
     const [showMoreProduct, setShowMoreProducts] = useState(100)
     const { data, loading, fetchMore } = useQuery(GET_ALL_WALLET_DEBT)
+    // HANDLES
+    const handleClick = index => {
+        setActive(index === active ? true : index)
+    }
+    const handleSelectClient = index => {
+        handleClick(1)
+        const { cliId, clientName, clientNumber, clientLastName, ccClient } = index || {}
+        setIndex(cliId)
+        setDataValue({
+            debtName: clientName,
+            personName: clientName,
+            phoneWalletUser: clientNumber,
+            lastName: clientLastName,
+            ccWalletUser: ccClient,
+        })
+    }
     const handleDeleteWallet = (debtWalletId, debtState, debtName) => {
         delWalletDebt({
             variables: {
@@ -105,8 +129,6 @@ export const WalletC = () => {
         return dataProductFree.ProDelivery === 1
     }
     const productFree = dataProducto.filter(freeDelivery)
-
-    const [showMore, setShowMore] = useState(100)
     const [product, dispatch] = useReducer(productRecoger, initialStateInvoice)
     const [productFoodsAll, { data: dataProduct, loading: LoadProduct, fetchMore: fetchMoreProduct }] = useLazyQuery(GET_ALL_PRODUCT_STORE, {
         fetchPolicy: 'network-only',
@@ -134,7 +156,6 @@ export const WalletC = () => {
         productFoodsAll({ variables: { max: showMoreProduct, search: search } })
     }, [showMoreProduct, search])
     const arr = product?.PRODUCT?.map(x => ({ pId: x.pId, debtAmountProduct: x.ProPrice, }))
-    const [setCheck, setChecker] = useState({})
     const handleCheck = (e) => {
         const { name, checked } = e.target
         setChecker({ ...setCheck, [name]: checked ? 1 : 0 })
@@ -146,14 +167,14 @@ export const WalletC = () => {
                 return createWalletDebt({
                     variables: {
                         input: {
-                            UserDebtId: 'MjcyMDg4ODE0ODUxNTE2NDUw',
+                            UserDebtId: index,
                             debtName: dataForm.debtName,
                             personName: dataForm.personName,
                             lastName: dataForm.lastName,
                             gender: setCheck.gender,
                             ccWalletUser: dataForm.ccWalletUser,
                             phoneWalletUser: dataForm.phoneWalletUser,
-                            RefDebtCode: RandomCode(9),
+                            RefDebtCode: RandomCode(10),
                             debtAmount: amount,
                             debtComments: dataForm?.debtComments,
                         },
@@ -191,7 +212,6 @@ export const WalletC = () => {
         });
         setAmount(amountCount)
     }, [product])
-    const [valuesDates, setValuesDates] = useState({ fromDate: moment().format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD') })
     const onChangeInput = (e) => setValuesDates({ ...valuesDates, [e.target.name]: e.target.value })
 
     const fetchData = async (name) => {
@@ -247,28 +267,46 @@ export const WalletC = () => {
         })
     }}> {loading ? '...Cargando' : 'Cargar Más'}</RippleButton>
     const OPEN_MODAL_MANAGE = useSetState()
-
+    const { data: clients } = useQuery(GET_ALL_CLIENTS)
+    console.log(clients)
     return (
         <div>
+            {loading && <Loading />}
             <AwesomeModal zIndex='9999' padding='25px' height='100vh' show={OPEN_MODAL.state} onHide={() => { OPEN_MODAL.setState(!OPEN_MODAL.state) }} onCancel={() => false} size='large' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='0px' >
                 <Container>
                     <Card sticky width='20%'>
-                        <form onSubmit={(e) => handleForm(e)}>
-                            <Flex>
-                                <div style={{ marginLeft: '10px' }}>
-                                    <input type="checkbox" name="gender" value={setCheck} onChange={(e) => handleCheck(e)} />
-                                </div>
-                                <label>{setCheck.gender === 1 ? 'Femenino' : 'Masculino'}</label>
-                            </Flex>
-                            <InputHooks autoComplete='off' title='Nombre de la billetera' width={'100%'} required error={errorForm?.debtName} value={dataForm?.debtName} onChange={handleChange} name='debtName' />
-                            <InputHooks autoComplete='off' title='Nombre de la persona' width={'100%'} required error={errorForm?.personName} value={dataForm?.personName} onChange={handleChange} name='personName' />
-                            <InputHooks autoComplete='off' title='Apellido' width={'100%'} required error={errorForm?.lastName} value={dataForm?.lastName} onChange={handleChange} name='lastName' />
-                            <InputHooks autoComplete='off' title='Numero' width={'100%'} required error={errorForm?.phoneWalletUser} value={dataForm?.phoneWalletUser} onChange={handleChange} name='phoneWalletUser' />
-                            <InputHooks autoComplete='off' title='CC de la persona' width={'100%'} required error={errorForm?.ccWalletUser} value={dataForm?.ccWalletUser} onChange={handleChange} name='ccWalletUser' />
-                            <InputHooks autoComplete='off' title='comentario' TypeTextarea={true} width={'100%'} required error={errorForm?.debtComments} value={dataForm?.debtComments} onChange={handleChange} name='debtComments' />
-                            <span>monto: $ {numberFormat(amount)}</span>
-                            <RippleButton type='submit' widthButton='100%' >Crear Billetera para {dataForm?.personName}</RippleButton>
-                        </form>
+                        <div>
+                            <RippleButton active={active === 1} style={{ borderRadius: '0px' }} margin='0px 5px' color="red" padding="10px" bgColor='#9797971a' label='Crear' onClick={() => active !== 1 && handleClick(1)} />
+                            <RippleButton active={active === 2} style={{ borderRadius: '0px' }} margin='0px 5px' color="red" padding="10px" bgColor='#9797971a' label='Mis clientes' onClick={() => active !== 2 && handleClick(2)} />
+                        </div>
+                        {
+                            active === 1 ?
+                                <ContainerAnimation>
+                                    <form onSubmit={(e) => handleForm(e)}>
+                                        <Flex>
+                                            <div style={{ marginLeft: '10px' }}>
+                                                <input type="checkbox" name="gender" value={setCheck} onChange={(e) => handleCheck(e)} />
+                                            </div>
+                                            <label>{setCheck.gender === 1 ? 'Femenino' : 'Masculino'}</label>
+                                        </Flex>
+                                        <InputHooks autoComplete='off' title='Nombre de la billetera' width={'100%'} required error={errorForm?.debtName} value={dataForm?.debtName} onChange={handleChange} name='debtName' />
+                                        <InputHooks autoComplete='off' title='Nombre de la persona' width={'100%'} required error={errorForm?.personName} value={dataForm?.personName} onChange={handleChange} name='personName' />
+                                        <InputHooks autoComplete='off' title='Apellido' width={'100%'} required error={errorForm?.lastName} value={dataForm?.lastName} onChange={handleChange} name='lastName' />
+                                        <InputHooks autoComplete='off' title='Numero' width={'100%'} required error={errorForm?.phoneWalletUser} value={dataForm?.phoneWalletUser} onChange={handleChange} name='phoneWalletUser' />
+                                        <InputHooks autoComplete='off' title='CC de la persona' width={'100%'} required error={errorForm?.ccWalletUser} value={dataForm?.ccWalletUser} onChange={handleChange} name='ccWalletUser' />
+                                        <InputHooks autoComplete='off' title='comentario' TypeTextarea={true} width={'100%'} required error={errorForm?.debtComments} value={dataForm?.debtComments} onChange={handleChange} name='debtComments' />
+                                        <span>monto: $ {numberFormat(amount)}</span>
+                                        <RippleButton type='submit' widthButton='100%' >Crear Billetera para {dataForm?.personName}</RippleButton>
+                                    </form>
+                                </ContainerAnimation>
+                                : <ContainerAnimationTow>
+                                    {clients?.getAllClients.map(client => (
+                                        <WrapperClient active={index === client.cliId} key={client.cliId} onClick={() => handleSelectClient(client)}>
+                                            <div>{capitalize(client.clientLastName)}</div>
+                                            <div>{capitalize(client.clientName)}</div>
+                                        </WrapperClient>
+                                    ))}
+                                </ContainerAnimationTow>}
                     </Card>
                     <Card margin='0' align display='flex' width='70%'>
                         <Card margin={'0 0 0 10px'}>
@@ -284,14 +322,7 @@ export const WalletC = () => {
                                             <h3 className='price_text'>precio: ${numberFormat(x.ProPrice)}</h3>
                                             <RippleButton bgColor={'#f2f2f2'} type='button' color={BColor} padding='0' widthButton='100%' onClick={() => handleAddProduct(x)}>Añadir producto <IconPlus color={BColor} size='10px' /></RippleButton>
                                         </div>
-                                        <Image
-                                            width={550}
-                                            height={550}
-                                            objectFit='contain'
-                                            src={'/images/hamb.jpg'}
-                                            alt='Picture'
-                                            blurDataURL='data:...'
-                                            placeholder='blur' />
+                                        <Image width={550} height={550} objectFit='contain' src={'/images/hamb.jpg'} alt='Picture' blurDataURL='data:...' placeholder='blur' />
                                     </CardProduct>
                                 ))}
                             </OrganiceProduct>
@@ -314,9 +345,9 @@ export const WalletC = () => {
                         <Card>
                             <HeaderStatic>
                                 <TextH2Main weight='400' size={'15px'} text={`Productos agregados a la billetera (${product?.PRODUCT?.length || 0})`} />
-                                <Input  placeholder='Buscar...' autoFocus={true} autoComplete={'off'} label='Busca tus productos' name='search' value={search} onChange={handleChangeFilter} type='text' />
+                                <Input placeholder='Buscar...' autoFocus={true} autoComplete={'off'} label='Busca tus productos' name='search' value={search} onChange={handleChangeFilter} type='text' />
 
-                                
+
                             </HeaderStatic>
                             <OrganiceProduct margin='0 20px' width='50%'>
                                 {product?.PRODUCT?.map((x, idx) => (

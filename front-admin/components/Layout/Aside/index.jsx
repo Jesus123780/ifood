@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { useApolloClient } from '@apollo/client'
 import PropTypes from 'prop-types'
 import { PColor } from '../../../public/colors'
-import { IconHome, IconHorario, IconLogo, IconLogout, IconPromo, IconShopping, IconWallet } from '../../../public/icons'
+import { IconHome, IconHorario, IconLogo, IconLogout, IconPromo, IconShopping, IconUser, IconWallet } from '../../../public/icons'
 import ActiveLink from '../../common/Link'
 import { Anchor, AnchorRouter, ButtonActionLink, ButtonGlobalCreate, Card, ContainerAside, CtnAnchor, Info, LeftNav, OptionButton, Router, SubMenuModules } from './styled'
 import { useRouter } from 'next/router'
@@ -132,8 +132,11 @@ const Aside = () => {
               </AnchorRouter>
             </ActiveLink>
             <ButtonActionLink onClick={() => setOpenSchedule(!openSchedule)}>
-              <IconHorario size='15px' />Orarios
+              <IconHorario size='15px' />Horarios
             </ButtonActionLink>
+            <ActiveLink activeClassName="active" href="/horarios">
+              <AnchorRouter><IconPromo size='15px' />Horarios</AnchorRouter>
+            </ActiveLink>
             <ActiveLink activeClassName="active" href="/promo">
               <AnchorRouter><IconPromo size='15px' />Promo</AnchorRouter>
             </ActiveLink>
@@ -151,6 +154,15 @@ const Aside = () => {
             </ActiveLink>
             <ActiveLink activeClassName="active" href="/fidelizacion">
               <AnchorRouter><IconShopping size='15px' />Lealtad</AnchorRouter>
+            </ActiveLink>
+            <ActiveLink activeClassName="active" href="/">
+              <AnchorRouter><IconShopping size='15px' />Recomendaciones</AnchorRouter>
+            </ActiveLink>
+            <ActiveLink activeClassName="active" href="/fidelizacion">
+              <AnchorRouter><IconShopping size='15px' />Lealtad</AnchorRouter>
+            </ActiveLink>
+            <ActiveLink activeClassName="active" href="/clientes">
+              <AnchorRouter>  <IconUser size='20px' />Clientes</AnchorRouter>
             </ActiveLink>
             <ActiveLink activeClassName="active" href="/billetera">
               <AnchorRouter>  <IconWallet size='20px' />Billetera</AnchorRouter>

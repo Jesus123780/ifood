@@ -55,6 +55,4 @@ const Button = styled.button`
     width: ${ widthButton };`
 }
 
-${ props=> props.active && css`
-border-bottom: 3px solid red; ` }
-`
+${ props=> props.active ? css`border-bottom: 3px solid red;` : css`border-bottom: 3px solid transparent;` }`

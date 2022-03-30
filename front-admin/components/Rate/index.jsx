@@ -23,9 +23,9 @@ export const Rate = ({ count, rating, color, onRating, size, noHover }) => {
                     <div
                         key={idx}
                         icon="star"
-                        onClick={() => onRating(idx)}
-                        onMouseEnter={() => !noHover && setHoverRating(idx)}
-                        onMouseLeave={() => setHoverRating(0)}
+                        onClick={() => onRating ? onRating(idx) : {}}
+                        onMouseEnter={() => onRating ? !noHover && setHoverRating(idx) : {}}
+                        onMouseLeave={() => onRating ? setHoverRating(0) : {}}
                     ><IconRate color={getColor(idx)} size={size} />
                     </div>
                 ))}

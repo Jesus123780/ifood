@@ -9,7 +9,7 @@ export const Range = ({ min = 0, max = 100, value = 0, label }) => {
 
     return (
         <div className="range">
-            <div className="range__ballon" style={{ left: width * percent + offset }}>
+            <div className="range__ballon" style={{ left: width * percent + offset || 0 }}>
                 <span className="range__ballon__value">{currentValue}</span>
                 <span className="range__ballon__label">{label}</span>
             </div>

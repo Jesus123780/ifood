@@ -32,7 +32,7 @@ export const OurFood = () => {
     setGoodTemperature(goodTemperature)
     setGoodCondition(rGoodCondition)
   }, [dataRating])
-  
+
   const dataArr = [
     {
       name: 'Buena apariencia',
@@ -54,8 +54,8 @@ export const OurFood = () => {
   return (
     <MainCard noneShadow={true} title={'Sobre Su comida'}>
       <WrapSlide>
-        {dataArr?.map((item => (
-          <Box key={item._id}>
+        {dataArr?.map(((item, i) => (
+          <Box key={i + 1}>
             <Image
               className='store_image'
               width={100}

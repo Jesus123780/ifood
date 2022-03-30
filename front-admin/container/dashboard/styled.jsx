@@ -101,16 +101,20 @@ export const CardProductsContent = styled.div`
       text-decoration: line-through;
     }
     .card__description {
-      list-style: none;
-      cursor: pointer;
-      box-sizing: border-box;
-      color: #3e3e3e;
-      font-weight: 400;
-      margin-top: 0;
-      font-size: 1.125rem;
-      line-height: 1.5rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-family: SulSans,Helvetica,sans-serif;
+    list-style: none;
+    cursor: pointer;
+    font-weight: lighter;
+    color: #717171;
+    word-break: break-word;
+    margin-bottom: 10px;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
     }
     &&:hover {
       border: 1px solid #dbdad9;
@@ -201,6 +205,7 @@ export const ButtonStore = styled.button`
   width: 100%;
   margin: 30px auto;
   margin-bottom: 58px;
+  cursor: pointer;
   display: flex;
   border: 1px solid ${PLVColor};
 `
@@ -866,19 +871,20 @@ export const MediaValue = styled.span`
   color: #3f3e3e;
   font-family: PFont-Light;
 `
+export const ContentGrid = styled.div`
+      display: grid;
+    grid-template-columns: repeat( auto-fit,minmax(250px,1fr) );
+    width: 90%;
+    grid-gap: 19px 12px;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+`
 export const Content = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  height: min-content;
-  width: 100%;
-  margin: ${({ margin }) => margin};
-  justify-content: space-between;
-  /* flex-direction: ${({ direction }) => direction || 'column'}; */
-  width: ${({ width }) => width || '100%'};
-  @media only screen and (max-width: 769px){
-    width: ${({ widthMovil }) => widthMovil || '100%'};
-  }
-
+  grid-template-columns: 1fr 80%;
+  grid-gap: 15px;
+  padding: 15px;
+  display: grid;
 `
 export const WrapperRow = styled.div`
     display: grid;
@@ -905,19 +911,19 @@ export const Card = styled.div`
   flex-wrap: ${({ wrap }) => wrap || 'wrap'};
   height: ${({ height }) => height || 'min-content'};
   width: ${({ width }) => width || 'auto'};
-  /* flex-direction: ${({ direction }) => direction || 'column'}; */
   justify-content: ${({ justify }) => justify || 'initial'};
   padding: ${({ padding }) => padding || '1%'};
   position: relative;
   ${({ radius }) => radius && css`border-radius: ${radius};`}
   ${({ overflow }) => overflow && css`overflow: ${overflow};`}
-  transition: .5s ease;
-  align-items: center;
+  transition: .5s ease;  
   margin: ${({ margin }) => margin || '0'};
-  background-color: ${BGColor};
+  background-color: #e0f2df;
   ${props => props.active ? css`border: 3px solid ${PVColor};` : css`border: 3px solid transparent;`}
   box-shadow: 0px 0px 14px #00000017;
+  flex-direction: ${({ direction }) => direction || 'row'};
   &:hover {
+    cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
   }
 
@@ -945,15 +951,15 @@ export const CircleUser = styled.div`
   bottom: -35px;
 `
 export const CardPrimary = styled.div`
+    margin: auto;
+    justify-content: center;
     background-color: ${({ bgColor }) => bgColor || BGColor};
-    padding: ${({ padding }) => padding || '0'};
-    display: ${({ display }) => display || 'flex'};
-    /* flex-direction: ${({ direction }) => direction || 'column'}; */
+    padding: ${({ padding }) => padding || '0px'};
     display: flex;
-    border-radius: ${({ radius }) => radius || '0'};
     align-items: center;
     position: relative;
     width: 100%;
+    border-radius: 8px;
     
     `
 export const ContentListInvoice = styled.div`
@@ -1042,15 +1048,18 @@ export const ContentInfo = styled.div`
     max-height: 700px;
 `
 export const Text = styled.span`
-    font-size: ${({ size }) => size || '12px'};
+    margin: 0;
+    color: #3f3e3e;
+    font-size: ${({ size }) => size || '1.5rem'};
     text-align:  ${({ align }) => align || 'start'};
+    height: min-content;
     ${({ lineHeight }) => lineHeight && css`line-height: ${lineHeight};`}
+    font-weight: 400;
+    ${({ weight }) => weight && css`font-weight: ${weight};`}
     ${({ padding }) => padding && css`padding: ${padding};`}
     margin: ${({ margin }) => margin || '0'};
-    color: ${({ color }) => color || BColor};
-    justify-content: ${({ justify }) => justify || 'flex-start'};
-    display: flex;
-    font-family: ${({ font }) => font || 'PFont-Regular'};
+    color: ${({ color }) => color || '#3f3e3e   '};
+    font-family: ${({ font }) => font || 'PFont-Light'};
     word-break: break-word;
 `
 // Create styles

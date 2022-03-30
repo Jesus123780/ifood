@@ -1,5 +1,5 @@
 import { PColor, BGColor } from "public/colors"
-import styled, { css } from "styled-components"
+import styled, { css, keyframes } from "styled-components"
 
 export const ColumnList = styled.div`
     display: grid;
@@ -50,7 +50,7 @@ export const HeaderStatic = styled.div`
 
 `
 export const Card = styled.div`
-margin: ${({ margin }) => margin &&css`margin: ${margin};`};
+    margin: ${({ margin }) => margin &&css`margin: ${margin};`};
     width: ${({ width }) => width ? width : '70%'};
     display: ${({ display }) => display || 'block'};
     ${props => props.align && css`
@@ -140,4 +140,43 @@ export const Button = styled.button`
     text-decoration: underline;
     background-color: transparent;
     cursor: pointer;
+`
+export const AnimationRight = keyframes`
+0% {
+    transform: translateX(50vw);
+    opacity: 0;
+}
+100% {
+    transform: translateY(0);
+    opacity: 1;
+}
+`
+export const AnimationLeft = keyframes`
+0% {
+    transform: translateX(-50vw);
+    opacity: 0;
+}
+
+100% {
+    transform: translateY(0);
+    opacity: 1;
+}
+`
+export const ContainerAnimation = styled.div`
+${ props=> props.active === 1 ? css`animation: ${ AnimationRight } 200ms;` : css`animation: ${ AnimationRight } 200ms;` }
+`
+export const ContainerAnimationTow = styled.div`
+${ props=> props.active === 2 ? css`animation: ${ AnimationLeft } 200ms;` : css`animation: ${ AnimationLeft } 200ms;` }
+
+`
+export const WrapperClient = styled.div`
+    border-radius: 5px;
+    padding: 10px;
+    background-color: ${BGColor};
+    display: flex;
+    border: 1px solid #f2f2f2;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 26%);
+    margin: 10px 0;
+    cursor: pointer;
+    ${props => props.active ? css`border: 1px solid ${PColor};` : css`border: 1px solid transparent;` }
 `

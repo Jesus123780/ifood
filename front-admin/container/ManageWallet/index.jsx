@@ -80,10 +80,10 @@ export const ManageWallet = ({ data, dataProducto, product, dispatch, loading, s
                                         variables: { max: showMoreProduct, min: 0 },
                                         updateQuery: (prevResult, { fetchMoreResult }) => {
                                             if (!fetchMoreResult) return prevResult
-                                            let productFoodsAll = [...prevResult.productFoodsAll]
+                                            // let productFoodsAll = [...prevResult.productFoodsAll]
                                             return {
                                                 productFoodsAll: [
-                                                    productFoodsAll,
+                                                    // productFoodsAll,
                                                     ...fetchMoreResult.productFoodsAll]
                                             }
                                         }

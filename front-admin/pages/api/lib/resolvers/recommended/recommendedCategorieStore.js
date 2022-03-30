@@ -16,6 +16,7 @@ export const getAllMatchesStoreRecommended = async (root, args, context, info) =
                 [Op.or]: [
                     {
                         ...whereSearch,
+                        uState: 2,
                         ...((catStore) ? { catStore: deCode(catStore) } : {}),
                     }
                 ]

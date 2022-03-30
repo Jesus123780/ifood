@@ -77,24 +77,10 @@ const createMultipleOrderStore = async (_, { input }, ctx) => {
 export const getAllPedidoStore = async (_, args, ctx, info) => {
     const { idStore } = args
     try {
-        // const attributes = getAttributes(pedidosModel, info)
+        const attributes = getAttributes(pedidosModel, info)
         // console.log(attributes)
         const data = await pedidosModel.findAll({
-            attributes: [
-                'pdpId',
-                // 'id',
-                // 'idStore',   
-                'pId',
-                // 'ppState',
-                // 'pCodeRef',
-                // 'pPDate',
-                // 'pPStateP',
-                // 'payMethodPState',
-                // 'pPRecoger',
-                // 'unidProducts',
-                // 'pDatCre',
-                // 'pDatMod'
-            ],
+            attributes,
             where: {
                 [Op.or]: [
                     {
@@ -144,7 +130,7 @@ export const getAllPedidoUserFinal = async (_, args, ctx, info) => {
                         id: id ? deCode(id) : deCode(ctx.User.id),
                     }
                 ]
-            }
+            }, order: [['pDatCre', 'DESC']]
         })
         return data
     } catch (error) {

@@ -171,7 +171,7 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
                     <IconMiniCheck size={'15px'} color={'#009b3a'} />
                 </GarnishChoicesHeader>
                 {dataExtra?.map((Adicionales, index) => (
-                    <div key={Adicionales.exPid}>
+                    <div key={index + 1}>
                         <CardsComponent>
                             <div>
                                 <h3 className="title_card">{Adicionales.extraName}</h3>
@@ -282,7 +282,7 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
                         </RippleButton>
                     </GarnishChoicesHeader>
                     <InputHooks required onChange={handleChange} name='OptionalProName' value={dataForm.OptionalProName} />
-                    <RippleButton margin='0px' widthButton='25%' padding='5' type="button" onClick={() => {}} >
+                    <RippleButton margin='0px' widthButton='25%' padding='5' type="button" onClick={() => { }} >
                         Editar
                     </RippleButton>
                 </ContentModal>

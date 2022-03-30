@@ -1053,12 +1053,11 @@ export const getFileSizeByUnit = (file, unit = "B") => {
     return [unitFormula[unitStr] ? unitFormula[unitStr](originFileSize) : 0, { unit }]
 };
 export function RandomCode(length) {
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
+    var result = ''
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    var charactersLength = characters.length
     for (var i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() *
-            charactersLength));
+        result += characters.charAt(Math.floor(Math.random() * charactersLength))
     }
     return result;
 }

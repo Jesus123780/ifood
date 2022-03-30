@@ -1,3 +1,4 @@
+import { PColor } from 'public/colors'
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
 // import './style.css'
@@ -70,7 +71,7 @@ const LsRipple = styled.div`
     height: 80px;
     & > div {
         position: absolute;
-        border: 4px solid ${ ({ theme }) => theme.BGAColor };
+        border: 4px solid ${PColor};
         opacity: 1;
         border-radius: 50%;
         animation: ${ AnimationRipple } .1s cubic-bezier(0, 0.2, 0.8, 1)

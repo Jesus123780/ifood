@@ -1,5 +1,6 @@
+import { Context } from 'context/Context'
 import { useCallback, useContext, useEffect, useState } from 'react'
-import { Context } from '../../context/Context'
+// import { Context } from '../../context/Context'
 import { PColor, WColor } from '../../public/colors'
 import { validationSubmitHooks } from '../../utils'
 // import { validationSubmitHooks } from '../utils/util'
@@ -14,7 +15,7 @@ export const useFormTools = () => {
     const [errorForm, setErrorForm] = useState({})
     const [errorSubmit, setErrorSubmit] = useState(false)
     const [calledSubmit, setCalledSubmit] = useState(false)
-    // const { setAlertBox } = useContext(Context)
+    const { setAlertBox } = useContext(Context)
 
     // Handle Change
     const handleChange = useCallback((e, error) => {
@@ -56,11 +57,11 @@ export const useFormTools = () => {
         if (!errSub && action) {
             action().then(res => {
                 if (res) {
-                    // setAlertBox({ message: msgSuccess || 'Operación exitosa', color: PColor })
+                    setAlertBox({ message: msgSuccess || 'Operación exitosa', color: PColor })
                     !!actionAfterSuccess && actionAfterSuccess()
                 }
 
-            }).catch(e => console.log({ message: msgError || e?.message || 'Ha ocurrido un error', color: WColor }))
+            }).catch(e => setAlertBox({ message: msgError || e?.message || 'Ha ocurrido un error', color: WColor }))
         }
 
         setErrorSubmit(errSub)

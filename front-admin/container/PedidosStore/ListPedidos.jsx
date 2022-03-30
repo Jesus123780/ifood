@@ -270,7 +270,7 @@ export const CheckStatus = ({ setModal, modal, dataModal }) => {
                                                     </a>
                                                 </Link>}
                                                 <div className="dish-restaurant__divisor"></div>
-                                                <label tabIndex="0" className="dish-observation-form__label" for="observations-form">¿Algún comentario?</label>
+                                                <label tabIndex="0" className="dish-observation-form__label" >¿Algún comentario?</label>
                                             </DisRestaurant>
                                             <DisRestaurant>
                                                 <Text size='1.4'>{p?.getAllShoppingCard.comments}</Text>

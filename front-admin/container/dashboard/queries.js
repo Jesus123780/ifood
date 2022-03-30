@@ -8,14 +8,26 @@ export const CREATE_FOOD_PRODUCT = gql`
     }
   }
 `
+export const GET_BANNER_PROMO_DASHBOARD = gql`
+query getPromoStoreAdmin{
+getPromoStoreAdmin{
+    pSoId
+    comments
+    mainName
+    metaTags
+    urlImage
+    bPromoState
+    createAt
+    updateAt
+  }
+}
+`
+
 export const CREATE_STORE_CALENDAR = gql`
 mutation  setStoreSchedule($input: ITstoreSchedule!){
   setStoreSchedule(input: $input){
-    schDay
-    schHoSta
-    schHoEnd
-    schState
-    
+    message
+    success
   }
 }
 `

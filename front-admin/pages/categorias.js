@@ -1,3 +1,3 @@
-import { ManageCategories } from "../container/dashboard/manageCategories";
 
+import { ManageCategories } from '../container/dashboard/ManageCategories';
 export default function HomeView() { return (<ManageCategories />) }

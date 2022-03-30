@@ -10,13 +10,17 @@ import storyStore from './storyStore'
 import shoppingStore from './shopping'
 import contactStore from './contact'
 import walletDebtStore from './walletDebt'
+import ClientsStore from './Clients'
+import bannerDashboardStore from './bannerMainDashboard'
 
 export default {
     TYPES: {
         ...storeResolver.TYPES,
+        ...bannerDashboardStore.TYPES,
         ...walletDebtStore.TYPES,
         ...emplooyeResolver.TYPES,
         ...ScheduleStoreResolver.TYPES,
+        ...ClientsStore.TYPES,
         ...createCatOfProductResolver.TYPES,
         ...setVisitorStore.TYPES,
         ...pedidosResolver.TYPES,
@@ -28,9 +32,11 @@ export default {
     QUERIES: {
         ...storeResolver.QUERIES,
         ...emplooyeResolver.QUERIES,
+        ...ClientsStore.QUERIES,
         ...walletDebtStore.QUERIES,
         ...ScheduleStoreResolver.QUERIES,
         ...createCatOfProductsResolver.QUERIES,
+        ...bannerDashboardStore.QUERIES,
         ...pedidosResolver.QUERIES,
         ...setVisitorStore.QUERIES,
         ...shoppingStore.QUERIES,
@@ -44,7 +50,9 @@ export default {
         ...walletDebtStore.MUTATIONS,
         ...ContractResolver.MUTATIONS,
         ...shoppingStore.MUTATIONS,
+        ...bannerDashboardStore.MUTATIONS,
         ...setVisitorStore.MUTATIONS,
+        ...ClientsStore.MUTATIONS,
         ...ScheduleStoreResolver.MUTATIONS,
         ...contactStore.MUTATIONS,
         ...pedidosResolver.MUTATIONS,

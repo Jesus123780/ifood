@@ -175,7 +175,7 @@ type Query {
     getOneRating(idStore: ID): RatingStore
     getAllRating(idStore: ID): [RatingStore]
     getAllRatingStar(idStore: ID): [Star]
-    getAllVisitorStore(idStore: ID): [VisitorStoreType]
+    getAllVisitorStore(idStore: ID, search: String, min: Int, max: Int, fromDate: DateTime toDate: DateTime): [VisitorStoreType]
     getAllMatchesStore(id: ID, pfId: ID, FoodProductName: String, search: String, min: Int, max: Int,  gender: [String]  desc: [String], categories: [ID]): [Store]
     getAllMatchesStoreRecommended(catStore: ID min: Int, max: Int): [Store]
 

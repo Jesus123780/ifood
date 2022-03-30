@@ -30,5 +30,5 @@ type Query {
 
 type Mutation {
   setStoreScheduleReserve(input: IsStoreSchedule!): [StoreSchedule]
-  setStoreSchedule(input: ITstoreSchedule!): StoreSchedule
+  setStoreSchedule(input: ITstoreSchedule!): Response
 }

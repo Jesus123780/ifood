@@ -1,9 +1,10 @@
 import withSession from 'apollo/session'
+import DashboardStore from 'container/dashboard/store'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useContext, useEffect } from 'react'
-import DashboardStore from '../../../container/dashboard/Store'
+// import DashboardStore from '../../../container/dashboard/Store'
 import { Context } from '../../../context/Context'
 
 export default function DASHBOARD() {

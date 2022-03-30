@@ -33,6 +33,7 @@ export const getAllPedidoStoreFinal = async (_, args, ctx, info) => {
 
 export const getAllSalesStore = async (_, args, ctx, info) => {
     const { idStore, min, max, fromDate, toDate } = args || {}
+    console.log(args, 1)
     try {
         const attributes = getAttributes(StatusPedidosModel, info)
         const data = await StatusPedidosModel.findAll({
@@ -47,6 +48,27 @@ export const getAllSalesStore = async (_, args, ctx, info) => {
                     }
                 ]
             }, limit: [min || 0, max || 100], order: [['pSState', 'ASC']]
+        })
+        return data
+    } catch (error) {
+        return error
+    }
+}
+export const getAllSalesStoreStatistic = async (_, args, ctx, info) => {
+    const { idStore, min, max, fromDate, toDate } = args || {}
+    try {
+        const attributes = getAttributes(StatusPedidosModel, info)
+        const data = await StatusPedidosModel.findAll({
+            attributes,
+            where: {
+                [Op.or]: [
+                    {
+                        ...((fromDate && toDate) ? { pDatCre: { [Op.between]: [fromDate, `${toDate} 23:59:59`] } } : {}),
+                        // ID STORE
+                        idStore: idStore ? deCode(idStore) : deCode(ctx.restaurant),
+                    }
+                ]
+            }, limit: [min || 0, max || 100], order: [['pDatCre', 'DESC']]
         })
         return data
     } catch (error) {
@@ -81,6 +103,7 @@ export default {
     },
     QUERIES: {
         getAllSalesStore,
+        getAllSalesStoreStatistic,
         getOneSalesStore,
 
     },

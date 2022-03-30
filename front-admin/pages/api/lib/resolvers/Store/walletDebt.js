@@ -29,11 +29,11 @@ export const createWalletDebt = async (_, { input, inputLineItems }, ctx) => {
         const { UserDebtId, RefDebtCode, gender } = input || {}
         console.log(gender)
         const { setData } = inputLineItems || {}
-       const data = await Walletdebt.create({
+        const data = await Walletdebt.create({
             ...input,
             debtState: 1,
             id: deCode(ctx.User.id),
-            UserDebtId: deCode(UserDebtId),
+            UserDebtId: UserDebtId ? deCode(UserDebtId) : null,
             idStore: deCode(ctx.restaurant)
         })
         for (let i = 0; i < setData.length; i++) {

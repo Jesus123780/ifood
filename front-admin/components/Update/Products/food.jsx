@@ -203,10 +203,8 @@ export const FoodComponent = ({ datafatures,
                             <ContentImg grid={grid}>
                                 <Image
                                     className='store_image'
-                                    width={300}
                                     objectFit='contain'
                                     layout='fill'
-                                    height={250}
                                     src={'/images/202109081904_64O5_i.webp'}
                                     alt={"Picture of the author"}
                                     blurDataURL="/images/DEFAULTBANNER.png"
@@ -233,7 +231,7 @@ export const FoodComponent = ({ datafatures,
             </WrapperProducts>
             {/* <RippleButton widthButton='100%' margin='20px auto' onClick={() => setShowMore(s => s + 5)}>'Cargar Más' </RippleButton> */}
             <RippleButton widthButton='100%' margin='20px auto' onClick={() => {
-               setShowMore(s => s + 5)
+                setShowMore(s => s + 5)
                 // getAllStoreAdmin()
                 fetchMore({
                     variables: { max: more, min: 0 },
@@ -275,7 +273,7 @@ import Image from 'next/image';
 const ComponentCardProduct = ({ data, dispatch, ADD_TO_EFFECTIVE, REMOVE, ADD_PRODUCT }) => {
     return <div>
         {!data?.length ? 'No data' : data?.map((product, idx) => (
-            <CardProduct grid={true} key={product.idx}  >
+            <CardProduct grid={true} key={idx + 1}  >
                 <ButtonCard grid={true} top={'20px'} onClick={() => dispatch({ type: REMOVE, idx })}>
                     <IconDelete size={20} color={PColor} />
                     <ActionName >
