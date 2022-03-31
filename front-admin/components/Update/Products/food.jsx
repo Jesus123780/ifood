@@ -151,19 +151,8 @@ export const FoodComponent = ({ datafatures,
             </Card>
         </Container>
         <ContentProducts>
-
-            {/* Slider para filtrar productos */}
             <Text size='30px'>Lista de productos registrados</Text>
             <ContainerFilter>
-                <ItemFilter onClick={() => setLocalStorage(grid)}>
-                    <ContainerBurger>
-                        <div className="BurgerMenu__container" role="button" >
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    </ContainerBurger>
-                </ItemFilter>
                 <ItemFilter>Mejor precio</ItemFilter>
                 <ItemFilter>Mayor precio</ItemFilter>
                 <ItemFilter>Envio gratis</ItemFilter>
@@ -172,19 +161,12 @@ export const FoodComponent = ({ datafatures,
                 <ItemFilter>Tarifa de envio</ItemFilter>
                 <ItemFilter onClick={() => OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state)}>Ordenar</ItemFilter>
                 <ItemFilter onClick={() => onClickClear()}>Limpio</ItemFilter>
+                <ItemFilter>{data.length ? `${data.length} Productos` : 'No hay productos'}</ItemFilter>
+                <ItemFilter>{dataFree.length ? `${dataFree.length} Productos con envio gratis` : 'No hay productos con envio gratis'}</ItemFilter>
             </ContainerFilter>
-            <SliderAreas autoPlayTime={4000} duration={'500ms'} finalDataAreas={finalDataAreas} />
-            <ItemFilter>{data.length ? `${data.length} Productos` : 'No hay productos'}</ItemFilter>
-            <ItemFilter>{dataFree.length ? `${dataFree.length} Productos con envio gratis` : 'No hay productos con envio gratis'}</ItemFilter>
             <Text size='30px'>Filtrar productos</Text>
+            <InputHook label='Busca tus productos' name='search' value={search} onChange={handleChangeFilter} type='text' range={{ min: 0, max: 20 }} />
             <WrapperProducts className='filter'>
-                <div style={{ display: 'block', width: '30%', height: 'min-content', position: 'sticky' }}>
-                    <CardProduct width='90%'>
-                        <InputHook label='Busca tus productos' name='search' value={search} onChange={handleChangeFilter} type='text' range={{ min: 0, max: 20 }} />
-                        <i>Filtro de Año</i>
-                        <Range min={currentYear} max={currentYear} value={currentYear} label="Year" />
-                    </CardProduct>
-                </div>
                 <ContainerCardProduct grid={grid}>
                     {!data?.length ? <SkeletonP /> : data?.map(product => (
                         <CardProduct grid={grid} key={product.pId} >
@@ -201,7 +183,12 @@ export const FoodComponent = ({ datafatures,
                                 </ActionName>
                             </ButtonCard>
                             <ContentImg grid={grid}>
-                                <Image
+                                <Img
+                                    src={product.ProImage}
+                                    alt={''}
+                                />
+
+                                {/* <Image
                                     className='store_image'
                                     objectFit='contain'
                                     layout='fill'
@@ -209,7 +196,7 @@ export const FoodComponent = ({ datafatures,
                                     alt={"Picture of the author"}
                                     blurDataURL="/images/DEFAULTBANNER.png"
                                     placeholder="blur" // Optional blur-up while loading
-                                />
+                                /> */}
                                 {/* {!product.ProImage ? <i>No img</i> : <Img src={product.ProImage} alt={product.ProImage} />} */}
                             </ContentImg>
                             <ContentInfo>

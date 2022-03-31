@@ -56,7 +56,7 @@ export const ManageWallet = ({ data, dataProducto, product, dispatch, loading, s
                                 <span>{dataFree.length ? `${dataFree.length} Productos con envio gratis` : 'No hay productos con envio gratis'}</span>
                                 <Grid>
                                     {dataProducto?.map((x, idx) => (
-                                        <CardProduct width='100%' key={idx.pId}>
+                                        <CardProduct width='100%' key={idx + 1}>
                                             <div className='col'>
                                                 <h3 className='title' size='20px' >{(x.pName)}</h3>
                                                 <p className='description' size='20px' >{x.ProDescription}</p>

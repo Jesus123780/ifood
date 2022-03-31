@@ -268,7 +268,6 @@ export const WalletC = () => {
     }}> {loading ? '...Cargando' : 'Cargar Más'}</RippleButton>
     const OPEN_MODAL_MANAGE = useSetState()
     const { data: clients } = useQuery(GET_ALL_CLIENTS)
-    console.log(clients)
     return (
         <div>
             {loading && <Loading />}
@@ -300,8 +299,8 @@ export const WalletC = () => {
                                     </form>
                                 </ContainerAnimation>
                                 : <ContainerAnimationTow>
-                                    {clients?.getAllClients.map(client => (
-                                        <WrapperClient active={index === client.cliId} key={client.cliId} onClick={() => handleSelectClient(client)}>
+                                    {clients?.getAllClients.map((client, i) => (
+                                        <WrapperClient active={index === client.cliId} key={i + 1} onClick={() => handleSelectClient(client)}>
                                             <div>{capitalize(client.clientLastName)}</div>
                                             <div>{capitalize(client.clientName)}</div>
                                         </WrapperClient>
@@ -316,7 +315,7 @@ export const WalletC = () => {
                             </HeaderStatic>
                             <OrganiceProduct width='50%'>
                                 {dataProducto?.map((x, idx) => (
-                                    <CardProduct width='100%' key={idx.carProId}>
+                                    <CardProduct width='100%' key={idx + 1}>
                                         <div className='col'>
                                             <h3 className='title' size='20px' >{(x.pName)}</h3>
                                             <h3 className='price_text'>precio: ${numberFormat(x.ProPrice)}</h3>
@@ -351,7 +350,7 @@ export const WalletC = () => {
                             </HeaderStatic>
                             <OrganiceProduct margin='0 20px' width='50%'>
                                 {product?.PRODUCT?.map((x, idx) => (
-                                    <CardProduct width='100%' key={idx.carProId}>
+                                    <CardProduct width='100%' key={idx + 1}>
                                         <div className='col'>
                                             <h3 className='title' size='20px' >{x.pName}</h3>
                                             <h3 className='price_text' >precio: $ {numberFormat(x.ProPrice)}</h3>

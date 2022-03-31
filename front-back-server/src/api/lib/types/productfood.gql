@@ -92,7 +92,10 @@ input InputProductFood {
 input IDeleteProductFood {
     pId: ID
 }
-
+input IFileImageProductFood {
+    file: Upload
+    pCode: String
+}
 # Queries
 type Query {
     "Consulta todos los productFoodos"
@@ -102,6 +105,7 @@ type Query {
     productFoodsAll(pId: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int,  gender: [String]  desc: [String], categories: [ID]  ): [ProductFood]
     productFoodsLogis(pId: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int  ): [ProductFood]
     getMinPrice(idStore: ID): Float
+
 }
 
 
@@ -111,4 +115,6 @@ type Mutation {
      updateProductFoods(input: InputProductFood): ProductFood
     "Borra un productFoodo"
      deleteProductFoods(input: IDeleteProductFood): ProductFood
+    setImageProducts(input: IFileImageProductFood): Response
+
 }

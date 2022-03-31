@@ -1,13 +1,17 @@
 import storeResolver from './store'
+import productResolver from './products'
 
 export default {
     TYPES: {
-        ...storeResolver.TYPES
+        ...storeResolver.TYPES,
+        ...productResolver.TYPES,
     },
     QUERIES: {
-        ...storeResolver.QUERIES
+        ...storeResolver.QUERIES,
+        ...productResolver.QUERIES,
     },
     MUTATIONS: {
-        ...storeResolver.MUTATIONS
+        ...storeResolver.MUTATIONS,
+        ...productResolver.MUTATIONS,
     },
 }

@@ -7,7 +7,7 @@ import { Table } from 'components/Table'
 import { Section } from 'components/Table/styled'
 import moment from 'moment'
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Item, Container } from './styled'
+import { Button, Item, Container, GridStatistics } from './styled'
 import { gql, useQuery, useMutation, useLazyQuery } from '@apollo/client'
 import { CREATE_CLIENTS, DELETE_ONE_CLIENTS, GET_ALL_CLIENTS, GET_ONE_CLIENT } from './queries'
 import { updateCache } from 'utils'
@@ -15,6 +15,8 @@ import { Context } from 'context/Context'
 import { Loading } from 'components/Loading'
 import { IconDelete } from 'public/icons'
 import { PColor } from 'public/colors'
+import { UserVisit } from 'container/dashboard/LastedStatistic'
+import { MainCard } from 'components/common/Reusable/ShadowCard'
 
 export const Clients = () => {
     const [getOneClients, { data: dataOneClient, loading }] = useLazyQuery(GET_ONE_CLIENT)
@@ -54,7 +56,6 @@ export const Clients = () => {
     const OPEN_MODAL_CLIENT = useSetState()
     const [createClients, { data, called }] = useMutation(CREATE_CLIENTS)
     const { data: clients } = useQuery(GET_ALL_CLIENTS)
-    console.log(clients)
     const handleForm = (e) =>
         handleSubmit({
             event: e,
@@ -85,6 +86,7 @@ export const Clients = () => {
 
     return (
         <Container>
+
             {loading && <Loading />}
             <RippleButton onClick={() => OPEN_MODAL.setState(!OPEN_MODAL.state)}>Crear nuevo</RippleButton>
             <AwesomeModal zIndex='9999' title={`Cliente ${clientName}`} padding='25px' show={OPEN_MODAL_CLIENT.state} onHide={() => {
@@ -147,7 +149,6 @@ export const Clients = () => {
                     <RippleButton type='submit' widthButton='100% ' >Guardar</RippleButton>
                 </form>
             </AwesomeModal>
-
             <AwesomeModal zIndex='9999' title='Crea un cliente manualmente ' padding='25px' show={OPEN_MODAL.state} onHide={() => { OPEN_MODAL.setState(!OPEN_MODAL.state) }} onCancel={() => false} size='small' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
                 <label>{setCheck.gender === 1 ? 'Femenino' : 'Masculino'}</label>
                 <div style={{ marginBottom: '20px' }}>
@@ -230,6 +231,28 @@ export const Clients = () => {
                 <RippleButton padding='10px' margin='30px'>Consultar</RippleButton>
                 <RippleButton padding='10px' margin='30px'>Consultar y exportar</RippleButton>
             </form>
+            <MainCard title='Usuarios que han visitado tu tienda'>
+                <GridStatistics>
+                    <div>
+                        <h2>
+                            <UserVisit days={90} />
+                        </h2>
+                        <p>Ultimos de 90 Dias</p>
+                    </div>
+                    <div>
+                        <h2>
+                            <UserVisit days={14} />
+                        </h2>
+                        <p>Ultimos de 14 Dias</p>
+                    </div>
+                    <div>
+                        <h2>
+                            <UserVisit days={7} />
+                        </h2>
+                        <p>Ultimos de 7 Dias</p>
+                    </div>
+                </GridStatistics>
+            </MainCard>
             <Table
                 titles={[
                     { name: 'Nombre', justify: 'flex-start', width: '.5fr' },

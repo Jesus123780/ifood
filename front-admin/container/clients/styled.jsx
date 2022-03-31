@@ -18,3 +18,18 @@ export const Button = styled.button`
     background-color: transparent;
     cursor: pointer;
 `
+export const GridStatistics = styled.div`
+ border-radius: 5px;
+ padding: 30px;
+ place-content: center;
+ display: grid;
+ h2 {
+     text-align: center;
+     font-size: 1.3em;
+     margin-bottom: 10px;
+    }
+    p {
+        text-align: center;
+    }
+    grid-template-columns: repeat( auto-fit, minmax(250px, 1fr) );
+`

@@ -9,9 +9,9 @@ import React, { useEffect, useState } from 'react'
 import { useLazyQuery } from '@apollo/client';
 import styled from 'styled-components'
 import { numberFormat } from 'utils'
-import { GET_EXTRAS_PRODUCT_FOOD_OPTIONAL } from 'container/Update/Products/queries'
 import { GET_ONE_PRODUCTS_FOOD } from 'container/producto/queries'
 import { ExtrasProductsItems } from 'container/producto/extras'
+import { GET_EXTRAS_PRODUCT_FOOD_OPTIONAL } from 'container/update/Products/queries'
 
 export const ExtraProducts = () => {
     const [modal, openModal] = useState(false)

@@ -12,6 +12,7 @@ type ProductFood {
     tpId: ID #Características
     fId: ID #Características principales
     pName: String
+    pCode: String
     ProPrice: Float
     ProDescuento: String
     ProUniDisponibles: String
@@ -66,6 +67,7 @@ input InputProductFood {
     caId: ID #Categorías de productFood
     fId: ID #Características principales
     pName: String
+    pCode: String
     ProPrice: Float
     ProDescuento: String
     ProUniDisponibles: String

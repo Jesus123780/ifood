@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import React, { useContext, useEffect, useReducer, useRef, useState } from 'react'
 import { GET_ALL_CITIES, GET_ALL_COUNTRIES, GET_ALL_DEPARTMENTS, GET_ALL_ROAD } from '../../../gql/Location';
-import { GET_ALL_FOOD_PRODUCTS, GET_ONE_COLOR, UPDATE, UPDATE_PRODUCT_FOOD } from './queries';
+import { GET_ALL_FOOD_PRODUCTS, GET_ONE_COLOR, UPDATE, UPDATE_IMAGE_PRODUCT_FOOD, UPDATE_PRODUCT_FOOD } from './queries';
 import { GET_ALL_SIZE } from '../../../gql/information/Size/size';
 import useLocalStorage from '../../../components/hooks/useLocalSorage';
 import { useGetProducts } from '../../../components/hooks/useGetProducts';
@@ -13,7 +13,7 @@ import { useSetState } from '../../../components/hooks/useState';
 import { FoodComponent } from '../../../components/Update/Products/food';
 import { CREATE_FOOD_PRODUCT } from '../../dashboard/queries';
 import { GET_ONE_STORE } from '../../Restaurant/queries';
-import { convertBase64, getFileSizeByUnit } from '../../../utils';
+import { convertBase64, getFileSizeByUnit, RandomCode } from '../../../utils';
 import { GET_ALL_PRODUCT_STORE } from '../../dashboard/queriesStore';
 import { Context } from 'context/Context';
 export const Food = () => {
@@ -92,6 +92,9 @@ export const Food = () => {
         }
     }
     const [updateProductFoods] = useMutation(UPDATE_PRODUCT_FOOD, {
+    })
+    const [setImageProducts] = useMutation(UPDATE_IMAGE_PRODUCT_FOOD, {
+        context: { clientName: "admin-server" },
         onCompleted: () => {
         }
     })
@@ -105,9 +108,13 @@ export const Food = () => {
     const initialState = { alt: "/images/DEFAULTBANNER.png", src: "/images/DEFAULTBANNER.png" };
     const [{ alt, src }, setPreviewImg] = useState(initialState)
     const [imageBase64, setImageBase64] = useState(null)
+    const [image, setImage] = useState({})
+    console.log(image)
     const onFileInputChange = async event => {
         const { files } = event.target;
+
         const file = event.target.files[0]
+        setImage(file)
         const base64 = await convertBase64(file)
         const [size, { unit }] = await getFileSizeByUnit(file, "B");
         setImageBase64(base64)
@@ -122,6 +129,7 @@ export const Food = () => {
     }
     const onTargetClick = e => {
         // e.preventDefault()
+        console.log(e)
         fileInputRef.current.click()
     }
     // Contexto de las notificaciones
@@ -129,6 +137,7 @@ export const Food = () => {
         e.preventDefault()
         const { ProPrice, ProDescuento, ProDescription, ProWeight, ProHeight, ValueDelivery } = values
         const ProImage = 'https://http2.mlstatic.com/D_NQ_NP_621798-MLA45543191295_042021-W.webp'
+        const pCode = RandomCode(9)
         try {
             updateProductFoods({
                 variables: {
@@ -139,10 +148,11 @@ export const Food = () => {
                         ValueDelivery: parseFloat(ValueDelivery),
                         ProDescription: ProDescription,
                         pName: names,
+                        pCode,
                         pState: 1,
                         sTateLogistic: 1,
                         ProStar: rating,
-                        ProImage: ProImage,
+                        // ProImage: ProImage,
                         ProHeight: parseFloat(ProHeight),
                         ProWeight: ProWeight,
                         ProOutstanding: check ? 1 : 0,
@@ -160,6 +170,14 @@ export const Food = () => {
                     setAlertBox({ message: `El producto ${names} subido con éxito`, color: 'success', duration: 7000 })
                 }
             }).catch(err => setAlertBox({ message: `${err}`, duration: 7000 }))
+            setImageProducts({
+                variables: {
+                    input: {
+                        file: image,
+                        pCode
+                    }
+                }
+            })
         }
         catch (error) {
             setAlertBox({ message: `${error.message}`, duration: 7000 })
@@ -277,15 +295,15 @@ export const Food = () => {
                     min = YearArray[i];
                 }
             }
-            
+
             while (startYear <= currentYear) {
                 years.push(startYear++);
             }
             return years;
         }
-            const year = Years(min)
+        const year = Years(min)
     }, [YearArray, dataProduct, years])
-    
+
     return (
         <FoodComponent
             features={features}

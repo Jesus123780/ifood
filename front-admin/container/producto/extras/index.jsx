@@ -185,8 +185,8 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
                 ))}
 
             </form>
-            {dataOptional && dataOptional?.map(x => (
-                <div key={x.opExPid}>
+            {dataOptional && dataOptional?.map((x, i) => (
+                <div key={i + 1}>
                     <GarnishChoicesHeader onClick={() => handleOpenExtra(x)}>
                         <div>
                             <p className="garnish-choices__title">{x.OptionalProName}</p>
@@ -482,7 +482,7 @@ export const OptionalExtraProducts = ({ pId, dataOptional }) => {
                     </div>
                 </div>
             </GarnishChoicesHeader>
-            <Input margin='10px 0' card onChange={(e) => setTitle(e.target.value)} value={title} name='title' type="text" placeholder='Add new list' />
+            <Input margin='10px 0' card onChange={(e) => setTitle(e.target.value)} value={title} name='title' type="text" placeholder='Añadir nueva lista' />
             <GarnishChoicesHeader>
                 <ContentCheckbox>
                     <Input

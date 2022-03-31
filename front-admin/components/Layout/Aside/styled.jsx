@@ -196,23 +196,31 @@ export const ContentAction = styled.div`
     overflow: hidden;
     align-items: center;
     background-color: ${PColor};
-    opacity: 0;
     padding: 10px;
     border-radius: 10px;
     cursor: pointer;
-    z-index: -9999;
+    z-index: -999;
     width: 40px;
     display: flex;
     place-content: center;
+    visibility: hidden;
+    transition:  0.3s ease;
+    transform: translateX(-50px);
     `
 export const DynamicNav = styled.button`
-background-color: transparent;
-padding: 0;
-    &:hover > ${ContentAction} {
-        opacity: 1;
-    z-index: 9999;
+    background-color: transparent;
+    padding: 0;
+    /* background-color: RED; */
 
-        
+    &:hover > ${ContentAction} {
+        visibility: visible;
+        z-index: 99;  
+        transform: translateX(0);
+        /* opacity: 1; */
+        /* visibility: hidden;
+        transform: translateY(-50px); */
+       
+        /*        */
     }
     width: 100%;
     align-items: center;

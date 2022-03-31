@@ -120,8 +120,8 @@ export const ContentCheckbox = styled.div`
     margin-right: 2px;
 `
 export const Input = styled.input`
+    width: 100%;
 ${props => props.margin && css`margin: ${props.margin};`}
-
     ${props => props.card && css`
     padding: 15px;
     border: 2px solid ${PColor};

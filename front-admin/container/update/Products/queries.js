@@ -49,6 +49,15 @@ mutation updateProducts($input: InputProduct){
   }
 }
 `
+export const UPDATE_IMAGE_PRODUCT_FOOD = gql`
+  mutation setImageProducts($input: IFileImageProductFood) {
+  setImageProducts(input: $input) {
+    success
+    message
+    
+  }
+}
+`
 export const UPDATE_PRODUCT_FOOD = gql`
 mutation updateProductFoods($input: InputProductFood){
   updateProductFoods(input: $input){
@@ -60,6 +69,7 @@ mutation updateProductFoods($input: InputProductFood){
     ctId  #Cuidad
     fId  #Características
     pName
+    pCode
     ProPrice
     ProDescuento
 	  ProUniDisponibles

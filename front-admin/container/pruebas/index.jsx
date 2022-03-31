@@ -115,7 +115,7 @@ export const CustomTable = props => {
             )
         })}
         <div style={{ display: 'block' }}>
-            <Input onChange={(e) => setTitle(e.target.value)} value={title} name='title' type="text" placeholder='Add new list' />
+            <Input onChange={(e) => setTitle(e.target.value)} value={title} name='title' type="text" placeholder='Añadir nueva lista' />
             <button type="button" onClick={() => handleAddList({ title: title })}>Add list</button>
         </div>
     </div>

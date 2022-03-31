@@ -1,6 +1,6 @@
 import styled, { css, keyframes } from 'styled-components'
 import { StyleSheet } from '@react-pdf/renderer'
-import { BColor, BGColor, EColor, ESFColor, PColor, SECColor, PVColor, TBGSColor } from '../../public/colors'
+import { BColor, BGColor, EColor, ESFColor, PColor, SECColor, PVColor, TBGSColor, TFSColor } from '../../public/colors'
 import { fadeIn, fadeOut } from '../../components/AlertBox/styled'
 
 export const RestaurantColumn = styled.div`
@@ -82,19 +82,18 @@ export const MerchantInfoTitle = styled.h1`
     display: flex;
 `
 export const ButtonAction = styled.button`
-    margin: 0;
-    background: #fff;
-    border: 1px solid ${EColor};
-    border-radius: 8px;
-    font-size: 14px;
-    margin: 0 20px;
-    line-height: 18px;
-    color: #3f3e3e;
-    min-width: 139px;
-    padding: 0 10px; 
-    height: 40px;
+    margin: 10px;
+    border: 1px solid ${TFSColor};
+    padding: 10px ;
+    border-radius: 20px;
+    flex-grow: 1;
+    font-size: 15px;
+    background-color: transparent;
+    color: ${TFSColor};
+    text-align: center;
+    transition: 0.3s;
     cursor: pointer;
-    box-shadow: none;
+
 `
 export const ContentCategoryProducts = styled.div`
     margin: 30px 0;
@@ -166,7 +165,7 @@ export const MerchantBannerWrapperInfo = styled.div`
     position: relative;
     justify-content: unset;
     padding-left: 30px;
-    background-color: rgba(0,0,0,.7);
+    background-color: rgb(0 0 0 / 6%);
     background-blend-mode: overlay;
     background-image: ${({ bannerImage }) => bannerImage && (bannerImage)};
     .merchant-banner__status-description {
@@ -209,4 +208,43 @@ export const MerchantBannerWrapperInfo = styled.div`
 
 export const InputFile = styled.input`
     display: none;
+`
+export const ContentSearch = styled.div`
+  max-width: 1366px;
+  margin: 5px auto;
+  font-size: 1.5rem;
+  line-height: 1em;
+  flex-grow: 1;
+  font-family: PFont-Light;
+  `
+  export const Title = styled.h1`
+  text-rendering: optimizeLegibility;
+  font-family: PFont-Light;
+  box-sizing: border-box;
+  display: inline;
+  color: #3e3e3e;
+  margin: 0 0 2px;
+  margin-right: 10px;
+  font-weight: 400;
+  letter-spacing: -1px;
+  font-size: ${({ size })=> size || '2.25rem'};
+  line-height: 44px;
+  margin-bottom: 0;
+  width: fit-content;
+`
+export const ContainerCarrusel = styled.div`
+  display: grid;
+  grid-gap: 28px;
+  max-width: 1366px;
+  margin: 30px auto 20px;
+  @media only screen and (min-width: 960px) {
+    grid-template-columns: repeat(2,1fr);
+    padding: 0;
+  }
+  @media only screen and (min-width: 743px) {
+    grid-template-columns: repeat(2,minmax(320px,1fr));
+    grid-gap: 30px;
+    padding: 0 20px; 
+  }
+
 `

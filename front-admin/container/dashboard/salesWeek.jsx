@@ -25,13 +25,13 @@ export const SalesWeek = () => {
       setTotalProductPrice(suma)
     })
     if (!loading && data) {
-      const GROUP_BY_DAYS = data?.getAllSalesStoreStatistic.reduce(function (r, a) {
+      const GROUP_BY_DAYS = data?.getAllSalesStoreStatistic.map((elem) => elem)?.sort((a, b) => moment(a.pDatCre).day() - b).reduce(function (r, a) {
         r[moment(a.pDatCre).day()] = r[moment(a.pDatCre).day()] || [];
-        r[moment(a.pDatCre).day()].push(a);
+        r[moment(a.pDatCre).day()].push(a)
         return r;
       }, Object.create(null));
-      setGROUP_BY_DAYS(GROUP_BY_DAYS)
       const dataKeyDays = Object.keys(GROUP_BY_DAYS)
+      setGROUP_BY_DAYS(GROUP_BY_DAYS)
       setSetKey(dataKeyDays)
     }
   }, [data])

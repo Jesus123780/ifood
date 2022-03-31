@@ -116,8 +116,10 @@ export const CardProductsContent = styled.div`
     display: -webkit-box;
     -webkit-line-clamp: 2;
     }
-    &&:hover {
-      border: 1px solid #dbdad9;
+    img {
+      object-fit: fill;
+      width: 100%;
+      height: 100%;
     }
     `
 export const CardProductsModal = styled(CardProductsContent)`
@@ -125,19 +127,24 @@ export const CardProductsModal = styled(CardProductsContent)`
   padding: 0px;
   height: min-content;
   grid-template-columns: 1fr 50%;
+    align-items: center;
+    place-content: center;
   @media (max-width: 768px) {
     grid-template-columns: 100%;
   }
 `
 export const ContentImage = styled.div`
-    /* background-color: red; */
-    /* padding: 5em  */
-    display: grid;
     width: 100%;
     justify-content: flex-start;
     align-content: flex-start;
-    height: min-content;
-`
+    height: 500px;
+    width: 500px;
+    img {
+      object-fit:contain;
+      width: 100%;
+      height: 100%;
+    }
+    `
 export const Flex = styled.div`
   display: flex;
   width: 100%;
@@ -841,12 +848,8 @@ export const List = styled.div`
     }
 `
 export const Container = styled.div`
-  position: relative;
   background-color: ${BGColor};
-  flex-wrap: wrap;
-  display: flex;
   @media (max-width: 769px) {
-
     /* flex-direction: ${({ direction }) => direction || 'column'}; */
   }
 `
@@ -1176,7 +1179,7 @@ export const CardDevice = styled.button`
 `
 export const LateralModal = styled.div`
     width: 380px;
-    height: calc(100vh - 80px);
+    height: calc(100vh - 60px);
     position: fixed;
     bottom: 0;
     z-index: 900;

@@ -29,7 +29,7 @@ export const LastedStatistic = ({ idStore }) => {
   }, [dataStartStore, dataMinPedido, VISITOR])
 
   const [getAllSalesStoreStatistic, { data }] = useLazyQuery(GET_ALL_SALES_STATISTICS)
-  const { data: dataSales } = useQuery(GET_ALL_SALES,  {
+  const { data: dataSales } = useQuery(GET_ALL_SALES, {
     variables: { fromDate: moment(dt.setDate(dt.getDate() - 90)).format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD') }
   })
   useEffect(() => {
@@ -51,30 +51,38 @@ export const LastedStatistic = ({ idStore }) => {
   }, [data])
   return (
     <div>
-        <MainCard title={`Últimos 90 Dias $ ${numberFormat(totalProductPrice || 0)}`}>
-          <ContentGrid>
+      <MainCard title={`Últimos 90 Dias $ ${numberFormat(totalProductPrice || 0)}`}>
+        <ContentGrid>
+          <div>
+            <Text>{stars}</Text>
+            <Rate size={35} rating={stars} />
+          </div>
+          <div>
             <div>
-                <Text>{stars}</Text>
-                <Rate size={35} rating={stars} />
+              <MediaValue>{valueSales}%</MediaValue>
             </div>
+            <Text size='1.2em' color='#3f3e3e'>Pedidos entregados</Text>
+          </div>
+          <div>
             <div>
-              <div>
-                <MediaValue>{valueSales}%</MediaValue>
-              </div>
-              <Text size='1.2em' color='#3f3e3e'>Pedidos entregados</Text>
+              <MediaValue>{!!VISITOR && VISITOR?.getAllVisitorStore?.length || 0}</MediaValue>
             </div>
-            <div>
-              <div>
-                <MediaValue>{!!VISITOR && VISITOR?.getAllVisitorStore?.length || 0}</MediaValue>
-              </div>
-              <Text size='1.2em' color='#3f3e3e'>Usuario Visitaron el restaurante</Text>
-            </div>
-          </ContentGrid>
-        </MainCard>
+            <Text size='1.2em' color='#3f3e3e'>Usuario Visitaron el restaurante</Text>
+          </div>
+        </ContentGrid>
+      </MainCard>
     </div>
   )
 }
 
+
+export const UserVisit = ({ days = 90 }) => {
+  var dt = new Date()
+  const { data } = useQuery(GET_ALL_VISITOR_STORE,
+    { variables: { fromDate: moment(dt.setDate(dt.getDate() - days)).format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD') } }
+  )
+  return !!data && data?.getAllVisitorStore?.length || 0
+}
 
 const Text = styled.h3`
     margin: 0;

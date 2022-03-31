@@ -83,7 +83,7 @@ export const getFoodAllProduct = async (root, args, context, info) => {
                     // ctId: ctId ? deCode(ctId) : { [Op.gt]: 0 },
                 }
             ]
-        }, limit: [min || 0, max || 100], order: [['pName', 'ASC']]
+        }, limit: [min || 0, max || 100], order: [['pDatCre', 'DESC']]
     })
     return data
 }

@@ -62,7 +62,7 @@ export const HeaderC = styled.header`
     align-items: center;
     width: 100%;
     display: flex;
-    height: 80px;
+    height: 60px;
     box-shadow: inset 0 -1px 0 #dcdcdc;
     padding: 0px 80px;
     @media (min-width: 992px) {

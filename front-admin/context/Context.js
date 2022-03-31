@@ -104,7 +104,7 @@ const Provider = ({ children }) => {
         }
     }
     const [state_product_card, dispatch] = useReducer(product, initialState)
-    const [openSchedule, setOpenSchedule] = useState(true)
+    const [openSchedule, setOpenSchedule] = useState(false)
 
     const value = {
         error,
