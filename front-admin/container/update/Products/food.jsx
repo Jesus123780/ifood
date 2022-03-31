@@ -16,6 +16,7 @@ import { GET_ONE_STORE } from '../../Restaurant/queries';
 import { convertBase64, getFileSizeByUnit, RandomCode } from '../../../utils';
 import { GET_ALL_PRODUCT_STORE } from '../../dashboard/queriesStore';
 import { Context } from 'context/Context';
+import { URL_ADMIN_SERVER } from 'apollo/urls';
 export const Food = () => {
     const [errors, setErrors] = useState({})
     const [values, setValues] = useState({})
@@ -132,11 +133,14 @@ export const Food = () => {
         console.log(e)
         fileInputRef.current.click()
     }
+    console.log(``)
     // Contexto de las notificaciones
     const handleRegister = async e => {
         e.preventDefault()
         const { ProPrice, ProDescuento, ProDescription, ProWeight, ProHeight, ValueDelivery } = values
-        const ProImage = 'https://http2.mlstatic.com/D_NQ_NP_621798-MLA45543191295_042021-W.webp'
+        // const ProImage = 'https://http2.mlstatic.com/D_NQ_NP_621798-MLA45543191295_042021-W.webp'
+        const ProImage = `${URL_ADMIN_SERVER}static/platos/${image?.name}`
+        
         const pCode = RandomCode(9)
         try {
             updateProductFoods({
@@ -152,7 +156,7 @@ export const Food = () => {
                         pState: 1,
                         sTateLogistic: 1,
                         ProStar: rating,
-                        // ProImage: ProImage,
+                        ProImage: ProImage,
                         ProHeight: parseFloat(ProHeight),
                         ProWeight: ProWeight,
                         ProOutstanding: check ? 1 : 0,

@@ -1,5 +1,4 @@
 import { URL_BASE } from "../../utils"
-import { deCode } from "../../utils/util"
 import productModelFood from "../../models/product/productFood"
 import fs from 'fs'
 const { Op } = require('sequelize')
@@ -27,20 +26,20 @@ export const setImageProducts = async (_root, { input }, ctx) => {
                 ]
             }
         })
-        if (!data) {
+        if (!data || file) {
             return {
                 success: false,
                 message: 'No pudimos cargar la imagen'
             }
         } else {
-            console.log(data.pId)
-            await productModelFood.update({ ProImage: `${URL_BASE}static/platos/${filename}` },
-                {
-                    where: {
-                        pCode: pCode,
-                        ...((data.pId) ? deCode(data.pId) : {}),
-                    }
-                })
+            // console.log(data.pId)
+            // await productModelFood.update({ ProImage: `${URL_BASE}static/platos/${filename}` },
+            //     {
+            //         where: {
+            //             pCode: pCode,
+            //             ...((data.pId) ? deCode(data.pId) : {}),
+            //         }
+            //     })
         }
         return {
             success: true,
