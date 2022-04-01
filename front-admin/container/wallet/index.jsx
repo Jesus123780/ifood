@@ -309,6 +309,8 @@ export const WalletC = () => {
                     </Card>
                     <Card margin='0' align display='flex' width='70%'>
                         <Card margin={'0 0 0 10px'}>
+            {/* <RippleButton onClick={()=> OPEN_MODAL.setState(!OPEN_MODAL.state)}>Crear billetera</RippleButton> */}
+
                             <HeaderStatic>
                                 <TextH2Main weight='400' size={'15px'} text={`Mis Productos (${dataProducto?.length || 0})`} />
                                 <Input placeholder='Buscar...' autoFocus={true} autoComplete={'off'} label='Busca tus productos' name='search' value={search} onChange={handleChangeFilter} type='text' />
@@ -321,7 +323,11 @@ export const WalletC = () => {
                                             <h3 className='price_text'>precio: ${numberFormat(x.ProPrice)}</h3>
                                             <RippleButton bgColor={'#f2f2f2'} type='button' color={BColor} padding='0' widthButton='100%' onClick={() => handleAddProduct(x)}>Añadir producto <IconPlus color={BColor} size='10px' /></RippleButton>
                                         </div>
-                                        <Image width={550} height={550} objectFit='contain' src={'/images/hamb.jpg'} alt='Picture' blurDataURL='data:...' placeholder='blur' />
+                                        <img
+                                            src={x.ProImage}
+                                            alt={x.pName}
+                                        />
+                                        {/* <Image width={550} height={550} objectFit='contain' src={'/images/hamb.jpg'} alt='Picture' blurDataURL='data:...' placeholder='blur' /> */}
                                     </CardProduct>
                                 ))}
                             </OrganiceProduct>
@@ -345,8 +351,6 @@ export const WalletC = () => {
                             <HeaderStatic>
                                 <TextH2Main weight='400' size={'15px'} text={`Productos agregados a la billetera (${product?.PRODUCT?.length || 0})`} />
                                 <Input placeholder='Buscar...' autoFocus={true} autoComplete={'off'} label='Busca tus productos' name='search' value={search} onChange={handleChangeFilter} type='text' />
-
-
                             </HeaderStatic>
                             <OrganiceProduct margin='0 20px' width='50%'>
                                 {product?.PRODUCT?.map((x, idx) => (
@@ -358,14 +362,18 @@ export const WalletC = () => {
                                                 <IconDelete size={15} color={BGColor} />
                                             </RippleButton>
                                         </div>
-                                        <Image
+                                        <img
+                                            src={x.ProImage}
+                                            alt={x.pName}
+                                        />
+                                        {/* <Image
                                             width={450}
                                             height={550}
                                             objectFit='contain'
                                             src={'/images/hamb.jpg'}
                                             alt='Picture'
                                             blurDataURL='data:...'
-                                            placeholder='blur' />
+                                            placeholder='blur' /> */}
                                     </CardProduct>
                                 ))}
                             </OrganiceProduct>

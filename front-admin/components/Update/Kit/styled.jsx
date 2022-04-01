@@ -222,7 +222,6 @@ export const Title = styled.h2`
 export const ContentIconFav = styled.button` 
     position: absolute;
     cursor: pointer;
-    z-index: 9999;
     top: -30px;
     box-shadow: 0px 0px 6px 0px #16101028;
     right: 20px;

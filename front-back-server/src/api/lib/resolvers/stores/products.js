@@ -1,6 +1,7 @@
 import { URL_BASE } from "../../utils"
 import productModelFood from "../../models/product/productFood"
 import fs from 'fs'
+import { deCode } from "../../utils/util"
 const { Op } = require('sequelize')
 
 export const saveImagesProducts = async ({ filename, mimetype, fileStream, state }) => {
@@ -10,36 +11,36 @@ export const saveImagesProducts = async ({ filename, mimetype, fileStream, state
 }
 export const setImageProducts = async (_root, { input }, ctx) => {
     try {
-        const { pCode, file } = input || {}
+        const { pCode, file, pId } = input || {}
         const fileUpload = await file
         const { createReadStream, filename, mimetype, encoding } = fileUpload
         const fileStream = createReadStream()
         const fil = await saveImagesProducts({ filename, mimetype, fileStream })
-        console.log(fil)
         const data = await productModelFood.findOne({
             attributes: ['pCode', 'pId'],
             where: {
                 [Op.or]: [
                     {
+                        ...((pId) ? deCode(pId) : {}),
                         pCode: pCode,
                     }
                 ]
             }
         })
+        if (data) {
+            await productModelFood.update({ ProImage: `${URL_BASE}static/platos/${filename}` },
+                {
+                    where: {
+                        pCode: pCode,
+                        ...((pId) ? deCode(pId) : {}),
+                    }
+                })
+        }
         if (!data || file) {
             return {
                 success: false,
                 message: 'No pudimos cargar la imagen'
             }
-        } else {
-            // console.log(data.pId)
-            // await productModelFood.update({ ProImage: `${URL_BASE}static/platos/${filename}` },
-            //     {
-            //         where: {
-            //             pCode: pCode,
-            //             ...((data.pId) ? deCode(data.pId) : {}),
-            //         }
-            //     })
         }
         return {
             success: true,

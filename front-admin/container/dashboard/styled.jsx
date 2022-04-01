@@ -2,7 +2,7 @@ import styled, { css, keyframes } from 'styled-components'
 import { StyleSheet } from '@react-pdf/renderer'
 import { BColor, BGColor, EColor, ESFColor, PColor, SECColor, PVColor, TBGSColor, BGVColor, SFVColor, PLVColor } from '../../public/colors'
 import { fadeIn, fadeOut } from '../../components/AlertBox/styled'
-import { BG_ANIMATION_, SideIn, SlideInLeft } from '../../components/animations'
+import { BG_ANIMATION_, FadeOup, SideIn, SlideInLeft } from '../../components/animations'
 
 const pulse = keyframes`
   0% {
@@ -55,7 +55,7 @@ export const Options = styled.div`
       align-items: flex-end;
   `}
 `
-export  const MerchantListWrapper = styled.div`
+export const MerchantListWrapper = styled.div`
     display: grid;
     grid-template-columns: repeat(auto-fill,minmax(280px,1fr));
     gap: 10px;
@@ -65,8 +65,31 @@ export  const MerchantListWrapper = styled.div`
       padding: 0 20px;
     }
 `
+export const TooltipCardProduct = styled.div`
+  position: absolute;
+  ${({ left }) => left && css`left: ${left};`}
+  z-index: -99;
+  transition: .3s ease-in-out;
+  transform: translateY(30px);
+  button {
+    border-radius: 50px;
+    height: 30px;
+    width: 30px;
+    padding: 5px;
+    cursor: pointer;
+    /* background-color: transparent; */
+  }
+`
+export const WrapperCard = styled.div`
+    position: relative;
+    z-index: 99;
+
+  &&:hover >  ${TooltipCardProduct} {
+      transform: translateY(-30px);
+  }
+`
 export const CardProductsContent = styled.div`
-   grid-template-columns: 1fr 146px;
+    grid-template-columns: 1fr 146px;
     grid-gap: 15px;
     padding: 15px;
     min-width: 320px;
@@ -1194,13 +1217,13 @@ export const LateralModal = styled.div`
     border-left: 1px solid #d4d7dc;
     z-index: 1000;
     ${({ openSchedule }) => openSchedule
-        ? css`
+    ? css`
                  animation-name: ${SideIn};
                  visibility: visible;
                  opacity: 1;
                  transform: translateY(0);
                  `
-        : css`
+    : css`
             animation-name: ${SlideInLeft};
             /* transform: translateY(0); */
             /* visibility: hidden; */

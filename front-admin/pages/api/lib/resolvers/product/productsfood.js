@@ -44,6 +44,7 @@ export const productFoodsOne = async (root, { pId }, context, info) => {
                 [Op.or]: [
                     {
                         // ID Productos
+                        pState: { [Op.gt]: 0 },
                         pId: pId ? deCode(pId) : { [Op.gt]: 0 },
                         // ID STORE
                         // idStore: deCode(context.restaurant),
@@ -71,7 +72,7 @@ export const getMinPrice = async (root, { idStore }, context, info) => {
     let myArray = []
     var N = 0
     if (data?.length > 0) {
-        myArray =  data.map(x => { return x.ProPrice })
+        myArray = data.map(x => { return x.ProPrice })
         N = Math.min.apply(null, myArray);
         return N
     }
@@ -137,6 +138,24 @@ export const productFoodsAll = async (root, args, context, info) => {
     }
 }
 
+export const editProductFoods = async (_root, { input }, context) => {
+    try {
+        console.log(input)
+        const { pName, pId, ProDescuento, ProPrice, ProDescription, ProImage, ValueDelivery } = input || {}
+        await productModelFood.update({ pName, ProDescuento, ProPrice, ProDescription, ProImage, ValueDelivery }, {
+            where: {
+                pId: deCode(pId),
+                idStore: deCode(context.restaurant),
+
+            }
+        })
+        return { success: true, message: 'producto actualizado' }
+
+    } catch (error) {
+        return { success: false, message: 'No pudimos actualizar el producto' }
+    }
+
+}
 export const updateProductFoods = async (_root, { input }, context) => {
     const { sizeId, colorId, cId, dId, ctId, pId, pState } = input
     try {
@@ -344,6 +363,7 @@ export default {
         productsOne
     },
     MUTATIONS: {
-        updateProductFoods
+        updateProductFoods,
+        editProductFoods,
     }
 }

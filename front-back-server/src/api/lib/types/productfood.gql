@@ -94,6 +94,7 @@ input IDeleteProductFood {
 }
 input IFileImageProductFood {
     file: Upload
+    pId: ID
     pCode: String
 }
 # Queries

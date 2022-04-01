@@ -1,10 +1,19 @@
 import { gql } from '@apollo/client'
 
+export const EDIT_PRODUCT = gql`
+  mutation editProductFoods($input: InputProductFood) {
+  editProductFoods(input: $input) {
+    success
+    message
+  }
+}
+`
 export const GET_ONE_PRODUCTS_FOOD = gql`
 query productFoodsOne($pId: ID){
     productFoodsOne(pId: $pId ){
         pId
         carProId
+        pCode
         sizeId
         colorId
         idStore
@@ -13,10 +22,12 @@ query productFoodsOne($pId: ID){
         dId
         ctId
         tpId
+    
         fId
         pName
         ProPrice
         ProDescuento
+        ValueDelivery
         ProUniDisponibles
         ProDescription
         ProProtegido
@@ -75,6 +86,29 @@ query productFoodsOne($pId: ID){
         secVia
         addressStore
         createAt
+      department {
+        dId
+        cId
+        dName
+        dDatCre
+        dDatMod
+        dState
+      }
+      pais {
+        cId
+        cName
+        cCalCod
+        cState
+        
+      }
+      city {
+        ctId
+        dId
+        cName
+        cState
+        cDatCre
+        cDatMod
+      }
     }
     
 	}

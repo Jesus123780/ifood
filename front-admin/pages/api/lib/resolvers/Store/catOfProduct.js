@@ -223,7 +223,15 @@ export default {
                     const attributes = getAttributes(productModelFood, info)
                     const data = await productModelFood.findAll({
                         attributes,
-                        where: { carProId: deCode(parent.carProId) }
+                        where: {
+                            [Op.or]: [
+                                {
+                                    pState: { [Op.gt]: 0 },
+                                    carProId: deCode(parent.carProId)
+                                }
+                            ],
+
+                        }
                     })
                     return data
                 } catch {

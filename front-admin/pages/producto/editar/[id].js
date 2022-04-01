@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import { ProductEdit } from "../../../container/producto/editar";
-// import { CustomTable } from "../../container/pruebas";
 
 export default function ProductEditView() {
     const location = useRouter()

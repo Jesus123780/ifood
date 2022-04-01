@@ -5,7 +5,7 @@ import { Loading, SpinnerColor } from '../../components/Loading'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { Container, Text, Wrapper, WrapperRow, CardOverFloW, CircleCompany, ButtonTheme, SwitchButton, ContentToggle, OlList, FeedItem, ItemTeam, ItemInf, CardDevice, LateralModal, HeadCategory, CardProductsContent, MerchantListWrapper, CardProductsModal, Flex, DisRestaurant, ContentInfo, HeadSticky, ContentImage } from './styled'
+import { Container, Text, Wrapper, WrapperRow, CardOverFloW, CircleCompany, ButtonTheme, SwitchButton, ContentToggle, OlList, FeedItem, ItemTeam, ItemInf, CardDevice, LateralModal, HeadCategory, CardProductsContent, MerchantListWrapper, CardProductsModal, Flex, DisRestaurant, ContentInfo, HeadSticky, ContentImage, Tooltip, TooltipCardProduct, WrapperCard } from './styled'
 import { useFormTools } from '../../components/BaseForm'
 import { GET_ONE_STORE } from '../Restaurant/queries'
 import { Food } from '../update/Products/food'
@@ -22,15 +22,16 @@ import InputHooks from '../../components/InputHooks/InputHooks'
 import { GET_ONE_PRODUCTS_FOOD } from '../producto/queries'
 import { ExtrasProductsItems, OptionalExtraProducts } from '../producto/extras'
 import { ExtraProducts } from '../Extraproducts'
-import { GET_EXTRAS_PRODUCT_FOOD_OPTIONAL } from '../update/Products/queries'
+import { GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, UPDATE_PRODUCT_FOOD } from '../update/Products/queries'
 import { Context } from 'context/Context'
 import moment from 'moment'
-import { CREATE_LOGO, GET_ONE_SCHEDULE_STORE } from './queriesStore'
+import { CREATE_LOGO, GET_ALL_PRODUCT_STORE, GET_ONE_SCHEDULE_STORE } from './queriesStore'
 import { useStore } from 'components/hooks/useStore'
 import { CLIENT_URL_BASE } from 'apollo/urls'
 import { ManageCategories } from './ManageCategories'
 import { Managebanner } from './profile/Managebanner'
 import { Sticky, StickyBoundary, StickyViewport } from './stickyheader';
+import { IconDelete, IconEdit, IconCategories } from 'public/icons'
 
 
 const DashboardStore = () => {
@@ -140,11 +141,11 @@ const DashboardStore = () => {
                         </ContentSearch>
                     </Sticky>
                     <ContainerCarrusel>
-                        {x.productFoodsAll ? x.productFoodsAll.map(food => {
+                        {x.productFoodsAll.length > 0 ? x.productFoodsAll.map(food => {
                             return (
-                                <CardProducts food={food} key={food.pId} onClick={() => handleGetOneProduct(food)} />
+                                <CardProducts food={food} key={food.pId} setAlertBox={setAlertBox} onClick={() => handleGetOneProduct(food)} />
                             )
-                        }) : <div>No products</div>}
+                        }) : <div>No hay productos <IconCategories size={30} /></div>}
                     </ContainerCarrusel>
                 </StickyBoundary>
             </div>)
@@ -229,9 +230,10 @@ const DashboardStore = () => {
                     dataOptional={dataOptional?.ExtProductFoodsOptionalAll || []}
                 />
             </AwesomeModal>
-            <AwesomeModal backdrop='static' zIndex='99390' padding='20px' height='100vh' show={SHOW_MODAL_UPDATE_PRODUCTS.state} onHide={() => { SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state) }} onCancel={() => false} size='large' btnCancel={true} btnConfirm={false} header={true} footer={false} >
+            <AwesomeModal backdrop='static' zIndex='888888889' height='100vh' show={SHOW_MODAL_UPDATE_PRODUCTS.state} onHide={() => { SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state) }} onCancel={() => false} size='large' btnCancel={true} btnConfirm={false} header={true} footer={false} >
                 <Food />
             </AwesomeModal>
+
             <AwesomeModal backdrop='static' zIndex='99390' padding='20px' height='100vh' show={table} onHide={() => openTable(!table)} onCancel={() => false} size='large' btnCancel={true} btnConfirm={false} header={true} footer={false} >
                 <ExtraProducts />
             </AwesomeModal>
@@ -246,10 +248,49 @@ const DashboardStore = () => {
     )
 }
 
-export const CardProducts = ({ food, onClick }) => {
+export const CardProducts = ({ food, onClick, setAlertBox }) => {
+    const router = useRouter()
+    const [updateProductFoods] = useMutation(UPDATE_PRODUCT_FOOD)
+    const handleDelete = product => {
+        const { pId, pState, pName } = product || {}
+        updateProductFoods({
+            variables: {
+                input: {
+                    pId,
+                    pState
+                }
+            }, update(cache) {
+                cache.modify({
+                    fields: {
+                        productFoodsAll(dataOld = []) {
+                            return cache.writeQuery({ query: GET_ALL_PRODUCT_STORE, data: dataOld })
+                        }
+                    }
+                })
+                cache.modify({
+                    fields: {
+                        getCatProductsWithProduct(dataOld = []) {
+                            return cache.writeQuery({ query: GET_ALL_CATEGORIES_WITH_PRODUCT, data: dataOld })
+                        }
+                    }
+                })
+                setAlertBox({ message: `El producto ${pName} ha sido eliminado`, color: 'error', duration: 7000 })
+            }
+        }).catch(err => setAlertBox({ message: `${err}`, duration: 7000 }))
+    }
     return (
-        <div>
-            <CardProductsContent onClick={onClick}>
+        <WrapperCard>
+            <TooltipCardProduct>
+                <button  onClick={() => router.push(`/producto/editar/${food.pId}`)}>
+                    <IconEdit color={PColor} size={20} />
+                </button>
+            </TooltipCardProduct>
+            <TooltipCardProduct left='50px'>
+                <button  onClick={() => handleDelete(food)}>
+                    <IconDelete color={PColor} size={20} />
+                </button>
+            </TooltipCardProduct>
+            <CardProductsContent onClick={onClick} >
                 <div>
                     <h3 className="card__description">{food.pName}</h3>
                     <h3 className="card__description">{food.ProDescription}</h3>
@@ -272,7 +313,7 @@ export const CardProducts = ({ food, onClick }) => {
                     placeholder="blur"
                 /> */}
             </CardProductsContent>
-        </div>
+        </WrapperCard>
     );
 };
 DashboardStore.propTypes = {

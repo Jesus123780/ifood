@@ -110,7 +110,6 @@ export const Food = () => {
     const [{ alt, src }, setPreviewImg] = useState(initialState)
     const [imageBase64, setImageBase64] = useState(null)
     const [image, setImage] = useState({})
-    console.log(image)
     const onFileInputChange = async event => {
         const { files } = event.target;
 

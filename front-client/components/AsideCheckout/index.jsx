@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { DELETE_ONE_ITEM_SHOPPING_PRODUCT } from '../../container/checkout/queries';
 import { GET_ALL_SHOPPING_CARD } from '../../container/restaurantes/queries';
-import { Context } from '../../context';
+import { Context } from '../../context/index';
 import { APColor, PColor } from '../../public/colors';
 import { IconCancel } from '../../public/icons';
 import { numberFormat, RandomCode, updateCache } from '../../utils';

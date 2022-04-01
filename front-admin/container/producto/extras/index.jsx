@@ -162,7 +162,7 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
 
     return (
         <Container>
-            <form onSubmit={(e) => onSubmitUpdate(e)} >
+            {dataExtra.length > 0 && <form onSubmit={(e) => onSubmitUpdate(e)} >
                 <GarnishChoicesHeader onClick={() => setModal(!modal)}>
                     <div>
                         <p className="garnish-choices__title">Adicionales</p>
@@ -184,7 +184,7 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
                     </div>
                 ))}
 
-            </form>
+            </form>}
             {dataOptional && dataOptional?.map((x, i) => (
                 <div key={i + 1}>
                     <GarnishChoicesHeader onClick={() => handleOpenExtra(x)}>

@@ -63,7 +63,6 @@ export const FoodComponent = ({ datafatures,
     const router = useRouter()
     return (<div>
         {loading && <LoadingBabel />}
-        {/* <marquee>Este texto se mueve de derecha a izquierda</marquee> */}
         <Container>
             <CardOne state={stateCard}>
                 <form className="form-horizontal" onSubmit={handleRegister}>
@@ -82,13 +81,7 @@ export const FoodComponent = ({ datafatures,
                         required
                         onChange={handleChange}
                         range={{ min: 0, max: 180 }} />
-                    <InputHook label='ProHeight'
-                        value={numberFormat(values.ProHeight)}
-                        name='ProHeight'
-                        required
-                        onChange={handleChange}
-                        range={{ min: 0, max: 180 }} />
-                    <InputHook label='ValueDelivery'
+                    <InputHook label='Costo de envio'
                         value={numberFormat(values.ValueDelivery)}
                         name='ValueDelivery'
                         required
@@ -124,7 +117,7 @@ export const FoodComponent = ({ datafatures,
                         </CardInput>
                     </>
                     <Footer>
-                        <RippleButton widthButton='min-content' margin='1px' type='submit' bgColor={APColor}>Subir</RippleButton>
+                        <RippleButton widthButton='100%' type='submit'>Subir</RippleButton>
                     </Footer>
                 </form>
             </CardOne>
@@ -150,6 +143,7 @@ export const FoodComponent = ({ datafatures,
                     setRating={setRating} />
             </Card>
         </Container>
+        
         <ContentProducts>
             <Text size='30px'>Lista de productos registrados</Text>
             <ContainerFilter>
@@ -168,7 +162,7 @@ export const FoodComponent = ({ datafatures,
             <InputHook label='Busca tus productos' name='search' value={search} onChange={handleChangeFilter} type='text' range={{ min: 0, max: 20 }} />
             <WrapperProducts className='filter'>
                 <ContainerCardProduct grid={grid}>
-                    {!data?.length ? <SkeletonP /> : data?.map(product => (
+                    {!data?.length === 0 ? <SkeletonP /> : data?.map(product => (
                         <CardProduct grid={grid} key={product.pId} >
                             <ButtonCard grid={grid} onClick={() => handleDelete(product)}>
                                 <IconDelete size={20} color={PColor} />
@@ -207,8 +201,7 @@ export const FoodComponent = ({ datafatures,
                                 <Title>{product.pName}</Title>
                                 <Text color={APColor}>{(product.ProDelivery === 1 && !product.ValueDelivery) ? 'Envio Gratis' : ''}</Text>
                                 <Text>{numberFormat(product.ProPrice)}</Text>
-                                <ContentInfo /* direction */>
-                                    {/* <Rate rating={product.ProStar} onRating={() => setRating(product.ProStar)} size={20} value={product.ProStar} /> */}
+                                <ContentInfo>
                                     {product.ProDelivery === 1 && <span>Gratis</span>}
                                 </ContentInfo>
                             </ContentInfo>
@@ -233,6 +226,7 @@ export const FoodComponent = ({ datafatures,
                 })
             }}>'Cargar Más' </RippleButton>
         </ContentProducts>
+
         <AwesomeModal backdrop='static' height='100vh' zIndex='9999' padding='25px' show={OPEN_MODAL_ORGANICE.state} onHide={() => { OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state) }} onCancel={() => false} size='90%' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
             <Grid gridColumns={3} gridRows={1} gridColGap='30px' gridRowsGap='20px' height='100%'>
                 <div>

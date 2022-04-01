@@ -109,6 +109,7 @@ type Query {
 type Mutation {
     "Registra un productFoodo"
      updateProductFoods(input: InputProductFood): ProductFood
+
     "Borra un productFoodo"
      deleteProductFoods(input: IDeleteProductFood): ProductFood
 }

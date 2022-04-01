@@ -1,28 +1,47 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import InputHooks from '../../../components/InputHooks/InputHooks'
 import { useFormTools } from '../../../components/BaseForm'
-import { GET_ONE_PRODUCTS_FOOD } from '../queries'
-import { GET_EXTRAS_PRODUCT_FOOD_OPTIONAL } from 'container/update/Products/queries'
-import { GET_ALL_EXTRA_PRODUCT } from 'container/dashboard/queries'
+import { EDIT_PRODUCT, GET_ONE_PRODUCTS_FOOD } from '../queries'
+import { GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, UPDATE_IMAGE_PRODUCT_FOOD, UPDATE_PRODUCT_FOOD } from 'container/update/Products/queries'
+import { GET_ALL_CATEGORIES_WITH_PRODUCT, GET_ALL_EXTRA_PRODUCT } from 'container/dashboard/queries'
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
-import { numberFormat } from 'utils'
+import { numberFormat, updateCache } from 'utils'
 import { RippleButton } from 'components/Ripple'
 import { ExtrasProductsItems } from '../extras'
+import { APColor, BGColor, PColor } from 'public/colors'
+import { IconDelete, IconPay } from 'public/icons'
+import Link from 'next/link'
+import { CLIENT_URL_BASE, URL_ADMIN_SERVER } from 'apollo/urls'
+import { DisRestaurant } from 'container/PedidosStore/ListPedidos'
+import { GET_ALL_PRODUCT_STORE } from 'container/dashboard/queriesStore'
+import { Context } from 'context/Context'
+import { useRouter } from 'next/router'
 
 export const ProductEdit = ({ id }) => {
     // STATES
     const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
     const initialState = { alt: "/images/DEFAULTBANNER.png", src: "/images/DEFAULTBANNER.png" };
     const [modal, openModal] = useState(false)
+    const { setAlertBox } = useContext(Context)
     const [{ alt, src }, setPreviewImg] = useState(initialState)
+    const router = useRouter()
+    const [image, setImage] = useState({})
     // QUERIES
     const [productFoodsOne, { data: dataProduct, loading, error }] = useLazyQuery(GET_ONE_PRODUCTS_FOOD)
     const [ExtProductFoodsOptionalAll, { error: errorOptional, data: dataOptional }] = useLazyQuery(GET_EXTRAS_PRODUCT_FOOD_OPTIONAL)
+    const [updateProductFoods] = useMutation(UPDATE_PRODUCT_FOOD)
     const [ExtProductFoodsAll, { data: dataExtra }] = useLazyQuery(GET_ALL_EXTRA_PRODUCT)
+    const [editProductFoods] = useMutation(EDIT_PRODUCT)
+    const [setImageProducts] = useMutation(UPDATE_IMAGE_PRODUCT_FOOD, {
+        context: { clientName: "admin-server" },
+        onCompleted: () => {
+        }
+    })
     // EFFECTS
-    const { getStore, pId, carProId, sizeId, colorId, idStore, cId, caId, dId, ctId, tpId, fId, pName, ProPrice, ProDescuento, ProUniDisponibles, ProDescription, ProProtegido, ProAssurance, ProImage, ProStar, ProWidth, ProHeight, ProLength, ProWeight, ProQuantity, ProOutstanding, ProDelivery, ProVoltaje, pState, sTateLogistic, pDatCre, pDatMod } = dataProduct?.productFoodsOne || {}
+    console.log(dataProduct)
+    const { getStore, pId, carProId, sizeId, pCode, colorId, idStore, cId, caId, dId, ctId, tpId, fId, pName, ProPrice, ProDescuento, ValueDelivery, ProUniDisponibles, ProDescription, ProProtegido, ProAssurance, ProImage, ProStar, ProWidth, ProHeight, ProLength, ProWeight, ProQuantity, ProOutstanding, ProDelivery, ProVoltaje, pState, sTateLogistic, pDatCre, pDatMod } = dataProduct?.productFoodsOne || {}
     useEffect(() => {
         if (id) {
             productFoodsOne({ variables: { pId: id } })
@@ -39,6 +58,7 @@ export const ProductEdit = ({ id }) => {
     // HANDLESS
     const onFileInputChange = event => {
         const { files } = event.target;
+        setImage(files[0])
         setPreviewImg(
             files.length
                 ? {
@@ -49,10 +69,92 @@ export const ProductEdit = ({ id }) => {
         )
 
     }
+    const ProImage1 = `${URL_ADMIN_SERVER}static/platos/${image?.name}`
+    console.log(ProImage1)
+    const handleForm = (e) =>
+        handleSubmit({
+            event: e,
+            action: () => {
+                setImageProducts({
+                    variables: {
+                        input: {
+                            file: image,
+                            pCode: pCode,
+                            pId: id
+                        }
+                    }
+                }).then(() => {
+                    // setDataValue({})
+                })
+                const { pName, ProPrice, ProDescuento, ValueDelivery, ProUniDisponibles, ProDescription, ProProtegido, ProAssurance, ProWidth, ProHeight, ProLength, ProWeight, ProQuantity, ProOutstanding, ProDelivery, ProVoltaje, pState, sTateLogistic } = dataForm || {}
+                const ProImage = `${URL_ADMIN_SERVER}static/platos/${image?.name}`
+                return editProductFoods({
+                    variables: {
+                        input: {
+                            pId: id,
+                            pName,
+                            ProPrice: parseFloat(ProPrice),
+                            ProDescuento,
+                            ValueDelivery: parseFloat(ValueDelivery),
+                            ProUniDisponibles,
+                            ProDescription,
+                            ProProtegido,
+                            ProAssurance,
+                            // ...(image) && ProImage,
+                            ProWidth,
+                            ProHeight,
+                            ProLength,
+                            ProWeight,
+                            ProQuantity,
+                            ProOutstanding,
+                            ProDelivery,
+                            ProVoltaje,
+                            pState,
+                            sTateLogistic,
+                        }
+                    }, update: (cache, { data: { productFoodsOne } }) => updateCache({
+                        cache,
+                        query: GET_ONE_PRODUCTS_FOOD,
+                        nameFun: 'productFoodsOne',
+                        dataNew: productFoodsOne
+                    })
+
+                })
+                
+            }
+        })
     const fileInputRef = useRef(null)
     const onTargetClick = e => {
         e.preventDefault()
         fileInputRef.current.click()
+    }
+    const handleDelete = () => {
+        updateProductFoods({
+            variables: {
+                input: {
+                    pId: id,
+                    pState
+                }
+            }, update(cache) {
+                cache.modify({
+                    fields: {
+                        productFoodsAll(dataOld = []) {
+                            return cache.writeQuery({ query: GET_ALL_PRODUCT_STORE, data: dataOld })
+                        }
+                    }
+                })
+                cache.modify({
+                    fields: {
+                        getCatProductsWithProduct(dataOld = []) {
+                            return cache.writeQuery({ query: GET_ALL_CATEGORIES_WITH_PRODUCT, data: dataOld })
+                        }
+                    }
+                })
+                setAlertBox({ message: `El producto ${pName} ha sido eliminado`, color: 'error', duration: 7000 })
+            }
+        }).then(x => {
+            router.back();
+        }).catch(err => setAlertBox({ message: `${err}`, duration: 7000 }))
     }
     return (
         <Container>
@@ -61,7 +163,12 @@ export const ProductEdit = ({ id }) => {
                     <div className="dish-card__info">
                         <h3 className='dish-card__description'>{pName}</h3>
                         <span className="description">{ProDescription}</span>
-                        <span className="price">$ {numberFormat(ProPrice)}</span>
+                        <span className="description">$ {numberFormat(ValueDelivery)} <IconPay size={20} color={PColor} /></span>
+                        <RippleButton widthButton='100%' padding='0' margin='5px auto' onClick={() => handleDelete()}> <IconDelete size={20} color={BGColor} /></RippleButton>
+                        <div className="flex-wrap">
+                            <span className="price">$ {numberFormat(ProPrice)}</span>
+                            <span className="price discount">$ {numberFormat(ProDescuento)}</span>
+                        </div>
                     </div>
                     <div className="dish-card__container-image">
                         <img
@@ -77,7 +184,7 @@ export const ProductEdit = ({ id }) => {
                     dataOptional={dataOptional?.ExtProductFoodsOptionalAll || []}
                     dataExtra={dataExtra?.ExtProductFoodsAll || []} />
             </>
-            <form>
+            <form onSubmit={(e) => handleForm(e)}>
                 <InputHooks
                     title='Nombre del Producto'
                     width={'100%'}
@@ -86,6 +193,16 @@ export const ProductEdit = ({ id }) => {
                     value={dataForm?.pName}
                     onChange={handleChange}
                     name='pName'
+                />
+                <InputHooks
+                    title='Precio'
+                    width='100%'
+                    required
+                    numeric
+                    error={errorForm?.ProPrice}
+                    value={dataForm?.ProPrice}
+                    onChange={handleChange}
+                    name='ProPrice'
                 />
                 <InputHooks
                     title='Descuento'
@@ -98,15 +215,40 @@ export const ProductEdit = ({ id }) => {
                     name='ProDescuento'
                 />
                 <InputHooks
-                    title='Precio'
+                    title='Costo de envio'
                     width='100%'
                     required
                     numeric
-                    error={errorForm?.ProPrice}
-                    value={dataForm?.ProPrice}
+                    error={errorForm?.ValueDelivery}
+                    value={dataForm?.ValueDelivery}
                     onChange={handleChange}
-                    name='ProPrice'
+                    name='ValueDelivery'
                 />
+                <InputHooks
+                    TypeTextarea={true}
+                    title='Description'
+                    width='100%'
+                    required
+                    error={errorForm?.ProDescription}
+                    value={dataForm?.ProDescription}
+                    onChange={handleChange}
+                    name='ProDescription'
+                />
+                <div>
+                    {ProDelivery === 1 ? <span>Gratis</span> : <span>{numberFormat(ValueDelivery)}</span>}
+                </div>
+                <div>
+                    {pState === 1 ? <span>Activo</span> : <span>No activo</span>}
+                </div>
+                {getStore &&
+                    <DisRestaurant>
+                        <Link href={`${CLIENT_URL_BASE}delivery/${getStore.city.cName?.toLocaleLowerCase()}-${getStore.department.dName?.toLocaleLowerCase()}/${getStore.storeName}/${getStore.idStore}`}>
+                            <a target='_blank'>
+                                <span margin={'0 0 0 10px'} color={PColor} >{getStore.storeName}</span>
+                            </a>
+                        </Link>
+                    </DisRestaurant>
+                }
                 <ContentImage >
                     <img src={src} alt={alt} onClick={(e) => onTargetClick(e)} />
                     <Inputdeker
@@ -156,6 +298,10 @@ const Card = styled.div`
     max-width: 222px;
     grid-template: "image" 157px "info" 1fr;
     grid-gap: 28px;
+    height: min-content;
+    position: sticky;
+    top: 0;
+
     .dish-card__info {
         line-height: 1.15;
         text-rendering: optimizeLegibility;
@@ -168,6 +314,7 @@ const Card = styled.div`
         grid-area: info;
         grid-template-rows: 1fr;
         padding: 10px;
+        height: min-content;
     }
     .dish-card__container-image {
         line-height: 1.15;
@@ -233,7 +380,15 @@ const Card = styled.div`
     font-size: 1rem;
     line-height: 1.25rem;
     font-weight: 400;
+    color: ${APColor};
+    }
+    .discount {
     color: #3e3e3e;
+    text-decoration-line: line-through;
+    }
+    .flex-wrap {
+        display: flex;
+        justify-content: space-between;
     }
 `
 const Container = styled.div`

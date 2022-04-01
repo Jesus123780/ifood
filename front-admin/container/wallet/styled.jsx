@@ -94,6 +94,11 @@ export const CardProduct = styled(Card)`
     padding: 10px;
     text-decoration: none;
     overflow: hidden;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
     .price_text {
         font-weight: 400;
         color: #3e3e3e;

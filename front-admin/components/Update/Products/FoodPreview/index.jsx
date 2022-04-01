@@ -14,14 +14,14 @@ export const FoodCardPreview = props => {
                 <ContentImage onClick={() => onTargetClick()} >
                     <img src={src} alt={alt} />
                     <InputFile
-                            accept=".jpg, .png"
-                            onChange={onFileInputChange}
-                            ref={fileInputRef}
-                            id='iFile' type='file'
-                        />
+                        accept=".jpg, .png"
+                        onChange={onFileInputChange}
+                        ref={fileInputRef}
+                        id='iFile' type='file'
+                    />
                 </ContentImage>
                 <Card>
-                    <i>Nuevo producto</i>
+                    <marquee>Nuevo producto, agrega la mejor descripción para un mejor posicionamiento en búsquedas * Puedes hacer una estrategia con las promociones de Deliver </marquee>
                     <Title>{valuesP ? valuesP : 'Nombre del producto'}</Title>
                     <ContentRate style={{ display: 'flex' }}>
                         <Rate size={18} rating={start} />
