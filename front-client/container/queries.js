@@ -263,6 +263,19 @@ query ExtProductFoodsOptionalAll($search: String, $min: Int, $max: Int, $pId: ID
   }
 }
 `
+export const GET_ONE_BANNER_STORE = gql`
+query getOneBanners($idStore: ID, $id: ID) {
+  getOneBanners(idStore: $idStore, id: $id) {
+    bnId
+    id
+    path
+    idStore
+    bnState
+    createAt
+    updateAt
+  }
+}
+`
 export const GET_ONE_PRODUCTS_FOOD = gql`
 query productFoodsOne($pId: ID){
     productFoodsOne(pId: $pId ){

@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { ApolloClient, from, HttpLink, InMemoryCache, ApolloLink, split } from '@apollo/client'
+import { ApolloClient, from, HttpLink, InMemoryCache, ApolloLink, split, createHttpLink } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import { concatPagination, getMainDefinition } from '@apollo/client/utilities'
 import merge from 'deepmerge'
@@ -7,8 +7,9 @@ import isEqual from 'lodash/isEqual'
 import { URL_ADMIN, URL_ADMIN_SERVER, URL_BASE } from './urls'
 import FingerprintJS from "@fingerprintjs/fingerprintjs"
 import { onError } from '@apollo/client/link/error'
-import { SubscriptionClient, addGraphQLSubscriptions } from 'subscriptions-transport-ws';
-import { WebSocketLink } from "@apollo/client/link/ws";
+import { WebSocketLink } from '@apollo/client/link/ws'
+import { createUploadLink } from 'apollo-upload-client'
+
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
 
@@ -20,43 +21,28 @@ export const getDeviceId = async () => {
     userAgent = window.navigator.userAgent
     return result.visitorId
 }
-const wsLink = process.browser ? new WebSocketLink({
-    uri: `ws://localhost:4000/graphql`,
-    options: {
-        reconnect: true,
-    },
-}) : null
-// const wsLink = new WebSocketLink({
-//     uri: `ws://localhost:4000/graphql`,
-//     options: {
-//         reconnect: true,
-//         connectionParams: {
-//             authToken: 'localStorage.getItem(AUTH_TOKEN)'
-//         }
-//     }
-// });
 const authLink = async (_) => {
-    const token = window.localStorage.getItem('session')
-    const lol = await getDeviceId()
-    window.localStorage.setItem('deviceid', lol)
-    return {
-        authorization: `Bearer ${token}` ? `Bearer ${token}` : '',
+    if (typeof window !== "undefined") {
+        const token = window?.localStorage.getItem('session')
+
+        const authorization = token ? `Bearer ${token}` : null
+        return token
+            ? {
+                headers: {
+                    // ...headers,
+                    authorization,
+                },
+            }
+            : {
+                headers: {
+                    // ...headers,
+                },
+            }
+
     }
 }
-const httpLink = new HttpLink({
-    uri: `${URL_BASE}graphql`, // Server URL (must be absolute)
-    authorization: 'pija',
-    credentials: 'same-origin' // Additional fetch() options like `credentials` or `headers`
-})
 
-// Create Second Link
-const subscriptions = process.browser ? new HttpLink({
-    uri: 'http://localhost:4000/graphql',
-    headers: {
-        authorization: 'pija'
-    }
-    // other link options...
-}) : null
+
 const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)
         graphQLErrors.map(({ message, locations, path }) => {
@@ -75,18 +61,20 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (networkError) console.log(`[Network error]: ${networkError}`)
 })
 
+// Create Second Link
+const wsLink = process.browser ? new WebSocketLink({
+    uri: process.env.NODE_ENV === 'development' ? 'ws://localhost:4000/graphql' : 'ws://localhost:4000/graphql',
+    options: {
+        reconnect: true,
+        lazy: true,
+        connectionParams: () => {
+            return { headers: { Authorization: 'Bearer TOKEN' } }
+        }
+    }
+}) : null;
 
-// const splitLink = split(
-//     ({ query }) => {
-//         console.log(query)
-//         const definition = getMainDefinition(query);
-//         return (
-//             definition.kind === 'OperationDefinition' &&
-//             definition.operation === 'subscription'
-//         );
-//     },
-//     wsLink,
-// );
+
+
 const getLink = async (operation) => {
     // await splitLink({ query: operation.query })
     const headers = await authLink()
@@ -101,21 +89,95 @@ const getLink = async (operation) => {
         uri,
         credentials: 'same-origin',
         authorization: '',
-        headers: {  
-            ...headers,
-        }
+        ...headers
     })
     return link.request(operation)
 }
+const httpLink = createUploadLink({
+    uri: `${URL_BASE}graphql`,
+    authorization: 'pija',
+    credentials: 'same-origin'
+})
+
+// split based on operation type 
+const Link = typeof window !== "undefined" ? split(
+    (operation) => {
+        const url = `${URL_BASE}graphql`
+        const service = operation.getContext().clientName
+        console.log(service)
+        const definition = getMainDefinition(operation.query);
+        return (definition.kind === 'OperationDefinition' && definition.operation === 'subscription');
+    },
+    wsLink,
+    httpLink,
+) : httpLink;
+
+
+// const [ createPerson ] = useMutation(CREATE PERSON, (
+//     onError: (error) » {
+//       notifyError(error.graphQLErrors[0].message)
+//     },
+//     update: (store, response) {
+//       const dataInStore = store.readQuery({ query: ALL_PERSONS })
+//       store.writeQuery({
+//         query: ALL PERSONS,
+//         data: {
+
+//            ... dataInStore,
+//           allPersons:[
+//                dataInStore.allPersons, ...
+//             response.data.addPerson
+//       })
+//   })
+
+const defaultOptions = {
+    watchQuery: {
+        fetchPolicy: 'cache-first',
+        returnPartialData: true,
+        notifyOnNetworkStatusChange: true,
+        errorPolicy: 'all',
+    },
+    mutate: {
+        errorPolicy: 'all'
+    }
+}
 function createApolloClient() {
+    const ssrMode = typeof window === 'undefined'
+    const link = ssrMode ? ApolloLink.split(() => true, operation => getLink(operation)) : typeof window !== "undefined"
+        ? split((operation) => {
+            const definition = getMainDefinition(operation.query)
+            return definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
+        },
+            wsLink,
+            ApolloLink.split(() => true, operation => getLink(operation)),
+            // errorLink,
+
+        )
+        : ApolloLink.split(() => true, operation => getLink(operation))
     return new ApolloClient({
-        // connectToDevTools: true,
+        // defaultOptions,
         connectToDevTools: true,
         ssrMode: typeof window === 'undefined',
-        link: ApolloLink.split(() => true, operation => getLink(operation),
-            // ,
-            errorLink,
-        ),
+        link,
+        // link: ApolloLink.from([
+        //     onError(({
+        //         graphQLErrors,
+        //         networkError
+        //     }) => {
+        //         if (graphQLErrors) {
+        //             graphQLErrors.map(({ message, locations, path
+        //             }) =>
+        //                 console.log(
+        //                     `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+        //                 )
+        //             );
+        //         }
+        //         if (networkError) {
+        //             console.log(`[Network error]: ${networkError}`);
+        //         }
+        //     }),
+        //     link
+        // ]),
         cache: new InMemoryCache({
             typePolicies: {
                 Query: {
@@ -130,7 +192,6 @@ function createApolloClient() {
 
 export function initializeApollo(initialState = null, ctx) {
     const _apolloClient = apolloClient ?? createApolloClient()
-
     // If your page has Next.js data fetching methods that use Apollo Client, the initial state
     // gets hydrated here
     if (initialState) {

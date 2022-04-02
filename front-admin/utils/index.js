@@ -366,11 +366,11 @@ export const filterKeyObjectOLD = (data, filters) => {
  * @param {array} elements elementos del formulario
  * @return {array} devuelve un array de bolleanos con el nombre identificador para cada estado en react.
  */
-export const validationSubmitHooks = elements => {
+ export const validationSubmitHooks = elements => {
     let errorForm = {}
-    for (let i = 0; i < elements.length; i++) {
+    for (let i = 0; i < elements.length; i++){
         if (elements[i].name) {
-            if (elements[i].type === 'text' || elements[i].type === 'password' || elements[i].type === 'email' || elements[i].type === 'number' || elements[i].type === 'hidden') {
+            if (elements[i].type === 'text' || elements[i].type === 'password' || elements[i].type === 'email' || elements[i].type === 'number' || elements[i].type === 'hidden'){
                 if (elements[i].dataset.required === 'true') {
                     if (!elements[i].value) errorForm = { ...errorForm, [elements[i].name]: !elements[i].value }
                     else errorForm = { ...errorForm, [elements[i].name]: !elements[i].value }
@@ -382,7 +382,6 @@ export const validationSubmitHooks = elements => {
     }
     return errorForm
 }
-
 /**
  *
  * @param {Object} data objeto a filtrar

@@ -63,7 +63,6 @@ export const ModalProduct = () => {
         pName,
         ExtProductFoodsAll,
     } = dataOneProduct?.productFoodsOne || {}
-    console.log(dataOneProduct)
     /**
      *
      * @param {elem} food obtiene un producto del la list

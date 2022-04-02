@@ -1,0 +1,48 @@
+# Banner Type
+type Banner {
+    bnId: ID
+    id: ID  
+    path: String
+    idStore: ID
+    bnState: Int
+    bnImage: Upload
+    createAt: DateTime
+    updateAt: DateTime
+}
+
+type ReBanner {
+    bnId: ID
+    id: ID  
+    idStore: ID
+    bnState: Int
+    bnImage: Upload
+    createAt: DateTime
+    updateAt: DateTime
+}
+
+# Banner Input
+input IBanner {
+    bnId: ID
+    id: ID  
+    path: String  
+    idStore: ID
+    bnState: Int
+    bnImage: Upload
+    createAt: DateTime
+    updateAt: DateTime
+}
+
+# Query
+type Query {
+  getBannersForCompany(id: ID, idStore: ID): [ReBanner]
+  getOneBanners(id: ID, idStore: ID): Banner
+}
+
+# Mutations
+type Mutation {
+  registerBanner(input: IBanner): Response
+  "Edit Banner"
+  editBanner(input: IBanner): Banner
+   "Remove One Banner"
+    DeleteOneBanner(bnState: Int, idStore: ID, bnId: ID): Response
+}

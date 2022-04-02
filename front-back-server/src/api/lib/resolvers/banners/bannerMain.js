@@ -37,6 +37,7 @@ export const getAllPromoBanners = async (_, { min, max, search }, ctx, info) => 
 }
 export const deleteOneBannerPromo = async (_, { bpId, bpState }, ctx, info) => {
     try {
+        
         await bannerspromo.update({ bpState: bpState === 1 ? 0 : 1 }, { where: { bpId: deCode(bpId) } })
         return { success: true, message: 'Banner Eliminado' }
     } catch (error) {
@@ -64,9 +65,15 @@ export const deleteOneBannerMaster = async (_, { BannerId, BannersState, path },
     }
 }
 export const saveImages = async ({ filename, mimetype, fileStream, state }) => {
-    const path = state === 2 ? `public/promo/${filename}` : state === 3 ? `public/logo/${filename}` : `public/${filename}`
-    await fileStream.pipe(fs.createWriteStream(path))
-    return path
+    let nameFile =  filename.replace(/\s+/g, '')
+    try {
+        const path = state === 2 ? `public/promo/${nameFile}` : state === 3 ? `public/logo/${nameFile}` : state === 4 ? `public/banner/${nameFile}` : `public/${nameFile}`
+        await fileStream.pipe(fs.createWriteStream(path))
+        return path
+    } catch (error) {
+        throw ApolloError('Lo sentimos, ha ocurrido un error interno', error)
+    }
+
 }
 
 export const setBanners = async (_, { input }, ctx) => {

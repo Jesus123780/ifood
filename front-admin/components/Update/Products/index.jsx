@@ -385,7 +385,7 @@ export const Products = ({ datafatures,
                     </CardProduct>
                 ))}
             </ContainerCardProduct>
-            <ReadMore onClick={() => setShowMore(s => s + 5)}>'Cargar Más' </ReadMore>
+            <ReadMore onClick={() => setShowMore(s => s + 5)}>CARGAR MÁS </ReadMore>
             {/* <ReactTable
                 data={data}
                 collapse

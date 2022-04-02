@@ -174,19 +174,15 @@ const DashboardStore = () => {
             <AwesomeModal zIndex='999' backdrop='static' height='100vh' show={SET_OPEN_PRODUCT.state} onHide={() => { SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state) }} onCancel={() => false} size='large' btnCancel={true} btnConfirm={false} header={true} footer={false} >
                 <CardProductsModal>
                     <ContentImage>
-                        {/* <Image
+                        <Image
                             className='store_image'
                             width={450}
                             height={450}
                             objectFit='contain'
-                            src={'/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
-                            alt="Picture of the author"
+                            src={ProImage || '/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
+                            alt={ProDescription || 'img'}
                             blurDataURL="data:..."
                             placeholder="blur" // Optional blur-up while loading
-                        /> */}
-                        <img
-                            src={ProImage}
-                            alt={ProDescription || 'img'}
                         />
                     </ContentImage>
                     <ContentInfo>
@@ -231,17 +227,16 @@ const DashboardStore = () => {
                 />
             </AwesomeModal>
             <AwesomeModal backdrop='static' zIndex='888888889' height='100vh' show={SHOW_MODAL_UPDATE_PRODUCTS.state} onHide={() => { SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state) }} onCancel={() => false} size='large' btnCancel={true} btnConfirm={false} header={true} footer={false} >
-                <Food />
+                {SHOW_MODAL_UPDATE_PRODUCTS.state && <Food />}
             </AwesomeModal>
-
             <AwesomeModal backdrop='static' zIndex='99390' padding='20px' height='100vh' show={table} onHide={() => openTable(!table)} onCancel={() => false} size='large' btnCancel={true} btnConfirm={false} header={true} footer={false} >
-                <ExtraProducts />
+                {table && <ExtraProducts />}
             </AwesomeModal>
             <AwesomeModal backdrop='static' zIndex='9990' padding='25px' height='100vh' show={SHOW_MANAGE_CATEGORIES.state} onHide={() => { SHOW_MANAGE_CATEGORIES.setState(!SHOW_MANAGE_CATEGORIES.state) }} onCancel={() => false} size='100%' btnCancel={true} btnConfirm={false} header={true} footer={false} >
-                <ManageCategories SHOW_MODAL_UPDATE_PRODUCTS={SHOW_MODAL_UPDATE_PRODUCTS} />
+                {SHOW_MANAGE_CATEGORIES.state && <ManageCategories SHOW_MODAL_UPDATE_PRODUCTS={SHOW_MODAL_UPDATE_PRODUCTS} />}
             </AwesomeModal>
             <AwesomeModal zIndex='9990' padding='25px' height='50vh' show={SHOW_MANAGE_EMPLOYEE.state} onHide={() => { SHOW_MANAGE_EMPLOYEE.setState(!SHOW_MANAGE_EMPLOYEE.state) }} onCancel={() => false} size='50%' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
-                <AddEmployee />
+                {SHOW_MANAGE_EMPLOYEE.state && <AddEmployee />}
             </AwesomeModal>
         </Wrapper>
     </>
@@ -281,12 +276,12 @@ export const CardProducts = ({ food, onClick, setAlertBox }) => {
     return (
         <WrapperCard>
             <TooltipCardProduct>
-                <button  onClick={() => router.push(`/producto/editar/${food.pId}`)}>
+                <button onClick={() => router.push(`/producto/editar/${food.pId}`)}>
                     <IconEdit color={PColor} size={20} />
                 </button>
             </TooltipCardProduct>
             <TooltipCardProduct left='50px'>
-                <button  onClick={() => handleDelete(food)}>
+                <button onClick={() => handleDelete(food)}>
                     <IconDelete color={PColor} size={20} />
                 </button>
             </TooltipCardProduct>
@@ -299,19 +294,16 @@ export const CardProducts = ({ food, onClick, setAlertBox }) => {
                         <span className="card__des" style={{ color: APColor }}>$ {food.ProDescuento}</span>
                     </div>
                 </div>
-                <img
-                    src={food.ProImage}
-                    alt={food.ProDescription || 'img'}
-                />
-                {/* <Image
+                 <Image
                     className='store_image'
                     width={100}
                     height={100}
-                    src={'/images/hamb.jpg'}
-                    alt={"Picture of the author"}
+                    layout='responsive'
+                    src={food.ProImage}
+                    alt={food.ProDescription || 'img'}
                     blurDataURL="/images/DEFAULTBANNER.png"
                     placeholder="blur"
-                /> */}
+                />
             </CardProductsContent>
         </WrapperCard>
     );

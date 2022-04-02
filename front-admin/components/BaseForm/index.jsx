@@ -10,14 +10,18 @@ import { validationSubmitHooks } from '../../utils'
  * @description Hook con herramientas de validación y eventos de cambio
  * @return {Array} devuelve la función onChange a ejecutar y el estado de error de cada input
  */
-export const useFormTools = () => {
+ export const useFormTools = () => {
     const [dataForm, setDataForm] = useState({})
     const [errorForm, setErrorForm] = useState({})
     const [errorSubmit, setErrorSubmit] = useState(false)
     const [calledSubmit, setCalledSubmit] = useState(false)
     const { setAlertBox } = useContext(Context)
 
-    // Handle Change
+    /** función para cambiar los valores del state para el formulario
+     * @param {object} e evento del formulario
+     * @param {error} error error de la validación
+     * @return {void}
+     */
     const handleChange = useCallback((e, error) => {
         setDataForm({ ...dataForm, [e.target.name]: e.target.value })
         setErrorForm({ ...errorForm, [e.target.name]: error })
@@ -41,7 +45,13 @@ export const useFormTools = () => {
 
         // Valida los errores locales
         for (const x in errorForm) {
-            if (errorForm[x]) errSub = true
+            if (errorForm[x] === true) {
+                errSub = true
+                console.log(errorForm[x])
+                setErrorForm(errorForm)
+                setErrorSubmit(true)
+                setAlertBox({ message: 'Verifique que los campos estén correctos' })
+            }
         }
 
         // if (errSub) return setErrorSubmit(errSub)
@@ -57,11 +67,11 @@ export const useFormTools = () => {
         if (!errSub && action) {
             action().then(res => {
                 if (res) {
-                    setAlertBox({ message: msgSuccess || 'Operación exitosa', color: PColor })
+                    setAlertBox({ message: msgSuccess || 'Operación exitosa', color: 'success' })
                     !!actionAfterSuccess && actionAfterSuccess()
                 }
 
-            }).catch(e => setAlertBox({ message: msgError || e?.message || 'Ha ocurrido un error', color: WColor }))
+            }).catch(e => setAlertBox({ message: msgError || e?.message || 'Ha ocurrido un error', color: 'error' }))
         }
 
         setErrorSubmit(errSub)
@@ -69,5 +79,8 @@ export const useFormTools = () => {
 
     useEffect(() => setCalledSubmit(false), [calledSubmit])
 
+    /**
+     * @param {void} handleChange funcion
+     */
     return [handleChange, handleSubmit, handleForcedData, { dataForm, errorForm, errorSubmit, calledSubmit, setForcedError }]
 }

@@ -16,7 +16,6 @@ export default function procesoConfirmView() {
   useEffect(() => {
     productFoodsOne({ variables: { pid: pid } })
   }, [code, idstore, pid])
-  console.log(dataOneProduct)
   const [createOnePedidoStore] = useMutation(CREATE_ONE_STORE_PEDIDO, {
     onError: (err) => console.error(err)
   })

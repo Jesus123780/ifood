@@ -10,7 +10,7 @@ import { CREATE_SHOPPING_CARD } from '../../../../components/AsideCheckout/query
 import { useFormTools } from '../../../../components/BaseForm'
 import { useSetState } from '../../../../components/hooks/useState'
 import { GET_ALL_FAV_STORE, GET_ONE_FAV_STORE, SET_FAVORITES_STORE, SET_START_STORE } from '../../../../container/profile/queries'
-import { GET_ALL_CATEGORIES_WITH_PRODUCT, GET_ALL_RATING_START_STORE, GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, GET_MIN_PEDIDO, GET_ONE_PRODUCTS_FOOD, GET_ONE_RATING_STORE, GET_ONE_STORE_BY_ID, SET_RATING_STORE } from '../../../../container/queries'
+import { GET_ALL_CATEGORIES_WITH_PRODUCT, GET_ALL_RATING_START_STORE, GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, GET_MIN_PEDIDO, GET_ONE_BANNER_STORE, GET_ONE_PRODUCTS_FOOD, GET_ONE_RATING_STORE, GET_ONE_STORE_BY_ID, SET_RATING_STORE } from '../../../../container/queries'
 import { GET_ALL_SHOPPING_CARD } from '../../../../container/restaurantes/queries'
 import { RestaurantProfile } from '../../../../container/RestaurantProfile'
 import { Context } from '../../../../context'
@@ -274,6 +274,13 @@ export default function HomeView() {
       window.open(`https://twitter.com/intent/tweet?text=Mira este producto ${CLIENT_URL_BASE}${location.asPath.slice(1, -1)}?food${pId}`)
     }
   }
+  const { data: dataBanner, loading } = useQuery(GET_ONE_BANNER_STORE, {
+    context: { clientName: "admin-server" },
+    variables: {
+        idStore: id
+    }
+})
+const { path, bnState, bnId } = dataBanner?.getOneBanners || {}
   return (
     <div>
       <Head>
@@ -284,6 +291,7 @@ export default function HomeView() {
       <RestaurantProfile
         dataForm={dataForm}
         setShare={setShare}
+        path={path}
         share={share}
         fetchMore={fetchMore}
         dataProductAndCategory={dataProductAndCategory}

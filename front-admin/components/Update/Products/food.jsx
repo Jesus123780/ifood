@@ -14,7 +14,9 @@ import { FoodCardPreview } from './FoodPreview';
 import { Container, Card, Button, CardOne, Label, ContainerCardProduct, CardProduct, Img, ContentImg, Title, Text, ContentInfo, ContentIconFav, ButtonCard, ActionName, ReadMore, ContentProducts, CardInput, CardCheckBox, CardRadioLabel, ContainerFilter, ItemFilter, ContainerBurger, Footer, LateralModal, WrapperProducts, Grid } from './styled';
 import { useRouter } from 'next/router';
 import { useSetState } from '../../hooks/useState';
-import { AwesomeModal } from '../../AwesomeModal';
+import { AwesomeModal } from '../../AwesomeModal';import React from 'react';
+import Image from 'next/image';
+import { Loading } from 'components/Loading';
 
 export const FoodComponent = ({ datafatures,
     finalDataAreas,
@@ -177,21 +179,15 @@ export const FoodComponent = ({ datafatures,
                                 </ActionName>
                             </ButtonCard>
                             <ContentImg grid={grid}>
-                                <Img
-                                    src={product.ProImage}
-                                    alt={''}
-                                />
-
-                                {/* <Image
+                                <Image
                                     className='store_image'
                                     objectFit='contain'
                                     layout='fill'
-                                    src={'/images/202109081904_64O5_i.webp'}
-                                    alt={"Picture of the author"}
+                                    src={product.ProImage || '/images/202109081904_64O5_i.webp'}
+                                    alt={''}
                                     blurDataURL="/images/DEFAULTBANNER.png"
                                     placeholder="blur" // Optional blur-up while loading
-                                /> */}
-                                {/* {!product.ProImage ? <i>No img</i> : <Img src={product.ProImage} alt={product.ProImage} />} */}
+                                />
                             </ContentImg>
                             <ContentInfo>
                                 <ContentIconFav grid={grid} onClick={() => router.push(`/producto/editar/${product.pId}`)}>
@@ -209,10 +205,8 @@ export const FoodComponent = ({ datafatures,
                     ))}
                 </ContainerCardProduct>
             </WrapperProducts>
-            {/* <RippleButton widthButton='100%' margin='20px auto' onClick={() => setShowMore(s => s + 5)}>'Cargar Más' </RippleButton> */}
             <RippleButton widthButton='100%' margin='20px auto' onClick={() => {
                 setShowMore(s => s + 5)
-                // getAllStoreAdmin()
                 fetchMore({
                     variables: { max: more, min: 0 },
                     updateQuery: (prevResult, { fetchMoreResult }) => {
@@ -224,7 +218,7 @@ export const FoodComponent = ({ datafatures,
                         }
                     }
                 })
-            }}>'Cargar Más' </RippleButton>
+            }}>{loading ? <Loading /> : 'CARGAR MÁS'}</RippleButton>
         </ContentProducts>
 
         <AwesomeModal backdrop='static' height='100vh' zIndex='9999' padding='25px' show={OPEN_MODAL_ORGANICE.state} onHide={() => { OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state) }} onCancel={() => false} size='90%' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
@@ -248,8 +242,7 @@ export const FoodComponent = ({ datafatures,
     </div>
     )
 }
-import React from 'react';
-import Image from 'next/image';
+
 
 const ComponentCardProduct = ({ data, dispatch, ADD_TO_EFFECTIVE, REMOVE, ADD_PRODUCT }) => {
     return <div>

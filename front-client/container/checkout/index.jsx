@@ -32,7 +32,7 @@ export const Checkout = ({ setAlertBox, setCountItemProduct, locationStr, setMod
     //     router.back()
     //   }
     // }, [router, dataShoppingCard])
-    const result = dataShoppingCard?.getAllShoppingCard.reduce(function (r, a) {
+    const result = dataShoppingCard?.getAllShoppingCard?.reduce(function (r, a) {
         r[a.getStore?.storeName] = r[a.getStore?.storeName] || [];
         r[a.getStore?.storeName].push(a);
         return r;
@@ -40,7 +40,7 @@ export const Checkout = ({ setAlertBox, setCountItemProduct, locationStr, setMod
     const [deleteOneItem] = useMutation(DELETE_ONE_ITEM_SHOPPING_PRODUCT, {
         onCompleted: data => {
             setAlertBox({ message: data?.deleteOneItem?.message })
-            if (dataShoppingCard?.getAllShoppingCard.length === 1) {
+            if (dataShoppingCard?.getAllShoppingCard?.length === 1) {
                 setAlertBox({ message: 'Tu carrito esta vació' })
                 router.replace('/restaurantes')
             }
@@ -174,7 +174,7 @@ export const Checkout = ({ setAlertBox, setCountItemProduct, locationStr, setMod
                                     <Text className='garnish-choices__title' size='30px'>{store}</Text>
                                 </div>
                                 <div key={store.store}>
-                                    {dataShoppingCard?.getAllShoppingCard.length > 0 ? result[store]?.map((product, idx) => (
+                                    {dataShoppingCard?.getAllShoppingCard?.length > 0 ? result[store]?.map((product, idx) => (
                                         <CardProduct key={product.ShoppingCard}>
                                             <div className='item-line'>
                                                 <Text margin={'40px 0'} size='20px'>{product.productFood?.pName}</Text>

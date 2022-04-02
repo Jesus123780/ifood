@@ -11,7 +11,6 @@ import { useGetAreas } from '../../../components/hooks/useGetArea';
 import { useCategories } from '../../../components/hooks/useCategories';
 import { useSetState } from '../../../components/hooks/useState';
 import { FoodComponent } from '../../../components/Update/Products/food';
-import { CREATE_FOOD_PRODUCT } from '../../dashboard/queries';
 import { GET_ONE_STORE } from '../../Restaurant/queries';
 import { convertBase64, getFileSizeByUnit, RandomCode } from '../../../utils';
 import { GET_ALL_PRODUCT_STORE } from '../../dashboard/queriesStore';
@@ -34,10 +33,10 @@ export const Food = () => {
     const [searchFilter, setSearchFilter] = useState({ gender: [], desc: [], speciality: [] })
     const [filter, setFilter] = useState({ gender: [], desc: [], speciality: [] })
     //-----------QUERIES ------------
-    const [updateProducts] = useMutation(UPDATE_PRODUCT_FOOD)
     const [finalData, { loading: getProductLoading }] = useGetProducts()
     // LLama a todas las areas
     const { data: datafatures } = useQuery(GET_ALL_FEATURES_ON_PARENT)
+    console.log('HOLA MUNDO')
     const { data } = useQuery(GET_ONE_COLOR)
     const { data: size } = useQuery(GET_ALL_SIZE)
     const [finalDataAreas, { loading: loadingAreas }] = useGetAreas()

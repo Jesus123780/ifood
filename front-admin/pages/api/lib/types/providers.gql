@@ -1,0 +1,53 @@
+
+
+type Providers {
+    idProvider: ID
+    idStore: ID
+    id: ID
+    prImage: Upload
+    prPathImage: String
+    PrCode: String
+    PrNit: String
+    prName: String
+    PrNumberPhone: String
+    PrNumberIdentity: String
+    PrAdres: String
+    PrMail: String
+    TotalBysPr: Float
+    TotalDeuda: Float
+    prState: Int
+    DatCre: DateTime
+    DatMod: DateTime
+}
+
+# Account Input
+input IProviders {
+    idProvider: ID
+    idStore: ID
+    id: ID
+    prImage: Upload
+    PrCode: String
+    prName: String
+    prPathImage: String
+    PrNit: String
+    PrNumberPhone: String
+    PrNumberIdentity: String
+    PrAdres: String
+    PrMail: String
+    TotalBysPr: Float
+    TotalDeuda: Float
+    prState: Int
+    DatCre: DateTime
+    DatMod: DateTime
+}
+
+# Query
+type Query {
+  getAllProviders(idStore: ID, search: String min: Int fromDate: DateTime toDate: DateTime max: Int): [Providers]
+}
+# Mutations
+type Mutation {
+  registerProviders(input: IProviders): Response
+  EditProviders(input: IProviders): Providers
+  DeleteOneProviders(id: ID): Response,
+}

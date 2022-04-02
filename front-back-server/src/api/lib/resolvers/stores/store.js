@@ -8,10 +8,10 @@ export const setALogoStore = async (_root, { logo, idStore }, ctx) => {
     try {
         const fileUpload = await logo
         const { createReadStream, filename, mimetype, encoding } = fileUpload
-        // saveImages()
         const fileStream = createReadStream()
         await saveImages({ filename, mimetype, fileStream, state: 3 })
-        await Store.update({ Image: `${URL_BASE}static/logo/${filename}` }, { where: { idStore: deCode(idStore) } })
+        let nameFile = filename.replace(/\s+/g, '')
+        await Store.update({ Image: `${URL_BASE}static/logo/${nameFile}` }, { where: { idStore: deCode(idStore) } })
         return {
             success: true,
             message: 'Logo subido con éxito'

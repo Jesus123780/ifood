@@ -192,7 +192,6 @@ export const Map = ({ showModal, setShowModal }) => {
       .catch(() => {
       })
   }
-  console.log(markers[0]?.lat)
   return (
     <ContainerModal showModal={showModal} onClick={() => closeAllState()}>
       <AwesomeModal onClick={e => e.stopPropagation()} showModal={showModal}>

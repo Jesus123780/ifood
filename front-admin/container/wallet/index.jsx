@@ -265,7 +265,7 @@ export const WalletC = () => {
                 }
             }
         })
-    }}> {loading ? '...Cargando' : 'Cargar Más'}</RippleButton>
+    }}> {loading ? '...Cargando' : 'CARGAR MÁS'}</RippleButton>
     const OPEN_MODAL_MANAGE = useSetState()
     const { data: clients } = useQuery(GET_ALL_CLIENTS)
     return (
@@ -309,7 +309,7 @@ export const WalletC = () => {
                     </Card>
                     <Card margin='0' align display='flex' width='70%'>
                         <Card margin={'0 0 0 10px'}>
-            {/* <RippleButton onClick={()=> OPEN_MODAL.setState(!OPEN_MODAL.state)}>Crear billetera</RippleButton> */}
+                            {/* <RippleButton onClick={()=> OPEN_MODAL.setState(!OPEN_MODAL.state)}>Crear billetera</RippleButton> */}
 
                             <HeaderStatic>
                                 <TextH2Main weight='400' size={'15px'} text={`Mis Productos (${dataProducto?.length || 0})`} />
@@ -345,7 +345,7 @@ export const WalletC = () => {
                                         }
                                     }
                                 })
-                            }}> {loading ? '...Cargando' : 'Cargar Más'}</RippleButton>
+                            }}> {loading ? '...Cargando' : 'CARGAR MÁS'}</RippleButton>
                         </Card>
                         <Card>
                             <HeaderStatic>
@@ -453,7 +453,7 @@ export const WalletC = () => {
                                 }
                             }
                         })
-                    }}> {loading ? '...Cargando' : 'Cargar Más'}</RippleButton>}
+                    }}> {loading ? '...Cargando' : 'CARGAR MÁS'}</RippleButton>}
                 </Card>
                 <Card width='30%'>
                     {<ManageWallet

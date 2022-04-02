@@ -176,3 +176,34 @@ mutation setALogoStore($logo: Upload, $idStore: ID) {
   }
 }
 `
+export const CREATE_BANNER_STORE = gql`
+mutation registerBanner($input: IBanner) {
+  registerBanner(input: $input) {
+    success
+    message
+    
+  }
+}
+`
+export const GET_ONE_BANNER_STORE = gql`
+query getOneBanners($idStore: ID, $id: ID) {
+  getOneBanners(idStore: $idStore, id: $id) {
+    bnId
+    id
+    path
+    idStore
+    bnState
+    createAt
+    updateAt
+  }
+}
+`
+export const DELETE_ONE_BANNER_STORE = gql`
+mutation DeleteOneBanner($bnState: Int, $idStore: ID, $bnId: ID) {
+  DeleteOneBanner(bnState: $bnState, idStore: $idStore, bnId: $bnId ) {
+    success
+    message
+    
+  }
+}
+`

@@ -88,7 +88,7 @@ export const ManageWallet = ({ data, dataProducto, product, dispatch, loading, s
                                             }
                                         }
                                     })
-                                }}> {loading ? '...Cargando' : 'Cargar Más'}</RippleButton>
+                                }}> {loading ? '...Cargando' : 'CARGAR MÁS'}</RippleButton>
                             </div>
                             <div>
                                 {/* <button type="button"></button> */}

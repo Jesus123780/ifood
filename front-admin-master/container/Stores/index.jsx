@@ -39,7 +39,9 @@ export const Stores = () => {
     dataRestaurant?.getAllStoreAdmin && setData([...dataRestaurant?.getAllStoreAdmin])
     getAllStoreAdmin({
       variables: {
-        cId: Location.countryId, dId: Location.department, ctId: Location.city, max: more
+        cId: Location.countryId,
+        dId: Location.department,
+        ctId: Location.city, max: more
       },
     })
   }, [Location])

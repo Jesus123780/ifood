@@ -2,7 +2,7 @@ const { ADMIN_URL } = process.env
 
 module.exports = {
         images: {
-        domains: ['http2.mlstatic.com'],
+        domains: ['http2.mlstatic.com', 'localhost'],
     },
     async rewrites() {
         return [

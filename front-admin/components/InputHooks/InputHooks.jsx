@@ -1,6 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint no-console: "error" */
-/* eslint no-console: ["error", { allow: ["warn"] }] */
 import React, { useEffect, useReducer, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { BoxInput, InputV, LabelInput, ShowPass, Tooltip, TextAreaInput, Listbox, List } from './styled'
@@ -16,7 +13,9 @@ const InputHooks = ({
   onBlur,
   fontSize,
   paddingInput,
+  setDataValue,
   width,
+  dataForm,
   minWidth,
   display,
   maxWidth,
@@ -45,7 +44,7 @@ const InputHooks = ({
 }) => {
   // STATE
   const [errors, setError] = useState(error)
-  // const [valueInput, setValue] = useState(value)
+  const [valueInput, setValue] = useState(value)
   const [isPasswordShown, setIsPasswordShown] = useState(false)
   const [message, setMessage] = useState('El campo no debe estar vacío')
   // HM
@@ -96,6 +95,15 @@ const InputHooks = ({
     return suggestionList
   }
 
+  // useEffect(() => {
+  //   if (!data) return ''
+  //   if (Array.isArray(optionName)) {
+  //     let valueRender = ''
+  //     //eslint-disable-next-line
+  //     optionName.forEach(x => valueRender = `${valueRender} ${(accessor && data[accessor]) ? data[accessor][x] : data[x]}`)
+  //     return valueRender
+  //   } else return data[optionName]
+  // }, [])
   const autoCompleteEmail = (email) => {
     setShowSuggestions(false)
     // errorMessage: '',
@@ -165,36 +173,32 @@ const InputHooks = ({
      *
      */
   const validations = e => {
-    // autoCompleteEmail
     autoCompleteEmail(e.target.value)
-    // setValue(e.target.value)
     // Valida que el campo no sea nulo
     if (required) {
-      if (isNull(e.target.value)) { return errorFunc(e, true, '') } else errorFunc(e, false, '')
+      if (isNull(e.target.value)) return errorFunc(e, true, 'El campo no debe estar vacío')
+      else errorFunc(e, false, '')
     }
     // Valida que el campo sea tipo numérico
     if (numeric) {
-      if (isNaN(e.target.value)) { return errorFunc(e, true, 'El campo debe ser numérico') } else errorFunc(e, false, '')
+      if (isNaN(e.target.value)) return errorFunc(e, true, 'El campo debe ser numérico')
+      else errorFunc(e, false, '')
     }
     // Valida que el campo sea solo letras
     if (letters) {
-      if (onlyLetters(e.target.value)) { return errorFunc(e, true, 'El campo debe contener solo letras') } else errorFunc(e, false, '')
+      if (onlyLetters(e.target.value)) return errorFunc(e, true, 'El campo debe contener solo letras')
+      else errorFunc(e, false, '')
     }
     // Valida que el campo esté en el rango correcto
     if (range) {
-      if (rangeLength(e.target.value, range.min, range.max)) {
-        return errorFunc(
-          e,
-          true,
-          `El rango de carácteres es de ${range.min} a ${range.max}`
-        )
-      } else errorFunc(e, false, '')
+      if (rangeLength(e.target.value, range.min, range.max)) return errorFunc(e, true, `El rango de carácteres es de ${range.min} a ${range.max}`)
+      else errorFunc(e, false, '')
     }
     // Valida si el campo tiene un formato de email correcto
     if (email) {
-      if (isEmail(e.target.value)) { return errorFunc(e, true, 'Email Address must be valid') } else errorFunc(e, false, '')
+      if (isEmail(e.target.value)) return errorFunc(e, true, 'El formato de email no es válido')
+      else errorFunc(e, false, '')
     }
-    // Valida si el campo tiene un formato de contraseña correcto
     if (pass) {
       if (isPassword(e.target.value)) { return errorFunc(e, true, 'La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula. Puede tener otros símbolos.') } else errorFunc(e, false, '')
     }
@@ -222,8 +226,12 @@ const InputHooks = ({
     return errorMessage
   }
   const handleBlur = () => {
-    // setTimeout(() => setShowSuggestions(!showSuggestions))
+    // setTimeout(() => setShowSuggestions(false))
   }
+  const handleFocus = () => {
+    // setTimeout(() => setShowSuggestions(true))
+  }
+
   return (
     <BoxInput width={width} maxWidth={maxWidth} padding={padding} minWidth={minWidth}>
       {pass && <ShowPass type='button' onClick={() => setIsPasswordShown(!isPasswordShown)}>
@@ -232,15 +240,16 @@ const InputHooks = ({
       {!TypeTextarea
         ? <div>
           <InputV
-            value={value || ''}
+            value={value}
             ref={email ? refInput : reference}
-            onChange={validations}
+            onChange={(e) => validations(e)}
             name={name}
             margin={margin}
             display={display}
             disabled={disabled}
             checked={checked}
             onBlur={onBlur || handleBlur}
+            onFocus={handleFocus}
             size={fontSize}
             radius={radius}
             border={border}
@@ -254,16 +263,25 @@ const InputHooks = ({
           {(email && !!showSuggestions) && (
             <div>
               <Listbox role="listbox" >
-                {suggestionList.map((suggestion, index) => (
-                  <List onClick={() => { dispatch({ type: 'select', payload: index }); handleSuggestionOnClick(suggestion) }} style={{ cursor: 'pointer', backgroundColor: index === state.selectedIndex ? `${SFVColor}2e` : 'transparent' }} aria-pressed={index === state.selectedIndex} tabIndex={0} onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
+                {suggestionList.map((suggestion, index) => {
+                  return (
+                    <List onClick={() => {
                       dispatch({ type: 'select', payload: index })
-                      e.target.blur()
-                    }
-                  }} key={index} >
-                    {suggestion}
-                  </List>
-                ))}
+                      handleSuggestionOnClick(suggestion)
+                      setDataValue({ ...dataForm, [name]: suggestion })
+                    }} style={{ cursor: 'pointer', backgroundColor: index === state.selectedIndex ? `${SFVColor}2e` : 'transparent' }} aria-pressed={index === state.selectedIndex} tabIndex={0}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          dispatch({ type: 'select', payload: index })
+                          e.target.blur()
+                        }
+                      }}
+                      key={index} >
+                      {suggestion}
+                    </List>
+                  )
+                })}
               </Listbox>
             </div>
           )}
@@ -284,7 +302,6 @@ const InputHooks = ({
           placeholder={placeholder}
           paddingInput={paddingInput}
         />}
-
       {<LabelInput value={value} type={type} labelColor={labelColor} error={error}>{title}</LabelInput>}
       {errors && <Tooltip>{message}</Tooltip>}
     </BoxInput>

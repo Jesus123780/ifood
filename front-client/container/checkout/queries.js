@@ -16,3 +16,8 @@ mutation createMultipleOrderStore($input: SET_INPUT_SHOPPING_PRODUCTS_ITEMS) {
   }
 }
 `
+export const GET_STATE_ORDER = gql`
+subscription {
+  numberIncremented
+}
+`
