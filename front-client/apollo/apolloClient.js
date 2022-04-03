@@ -143,21 +143,42 @@ const defaultOptions = {
 }
 function createApolloClient() {
     const ssrMode = typeof window === 'undefined'
-    const link = ssrMode ? ApolloLink.split(() => true, operation => getLink(operation)) : typeof window !== "undefined"
+    const link = ssrMode ? ApolloLink.split(() => true, operation => getLink(operation),
+        onError(({
+            graphQLErrors,
+            networkError
+        }) => {
+            if (graphQLErrors) {
+                graphQLErrors.map(({ message, locations, path
+                }) =>
+                    console.log(
+                        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+                    )
+                );
+            }
+            if (networkError) {
+                console.log(`[Network error]: ${networkError}`);
+            }
+        }),
+    ) : typeof window !== "undefined"
         ? split((operation) => {
             const definition = getMainDefinition(operation.query)
             return definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
         },
             wsLink,
-            ApolloLink.split(() => true, operation => getLink(operation)),
-            // errorLink,
+            ApolloLink.split(() => true, operation => getLink(operation),
+            errorLink,
+            ),
 
         )
-        : ApolloLink.split(() => true, operation => getLink(operation))
+        : ApolloLink.split(() => true, operation => getLink(operation), 
+        errorLink
+        )
     return new ApolloClient({
         // defaultOptions,
         connectToDevTools: true,
         ssrMode: typeof window === 'undefined',
+
         link,
         // link: ApolloLink.from([
         //     onError(({

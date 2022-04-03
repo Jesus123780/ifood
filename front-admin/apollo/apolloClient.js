@@ -35,13 +35,13 @@ const errorHandler = onError(({ graphQLErrors }) => {
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)
-      graphQLErrors.map(({ message, locations, path }) => {
-        console.log(
-          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-        )
-      })
+        graphQLErrors.map(({ message, locations, path }) => {
+            console.log(
+                `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+            )
+        })
     //   
-      graphQLErrors?.length && graphQLErrors.forEach(err => {
+    graphQLErrors?.length && graphQLErrors.forEach(err => {
         const { code } = err.extensions
         if (code === 'UNAUTHENTICATED' || code === 'FORBIDDEN') console.log('Papuuuuuuuu')
         else if (code === 403) {
@@ -49,7 +49,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
         }
     })
     if (networkError) console.log(`[Network error]: ${networkError}`)
-  })
+})
 
 // const authLink = setContext(async (_, { headers }) => {
 //     const lol = await getDeviceId()
@@ -115,19 +115,8 @@ function createApolloClient() {
     return new ApolloClient({
         connectToDevTools: true,
         ssrMode: typeof window === 'undefined',
-        // link: from([
-        //     errorLink,
-        //     authLink,
-        //     httpLink,
-        //     // errorHandler
-        // ]),
-        link: ApolloLink.split(() => true, operation => getLink(operation)
-            // link: from([
-            //     // errorLink,
-            //     authLink,
-            //     httpLink,
-            //     // errorHandler
-            // ]),
+        link: ApolloLink.split(() => true, operation => getLink(operation),
+            errorLink,
         ),
         typeDefs,
         cache: new InMemoryCache({

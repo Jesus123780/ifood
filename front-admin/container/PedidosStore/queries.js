@@ -5,7 +5,6 @@ mutation changePPStatePPedido($pPStateP: Int, $pCodeRef: String) {
   changePPStatePPedido(pPStateP: $pPStateP, pCodeRef: $pCodeRef){
     success
     message
-    
   }
 }
 

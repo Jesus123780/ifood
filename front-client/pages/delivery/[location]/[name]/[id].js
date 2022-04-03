@@ -255,7 +255,7 @@ export default function HomeView() {
   })
   const [share, setShare] = useState(false)
   useEffect(() => {
-    setShare(`${CLIENT_URL_BASE}${location.asPath.slice(1, -1)}?food${pId}`)
+    setShare(`${CLIENT_URL_BASE}${location.asPath.slice(1, -1)}?plato=${pId}`)
   }, [dataOneProduct, share])
 
   const handlerShare = index => {

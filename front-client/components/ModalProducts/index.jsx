@@ -123,7 +123,7 @@ export const ModalProduct = () => {
                             width={450}
                             height={450}
                             objectFit='contain'
-                            src={'/images/hamb.jpg'}
+                            src={ProImage || '/images/hamb.jpg'}
                             alt='Picture'
                             blurDataURL='data:...'
                             placeholder='blur' />

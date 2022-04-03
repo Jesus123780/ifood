@@ -59,10 +59,10 @@ export const Checkout = ({ setAlertBox, setCountItemProduct, locationStr, setMod
     const { cName } = city || {}
     const { cName: country } = pais || {}
     const objLocation = { dName, uLocationKnow, cName, country }
-    console.log(objLocation)
     const newArray = dataShoppingCard?.getAllShoppingCard.map(x => { return { ShoppingCard: x.ShoppingCard, idStore: x.getStore.idStore } })
     const [totalProductPrice, setTotalProductPrice] = useState(0)
     const handleSubmitPedido = async () => {
+        if (!objLocation) return setAlertBox({ message: 'Elige una ubicación' })
         await createMultipleOrderStore({
             variables: {
                 input: {

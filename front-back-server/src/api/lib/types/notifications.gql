@@ -1,0 +1,22 @@
+
+# Stores
+type Notification {
+  message: String
+}
+input InputStorePedidos {
+message: String
+}
+
+type Query {
+"""Response for find one Store"""
+  getOneNotification: String
+}
+  
+type Mutation {
+  """"Store data Order"""
+  createOneNotification(message: String): String
+}
+
+type Subscription {
+  newNotification: String
+}

@@ -28,6 +28,7 @@ export default function RestaurantHome({ ID_CATEGORIE, PRODUCT_NAME_COOKIE, ACEP
   const { data: dataM } = useQuery(GET_MESSAGES, {
     context: { clientName: "subscriptions" }
   });
+
   const NEW_MESSAGE = gql`
   subscription {
   numberIncremented
@@ -57,6 +58,22 @@ mutation setCookie($name: String, $value: String) {
     context: { clientName: "main" }
 
   })
+  const NEW_NOTIFICATION = gql`
+  subscription {
+  newNotification
+  }
+  `
+  const { data: dataWS } = useSubscription(NEW_NOTIFICATION, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      console.log(subscriptionData.newNotification)
+    }
+  })
+  useEffect(() => {
+    if (dataWS) {
+      setAlertBox({ message: dataWS?.newNotification, duration: 30000  })
+    }
+  }, [dataWS])
+
   return (
     <div className={styles.container}>
       <Head>
@@ -98,7 +115,7 @@ mutation setCookie($name: String, $value: String) {
       <FavoriteStore />
       <LastRecommended ID_CATEGORIE={ID_CATEGORIE} />
       <ItMayInterestYou PRODUCT_NAME_COOKIE={PRODUCT_NAME_COOKIE} />
-      {!ACEPTE_COOKIE && close !== 'true' &&  <CookieContainer>
+      {!ACEPTE_COOKIE && close !== 'true' && <CookieContainer>
         <div className="cookie-consent-banner-opt-out__message-container">
           <h2 className="cookie-consent-banner-opt-out__header">Este sitio usa cookies</h2>
           <button data-testid="action:understood-button" onClick={() => { setClose('true'); setCookie({ variables: { name: 'Hola', value: 'Mundo' } }) }}>Entendido</button>

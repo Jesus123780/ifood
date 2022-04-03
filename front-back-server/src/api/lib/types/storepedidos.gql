@@ -64,7 +64,9 @@ type Query {
   getAllPedidoStoreFinal(idStore: ID, cId: ID dId: ID ctId: ID search: String min: Int fromDate: DateTime toDate: DateTime max: Int): [StorePedidos]
   getAllSalesStore(idStore: ID, pId: ID cId: ID dId: ID ctId: ID search: String min: Int fromDate: DateTime toDate: DateTime max: Int): [StorePedidos]
   getAllPedidoUserFinal(id: ID): [StorePedidos]
-  getOneSalesStore(pCodeRef: String): StorePedidos
+  # getOneSalesStore(pCodeRef: String): StorePedidos
+  getOneSalesStoreS(pCodeRef: String): Int
+  pushNotificationOrder(pCodeRef: String, idStore: ID): StorePedidos
 }
   
 type Mutation {
@@ -75,5 +77,6 @@ type Mutation {
 }
 
 type Subscription {
-  newStorePedidos: StorePedidos
+  newStorePedidosNum: Response
+  newStoreOrder: StorePedidos
 }
