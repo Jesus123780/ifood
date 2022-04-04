@@ -64,19 +64,20 @@ import indexRoutes from './api/lib/router'
         plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
         context: async ({ req, res }) => {
             // check from req
-            console.log('Run')
-            const token = (req.headers.authorization)
+            const token = (req.headers.authorization?.split(' ')[1])
+            const restaurant = req.headers.restaurant || {}
+            console.log(req.headers)
             if (token !== 'null') {
                 try {
                     //validate user in client.
                     // const User = await jwt.verify(token, process.env.AUTHO_USER_KEY);
                     let User = null
-                    return { User, res, pubsub }
+                    return { User, res, pubsub, restaurant: restaurant || {} }
                 } catch (err) {
                     console.log(err)
                     console.log('Hola esto es un error del contexto')
                 }
-            }
+            } else { return { restaurant: restaurant || {} }}
 
         },
     });

@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import React, { useContext, useEffect } from 'react'
 import { Context } from '../../context/Context'
 import { Footer } from './footer'
+import { gql, useLazyQuery, useMutation, useQuery, useSubscription } from '@apollo/client'
 import { Header } from './header'
 import { AlertBox } from '../AlertBox'
 import styled, { css } from 'styled-components'
@@ -25,6 +26,21 @@ export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => 
             window.localStorage.setItem('location', JSON.stringify(dataLocation));
         }
     }, [latitude, longitude, timestamp, accuracy, speed])
+    const NEW_NOTIFICATION = gql`
+    subscription {
+    newNotification
+    }
+    `
+    const { data: dataWS } = useSubscription(NEW_NOTIFICATION, {
+        onSubscriptionData: ({ subscriptionData }) => {
+            console.log(subscriptionData.newNotification)
+        }
+    })
+    useEffect(() => {
+        if (dataWS) {
+            setAlertBox({ message: dataWS?.newNotification, duration: 30000 })
+        }
+    }, [dataWS])
     return (
         <>
             <AlertBox err={error} />

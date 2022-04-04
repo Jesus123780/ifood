@@ -22,7 +22,6 @@ import { Loading } from 'components/Loading';
 import { GET_STATE_ORDER } from 'container/checkout/queries';
 export const RestaurantProfile = ({ src, more, setMore, id, dataProductAndCategory, errorForm, path, fetchMore, handlerShare, share, setShare, dataMinPedido, stars, rGoodTemperature, rTasty, appearance, setRatingState, setRatingStar, dataRating, rating, rGoodCondition, handleGetRating, setGoodCondition, setTasty, setGoodTemperature, SetAppearance, RemoveFav, like, setLike, dataForm, handleChange, handleRating, addFav, dataOneFav, data, dataCatProducts, refs, refInterSection, SET_OPEN_PRODUCT, setState, getOneProduct, dataOneProduct, dataOptional, handleCountProducts, handleAddProducts, state, increase, decrease, handleChangeClickOnTable }) => {
     const { pName, getStore, ProImage, ProPrice, ProDescription, ProDescuento, ExtProductFoodsAll } = dataOneProduct || {}
-    console.log(dataOneProduct)
     const { fState } = dataOneFav
     const containerStyle = {
         height: '100vh',

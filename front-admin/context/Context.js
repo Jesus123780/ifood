@@ -105,37 +105,61 @@ const Provider = ({ children }) => {
     }
     const [state_product_card, dispatch] = useReducer(product, initialState)
     const [openSchedule, setOpenSchedule] = useState(false)
+    const value = useMemo(
+        () => ({
+            error,
+            setOpenSchedule,
+            openSchedule,
+            DataCompany,
+            // Link
+            setCompanyLink,
+            setCollapsed,
+            setCountPedido,
+            countPedido,
+            isCompany,
+            handleMenu,
+            // Menu Ctx
+            menu,
+            collapsed,
+            isSession,
+            setIsSession,
+            // State login
+            authData,
+            setSessionActive,
+            // UseCompany
+            useCompany,
+            company,
+            // setAlertBox
+            alert,
+            // add products
+            state_product_card,
+            dispatch,
+            setAlertBox: err => setError(err)
+        }),
+        [error,
+            setOpenSchedule,
+            openSchedule,
+            DataCompany,
+            // Link
+            setCompanyLink,
+            setCollapsed,
+            setCountPedido,
+            countPedido,
+            isCompany,
+            handleMenu,
+            menu,
+            collapsed,
+            isSession,
+            setIsSession,
+            authData,
+            setSessionActive,
+            useCompany,
+            company,
+            alert,
+            state_product_card,
+            dispatch]
+    )
 
-    const value = {
-        error,
-        setOpenSchedule,
-        openSchedule,
-        DataCompany,
-        // Link
-        setCompanyLink,
-        setCollapsed,
-        setCountPedido,
-        countPedido,
-        isCompany,
-        handleMenu,
-        // Menu Ctx
-        menu,
-        collapsed,
-        isSession,
-        setIsSession,
-        // State login
-        authData,
-        setSessionActive,
-        // UseCompany
-        useCompany,
-        company,
-        // setAlertBox
-        alert,
-        // add products
-        state_product_card,
-        dispatch,
-        setAlertBox: err => setError(err)
-    }
     return <Context.Provider value={value}>
         {children}
     </Context.Provider>

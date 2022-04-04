@@ -91,9 +91,9 @@ export const Login = (props) => {
                 <ContainerLeft>
                     <ContentImage>
                         <Image
-                            width={1000}
+                            // width={1000}
                             objectFit='cover'
-                            height={1500}
+                            // height={1500}
                             layout='fill'
                             src={'/images/sign-in_3f701ac0c6.png'}
                             alt={"Picture of the author"}

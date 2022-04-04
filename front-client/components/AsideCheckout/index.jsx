@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client';
 import Link from 'next/link';
+import Image from 'next/image';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { DELETE_ONE_ITEM_SHOPPING_PRODUCT } from '../../container/checkout/queries';
 import { GET_ALL_SHOPPING_CARD } from '../../container/restaurantes/queries';
@@ -11,6 +12,7 @@ import { Overline } from '../common/Reusable';
 import { RippleButton } from '../Ripple';
 import { CREATE_SHOPPING_CARD } from './querys';
 import { CardProduct, Content, LateralModal, Text, ActionPay, ContentTotal, GarnishChoicesHeader } from './styled';
+import { Flex } from 'container/checkoutFinalizar/styled';
 
 export const AsideCheckout = ({ menu }) => {
   const { setAlertBox, state_product_card, dispatch, setCountItemProduct, handleMenu } = useContext(Context)
@@ -65,15 +67,8 @@ export const AsideCheckout = ({ menu }) => {
       const { ProPrice, ValueDelivery } = productFood || {}
       let PriceFinal = (ProPrice * cantProducts) + ValueDelivery
       suma += PriceFinal
-      setTotalProductPrice(suma)
+      setTotalProductPrice(Math.abs(suma))
     })
-    // let sum = 0;
-    // for (let i = 0; i < ArrayValues.length; i++) {
-    //   const { value } = ArrayValues[i]
-    //   const valueFinal = parseFloat(value)
-    //   sum += valueFinal
-    //   setTotalProductPrice(sum)
-    // }
   }, [totalProductPrice, suma, total, dataShoppingCard])
   const [deleteOneItem] = useMutation(DELETE_ONE_ITEM_SHOPPING_PRODUCT, {
     onCompleted: data => {
@@ -111,17 +106,29 @@ export const AsideCheckout = ({ menu }) => {
             {key?.map((store, i) => {
               return (
                 <div key={i + 1}>
-                  <GarnishChoicesHeader>
+                  {/* <GarnishChoicesHeader>
                     <Text className='garnish-choices__title' size='30px'>{store}</Text>
-                  </GarnishChoicesHeader>
+                  </GarnishChoicesHeader> */}
                   <div>
                     {dataShoppingCard?.getAllShoppingCard?.length > 0 ? result2[store]?.map((product, idx) => (
                       <CardProduct key={product.ShoppingCard}>
-                        {/* <Link href={`delivery/${product.getStore.city.cName?.toLocaleLowerCase()}-${product.getStore.department.dName?.toLocaleLowerCase()}/${product.getStore.storeName}/${product.getStore.idStore}`}>
+                        <Link href={`/delivery/${product.getStore.city.cName?.toLocaleLowerCase()}-${product.getStore.department.dName?.toLocaleLowerCase()}/${product.getStore.storeName}/${product.getStore.idStore}`}>
                           <a>
-                            <Text margin={'0 0 0 10px'} color={PColor} >{product.getStore.storeName}</Text>
+                            <Text size="1.325rem" margin={'10px 0'} color={PColor} >{product.getStore.storeName}</Text>
                           </a>
-                        </Link> */}
+                        </Link>
+                        <Flex>
+                          <Image
+                            className='store_image'
+                            width={100}
+                            objectFit='cover'
+                            height={100}
+                            src={product.productFood.ProImage || '/images/DEFAULTBANNER.png'}
+                            alt={"Picture of the author"}
+                            blurDataURL="/images/DEFAULTBANNER.png"
+                            placeholder="blur"
+                          />
+                        </Flex>
                         <div className='item-line'>
                           <Text margin={'40px 0'} size='20px'>{product.productFood?.pName}</Text>
                           <div style={{ display: 'flex', justifyContent: 'space-between', margin: '15px 0' }}>
@@ -147,7 +154,6 @@ export const AsideCheckout = ({ menu }) => {
                         <ContentTotal>
                           <Text margin={'0 0 0 10px'} >Costo de envio</Text>
                           {product.productFood?.ValueDelivery !== null || 0 ? <Text margin={'0 0 0 10px'} >$ {numberFormat(product.productFood?.ValueDelivery)}</Text> : <Text color={APColor}>Gratis</Text>}
-                          {/* <Text margin={'0 0 0 10px'} >{numberFormat(product.productFood?.ValueDelivery)}</Text> */}
                         </ContentTotal>
                         <ContentTotal>
                           <Text margin={'0 0 0 10px'} >Costo Final</Text>

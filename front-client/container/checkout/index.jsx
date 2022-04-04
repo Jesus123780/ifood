@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { APColor, PColor } from '../../public/colors';
 import { RippleButton } from '../../components/Ripple'
-import { Anchor, Body, Card, CardPro, Column, ContainerAnimation, ContainerAnimationTow, ContentInfo, flex, Text, Wrapper } from './styled';
+import { Body, Card, CardPro, ContainerAnimation, ContainerAnimationTow, ContentInfo, flex, Text, Wrapper } from './styled';
 import { numberFormat, RandomCode, updateCache } from '../../utils';
 import InputHooks from '../../components/InputHooks/InputHooks'
 import { GET_ALL_SHOPPING_CARD } from '../restaurantes/queries';
 import { useFormTools } from '../../components/BaseForm'
-import { useMutation, useQuery } from '@apollo/client';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import { CardProduct, ContentTotal, GarnishChoicesHeader } from '../../components/AsideCheckout/styled';
-import { CREATE_MULTIPLE_ORDER_PRODUCTS, DELETE_ONE_ITEM_SHOPPING_PRODUCT } from './queries';
+import { CREATE_MULTIPLE_ORDER_PRODUCTS, DELETE_ONE_ITEM_SHOPPING_PRODUCT, PUSH_NOTIFICATION_ORDER_STORE } from './queries';
 import { useRouter } from 'next/router';
 import { CREATE_ONE_STORE_PEDIDO } from '../confirmCheckout/queries';
 import { IconGoogleLocation, IconLocationMap } from '../../public/icons';
@@ -19,7 +19,6 @@ export const Checkout = ({ setAlertBox, setCountItemProduct, locationStr, setMod
     const [active, setActive] = useState(1)
     const router = useRouter()
     const [key, setSetKey] = useState([])
-    const code = RandomCode(10)
     const handleClick = index => {
         setActive(index === active ? true : index)
     }
@@ -37,6 +36,10 @@ export const Checkout = ({ setAlertBox, setCountItemProduct, locationStr, setMod
         r[a.getStore?.storeName].push(a);
         return r;
     }, Object.create(null));
+    const [pushNotificationOrder, { data: dataPushOrder }] = useLazyQuery(PUSH_NOTIFICATION_ORDER_STORE, {
+        context: { clientName: "admin-server" }
+
+    })
     const [deleteOneItem] = useMutation(DELETE_ONE_ITEM_SHOPPING_PRODUCT, {
         onCompleted: data => {
             setAlertBox({ message: data?.deleteOneItem?.message })
@@ -62,6 +65,7 @@ export const Checkout = ({ setAlertBox, setCountItemProduct, locationStr, setMod
     const newArray = dataShoppingCard?.getAllShoppingCard.map(x => { return { ShoppingCard: x.ShoppingCard, idStore: x.getStore.idStore } })
     const [totalProductPrice, setTotalProductPrice] = useState(0)
     const handleSubmitPedido = async () => {
+        const code = RandomCode(10)
         if (!objLocation) return setAlertBox({ message: 'Elige una ubicación' })
         await createMultipleOrderStore({
             variables: {
@@ -82,7 +86,12 @@ export const Checkout = ({ setAlertBox, setCountItemProduct, locationStr, setMod
                 dataNew: getAllShoppingCard
             })
         }).then(x => {
-
+            pushNotificationOrder({
+                variables: {
+                    pCodeRef: code,
+                    idStore: 'MjcyMDg4ODE0ODUxNTE2NDUw'
+                }
+            })
         }).catch(err => setAlertBox({ message: `${err}`, duration: 7000 }))
     }
     // EFFECTS

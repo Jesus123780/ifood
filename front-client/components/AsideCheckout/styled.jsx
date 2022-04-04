@@ -78,7 +78,7 @@ export const Content = styled.div`
     .restaurant-cart-header {
         color: #717171;
         font-weight: 300;
-        font-size: .875rem;
+        font-size: 1.5em;
         width: 100%;
     }
 `

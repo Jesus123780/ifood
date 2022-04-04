@@ -1,6 +1,6 @@
 import { Op } from 'sequelize'
 // import { PubSub, withFilter } from 'apollo-server'
-import { PubSub } from 'graphql-subscriptions';
+import { PubSub, withFilter } from 'graphql-subscriptions';
 import StatusPedidosModel from '../../models/Store/statusPedidoFinal';
 import { deCode, getAttributes } from '../../utils/util';
 const pubsub = new PubSub(); //create a PubSub instance
@@ -40,9 +40,9 @@ const SubscriptionSubscription = {
     },
 }
 
-const pushNotificationOrder = async (_root, { pCodeRef, idStore }, _context, info) => {
+const pushNotificationOrder = async (_root, { pCodeRef, idStore }, context, info) => {
     const attributes = getAttributes(StatusPedidosModel, info)
-    console.log(pCodeRef, idStore)
+    // console.log(context, 11)
     const data = await StatusPedidosModel.findOne({
         attributes,
         where: {
@@ -50,13 +50,12 @@ const pushNotificationOrder = async (_root, { pCodeRef, idStore }, _context, inf
             idStore: deCode(idStore)
         }
     })
-    pubsub.publish('NEW_NOTIFICATION_ORDER', { newStoreOrder: data })
+    pubsub.publish('NEW_NOTIFICATION_ORDER', { newStoreOrder: data, context: context })
     return data
 }
 const NotificationMutation = {
     Mutation: {
         createOneNotification: async (parent, { message }, ctx) => {
-            console.log(ctx)
             try {
                 pubsub.publish('NEW_NOTIFICATION', { newNotification: message })
                 return message
@@ -76,7 +75,21 @@ const SubscriptionSubscriptionNotification = {
 const SubscriptionNotificationOrder = {
     Subscription: {
         newStoreOrder: {
-            subscribe: () => pubsub.asyncIterator(['NEW_NOTIFICATION_ORDER']),
+            subscribe: withFilter((_, __, ctx) => {
+                // if (!ctx) throw new AuthenticationError('Unauthenticated')
+                return pubsub.asyncIterator(['NEW_NOTIFICATION_ORDER'])
+            }, ({ newStoreOrder, context }, args, ctx) => {
+                console.log(context.restaurant, 9)
+                if (context.restaurant === newStoreOrder.idStore) {
+                    // console.log(context.restaurant === newStoreOrder.idStore)
+                    return true
+                } else return false
+                // console.log(newStoreOrder.idStore, 9)
+                // deCode(ctx.restaurant)
+                // if (newMessage.from === ctx.User.uUsername || newMessage.to === ctx.User.uUsername) {
+                // }
+                // return false
+            }),
         },
     },
 }

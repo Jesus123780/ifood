@@ -33,7 +33,7 @@ export const CheckoutFinalizar = () => {
                                 {x.pSState === 5 ? <div>
                                     <StatusItemOrderProcess pulse={false} text={'El pedido fue rechazado'} data={x.pDatMod} />
                                 </div> : <OlList>
-                                    {x.pSState === 0 && <StatusItemOrderProcess pulse={x.pSState === 0} text={'Pedido en estado de confirmacion'} data={x.pDatMod} />}
+                                    {x.pSState === 0 && <StatusItemOrderProcess pulse={x.pSState === 0} text={'Pedido en estado de confirmación'} data={x.pDatMod} />}
                                     {x.pSState >= 1 && <StatusItemOrderProcess pulse={x.pSState === 1} text={'Aceptado'} data={x.pDatMod} />}
                                     {x.pSState >= 2 && <StatusItemOrderProcess pulse={x.pSState === 2} text={'Pedido en proceso'} data={x.pDatMod} />}
                                     {x.pSState >= 3 && <StatusItemOrderProcess pulse={x.pSState === 3} text={'listo para entrega'} data={x.pDatMod} />}

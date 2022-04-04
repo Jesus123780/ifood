@@ -21,3 +21,24 @@ subscription {
   numberIncremented
 }
 `
+export const PUSH_NOTIFICATION_ORDER_STORE = gql`
+query pushNotificationOrder($pCodeRef: String, $idStore: ID) {
+  pushNotificationOrder(pCodeRef: $pCodeRef, idStore: $idStore) {
+    pdpId
+    id
+    idStore
+    pId
+    ppState
+    pCodeRef
+    pPDate
+    pSState
+    pPStateP
+    payMethodPState
+    pPRecoger
+    totalProductsPrice
+    unidProducts
+    pDatCre
+    pDatMod
+  }
+}
+`

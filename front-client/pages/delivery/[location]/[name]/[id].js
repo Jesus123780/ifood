@@ -136,7 +136,7 @@ export default function HomeView() {
           input: {
             cState: 1,
             pId: food.pId,
-            idStore: food.getStore.idStore,
+            idStore: !!food && food.getStore.idStore,
             comments: dataForm.comments,
             cName: 'puta madre',
             cantProducts: state,

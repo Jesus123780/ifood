@@ -161,6 +161,7 @@ export const LoginEmailConfirmation = async (_root, { email, otp }, context, inf
     }
 }
 export const getUser = async (_, args, context, info) => {
+   
     try {
         const attributes = getAttributes(Users, info)
         const user = await Users.findOne({ attributes, where: { id: deCode(context.User.id) } })

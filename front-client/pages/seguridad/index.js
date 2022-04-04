@@ -8,7 +8,6 @@ export default function ProfileView() {
   const { data: dataDevice } = useQuery(GET_ALL_DEVICES)
   const [deviceId, setDeviceId] = useState(false)
 
-  console.log(dataDevice)
   useEffect(() => {
     setDeviceId(window.localStorage.getItem('deviceid'))
 }, [])

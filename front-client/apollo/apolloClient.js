@@ -67,8 +67,12 @@ const wsLink = process.browser ? new WebSocketLink({
     options: {
         reconnect: true,
         lazy: true,
-        connectionParams: () => {
-            return { headers: { Authorization: 'Bearer TOKEN' } }
+        connectionParams: async () => {
+            const headers = await authLink()
+            console.log(headers)
+            return {
+                ...headers,
+            }
         }
     }
 }) : null;
@@ -98,13 +102,9 @@ const httpLink = createUploadLink({
     authorization: 'pija',
     credentials: 'same-origin'
 })
-
 // split based on operation type 
-const Link = typeof window !== "undefined" ? split(
+const _Link = typeof window !== "undefined" ? split(
     (operation) => {
-        const url = `${URL_BASE}graphql`
-        const service = operation.getContext().clientName
-        console.log(service)
         const definition = getMainDefinition(operation.query);
         return (definition.kind === 'OperationDefinition' && definition.operation === 'subscription');
     },
@@ -113,7 +113,7 @@ const Link = typeof window !== "undefined" ? split(
 ) : httpLink;
 
 
-// const [ createPerson ] = useMutation(CREATE PERSON, (
+// const [createPerson] = useMutation(CREATE PERSON, (
 //     onError: (error) » {
 //       notifyError(error.graphQLErrors[0].message)
 //     },
@@ -167,12 +167,12 @@ function createApolloClient() {
         },
             wsLink,
             ApolloLink.split(() => true, operation => getLink(operation),
-            errorLink,
+                errorLink,
             ),
 
         )
-        : ApolloLink.split(() => true, operation => getLink(operation), 
-        errorLink
+        : ApolloLink.split(() => true, operation => getLink(operation),
+            errorLink
         )
     return new ApolloClient({
         // defaultOptions,

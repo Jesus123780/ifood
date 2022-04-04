@@ -38,7 +38,7 @@ export const ConfirmCheckout = ({ dataOneProduct, handleSubmitPedido }) => {
                             </ContainerAnimationTow>
                             : null}
                     <Text>{pName}</Text>
-                    <RippleButton widthButton='100%' margin='20px auto' disabled={false} onClick={() => handleSubmitPedido()}>Hacer pedido</RippleButton>
+                    <RippleButton widthButton='100%' margin='20px auto' disabled={false} onClick={() => handleSubmitPedido()}>Nada</RippleButton>
                 </ContentInfo>
             </Card>
             <Card>

@@ -4,12 +4,14 @@ import Slider from 'react-slick'
 import { BGColor, PColor } from '../../public/colors'
 import { IconArrowLeft, IconArrowRight } from '../../public/icons'
 // import PropTypes from 'prop-types'
-const CustomSlider = ({ children, spaceBetween, pauseOnDotsHover, slidesToShow, touchMove = true, autoplay = false, dots = false, centerMode, infinite, arrows, vertical, direction }) => (
+const CustomSlider = ({ children, spaceBetween, responsive, pagination, pauseOnDotsHover, slidesToShow, touchMove = true, autoplay = false, dots = false, centerMode, infinite, arrows, vertical, direction }) => (
+
     <Slider
         dots={dots}
         autoplay={autoplay}
         speed={600}
         slidesPerView={3}
+        // rows={false || 2}
         spaceBetween={30}
         // fade={true}
         focusOnSelect={true}
@@ -21,10 +23,19 @@ const CustomSlider = ({ children, spaceBetween, pauseOnDotsHover, slidesToShow, 
         infinite={infinite || false}
         pauseOnHover
         touchMove={touchMove}
+        // spaceBetween={spaceBetween || 0}
+        // slidesPerView={1}
+        
+        slidesPerColumn={1}
+        // slidesPerGroup={4}
+        // direction={direction || 'horizontal'}
+        pagination={pagination || { clickable: true }}
+        // autoplay={autoplay}
+        // breakpoints={breakpoints}
         prevArrow={<CustomArrow icon={<IconArrowLeft size='20px' color={PColor} />} next />}
         nextArrow={<CustomArrow icon={<IconArrowRight size='20px' color={PColor} />} />}
         swipeToSlide={true}
-        responsive={[
+        responsive={responsive ? responsive : [
             {
                 breakpoint: 920,
                 settings: {
@@ -35,7 +46,7 @@ const CustomSlider = ({ children, spaceBetween, pauseOnDotsHover, slidesToShow, 
             },
         ]}
     >
-        {children}
+        {children}{console.log(responsive)}
     </Slider>
 )
 
@@ -43,7 +54,7 @@ const CustomSlider = ({ children, spaceBetween, pauseOnDotsHover, slidesToShow, 
 
 // }
 
-const CustomArrow = ({ onClick, next, icon }) => (
+export const CustomArrow = ({ onClick, next, icon }) => (
     !!onClick && <IconNext onClick={onClick} next={next}>{icon}</IconNext>
 )
 
