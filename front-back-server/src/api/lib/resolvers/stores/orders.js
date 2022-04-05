@@ -79,7 +79,6 @@ const SubscriptionNotificationOrder = {
                 // if (!ctx) throw new AuthenticationError('Unauthenticated')
                 return pubsub.asyncIterator(['NEW_NOTIFICATION_ORDER'])
             }, ({ newStoreOrder, context }, args, ctx) => {
-                console.log(context.restaurant, 9)
                 if (context.restaurant === newStoreOrder.idStore) {
                     // console.log(context.restaurant === newStoreOrder.idStore)
                     return true

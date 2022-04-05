@@ -46,7 +46,7 @@ const CustomSlider = ({ children, spaceBetween, responsive, pagination, pauseOnD
             },
         ]}
     >
-        {children}{console.log(responsive)}
+        {children}
     </Slider>
 )
 

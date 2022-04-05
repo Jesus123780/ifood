@@ -15,6 +15,7 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     body {
+        background: black !important;
         margin: 0;
         transition: .3s;
         font-family: 'PFont-Regular';

@@ -14,6 +14,7 @@ import { usePosition } from '../hooks/usePosition'
 import { FooterDesktop } from './FooterDesktop'
 import { BGColor } from '../../public/colors'
 import { NavHeaderMobile } from './NavHeaderMobile'
+import { Messages } from 'container/messages'
 
 export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => {
     const location = useRouter()
@@ -47,6 +48,7 @@ export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => 
                 </div>
                 {!['/login', '/register', '/varify-email', '/restaurante', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => x === location.pathname) && <Footer />}
                 <div style={{ gridArea: 'right' }}>
+                    <Messages />
                 </div>
             </Main>
             <ModalProduct />

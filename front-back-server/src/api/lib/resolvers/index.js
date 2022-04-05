@@ -11,12 +11,14 @@ export default {
     Upload: GraphQLUpload,
     Query: {
         ...deviceResolver.QUERIES,
+        ...messagesResolver.QUERIES,
         ...storeResolver.QUERIES,
         ...bannerResolver.QUERIES,
     },
     Mutation: {
         ...deviceResolver.MUTATIONS,
         ...storeResolver.MUTATIONS,
+        ...messagesResolver.MUTATIONS,
         ...bannerResolver.MUTATIONS,
     },
     Subscription: {

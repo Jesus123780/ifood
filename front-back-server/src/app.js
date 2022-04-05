@@ -8,6 +8,7 @@ import { SubscriptionServer } from 'subscriptions-transport-ws'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { graphqlUploadExpress, graphqlUploadKoa } from 'graphql-upload';
 import multer from 'multer';
+import jwt from 'jsonwebtoken'
 // @ts-ignore
 import typeDefs from './api/lib/typeDefs'
 import resolvers from './api/lib/resolvers'
@@ -66,12 +67,11 @@ import indexRoutes from './api/lib/router'
             // check from req
             const token = (req.headers.authorization?.split(' ')[1])
             const restaurant = req.headers.restaurant || {}
-            console.log(req.headers)
             if (token !== 'null') {
                 try {
                     //validate user in client.
-                    // const User = await jwt.verify(token, process.env.AUTHO_USER_KEY);
-                    let User = null
+                    const User = await jwt.verify(token, '12ba105efUaGjihGrh0LfJHTGIBGu6jXV');
+                    // let User = null
                     return { User, res, pubsub, restaurant: restaurant || {} }
                 } catch (err) {
                     console.log(err)

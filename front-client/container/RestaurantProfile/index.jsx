@@ -109,7 +109,7 @@ export const RestaurantProfile = ({ src, more, setMore, id, dataProductAndCatego
     const { data: dataWS } = useSubscription(GET_STATE_ORDER, {
         // context: { clientName: "admin-server" },
         onSubscriptionData: ({ subscriptionData }) => {
-            console.log(subscriptionData.data.numberIncremented)
+            // console.log(subscriptionData.data.numberIncremented)
         }
     })
     return (

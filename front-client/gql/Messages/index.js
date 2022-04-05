@@ -29,7 +29,6 @@ export const NEW_MESSAGE = gql`
       from
       to
       content
-      createdAt
     }
   }
 `

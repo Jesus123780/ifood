@@ -23,10 +23,11 @@ export const CheckoutFinalizar = () => {
         <Wrapper>
             {!!data && data?.getAllPedidoUserFinal?.map(x => {
                 const { getOneStore } = x
+                console.log(getOneStore)
                 return (
                     <div className='wrapper-column'>
                         <div className='animation-container'>
-                          <Text># {x.pCodeRef}</Text>  
+                            <Text># {x.pCodeRef}</Text>
                         </div>
                         <div >
                             <div className='wrapper-content' key={x.pCodeRef}>
@@ -48,7 +49,8 @@ export const CheckoutFinalizar = () => {
                                     </Link>
 
                                     <div className="dish-restaurant__divisor"></div>
-                                    <ContentShare>
+                                  <button> Enviar mensaje</button>
+                                    <ContentShare >
                                         Contactar
                                         <ContainerShare>
                                             <Flex>
