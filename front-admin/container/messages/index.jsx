@@ -7,9 +7,10 @@ import { GET_USER } from 'container/profile/queries'
 import { GET_MESSAGES, NEW_MESSAGE, SEND_MESSAGES } from 'gql/Messages'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { validationSubmitHooks } from 'utils'
-import { Context } from '../../context/index'
+// import { Context } from '../../context/index'
 import { GET_ALL_STORY_ACTIVE_MESSAGE_ORDER } from './queries'
 import { useApolloClient } from '@apollo/client'
+import { Context } from 'context/Context'
 
 export const Messages = () => {
     //ESTADOS
@@ -133,6 +134,7 @@ export const Messages = () => {
 
     return (
         <ContainerContextMessage>
+           dfsd
             <MessageComp
                 search={search}
                 messageData={dataMessage || []}

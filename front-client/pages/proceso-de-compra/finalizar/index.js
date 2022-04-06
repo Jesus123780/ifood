@@ -1,3 +1,4 @@
+import withSession from 'apollo/session'
 import Head from 'next/head'
 import Image from 'next/image'
 import { CheckoutFinalizar } from '../../../container/checkoutFinalizar'
@@ -15,3 +16,20 @@ export default function procesoFinalView() {
     </div>
   )
 }
+
+export const getServerSideProps = withSession(async function ({ req, res }) {
+  const user = req?.session?.get('user')
+  if (!user) {
+    res.setHeader('location', '/entrar')
+    res.statusCode = 302
+    res.end()
+    return { props: {} }
+  }
+  if (!req.cookies[process.env.SESSION_NAME]) return { redirect: { destination: '/entrar' } }
+
+  return {
+    props: {
+    }
+  }
+}
+)

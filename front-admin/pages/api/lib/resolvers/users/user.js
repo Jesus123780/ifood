@@ -32,7 +32,7 @@ export const newRegisterUser = async (root, input) => {
                 ]
             },
             offset: 10,
-            limit: 2    
+            limit: 2
         });
         // console.log(count);
         // console.log(rows);
@@ -161,12 +161,13 @@ export const LoginEmailConfirmation = async (_root, { email, otp }, context, inf
     }
 }
 export const getUser = async (_, args, context, info) => {
+    if (!context.User) return {}
     try {
         const attributes = getAttributes(Users, info)
         const user = await Users.findOne({ attributes, where: { id: deCode(context.User.id) } })
         return user
     } catch (e) {
-        throw new ApolloError('error')
+        throw new ApolloError('Inicie session correctamente')
     }
 }
 export const getOneUser = async (root, { uEmail }, context, info) => {

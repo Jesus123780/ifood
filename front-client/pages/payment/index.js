@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import withSession from 'apollo/session'
 import { PaymentCard } from 'container/payment'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
@@ -16,3 +17,20 @@ export default function PayView() {
     </div>
   )
 }
+
+export const getServerSideProps = withSession(async function ({ req, res }) {
+  const user = req?.session?.get('user')
+  if (!user) {
+    res.setHeader('location', '/entrar')
+    res.statusCode = 302
+    res.end()
+    return { props: {} }
+  }
+  if (!req.cookies[process.env.SESSION_NAME]) return { redirect: { destination: '/entrar' } }
+
+  return {
+    props: {
+    }
+  }
+}
+)

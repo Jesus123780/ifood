@@ -3,7 +3,8 @@ import Image from 'next/image';
 import { BoxChat, Chat, CircleStore, ContentAction, ContentMessage, ItemMessage, Message, TextMessage, WrapperChat } from './styled';
 import { RippleButton } from 'components/Ripple';
 import { IconCancel, IconSendMessage, IconSendMessageTwo } from 'public/icons';
-import { Context } from '../../context/index';
+import { Context } from 'context/Context';
+// import { Context } from '../../context/index';
 
 export const MessageComp = ({ data, input, id, messagesEndRef, setStoreChatActive, messageData, loading, auth, selectedUser, er, handleSendMessage, values, handleChange, search, handleChangeFilter, OneUser, show, setShow }) => {
     const { setAlertBox, selectedStore, hidden, setHidden } = useContext(Context)

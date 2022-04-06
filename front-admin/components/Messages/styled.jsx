@@ -2,25 +2,25 @@ import { BGColor, PColor, PLVColor } from "public/colors";
 import styled, { css } from "styled-components";
 
 export const ContainerContextMessage = styled.div`
-    position: fixed;
+    /* position: fixed; */
     /* background-color: red; */
-    right: 0;
+    /* right: 0;
     bottom: 0;
     z-index: 999999999;
-    width: 380px;
-    height: calc(100vh - 80px);
+    width: 380px; */
+    /* height: calc(100vh - 80px); */
 `
 export const BoxChat = styled.div`
-        display: block;
+        /* display: block; */
         /* position: absolute; */
     /* background-color: red; */
     /* right: 0; */
     /* bottom: 0; */
     /* transform: translateY(-63px); */
-    bottom: 20px;
-    position: fixed;
-    right: 40px;
-    width: min-content;
+    /* bottom: 20px; */
+    /* position: fixed; */
+    /* right: 40px; */
+    /* width: min-content; */
 `
 export const ItemMessage = styled.div`
     position: absolute;

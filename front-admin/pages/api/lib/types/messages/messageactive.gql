@@ -1,0 +1,23 @@
+
+
+type StoreActiveChat {
+    id: ID
+    idStore: ID
+    StaState: Int
+    getOneStore: Store
+}
+
+# StoreActiveChat Input
+input IStoreActiveChat {
+    id: ID
+    idStore: ID
+    StaState: Int
+}
+# Query
+type Query {
+  getAllStoreActiveChat(idStore: ID, id: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int): [StoreActiveChat]
+}
+# Mutations
+type Mutation {
+  DeleteOneStoreActiveChats(idStore: ID, id: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int): Boolean,
+}

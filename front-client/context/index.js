@@ -216,9 +216,21 @@ const Provider = ({ children }) => {
         return () => body.removeEventListener('keyup', () => setShow)
 
     }, [openProductModal, setOpenProductModal])
+
+    const [hidden, setHidden] = useState(false)
+    const [selectedStore, setSelectedStore] = useState(null)
+    const setStoreChatActive = useCallback(sessionValue => {
+        setSelectedStore(sessionValue)
+    },
+        [selectedStore, hidden]
+    )
     const value = {
         error,
         DataCompany,
+        hidden,
+        setHidden,
+        setStoreChatActive,
+        selectedStore,
         stateLocation,
         setStatus,
         status,

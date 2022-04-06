@@ -105,11 +105,23 @@ const Provider = ({ children }) => {
     }
     const [state_product_card, dispatch] = useReducer(product, initialState)
     const [openSchedule, setOpenSchedule] = useState(false)
+    const [hidden, setHidden] = useState(false)
+    const [selectedStore, setSelectedStore] = useState(null)
+    const setStoreChatActive = useCallback(sessionValue => {
+        setSelectedStore(sessionValue)
+    },
+        [selectedStore, hidden]
+    )
     const value = useMemo(
         () => ({
             error,
+            hidden,
+            setSelectedStore,
             setOpenSchedule,
             openSchedule,
+            setHidden,
+            selectedStore,
+            setStoreChatActive,
             DataCompany,
             // Link
             setCompanyLink,
@@ -136,9 +148,15 @@ const Provider = ({ children }) => {
             dispatch,
             setAlertBox: err => setError(err)
         }),
-        [error,
+        [
+            error,
+            hidden,
+            setSelectedStore,
             setOpenSchedule,
             openSchedule,
+            setHidden,
+            selectedStore,
+            setStoreChatActive,
             DataCompany,
             // Link
             setCompanyLink,
@@ -147,17 +165,23 @@ const Provider = ({ children }) => {
             countPedido,
             isCompany,
             handleMenu,
+            // Menu Ctx
             menu,
             collapsed,
             isSession,
             setIsSession,
+            // State login
             authData,
             setSessionActive,
+            // UseCompany
             useCompany,
             company,
+            // setAlertBox
             alert,
+            // add products
             state_product_card,
-            dispatch]
+            dispatch,
+        ]
     )
 
     return <Context.Provider value={value}>

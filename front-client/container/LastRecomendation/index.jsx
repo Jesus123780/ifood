@@ -23,7 +23,7 @@ export const LastRecommended = ({ ID_CATEGORIE }) => {
             variables: {
                 catStore: ID_CATEGORIE
             }
-        })
+        }).catch((e) => console.log(''))
         setDataCatStore(dataCatSto?.getOneCatStore)
     }, [ID_CATEGORIE, dataStoreRecommended, dataCatSto])
     const { cName } = categoryStores || {}

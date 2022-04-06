@@ -211,16 +211,17 @@ export const getAllCatStore = async (_root, { input }, _context, info) => {
     }
 }
 export const getOneCatStore = async (_root, { catStore: idCat }, _context, info) => {
+    if (!idCat) return new ApolloError('')
     try {
         const attributes = getAttributes(CatStore, info)
         const data = await CatStore.findOne({
             attributes,
-            where: { catStore: deCode(idCat)}
+            where: { catStore: idCat ? deCode(idCat) : {} }
         })
         return data
     } catch (e) {
         // console.log(e)
-        throw new ApolloError('Lo sentimos, ha ocurrido un error interno')
+        throw new ApolloError(`${e}`, 'Lo sentimos, ha ocurrido un error interno')
     }
 }
 export const getOneCountry = async (_root, { cId }, _context, info) => {

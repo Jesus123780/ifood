@@ -12,6 +12,7 @@ import { ScheduleTimings } from 'container/dashboard/ScheduleTimings'
 import { LateralModal } from 'container/dashboard/styled'
 import { BtnClose } from 'components/AwesomeModal/styled'
 import { IconCancel } from 'public/icons'
+import { Messages } from 'container/messages'
 
 export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => {
     const location = useRouter()
@@ -49,12 +50,14 @@ export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => 
                 {!['/', '/login', '/entrar', '/entrar/email', '/register', '/terms_and_conditions', '/restaurante', '/varify-email', '/checkout/[id]', '/add-payment-method', '/teams/invite/[id]', '/forgotpassword', '/autho', '/contact-us', '/email/confirm/[code]', '/switch-options', '/contact', '/teams/invite/[id]'].find(x => x === location.pathname) && (<Aside />)}
                 <div style={{ gridArea: 'main', overflowY: 'auto' }}>
                     {children}
+                    <Messages />
                 </div>
                 {!['/login', '/register', '/varify-email', '/restaurante', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => x === location.pathname) && <Footer />}
                 <div style={{ gridArea: 'right' }}>
                     <LateralModal openSchedule={openSchedule}>
                         <BtnClose onClick={() => setOpenSchedule(!openSchedule)}><IconCancel size='20px' /></BtnClose>
                         <ScheduleTimings />
+
                     </LateralModal>
                 </div>
             </Main>

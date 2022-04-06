@@ -33,6 +33,7 @@ export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => 
         }
     }, [latitude, longitude, timestamp, accuracy, speed])
     const val = !['/delivery/[location]/[name]/[id]'].find(x => x === location.pathname)
+    const message = ['/proceso-de-compra/finalizar'].find(x => x === location.pathname)
     return (
         <div>
             <AlertBox err={error} />
@@ -48,7 +49,7 @@ export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => 
                 </div>
                 {!['/login', '/register', '/varify-email', '/restaurante', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => x === location.pathname) && <Footer />}
                 <div style={{ gridArea: 'right' }}>
-                    <Messages />
+                    {(message || !val) && <Messages />}
                 </div>
             </Main>
             <ModalProduct />

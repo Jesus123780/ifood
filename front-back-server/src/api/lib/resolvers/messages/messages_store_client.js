@@ -19,8 +19,8 @@ const pubsub = new PubSub(); //create a PubSub instance
 export const getMessages = async (parent, { from }, ctx) => {
     try {
         try {
-            if (!ctx.User) throw new Error('Debes iniciar sesion primero')
-            const otherUser = await Store.findOne({ attributes: ['id', 'idStore'], where: { idStore: deCode(from) } })
+            if (!ctx.User || !from) throw new Error('Debes iniciar sesión primero')
+            const otherUser = await Store.findOne({ attributes: ['id', 'idStore'], where: { idStore: !!from && deCode(from) } })
             if (!otherUser) throw new Error('Usuario no existe')
             const ID = [ctx.User.id, otherUser.idStore]
             const messages = await MessagesModel.findAll({
@@ -42,6 +42,7 @@ export const getMessages = async (parent, { from }, ctx) => {
 
 }
 export const sendMessage = async (parent, { to, content }, ctx) => {
+    console.log(to, content)
     try {
         try {
             const message = await MessagesModel.create({ from: ctx.User.id, to, content, })
@@ -61,10 +62,10 @@ export const sendMessage = async (parent, { to, content }, ctx) => {
 const SubscriptionSubscription = {
     Subscription: {
         newMessage: {
-            subscribe:  withFilter((_, __, ctx) => {
+            subscribe: withFilter((_, __, ctx) => {
                 if (!ctx) throw new AuthenticationError('Unauthenticated')
                 return pubsub.asyncIterator(['NEW_MESSAGE'])
-            }, ({ newMessage, ctx }, _, __)=> {
+            }, ({ newMessage, ctx }, _, __) => {
                 console.log(newMessage)
                 if (newMessage.from === ctx.User.id || newMessage.to === ctx.User.id) {
                     return true

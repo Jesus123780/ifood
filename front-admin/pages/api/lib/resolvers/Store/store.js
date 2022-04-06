@@ -112,6 +112,7 @@ export const registerShoppingCard = async (root, input, context, _info) => {
     }
 }
 export const getAllShoppingCard = async (_root, { input }, context, info) => {
+    if (!context.User) return []
     try {
         const attributes = getAttributes(ShoppingCard, info)
         const data = await ShoppingCard.findAll({
@@ -120,7 +121,8 @@ export const getAllShoppingCard = async (_root, { input }, context, info) => {
                 [Op.or]: [
                     {
                         // state
-                        id: deCode(context.User.id),
+                        ...((context.User) ? { id: deCode(context.User.id) } : {}),
+                        // id: deCode(context.User.id),
                         cState: { [Op.gt]: 0 }
                     }
                 ]
@@ -128,7 +130,7 @@ export const getAllShoppingCard = async (_root, { input }, context, info) => {
         })
         return data
     } catch (e) {
-        throw new ApolloError('Lo sentimos, ha ocurrido un error interno')
+        throw new ApolloError(`Lo sentimos, ha ocurrido un error interno en el carrito, ${e}`)
     }
 }
 
