@@ -26,12 +26,17 @@ export const CardProductsContent = styled.div`
     }
     `
 export const CardProductsModal = styled(CardProductsContent)`
-  /* border: 4px solid ; */
   padding: 0px;
   grid-template-columns: 1fr 50%;
   background-color: ${BGColor};
   @media (max-width: 768px) {
     grid-template-columns: 100%;
+    height: 100vh;   
+    position: fixed; 
+    /* overflow: hidden scroll; */
+    /* height: 100%; */
+    /* width: 100%; */
+
   }
 `
 export const ContentInfo = styled.div` 
@@ -41,6 +46,13 @@ export const ContentInfo = styled.div`
   overflow-y: auto;
   height: 600px;
   position: relative;
+  @media (max-width: 960px) {
+    height: auto;
+    padding: ${({ padding }) => padding || '30px'};
+    display: flex;
+    margin: 0px;
+    margin: ${({ margin }) => margin || '0px'};
+  }
 `
 export const HeadSticky = styled.div`
     position: sticky;
@@ -61,7 +73,7 @@ export const Text = styled.span`
     display: flex;
     font-family: ${({ font }) => font || 'PFont-Regular'};
     word-break: break-word;
-    ${props => props.description &&css`
+    ${props => props.description && css`
     
     font-family: SulSans,Helvetica,sans-serif;
     list-style: none;
@@ -96,7 +108,7 @@ export const Flex = styled.div`
         border: 1px solid #f2f2f2;
     }
   `
-  export const DisRestaurant = styled.div`
+export const DisRestaurant = styled.div`
   display: flex;
   flex-direction: column;
   border: 1px solid rgba(63,62,62,.1);
@@ -289,7 +301,7 @@ export const ContentShare = styled.div`
     &:hover  > ${ContainerShare} {
         display: block;
     }
-` 
+`
 export const ActionButton = styled.div`
   /* position: absolute; */
   display: grid;
@@ -306,6 +318,25 @@ export const BtnClose = styled.button`
     top: 5px;
     z-index: 99;
     background-color: ${BGColor};
+    @media (max-width: 960px) {
+      display: none;
+    }
+`
+export const Header = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: ${BGColor};
+padding: 10px 20px;
+  z-index: 999;
+`
+export const BtnCloseMobile = styled.button`
+    background-color: ${BGColor};
+    /* left: 30px; */
+    @media (min-width: 960px) {
+      display: none;
+    }
 `
 export const Modal = styled.div`
     width: 700px;
@@ -316,24 +347,27 @@ export const Modal = styled.div`
     width: 694px;
     flex-direction: column;
     transition: 500ms ease;
-    /* overflow-x: hidden; */
-    /* overflow-y: hidden; */
     position: fixed;
     left: 0;
     right: 0;
     margin: auto;
     height: calc(100vh - 100px);
     top: 80px;
+    /* transition: transform .3s ease; */
     ${({ showModal }) => showModal
     ? css`  
       transform: translateY(0%);
-      z-index: 1;
       `
     : css`
       transform: translateY(50%);
-      z-index: -998879879;
-      /* display: none; */
+        /* display: none; */
               `}
+    @media (max-width: 960px) {
+      top: 0;
+      /* 700px */
+      width: 100%;
+      max-width: 960px;
+    }
 
 `
 export const ContainerModal = styled.div`
@@ -344,14 +378,14 @@ export const ContainerModal = styled.div`
     justify-content: center;
     align-items: center;
     position: fixed;
-    transition: opacity 150ms ease-in-out;
+    transition: 150ms ease-in-out;
+    z-index: 9999908786;
     ${({ showModal }) => showModal
     ? css`  
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        z-index: 10000;
         background-color:rgba(0, 0, 0, 0.322);
         
         `

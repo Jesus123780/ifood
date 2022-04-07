@@ -33,16 +33,15 @@ export const ListRestaurant = ({ data, catStoreId, like }) => {
               <a>
                 <ItemWrapper key={x.idStore} onClick={() => pushOneRecommendation({ variables: { input: { id: '', carProId: !like ? x.catStore : x.getOneStore.catStore } } })} >
                   <div>
-                    {/* <Image
+                    <Image
                       className='store_image'
                       width={100}
                       height={100}
-                      src={'/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
+                      src={x.Image || '/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
                       alt="Picture of the author"
-                      blurDataURL="data:..."
-                      placeholder="blur" // Optional blur-up while loading
-                    /> */}
-                    <img src={x.Image} className='store_image' />
+                      // blurDataURL="data:..."
+                      // placeholder="blur" // Optional blur-up while loading
+                    />
                   </div>
                   <div>
                     <h2 className="Name">{x?.getOneStore?.storeName || x.storeName}</h2>

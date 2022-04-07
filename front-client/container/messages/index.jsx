@@ -72,7 +72,7 @@ export const Messages = () => {
         if (messageError) console.log(messageError)
         messageData?.getMessages && setDataMessage([...messageData?.getMessages])
         if (messageDataNew) {
-            setDataMessage([...dataMessage, messageDataNew?.newMessage ]) 
+            setDataMessage([...dataMessage, messageDataNew?.newMessage])
         }
     }, [messageError, messageDataNew, messageData])
     // console.log(messageDataNew)
@@ -111,14 +111,13 @@ export const Messages = () => {
         console.log(content, id)
         try {
             if (selectedStore && id && !!content) {
-            sendMessage({
-                variables: { to: id, content: content }
-            }).catch(res => {
-                console.log(res)
-                input.current.value = ''
-                setValues({})
-            }).catch(err => setAlertBox({ message: `${err}`, duration: 7000 }))
+                sendMessage({
+                    variables: { to: id, content: content }
+                }).catch(res => {
+                    // input.current.value = ''
+                }).catch(err => setAlertBox({ message: `${err}`, duration: 7000 }))
             }
+            setValues({})
         } catch (error) {
             setAlertBox({
                 message: error.message,

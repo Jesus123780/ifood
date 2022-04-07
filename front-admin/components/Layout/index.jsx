@@ -57,7 +57,6 @@ export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => 
                     <LateralModal openSchedule={openSchedule}>
                         <BtnClose onClick={() => setOpenSchedule(!openSchedule)}><IconCancel size='20px' /></BtnClose>
                         <ScheduleTimings />
-
                     </LateralModal>
                 </div>
             </Main>

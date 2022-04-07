@@ -35,7 +35,7 @@ export const LastedStatistic = ({ idStore }) => {
   useEffect(() => {
     let suma = 0
     const avg = data?.getAllSalesStoreStatistic?.map((x, index) => (suma += x.pSState === 4) / (index + 1))
-    const val = !!avg && ((avg[avg.length - 1]).toFixed(2))
+    const val = avg?.length > 0 && ((avg[avg.length - 1])?.toFixed(2))
     setValueSales(val)
   }, [data])
   const [totalProductPrice, setTotalProductPrice] = useState(0)

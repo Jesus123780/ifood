@@ -71,19 +71,14 @@ export const Clients = () => {
                             ClientAddress,
                             clientLastName,
                         }
-                    }, update: (cache, { data: { getAllClients } }) => updateCache({
-                        cache,
-                        query: GET_ALL_CLIENTS,
-                        nameFun: 'getAllClients',
-                        dataNew: getAllClients
-                    })
+                    }
                 }).then(() => {
                     OPEN_MODAL.setState(!OPEN_MODAL.state)
                     setDataValue({})
                 })
             }
         })
-
+    console.log(clients?.getAllClients)
     return (
         <Container>
 
@@ -253,7 +248,20 @@ export const Clients = () => {
                     </div>
                 </GridStatistics>
             </MainCard>
-            <Table
+            <div>
+                {clients?.getAllClients?.length > 0 ? clients?.getAllClients?.map((client, i) => (
+                    <div key={client.cliId}>
+                        <Item>{client.clientName}</Item>
+                        <Item>{client.clientLastName}</Item>
+                        <Item>
+                            <Button onClick={() => DeleteOneClient({ cliId: client.cliId, clState: client.clState })}>
+                                <IconDelete size='30px' color={PColor} />
+                            </Button>
+                        </Item>
+                    </div>
+                )) : <h2>No hay datos</h2>}
+            </div>
+            {/* <Table
                 titles={[
                     { name: 'Nombre', justify: 'flex-start', width: '.5fr' },
                     { name: 'Apellido', justify: 'flex-start', width: '1fr' },
@@ -295,7 +303,7 @@ export const Clients = () => {
                         </Button>
                     </Item>
                 </Section>)}
-            />
+            /> */}
         </Container>
     )
 }

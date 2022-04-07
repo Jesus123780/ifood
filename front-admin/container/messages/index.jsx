@@ -130,11 +130,8 @@ export const Messages = () => {
 
     }
     // subscription's mensajes
-
-
     return (
         <ContainerContextMessage>
-           dfsd
             <MessageComp
                 search={search}
                 messageData={dataMessage || []}
@@ -146,7 +143,6 @@ export const Messages = () => {
                 hidden={hidden}
                 id={id}
                 loading={loading}
-                // OneUser={OneUser?.getUser}
                 values={values}
                 handleSendMessage={handleSendMessage}
                 handleChangeFilter={handleChangeFilter}

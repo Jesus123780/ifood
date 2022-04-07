@@ -195,12 +195,12 @@ const DashboardStore = () => {
                             <Text margin='12px 0 0 5px' size='14px'>$ {ProDescuento}</Text>
                         </Flex>
                         <DisRestaurant>
-                            {store && <Link
+                            {store && !!nameStore && <Link
                                 passHref
                                 shallow
                                 replace
-                                href={store && {
-                                    pathname: `${CLIENT_URL_BASE}delivery/${store?.city?.cName?.toLocaleLowerCase()}-${store?.department?.dName?.toLocaleLowerCase()}/${nameStore.replace(/\s/g, '-').toLocaleLowerCase()}/${store.idStore}`,
+                                href={!!store && {
+                                    pathname: `${CLIENT_URL_BASE}delivery/${store?.city?.cName?.toLocaleLowerCase()}-${store?.department?.dName?.toLocaleLowerCase()}/${nameStore?.replace(/\s/g, '-')?.toLocaleLowerCase()}/${store.idStore}`,
                                     query: { shared: '' }
                                 }} >
                                 <a target="_blank">

@@ -33,26 +33,24 @@ export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => 
         }
     }, [latitude, longitude, timestamp, accuracy, speed])
     const val = !['/delivery/[location]/[name]/[id]'].find(x => x === location.pathname)
-    const message = ['/proceso-de-compra/finalizar'].find(x => x === location.pathname)
+    const message = ['/proceso-de-compra/finalizar', '/restaurantes'].find(x => x === location.pathname)
     return (
         <div>
             <AlertBox err={error} />
             <Main aside={!['/', '/login', '/entrar', '/restaurante', '/entrar/email', '/contact', '/varify-email', '/checkout/[id]', '/add-payment-method', '/register', '/terms_and_conditions', '/email/confirm/[code]', '/forgotpassword', '/teams/invite/[id]', '/autho', '/contact-us', '/switch-options'].find(x => x === location.pathname)} >
-                {/* {!isSession && !['/login', '/', '/entrar', '/restaurantes', '/entrar/email', '/entrar/email/[verify]', '/register', '/varify-email', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact', '/delivery/[location]/[name]/[id]',].find(x => x === location.pathname) && <Header />} */}
                 <AsideCheckout handleMenu={handleMenu} menu={menu} />
-                {/* {!isSession && !['/login', '/', '/entrar/email', '/entrar', '/delivery/[location]/[name]/[id]', '/contact'].find(x => x === location.pathname) && <AsideCheckoutC handleMenu={handleMenu} menu={menu} />} */}
                 {!isSession && !['/login', '/', '/entrar/email', '/entrar', '/contact'].find(x => x === location.pathname) && <HeaderMain handleMenu={handleMenu} menu={menu} />}
                 <div style={{ gridArea: 'main', overflowY: 'auto' }}>
                     {<NavHeaderMobile setOpenMenuMobile={setOpenMenuMobile} menuMobile={menuMobile} />}
                     {children}
                     {val && <FooterDesktop />}
+                    <ModalProduct />
                 </div>
                 {!['/login', '/register', '/varify-email', '/restaurante', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => x === location.pathname) && <Footer />}
                 <div style={{ gridArea: 'right' }}>
                     {(message || !val) && <Messages />}
                 </div>
             </Main>
-            <ModalProduct />
         </div>
     )
 }

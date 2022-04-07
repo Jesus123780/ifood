@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Context } from 'context'
-import { IconEnlace, IconFacebook, IconMiniCheck, IconTwitter, IconWhatsApp, IconCancel, IconPlus } from 'public/icons'
+import { IconEnlace, IconFacebook, IconMiniCheck, IconTwitter, IconWhatsApp, IconCancel, IconPlus, IconArrowBottom } from 'public/icons'
 import { copyToClipboard, numberFormat, updateCache } from 'utils'
 import { useRouter } from 'next/router'
 import Image from 'next/image';
@@ -9,11 +9,11 @@ import InputHooks from 'components/InputHooks/InputHooks'
 import { RippleButton } from 'components/Ripple'
 import QRCode from 'react-qr-code'
 import { CLIENT_URL_BASE } from 'apollo/urls'
-import { APColor, BGColor, PLColor } from 'public/colors'
+import { APColor, BGColor, PColor, PLColor } from 'public/colors'
 import { useFormTools } from 'components/BaseForm'
 import { GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, GET_ONE_PRODUCTS_FOOD } from 'container/queries'
 import { useLazyQuery, useMutation } from '@apollo/client'
-import { ActionButton, BtnClose, CardProductsModal, CardsComponent, ContainerShare, ContentInfo, ContainerModal, ContentShare, DisRestaurant, Flex, GarnishChoicesHeader, HeadSticky, Modal, Text } from './styled'
+import { ActionButton, BtnClose, CardProductsModal, CardsComponent, ContainerShare, ContentInfo, ContainerModal, ContentShare, DisRestaurant, Flex, GarnishChoicesHeader, HeadSticky, Modal, Text, BtnCloseMobile, Header } from './styled'
 import Link from 'next/link'
 import { CREATE_SHOPPING_CARD } from 'components/AsideCheckout/querys'
 import { useSetState } from 'components/hooks/useState'
@@ -113,11 +113,18 @@ export const ModalProduct = () => {
         const price = parseFloat(ProPrice)
         return state <= 0 ? price : numberFormat((Math.abs(state * price)))
     }, [dataOneProduct])
+    const handleClose = useCallback((e) => {
+        // setOpenProductModal(!openProductModal)
+        console.log(e)
+    }, [openProductModal])
     return (
-        <ContainerModal showModal={openProductModal} >
+        <ContainerModal showModal={openProductModal} onMouseDown={(e) => handleClose(e)} >
             <Modal showModal={openProductModal}>
                 <CardProductsModal>
-                    <ContentInfo>
+                    <Header>
+                        <BtnCloseMobile onClick={() => setOpenProductModal(false)}><IconArrowBottom color={PColor} size={20} /></BtnCloseMobile>
+                    </Header>
+                    <ContentInfo margin='10px 0 0 0'>
                         <Image
                             className='store_image'
                             width={450}

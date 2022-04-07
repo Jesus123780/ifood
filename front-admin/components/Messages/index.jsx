@@ -26,7 +26,7 @@ export const MessageComp = ({ data, input, id, messagesEndRef, setStoreChatActiv
                     />
                 </CircleStore>)}
             </BoxChat>
-            {selectedStore && <WrapperChat show={hidden} onSubmit={(e) => handleSendMessage(e)}>
+            {<WrapperChat show={hidden} onSubmit={(e) => handleSendMessage(e)}>
                 <ContentAction>
                     <div className='header-chat' onClick={() => setHidden(!hidden)} >
                         <button type='button'>{selectedStore?.getOneStore?.storeName || null}</button>

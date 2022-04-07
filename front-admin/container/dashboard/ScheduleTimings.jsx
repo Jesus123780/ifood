@@ -3,19 +3,14 @@ import { useMutation, useQuery } from '@apollo/client'
 import { GET_SCHEDULE_STORE } from './queriesStore'
 import moment from 'moment'
 import { Card } from './styled'
-import ReactDOM from 'react-dom'
 import styled, { css } from 'styled-components'
-import { BGColor, EColor, PVColor, TFSColor } from '../../public/colors'
+import { BGColor, PVColor, TFSColor } from '../../public/colors'
 import { useSetState } from '../../components/hooks/useState'
 import { AwesomeModal } from '../../components/AwesomeModal'
 import { CREATE_STORE_CALENDAR } from './queries'
 import { RippleButton } from '../../components/Ripple'
-import { updateCache } from 'utils'
-import { parseZone } from 'moment'
-import { duration } from 'moment'
 
 export const ScheduleTimings = () => {
-
     const { data, loading, error } = useQuery(GET_SCHEDULE_STORE, { variables: { schDay: 1 } })
     const [showTiming, setShowTiming] = useState(0)
     const SHOW_TIMING = useSetState(false)
@@ -65,15 +60,17 @@ export const ScheduleTimings = () => {
     let suma = 0
     const [totalH, setTotalH] = useState(0)
     useEffect(() => {
-        data?.getStoreSchedules.forEach((a) => {
-            let count = 0
-            const { schHoEnd, schHoSta } = a || {}
-            const starTime = parseFloat(starTime ? starTime : 0)
-            const endTime = parseFloat(schHoEnd ? schHoEnd : 0)
-            count = endTime + starTime
-            suma += count
-        })
-    }, [])
+        if (data && data?.getStoreSchedules?.length > 0) {
+            data?.getStoreSchedules.forEach((a) => {
+                let count = 0
+                const { schHoEnd, schHoSta } = a || {}
+                const starTime = parseFloat(starTime ? starTime : 0)
+                const endTime = parseFloat(schHoEnd ? schHoEnd : 0)
+                count = endTime + starTime
+                suma += count
+            })
+        }
+    }, [data])
     const [browser, setBrowser] = useState(false)
     useEffect(() => {
         setBrowser(true)

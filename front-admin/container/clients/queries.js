@@ -33,7 +33,7 @@ query getAllClients($idStore: ID, $cId: ID, $dId: ID, $ctId: ID, $search: String
     cliId
     idStore
     gender
-    idUser
+    # idUser
     clState
     clientNumber
     ccClient

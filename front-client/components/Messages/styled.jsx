@@ -8,7 +8,7 @@ export const ContainerContextMessage = styled.div`
     bottom: 0;
     z-index: 999999999;
     width: 380px;
-    height: calc(100vh - 80px);
+    /* height: calc(100vh - 80px); */
 `
 export const BoxChat = styled.div`
         display: block;
@@ -77,6 +77,7 @@ export const TextMessage = styled.span`
     background-color: ${ ({ messageUser, user }) => messageUser === user ? PColor : PLVColor };
     width: fit-content;
     border-radius: 5px;
+    word-break: break-word;
     padding: 5px;
 
 `
