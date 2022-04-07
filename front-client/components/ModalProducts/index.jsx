@@ -20,6 +20,7 @@ import { useSetState } from 'components/hooks/useState'
 import { GET_ALL_SHOPPING_CARD } from 'container/restaurantes/queries'
 
 export const ModalProduct = () => {
+    const router = useRouter()
     // STATES
     const { openProductModal, setOpenProductModal, dispatch, setAlertBox, state_product_card, handleMenu } = useContext(Context)
     const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
@@ -113,12 +114,21 @@ export const ModalProduct = () => {
         const price = parseFloat(ProPrice)
         return state <= 0 ? price : numberFormat((Math.abs(state * price)))
     }, [dataOneProduct])
+    console.log(router)
     const handleClose = useCallback((e) => {
-        // setOpenProductModal(!openProductModal)
-        console.log(e)
+        e.preventDefault()
+        const val = ['/delivery/[location]/[name]/[id]'].find(x => x === location.pathname)
+        if (val) {
+            const { location, name, id } = router.query
+            console.log(location, name, id)
+            router.replace(`/delivery/${location}/${name}/${id}`)
+        } else {
+            router.replace(router.pathname)
+        }
+        setOpenProductModal(!openProductModal)
     }, [openProductModal])
     return (
-        <ContainerModal showModal={openProductModal} onMouseDown={(e) => handleClose(e)} >
+        <ContainerModal showModal={openProductModal}>
             <Modal showModal={openProductModal}>
                 <CardProductsModal>
                     <Header>
@@ -126,7 +136,6 @@ export const ModalProduct = () => {
                     </Header>
                     <ContentInfo margin='10px 0 0 0'>
                         <Image
-                            className='store_image'
                             width={450}
                             height={450}
                             objectFit='contain'
@@ -137,7 +146,7 @@ export const ModalProduct = () => {
                     </ContentInfo>
                     <div>
                         <div>
-                            <BtnClose onClick={() => setOpenProductModal(false)}><IconCancel size={20} /></BtnClose>
+                            <BtnClose onMouseDown={(e) => handleClose(e)} ><IconArrowBottom color={PColor} size={20} /></BtnClose>
                         </div>
                         <ContentInfo>
                             <HeadSticky>

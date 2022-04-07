@@ -315,8 +315,8 @@ export const ActionButton = styled.div`
 export const BtnClose = styled.button`
     position: absolute;
     right: 19px;
-    top: 5px;
-    z-index: 99;
+    top: 20px;
+    z-index: 9990;
     background-color: ${BGColor};
     @media (max-width: 960px) {
       display: none;
@@ -330,13 +330,14 @@ export const Header = styled.div`
   background-color: ${BGColor};
 padding: 10px 20px;
   z-index: 999;
+  @media (min-width: 960px) {
+      display: none;
+    }
 `
 export const BtnCloseMobile = styled.button`
     background-color: ${BGColor};
     /* left: 30px; */
-    @media (min-width: 960px) {
-      display: none;
-    }
+ 
 `
 export const Modal = styled.div`
     width: 700px;
