@@ -34,7 +34,7 @@ export const Messages = () => {
 
     const [getMessages, { data: messageData, refetch, fetchMore }] = useLazyQuery(GET_MESSAGES, {
         context: { clientName: "admin-server" },
-        fetchPolicy: 'network-only',
+        // fetchPolicy: 'network-only',
         onError: err => setAlertBox({
             message: `${err}`,
             duration: 10000,
@@ -42,13 +42,9 @@ export const Messages = () => {
         })
     })
     const { data: dataStoreActiveOrder } = useQuery(GET_ALL_STORY_ACTIVE_MESSAGE_ORDER, {
-        fetchPolicy: 'network-only',
-        onError: err => console.log({
-            message: `${err}`,
-        })
+        // fetchPolicy: 'network-only'
     })
     const client = useApolloClient()
-    // console.log(client)
     const { data: messageDataNew, error: messageError } = useSubscription(NEW_MESSAGE, {
         pollInterval: 10,
         onSubscriptionComplete: () => {
@@ -67,7 +63,6 @@ export const Messages = () => {
             // })
         }
     })
-    console.log(messageDataNew)
     const [dataMessage, setDataMessage] = useState([])
     useEffect(() => {
         if (messageError) console.log(messageError)
@@ -76,8 +71,7 @@ export const Messages = () => {
             setDataMessage([...dataMessage, messageDataNew?.newMessage ]) 
         }
     }, [messageError, messageDataNew, messageData])
-    // console.log(messageDataNew)
-    console.log(dataMessage, 'NUEVO ARRAY')
+
     useEffect(() => {
         refetch
     }, [refetch])
@@ -100,7 +94,6 @@ export const Messages = () => {
     useEffect(() => {
         var objDiv = document.getElementById('scroll');
         if (messagesEndRef && objDiv) {
-            console.log(messagesEndRef.current)
             messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
             objDiv.scrollTop = objDiv.scrollHeight
         }
@@ -109,13 +102,11 @@ export const Messages = () => {
     const handleSendMessage = async e => {
         e.preventDefault()
         // input.current.focus()
-        console.log(content, id)
         try {
             if (selectedStore && id && !!content) {
             sendMessage({
                 variables: { to: id, content: content }
             }).catch(res => {
-                console.log(res)
                 input.current.value = ''
                 setValues({})
             }).catch(err => setAlertBox({ message: `${err}`, duration: 7000 }))

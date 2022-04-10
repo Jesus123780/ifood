@@ -1,4 +1,4 @@
-import { BGColor, PColor, PLVColor } from "public/colors";
+import { BColor, BGColor, PColor, PLVColor } from "public/colors";
 import styled, { css } from "styled-components";
 
 export const ContainerContextMessage = styled.div`
@@ -74,6 +74,7 @@ export const ContentAction = styled.div`
 `
 export const TextMessage = styled.span`
     background-color: ${ ({ messageUser, user }) => messageUser === user ? PColor : PLVColor };
+    color: ${ ({ messageUser, user }) => messageUser === user ? BGColor : BColor };
     width: fit-content;
     border-radius: 5px;
     padding: 5px;

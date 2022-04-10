@@ -6,7 +6,7 @@ export const ContainerContextMessage = styled.div`
     /* background-color: red; */
     right: 0;
     bottom: 0;
-    z-index: 999999999;
+    z-index: 999;
     width: 380px;
     /* height: calc(100vh - 80px); */
 `

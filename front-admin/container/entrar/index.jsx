@@ -57,10 +57,10 @@ export const Login = ({ watch, settings }) => {
         //     deviceid: await getDeviceId() || '',
         // }
         const bodyfalse = {
-            name: 'elpepe@gmail.com',
-            username: 'elpepe@gmail.com',
-            lastName: 'elpepe@gmail.com',
-            email: 'elpepe@gmail.com',
+            name: 'juvinaojesusd@gmail.com',
+            username: 'juvinaojesusd@gmail.com',
+            lastName: 'juvinaojesusd@gmail.com',
+            email: 'juvinaojesusd@gmail.com',
             password: '113561675852804771364',
             locationFormat: locationFormat[0]?.formatted_address,
             useragent: window.navigator.userAgent,
@@ -71,19 +71,21 @@ export const Login = ({ watch, settings }) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(bodyfalse)
         }).then(res => {
-       
+            console.log(res)
             setAlertBox({ message: `${res.message}`, color: 'success' })
-
-            if (res?.storeUserId) {
-                const { idStore, id } = res?.storeUserId
+            const { storeUserId, token } = res
+            const { idStore, id } = storeUserId || {}
+            if (storeUserId) {
                 localStorage.setItem('restaurant', idStore)
                 localStorage.setItem('usuario', id)
-                localStorage.setItem('session', res.token)
+                localStorage.setItem('usuario', token)
+                localStorage.setItem('session', token)
                 router.push('/dashboard')
             } else {
                 router.push('/restaurante')
             }
         }).catch(e => {
+            console.log(e)
         })
     }
     return (
@@ -96,7 +98,7 @@ export const Login = ({ watch, settings }) => {
                 <Text size='30px'>¡Falta poco para saciar tu hambre!</Text>
                 <Text size='15px'>¿Cómo deseas continuar?</Text>
                 <button onClick={(e) => responseGoogle(e)}>Login falso</button>
-                  <GoogleLogin
+                <GoogleLogin
                     autoLoad={false}
                     clientId='58758655786-u323tp1dpi6broro865rrm488gh4mnpu.apps.googleusercontent.com'
                     onSuccess={responseGoogle}
@@ -104,8 +106,8 @@ export const Login = ({ watch, settings }) => {
                     cookiePolicy={'single_host_origin'}
                     render={renderProps => (
                         <div>
-                            
-                            <ButtonSubmit  size='14px' colorFont='#717171' height='40px' color='2' onClick={renderProps.onClick} disabled={renderProps.disabled}><IconGoogleFullColor size='30px' /> Continue with Google<div style={{ width: 'min-content' }} /> </ButtonSubmit>
+
+                            <ButtonSubmit size='14px' colorFont='#717171' height='40px' color='2' onClick={renderProps.onClick} disabled={renderProps.disabled}><IconGoogleFullColor size='30px' /> Continue with Google<div style={{ width: 'min-content' }} /> </ButtonSubmit>
                         </div>
                     )}
                 />

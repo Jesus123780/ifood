@@ -11,7 +11,7 @@ export const MessageComp = ({ data, input, id, messagesEndRef, setStoreChatActiv
     return (
         <div>
             {er && 'Ocurrió un error'}
-            <BoxChat className='lol'>
+            <BoxChat>
                 {data.map((x, i) => <CircleStore key={i + 1} onClick={() => setStoreChatActive(x)}>
                     <ItemMessage > {x?.getOneStore?.storeName.slice(0, 2).toUpperCase()}</ItemMessage>
                     <Image

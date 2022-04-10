@@ -56,14 +56,11 @@ export const Banner = () => {
               <BannerPromo color={color} onMouseOut={() => setActiveColor('red')} onMouseOver={() => setActiveColor('blue')} key={banner.pId}>
                 <Img
                   width={550}
+                  alt='Picture'
                   height={550}
                   objectFit='contain'
-                  // src={'/images/hamb.jpg'}
-                  alt='Picture'
-                  layout=''
-                  src={'/images/D_NQ_722381-MLA49471657715_032022-OO.webp'}
-                  blurDataURL='data:...'
-                  placeholder='blur' />
+                  src={'/images/D_NQ_722381-MLA49471657715_032022-OO.jpg'}
+                  />
               </BannerPromo>
             </a>
           // </Link>

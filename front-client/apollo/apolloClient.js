@@ -69,7 +69,6 @@ const wsLink = process.browser ? new WebSocketLink({
         lazy: true,
         connectionParams: async () => {
             const headers = await authLink()
-            console.log(headers)
             return {
                 ...headers,
             }

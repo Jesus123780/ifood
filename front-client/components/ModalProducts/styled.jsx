@@ -29,11 +29,11 @@ export const CardProductsModal = styled(CardProductsContent)`
   padding: 0px;
   grid-template-columns: 1fr 50%;
   background-color: ${BGColor};
-  @media (max-width: 768px) {
+  @media (max-width: 960px) {
     grid-template-columns: 100%;
     height: 100vh;   
     position: fixed; 
-    /* overflow: hidden scroll; */
+    overflow: hidden scroll;
     /* height: 100%; */
     /* width: 100%; */
 
@@ -45,6 +45,10 @@ export const ContentInfo = styled.div`
   padding: 24px 16px;
   overflow-y: auto;
   height: 600px;
+  min-height: 600px;
+  /* max-height: 600px;
+  min-width: 600px;
+  max-width: 600px; */
   position: relative;
   @media (max-width: 960px) {
     height: auto;
@@ -56,9 +60,9 @@ export const ContentInfo = styled.div`
 `
 export const HeadSticky = styled.div`
     position: sticky;
-    top: 0;
+    top: -30px;
     background-color: #fff;
-    padding: 5px 0;
+    padding: 25px 0;
     width: 100%;
     z-index: 9989;
 `
@@ -367,6 +371,7 @@ export const Modal = styled.div`
       top: 0;
       /* 700px */
       width: 100%;
+      height: 100vh;
       max-width: 960px;
     }
 

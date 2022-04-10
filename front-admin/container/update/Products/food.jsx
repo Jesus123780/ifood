@@ -286,7 +286,7 @@ export const Food = () => {
             dispatch({ type: 'ADD_PRODUCT', payload: elem })
         }
     }
-    const YearArray = dataProduct?.productFoodsAll.map(x => { return parseInt(x.pDatCre?.replace(/\D/gi, '').substring(0, 4)) })
+    const YearArray = dataProduct?.productFoodsAll?.length > 0 && dataProduct?.productFoodsAll.map(x => { return parseInt(x.pDatCre?.replace(/\D/gi, '').substring(0, 4)) })
     let min = YearArray
     let years = [];
     const currentYear = new Date().getFullYear()

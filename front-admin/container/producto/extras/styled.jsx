@@ -24,7 +24,7 @@ export const GarnishChoicesHeader = styled.div`
     justify-content: space-between;
     background: #f2f2f2;
     position: sticky;
-    top: 0;
+    top: 60px;
     border-bottom: 1px solid #ccc;
     z-index: 99;
     .garnish-choices__title { 
@@ -121,7 +121,7 @@ export const ContentCheckbox = styled.div`
 `
 export const Input = styled.input`
     width: 100%;
-${props => props.margin && css`margin: ${props.margin};`}
+    ${props => props.margin && css`margin: ${props.margin};`}
     ${props => props.card && css`
     padding: 15px;
     border: 2px solid ${PColor};
@@ -202,8 +202,8 @@ export const Action = styled.div`
     z-index: 9999;
     display: flex;
     width: 100%;
-    /* position: fixed; */
-    /* bottom: 0; */
-    /* right: 0; */
+    position: absolute;
+    bottom: 0;
+    right: 0;
 `
 

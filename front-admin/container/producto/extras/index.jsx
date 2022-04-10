@@ -92,14 +92,14 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
                         setData: dataArr || []
                     }
                 },
-                update: (cache, { data: { ExtProductFoodsAll } }) => updateCache({
-                    cache,
-                    query: GET_ALL_EXTRA_PRODUCT,
-                    nameFun: 'ExtProductFoodsAll',
-                    dataNew: ExtProductFoodsAll
-                })
+                // update: (cache, { data: { ExtProductFoodsAll } }) => updateCache({
+                //     cache,
+                //     query: GET_ALL_EXTRA_PRODUCT,
+                //     nameFun: 'ExtProductFoodsAll',
+                //     dataNew: ExtProductFoodsAll
+                // })
             })
-            setModal(false)
+            // setModal(false)
         } catch (error) {
         }
     }
@@ -159,7 +159,7 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
         const { name, checked } = e.target
         setChecker({ ...setCheck, [name]: checked ? 1 : 0 })
     }
-
+    console.log(LineItems?.Lines)
     return (
         <Container>
             {dataExtra.length > 0 && <form onSubmit={(e) => onSubmitUpdate(e)} >
@@ -185,7 +185,7 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
                 ))}
 
             </form>}
-            {dataOptional && dataOptional?.map((x, i) => (
+            {dataOptional?.length > 0 && dataOptional?.map((x, i) => (
                 <div key={i + 1}>
                     <GarnishChoicesHeader onClick={() => handleOpenExtra(x)}>
                         <div>
@@ -214,37 +214,21 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
                 </div >
             ))}
             {/* Open adicional modal */}
-            <AwesomeModal show={modal} backdrop onCancel={() => setModal(false)} onHide={() => setModal(false)} btnConfirm={false} header={false} footer={false} padding='60px' size='medium' zIndex='99988' >
+            <AwesomeModal show={modal} height="100vh" backdrop onCancel={() => setModal(false)} onHide={() => setModal(false)} btnConfirm={false} header={false} footer={false} padding='60px' size='small' >
                 <ContentModal>
                     {LineItems && LineItems?.Lines?.map((salesLine, i) => (
                         <ContentLinesItems key={salesLine._id}>
                             <div style={{ width: '100%', height: 'auto', display: 'block' }}>
-                                <InputHookProducts
-                                    inputText
-                                    margin='10px 0'
-                                    placeholder='Extra products'
-                                    value={salesLine.extraName}
-                                    onChange={value => handleLineChange(i, 'extraName', value)}
-                                />
                                 <ContentLinesItems noBorder >
-                                    <span><IconPlus size="10px" color={PColor} /></span>
-                                    <InputHookProducts
-                                        inputText
-                                        color={EColor}
-                                        margin='10px 0'
-                                        placeholder='Precio'
-                                        value={numberFormat(salesLine.extraPrice)}
-                                        onChange={value => handleLineChange(i, 'extraPrice', value)}
-                                    />
+                                    <InputHookProducts margin='10px 0' placeholder='Nombre' value={salesLine.extraName} onChange={value => handleLineChange(i, 'extraName', value)} />
+                                    <InputHookProducts color={EColor} margin='10px 0' placeholder='Precio' value={numberFormat(salesLine.extraPrice)} onChange={value => handleLineChange(i, 'extraPrice', value)} />
                                 </ContentLinesItems>
-
                             </div>
                             <ContentCheckbox>
                                 <Input
                                     checkbox
                                     type='checkbox'
                                     margin='10px 0'
-                                    // value={salesLine.exState}
                                     onChange={value => handleLineChange(i, 'exState', value)}
                                 />
                             </ContentCheckbox>
@@ -289,6 +273,7 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
             </AwesomeModal>
         </Container >);
 };
+
 
 export const OptionalExtraProducts = ({ pId, dataOptional }) => {
     // STATES

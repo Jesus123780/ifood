@@ -45,7 +45,6 @@ export const Managebanner = () => {
     const { path, bnState, bnId } = dataBanner?.getOneBanners || {}
     const initialState = { alt: "/images/DEFAULTBANNER.png", src: "/images/DEFAULTBANNER.png" };
     const [{ alt, src }, setPreviewImg] = useState(initialState)
-    console.log(dataBanner?.getOneBanners)
     // HANDLES
     const onTargetClickLogo = e => {
         e.preventDefault()

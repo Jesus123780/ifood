@@ -76,7 +76,6 @@ export const Messages = () => {
         }
     }, [messageError, messageDataNew, messageData])
     // console.log(messageDataNew)
-    console.log(dataMessage, 'NUEVO ARRAY')
     useEffect(() => {
         refetch
     }, [refetch])

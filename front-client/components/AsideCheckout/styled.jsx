@@ -25,7 +25,6 @@ export const LateralModal = styled.div`
     height: calc(100vh - 80px);
     position: fixed;
     bottom: 0;
-    z-index: 900;
     transition: all 350ms cubic-bezier(.32,1.25,.32,1);
     box-shadow: 0 8px 16px 0 rgb(0 0 0 / 10%);
     border: 1px solid #d4d7dc;
@@ -35,7 +34,9 @@ export const LateralModal = styled.div`
     animation-duration: .3s;
     animation-fill-mode: both;
     border-left: 1px solid #d4d7dc;
-    z-index: 1000;
+    z-index: 99000;
+    /* z-index: 349900; */
+
     ${({ show }) => show
         ? css`
                  animation-name: ${SideIn};

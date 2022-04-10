@@ -19,13 +19,13 @@ export const FooterDesktop = () => {
                 <Title>Nosotros</Title>
                 <Enlace href='/quienes-somos'>Quiénes somos</Enlace>
                 <Enlace href='/ayuda'> Centro de ayuda</Enlace>
-                <Enlace href='/registration'> Registrate</Enlace>
+                <Enlace href='/entrar'> Registrate</Enlace>
             </ContentSocial>
             <ContentSocial>
                 <Title>Descrubre</Title>
                 <Enlace href='/como-comprar'>Como pedir</Enlace>
                 <Enlace href='/contactanos'> Contacto</Enlace>
-                <Enlace href='/login'> Ingresa</Enlace>
+                <Enlace href='/entrar'> Ingresa</Enlace>
             </ContentSocial>
             <ContentSocial>
                 <Title>Ayuda PQR</Title>
@@ -33,16 +33,16 @@ export const FooterDesktop = () => {
             </ContentSocial>
             <ContentSocial>
                 <Title>Social</Title>
-                <a style={{ margin: '0px 10px' }} href='https://www.ifood.com.co/lista-restaurantes' >
+                <a target='_blank' style={{ margin: '0px 10px' }} href='https://www.ifood.com.co/lista-restaurantes' >
                     <Facebook size='40px' color={PColor} />
                 </a>
-                <a style={{ margin: '0px 10px' }} href='https://www.ifood.com.co/lista-restaurantes' >
+                <a target='_blank' style={{ margin: '0px 10px' }} href='https://www.ifood.com.co/lista-restaurantes' >
                     <IconInstagram size='40px' color={PColor} />
                 </a>
-                <a style={{ margin: '0px 10px' }} href='https://www.ifood.com.co/lista-restaurantes' >
+                <a target='_blank' style={{ margin: '0px 10px' }} href='https://www.ifood.com.co/lista-restaurantes' >
                     <IconTwitter size='40px' color={PColor} />
                 </a>
-                <a style={{ margin: '0px 10px' }} href='https://www.ifood.com.co/lista-restaurantes' >
+                <a target='_blank' style={{ margin: '0px 10px' }} href='https://www.ifood.com.co/lista-restaurantes' >
                     <IconYoutube size='40px' color={PColor} />
                 </a>
             </ContentSocial>

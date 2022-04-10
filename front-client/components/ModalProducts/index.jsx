@@ -114,7 +114,6 @@ export const ModalProduct = () => {
         const price = parseFloat(ProPrice)
         return state <= 0 ? price : numberFormat((Math.abs(state * price)))
     }, [dataOneProduct])
-    console.log(router)
     const handleClose = useCallback((e) => {
         e.preventDefault()
         const val = ['/delivery/[location]/[name]/[id]'].find(x => x === location.pathname)
@@ -132,7 +131,7 @@ export const ModalProduct = () => {
             <Modal showModal={openProductModal}>
                 <CardProductsModal>
                     <Header>
-                        <BtnCloseMobile onClick={() => setOpenProductModal(false)}><IconArrowBottom color={PColor} size={20} /></BtnCloseMobile>
+                        <BtnCloseMobile onMouseDown={(e) => handleClose(e)}><IconArrowBottom color={PColor} size={20} /></BtnCloseMobile>
                     </Header>
                     <ContentInfo margin='10px 0 0 0'>
                         <Image

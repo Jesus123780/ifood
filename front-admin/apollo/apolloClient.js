@@ -73,10 +73,10 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 const authLink = async (_) => {
     const lol = await getDeviceId()
     window.localStorage.setItem('deviceid', lol)
-    const token = localStorage.getItem('sma.sv1')
+    const token = localStorage.getItem('session')
     const restaurant = localStorage.getItem('restaurant')
     return {
-        authorization: token ? token : '',
+        authorization: `Bearer ${token}` ? `Bearer ${token}` : '',
         userAgent: userAgent ? userAgent : '',
         restaurant: restaurant ?? restaurant,
         deviceid: await getDeviceId() || '',
@@ -114,7 +114,7 @@ const getLink = async (operation) => {
 
 
 // Create Second Link
-const wsLink = typeof window !== 'undefined' ? new WebSocketLink({
+const wsLink = process.browser ? new WebSocketLink({
     uri: process.env.NODE_ENV === 'development' ? 'ws://localhost:4000/graphql' : 'ws://localhost:4000/graphql',
     options: {
         reconnect: true,
@@ -122,6 +122,7 @@ const wsLink = typeof window !== 'undefined' ? new WebSocketLink({
         timeout: 30000,
         connectionParams: async () => {
             const headers = await authLink()
+            console.log(headers)
             return {
                 headers:
                 {
@@ -137,7 +138,6 @@ const wsLink = typeof window !== 'undefined' ? new WebSocketLink({
 
 function createApolloClient() {
     const ssrMode = typeof window === 'undefined'
-
     const getLink = async (operation, forward) => {
         // await splitLink({ query: operation.query })
         const headers = await authLink()
@@ -186,36 +186,36 @@ function createApolloClient() {
         }
     }
     const link = ssrMode ? ApolloLink.split(() => true, operation => getLink(operation),
-    onError(({
-        graphQLErrors,
-        networkError
-    }) => {
-        if (graphQLErrors) {
-            graphQLErrors.map(({ message, locations, path
-            }) =>
-                console.log(
-                    `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-                )
-            );
-        }
-        if (networkError) {
-            console.log(`[Network error]: ${networkError}`);
-        }
-    }),
-) : typeof window !== "undefined"
-    ? split((operation) => {
-        const definition = getMainDefinition(operation.query)
-        return definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
-    },
-        wsLink,
-        ApolloLink.split(() => true, operation => getLink(operation),
-            errorLink,
-        ),
+        onError(({
+            graphQLErrors,
+            networkError
+        }) => {
+            if (graphQLErrors) {
+                graphQLErrors.map(({ message, locations, path
+                }) =>
+                    console.log(
+                        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+                    )
+                );
+            }
+            if (networkError) {
+                console.log(`[Network error]: ${networkError}`);
+            }
+        }),
+    ) : typeof window !== "undefined"
+        ? split((operation) => {
+            const definition = getMainDefinition(operation.query)
+            return definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
+        },
+            wsLink,
+            ApolloLink.split(() => true, operation => getLink(operation),
+                errorLink,
+            ),
 
-    )
-    : ApolloLink.split(() => true, operation => getLink(operation),
-        errorLink
-    )
+        )
+        : ApolloLink.split(() => true, operation => getLink(operation),
+            errorLink
+        )
     return new ApolloClient({
         connectToDevTools: true,
         ssrMode: typeof window === 'undefined',
