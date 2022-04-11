@@ -1,9 +1,6 @@
 import { Context } from 'context/Context'
 import { useCallback, useContext, useEffect, useState } from 'react'
-// import { Context } from '../../context/Context'
-import { PColor, WColor } from '../../public/colors'
 import { validationSubmitHooks } from '../../utils'
-// import { validationSubmitHooks } from '../utils/util'
 
 /**
  * @version 0.0.1

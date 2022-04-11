@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useQuery, useLazyQuery } from '@apollo/client'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Flex } from './styled'
 import moment from 'moment'
 import { MainCard } from 'components/common/Reusable/ShadowCard'
@@ -12,7 +12,7 @@ import { GET_ALL_VISITOR_STORE } from './queriesStore'
 export const SalesWeekShortDays = () => {
   var dt = new Date()
   const [getAllSalesStoreStatistic, { data, loading }] = useLazyQuery(GET_ALL_SALES_STATISTICS)
-  const { data: dataSales } = useQuery(GET_ALL_SALES,  {
+  const { data: dataSales } = useQuery(GET_ALL_SALES, {
     variables: { fromDate: moment(dt.setDate(dt.getDate() - 7)).format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD') }
   })
   const [getAllVisitorStore, { data: VISITOR }] = useLazyQuery(GET_ALL_VISITOR_STORE)
@@ -28,7 +28,7 @@ export const SalesWeekShortDays = () => {
     getAllSalesStoreStatistic({ variables: { min: 0, fromDate: moment(dt.setDate(dt.getDate() - 7)).format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD') } })
     getAllVisitorStore({ variables: { fromDate: moment(dt.setDate(dt.getDate() - 7)).format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD') } })
     data?.getAllSalesStoreStatistic.forEach((a) => {
-      const { totalProductsPrice, pDatCre } = a || {}
+      const { totalProductsPrice } = a || {}
       suma += totalProductsPrice
       setTotalProductPrice(suma)
     })
@@ -46,6 +46,8 @@ export const SalesWeekShortDays = () => {
   return (
     <MainCard weight={'200'} title={`Últimos 7 Dias $ ${numberFormat(totalProductPrice || 0)}`}>
       <Text size='.8em' color='#3f3e3e' >{`Media de ventas en los últimos 7 Dias $ ${numberFormat(totalProductPrice || 0)}`}</Text>
+      {/* <BarChat data={dataChat || []} /> */}
+      {/* <canvas id="myChart" width="400" height="400"></canvas> */}
       <Text size='2em'>Desempeño</Text>
       <Container>
         <WrapperBox bgColor='transparent'>
@@ -68,7 +70,6 @@ export const SalesWeekShortDays = () => {
         {key?.map((day, i) => {
           let suma = 0
           let sumaNoOrder = 0
-          let totalProduct = 0
           const avg = GROUP_BY_DAYS[day]?.map((x, index) => (suma += x.pSState === 4) / (index + 1))
           !!avg && ((avg[avg.length - 1]))
           const noOrder = GROUP_BY_DAYS[day]?.map((x, index) => (sumaNoOrder += x.pSState === 5) / (index + 1))

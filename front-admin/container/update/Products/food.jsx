@@ -36,7 +36,6 @@ export const Food = () => {
     const [finalData, { loading: getProductLoading }] = useGetProducts()
     // LLama a todas las areas
     const { data: datafatures } = useQuery(GET_ALL_FEATURES_ON_PARENT)
-    console.log('HOLA MUNDO')
     const { data } = useQuery(GET_ONE_COLOR)
     const { data: size } = useQuery(GET_ALL_SIZE)
     const [finalDataAreas, { loading: loadingAreas }] = useGetAreas()

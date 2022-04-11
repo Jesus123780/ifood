@@ -10,11 +10,15 @@ import { Devices } from 'components/Devices'
 import { TeamStore } from 'container/TeamStore'
 import { MainCard } from 'components/common/Reusable/ShadowCard'
 import { Main } from './Main'
+import { ChatStatistic } from 'container/ventas/ListVentas'
 
 const Dashboard = () => {
     return (<>
         <Wrapper>
             <Main />
+            <MainCard weight={'200'} title={`Ventas por meses del año`}>
+                <ChatStatistic />
+            </MainCard>
             <SalesWeekShortDays />
             <SalesWeek />
             <Addons />

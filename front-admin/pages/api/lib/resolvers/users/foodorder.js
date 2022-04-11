@@ -1,12 +1,5 @@
-import { ApolloError } from 'apollo-server-micro'
-import { filterKeyObject, REFRESH_TOKEN_COOKIE_OPTIONS } from '../../../../../utils'
 import StatusPedidosModel from '../../models/Store/statusPedidoFinal'
-import Store from '../../models/Store/Store'
-import Users from '../../models/Users'
-import Userprofile from '../../models/users/UserProfileModel'
-import { LoginEmail } from '../../templates/LoginEmail'
-import { generateCode, generateToken, sendEmail } from '../../utils'
-import { deCode, enCode, getAttributes } from '../../utils/util'
+import { deCode, getAttributes } from '../../utils/util'
 
 const { Op } = require('sequelize')
 // store
@@ -46,7 +39,7 @@ export const getAllSalesStore = async (_, args, ctx, info) => {
                         idStore: idStore ? deCode(idStore) : deCode(ctx.restaurant),
                     }
                 ]
-            }, limit: [min || 0, max || 100], order: [['pSState', 'ASC']]
+            }, limit: [min || 0, max || 100], order: [['pDatCre', 'ASC']]
         })
         return data
     } catch (error) {

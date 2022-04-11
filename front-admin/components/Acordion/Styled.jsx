@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { PColor, SEGColor } from 'public/colors'
-// import { PColor, SEGColor } from '../../../assets/colors'
 import Link from 'next/link'
 
 export const Span = styled.span`

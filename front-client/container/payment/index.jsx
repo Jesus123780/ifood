@@ -1,8 +1,8 @@
 import { FlipCard } from 'components/FlipCard';
 import InputHooks from 'components/InputHooks/InputHooks';
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { getCardType } from 'utils';
-import { Container/* , Card  */, Title, Paragraph, Card, CreditCard, Line, Number } from './styled';
+import { Container/* , Card  */, Card, CreditCard, Line, Number } from './styled';
 
 export const PaymentCard = ({ dataFav }) => {
     const [flipped, setFlipped] = useState(false)

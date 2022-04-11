@@ -1,6 +1,57 @@
-import React from 'react'
-import { Line, Pie, Doughnut } from 'react-chartjs-2'
-import { Animation } from 'chart.js'
+import {
+  Chart,
+  ArcElement,
+  LineElement,
+  BarElement,
+  PointElement,
+  BarController,
+  BubbleController,
+  DoughnutController,
+  LineController,
+  PieController,
+  PolarAreaController,
+  RadarController,
+  ScatterController,
+  CategoryScale,
+  LinearScale,
+  LogarithmicScale,
+  RadialLinearScale,
+  TimeScale,
+  TimeSeriesScale,
+  Decimation,
+  Filler,
+  Legend,
+  Title,
+  Tooltip
+} from 'chart.js';
+
+Chart.register(
+  ArcElement,
+  LineElement,
+  BarElement,
+  PointElement,
+  BarController,
+  BubbleController,
+  DoughnutController,
+  LineController,
+  PieController,
+  PolarAreaController,
+  RadarController,
+  ScatterController,
+  CategoryScale,
+  LinearScale,
+  LogarithmicScale,
+  RadialLinearScale,
+  TimeScale,
+  TimeSeriesScale,
+  Decimation,
+  Filler,
+  Legend,
+  Title,
+  Tooltip
+);
+
+import { Line, Pie, Doughnut, Bar } from 'react-chartjs-2'
 
 const data = {
   labels: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio'],
@@ -42,7 +93,7 @@ const options = {
       position: 'right'
     },
     title: {
-      display: false
+      display: true
     }
   },
   type: 'doughnut'
@@ -50,30 +101,39 @@ const options = {
 }
 
 export const HorizontalBarChart = () => (
-    <>
-        <div className='header'>
-            <div className='links'>
-            </div>
-        </div>
-        <Line data={data} options={options} />
-    </>
+  <>
+    <div className='header'>
+      <div className='links'>
+      </div>
+    <Line data={data} options={options} />
+    </div>
+  </>
 )
 
 export const Circle = () => (
-    <>
-        <div className='header'>
-            <div className='links'>
-            </div>
-        </div>
-        <Pie data={data} options={options} />
-    </>
+  <>
+    <div className='header'>
+      <div className='links'>
+      </div>
+    <Pie data={data} options={options} />
+    </div>
+  </>
 )
 export const DoughnutChar = () => (
-    <>
-        <div className='header'>
-            <div className='links'>
-            </div>
-        </div>
-        <Doughnut data={data}  />
-    </>
+  <>
+    <div className='header'>
+      <div className='links'>
+      </div>
+    <Doughnut data={data} />
+    </div>
+  </>
+)
+export const BarChat = ({ data }) => (
+  <>
+    <div className='header'>
+      <div className='links'>
+      </div>
+      <Bar data={data || data} />
+    </div>
+  </>
 )

@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { Container, Wrapper, Modal, ModalHeader, ModalTitle, BtnClose, ModalBody, ModalFooter, BtnCancel, BtnConfirm } from './styled'
+import { Container, Wrapper, Modal, ModalHeader, ModalTitle, BtnClose, ModalBody, ModalFooter } from './styled'
 import { MODAL_SIZES, BUTTONS_TEXT } from './constanst'
 import { IconCancel } from '../../public/icons'
-import { BGColor } from '../../public/colors'
 import { RippleButton } from '../Ripple'
 
 export const AwesomeModal = ({
@@ -11,8 +10,6 @@ export const AwesomeModal = ({
     show,
     disabled,
     display,
-    onClickConfirm,
-    showLateral,
     zIndex,
     padding,
     backdrop = true,

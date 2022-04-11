@@ -1,13 +1,12 @@
 import { useMemo } from 'react'
-import { setContext } from '@apollo/client/link/context'
-import { concatPagination, getMainDefinition } from '@apollo/client/utilities'
+import { getMainDefinition } from '@apollo/client/utilities'
 import { onError } from '@apollo/client/link/error'
-import { ApolloClient, from, HttpLink, InMemoryCache, ApolloLink, split, createHttpLink } from '@apollo/client'
+import { ApolloClient, ApolloLink, split } from '@apollo/client'
 import { createUploadLink } from 'apollo-upload-client'
 import FingerprintJS from "@fingerprintjs/fingerprintjs"
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
-import { URL_ADMIN_SERVER, URL_BASE, URL_BASE_ADMIN_MASTER } from './urls'
+import { URL_ADMIN, URL_ADMIN_SERVER, URL_BASE, URL_BASE_ADMIN_MASTER } from './urls'
 import { typeDefs } from './schema'
 import { cache, isLoggedVar } from './cache'
 import { WebSocketLink } from '@apollo/client/link/ws'
@@ -20,9 +19,10 @@ export const getDeviceId = async () => {
     const fp = await FingerprintJS.load()
     const result = await fp.get()
     userAgent = window.navigator.userAgent
-    return result.visitorId
+    return result.visitorId  
 }
 
+// eslint-disable-next-line
 const errorHandler = onError(({ graphQLErrors }) => {
     if (graphQLErrors) {
         graphQLErrors?.length && graphQLErrors.forEach(err => {
@@ -70,13 +70,13 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 // })
 
 
-const authLink = async (_) => {
+const authLink = async () => {
     const lol = await getDeviceId()
     window.localStorage.setItem('deviceid', lol)
     const token = localStorage.getItem('session')
     const restaurant = localStorage.getItem('restaurant')
     return {
-        authorization: `Bearer ${token}` ? `Bearer ${token}` : '',
+        authorization: `Bearer ${token}` && `Bearer ${token}`,
         userAgent: userAgent ? userAgent : '',
         restaurant: restaurant ?? restaurant,
         deviceid: await getDeviceId() || '',
@@ -84,15 +84,16 @@ const authLink = async (_) => {
 }
 
 
-
+// eslint-disable-next-line
 const httpLink = createUploadLink({
     uri: `${URL_BASE}graphql`, // Server URL (must be absolute)
     credentials: 'same-origin' // Additional fetch() options like `credentials` or `headers`
 })
-
+// eslint-disable-next-line
 const getLink = async (operation) => {
     // await splitLink({ query: operation.query })
     const headers = await authLink()
+    // eslint-disable-next-line
     const definition = getMainDefinition(operation.query);
     const service = operation.getContext().clientName
     let uri = `${URL_BASE}graphql`
@@ -138,10 +139,9 @@ const wsLink = process.browser ? new WebSocketLink({
 
 function createApolloClient() {
     const ssrMode = typeof window === 'undefined'
-    const getLink = async (operation, forward) => {
+    const getLink = async (operation) => {
         // await splitLink({ query: operation.query })
         const headers = await authLink()
-        const definition = getMainDefinition(operation.query);
         const service = operation.getContext().clientName
         let uri = `${URL_BASE}graphql`
         if (service === 'subscriptions') uri = 'http://localhost:4000/graphql'
@@ -218,7 +218,7 @@ function createApolloClient() {
         )
     return new ApolloClient({
         connectToDevTools: true,
-        ssrMode: typeof window === 'undefined',
+        ssrMode,
         link: link,
         defaultOptions,
         typeDefs,
