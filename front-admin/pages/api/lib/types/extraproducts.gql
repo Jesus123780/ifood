@@ -87,13 +87,14 @@ type Query {
 # Mutations
 type Mutation {
     "Registra un ExtProductFood"
-     updateExtProductFoods(input: InputExtProductFood): ExtProductFood
-     updateMultipleExtProductFoods(inputLineItems: ILineItemsExtraFinal): ExtProductFood
-     deleteextraproductfoods(id: ID, state: Int): Response
+    updateExtProductFoods(input: InputExtProductFood): ExtProductFood
+    updateMultipleExtProductFoods(inputLineItems: ILineItemsExtraFinal): ExtProductFood
+    editExtProductFoods(input: InputExtProductFood!): Response
+    deleteextraproductfoods(id: ID, state: Int): Response
     DeleteExtProductFoodsOptional(opExPid: ID, state: Int): Response
     "Registra un ExtProductFoodOptional"
-     updateExtProductFoodsOptional(input: InputExtProductFoodOptional): ExtProductFoodOptional
+    updateExtProductFoodsOptional(input: InputExtProductFoodOptional): ExtProductFoodOptional
     "Registra un ExtProductFoodSubOptional"
-     updateExtProductFoodsSubOptional(input: InputExtProductFoodSubOptional): ExtProductFoodSubOptional
+    updateExtProductFoodsSubOptional(input: InputExtProductFoodSubOptional): ExtProductFoodSubOptional
     DeleteExtFoodSubsOptional(opSubExPid: ID, state: Int): Response
 }

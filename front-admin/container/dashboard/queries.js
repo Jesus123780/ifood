@@ -56,6 +56,14 @@ export const DELETE_EXTRA_PRODUCTS = gql`
   }
 }
 `
+export const EDIT_EXTRA_PRODUCTS = gql`
+mutation editExtProductFoods($input: InputExtProductFood!) {
+  editExtProductFoods(input: $input) {
+    success
+    message
+  }
+}
+`
 export const DELETE_CAT_EXTRA_PRODUCTS = gql`
   mutation  DeleteExtProductFoodsOptional($opExPid: ID, $state: Int){
     DeleteExtProductFoodsOptional(opExPid: $opExPid, state: $state){

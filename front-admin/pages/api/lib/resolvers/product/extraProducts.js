@@ -137,12 +137,25 @@ export const ExtProductFoodsOptionalOne = async (root, { pId }, context, info) =
     }
 }
 
-export const updateExtraInProduct = async (_root, { input }, context) => {
-    const { pId } = input || {}
+export const editExtProductFoods = async (_root, { input }, context) => {
+    if (!context.User) return { success: false, message: 'Inicie session' }
+    const { state, extraName, extraPrice, exPid } = input || {}
+    if (exPid) {
+        await ExtraProductModel.update({
+            state, extraName, extraPrice,
+        }, { where: { exPid: deCode(exPid), idStore: deCode(context.restaurant) } })
+        return { success: true, message: 'Editado con éxito' }
+    } else {
+        return { success: false, message: 'Ocurrió un error, no pudimos editarlo' }
+
+    }
+}
+export const updateExtraInProduct = async (_root, { input }, _context) => {
+    const { pId, idStore } = input || {}
     try {
         await ExtraProductModel.create({
             ...input,
-            idStore: deCode(context.restaurant),
+            idStore: deCode(idStore),
             pId: deCode(pId)
         })
         return input
@@ -217,7 +230,6 @@ export const ExtProductFoodsOptionalAll = async (root, args, context, info) => {
         })
         return data
     } catch (e) {
-        console.log(e)
         const error = new Error('Lo sentimos, ha ocurrido un error interno', e)
         return error
     }
@@ -261,11 +273,14 @@ export const ExtProductFoodsSubOptionalAll = async (root, args, context, info) =
 }
 
 export const updateMultipleExtProductFoods = async (_root, args, context) => {
+    // eslint-disable-next-line no-unused-vars
     const { inputLineItems, inputLineItems: { setData } } = args
+    const { restaurant } = context || {}
     try {
         for (let i = 0; i < setData.length; i++) {
             const { pId, exState, extraName, extraPrice } = setData[i]
-            await updateExtraInProduct(null, { input: { pId, exState, extraName, extraPrice } })
+            await updateExtraInProduct(null, { input: { pId, exState, extraName, extraPrice, idStore: restaurant } })
+                .catch(() => new ApolloError('No ha sido posible procesar su solicitud.', 500))
         }
     } catch (e) {
         throw new ApolloError('No ha sido posible procesar su solicitud.', 500)
@@ -299,6 +314,7 @@ export default {
         deleteextraproductfoods,
         // OPTIONAL
         DeleteExtProductFoodsOptional,
+        editExtProductFoods,
         updateExtProductFoodsOptional,
         // SUB_OPTIONAL
         updateExtProductFoodsSubOptional,

@@ -18,7 +18,8 @@ import { Context } from 'context/Context';
 
 export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, modal }) => {
     //    STATES
-    const [handleChange, handleSubmit, handleForcedData, { dataForm }] = useFormTools()
+    // eslint-disable-next-line
+    const [handleChange, _handleSubmit, handleForcedData, { dataForm }] = useFormTools()
     const OPEN_MODAL_CAT_EXTRA = useSetState(false)
     const INFO_EXTRA = useSetState({})
     const { setAlertBox } = useContext(Context)
@@ -56,6 +57,7 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
 
     const [LineItems, setLine] = useState(initialLineItems)
     const handleAdd = () => {
+        // eslint-disable-next-line no-unsafe-optional-chaining
         const Lines = [...LineItems?.Lines, { ...initialLine }, { ...initialLine }]
         setLine({ ...LineItems, Lines })
     }
@@ -92,15 +94,17 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
                         setData: dataArr || []
                     }
                 },
-                // update: (cache, { data: { ExtProductFoodsAll } }) => updateCache({
-                //     cache,
-                //     query: GET_ALL_EXTRA_PRODUCT,
-                //     nameFun: 'ExtProductFoodsAll',
-                //     dataNew: ExtProductFoodsAll
-                // })
-            })
+                update: (cache, { data: { ExtProductFoodsAll } }) => updateCache({
+                    cache,
+                    query: GET_ALL_EXTRA_PRODUCT,
+                    nameFun: 'ExtProductFoodsAll',
+                    dataNew: ExtProductFoodsAll
+                })
+            }).then((e) => console.log(e))
             // setModal(false)
         } catch (error) {
+            console.log(error)
+            setAlertBox({ message: `${ error }` , duration: 7000 })
         }
     }
     // DELETE ADICIONAL
@@ -154,12 +158,6 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
         INFO_EXTRA.setState(elem)
         handleForcedData({ ...elem })
     }
-    const [setCheck, setChecker] = useState({})
-    const handleCheck = (e) => {
-        const { name, checked } = e.target
-        setChecker({ ...setCheck, [name]: checked ? 1 : 0 })
-    }
-    console.log(LineItems?.Lines)
     return (
         <Container>
             {dataExtra.length > 0 && <form onSubmit={(e) => onSubmitUpdate(e)} >
@@ -194,7 +192,7 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
                         </div>
                         <div className="garnish-choices">
                             <IconMiniCheck size={'15px'} color={'#009b3a'} />
-                            {!!x.required ? <span span className="marmita-minitag">OBLIGATORIO</span> : <span style={{ backgroundColor: 'transparent', color: 'transparent', width: '8  0px', zIndex: '0' }} className="marmita-minitag">OBLIGATORIO</span>}
+                            {x.required ? <span span className="marmita-minitag">OBLIGATORIO</span> : <span style={{ backgroundColor: 'transparent', color: 'transparent', width: '8  0px', zIndex: '0' }} className="marmita-minitag">OBLIGATORIO</span>}
                         </div>
                     </GarnishChoicesHeader>
                     {
@@ -275,7 +273,7 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
 };
 
 
-export const OptionalExtraProducts = ({ pId, dataOptional }) => {
+export const OptionalExtraProducts = ({ pId }) => {
     // STATES
     const [data, setData] = useState(MockData);
     const [numberLimit, setNumberLimit] = useState(2);
@@ -337,11 +335,8 @@ export const OptionalExtraProducts = ({ pId, dataOptional }) => {
     const handleAdd = ({ listId }) => {
         if (title !== '') {
             addCard(title, listId)
-        } else {
-
         }
     }
-
     const handleAddList = async ({ title, numberLimit }) => {
         if (title !== '') {
             const newListId = await RandomCode(9)
@@ -436,7 +431,7 @@ export const OptionalExtraProducts = ({ pId, dataOptional }) => {
                                         <span>{list?.cards?.length}</span>
                                         <List list={list} index={index} setData={setData} data={data} />
                                         <Input card aria-disabled autoFocus onKeyDown={(event) => (event.key === 'Enter' && handleAdd({ listId: listID }))} onChange={(e) => setTitle(e.target.value)} value={listID.title} name='title' placeholder='enter card' />
-                                        <RippleButton widthButton='100%' margin='20px auto' onClick={(e) => handleAdd({ listId: listID })} onKeyPress={(e) => {
+                                        <RippleButton widthButton='100%' margin='20px auto' onClick={() => handleAdd({ listId: listID })} onKeyPress={(e) => {
                                             if (e.key === 'Enter') {
                                                 handleAdd({ listId: listID })
                                             }
@@ -481,7 +476,7 @@ export const OptionalExtraProducts = ({ pId, dataOptional }) => {
                 <RippleButton widthButton='100%' margin='0' padding='0' type="button" onClick={() => handleAddList({ title: title, numberLimit: numberLimit })}>Add list</RippleButton>
                 <div style={{ display: 'block' }}>
                     <RippleButton widthButton='100%' bgColor={'transparent'} border='1px solid' margin='0' padding='0' type="button" onClick={() => setNumberLimit(numberLimit + 1)}><IconPlus color={PColor} size='16px' /></RippleButton>
-                    <RippleButton widthButton='100%' color='#000' bgColor={'transparent'} border='1px solid' margin='0' padding='0' type="button" onClick={() => setNumberLimit(numberLimit = 0 && numberLimit - 1)}>--</RippleButton>
+                    {/* <RippleButton widthButton='100%' color='#000' bgColor={'transparent'} border='1px solid' margin='0' padding='0' type="button" onClick={() => setNumberLimit(numberLimit = 0 && numberLimit - 1)}>--</RippleButton> */}
                 </div>
             </GarnishChoicesHeader>
         </div>

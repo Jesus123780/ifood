@@ -62,9 +62,8 @@ export const WrapperProducts = styled.div`
 export const Item = styled.div`
     padding: 15px 1px;
     margin: auto;
-    /* background-color: ${BGColor}; */
-    border-radius: 5px;
     display: grid;
+    font-family: PFont-Light;
     place-content: center;
     .btn {
         background-color: transparent;
