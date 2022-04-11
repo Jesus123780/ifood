@@ -14,7 +14,7 @@ import { FoodCardPreview } from './FoodPreview';
 import { Container, Card, Button, CardOne, Label, ContainerCardProduct, CardProduct, Img, ContentImg, Title, Text, ContentInfo, ContentIconFav, ButtonCard, ActionName, ReadMore, ContentProducts, CardInput, CardCheckBox, CardRadioLabel, ContainerFilter, ItemFilter, ContainerBurger, Footer, LateralModal, WrapperProducts, Grid } from './styled';
 import { useRouter } from 'next/router';
 import { useSetState } from '../../hooks/useState';
-import { AwesomeModal } from '../../AwesomeModal';import React from 'react';
+import { AwesomeModal } from '../../AwesomeModal'; import React from 'react';
 import Image from 'next/image';
 import { Loading } from 'components/Loading';
 
@@ -48,6 +48,7 @@ export const FoodComponent = ({ datafatures,
     onClickClear,
     handleCheckEnvioGratis,
     onClickSearch,
+
     state: grid,
     setLocalStorage,
     intPorcentaje,
@@ -112,7 +113,6 @@ export const FoodComponent = ({ datafatures,
                             name='ProDescription'
                             onChange={handleChange}
                             range={{ min: 0, max: 180 }} />
-
                         <CardInput onChange={handleCheckEnvioGratis}>
                             <CardCheckBox name='gender' value="1" type="checkbox" id="checkboxF" />
                             <CardRadioLabel htmlFor='checkboxF'>Envío gratis</CardRadioLabel>
@@ -145,7 +145,7 @@ export const FoodComponent = ({ datafatures,
                     setRating={setRating} />
             </Card>
         </Container>
-        
+
         <ContentProducts>
             <Text size='30px'>Lista de productos registrados</Text>
             <ContainerFilter>

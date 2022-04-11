@@ -944,7 +944,7 @@ export const Card = styled.div`
   ${({ overflow }) => overflow && css`overflow: ${overflow};`}
   transition: .5s ease;  
   margin: ${({ margin }) => margin || '0'};
-  background-color: #e0f2df;
+  background-color: ${({ bgColor }) => bgColor || '#e0f2df'};
   ${props => props.active ? css`border: 3px solid ${PVColor};` : css`border: 3px solid transparent;`}
   box-shadow: 0px 0px 14px #00000017;
   flex-direction: ${({ direction }) => direction || 'row'};

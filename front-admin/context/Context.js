@@ -1,9 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useReducer, useState } from 'react'
-import { useRouter } from 'next/router'
 export const Context = createContext()
 const Provider = ({ children }) => {
     // STATE
-    const router = useRouter()
     const [error, setError] = useState({})
     // State to Session
     const [isCompany, setCompany] = useState({})
@@ -72,7 +70,7 @@ const Provider = ({ children }) => {
         }),
         [isSession]
     )
-    const [alert, setAlert] = useState(false)
+    const [alert] = useState(false)
     const initialState = {
         PRODUCT: [],
     }
@@ -84,6 +82,7 @@ const Provider = ({ children }) => {
                 localStorage.setItem('shoppingCard', JSON.stringify({ ...shoppingCart, ...state?.PRODUCT }))
                 return {
                     ...state,
+                    // eslint-disable-next-line no-unsafe-optional-chaining
                     PRODUCT: [...state?.PRODUCT, action?.payload]
 
                 }

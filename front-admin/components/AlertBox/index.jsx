@@ -16,13 +16,11 @@ export const AlertBox = ({ err }) => {
         }
     }, [err])
     return (
-        <div>
-            <ContainerToast onClick={setClosed} color={err?.color} closed={closed} error={!!err?.message}>
-                <ContentToast>
-                    <ContainerText >{(err?.message || '')}</ContainerText>
-                    <div></div>
-                </ContentToast>
-            </ContainerToast>
-        </div>
+        <ContainerToast onClick={setClosed} color={err?.color} closed={closed} error={!!err?.message}>
+            <ContentToast>
+                <ContainerText >{(err?.message || '')}</ContainerText>
+                <div></div>
+            </ContentToast>
+        </ContainerToast>
     )
 }

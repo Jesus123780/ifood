@@ -19,6 +19,7 @@
     "apollo-server-micro": "^3.6.3",
     "apollo-server-plugin-http-headers": "^0.1.4",
     "apollo-upload-client": "^17.0.0",
+    "chart.js": "^3.5.1",
     "deepmerge": "^4.2.2",
     "file-saver": "^2.0.5",
     "googleapis": "^95.0.0",
@@ -43,7 +44,6 @@
     "react-beautiful-dnd": "^13.1.0",
     "react-canvas-draw": "^1.2.1",
     "react-chartjs-2": "^4.0.1",
-    "chart.js": "^3.5.1",
     "react-dnd": "^15.1.1",
     "react-dom": "17.0.2",
     "react-facebook-login": "^4.1.1",
@@ -54,6 +54,7 @@
   },
   "devDependencies": {
     "eslint": "8.9.0",
-    "eslint-config-next": "12.0.10"
+    "eslint-config-next": "12.0.10",
+    "eslint-plugin-react": "^7.29.4"
   }
 }

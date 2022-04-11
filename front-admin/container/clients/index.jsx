@@ -3,41 +3,24 @@ import { useFormTools } from 'components/BaseForm'
 import { useSetState } from 'components/hooks/useState'
 import InputHooks from 'components/InputHooks/InputHooks'
 import { RippleButton } from 'components/Ripple'
-import { Table } from 'components/Table'
-import { Section } from 'components/Table/styled'
-import moment from 'moment'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Item, Container, GridStatistics } from './styled'
-import { gql, useQuery, useMutation, useLazyQuery } from '@apollo/client'
-import { CREATE_CLIENTS, DELETE_ONE_CLIENTS, GET_ALL_CLIENTS, GET_ONE_CLIENT } from './queries'
+import { useQuery, useMutation} from '@apollo/client'
+import { CREATE_CLIENTS, DELETE_ONE_CLIENTS, GET_ALL_CLIENTS } from './queries'
 import { updateCache } from 'utils'
-import { Context } from 'context/Context'
-import { Loading } from 'components/Loading'
 import { IconDelete } from 'public/icons'
 import { PColor } from 'public/colors'
 import { UserVisit } from 'container/dashboard/LastedStatistic'
 import { MainCard } from 'components/common/Reusable/ShadowCard'
 
 export const Clients = () => {
-    const [getOneClients, { data: dataOneClient, loading }] = useLazyQuery(GET_ONE_CLIENT)
     const [deleteClient] = useMutation(DELETE_ONE_CLIENTS)
-    const { error, isSession, setAlertBox } = useContext(Context)
     const [setCheck, setChecker] = useState({})
     const handleCheck = (e) => {
         const { name, checked } = e.target
         setChecker({ ...setCheck, [name]: checked ? 1 : 0 })
     }
-    const { cliId, idStore, idUser, clState, gender, clientNumber, ccClient, clientLastName, clientName, createAt, updateAt, } = dataOneClient?.getOneClients || {}
-    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
-    const HandleGetOne = ({ id }) => {
-        OPEN_MODAL_CLIENT.setState(!OPEN_MODAL_CLIENT.state)
-        getOneClients({ variables: { cliId: id } })
-        setDataValue({ ...dataOneClient?.getOneClients })
-        setChecker({ 'gender': gender })
-    }
-    useEffect(() => {
-        setDataValue({ ...dataOneClient?.getOneClients })
-    }, [dataOneClient])
+    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm }] = useFormTools()
     const DeleteOneClient = ({ clState, cliId }) => {
         deleteClient({
             variables: {
@@ -54,7 +37,7 @@ export const Clients = () => {
     }
     const OPEN_MODAL = useSetState()
     const OPEN_MODAL_CLIENT = useSetState()
-    const [createClients, { data, called }] = useMutation(CREATE_CLIENTS)
+    const [createClients] = useMutation(CREATE_CLIENTS)
     const { data: clients } = useQuery(GET_ALL_CLIENTS)
     const handleForm = (e) =>
         handleSubmit({
@@ -81,10 +64,8 @@ export const Clients = () => {
     console.log(clients?.getAllClients)
     return (
         <Container>
-
-            {loading && <Loading />}
             <RippleButton onClick={() => OPEN_MODAL.setState(!OPEN_MODAL.state)}>Crear nuevo</RippleButton>
-            <AwesomeModal zIndex='9999' title={`Cliente ${clientName}`} padding='25px' show={OPEN_MODAL_CLIENT.state} onHide={() => {
+            <AwesomeModal zIndex='9999' title={`Cliente ${''}`} padding='25px' show={OPEN_MODAL_CLIENT.state} onHide={() => {
                 OPEN_MODAL_CLIENT.setState(!OPEN_MODAL_CLIENT.state)
                 setDataValue({})
             }} onCancel={() => false} size='small' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
@@ -249,7 +230,7 @@ export const Clients = () => {
                 </GridStatistics>
             </MainCard>
             <div>
-                {clients?.getAllClients?.length > 0 ? clients?.getAllClients?.map((client, i) => (
+                {clients?.getAllClients?.length > 0 ? clients?.getAllClients?.map((client) => (
                     <div key={client.cliId}>
                         <Item>{client.clientName}</Item>
                         <Item>{client.clientLastName}</Item>

@@ -12,14 +12,14 @@ import moment from 'moment'
 import React from 'react'
 import { CREATE_CONTACTS, GET_ALL_CONTACTS } from './queries'
 import { Button, Item, Container } from './styled'
-import { numberFormat, updateCache } from 'utils'
+import { updateCache } from 'utils'
 
 export const Contact = () => {
     const HandleGetOne = () => { }
     const OPEN_MODAL = useSetState()
     const [createContacts] = useMutation(CREATE_CONTACTS)
-    const { data, loading, error } = useQuery(GET_ALL_CONTACTS)
-    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
+    const { data } = useQuery(GET_ALL_CONTACTS)
+    const [handleChange, handleSubmit, { dataForm, errorForm }] = useFormTools()
     const handleForm = (e) =>
         handleSubmit({
             event: e,
@@ -30,12 +30,12 @@ export const Contact = () => {
                             cntName: dataForm.cntName,
                             cntComments: dataForm.cntComments,
                         }
-                    },update: (cache, { data: { getAllContacts } }) => updateCache({
+                    }, update: (cache, { data: { getAllContacts } }) => updateCache({
                         cache,
                         query: GET_ALL_CONTACTS,
                         nameFun: 'getAllContacts',
                         dataNew: getAllContacts
-                      })
+                    })
                 })
             }
         })

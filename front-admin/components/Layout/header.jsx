@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { AdicionalComponent, Anchor, FooterComponent, Text, Time, Timer, UseSize } from './styled'
-import ActiveLink from '../common/Link'
-import { IconConfig, IconHome, IconLogo, IconSearch, IconUser } from '../../public/icons'
+import Link from 'next/link'
+import { IconLogo } from '../../public/icons'
 import { PColor } from '../../public/colors'
 import styled from 'styled-components'
 import useScrollHook, { useScrollColor, useScrollY } from '../hooks/useScroll'
@@ -35,19 +34,17 @@ export const Header = () => {
     }, 1000);
   }, []);
   const size = useWindowSize();
-
   return (
     <HeaderC scrollNav={scrollNav} style={style} >
-      <>
-        <div style={{ transform: `translateX(${offsetY * 0.8}px)` }} >
-          <ActiveLink href={'/dashboard'}>
-            <a>
-              <IconLogo size='80px' color={PColor} />
-            </a>
-          </ActiveLink>
-        </div>
-        <Options />
-      </>
+      <div style={{ transform: `translateX(${offsetY * 0.8}px)` }} >
+        <Link className='' href={'/dashboard'}>
+          <a >
+            <IconLogo size='80px' color={PColor} />
+          </a>
+        </Link>
+        {time}
+      </div>
+      <Options />
     </HeaderC>
   )
 }
