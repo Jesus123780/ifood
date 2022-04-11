@@ -173,7 +173,7 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
                         <CardsComponent>
                             <div>
                                 <h3 className="title_card">{Adicionales.extraName}</h3>
-                                <h3 className="price"> $ {Adicionales.extraPrice}</h3>
+                                <h3 className="price"> $ {numberFormat(Adicionales.extraPrice)}</h3>
                             </div>
                             <RippleButton bgColor={'transparent'} margin='0px' widthButton='min-content' type="button" onClick={() => handleDeleteAdditional(Adicionales)} >
                                 <IconDelete size='25px' color={EColor} />
@@ -375,7 +375,8 @@ export const OptionalExtraProducts = ({ pId }) => {
     }
     // OPTIONAL EXTRA PRODUCT
     const onDragEnd = async (results) => {
-        const { destination, destination: { droppableId: destDroppableId, index: desIndex }, source, source: { droppableId: sourceDroppableId, index: sourceIndex }, draggableId, type } = results
+        // eslint-disable-next-line
+        const { destination, destination: { droppableId: destDroppableId, index: desIndex }, _source, source: { droppableId: sourceDroppableId, index: sourceIndex }, draggableId, type } = results
         if (!destination) {
             return;
         }

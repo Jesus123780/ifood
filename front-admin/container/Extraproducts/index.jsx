@@ -16,14 +16,15 @@ import { useFormTools } from 'components/BaseForm'
 import { RippleButton } from 'components/Ripple'
 import { Flex } from 'container/dashboard/styled'
 import { Context } from 'context/Context'
+import { Loading } from 'components/Loading'
 
 export const ExtraProducts = () => {
     const { setAlertBox } = useContext(Context)
     const OPEN_EDIT = useSetState(false)
     // eslint-disable-next-line
     const [handleChange, _, setDataValue, { dataForm, errorForm }] = useFormTools()
-    const [deleteextraproductfoods] = useMutation(DELETE_EXTRA_PRODUCTS)
-    const [editExtProductFoods] = useMutation(EDIT_EXTRA_PRODUCTS)
+    const [deleteextraproductfoods, { loading }] = useMutation(DELETE_EXTRA_PRODUCTS)
+    const [editExtProductFoods, { loading: loadEdit }] = useMutation(EDIT_EXTRA_PRODUCTS)
     // DELETE ADICIONAL
     const handleDeleteAdditional = async elem => {
         const { state, exPid } = elem || {}
@@ -42,8 +43,8 @@ export const ExtraProducts = () => {
             setDataValue({})
         })
     }
-    const { data: dataExtra } = useQuery(GET_ALL_EXTRA_PRODUCT)
-    const { data: dataOptional } = useQuery(GET_EXTRAS_PRODUCT_FOOD_OPTIONAL)
+    const { data: dataExtra, loading: loadExtra } = useQuery(GET_ALL_EXTRA_PRODUCT)
+    const { data: dataOptional, loading: loadExtraOptional } = useQuery(GET_EXTRAS_PRODUCT_FOOD_OPTIONAL)
     const handledExtProductFoods = () => {
         const { pId, state, extraName, extraPrice, exPid } = dataForm || {}
         editExtProductFoods({
@@ -63,6 +64,7 @@ export const ExtraProducts = () => {
             })
         }).then(res => {
             const { data } = res || {}
+            OPEN_EDIT.setState(!OPEN_EDIT.state)
             setAlertBox({ message: `${data.editExtProductFoods.message}` })
         })
     }
@@ -73,6 +75,7 @@ export const ExtraProducts = () => {
     // HANDLE
     return (
         <div>
+            {(loading || loadEdit || loadExtra || loadExtraOptional) && <Loading />}
             <AwesomeModal backdrop='static' zIndex='99390' padding='20px' height='auto' show={OPEN_EDIT.state} onHide={() => OPEN_EDIT.setState(!OPEN_EDIT.state)} onCancel={() => false} size='small' btnCancel={true} btnConfirm={false} header={true} footer={false} >
                 <InputHooks title='Nombre de la sobre mesa' required errors={errorForm?.extraName} value={dataForm?.extraName} onChange={handleChange} name='extraName' />
                 <InputHooks title='Precio' required errors={errorForm?.extraPrice} value={dataForm?.extraPrice} onChange={handleChange} name='extraPrice' />
@@ -95,8 +98,8 @@ export const ExtraProducts = () => {
                             <Item>
                                 <span># {x.extraName}</span>
                             </Item>
-                            <Item>
-                                <span> {numberFormat(x.extraPrice)}</span>
+                            <Item color={PColor}>
+                                <span> $ {numberFormat(x.extraPrice)}</span>
                             </Item>
                             <Item>
                                 <Button className='btn' onClick={() => HandleSetEdit(x)}>
@@ -108,7 +111,6 @@ export const ExtraProducts = () => {
                                     <IconDelete size={20} color={PColor} />
                                 </Button>
                             </Item>
-
                         </Section>
 
                     ))

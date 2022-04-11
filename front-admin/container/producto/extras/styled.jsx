@@ -27,6 +27,7 @@ export const GarnishChoicesHeader = styled.div`
     top: 60px;
     border-bottom: 1px solid #ccc;
     z-index: 99;
+    margin-bottom: 80px;
     .garnish-choices__title { 
         margin: 0;
         font-size: 1rem;

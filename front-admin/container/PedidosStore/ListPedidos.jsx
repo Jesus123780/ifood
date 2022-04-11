@@ -147,7 +147,7 @@ export const ListPedidos = ({ data, fetchMore, setMore, more }) => {
                         <span> $ {numberFormat(x.totalProductsPrice)} </span>
                     </Item>
                     <Item>
-                        {x.pSState === 1 ? 'Aceptado' : x.pSState === 2 ? 'Pedido en proceso' : x.pSState === 3 ? 'listo para entrega' : x.pSState === 4 ? 'Pedido pagado (Concluido)' : 'Rechazado'} 
+                        {x.pSState === 1 ? 'Aceptado' : x.pSState === 2 ? 'Pedido en proceso' : x.pSState === 3 ? 'listo para entrega' : x.pSState === 4 ? 'Pedido pagado (Concluido)' : 'Rechazado'}
                     </Item>
                     <Item>
                         <span> {i + 1}</span>
@@ -292,9 +292,9 @@ export const CheckStatus = ({ setModal, modal, dataModal }) => {
                                                 </RippleButton>
                                             </CardsComponent>
                                         ))} */}
-                                            {![1, 2, 4]?.map(itemOptional => (
-                                                <div>
-                                                    <GarnishChoicesHeader key={itemOptional?.opExPid}>
+                                            {![1, 2, 4]?.map((itemOptional, i) => (
+                                                <div key={i + 1}>
+                                                    <GarnishChoicesHeader >
                                                         <div>
                                                             <p className="garnish-choices__title">{itemOptional?.OptionalProName}</p>
                                                             <p className="garnish-choices__title-desc">Escoge hasta {itemOptional?.numbersOptionalOnly} opciones.</p>

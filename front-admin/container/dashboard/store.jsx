@@ -13,7 +13,6 @@ import { AwesomeModal } from '../../components/AwesomeModal'
 import { GET_ALL_CATEGORIES_WITH_PRODUCT, GET_ALL_EXTRA_PRODUCT } from './queries'
 // import { ScheduleTimings } from './ScheduleTimings'
 // import { ManageCategories } from './manageCategories'
-import { AddEmployee } from '../searchAddTeam'
 import { ContainerFilter, ItemFilter } from '../../components/Update/Products/styled'
 import { ButtonAction, WrapperOptions, ContentSearch, Title, ContainerCarrusel } from './styledStore'
 import InputHooks from '../../components/InputHooks/InputHooks'
@@ -40,7 +39,6 @@ const DashboardStore = () => {
     const [handleChange, _handleSubmit, _setDataValue, { dataForm, errorForm }] = useFormTools()
     const SHOW_MODAL_UPDATE_PRODUCTS = useSetState(false)
     const SHOW_MANAGE_CATEGORIES = useSetState(false)
-    const SHOW_MANAGE_EMPLOYEE = useSetState(false)
     // eslint-disable-next-line no-unused-vars
     const [searchFilter, setSearchFilter] = useState({ gender: [], desc: [], speciality: [] })
     // eslint-disable-next-line no-unused-vars
@@ -176,7 +174,6 @@ const DashboardStore = () => {
                         <ButtonAction onClick={() => SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state)}> Subir productos</ButtonAction >
                         <ButtonAction onClick={() => setOpenSchedule(!openSchedule)}> Editar agenda </ButtonAction>
                         <ButtonAction onClick={() => SHOW_MANAGE_CATEGORIES.setState(!SHOW_MANAGE_CATEGORIES.state)}> Administrar Categorías</ButtonAction>
-                        <ButtonAction onClick={() => SHOW_MANAGE_EMPLOYEE.setState(!SHOW_MANAGE_EMPLOYEE.state)}> Agregar empleados</ButtonAction>
                         <ButtonAction onClick={() => openTable(!table)}> Ver sobre mesa</ButtonAction>
                     </div>
                 </WrapperOptions>
@@ -249,9 +246,6 @@ const DashboardStore = () => {
             </AwesomeModal>
             <AwesomeModal backdrop='static' zIndex='9990' padding='25px' height='100vh' show={SHOW_MANAGE_CATEGORIES.state} onHide={() => { SHOW_MANAGE_CATEGORIES.setState(!SHOW_MANAGE_CATEGORIES.state) }} onCancel={() => false} size='100%' btnCancel={true} btnConfirm={false} header={true} footer={false} >
                 {SHOW_MANAGE_CATEGORIES.state && <ManageCategories SHOW_MODAL_UPDATE_PRODUCTS={SHOW_MODAL_UPDATE_PRODUCTS} />}
-            </AwesomeModal>
-            <AwesomeModal zIndex='9990' padding='25px' height='50vh' show={SHOW_MANAGE_EMPLOYEE.state} onHide={() => { SHOW_MANAGE_EMPLOYEE.setState(!SHOW_MANAGE_EMPLOYEE.state) }} onCancel={() => false} size='50%' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
-                {SHOW_MANAGE_EMPLOYEE.state && <AddEmployee />}
             </AwesomeModal>
         </Wrapper>
     </>

@@ -69,7 +69,7 @@ export const Item = styled.div`
         background-color: transparent;
     }
     & span {
-        color: ${PLColor};
+        color: ${({ color }) => color || PLColor};
     }
 `
 export const ContainerCardProduct = styled.div` 

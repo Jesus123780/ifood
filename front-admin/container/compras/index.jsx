@@ -19,7 +19,7 @@ export const ShoppingC = () => {
     const OPEN_MODAL = useSetState()
     const [newShopping] = useMutation(CREATE_SHOPPING)
     const { data } = useQuery(GET_ALL_SHOPPING)
-    const [handleChange, handleSubmit, { dataForm, errorForm }] = useFormTools()
+    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
     const handleForm = (e) =>
         handleSubmit({
             event: e,

@@ -196,7 +196,7 @@ export const ExtProductFoodsAll = async (root, args, context, info) => {
                         state: { [Op.gt]: 0 },
                     }
                 ]
-            }, limit: [min || 0, max || 100], order: [['extraName', 'DESC']]
+            }, limit: [min || 0, max || 100], order: [['pDatCre', 'DESC']]
         })
         return data
     } catch (e) {
