@@ -1,5 +1,6 @@
 import React, { useContext, useRef } from "react";
 import { useObserveBottomSentinels, useObserveTopSentinels, useSentinelOffsets } from "../../components/hooks/useSetHeader";
+// eslint-disable-next-line no-unused-vars
 import { StickyProvider, StickySectionContext, useStickyActions, useStickyState } from "../../context/contextsticky";
 import styles from './Home.module.css'
 
@@ -32,7 +33,8 @@ function StickyBoundary({
 }) {
     const Component = as;
 
-    const { debug } = useStickyState();
+    // const { debug } = useStickyState();
+    // console.log(debug)
     const topSentinelRef = useRef(null);
     const bottomSentinelRef = useRef(null);
 

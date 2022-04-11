@@ -5,7 +5,7 @@ import InputHooks from 'components/InputHooks/InputHooks'
 import { RippleButton } from 'components/Ripple'
 import React, { useState } from 'react'
 import { Button, Item, Container, GridStatistics } from './styled'
-import { useQuery, useMutation} from '@apollo/client'
+import { useQuery, useMutation } from '@apollo/client'
 import { CREATE_CLIENTS, DELETE_ONE_CLIENTS, GET_ALL_CLIENTS } from './queries'
 import { updateCache } from 'utils'
 import { IconDelete } from 'public/icons'
@@ -39,6 +39,7 @@ export const Clients = () => {
     const OPEN_MODAL_CLIENT = useSetState()
     const [createClients] = useMutation(CREATE_CLIENTS)
     const { data: clients } = useQuery(GET_ALL_CLIENTS)
+    console.log(clients)
     const handleForm = (e) =>
         handleSubmit({
             event: e,
@@ -54,7 +55,13 @@ export const Clients = () => {
                             ClientAddress,
                             clientLastName,
                         }
-                    }
+                    },
+                    update: (cache, { data: { getAllClients } }) => updateCache({
+                        cache,
+                        query: GET_ALL_CLIENTS,
+                        nameFun: 'getAllClients',
+                        dataNew: getAllClients
+                    })
                 }).then(() => {
                     OPEN_MODAL.setState(!OPEN_MODAL.state)
                     setDataValue({})

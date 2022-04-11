@@ -1,8 +1,8 @@
 import styled, { css, keyframes } from 'styled-components'
 import { StyleSheet } from '@react-pdf/renderer'
-import { BColor, BGColor, EColor, ESFColor, PColor, SECColor, PVColor, TBGSColor, BGVColor, SFVColor, PLVColor } from '../../public/colors'
+import { BColor, BGColor, PColor, SECColor, PVColor, TBGSColor, PLVColor, TBGAColor, TBGVColor, TBGBColor, TBGEColor, TBGRColor, TBGDColor } from '../../public/colors'
 import { fadeIn, fadeOut } from '../../components/AlertBox/styled'
-import { BG_ANIMATION_, FadeOup, SideIn, SlideInLeft } from '../../components/animations'
+import { BG_ANIMATION_, SideIn, SlideInLeft } from '../../components/animations'
 
 const pulse = keyframes`
   0% {
@@ -789,9 +789,6 @@ export const InputFilterNumber = styled.input`
   height: 40px;
   outline: none;
   `
-const LinkPdf = styled.a`
-  background-color: transparent;
-`
 export const LineItems = styled.div`
     background-color: ${BGColor};
     width: 100%;

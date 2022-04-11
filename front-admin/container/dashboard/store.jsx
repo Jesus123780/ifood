@@ -1,23 +1,21 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
-import { BGColor, PColor, PLColor, TBGBColor, APColor } from '../../public/colors'
-import { Loading, SpinnerColor } from '../../components/Loading'
+import { BGColor, PColor, APColor } from '../../public/colors'
+import { Loading } from '../../components/Loading'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { Container, Text, Wrapper, WrapperRow, CardOverFloW, CircleCompany, ButtonTheme, SwitchButton, ContentToggle, OlList, FeedItem, ItemTeam, ItemInf, CardDevice, LateralModal, HeadCategory, CardProductsContent, MerchantListWrapper, CardProductsModal, Flex, DisRestaurant, ContentInfo, HeadSticky, ContentImage, Tooltip, TooltipCardProduct, WrapperCard } from './styled'
+import { Container, Text, Wrapper, CardProductsContent, CardProductsModal, Flex, DisRestaurant, ContentInfo, HeadSticky, ContentImage, TooltipCardProduct, WrapperCard } from './styled'
 import { useFormTools } from '../../components/BaseForm'
-import { GET_ONE_STORE } from '../Restaurant/queries'
 import { Food } from '../update/Products/food'
 import { useSetState } from '../../components/hooks/useState'
 import { AwesomeModal } from '../../components/AwesomeModal'
 import { GET_ALL_CATEGORIES_WITH_PRODUCT, GET_ALL_EXTRA_PRODUCT } from './queries'
-import { Overline } from '../../components/common/Reusable'
 // import { ScheduleTimings } from './ScheduleTimings'
 // import { ManageCategories } from './manageCategories'
 import { AddEmployee } from '../searchAddTeam'
-import { CardProduct, ContainerFilter, ItemFilter } from '../../components/Update/Products/styled'
-import { ActionName, ButtonAction, ButtonCard, ContentCategoryProducts, InputFile, Section, MerchantBannerWrapperInfo, MerchantInfo, MerchantInfoTitle, RestaurantColumn, WrapperOptions, ContentSearch, Title, ContainerCarrusel } from './styledStore'
+import { ContainerFilter, ItemFilter } from '../../components/Update/Products/styled'
+import { ButtonAction, WrapperOptions, ContentSearch, Title, ContainerCarrusel } from './styledStore'
 import InputHooks from '../../components/InputHooks/InputHooks'
 import { GET_ONE_PRODUCTS_FOOD } from '../producto/queries'
 import { ExtrasProductsItems, OptionalExtraProducts } from '../producto/extras'
@@ -25,30 +23,34 @@ import { ExtraProducts } from '../Extraproducts'
 import { GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, UPDATE_PRODUCT_FOOD } from '../update/Products/queries'
 import { Context } from 'context/Context'
 import moment from 'moment'
-import { CREATE_LOGO, GET_ALL_PRODUCT_STORE, GET_ONE_SCHEDULE_STORE } from './queriesStore'
+import { GET_ALL_PRODUCT_STORE, GET_ONE_SCHEDULE_STORE } from './queriesStore'
 import { useStore } from 'components/hooks/useStore'
 import { CLIENT_URL_BASE } from 'apollo/urls'
 import { ManageCategories } from './ManageCategories'
 import { Managebanner } from './profile/Managebanner'
 import { Sticky, StickyBoundary, StickyViewport } from './stickyheader';
 import { IconDelete, IconEdit, IconCategories } from 'public/icons'
-
+import { numberFormat } from 'utils'
 
 const DashboardStore = () => {
     // STATE
     const { openSchedule, setOpenSchedule, setAlertBox } = useContext(Context)
-    const location = useRouter()
     // const StoreId = location.query?.name[1]
-    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm }] = useFormTools()
+    // eslint-disable-next-line no-unused-vars
+    const [handleChange, _handleSubmit, _setDataValue, { dataForm, errorForm }] = useFormTools()
     const SHOW_MODAL_UPDATE_PRODUCTS = useSetState(false)
     const SHOW_MANAGE_CATEGORIES = useSetState(false)
     const SHOW_MANAGE_EMPLOYEE = useSetState(false)
+    // eslint-disable-next-line no-unused-vars
     const [searchFilter, setSearchFilter] = useState({ gender: [], desc: [], speciality: [] })
+    // eslint-disable-next-line no-unused-vars
     const [search, setSearch] = useState('')
     const [table, openTable] = useState(false)
     const [dataProCat, setData] = useState([])
+    // eslint-disable-next-line no-unused-vars
     const [showMore, setShowMore] = useState(5)
     const [modal, setModal] = useState(false)
+    // eslint-disable-next-line no-unused-vars
     const [hour, setHour] = useState(null)
     const [day, setDay] = useState()
     const SET_OPEN_PRODUCT = useSetState(false)
@@ -58,10 +60,6 @@ const DashboardStore = () => {
         // overflowY: 'auto',
     };
     // QUERY
-    const [setALogoStore] = useMutation(CREATE_LOGO, {
-        onCompleted: (data) => setAlertBox({ message: data?.setALogoStore?.message }),
-        context: { clientName: "admin-server" }
-    })
     const [getCatProductsWithProduct, { data: dataProductAndCategory, loading: loadCatPro }] = useLazyQuery(GET_ALL_CATEGORIES_WITH_PRODUCT, {
         fetchPolicy: 'network-only',
         variables:
@@ -74,28 +72,32 @@ const DashboardStore = () => {
     })
 
     // QUERIES
-    const { data } = useQuery(GET_ONE_STORE)
+    // eslint-disable-next-line no-unused-vars
     const { data: dataSchedule } = useQuery(GET_ONE_SCHEDULE_STORE, { variables: { schDay: day } })
+    // eslint-disable-next-line no-unused-vars
     const { data: dataScheduleTomorrow } = useQuery(GET_ONE_SCHEDULE_STORE, { variables: { schDay: day + 1 } })
     const [store] = useStore()
-    const [productFoodsOne, { data: dataProduct, loading, error }] = useLazyQuery(GET_ONE_PRODUCTS_FOOD)
-    const [ExtProductFoodsOptionalAll, { error: errorOptional, data: dataOptional }] = useLazyQuery(GET_EXTRAS_PRODUCT_FOOD_OPTIONAL)
+    const [productFoodsOne, { data: dataProduct, loading }] = useLazyQuery(GET_ONE_PRODUCTS_FOOD)
+    const [ExtProductFoodsOptionalAll, { data: dataOptional }] = useLazyQuery(GET_EXTRAS_PRODUCT_FOOD_OPTIONAL)
     const [ExtProductFoodsAll, { data: dataExtra }] = useLazyQuery(GET_ALL_EXTRA_PRODUCT)
-
+    const router = useRouter()
+    const { name } = router.query
     // HANDLE
     const handleGetOneProduct = (food) => {
+        router.replace(`/dashboard/${name[0]}/${name[1]}/?modal=true`)
         try {
             SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state)
             productFoodsOne({ variables: { pId: food.pId } })
             ExtProductFoodsOptionalAll({ variables: { pId: food.pId } })
-            ExtProductFoodsAll({ variables: { pId: food.pId } }).then(res => setAlertBox({ message: 'success' })).catch(err => setAlertBox({ message: 'error' }))
+            ExtProductFoodsAll({ variables: { pId: food.pId } }).then(() => setAlertBox({ message: 'success' })).catch(() => setAlertBox({ message: 'Lo sentimo no pudimos traer Los sub platos' }))
         } catch (error) {
             setAlertBox({ message: 'Lo sentimos, ocurrió un error' })
         }
     }
+    // eslint-disable-next-line no-unused-vars
     const { getStore, pId, carProId, sizeId, colorId, idStore, cId, caId, dId, ctId, tpId, fId, pName, ProPrice, ProDescuento, ProUniDisponibles, ProDescription, ProProtegido, ProAssurance, ProImage, ProStar, ProWidth, ProHeight, ProLength, ProWeight, ProQuantity, ProOutstanding, ProDelivery, ProVoltaje, pState, sTateLogistic, pDatCre, pDatMod, } = dataProduct?.productFoodsOne || {}
     const { storeName } = getStore || {}
-    const { storeName: nameStore, idStore: storeId } = store || {}
+    const { storeName: nameStore } = store || {}
 
     const handleStuck = target => {
         target.style.BorderStyle = 'solid'
@@ -118,6 +120,7 @@ const DashboardStore = () => {
     };
     // EFFECTS
     useEffect(() => {
+        // eslint-disable-next-line no-unsafe-optional-chaining
         dataProductAndCategory?.getCatProductsWithProduct && setData([...dataProductAndCategory?.getCatProductsWithProduct])
     }, [dataProductAndCategory, searchFilter])
     useEffect(() => {
@@ -130,10 +133,22 @@ const DashboardStore = () => {
         setHour(moment(date).format('hh:mm'))
     }, [])
 
+    //     <Link
+    //     passHref
+    //     shallow
+    //     replace
+    //     href={{
+    //         pathname: `/restaurantes`,
+    //         query: { plato: food.pId }
+    //     }} >
+    //     <a>
+    //         <CardProduct food={food} key={food.pId} onClick={() => setOpenProductModal(!openProductModal)} />
+    //     </a>
+    // </Link>
     // COMPONENTS
     const stickySectionElements = Array.from(dataProCat)?.map((x, key) => {
         return (
-            <div>
+            <div key={x.carProId}>
                 <StickyBoundary key={key} onStuck={handleStuck} onUnstuck={handleUnstuck} onChange={handleChangeLol} >
                     <Sticky id={key} as='h1' name={x.pName}>
                         <ContentSearch>
@@ -290,11 +305,11 @@ export const CardProducts = ({ food, onClick, setAlertBox }) => {
                     <h3 className="card__description">{food.pName}</h3>
                     <h3 className="card__description">{food.ProDescription}</h3>
                     <div className='footer'>
-                        <span className="card__price">$ {food.ProPrice}</span>
-                        <span className="card__des" style={{ color: APColor }}>$ {food.ProDescuento}</span>
+                        <span className="card__price">$ {numberFormat(food.ProPrice)}</span>
+                        <span className="card__des" style={{ color: APColor }}>$ {numberFormat(food.ProDescuento)}</span>
                     </div>
                 </div>
-                 <Image
+                <Image
                     className='store_image'
                     width={100}
                     height={100}

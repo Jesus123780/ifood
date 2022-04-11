@@ -1,7 +1,5 @@
-import styled, { css, keyframes } from 'styled-components'
-import { StyleSheet } from '@react-pdf/renderer'
-import { BColor, BGColor, EColor, ESFColor, PColor, SECColor, PVColor, TBGSColor, TFSColor } from '../../public/colors'
-import { fadeIn, fadeOut } from '../../components/AlertBox/styled'
+import styled, { css } from 'styled-components'
+import {  BGColor, SECColor, TFSColor } from '../../public/colors'
 
 export const RestaurantColumn = styled.div`
   line-height: 1.15;
@@ -136,12 +134,10 @@ export const MerchantInfo = styled.div`
         margin: 30px;
         place-content: center;
         display: grid;
-
         border: 1px solid rgba(0,0,0,.1);
-
         border-radius: 100%;
         && svg {
-          fill: ${BGColor}
+          fill: ${BGColor};
         }
       }
     }

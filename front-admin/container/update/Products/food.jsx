@@ -2,10 +2,9 @@ import PropTypes from 'prop-types'
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import React, { useContext, useEffect, useReducer, useRef, useState } from 'react'
 import { GET_ALL_CITIES, GET_ALL_COUNTRIES, GET_ALL_DEPARTMENTS, GET_ALL_ROAD } from '../../../gql/Location';
-import { GET_ALL_FOOD_PRODUCTS, GET_ONE_COLOR, UPDATE, UPDATE_IMAGE_PRODUCT_FOOD, UPDATE_PRODUCT_FOOD } from './queries';
+import { GET_ALL_FOOD_PRODUCTS, GET_ONE_COLOR, UPDATE_IMAGE_PRODUCT_FOOD, UPDATE_PRODUCT_FOOD } from './queries';
 import { GET_ALL_SIZE } from '../../../gql/information/Size/size';
 import useLocalStorage from '../../../components/hooks/useLocalSorage';
-import { useGetProducts } from '../../../components/hooks/useGetProducts';
 import { GET_ALL_FEATURES_ON_PARENT } from '../../../components/Update/Products/FeaturesProduct/queries';
 import { useGetAreas } from '../../../components/hooks/useGetArea';
 import { useCategories } from '../../../components/hooks/useCategories';
@@ -33,7 +32,6 @@ export const Food = () => {
     const [searchFilter, setSearchFilter] = useState({ gender: [], desc: [], speciality: [] })
     const [filter, setFilter] = useState({ gender: [], desc: [], speciality: [] })
     //-----------QUERIES ------------
-    const [finalData, { loading: getProductLoading }] = useGetProducts()
     // LLama a todas las areas
     const { data: datafatures } = useQuery(GET_ALL_FEATURES_ON_PARENT)
     const { data } = useQuery(GET_ONE_COLOR)
@@ -106,6 +104,7 @@ export const Food = () => {
     const fileInputRef = useRef(null)
     const initialState = { alt: "/images/DEFAULTBANNER.png", src: "/images/DEFAULTBANNER.png" };
     const [{ alt, src }, setPreviewImg] = useState(initialState)
+    // eslint-disable-next-line
     const [imageBase64, setImageBase64] = useState(null)
     const [image, setImage] = useState({})
     const onFileInputChange = async event => {
@@ -114,6 +113,7 @@ export const Food = () => {
         const file = event.target.files[0]
         setImage(file)
         const base64 = await convertBase64(file)
+        // eslint-disable-next-line
         const [size, { unit }] = await getFileSizeByUnit(file, "B");
         setImageBase64(base64)
         setPreviewImg(
@@ -137,7 +137,7 @@ export const Food = () => {
         const { ProPrice, ProDescuento, ProDescription, ProWeight, ProHeight, ValueDelivery } = values
         // const ProImage = 'https://http2.mlstatic.com/D_NQ_NP_621798-MLA45543191295_042021-W.webp'
         const ProImage = `${URL_ADMIN_SERVER}static/platos/${image?.name}`
-        
+
         const pCode = RandomCode(9)
         try {
             updateProductFoods({
@@ -200,7 +200,10 @@ export const Food = () => {
     }
 
     useEffect(() => {
-        dataProduct?.productFoodsAll && setData([...dataProduct?.productFoodsAll])
+        if (dataProduct?.productFoodsAll) {
+            // eslint-disable-next-line no-unsafe-optional-chaining
+            setData([...dataProduct?.productFoodsAll])
+        }
     }, [dataProduct, searchFilter, search])
     useEffect(() => {
         productFoodsAll({ variables: { max: showMore, search: search } })
@@ -248,11 +251,13 @@ export const Food = () => {
             case 'ADD_PRODUCT':
                 return {
                     ...state,
+                    // eslint-disable-next-line no-unsafe-optional-chaining
                     PRODUCT_RECOGER: [...state?.PRODUCT_RECOGER, action?.payload]
                 }
             case 'ADD_TO_EFFECTIVE':
                 return {
                     ...state,
+                    // eslint-disable-next-line no-unsafe-optional-chaining
                     PRODUCT_EFFECTIVE: [...state?.PRODUCT_EFFECTIVE, action?.payload]
                 }
             case 'REMOVE_EFFECTIVE':
@@ -266,7 +271,6 @@ export const Food = () => {
             case 'REMOVE_ALL':
                 return {
                     PRODUCT_RECOGER: [],
-                    PRODUCT_RECOGER: []
                 };
             case "TOGGLE_INVOICE":
                 return {
@@ -302,7 +306,7 @@ export const Food = () => {
             }
             return years;
         }
-        const year = Years(min)
+        Years(min)
     }, [YearArray, dataProduct, years])
 
     return (
@@ -330,7 +334,7 @@ export const Food = () => {
             values={values}
             errors={errors}
             color={data?.getAllColor}
-            loading={loadCountries || loadRoad || getProductLoading}
+            loading={loadCountries || loadRoad}
             countries={dataCountries?.countries || []}
             road={dataRoad?.road || []}
             departments={dataDepartments?.departments || []}
@@ -345,6 +349,7 @@ export const Food = () => {
             // Datos de filtro
             handleDelete={handleDelete}
             setShowMore={setShowMore}
+            showMore={showMore}
             // Datos del areas
             loadingAreas={loadingAreas}
             finalDataAreas={finalDataAreas?.getAreas}

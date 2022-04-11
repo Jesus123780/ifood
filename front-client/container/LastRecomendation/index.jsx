@@ -1,15 +1,16 @@
+import React from 'react'
 import { useLazyQuery, useQuery } from '@apollo/client';
-import { Container, ContainerProduct, Title } from './styled';
+import { Container, Title } from './styled';
 import { GET_ONE_STORE_IN_CATEGORY } from 'container/categoryStores/queries';
 import { useContext, useEffect, useState } from 'react';
 import { GET_ALL_PRODUCT_STORE, GET_ALL_STORE_RECOMMENDED } from 'gql/Recommendation';
 import { ListRestaurant } from 'container/restaurantes/restaurant';
-import { RippleButton } from 'components/Ripple';
 import CardProduct from 'container/RestaurantProfile/CardProducts';
 import { Context } from 'context';
 import Link from 'next/link'
 
 // It may interest you
+// eslint-disable-next-line react/prop-types
 export const LastRecommended = ({ ID_CATEGORIE }) => {
     const [getOneCatStore, { data: dataCatSto }] = useLazyQuery(GET_ONE_STORE_IN_CATEGORY)
     const { data: dataStoreRecommended } = useQuery(GET_ALL_STORE_RECOMMENDED, {
@@ -23,7 +24,7 @@ export const LastRecommended = ({ ID_CATEGORIE }) => {
             variables: {
                 catStore: ID_CATEGORIE
             }
-        }).catch((e) => console.log(''))
+        }).catch(() => console.log(''))
         setDataCatStore(dataCatSto?.getOneCatStore)
     }, [ID_CATEGORIE, dataStoreRecommended, dataCatSto])
     const { cName } = categoryStores || {}
@@ -40,12 +41,13 @@ export const LastRecommended = ({ ID_CATEGORIE }) => {
     )
 }
 
+// eslint-disable-next-line react/prop-types
 export const ItMayInterestYou = ({ PRODUCT_NAME_COOKIE }) => {
-    const { setAlertBox, openProductModal, setOpenProductModal, handleProductModal } = useContext(Context)
+    const { openProductModal, setOpenProductModal } = useContext(Context)
     let name = PRODUCT_NAME_COOKIE
     name = name?.split(" ")[0]
     // name = name[0]
-    const { data: dataProduct, fetchMore } = useQuery(GET_ALL_PRODUCT_STORE, {
+    const { data: dataProduct } = useQuery(GET_ALL_PRODUCT_STORE, {
         fetchPolicy: 'cache-and-network',
         notifyOnNetworkStatusChange: true,
         nextFetchPolicy: 'cache-first',
@@ -59,24 +61,22 @@ export const ItMayInterestYou = ({ PRODUCT_NAME_COOKIE }) => {
     return (
         <Container>
             <Title>Te puede interesar {name} </Title>
-            {!!name && <ContainerProduct>
-                {dataProduct?.productFoodsAllRecommended?.length > 0 && dataProduct?.productFoodsAllRecommended?.map(food => (
-                    <div>
-                        {<Link
-                            passHref
-                            shallow
-                            replace
-                            href={{
-                                pathname: `/restaurantes`,
-                                query: { plato: food.pId }
-                            }} >
-                            <a>
-                                <CardProduct food={food} key={food.pId} onClick={() => setOpenProductModal(!openProductModal)} />
-                            </a>
-                        </Link>}
-                    </div>
-                ))}
-            </ContainerProduct>}
+            {dataProduct?.productFoodsAllRecommended?.length > 0 && dataProduct?.productFoodsAllRecommended?.map((food, i) => (
+                <div key={i + 1}>
+                    <Link
+                        passHref
+                        shallow
+                        replace
+                        href={{
+                            pathname: `/restaurantes`,
+                            query: { plato: food.pId }
+                        }} >
+                        <a>
+                            <CardProduct food={food} key={food.pId} onClick={() => setOpenProductModal(!openProductModal)} />
+                        </a>
+                    </Link>
+                </div>
+            ))}
         </Container>
     )
 }

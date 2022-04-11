@@ -1,30 +1,28 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
-import { Context } from 'context'
-import { IconEnlace, IconFacebook, IconMiniCheck, IconTwitter, IconWhatsApp, IconCancel, IconPlus, IconArrowBottom } from 'public/icons'
-import { copyToClipboard, numberFormat, updateCache } from 'utils'
+// import { Context } from 'context'
+import { IconMiniCheck, IconPlus, IconArrowBottom } from 'public/icons'
+import { numberFormat, updateCache } from 'utils'
 import { useRouter } from 'next/router'
 import Image from 'next/image';
 import InputHooks from 'components/InputHooks/InputHooks'
 import { RippleButton } from 'components/Ripple'
-import QRCode from 'react-qr-code'
-import { CLIENT_URL_BASE } from 'apollo/urls'
 import { APColor, BGColor, PColor, PLColor } from 'public/colors'
 import { useFormTools } from 'components/BaseForm'
 import { GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, GET_ONE_PRODUCTS_FOOD } from 'container/queries'
 import { useLazyQuery, useMutation } from '@apollo/client'
-import { ActionButton, BtnClose, CardProductsModal, CardsComponent, ContainerShare, ContentInfo, ContainerModal, ContentShare, DisRestaurant, Flex, GarnishChoicesHeader, HeadSticky, Modal, Text, BtnCloseMobile, Header } from './styled'
+import { BtnClose, CardProductsModal, CardsComponent, ContentInfo, ContainerModal, DisRestaurant, Flex, GarnishChoicesHeader, HeadSticky, Modal, Text, BtnCloseMobile, Header } from './styled'
 import Link from 'next/link'
 import { CREATE_SHOPPING_CARD } from 'components/AsideCheckout/querys'
 import { useSetState } from 'components/hooks/useState'
 import { GET_ALL_SHOPPING_CARD } from 'container/restaurantes/queries'
+import { Context } from 'context';
 
 export const ModalProduct = () => {
     const router = useRouter()
     // STATES
     const { openProductModal, setOpenProductModal, dispatch, setAlertBox, state_product_card, handleMenu } = useContext(Context)
-    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
-    const { increase, setState, state, decrease, reset } = useSetState(1)
+    const [handleChange, _handleSubmit, _setDataValue, { dataForm, errorForm }] = useFormTools()
+    const { increase, setState, state, decrease } = useSetState(1)
     const [filter, setFilter] = useState({ subOptional: [] })
     const [searchFilter, setSearchFilter] = useState({ subOptional: [] })
 
@@ -32,7 +30,7 @@ export const ModalProduct = () => {
     const { plato } = location.query
     // QUERIES
     const [productFoodsOne, { data: dataOneProduct }] = useLazyQuery(GET_ONE_PRODUCTS_FOOD)
-    const [ExtProductFoodsOptionalAll, { error: errorOptional, data: dataOptional }] = useLazyQuery(GET_EXTRAS_PRODUCT_FOOD_OPTIONAL)
+    const [ExtProductFoodsOptionalAll, { data: dataOptional }] = useLazyQuery(GET_EXTRAS_PRODUCT_FOOD_OPTIONAL)
     const [registerShoppingCard] = useMutation(CREATE_SHOPPING_CARD)
 
     // EFFECTS
@@ -45,7 +43,6 @@ export const ModalProduct = () => {
     const {
         ProDescription,
         ProDelivery,
-        ProHeight,
         ProImage,
         ProDescuento,
         ProLength,
@@ -84,7 +81,6 @@ export const ModalProduct = () => {
         if (val) {
             setAlertBox({ message: `El producto ${food.pName} ya esta en la cesta` })
         } else {
-            const result = { ...food, cantProducts: state, comments: dataForm.comments, subOptional: filter?.subOptional || [] };
             const newArray = filter?.subOptional.map(x => { return { _id: x } })
             registerShoppingCard({
                 variables: {
@@ -185,8 +181,8 @@ export const ModalProduct = () => {
                                 </CardsComponent>
                             ))}
                             {dataOptional?.ExtProductFoodsOptionalAll?.map(itemOptional => (
-                                <div>
-                                    <GarnishChoicesHeader key={1}>
+                                <div  key={itemOptional.opExPid}>
+                                    <GarnishChoicesHeader>
                                         <div>
                                             <p className='garnish-choices__title'>{itemOptional.OptionalProName}</p>
                                             <p className='garnish-choices__title-desc'>Escoge hasta {itemOptional.numbersOptionalOnly} opciones.</p>

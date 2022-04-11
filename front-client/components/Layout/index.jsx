@@ -5,24 +5,21 @@ import { Footer } from './footer'
 import { Header } from './header'
 import { AlertBox } from '../AlertBox'
 import styled, { css } from 'styled-components'
-import Aside from './Aside'
 import { HeaderMain } from './headerlog'
-import { AsideCheckoutC } from '../../container/AsideCheckout'
 import { ModalProduct } from '../../components/ModalProducts'
 import { AsideCheckout } from '../AsideCheckout'
 import { usePosition } from '../hooks/usePosition'
 import { FooterDesktop } from './FooterDesktop'
-import { BGColor } from '../../public/colors'
 import { NavHeaderMobile } from './NavHeaderMobile'
 import { Messages } from 'container/messages'
 
 export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => {
     const location = useRouter()
-    const { error, isSession, setAlertBox, setCollapsed, collapsed, handleMenu, menu, setOpenMenuMobile, menuMobile } = useContext(Context)
+    const { error, isSession, setAlertBox, handleMenu, menu, setOpenMenuMobile, menuMobile } = useContext(Context)
     useEffect(() => {
         setAlertBox({ message: '', color: 'success' })
     }, [])
-    const { latitude, longitude, timestamp, accuracy, speed, error: err } = usePosition(watch, settings);
+    const { latitude, longitude, timestamp, accuracy, speed, error: _err } = usePosition(watch, settings);
     const dataLocation = usePosition(watch, settings);
     useEffect(() => {
         setAlertBox({ message: '', color: 'success' })
@@ -30,6 +27,7 @@ export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => 
             window.localStorage.setItem('latitude', latitude)
             window.localStorage.setItem('longitude', longitude)
             window.localStorage.setItem('location', JSON.stringify(dataLocation));
+            if (_err) setAlertBox({ message: `Lo sentimo ocurrió un error${_err}`, color: '' })
         }
     }, [latitude, longitude, timestamp, accuracy, speed])
     const val = !['/delivery/[location]/[name]/[id]'].find(x => x === location.pathname)

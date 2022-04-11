@@ -1,28 +1,24 @@
 import { AwesomeModal } from 'components/AwesomeModal'
 import { useFormTools } from 'components/BaseForm'
+import { MainCard } from 'components/common/Reusable/ShadowCard'
 import { useSetState } from 'components/hooks/useState'
 import InputHooks from 'components/InputHooks/InputHooks'
-import NewSelect from 'components/NewSelectHooks/NewSelect'
-import { RippleButton } from 'components/Ripple'
-import { Table } from 'components/Table'
-import { Section } from 'components/Table/styled'
-import { Addons } from 'container/dashboard'
-import { AlertStatistic } from 'container/dashboard/AlertClients'
-import { DeliveryFood } from 'container/dashboard/Delivery'
 import { LastedStatistic } from 'container/dashboard/LastedStatistic'
 import { OurFood } from 'container/dashboard/OurFood'
 import { SalesWeek } from 'container/dashboard/salesWeek'
 import { SalesWeekShortDays } from 'container/dashboard/salesWeekShortDays'
-import moment from 'moment'
+import { ChatStatistic } from 'container/ventas/ListVentas'
 import React from 'react'
-import { Button, Item, Container } from './styled'
+import { Container } from './styled'
 
 export const ReportsC = () => {
-    const HandleGetOne = () => { }
     const OPEN_MODAL = useSetState()
     const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
     return (
         <Container>
+            <MainCard weight={'200'} title={`Ventas por meses del año`}>
+                <ChatStatistic />
+            </MainCard>
             {/* <RippleButton onClick={() => OPEN_MODAL.setState(!OPEN_MODAL.state)}>Crear nuevo</RippleButton> */}
             <SalesWeekShortDays />
             <SalesWeek />

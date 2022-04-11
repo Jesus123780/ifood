@@ -1,5 +1,3 @@
-import Head from 'next/head'
-import Image from 'next/image'
 import { useContext } from 'react'
 import { ProductsC } from '../../../container/update/Products'
 import { Context } from '../../../context/Context'

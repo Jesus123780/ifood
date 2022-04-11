@@ -19,7 +19,7 @@ export const Contact = () => {
     const OPEN_MODAL = useSetState()
     const [createContacts] = useMutation(CREATE_CONTACTS)
     const { data } = useQuery(GET_ALL_CONTACTS)
-    const [handleChange, handleSubmit, { dataForm, errorForm }] = useFormTools()
+    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError, errorSubmit }] = useFormTools()
     const handleForm = (e) =>
         handleSubmit({
             event: e,
@@ -39,7 +39,7 @@ export const Contact = () => {
                 })
             }
         })
-
+    console.log(data)
     return (
         <Container>
             <RippleButton onClick={() => OPEN_MODAL.setState(!OPEN_MODAL.state)}>Crear nuevo</RippleButton>

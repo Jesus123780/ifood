@@ -1,40 +1,27 @@
+/* eslint-disable react/prop-types */
+import React from 'react'
 import Head from 'next/head'
-import { gql, useLazyQuery, useMutation, useQuery, useSubscription } from '@apollo/client'
+import { gql, useLazyQuery, useMutation, useSubscription } from '@apollo/client'
 import styles from '../../styles/Home.module.css'
-import { GET_ONE_STORE } from '../../container/queries'
 import { Restaurant } from '../../container/restaurantes'
 import { useContext, useEffect, useState } from 'react'
-import { Context } from '../../context'
 import { PromosBanner } from '../../container/restaurantes/PromosBanner'
 import { Banner } from '../../container/restaurantes/Banner'
 import { Section } from '../../container/restaurantes/styled'
 import { ListRestaurant } from '../../container/restaurantes/restaurant'
-import { GET_ALL_COUNTRIES } from '../../gql/Location'
 import withSession from '../../apollo/session'
-import { decodeToken } from '../../utils'
 import { GET_ALL_RESTAURANT } from '../../container/restaurantes/queries'
-import { GET_MESSAGES } from '../../gql/test'
 import { RippleButton } from 'components/Ripple'
 import { FavoriteStore } from 'container/favoriteStore'
 import { ItMayInterestYou, LastRecommended } from 'container/LastRecomendation'
 import { BColor, BGColor, PColor } from 'public/colors'
 import styled from 'styled-components'
+import { Context } from '../../context'
 
 export default function RestaurantHome({ ID_CATEGORIE, PRODUCT_NAME_COOKIE, ACEPTE_COOKIE }) {
-  const { setAlertBox, openProductModal, setOpenProductModal } = useContext(Context)
+  const { setAlertBox } = useContext(Context)
 
-  const { data } = useQuery(GET_ONE_STORE)
   const [close, setClose] = useState(ACEPTE_COOKIE)
-  const { data: dataEy } = useQuery(GET_ALL_COUNTRIES)
-  const { data: dataM } = useQuery(GET_MESSAGES, {
-    context: { clientName: "subscriptions" }
-  });
-
-  const NEW_MESSAGE = gql`
-  subscription {
-  numberIncremented
-  }
-  `
   const [dataStore, setData] = useState([])
   const [showMore, setShowMore] = useState(100)
   const [getAllStoreInStore, { data: dataListStore, fetchMore }] = useLazyQuery(GET_ALL_RESTAURANT, {
@@ -44,6 +31,7 @@ export default function RestaurantHome({ ID_CATEGORIE, PRODUCT_NAME_COOKIE, ACEP
     refetchWritePolicy: 'merge',
   })
   useEffect(() => {
+    // eslint-disable-next-line no-unsafe-optional-chaining
     dataListStore?.getAllStoreInStore && setData([...dataListStore?.getAllStoreInStore])
     getAllStoreInStore()
   }, [dataStore])

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import PropTypes from 'prop-types'
 import { Container, Wrapper, Modal, ModalHeader, ModalTitle, BtnClose, ModalBody, ModalFooter, BtnCancel, BtnConfirm } from './styled'
 import { MODAL_SIZES, BUTTONS_TEXT } from './constanst'
 import { IconCancel } from '../../public/icons'
@@ -10,7 +11,6 @@ export const AwesomeModal = ({
     show,
     disabled,
     display,
-    showLateral,
     zIndex,
     padding,
     backdrop = true,
@@ -88,3 +88,33 @@ export const AwesomeModal = ({
         </Container>
     )
 }
+
+AwesomeModal.propTypes = {
+    children: PropTypes.object.isRequired,
+    title: PropTypes.string,
+    size: PropTypes.string,
+    show: PropTypes.bool.isRequired,
+    disabled: PropTypes.bool,
+    display: PropTypes.string || PropTypes.bool,
+    zIndex: PropTypes.string,
+    padding: PropTypes.string,
+    backdrop: PropTypes.string,
+    useScroll: PropTypes.func,
+    keyboard: PropTypes.func,
+    footer: PropTypes.bool,
+    btnCancel: PropTypes.bool,
+    openLateral: PropTypes.bool || PropTypes.func,
+    btnConfirm: PropTypes.func,
+    hideOnConfirm: PropTypes.func,
+    timeOut: PropTypes.func || PropTypes.number,
+    height: PropTypes.string || PropTypes.number,
+    submit: PropTypes.func,
+    header: PropTypes.bool,
+    closeIcon: PropTypes.object,
+    borderRadius: PropTypes.string,
+    onHide: PropTypes.func || PropTypes.bool,
+    onCancel: PropTypes.func || PropTypes.bool,
+    onConfirm: PropTypes.func || PropTypes.bool, 
+
+  }
+  

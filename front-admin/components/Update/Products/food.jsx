@@ -4,22 +4,19 @@ import { Rate } from '../../Rate';
 import { numberFormat } from '../../../utils';
 import { RippleButton } from '../../Ripple';
 import { Skeleton } from '../../Skeleton/SkeletonCard';
-import { SliderAreas } from './SliderAreas';
 import { Discount } from './ViewProducts/styled';
 import { LoadingBabel } from '../../Loading/LoadingBabel';
-import { Range } from '../../InputRange';
-import { IconArrowRight, IconDelete, IconDollar, IconEdit, IconLove } from '../../../public/icons';
 import { APColor, PColor, PVColor, TFSColor } from '../../../public/colors';
 import { FoodCardPreview } from './FoodPreview';
-import { Container, Card, Button, CardOne, Label, ContainerCardProduct, CardProduct, Img, ContentImg, Title, Text, ContentInfo, ContentIconFav, ButtonCard, ActionName, ReadMore, ContentProducts, CardInput, CardCheckBox, CardRadioLabel, ContainerFilter, ItemFilter, ContainerBurger, Footer, LateralModal, WrapperProducts, Grid } from './styled';
+import { Container, Card, Button, CardOne, ContainerCardProduct, CardProduct, Img, ContentImg, Title, Text, ContentInfo, ContentIconFav, ButtonCard, ActionName, ReadMore, ContentProducts, CardInput, CardCheckBox, CardRadioLabel, ContainerFilter, ItemFilter, ContainerBurger, Footer, LateralModal, WrapperProducts, Grid } from './styled';
 import { useRouter } from 'next/router';
 import { useSetState } from '../../hooks/useState';
 import { AwesomeModal } from '../../AwesomeModal'; import React from 'react';
 import Image from 'next/image';
 import { Loading } from 'components/Loading';
+import { IconArrowRight, IconDelete, IconDollar, IconEdit, IconLove } from 'public/icons';
 
-export const FoodComponent = ({ datafatures,
-    finalDataAreas,
+export const FoodComponent = ({
     features,
     search,
     handleChangeFilter,
@@ -27,7 +24,6 @@ export const FoodComponent = ({ datafatures,
     setShowMore,
     values,
     handleRegister,
-    currentYear,
     fetchMore,
     dispatch,
     handleChange,
@@ -40,17 +36,14 @@ export const FoodComponent = ({ datafatures,
     onFileInputChange,
     handleDelete,
     fileInputRef,
+    showMore,
     alt,
     product_state,
     src,
     setName,
-    handleChangeClick,
     onClickClear,
     handleCheckEnvioGratis,
-    onClickSearch,
-
     state: grid,
-    setLocalStorage,
     intPorcentaje,
     dataFree,
 }) => {
@@ -58,68 +51,29 @@ export const FoodComponent = ({ datafatures,
     const handleClick = () => {
         setState(!stateCard)
     }
-    const [modal, setModal] = useState(0)
     const OPEN_MODAL_ORGANICE = useSetState(0)
-    const handleClickModal = index => {
-        setModal(index === modal ? true : index)
-    }
     const router = useRouter()
     return (<div>
         {loading && <LoadingBabel />}
         <Container>
             <CardOne state={stateCard}>
                 <form className="form-horizontal" onSubmit={handleRegister}>
-                    <InputHook label='Nombre del producto'
-                        type="text"
-                        placeholder="Nombre del producto"
-                        value={names}
-                        name='name'
-                        // required
-                        onChange={e => setName(e.target.value)}
-                        range={{ min: 0, max: 180 }}
-                    />
-                    <InputHook label='ProPrice'
-                        value={numberFormat(values.ProPrice)}
-                        name='ProPrice'
-                        required
-                        onChange={handleChange}
-                        range={{ min: 0, max: 180 }} />
-                    <InputHook label='Costo de envio'
-                        value={numberFormat(values.ValueDelivery)}
-                        name='ValueDelivery'
-                        required
-                        onChange={handleChange}
-                        range={{ min: 0, max: 180 }} />
-                    <InputHook label='Descuento'
-                        value={values.ProDescuento}
-                        name='ProDescuento'
-                        onChange={handleChange}
-                        range={{ min: 0, max: 180 }} />
-                    <>
-                        <Rate rating={rating} onRating={rate => setRating(rate)} size={20} value={values.rating} />
-                        <img />
-                        <InputHook label='Largo'
-                            value={values.ProLength}
-                            name='ProLength'
-                            onChange={handleChange}
-                            range={{ min: 0, max: 180 }} />
-                        <InputHook label='Peso'
-                            value={values.ProWeight}
-                            name='ProWeight'
-                            onChange={handleChange}
-                            range={{ min: 0, max: 180 }} />
-                        <InputHook TypeTextarea={true} label='Description'
-                            value={values.ProDescription}
-                            name='ProDescription'
-                            onChange={handleChange}
-                            range={{ min: 0, max: 180 }} />
-                        <CardInput onChange={handleCheckEnvioGratis}>
-                            <CardCheckBox name='gender' value="1" type="checkbox" id="checkboxF" />
-                            <CardRadioLabel htmlFor='checkboxF'>Envío gratis</CardRadioLabel>
-                        </CardInput>
-                    </>
+                    <InputHook label='Nombre del producto' type="text" placeholder="Nombre del producto" value={names} name='name' onChange={e => setName(e.target.value)} range={{ min: 0, max: 180 }} />
+                    <InputHook label='ProPrice' value={numberFormat(values.ProPrice)} name='ProPrice' required onChange={handleChange} range={{ min: 0, max: 180 }} />
+                    <InputHook label='Costo de envio' value={numberFormat(values.ValueDelivery)} name='ValueDelivery' required onChange={handleChange} range={{ min: 0, max: 180 }} />
+                    <InputHook label='Descuento' value={values.ProDescuento} name='ProDescuento' onChange={handleChange} range={{ min: 0, max: 180 }} />
+                    <Rate rating={rating} onRating={rate => setRating(rate)} size={20} value={values.rating} />
+                    <InputHook label='Largo' value={values.ProLength} name='ProLength' onChange={handleChange} range={{ min: 0, max: 180 }} />
+                    <InputHook label='Peso' value={values.ProWeight} name='ProWeight' onChange={handleChange} range={{ min: 0, max: 180 }} />
+                    <InputHook TypeTextarea={true} label='Description' value={values.ProDescription} name='ProDescription' onChange={handleChange} range={{ min: 0, max: 180 }} />
+                    <CardInput onChange={handleCheckEnvioGratis}>
+                    <CardCheckBox name='gender' value="1" type="checkbox" id="checkboxF" />
+                    <CardRadioLabel htmlFor='checkboxF'>Envío gratis</CardRadioLabel>
+                    </CardInput>
                     <Footer>
-                        <RippleButton widthButton='100%' type='submit'>Subir</RippleButton>
+                        <RippleButton widthButton='20%' padding='10px' type='submit'>Subir</RippleButton>
+                        <RippleButton widthButton='20%' padding='10px' type='button' onClick={() => router.push('/update/products/disabled')}>Ir a productos deshabilitados</RippleButton>
+                        <RippleButton widthButton='20%' padding='10px' type='submit'>Subir</RippleButton>
                     </Footer>
                 </form>
             </CardOne>
@@ -208,10 +162,9 @@ export const FoodComponent = ({ datafatures,
             <RippleButton widthButton='100%' margin='20px auto' onClick={() => {
                 setShowMore(s => s + 5)
                 fetchMore({
-                    variables: { max: more, min: 0 },
+                    variables: { max: showMore, min: 0 },
                     updateQuery: (prevResult, { fetchMoreResult }) => {
                         if (!fetchMoreResult) return prevResult
-                        productFoodsAll = [...prevResult.productFoodsAll]
                         return {
                             productFoodsAll: [...fetchMoreResult.productFoodsAll]
 
@@ -280,7 +233,6 @@ const ComponentCardProduct = ({ data, dispatch, ADD_TO_EFFECTIVE, REMOVE, ADD_PR
                     <Title>{product.pName}</Title>
                     <Text>{numberFormat(product.ProPrice)}</Text>
                     <ContentInfo>
-                        <Rate rating={product.ProStar} onRating={() => setRating(product.ProStar)} size={20} value={product.ProStar} />
                         {product.ProDelivery === 1 && <span>Gratis</span>}
                     </ContentInfo>
                     {/* {ADD_TO_EFFECTIVE && <RippleButton padding={0} margin={0} bgColor={PVColor} onClick={() => dispatch({ type: ADD_TO_EFFECTIVE, payload: product })}> <IconDollar size='30px' /></RippleButton>} */}

@@ -220,7 +220,7 @@ function createApolloClient() {
         connectToDevTools: true,
         ssrMode,
         link: link,
-        defaultOptions,
+        // defaultOptions,
         typeDefs,
         cache
     })
