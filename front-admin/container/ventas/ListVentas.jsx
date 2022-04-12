@@ -11,7 +11,7 @@ import { numberFormat } from 'utils'
 import { GET_ALL_SALES, GET_ONE_SALES } from './queries'
 import moment from 'moment'
 import { GetOneSales } from './getOneSales'
-import { BarChat, Circle, DoughnutChar, HorizontalBarChart } from 'components/Chart'
+import { BarChat, Circle, DoughnutChar } from 'components/Chart'
 moment.locale('es')
 export const ListVentas = () => {
     let total = 0
@@ -36,53 +36,16 @@ export const ListVentas = () => {
         getOneSalesStore({ variables: { pCodeRef: pCodeRef } })
         setOpen(!open)
     }
-    const getFromDataToData = async () => {
-        getAllSalesStore({ variables: { fromDate: valuesDates?.fromDate, toDate: valuesDates?.toDate } })
-    }
-
-    return (
+    const getFromDataToData = async () => getAllSalesStore({ variables: { fromDate: valuesDates?.fromDate, toDate: valuesDates?.toDate } })
+        return (
         <div>
             <GetOneSales setOpen={setOpen} open={open} data={dataOneSales?.getOneSalesStore || []} />
             <Card>
                 <form>
-                    <InputHooks
-                        title='Desde'
-                        width={'20%'}
-                        required
-                        // error={errorForm?.Desde}
-                        value={valuesDates?.fromDate}
-                        onChange={onChangeInput}
-                        name='fromDate'
-                        type='date'
-                    />
-                    <InputHooks
-                        title='Hasta'
-                        width='20%'
-                        required
-                        type='date'
-                        value={valuesDates?.toDate}
-                        onChange={onChangeInput}
-                        name='toDate'
-                    />
-                    <InputHooks
-                        title='Numero'
-                        width='30%'
-                        required
-                        error={errorForm?.ProPrice}
-                        value={dataForm?.ProPrice}
-                        onChange={handleChange}
-                        name='ProPrice'
-                    />
-                    <InputHooks
-                        title='Nombre'
-                        width='30%'
-                        numeric
-                        required
-                        error={errorForm?.ProPrice}
-                        value={dataForm?.ProPrice}
-                        onChange={handleChange}
-                        name='ProPrice'
-                    />
+                    <InputHooks title='Desde' width={'20%'} required value={valuesDates?.fromDate} onChange={onChangeInput} name='fromDate' type='date' />
+                    <InputHooks title='Hasta' width='20%' required type='date' value={valuesDates?.toDate} onChange={onChangeInput} name='toDate' />
+                    <InputHooks title='Numero' width='30%' required error={errorForm?.ProPrice} value={dataForm?.ProPrice} onChange={handleChange} name='ProPrice' />
+                    <InputHooks title='Nombre' width='30%' numeric required error={errorForm?.ProPrice} value={dataForm?.ProPrice} onChange={handleChange} name='ProPrice' />
                     <Button type='submit'>
                         Mas opciones
                     </Button>
