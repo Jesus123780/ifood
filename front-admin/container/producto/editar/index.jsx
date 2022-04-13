@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
+import Image from 'next/image';
 import styled from 'styled-components'
 import InputHooks from '../../../components/InputHooks/InputHooks'
 import { useFormTools } from '../../../components/BaseForm'
@@ -120,7 +121,7 @@ export const ProductEdit = ({ id }) => {
                     })
 
                 })
-                
+
             }
         })
     const fileInputRef = useRef(null)
@@ -295,13 +296,18 @@ const Card = styled.div`
     box-shadow: 0 1px 4px rgba(0,0,0,.05);
     border-radius: 4px;
     padding: 0;
-    max-width: 222px;
-    grid-template: "image" 157px "info" 1fr;
+    /* max-width: 222px; */
+    grid-template:
+     "image" 157px 
+     "info-price"  1fr
+     "info"  1fr;
     grid-gap: 28px;
-    height: min-content;
-    position: sticky;
+    height: 400px;
+    align-items: flex-end;
     top: 0;
-
+    @media only screen and (min-width: 960px) {
+        cursor: pointer;
+    }
     .dish-card__info {
         line-height: 1.15;
         text-rendering: optimizeLegibility;
@@ -323,6 +329,12 @@ const Card = styled.div`
         font-size: 16px;
         list-style: none;
         cursor: pointer;
+        height: 157px;
+        grid-area: image;
+    width: 100%;
+    overflow: hidden;
+    height: 100%;
+    border-radius: 4px 4px 0 0;
         box-sizing: border-box;
         position: relative;
     }
@@ -356,7 +368,13 @@ const Card = styled.div`
     margin-bottom: 9px;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 1.0025rem;
+    font-size: 1.165rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    width: 85%;
     }
     .description {
     text-rendering: optimizeLegibility;
@@ -372,6 +390,10 @@ const Card = styled.div`
     margin-bottom: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
     }
     .price {
     list-style: none;
@@ -390,6 +412,9 @@ const Card = styled.div`
         display: flex;
         justify-content: space-between;
     }
+    .info-price {
+        display: flex;
+    }
 `
 const Container = styled.div`
     padding: 30px;
@@ -398,24 +423,54 @@ const Container = styled.div`
     width: 90%;
     grid-gap: 19px 12px;  
 `
+const ContainerActions = styled.button`
+    position: absolute;
+    width: max-content;
+    right: 25px;
+    background-color: transparent;
+    border-radius: 50%;
+`
 const Inputdeker = styled.input`
     padding: 30px;
     border: 1px solid;
     display: none;
 `
-const Img = styled.img`
-    width: 100%;
-    object-fit: contain;
-    height: 100%;
-`
-const Button = styled.button`
-    background-color: red;
-    border-radius: 22px;
-    padding: 10px;
-    margin: 5px 5px;
-`
 // const InputHooks = styled.input`
 // margin: 5px;
 // `
 
+export const CardProducts = ({ pName,  key, ProDescription, ValueDelivery, ProPrice, render = null, onClick = () => { }, ProDescuento, ProImage, widthButton }) => {
+    return (
+        <Card key={key}>
+            <div className="dish-card__info">
+                {ValueDelivery && <span className="description">Domicilio $ {numberFormat(ValueDelivery)}</span>}
 
+                <div className="flex-wrap">
+                    <span className="price">$ {numberFormat(ProPrice)}</span>
+                    <span className="price discount">$ {numberFormat(ProDescuento)}</span>
+                </div>
+            </div>
+            <div className='info-price'>
+                <span>
+                    <h3 className='dish-card__description'>{pName}</h3>
+                    <span className="description">{ProDescription}</span>
+                </span>
+                <ContainerActions>
+                    {render && <RippleButton bgColor={BGColor} widthButton={widthButton} padding='0' margin='5px auto' onClick={() => onClick()}>{render}</RippleButton>}
+                </ContainerActions>
+            </div>
+            <div className="dish-card__container-image">
+                <Image
+                    className='store_image'
+                    objectFit='cover'
+                    height={157}
+                    width={157}
+                    layout='fill'
+                    src={ProImage || '/images/dish-image-placeholder.png'}
+                    alt={pName}
+                    blurDataURL="/images/DEFAULTBANNER.png"
+                />
+            </div>
+        </Card>
+    )
+}

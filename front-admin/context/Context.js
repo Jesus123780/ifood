@@ -52,6 +52,7 @@ const Provider = ({ children }) => {
 
     // Context to session
     const [isSession, setIsSession] = useState()
+    const [salesOpen, setSalesOpen] = useState(false)
     const setSessionActive = useCallback(
         sessionValue => setIsSession(sessionValue),
         [isSession]
@@ -117,6 +118,8 @@ const Provider = ({ children }) => {
             hidden,
             setSelectedStore,
             setOpenSchedule,
+            setSalesOpen,
+            salesOpen,
             openSchedule,
             setHidden,
             selectedStore,
@@ -156,7 +159,8 @@ const Provider = ({ children }) => {
             setHidden,
             selectedStore,
             setStoreChatActive,
-            DataCompany,
+            DataCompany, 
+            setSalesOpen,
             // Link
             setCompanyLink,
             setCollapsed,
@@ -164,6 +168,7 @@ const Provider = ({ children }) => {
             countPedido,
             isCompany,
             handleMenu,
+            salesOpen,
             // Menu Ctx
             menu,
             collapsed,

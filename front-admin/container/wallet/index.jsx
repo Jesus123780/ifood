@@ -8,21 +8,17 @@ import moment from 'moment'
 import React, { useContext, useEffect, useReducer, useState } from 'react'
 import { CREATE_WALLET_DEBT, DELETE_ONE_WALLET_DEBT, GET_ALL_WALLET_DEBT, GET_ONE_WALLET_DEBT } from './queries'
 import { Button, Item, Container, CardProduct, OrganiceProduct, HeaderStatic, ColumnList, ContainerAnimation, ContainerAnimationTow, WrapperClient } from './styled'
-import { numberFormat, RandomCode, updateCache, updateCacheMod } from 'utils'
-import { CustomTable } from '../pruebas'
+import { numberFormat, RandomCode, updateCache } from 'utils'
 import { Card } from './styled'
 import { ManageWallet } from 'container/ManageWallet'
-import { IconConfig, IconDelete, IconEdit, IconPlus } from 'public/icons'
+import { IconDelete, IconPlus } from 'public/icons'
 import { GET_ALL_PRODUCT_STORE } from 'container/dashboard/queriesStore'
 import { BColor, BGColor, PColor } from 'public/colors'
 import { Context } from 'context/Context'
 import { ContentMenuOptions, Input, LoadingComponent } from 'container/ManageWallet/styled'
-import Image from 'next/image';
 import { Flex } from 'container/dashboard/styled'
 import { TextH2Main } from 'components/common/h2'
 import { LocationName } from 'components/hooks/useLocationName'
-import { Table } from 'components/Table'
-import { Section } from 'components/Table/styled'
 import { GET_ALL_CLIENTS } from 'container/clients/queries'
 import { Loading } from 'components/Loading'
 
@@ -31,9 +27,8 @@ export const WalletC = () => {
     const [setCheck, setChecker] = useState({})
     const [amount, setAmount] = useState(0);
     const [modalOptions, setOpenModalOptions] = useState(false)
-    const [dataWalletUser, setDataWallet] = useState([]);
     const [search, setSearch] = useState('')
-    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
+    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm }] = useFormTools()
     const { setAlertBox } = useContext(Context)
     const OPEN_MODAL = useSetState()
     const [active, setActive] = useState(1)
@@ -80,7 +75,7 @@ export const WalletC = () => {
                 nameFun: 'WalletDebt',
                 dataNew: WalletDebt
             })
-        }).then(res => setAlertBox({ message: `se ha eliminado la billetera ${debtName}` }))
+        }).then(() => setAlertBox({ message: `se ha eliminado la billetera ${debtName}` }))
     }
     const handleChangeFilter = e => {
         setSearch(e.target.value)
@@ -90,11 +85,13 @@ export const WalletC = () => {
             case 'ADD_PRODUCT':
                 return {
                     ...state,
+                    // eslint-disable-next-line
                     PRODUCT: [...state?.PRODUCT, action?.payload]
                 }
             case 'ADD_PRODUCT_WALLET':
                 return {
                     ...state,
+                    // eslint-disable-next-line
                     PRODUCT_WALLET: [...state?.PRODUCT_WALLET, action?.payload]
                 }
             case 'REMOVE_PRODUCT':
@@ -128,8 +125,8 @@ export const WalletC = () => {
     const freeDelivery = dataProductFree => {
         return dataProductFree.ProDelivery === 1
     }
-    const productFree = dataProducto.filter(freeDelivery)
     const [product, dispatch] = useReducer(productRecoger, initialStateInvoice)
+    const productFree = dataProducto.filter(freeDelivery)
     const [productFoodsAll, { data: dataProduct, loading: LoadProduct, fetchMore: fetchMoreProduct }] = useLazyQuery(GET_ALL_PRODUCT_STORE, {
         fetchPolicy: 'network-only',
         variables: {
@@ -150,6 +147,7 @@ export const WalletC = () => {
         })
     }
     useEffect(() => {
+        // eslint-disable-next-line
         dataProduct?.productFoodsAll && setData([...dataProduct?.productFoodsAll])
     }, [dataProduct, search])
     useEffect(() => {
@@ -213,7 +211,7 @@ export const WalletC = () => {
         setAmount(amountCount)
     }, [product])
     const onChangeInput = (e) => setValuesDates({ ...valuesDates, [e.target.name]: e.target.value })
-
+    // eslint-disable-next-line
     const fetchData = async (name) => {
         // let name = 'jesus'
         // fetch("https://api.genderize.io?name=" + name)
@@ -231,6 +229,7 @@ export const WalletC = () => {
         OPEN_MODAL.setState(!OPEN_MODAL.state)
         setOpenModalOptions(!modalOptions)
     }
+    // eslint-disable-next-line
     function printPartOfPage(elementId, uniqueIframeId) {
         const content = document.getElementById(elementId)
         let pri
@@ -251,21 +250,6 @@ export const WalletC = () => {
         pri.print()
     }
     const [exist] = useState(data?.WalletDebt?.length > 0)
-    const HandleMoreProductComponent = () => <RippleButton widthButton='100%' margin='20px auto' onClick={() => {
-        setShowMoreProducts(s => s + 50)
-        fetchMoreProduct({
-            variables: { max: showMoreProduct, min: 0 },
-            updateQuery: (prevResult, { fetchMoreResult }) => {
-                if (!fetchMoreResult) return prevResult
-                let productFoodsAll = [...prevResult.productFoodsAll]
-                return {
-                    productFoodsAll: [
-                        productFoodsAll,
-                        ...fetchMoreResult.productFoodsAll]
-                }
-            }
-        })
-    }}> {loading ? '...Cargando' : 'CARGAR MÁS'}</RippleButton>
     const OPEN_MODAL_MANAGE = useSetState()
     const { data: clients } = useQuery(GET_ALL_CLIENTS)
     return (
@@ -310,7 +294,6 @@ export const WalletC = () => {
                     <Card margin='0' align display='flex' width='70%'>
                         <Card margin={'0 0 0 10px'}>
                             {/* <RippleButton onClick={()=> OPEN_MODAL.setState(!OPEN_MODAL.state)}>Crear billetera</RippleButton> */}
-
                             <HeaderStatic>
                                 <TextH2Main weight='400' size={'15px'} text={`Mis Productos (${dataProducto?.length || 0})`} />
                                 <Input placeholder='Buscar...' autoFocus={true} autoComplete={'off'} label='Busca tus productos' name='search' value={search} onChange={handleChangeFilter} type='text' />
@@ -405,8 +388,8 @@ export const WalletC = () => {
                         <Item>Eliminar</Item>
                         <Item></Item>
                     </ColumnList>
-                    {data?.WalletDebt?.map((x, i) => (
-                        <ColumnList>
+                    {data?.WalletDebt?.map(x => (
+                        <ColumnList key={x.RefDebtCode}>{console.log(x)}
                             <Item>
                                 <span> {x.RefDebtCode}</span>
                             </Item>

@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { PColor } from 'public/colors'
 import React from 'react'
 
 export const IconLove = ({ size, color, style }) => <svg style={style} width={size} height={size} viewBox="0 0 36 32"><path d="M30.4 16q1.5-1.3 2-2.6t.6-3q0-1.4-.7-3T30.6 5q-1.4-1.2-2.4-1.6T25.8 3q-1.5 0-3 .6t-2.6 2l-2 2-2.3-2q-1.8-1.4-3-2T10.2 3t-2.6.4T5.3 5q-1 .7-1.6 2.4t-.7 3q0 1.4.6 3T5.4 16L18 28l12.4-12zM0 10.5q0-1.7.8-4t2.6-3.8Q5 1.2 6.7.7t3.6-.7q2 0 3.8.8t4 2.7q2-2 4-2.7t4-.8 3.4.6 3.3 2Q34.3 4 35 6.3t1 4-.6 4-3 4L18 32 3.4 18.2Q1 16 .4 13.7T0 10.4z"></path></svg>
@@ -65,7 +66,7 @@ export const IconInstagramGradient = ({ style = {}, size }) => <svg x='0px' y='0
 
 export const IconUser = ({ style = {}, size, color }) => <svg xmlns="http://www.w3.org/2000/svg" fill={color} style={style} width={size} height={size} viewBox="0 0 24 24"><path d="M12 12.5C9 12.5 6.5 10 6.5 7S9 1.5 12 1.5 17.5 4 17.5 7 15 12.5 12 12.5zM12 3C9.8 3 8 4.8 8 7s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zM17 15.5c1.4 0 2.5 1.1 2.5 2.5v2.5h-15V18c0-1.4 1.1-2.5 2.5-2.5h10m0-1.5H7c-2.2 0-4 1.8-4 4v4h18v-4c0-2.2-1.8-4-4-4z"></path></svg>
 // Icono  de Tres AddPlusCircle
-
+export const IconSales = ({ style = {}, size, color }) => <svg width={size} height={size} style={style} viewBox="0 0 24 24" fill='none' stroke={color || PColor} xmlns="http://www.w3.org/2000/svg"><path d="M8.14096 8.00024C6.71925 8.00024 5.49276 8.99817 5.20365 10.3902L3.99972 16.1868C3.48396 18.6701 5.37989 21.0002 7.91614 21.0002H16.0839C18.6201 21.0002 20.516 18.6701 20.0003 16.1868L18.7964 10.3902C18.5073 8.99818 17.2808 8.00024 15.8591 8.00024H8.14096Z" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M15 6V6C15 4.34315 13.6569 3 12 3V3C10.3431 3 9 4.34315 9 6V6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path></svg>
 export const AddPlusCircle = ({ style = {}, size, color }) => <svg x='0px' y='0px' viewBox="0 0 27 27" width={size} height={size} style={style}>
     <circle fill='#e4e4e4' cx="13.5" cy="13.5" r="13.5" /><circle fill={color} cx="8.5" cy="8.5" r="8.5" transform="translate(5,5)" /><line fill='none' stroke='#fff' strokeWidth='3px' x2="8.494" transform="translate(9.517 13.5)" />
     <line fill='none' stroke='#fff' strokeWidth='3px' y2="8.809" transform="translate(13.606 9.096)" /></svg>

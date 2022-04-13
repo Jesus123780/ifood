@@ -98,7 +98,7 @@ export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
                     variables: {
                         input: {
                             pName: catName,
-                            catDescription,
+                            ProDescription: catDescription,
                         }
                     },
                     update(cache) {

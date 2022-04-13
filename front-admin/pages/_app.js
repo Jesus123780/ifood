@@ -8,7 +8,11 @@ import Auth from '../apollo/Auth'
 import 'nprogress/nprogress.css';
 import NextNprogress from 'nextjs-progressbar';
 import { PColor } from '../public/colors'
-
+import 'swiper/css';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps)
   return (
