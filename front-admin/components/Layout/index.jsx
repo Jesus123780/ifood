@@ -12,14 +12,13 @@ import { ScheduleTimings } from 'container/dashboard/ScheduleTimings'
 import { LateralModal } from 'container/dashboard/styled'
 import { BtnClose } from 'components/AwesomeModal/styled'
 import { IconCancel } from 'public/icons'
-import { useSetState } from 'components/hooks/useState'
 import ScaleModal from 'components/AwesomeModal/Scale'
 import GenerateSales from 'container/Sales'
 // import { Messages } from 'container/messages'
 
 export const Layout = ({ children, watch, settings }) => {
     const location = useRouter()
-    const { error, isSession, setAlertBox, openSchedule, setOpenSchedule, setSalesOpen, salesOpen } = useContext(Context)
+    const { error, isSession, setAlertBox, openSchedule, setOpenSchedule, salesOpen } = useContext(Context)
     const { latitude, longitude, timestamp, accuracy, speed } = usePosition(watch, settings);
     const dataLocation = usePosition(watch, settings);
     useEffect(() => {
@@ -54,7 +53,7 @@ export const Layout = ({ children, watch, settings }) => {
                 {!['/', '/login', '/entrar', '/entrar/email', '/register', '/terms_and_conditions', '/restaurante', '/varify-email', '/checkout/[id]', '/add-payment-method', '/teams/invite/[id]', '/forgotpassword', '/autho', '/contact-us', '/email/confirm/[code]', '/switch-options', '/contact', '/teams/invite/[id]'].find(x => x === location.pathname) && (<Aside />)}
                 <div style={{ gridArea: 'main', overflowY: 'auto' }}>
                     {children}
-                    <ScaleModal title="Crea una venta" height='100vh' show={salesOpen} size='large'>
+                    <ScaleModal title="Crea una venta" show={salesOpen} size='large'>
                         <GenerateSales />
                     </ScaleModal>
                     {/* <Messages /> */}

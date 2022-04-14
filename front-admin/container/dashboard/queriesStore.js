@@ -3,12 +3,8 @@ import { gql } from '@apollo/client'
 export const CREATE_SCHEDULE_STORE = gql`
 mutation setStoreSchedule($input: IsStoreSchedule!){
 setStoreSchedule(input: $input){
-  	schId
-  	id
-    idStore
-    schDay
-    schHoSta
-    schHoEnd
+  success
+  message
 }
 }
 `

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState, useContext } from 'react'
 import { useMutation, useQuery } from '@apollo/client'
 import { GET_SCHEDULE_STORE } from './queriesStore'
 import moment from 'moment'
@@ -9,9 +9,11 @@ import { useSetState } from '../../components/hooks/useState'
 import { AwesomeModal } from '../../components/AwesomeModal'
 import { CREATE_STORE_CALENDAR } from './queries'
 import { RippleButton } from '../../components/Ripple'
+import { Context } from '../../context/Context'
 
 export const ScheduleTimings = () => {
-    const { data, loading, error } = useQuery(GET_SCHEDULE_STORE, { variables: { schDay: 1 } })
+    const { setAlertBox } = useContext(Context)
+    const { data } = useQuery(GET_SCHEDULE_STORE, { variables: { schDay: 1 } })
     const [showTiming, setShowTiming] = useState(0)
     const SHOW_TIMING = useSetState(false)
     const SHOW_ALERT = useSetState(false)
@@ -20,7 +22,7 @@ export const ScheduleTimings = () => {
         SHOW_TIMING.setState(!SHOW_TIMING.state)
     }
     const [values, setValues] = useState({})
-    const [message, setMessage] = useState('')
+    // const [message, setMessage] = useState('')
     const starTime = moment(values.startTime, 'HH:mm:ss')
     const endTime = moment(values.endTime, 'HH:mm:ss')
     const handleChange = e => {
@@ -31,12 +33,11 @@ export const ScheduleTimings = () => {
         e.preventDefault();
         if (moment(starTime).isAfter(endTime)) {
             SHOW_ALERT.setState(!SHOW_ALERT.state)
-            return setMessage('La Hora Final no puede ser menor que la Hora de Inicio.')
+            return setAlertBox({ message: 'La Hora Final no puede ser menor que la Hora de Inicio.' })
         } else if (moment(starTime).isSame(endTime)) {
             SHOW_ALERT.setState(!SHOW_ALERT.state)
-            return setMessage('La Hora final no puede ser igual que la Hora de inicio.')
+            return setAlertBox({ message: 'La Hora final no puede ser igual que la Hora de inicio.' })
         } else {
-            setMessage('')
             return setStoreSchedule({
                 variables: {
                     input:
@@ -54,27 +55,27 @@ export const ScheduleTimings = () => {
                         }
                     })
                 }
-            }).then(e => console.log(e)).catch(e => console.log(e))
+            }).then(() => {
+                SHOW_TIMING.setState(!SHOW_TIMING.state)
+            }).catch(e => console.log(e))
         }
     }
+    // eslint-disable-next-line
     let suma = 0
-    const [totalH, setTotalH] = useState(0)
     useEffect(() => {
         if (data && data?.getStoreSchedules?.length > 0) {
             data?.getStoreSchedules.forEach((a) => {
                 let count = 0
+                // eslint-disable-next-line
                 const { schHoEnd, schHoSta } = a || {}
                 const starTime = parseFloat(starTime ? starTime : 0)
                 const endTime = parseFloat(schHoEnd ? schHoEnd : 0)
                 count = endTime + starTime
+                // eslint-disable-next-line
                 suma += count
             })
         }
     }, [data])
-    const [browser, setBrowser] = useState(false)
-    useEffect(() => {
-        setBrowser(true)
-    }, [])
     const PortalContent = (
         <AwesomeModal title={showTiming === 1 ? 'Lunes' : showTiming === 2 ? 'Martes ' : showTiming === 3 ? 'Miercoles' : showTiming === 4 ? 'Jueves ' : showTiming === 5 ? 'Viernes' : showTiming === 6 ? 'Sabado' : showTiming === 7 ? 'Domingo' : null} backdrop='static' zIndex='9990' padding='25px' height='50vh' show={SHOW_TIMING.state} onHide={() => { SHOW_TIMING.setState(!SHOW_TIMING.state) }} onCancel={() => false} size='small' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
             <Form onSubmit={(e) => handleForm(e)}>
@@ -99,7 +100,6 @@ export const ScheduleTimings = () => {
                 <ScheduleHeaderNav onClick={() => handleClick(6)} current={showTiming === 6 && 1}>Sábado</ScheduleHeaderNav>
                 <ScheduleHeaderNav onClick={() => handleClick(7)} current={showTiming === 7 && 1}>Domingo</ScheduleHeaderNav>
             </ScheduleHeader>
-
             <ScheduleHeader>
                 {data ? data?.getStoreSchedules?.map((s, i) => (
                     <Card direction='column' active={s.schDay === showTiming} margin='10px' key={i + 1} onClick={() => handleClick(s.schDay)} current={s.schDay === showTiming}>

@@ -1,3 +1,4 @@
+import { PLColor } from 'public/colors';
 import styled from 'styled-components';
 
 export const ContentCalcules = styled.div`
@@ -11,6 +12,37 @@ export const ScrollbarProduct = styled.div`
     margin: ${({ margin }) => margin || '100px 0'};
     border-top: 2px dashed rgba(166,166,166,.2);
     border-bottom: 2px dashed rgba(166,166,166,.2);
+    h2 {
+    text-rendering: optimizeLegibility;
+    font-family: PFont-Light;
+    display: inline;
+    color: #3e3e3e;
+    margin: 0 0 2px;
+    font-weight: 400;
+    font-size: 1.9em;
+    line-height: 44px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    }
+`
+export const OptionButton = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    button {
+    margin: 10px;
+    border: 1px solid ${PLColor};
+    padding: 10px;
+    border-radius: 20px;
+    flex-grow: 1;
+    font-size: 15px;
+    background-color: transparent;
+    text-align: center;
+    transition: 0.3s;
+    cursor: pointer;
+    width: max-content;
+    }
 `
 export const Box = styled.div`
 width: ${({ width }) => width || '60%'};

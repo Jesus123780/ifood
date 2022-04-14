@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Box, CateItem, ContainerGrid, ContentCalcules, ScrollbarProduct, Ticket, Wrapper } from './styled'
+import { Box, CateItem, ContainerGrid, ContentCalcules, OptionButton, ScrollbarProduct, Ticket, Wrapper } from './styled'
 import { useMutation, useQuery, useLazyQuery } from '@apollo/client'
 import { GET_ULTIMATE_CATEGORY_PRODUCTS } from 'container/dashboard/queries'
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -149,6 +149,11 @@ const GenerateSales = () => {
             <Box width='40%'>
                 <ScrollbarProduct margin={'0'}>
                     <h2>Productos a vender</h2>
+                    <OptionButton>
+                        <button>Añadir costo de envio</button>
+                        <button>Organizar por mejor precio</button>
+                        <button>Organizar por Categorías</button>
+                    </OptionButton>
                     <ContainerGrid>
                         {data.PRODUCT.map((producto, idx) => (
                             <CardProducts key={idx + 1} render={<IconDelete color={PColor} size="20px" />} onClick={() => dispatch({ type: 'REMOVE_PRODUCT', idx })} ProDescription={producto.ProDescription} ProPrice={producto.ProPrice} pName={producto.pName} ProImage={producto.ProImage} ValueDelivery={producto.ValueDelivery} ProDescuento={producto.ProDescuento} />

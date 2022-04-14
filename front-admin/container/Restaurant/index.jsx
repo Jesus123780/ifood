@@ -1,16 +1,15 @@
 import React, { useContext, useState } from 'react'
 import { RippleButton } from '../../components/Ripple'
-import { APColor, BColor, EColor, PLColor } from '../../public/colors'
+import { EColor, PLColor } from '../../public/colors'
 import InputHooks from '../../components/InputHooks/InputHooks'
 import { useFormTools } from '../../components/BaseForm'
 import { useMutation, useQuery, useLazyQuery } from '@apollo/client'
 import { IconArrowLeft } from '../../public/icons'
 import { useRouter } from 'next/router'
-import { ButtonSubmit, Content, Form, Enlace, Card, Text, GoBack, WrapDirection } from './styled'
+import { Content, Form, Card, GoBack, WrapDirection } from './styled'
 import { CREATE_ONE_STORE } from './queries'
 import { StepsComponent } from '../../components/Steps'
 import styled, { css, keyframes } from 'styled-components'
-import { GET_COUNTRY } from '../../components/Update/Location/Countries/queries'
 import NewSelect from '../../components/NewSelectHooks/NewSelect'
 import { GET_ALL_CITIES, GET_ALL_COUNTRIES, GET_ALL_DEPARTMENTS, GET_ALL_ROAD } from '../../gql/Location'
 import { useUser } from '../../components/hooks/useUser'
@@ -19,22 +18,27 @@ import { CardCheckBox, CardInput, CardRadioLabel } from '../../components/Update
 import { AwesomeModal } from '../../components/AwesomeModal'
 import { Context } from '../../context/Context'
 import useLocalStorage from '../../components/hooks/useLocalSorage'
+import { Loading } from 'components/Loading'
 
 export const Restaurant = () => {
-    const [step, setStep] = useState(0)
+    const [step] = useState(0)
+  const { setAlertBox } = useContext(Context)
+
     const [modalConfirm, setModalConfirm] = useState(false)
     const router = useRouter()
+    // eslint-disable-next-line
     const [_, setName] = useLocalStorage('restaurant', '');
-    const [newRegisterStore, { loading, error }] = useMutation(CREATE_ONE_STORE, {
+    const [newRegisterStore, { loading }] = useMutation(CREATE_ONE_STORE, {
+        onError: () => setAlertBox({ message: 'Lo sentimos ocurrió un error, vuelve a intentarlo' }),
         onCompleted: (data) => {
             setName(data?.newRegisterStore?.idStore || null)
             router.push('/restaurante/validacion-de-codigo')
         }
     })
     const [dataUser] = useUser()
-    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
+    const [handleChange, handleSubmit, { dataForm, errorForm }] = useFormTools()
     console.log(dataForm)
-    const handleForm = (e, show) =>
+    const handleForm = (e) =>
         handleSubmit({
             event: e,
             action: () => {
@@ -55,7 +59,7 @@ export const Restaurant = () => {
                             emailStore: dataForm.storeName || dataUser.email,
                             storePhone: dataForm.storePhone,
                             socialRaz: dataForm.socialRaz,
-                            Image: dataForm.storePhone,
+                            Image: null,
                             banner: dataForm.storePhone,
                             documentIdentifier: dataForm.documentIdentifier,
                             uPhoNum: dataForm.uPhoNum,
@@ -79,8 +83,8 @@ export const Restaurant = () => {
         })
     const [nextStep, setNextStep] = useState(0)
     // Herramientas de formulario
-    const { data: dataCountries, loading: loadCountries } = useQuery(GET_ALL_COUNTRIES)
-    const { data: dataRoad, loading: loadRoad } = useQuery(GET_ALL_ROAD)
+    const { data: dataCountries } = useQuery(GET_ALL_COUNTRIES)
+    const { data: dataRoad } = useQuery(GET_ALL_ROAD)
     const { data: dataCatStore } = useQuery(GET_ALL_CAT_STORE)
     const [getDepartments, { data: dataDepartments }] = useLazyQuery(GET_ALL_DEPARTMENTS)
     const [getCities, { data: dataCities }] = useLazyQuery(GET_ALL_CITIES)
@@ -116,6 +120,7 @@ export const Restaurant = () => {
     console.log(values)
     return (
         <Content>
+            {loading && <Loading /> }
             <AwesomeModal size={'small'} backdrop show={modalConfirm} onHide={() => setModalConfirm(false)} btnCancel={false} btnConfirm={false} footer={false} header={false} >
                 <RippleButton widthButton='100%' margin='20px auto' onClick={() => setModalConfirm(false)} bgColor={EColor} >
                     cancelar
@@ -363,16 +368,6 @@ const ContainerAnimationThree = styled.div`
 const ContainerAnimationFour = styled.div`
     ${props =>
         props.active === 4
-            ? css`
-                  animation: ${AnimationLeft} 200ms;
-              `
-            : css`
-                  animation: ${AnimationLeft} 200ms;
-              `}
-`
-const ContainerAnimationFive = styled.div`
-    ${props =>
-        props.active === 5
             ? css`
                   animation: ${AnimationLeft} 200ms;
               `

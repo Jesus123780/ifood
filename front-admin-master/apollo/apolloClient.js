@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { ApolloClient, from, HttpLink, InMemoryCache, ApolloLink } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import { concatPagination, getMainDefinition } from '@apollo/client/utilities'

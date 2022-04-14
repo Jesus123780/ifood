@@ -39,16 +39,16 @@ export const setStoreScheduleReserve = async (_root, { input }) => {
         return error
     }
 }
-export const setStoreSchedule = async (_root, { input }, context, _info) => {
-    console.log(input)
-    try {
-        await ScheduleStore.create({ ...input, idStore: deCode(context.restaurant), id: deCode(context.User.id) })
-        return true
-    } catch (e) {
-        const error = new Error('Lo sentimos, ha ocurrido un error interno1')
-        return error
-    }
-}
+// export const setStoreSchedule = async (_root, { input }, context, _info) => {
+//     console.log(input)
+//     try {
+//         await ScheduleStore.create({ ...input, idStore: deCode(context.restaurant), id: deCode(context.User.id) })
+//         return true
+//     } catch (e) {
+//         const error = new Error('Lo sentimos, ha ocurrido un error interno1')
+//         return error
+//     }
+// }
 const getStoreSchedules = async (root, { schDay }, context, info) => {
     try {
         const data = await ScheduleStore.findAll({
@@ -120,6 +120,6 @@ export default {
         getOneStoreSchedules,
     },
     MUTATIONS: {
-        setStoreSchedule,
+        // setStoreSchedule,
     }
 }

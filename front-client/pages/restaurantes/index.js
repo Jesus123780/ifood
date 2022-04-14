@@ -105,7 +105,7 @@ mutation setCookie($name: String, $value: String) {
         }}
         widthButton='100%'>Ver más</RippleButton>}
       <FavoriteStore />
-      <LastRecommended ID_CATEGORIE={ID_CATEGORIE} />
+      {/* <LastRecommended ID_CATEGORIE={ID_CATEGORIE} /> */}
       <ItMayInterestYou PRODUCT_NAME_COOKIE={PRODUCT_NAME_COOKIE} />
       {!ACEPTE_COOKIE && close !== 'true' && <CookieContainer>
         <div className="cookie-consent-banner-opt-out__message-container">

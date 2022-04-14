@@ -82,13 +82,6 @@ const Container = styled.div`
     left: 0;
     bottom: 0;
     right: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 1;
-    place-items: center;
-    margin: auto;
-    place-content: center;
-    transition: .6s;
     display: flex;
     ${({ show }) => show ? css`
         z-index: 1000;

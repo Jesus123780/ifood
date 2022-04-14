@@ -40,8 +40,6 @@ export const ListRestaurant = ({ data, catStoreId, like }) => {
                       height={100}
                       src={x.Image || '/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
                       alt="Picture of the author"
-                    // blurDataURL="data:..."
-                    // placeholder="blur" // Optional blur-up while loading
                     />
                   </div>
                   <div>
@@ -60,7 +58,7 @@ export const ListRestaurant = ({ data, catStoreId, like }) => {
 };
 
 
-ListRestaurant.PropTypes = {
+ListRestaurant.propTypes = {
   data: PropTypes.array,
   map: PropTypes.func,
   catStoreId: PropTypes.string,
