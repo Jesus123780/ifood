@@ -14,7 +14,8 @@ import { useSetState } from '../../hooks/useState';
 import { AwesomeModal } from '../../AwesomeModal'; import React from 'react';
 import Image from 'next/image';
 import { Loading } from 'components/Loading';
-import { IconArrowRight, IconDelete, IconDollar, IconEdit, IconLove } from 'public/icons';
+import { IconArrowRight, IconDelete, IconDollar, IconEdit, IconLove, IconSales } from 'public/icons';
+import { CardProducts } from 'container/producto/editar';
 
 export const FoodComponent = ({
     features,
@@ -67,8 +68,8 @@ export const FoodComponent = ({
                     <InputHook label='Peso' value={values.ProWeight} name='ProWeight' onChange={handleChange} range={{ min: 0, max: 180 }} />
                     <InputHook TypeTextarea={true} label='Description' value={values.ProDescription} name='ProDescription' onChange={handleChange} range={{ min: 0, max: 180 }} />
                     <CardInput onChange={handleCheckEnvioGratis}>
-                    <CardCheckBox name='gender' value="1" type="checkbox" id="checkboxF" />
-                    <CardRadioLabel htmlFor='checkboxF'>Envío gratis</CardRadioLabel>
+                        <CardCheckBox name='gender' value="1" type="checkbox" id="checkboxF" />
+                        <CardRadioLabel htmlFor='checkboxF'>Envío gratis</CardRadioLabel>
                     </CardInput>
                     <Footer>
                         <RippleButton widthButton='20%' padding='10px' type='submit'>Subir</RippleButton>
@@ -118,44 +119,59 @@ export const FoodComponent = ({
             <InputHook label='Busca tus productos' name='search' value={search} onChange={handleChangeFilter} type='text' range={{ min: 0, max: 20 }} />
             <WrapperProducts className='filter'>
                 <ContainerCardProduct grid={grid}>
-                    {!data?.length === 0 ? <SkeletonP /> : data?.map(product => (
-                        <CardProduct grid={grid} key={product.pId} >
-                            <ButtonCard grid={grid} onClick={() => handleDelete(product)}>
-                                <IconDelete size={20} color={PColor} />
-                                <ActionName >
-                                    Eliminar
-                                </ActionName>
-                            </ButtonCard>
-                            <ButtonCard grid={grid} delay='.1s' top={'80px'} onClick={() => router.push(`/producto/editar/${product.pId}`)}>
-                                <IconEdit size={20} color={PColor} />
-                                <ActionName>
-                                    Editar
-                                </ActionName>
-                            </ButtonCard>
-                            <ContentImg grid={grid}>
-                                <Image
-                                    className='store_image'
-                                    objectFit='contain'
-                                    layout='fill'
-                                    src={product.ProImage || '/images/202109081904_64O5_i.webp'}
-                                    alt={''}
-                                    blurDataURL="/images/DEFAULTBANNER.png"
-                                    placeholder="blur" // Optional blur-up while loading
-                                />
-                            </ContentImg>
-                            <ContentInfo>
-                                <ContentIconFav grid={grid} onClick={() => router.push(`/producto/editar/${product.pId}`)}>
-                                    <IconLove color={PVColor} size={20} />
-                                </ContentIconFav>
-                                {product.ProDescuento && <Discount discount={product.ProDescuento} > {numberFormat(product.ProDescuento)}</Discount>}
-                                <Title>{product.pName}</Title>
-                                <Text color={APColor}>{(product.ProDelivery === 1 && !product.ValueDelivery) ? 'Envio Gratis' : ''}</Text>
-                                <Text>{numberFormat(product.ProPrice)}</Text>
-                                <ContentInfo>
-                                    {product.ProDelivery === 1 && <span>Gratis</span>}
-                                </ContentInfo>
-                            </ContentInfo>
-                        </CardProduct>
+                    {!data?.length === 0 ? <SkeletonP /> : data?.map(producto => (
+                        <CardProducts del={true} edit={true} key={producto.pId} pId={producto.pId} ProDescription={producto.ProDescription} ProPrice={producto.ProPrice} pName={producto.pName} ProImage={producto.ProImage} ValueDelivery={producto.ValueDelivery} ProDescuento={producto.ProDescuento} />
+
+                        //     <ButtonCard grid={grid} onClick={() => handleDelete(product)}>
+                        //     <IconDelete size={20} color={PColor} />
+                        //     <ActionName >
+                        //         Eliminar
+                        //     </ActionName>
+                        // </ButtonCard>
+                        // <ButtonCard grid={grid} delay='.1s' top={'80px'} onClick={() => router.push(`/producto/editar/${product.pId}`)}>
+                        //     <IconEdit size={20} color={PColor} />
+                        //     <ActionName>
+                        //         Editar
+                        //     </ActionName>
+                        // </ButtonCard>
+
+                        // <CardProduct grid={grid} key={product.pId} >
+                        //     <ButtonCard grid={grid} onClick={() => handleDelete(product)}>
+                        //         <IconDelete size={20} color={PColor} />
+                        //         <ActionName >
+                        //             Eliminar
+                        //         </ActionName>
+                        //     </ButtonCard>
+                        //     <ButtonCard grid={grid} delay='.1s' top={'80px'} onClick={() => router.push(`/producto/editar/${product.pId}`)}>
+                        //         <IconEdit size={20} color={PColor} />
+                        //         <ActionName>
+                        //             Editar
+                        //         </ActionName>
+                        //     </ButtonCard>
+                        //     <ContentImg grid={grid}>
+                        //         <Image
+                        //             className='store_image'
+                        //             objectFit='contain'
+                        //             layout='fill'
+                        //             src={product.ProImage || '/images/202109081904_64O5_i.webp'}
+                        //             alt={''}
+                        //             blurDataURL="/images/DEFAULTBANNER.png"
+                        //             placeholder="blur" // Optional blur-up while loading
+                        //         />
+                        //     </ContentImg>
+                        //     <ContentInfo>
+                        //         <ContentIconFav grid={grid} onClick={() => router.push(`/producto/editar/${product.pId}`)}>
+                        //             <IconLove color={PVColor} size={20} />
+                        //         </ContentIconFav>
+                        //         {product.ProDescuento && <Discount discount={product.ProDescuento} > {numberFormat(product.ProDescuento)}</Discount>}
+                        //         <Title>{product.pName}</Title>
+                        //         <Text color={APColor}>{(product.ProDelivery === 1 && !product.ValueDelivery) ? 'Envio Gratis' : ''}</Text>
+                        //         <Text>{numberFormat(product.ProPrice)}</Text>
+                        //         <ContentInfo>
+                        //             {product.ProDelivery === 1 && <span>Gratis</span>}
+                        //         </ContentInfo>
+                        //     </ContentInfo>
+                        // </CardProduct>
                     ))}
                 </ContainerCardProduct>
             </WrapperProducts>

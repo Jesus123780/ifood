@@ -5,18 +5,26 @@ import { useMutation, useQuery, useLazyQuery } from '@apollo/client'
 import { GET_ULTIMATE_CATEGORY_PRODUCTS } from 'container/dashboard/queries'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { CardProducts } from 'container/producto/editar';
-import { Virtual, Navigation, Pagination, Scrollbar, A11y, Parallax } from 'swiper';
+import { Virtual, Navigation, Pagination, A11y, Parallax } from 'swiper';
 import { GET_ALL_PRODUCT_STORE } from 'container/dashboard/queriesStore'
 import { IconDelete, IconSales } from 'public/icons'
-import { PColor } from 'public/colors'
+import { BGColor, PColor } from 'public/colors'
 import { numberFormat } from 'utils'
+import { RippleButton } from 'components/Ripple'
+import { Loading, SpinnerColor, SpinnerColorJust } from 'components/Loading'
+import { TextH2Main } from 'components/common/h2'
+import { AwesomeModal } from 'components/AwesomeModal'
+import { useFormTools } from 'components/BaseForm'
+import InputHooks from 'components/InputHooks/InputHooks'
 const GenerateSales = () => {
     // STATES
     const [totalProductPrice, setTotalProductPrice] = useState(0)
     const [dataProducto, setData] = useState([])
     const [showMore, setShowMore] = useState(50)
     const [search, setSearch] = useState('')
+    const [delivery, setDelivery] = useState(true)
     const [searchFilter, setSearchFilter] = useState({ gender: [], desc: [], speciality: [] })
+    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError, errorSubmit }] = useFormTools()
     const initialStateInvoice = {
         PRODUCT: [],
     }
@@ -24,7 +32,7 @@ const GenerateSales = () => {
     const { data: datCat } = useQuery(GET_ULTIMATE_CATEGORY_PRODUCTS)
     // llama a los productos y espera una acción
     /* Filtro  */
-    const [productFoodsAll, { data: dataProduct, fetchMore }] = useLazyQuery(GET_ALL_PRODUCT_STORE, {
+    const [productFoodsAll, { data: dataProduct, fetchMore, loading }] = useLazyQuery(GET_ALL_PRODUCT_STORE, {
         fetchPolicy: 'network-only',
         variables:
         {
@@ -103,17 +111,19 @@ const GenerateSales = () => {
         }
     }
     const [data, dispatch] = useReducer(PRODUCT, initialStateInvoice)
-    console.log(data)
     let suma = 0
     let total = 0
     useEffect(() => {
         data.PRODUCT.forEach((a) => {
-            console.log(a)
-            const { ProPrice, ValueDelivery } = a || {}
+            const { ProPrice } = a || {}
             suma += ProPrice
             setTotalProductPrice(Math.abs(suma))
         })
+        if (data.PRODUCT.length === 0) {
+            setTotalProductPrice(0)
+        }
     }, [totalProductPrice, suma, total, data])
+    console.log(delivery)
     return (
         <Wrapper>
             <Box>
@@ -137,35 +147,53 @@ const GenerateSales = () => {
                         </SwiperSlide>
                     ))}
                 </Swiper>
-
+                <AwesomeModal padding='25px' show={delivery} onHide={() => setDelivery(!delivery)} onCancel={() => false} size='small' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='5px' >
+                    <InputHooks title='Nombre' width={'100%'} required email={false} error={errorForm?.prName} value={dataForm?.prName} onChange={handleChange} name='prName' />
+                </AwesomeModal>
                 <ScrollbarProduct>
                     <ContainerGrid>
                         {dataProducto.map((producto) => (
                             <CardProducts render={<IconSales size="20px" />} onClick={() => dispatch({ type: 'ADD_PRODUCT', payload: producto })} key={producto.pId} ProDescription={producto.ProDescription} ProPrice={producto.ProPrice} pName={producto.pName} ProImage={producto.ProImage} ValueDelivery={producto.ValueDelivery} ProDescuento={producto.ProDescuento} />
                         ))}
                     </ContainerGrid>
+                    <div>
+                        <RippleButton widthButton='100%' margin='20px auto' onClick={() => {
+                            setShowMore(s => s + 5)
+                            fetchMore({
+                                variables: { max: showMore, min: 0 },
+                                updateQuery: (prevResult, { fetchMoreResult }) => {
+                                    if (!fetchMoreResult) return prevResult
+                                    return {
+                                        productFoodsAll: [...fetchMoreResult.productFoodsAll]
+
+                                    }
+                                }
+                            })
+                        }}>{loading ? 'Cargando' : 'CARGAR MÁS'}</RippleButton>
+
+                    </div>
                 </ScrollbarProduct>
             </Box>
             <Box width='40%'>
                 <ScrollbarProduct margin={'0'}>
                     <h2>Productos a vender</h2>
                     <OptionButton>
-                        <button>Añadir costo de envio</button>
-                        <button>Organizar por mejor precio</button>
-                        <button>Organizar por Categorías</button>
+                        <button onClick={() => setDelivery(!delivery)}> <span>12</span> Añadir costo de envio</button>
+                        <button> <span>12</span> Organizar por mejor precio</button>
+                        <button> <span>12</span> Organizar por Categorías</button>
+                        <button> {!!totalProductPrice && <span>1</span>} Costo total $ {numberFormat(totalProductPrice)}</button>
                     </OptionButton>
                     <ContainerGrid>
-                        {data.PRODUCT.map((producto, idx) => (
+                        {data?.PRODUCT?.length > 0 ? data.PRODUCT.map((producto, idx) => (
                             <CardProducts key={idx + 1} render={<IconDelete color={PColor} size="20px" />} onClick={() => dispatch({ type: 'REMOVE_PRODUCT', idx })} ProDescription={producto.ProDescription} ProPrice={producto.ProPrice} pName={producto.pName} ProImage={producto.ProImage} ValueDelivery={producto.ValueDelivery} ProDescuento={producto.ProDescuento} />
-                        ))}
+                        )) : <div><IconSales size={100} /></div>}
                     </ContainerGrid>
                 </ScrollbarProduct>
                 <ContentCalcules>
-                    {numberFormat(suma)}
-                    Hola mundo
+                    <TextH2Main size='15px' color={BGColor} text={`$ ${numberFormat(totalProductPrice)}`} />
                 </ContentCalcules>
             </Box>
-        </Wrapper>
+        </Wrapper >
     )
 }
 

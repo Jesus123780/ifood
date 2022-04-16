@@ -5,7 +5,7 @@ import { Loading } from '../../components/Loading'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { Container, Text, Wrapper, CardProductsContent, CardProductsModal, Flex, DisRestaurant, ContentInfo, HeadSticky, ContentImage, TooltipCardProduct, WrapperCard } from './styled'
+import { Container, Text, Wrapper, CardProductsContent, CardProductsModal, Flex, DisRestaurant, ContentInfo, HeadSticky, ContentImage, TooltipCardProduct, WrapperCard, CtnBox } from './styled'
 import { useFormTools } from '../../components/BaseForm'
 import { Food } from '../update/Products/food'
 import { useSetState } from '../../components/hooks/useState'
@@ -128,19 +128,6 @@ const DashboardStore = () => {
         setDay(dateDay)
         setHour(moment(date).format('hh:mm'))
     }, [])
-
-    //     <Link
-    //     passHref
-    //     shallow
-    //     replace
-    //     href={{
-    //         pathname: `/restaurantes`,
-    //         query: { plato: food.pId }
-    //     }} >
-    //     <a>
-    //         <CardProduct food={food} key={food.pId} onClick={() => setOpenProductModal(!openProductModal)} />
-    //     </a>
-    // </Link>
     // COMPONENTS
     const stickySectionElements = Array.from(dataProCat)?.map((x, key) => {
         return (
@@ -293,24 +280,25 @@ export const CardProducts = ({ food, onClick, setAlertBox }) => {
                 </button>
             </TooltipCardProduct>
             <CardProductsContent onClick={onClick} >
-                <div>
+                <CtnBox>
                     <h3 className="card__description">{food.pName}</h3>
                     <h3 className="card__description">{food.ProDescription}</h3>
                     <div className='footer'>
                         <span className="card__price">$ {numberFormat(food.ProPrice)}</span>
                         <span className="card__des" style={{ color: APColor }}>$ {numberFormat(food.ProDescuento)}</span>
                     </div>
-                </div>
-                <Image
-                    className='store_image'
-                    width={100}
-                    height={100}
-                    layout='responsive'
-                    src={food.ProImage}
-                    alt={food.ProDescription || 'img'}
-                    blurDataURL="/images/DEFAULTBANNER.png"
-                    placeholder="blur"
-                />
+                </CtnBox>
+                <CtnBox>
+                    <Image
+                        objectFit='cover'
+                        // width={150}
+                        // height={150}
+                        layout='fill'
+                        src={food.ProImage}
+                        blurDataURL="/images/DEFAULTBANNER.png"
+                        alt={food.ProDescription || 'img'}
+                    />
+                </CtnBox>
             </CardProductsContent>
         </WrapperCard>
     );

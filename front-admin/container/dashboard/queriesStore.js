@@ -93,6 +93,7 @@ query productFoodsAll($search: String, $min: Int, $max: Int, $gender: [String], 
 	  ProDescription
 	  ProProtegido
 	  ProAssurance
+	  ValueDelivery
 	  ProStar
     sTateLogistic
 	  ProImage

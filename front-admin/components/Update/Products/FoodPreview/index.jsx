@@ -14,7 +14,7 @@ export const FoodCardPreview = props => {
                 <ContentImage onClick={() => onTargetClick()} >
                     <img src={src} alt={alt} />
                     <InputFile
-                        accept=".jpg, .png"
+                        accept=".jpg, .png .jpeg"
                         onChange={onFileInputChange}
                         ref={fileInputRef}
                         id='iFile' type='file'

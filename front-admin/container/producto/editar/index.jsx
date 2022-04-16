@@ -1,18 +1,17 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import PropTypes from 'prop-types'
 import Image from 'next/image';
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import InputHooks from '../../../components/InputHooks/InputHooks'
 import { useFormTools } from '../../../components/BaseForm'
 import { EDIT_PRODUCT, GET_ONE_PRODUCTS_FOOD } from '../queries'
 import { GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, UPDATE_IMAGE_PRODUCT_FOOD, UPDATE_PRODUCT_FOOD } from 'container/update/Products/queries'
 import { GET_ALL_CATEGORIES_WITH_PRODUCT, GET_ALL_EXTRA_PRODUCT } from 'container/dashboard/queries'
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import { numberFormat, updateCache } from 'utils'
 import { RippleButton } from 'components/Ripple'
 import { ExtrasProductsItems } from '../extras'
-import { APColor, BGColor, PColor } from 'public/colors'
-import { IconDelete, IconPay } from 'public/icons'
+import { APColor, BColor, BGColor, PColor } from 'public/colors'
+import { IconDelete, IconEdit, IconPay } from 'public/icons'
 import Link from 'next/link'
 import { CLIENT_URL_BASE, URL_ADMIN_SERVER } from 'apollo/urls'
 import { DisRestaurant } from 'container/PedidosStore/ListPedidos'
@@ -22,7 +21,7 @@ import { useRouter } from 'next/router'
 
 export const ProductEdit = ({ id }) => {
     // STATES
-    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
+    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm }] = useFormTools()
     const initialState = { alt: "/images/DEFAULTBANNER.png", src: "/images/DEFAULTBANNER.png" };
     const [modal, openModal] = useState(false)
     const { setAlertBox } = useContext(Context)
@@ -42,7 +41,7 @@ export const ProductEdit = ({ id }) => {
     })
     // EFFECTS
     console.log(dataProduct)
-    const { getStore, pId, carProId, sizeId, pCode, colorId, idStore, cId, caId, dId, ctId, tpId, fId, pName, ProPrice, ProDescuento, ValueDelivery, ProUniDisponibles, ProDescription, ProProtegido, ProAssurance, ProImage, ProStar, ProWidth, ProHeight, ProLength, ProWeight, ProQuantity, ProOutstanding, ProDelivery, ProVoltaje, pState, sTateLogistic, pDatCre, pDatMod } = dataProduct?.productFoodsOne || {}
+    const { getStore, pCode, ProPrice, ProDescuento, ValueDelivery, ProDescription, ProImage, ProDelivery, pState } = dataProduct?.productFoodsOne || {}
     useEffect(() => {
         if (id) {
             productFoodsOne({ variables: { pId: id } })
@@ -88,7 +87,6 @@ export const ProductEdit = ({ id }) => {
                     // setDataValue({})
                 })
                 const { pName, ProPrice, ProDescuento, ValueDelivery, ProUniDisponibles, ProDescription, ProProtegido, ProAssurance, ProWidth, ProHeight, ProLength, ProWeight, ProQuantity, ProOutstanding, ProDelivery, ProVoltaje, pState, sTateLogistic } = dataForm || {}
-                const ProImage = `${URL_ADMIN_SERVER}static/platos/${image?.name}`
                 return editProductFoods({
                     variables: {
                         input: {
@@ -151,9 +149,9 @@ export const ProductEdit = ({ id }) => {
                         }
                     }
                 })
-                setAlertBox({ message: `El producto ${pName} ha sido eliminado`, color: 'error', duration: 7000 })
+                setAlertBox({ message: 'El producto ha sido eliminado', color: 'error', duration: 7000 })
             }
-        }).then(x => {
+        }).then(() => {
             router.back();
         }).catch(err => setAlertBox({ message: `${err}`, duration: 7000 }))
     }
@@ -162,7 +160,7 @@ export const ProductEdit = ({ id }) => {
             <>
                 <Card>
                     <div className="dish-card__info">
-                        <h3 className='dish-card__description'>{pName}</h3>
+                        <h3 className='dish-card__description'>{''}</h3>
                         <span className="description">{ProDescription}</span>
                         <span className="description">$ {numberFormat(ValueDelivery)} <IconPay size={20} color={PColor} /></span>
                         <RippleButton widthButton='100%' padding='0' margin='5px auto' onClick={() => handleDelete()}> <IconDelete size={20} color={BGColor} /></RippleButton>
@@ -285,6 +283,47 @@ export const ContentImage = styled.div`
 export const InputFile = styled.input`
     /* display: none;    */
 `
+export const ActionName = styled.span`
+    position: absolute;
+    height: 20px;
+    width: 100px;
+    right: 35px;
+    color: ${BColor};
+    opacity: 0;
+    font-family: PFont-Light;
+    transition: .1s ease-in-out;
+    z-index: -900;
+`
+export const ButtonCard = styled.button` 
+    font-size: 12px;
+    font-family: PFont-Light;
+    cursor: pointer;
+    word-break: break-word;
+    box-shadow: 0px 0px 6px 0px #16101028;
+    position: absolute;
+    right: -50px;
+    transition: .4s ease;
+    width: 50px;
+    height: 50px;
+    z-index: 999; 
+    top: ${({ top }) => top ? top : '20px'};
+    transition-delay: ${({ delay }) => delay ? delay : 'auto'};
+    max-height: 50px;
+    max-width: 50px;
+    border-radius: 50%;
+    align-items: center;
+    display: grid;
+    justify-content: center;
+    background-color: ${BGColor};
+    &:hover  ${ActionName} {
+        opacity: 1;
+        z-index: 900;
+    }
+    ${props => props.grid && css`
+        top: ${({ top }) => top ? top : '80px'};
+        `
+    }
+`
 const Card = styled.div`
     position: relative;
     display: grid;
@@ -305,6 +344,13 @@ const Card = styled.div`
     height: 400px;
     align-items: flex-end;
     top: 0;
+    &:hover  ${ButtonCard} {
+        right: 15px;
+    }
+    &#space {
+        padding: 30px;
+        justify-content: space-between;
+    }
     @media only screen and (min-width: 960px) {
         cursor: pointer;
     }
@@ -319,8 +365,9 @@ const Card = styled.div`
         display: grid;
         grid-area: info;
         grid-template-rows: 1fr;
-        padding: 10px;
+        padding: 10px 20px;
         height: min-content;
+        /* padding: 0 20px; */
     }
     .dish-card__container-image {
         line-height: 1.15;
@@ -414,6 +461,7 @@ const Card = styled.div`
     }
     .info-price {
         display: flex;
+        padding: 0 20px;
     }
 `
 const Container = styled.div`
@@ -439,15 +487,28 @@ const Inputdeker = styled.input`
 // margin: 5px;
 // `
 
-export const CardProducts = ({ pName,  key, ProDescription, ValueDelivery, ProPrice, render = null, onClick = () => { }, ProDescuento, ProImage, widthButton }) => {
+export const CardProducts = ({ pName, del, edit, key, ProDescription, ValueDelivery, pId, ProPrice, render = null, onClick = () => { }, handleDelete = () => { }, ProDescuento, ProImage, widthButton }) => {
+    const router = useRouter()
     return (
         <Card key={key}>
+            {del && <ButtonCard grid={false} onClick={handleDelete}>
+                <IconDelete size={20} color={PColor} />
+                <ActionName >
+                    Eliminar
+                </ActionName>
+            </ButtonCard>}
+            {edit && <ButtonCard grid={false} delay='.1s' top={'80px'} onClick={() => router.push(`/producto/editar/${pId}`)}>
+                <IconEdit size={20} color={PColor} />
+                <ActionName>
+                    Editar
+                </ActionName>
+            </ButtonCard>}
             <div className="dish-card__info">
-                {ValueDelivery && <span className="description">Domicilio $ {numberFormat(ValueDelivery)}</span>}
+                {ValueDelivery && <span className="description">Domicilio $ {numberFormat(ValueDelivery || 0)}</span>}
 
                 <div className="flex-wrap">
-                    <span className="price">$ {numberFormat(ProPrice)}</span>
-                    <span className="price discount">$ {numberFormat(ProDescuento)}</span>
+                    <span className="price">$ {ProPrice ? numberFormat(ProPrice) : 'Gratis'}</span>
+                    {ProDescuento !== 0 && <span className="price discount">{`${numberFormat(ProDescuento)}`}</span>}
                 </div>
             </div>
             <div className='info-price'>

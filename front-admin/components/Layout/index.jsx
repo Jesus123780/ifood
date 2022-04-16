@@ -12,13 +12,13 @@ import { ScheduleTimings } from 'container/dashboard/ScheduleTimings'
 import { LateralModal } from 'container/dashboard/styled'
 import { BtnClose } from 'components/AwesomeModal/styled'
 import { IconCancel } from 'public/icons'
-import ScaleModal from 'components/AwesomeModal/Scale'
 import GenerateSales from 'container/Sales'
+import { AwesomeModal } from 'components/AwesomeModal'
 // import { Messages } from 'container/messages'
 
 export const Layout = ({ children, watch, settings }) => {
     const location = useRouter()
-    const { error, isSession, setAlertBox, openSchedule, setOpenSchedule, salesOpen } = useContext(Context)
+    const { error, isSession, setAlertBox, openSchedule, setOpenSchedule, salesOpen, setSalesOpen } = useContext(Context)
     const { latitude, longitude, timestamp, accuracy, speed } = usePosition(watch, settings);
     const dataLocation = usePosition(watch, settings);
     useEffect(() => {
@@ -53,9 +53,9 @@ export const Layout = ({ children, watch, settings }) => {
                 {!['/', '/login', '/entrar', '/entrar/email', '/register', '/terms_and_conditions', '/restaurante', '/varify-email', '/checkout/[id]', '/add-payment-method', '/teams/invite/[id]', '/forgotpassword', '/autho', '/contact-us', '/email/confirm/[code]', '/switch-options', '/contact', '/teams/invite/[id]'].find(x => x === location.pathname) && (<Aside />)}
                 <div style={{ gridArea: 'main', overflowY: 'auto' }}>
                     {children}
-                    <ScaleModal title="Crea una venta" show={salesOpen} size='large'>
+                    <AwesomeModal backdrop='static' height='100vh' zIndex='9999' padding='25px' show={salesOpen} onHide={() => setSalesOpen(!salesOpen) } onCancel={() => false} size='large' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' title="Crea una venta" >
                         <GenerateSales />
-                    </ScaleModal>
+                    </AwesomeModal>
                     {/* <Messages /> */}
                 </div>
                 {!['/login', '/register', '/varify-email', '/restaurante', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => x === location.pathname) && <Footer />}

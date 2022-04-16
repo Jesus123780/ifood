@@ -83,10 +83,13 @@ export const TooltipCardProduct = styled.div`
 export const WrapperCard = styled.div`
     position: relative;
     z-index: 99;
-
   &&:hover >  ${TooltipCardProduct} {
       transform: translateY(-30px);
   }
+`
+export const CtnBox = styled.div`
+  position: relative;
+  overflow: hidden;
 `
 export const CardProductsContent = styled.div`
     grid-template-columns: 1fr 146px;
@@ -138,11 +141,6 @@ export const CardProductsContent = styled.div`
     -webkit-box-orient: vertical;
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    }
-    img {
-      object-fit: fill;
-      width: 100%;
-      height: 100%;
     }
     `
 export const CardProductsModal = styled(CardProductsContent)`
@@ -921,13 +919,27 @@ export const ContentAction = styled.div`
   padding: 20px;
   border-top: .5px solid #eaeaea ;
 `
+export const FlexContent = styled.div`
+display: flex;
+align-items: flex-start;
+
+`
 export const CtnItems = styled.div`
-    margin: auto;
-    margin: 50px 0px;
-    place-content: center;
-    display: grid;
-    gap: 5px;
-    grid-template-columns: 50% repeat(auto-fill, 50%);
+    display: grid;    
+    margin: 0;
+    padding-bottom: 20px;
+    /* max-width: 1366px!important; */
+    padding: 0 30px;
+    /* height: 100vh; */
+@media only screen and (min-width: 768px) and (min-width: 960px)
+{
+    grid-template-columns: repeat(auto-fill,minmax(275px,1fr));
+    grid-gap: 30px;
+}
+@media only screen and (min-width: 768px) {
+    grid-template-columns: repeat(auto-fill,minmax(252px,1fr));
+    grid-gap: 20px;
+}
 `
 export const Card = styled.div`
   display: ${({ display }) => display || 'flex'};

@@ -1,10 +1,13 @@
-import { PLColor } from 'public/colors';
+import { BGColor, PColor, PLColor } from 'public/colors';
 import styled from 'styled-components';
 
 export const ContentCalcules = styled.div`
-    /* position: absolute; */
-    left: 0;
-bottom: 0;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    background-color: ${PColor};
+    width: 40%;
+    padding: 20px;
 `
 export const ScrollbarProduct = styled.div`
     overflow: hidden auto;
@@ -42,6 +45,22 @@ export const OptionButton = styled.div`
     transition: 0.3s;
     cursor: pointer;
     width: max-content;
+    position: relative;
+    span {
+        background-color: ${PColor};
+        color:  ${BGColor};
+        height: 25px;
+        width: 25px;
+        padding: 2px;
+        font-size: 12px;    
+        display: flex;
+        place-items: center;
+        place-content: center;
+        position: absolute;
+        top: -10px;
+        right: 0;
+        border-radius: 50%;
+    }
     }
 `
 export const Box = styled.div`
