@@ -17,9 +17,7 @@ export const TextH2Main = ({ text, size, align, lineHeight, padding, margin, col
 
 const TextH2 = styled.h2`
   line-height: 1.15;
-  
   text-rendering: optimizeLegibility;
-
     font-size: ${({ size }) => size || '1.5rem'};
     text-align:  ${({ align }) => align || 'start'};
     height: min-content;

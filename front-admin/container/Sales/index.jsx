@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Box, CateItem, ContainerGrid, ContentCalcules, OptionButton, ScrollbarProduct, Ticket, Wrapper } from './styled'
+import { Box, CateItem, ContainerGrid, ContentCalcules, Input, OptionButton, ScrollbarProduct, Ticket, Wrapper } from './styled'
 import { useMutation, useQuery, useLazyQuery } from '@apollo/client'
 import { GET_ULTIMATE_CATEGORY_PRODUCTS } from 'container/dashboard/queries'
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -24,7 +24,8 @@ const GenerateSales = () => {
     const [search, setSearch] = useState('')
     const [delivery, setDelivery] = useState(true)
     const [searchFilter, setSearchFilter] = useState({ gender: [], desc: [], speciality: [] })
-    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError, errorSubmit }] = useFormTools()
+    const [values, setValues] = useState({})
+    const handleChange = e => setValues({ ...values, [e.target.name]: e.target.value })
     const initialStateInvoice = {
         PRODUCT: [],
     }
@@ -67,7 +68,6 @@ const GenerateSales = () => {
             const iframe = document.createElement('iframe')
             iframe.setAttribute('title', uniqueIframeId)
             iframe.setAttribute('id', uniqueIframeId)
-            console.log(iframe)
             // iframe.setAttribute('style', 'width: 155px; position: relative;')
             document.body.appendChild(iframe)
             pri = iframe.contentWindow
@@ -78,7 +78,6 @@ const GenerateSales = () => {
         pri.focus()
         pri.print()
     }
-    console.log(dataProducto)
     const PRODUCT = (state, action) => {
         switch (action.type) {
             case 'ADD_PRODUCT':
@@ -123,9 +122,11 @@ const GenerateSales = () => {
             setTotalProductPrice(0)
         }
     }, [totalProductPrice, suma, total, data])
-    console.log(delivery)
     return (
         <Wrapper>
+            <AwesomeModal title="Añade el costo del envio" padding='25px' show={delivery} onHide={() => setDelivery(!delivery)} onCancel={() => false} size='small' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='5px' >
+                <Input placeholder='costo de envio' value={values?.ValueDelivery} onChange={handleChange} name='ValueDelivery' />
+            </AwesomeModal>
             <Box>
                 <Swiper
                     slidesPerView={6}
@@ -147,9 +148,7 @@ const GenerateSales = () => {
                         </SwiperSlide>
                     ))}
                 </Swiper>
-                <AwesomeModal padding='25px' show={delivery} onHide={() => setDelivery(!delivery)} onCancel={() => false} size='small' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='5px' >
-                    <InputHooks title='Nombre' width={'100%'} required email={false} error={errorForm?.prName} value={dataForm?.prName} onChange={handleChange} name='prName' />
-                </AwesomeModal>
+
                 <ScrollbarProduct>
                     <ContainerGrid>
                         {dataProducto.map((producto) => (
@@ -178,9 +177,7 @@ const GenerateSales = () => {
                 <ScrollbarProduct margin={'0'}>
                     <h2>Productos a vender</h2>
                     <OptionButton>
-                        <button onClick={() => setDelivery(!delivery)}> <span>12</span> Añadir costo de envio</button>
-                        <button> <span>12</span> Organizar por mejor precio</button>
-                        <button> <span>12</span> Organizar por Categorías</button>
+                        <button onClick={() => setDelivery(!delivery)}> {values?.ValueDelivery ? <span>1</span> : <span className='free'>Gratis</span>}Costo de envio {numberFormat(values?.ValueDelivery)}</button>
                         <button> {!!totalProductPrice && <span>1</span>} Costo total $ {numberFormat(totalProductPrice)}</button>
                     </OptionButton>
                     <ContainerGrid>

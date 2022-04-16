@@ -1,6 +1,11 @@
-import { BGColor, PColor, PLColor } from 'public/colors';
+import { APColor, BGColor, PColor, PLColor } from 'public/colors';
 import styled from 'styled-components';
 
+export const Input = styled.input`
+    outline: none;
+    padding: 12px;
+    width: 100%;
+`
 export const ContentCalcules = styled.div`
     position: fixed;
     right: 0;
@@ -33,6 +38,13 @@ export const OptionButton = styled.div`
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
+    .free {
+        color: ${PColor};
+        width: 100px;
+        border-radius: 10px;
+        background-color: ${BGColor};
+        border: 1px solid ${`${PLColor}87`};
+    }
     button {
     margin: 10px;
     border: 1px solid ${PLColor};
