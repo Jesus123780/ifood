@@ -27,7 +27,7 @@ export const CardProducts = ({ pName, del, edit, key, ProDescription, ValueDeliv
 
                 <div className="flex-wrap">
                     <span className="price">$ {ProPrice ? numberFormat(ProPrice) : 'Gratis'}</span>
-                    {ProDescuento !== 0 && <span className="price discount">{`${numberFormat(ProDescuento)}`}</span>}
+                    {ProDescuento !== 0 && <span className="price discount">{`$ ${numberFormat(ProDescuento)}`}</span>}
                 </div>
             </div>
             <div className='info-price'>

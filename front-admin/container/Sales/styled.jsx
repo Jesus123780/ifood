@@ -1,17 +1,21 @@
 import { APColor, BGColor, PColor, PLColor } from 'public/colors';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { animationTop, FadeOutLeftBig } from '../../components/animations';
 
 export const Input = styled.input`
     outline: none;
     padding: 12px;
     width: 100%;
+    margin-bottom: 20px;
 `
 export const ContentCalcules = styled.div`
     position: fixed;
     right: 0;
-    bottom: 0;
+    bottom: -1px;
+    display: flex;
+    justify-content: space-between;
     background-color: ${PColor};
-    width: 40%;
+    /* width: 40%; */
     padding: 20px;
 `
 export const ScrollbarProduct = styled.div`
@@ -75,10 +79,24 @@ export const OptionButton = styled.div`
     }
     }
 `
-export const Box = styled.div`
-width: ${({ width }) => width || '60%'};
-position: relative;
+export const Button = styled.button`
+    background-color: transparent;
+    outline: none;
+`
 
+export const FlipTop = styled.div`
+    position: relative;
+    width: max-content;
+    &&:hover > ${Button} {
+        animation: ${animationTop} .1s linear;
+    } 
+`
+export const Box = styled.div`
+    width: ${({ width }) => width || '60%'};
+    place-content: center;
+    place-items: center;
+    ${({ display }) => display && css` display: ${display};`}
+    position: relative;
 `
 export const Wrapper = styled.div`
     display: flex;
@@ -117,11 +135,34 @@ export const CateItem = styled.div`
 export const SliderCategoryProducts = styled.div`
     display: flex;
 `
+export const Text = styled.span`
+    font-weight: ${ ({ fontWeight }) => fontWeight ? fontWeight : '700'};
+`
+export const Item = styled.div`
+    display: flex;
+    place-content: space-between;
+    padding: 10px 0;
+    /* word-break: break-all; */
+    place-items: center;
+    border-top: 1px solid #00000069;
+`
+export const Content = styled.div`
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+`
 export const Ticket = styled.div`
         width: 155px;
         max-width: 155px;
+        /* overflow: hidden; */
         position: relative;
+        display: flex;
+        place-items: center;
+        place-content: center;
+        margin: auto;
+        font-family: PFont-Light;
         min-width: 155px;
+        margin-bottom: 300px;
  
    td,
 th,
@@ -153,6 +194,7 @@ th.precio {
 
 .centrado {
     text-align: center;
+    border-bottom: 20px;
     align-content: center;
 }
 

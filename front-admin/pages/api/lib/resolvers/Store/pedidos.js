@@ -1,24 +1,16 @@
-import { ApolloError } from 'apollo-server-micro'
-import CatStore from '../../models/information/CategorieStore'
-import CitiesModel from '../../models/information/CitiesModel'
-import CountriesModel from '../../models/information/CountriesModel'
-import DepartmentsModel from '../../models/information/DepartmentsModel'
 import productModelFood from '../../models/product/productFood'
 import pedidosModel from '../../models/Store/pedidos'
 import ShoppingCard from '../../models/Store/ShoppingCard'
 import StatusPedidosModel from '../../models/Store/statusPedidoFinal'
-import Store from '../../models/Store/Store'
 import Users from '../../models/Users'
-import { LoginEmail } from '../../templates/LoginEmail'
-import { deCode, filterKeyObject, getAttributes } from '../../utils/util'
+import { deCode, getAttributes } from '../../utils/util'
 import { deleteOneItem, getOneStore } from './store'
 const { Op } = require('sequelize')
 
 export const createOnePedidoStore = async (_, { input }, ctx) => {
     const { id, idStore, ShoppingCard, change, pickUp, pCodeRef, payMethodPState, pPRecoger } = input || {}
-    let res = {}
     try {
-        res = await pedidosModel.create({
+        await pedidosModel.create({
             ...input,
             pPStateP: 1,
             id: deCode(id),
@@ -36,10 +28,11 @@ export const createOnePedidoStore = async (_, { input }, ctx) => {
         return { success: false, message: error }
     }
 }
+// eslint-disable-next-line
 const changePPStatePPedido = async (_, { pPStateP, pCodeRef }, ctx) => {
     try {
         console.log(pPStateP, pCodeRef)
-        const data = await StatusPedidosModel.update({ pSState: pPStateP }, { where: { pCodeRef: pCodeRef } })
+        await StatusPedidosModel.update({ pSState: pPStateP }, { where: { pCodeRef: pCodeRef } })
         return {
             success: true,
             message: pPStateP === 1
@@ -58,7 +51,6 @@ const changePPStatePPedido = async (_, { pPStateP, pCodeRef }, ctx) => {
 }
 const createMultipleOrderStore = async (_, { input }, ctx) => {
     const { setInput, change, pickUp, pCodeRef, payMethodPState, pPRecoger, totalProductsPrice, locationUser } = input || {}
-    let res = {}
     try {
         await StatusPedidosModel.create({ id: deCode(ctx.User.id), locationUser, idStore: deCode(setInput[0].idStore), pSState: 0, pCodeRef: pCodeRef, change: change, payMethodPState: payMethodPState, pickUp, totalProductsPrice })
         for (let i = 0; i < setInput.length; i++) {

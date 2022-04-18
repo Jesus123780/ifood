@@ -11,6 +11,8 @@ export const AwesomeModal = ({
     disabled,
     display,
     zIndex,
+    cancel,
+    confirm,
     padding,
     backdrop = true,
     useScroll = false,
@@ -83,8 +85,8 @@ export const AwesomeModal = ({
                     <ModalBody display={display} padding={padding} height={height}>
                         {children}
                         {footer && <ModalFooter>
-                            {btnCancel ? <RippleButton disabled={disabled} border type='button' onClick={clickCancel}>{BUTTONS_TEXT.cancel}</RippleButton> : <div>as </div>}
-                            {btnConfirm && <RippleButton type={submit ? 'submit' : 'button'} border onClick={clickConfirm}>{BUTTONS_TEXT.confirm}</RippleButton>}
+                            {btnCancel ? <RippleButton disabled={disabled} border type='button' onClick={clickCancel}>{cancel || BUTTONS_TEXT.cancel}</RippleButton> : <div>as </div>}
+                            {btnConfirm && <RippleButton type={submit ? 'submit' : 'button'} border onClick={clickConfirm}>{confirm || BUTTONS_TEXT.confirm}</RippleButton>}
                         </ModalFooter>}
                     </ModalBody>
                 </Modal>

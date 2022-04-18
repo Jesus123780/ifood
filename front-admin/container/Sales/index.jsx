@@ -1,28 +1,34 @@
-import React, { useEffect, useReducer, useState } from 'react'
+import React, { useContext, useEffect, useReducer, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Box, CateItem, ContainerGrid, ContentCalcules, Input, OptionButton, ScrollbarProduct, Ticket, Wrapper } from './styled'
+import { Box, Button, CateItem, ContainerGrid, ContentCalcules, FlipTop, Input, OptionButton, ScrollbarProduct, Ticket, Wrapper } from './styled'
 import { useMutation, useQuery, useLazyQuery } from '@apollo/client'
 import { GET_ULTIMATE_CATEGORY_PRODUCTS } from 'container/dashboard/queries'
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { CardProducts } from 'container/producto/editar';
+// import { CardProducts } from 'container/producto/editar';
 import { Virtual, Navigation, Pagination, A11y, Parallax } from 'swiper';
 import { GET_ALL_PRODUCT_STORE } from 'container/dashboard/queriesStore'
-import { IconDelete, IconSales } from 'public/icons'
+import { IconPrint, IconDelete, IconSales } from 'public/icons'
 import { BGColor, PColor } from 'public/colors'
-import { numberFormat } from 'utils'
+import { numberFormat, RandomCode } from 'utils'
 import { RippleButton } from 'components/Ripple'
-import { Loading, SpinnerColor, SpinnerColorJust } from 'components/Loading'
 import { TextH2Main } from 'components/common/h2'
 import { AwesomeModal } from 'components/AwesomeModal'
 import { useFormTools } from 'components/BaseForm'
 import InputHooks from 'components/InputHooks/InputHooks'
+import { CardProducts } from 'components/CartProduct'
+import { Prints } from './Printsale'
+import { CREATE_MULTIPLE_ORDER_PRODUCTS } from './queries'
+import { Context } from 'context/Context'
 const GenerateSales = () => {
     // STATES
+    const { setAlertBox } = useContext(Context)
     const [totalProductPrice, setTotalProductPrice] = useState(0)
+    const code = RandomCode(5)
     const [dataProducto, setData] = useState([])
     const [showMore, setShowMore] = useState(50)
     const [search, setSearch] = useState('')
-    const [delivery, setDelivery] = useState(true)
+    const [delivery, setDelivery] = useState(false)
+    const [print, setPrint] = useState(false)
     const [searchFilter, setSearchFilter] = useState({ gender: [], desc: [], speciality: [] })
     const [values, setValues] = useState({})
     const handleChange = e => setValues({ ...values, [e.target.name]: e.target.value })
@@ -31,6 +37,13 @@ const GenerateSales = () => {
     }
     // QUERIES
     const { data: datCat } = useQuery(GET_ULTIMATE_CATEGORY_PRODUCTS)
+    const [createMultipleOrderStore] = useMutation(CREATE_MULTIPLE_ORDER_PRODUCTS, {
+        onCompleted: data => {
+            if (data.createMultipleOrderStore.success === true) {
+                console.log('first')
+            }
+        }
+    })
     // llama a los productos y espera una acción
     /* Filtro  */
     const [productFoodsAll, { data: dataProduct, fetchMore, loading }] = useLazyQuery(GET_ALL_PRODUCT_STORE, {
@@ -43,7 +56,6 @@ const GenerateSales = () => {
             categories: searchFilter?.speciality,
         }
     })
-    // HANDLES
     // EFFECTS 
     useEffect(() => {
         if (dataProduct?.productFoodsAll) {
@@ -122,10 +134,60 @@ const GenerateSales = () => {
             setTotalProductPrice(0)
         }
     }, [totalProductPrice, suma, total, data])
+    const newArray = data?.PRODUCT?.map(x => { return x })
+
+    console.log(newArray)
+    const handleSales = async (bool) => {
+        await createMultipleOrderStore({
+            variables: {
+                input: {
+                    setInput: newArray || [],
+                    change: parseInt(values?.change?.replace(/\./g, '')),
+                    pickUp: 1,
+                    totalProductsPrice: totalProductPrice,
+                    pCodeRef: code,
+                    payMethodPState: 1,
+                    pPRecoger: 1,
+                }
+            },/*  update: (cache, { data: { getAllShoppingCard } }) => updateCache({
+                cache,
+                query: GET_ALL_SHOPPING_CARD,
+                nameFun: 'getAllShoppingCard',
+                dataNew: getAllShoppingCard
+            }) */
+
+        }).then(() => {
+            if (bool) {
+                console.log('first')
+            }
+        }).catch(err => setAlertBox({ message: `${err}`, duration: 7000 }))
+
+    }
     return (
         <Wrapper>
+
+            <AwesomeModal height='100vh' padding='25px' size='small' cancel='Guardar' confirm='Guardar y salir' show={print} onHide={() => setPrint(!print)} onConfirm={() => handleSales('confirm')} /* onCancel={() => handleSales()} */ btnCancel={true} btnConfirm={true} header={true} footer={true} borderRadius='5px' >
+                <Prints code={code} change={values.change} data={data?.PRODUCT || []} total={`$ ${numberFormat(totalProductPrice)}`} />
+            </AwesomeModal>
             <AwesomeModal title="Añade el costo del envio" padding='25px' show={delivery} onHide={() => setDelivery(!delivery)} onCancel={() => false} size='small' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='5px' >
-                <Input placeholder='costo de envio' value={values?.ValueDelivery} onChange={handleChange} name='ValueDelivery' />
+                <Input autoComplete='off' placeholder='costo de envio' value={values?.ValueDelivery} onChange={handleChange} name='ValueDelivery'
+                    onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            e.target.blur()
+                            setDelivery(!delivery)
+                        }
+                    }}
+                />
+                <Input autoComplete='off' placeholder='Cambio' value={values?.change} onChange={handleChange} name='change'
+                    onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            e.target.blur()
+                            setDelivery(!delivery)
+                        }
+                    }}
+                />
             </AwesomeModal>
             <Box>
                 <Swiper
@@ -187,7 +249,15 @@ const GenerateSales = () => {
                     </ContainerGrid>
                 </ScrollbarProduct>
                 <ContentCalcules>
-                    <TextH2Main size='15px' color={BGColor} text={`$ ${numberFormat(totalProductPrice)}`} />
+                    <Box display='flex' width='60%'>
+                        <TextH2Main size='15px' color={BGColor} text={`$ ${numberFormat(totalProductPrice)}`} />
+                    </Box>
+                    <Box display='flex' width='40%'>
+                        <TextH2Main size='15px' color={BGColor} text={`$ ${numberFormat(totalProductPrice)}`} />
+                        <FlipTop>
+                            <Button onClick={() => setPrint(!print)} radius='50%'><IconPrint size={30} color={BGColor} /></Button>
+                        </FlipTop>
+                    </Box>
                 </ContentCalcules>
             </Box>
         </Wrapper >

@@ -29,7 +29,7 @@ export const RippleButton = props => {
     }, []);
 
     return (
-        <Button widthButton={widthButton} {...props} type={type} active={active} standard={standard} family={family} padding={ props.padding } color={ props.color } margin={ props.margin } bgColor={ props.bgColor} ref={button} onClick={onClick} className="ripple-button" style={style}>
+        <Button widthButton={widthButton} {...props} type={type} radius={props.radius} active={active} standard={standard} family={family} padding={ props.padding } color={ props.color } margin={ props.margin } bgColor={ props.bgColor} ref={button} onClick={onClick} className="ripple-button" style={style}>
             <span id="ripple-button-label">{label}</span>
             {props.children}
         </Button>
@@ -51,8 +51,7 @@ const Button = styled.button`
     font-size: 11px !important;
     font-family: PFont-Light !important;`
 }
- ${ ({ widthButton }) => widthButton && css`
-    width: ${ widthButton };`
-}
+ ${ ({ widthButton }) => widthButton && css` width: ${ widthButton };`}
+ ${ ({ radius }) => radius && css` border-radius: ${ radius };`}
 
 ${ props => props.active ? css`border-bottom: 3px solid red;` : css`border-bottom: 3px solid transparent;` }`

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-// import { useLocation } from 'react-router-dom'
 import { MenuLeft, OptionMenu, Span, Row } from './Styled'
 import { useRouter } from 'next/router'
 
