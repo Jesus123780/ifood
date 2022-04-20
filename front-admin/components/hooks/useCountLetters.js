@@ -29,7 +29,7 @@ export const useCountLetters = () => {
         <div style={{ padding: '15px' }}>
             <h2>Compute number of letters (slow 🐌)</h2>
             <p>
-                "{word}" has {letterCount} letters
+                {word} has {letterCount} letters
             </p>
             <button
                 onClick={() => {

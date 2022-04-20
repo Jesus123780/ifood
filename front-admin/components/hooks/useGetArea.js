@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { GET_ALL_AREAS } from '../../gql/Areas'
 
 export const useGetAreas = () => {

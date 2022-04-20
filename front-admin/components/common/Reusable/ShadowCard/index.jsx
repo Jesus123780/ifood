@@ -1,6 +1,6 @@
 import { TextH2Main } from 'components/common/h2'
 import React from 'react'
-import { HeadCard, ShadowCardContainer } from './styles'
+import { ShadowCardContainer } from './styles'
 
 export const MainCard = ({ children, title, noneShadow, display, width, weight, size }) => {
     return (

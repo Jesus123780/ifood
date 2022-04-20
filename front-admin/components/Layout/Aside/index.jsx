@@ -140,9 +140,6 @@ const Aside = () => {
                 <IconHorario color={BGColor} size='15px' />
               </ContentAction>
             </DynamicNav>
-            <ActiveLink activeClassName="active" href="/promo">
-              <AnchorRouter><IconPromo size='15px' />Promo</AnchorRouter>
-            </ActiveLink>
             <ActiveLink activeClassName="active" href="/ventas">
               <AnchorRouter><IconShopping size='15px' />Ventas</AnchorRouter>
             </ActiveLink>

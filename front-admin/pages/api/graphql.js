@@ -16,7 +16,6 @@ const apolloServer = new ApolloServer({
     introspection: true,
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground(), httpHeadersPlugin],
     context: withSession(async ({ req, next, connection }) => {
-        let User = {}
         let tokenClient
         // const DeviceDetector = require('node-device-detector');
         // const detector = new DeviceDetector;

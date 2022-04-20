@@ -20,11 +20,7 @@ export const ShadowCardContainer = styled.div`
         /* border-radius: 0; */
     }
 `
-export const HeadCard = styled.h5`
-    font-family: PFont-Light;
-    font-size: 1em;
-    font-weight: 500;
-`
+
 export const ItemText = styled.span`
     display: flex;
     align-items: center;

@@ -1,15 +1,15 @@
 import { BGColor, SFVColor } from 'public/colors'
 import React from 'react'
-import { Avatar, Card, CardPrimary, Container, Content, Text, Wrapper, WrapperRow, CardOverFloW, CircleCompany, CircleUser, ButtonTheme, SwitchButton, ContentToggle, OlList, FeedItem, ItemTeam, ItemInf, CardDevice, MediaValue, ButtonStore, ContentGrid } from './styled'
+import { Card, CardPrimary, Content, Text, CircleUser, ButtonStore } from './styled'
 import { useStore } from 'components/hooks/useStore'
 import { useUser } from 'components/hooks/useUser'
 import Link from 'next/link'
 import { BannerDashboard } from './BannerDashboard'
 
 export const Main = () => {
-    const [dataUser, { loading: loUser }] = useUser()
+    const [dataUser] = useUser()
     const { email } = dataUser || {}
-    const [dataStore, { loading: LoadingRes }] = useStore()
+    const [dataStore] = useStore()
     const { storeName, idStore } = dataStore || {}
 
     return (

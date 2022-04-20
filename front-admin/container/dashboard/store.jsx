@@ -28,6 +28,7 @@ import { Managebanner } from './profile/Managebanner'
 import { Sticky, StickyBoundary, StickyViewport } from './stickyheader';
 import { IconDelete, IconEdit, IconCategories } from 'public/icons'
 import { numberFormat } from 'utils'
+import { useOnScreen } from 'components/hooks/useIntersection'
 
 const DashboardStore = () => {
     // STATE
@@ -239,6 +240,7 @@ const DashboardStore = () => {
 
 export const CardProducts = ({ food, onClick, setAlertBox }) => {
     const router = useRouter()
+    const [setRef, isVisible] = useOnScreen()
     const [updateProductFoods] = useMutation(UPDATE_PRODUCT_FOOD)
     const handleDelete = product => {
         const { pId, pState, pName } = product || {}
@@ -267,40 +269,45 @@ export const CardProducts = ({ food, onClick, setAlertBox }) => {
             }
         }).catch(err => setAlertBox({ message: `${err}`, duration: 7000 }))
     }
+    // const da = HookMouse()
     return (
-        <WrapperCard>
-            <TooltipCardProduct>
-                <button onClick={() => router.push(`/producto/editar/${food.pId}`)}>
-                    <IconEdit color={PColor} size={20} />
-                </button>
-            </TooltipCardProduct>
-            <TooltipCardProduct left='50px'>
-                <button onClick={() => handleDelete(food)}>
-                    <IconDelete color={PColor} size={20} />
-                </button>
-            </TooltipCardProduct>
-            <CardProductsContent onClick={onClick} >
-                <CtnBox>
-                    <h3 className="card__description">{food.pName}</h3>
-                    <h3 className="card__description">{food.ProDescription}</h3>
-                    <div className='footer'>
-                        <span className="card__price">$ {numberFormat(food.ProPrice)}</span>
-                        <span className="card__des" style={{ color: APColor }}>$ {numberFormat(food.ProDescuento)}</span>
-                    </div>
-                </CtnBox>
-                <CtnBox>
-                    <Image
-                        objectFit='cover'
-                        // width={150}
-                        // height={150}
-                        layout='fill'
-                        src={food.ProImage}
-                        blurDataURL="/images/DEFAULTBANNER.png"
-                        alt={food.ProDescription || 'img'}
-                    />
-                </CtnBox>
-            </CardProductsContent>
-        </WrapperCard>
+        <div ref={setRef}>
+            {<WrapperCard>
+                {/* {da}     */}
+                <TooltipCardProduct>
+                    <button onClick={() => router.push(`/producto/editar/${food.pId}`)}>
+                        <IconEdit color={PColor} size={20} />
+                    </button>
+                </TooltipCardProduct>
+                <TooltipCardProduct left='50px'>
+                    <button onClick={() => handleDelete(food)}>
+                        <IconDelete color={PColor} size={20} />
+                    </button>
+                </TooltipCardProduct>
+                <CardProductsContent onClick={onClick} >
+                    <CtnBox>
+
+                        {isVisible === true && <h3 className="card__description">{food.pName}</h3>}
+                        {isVisible === true && <h3 className="card__description">{food.ProDescription}</h3>}
+                        {isVisible === true && <div className='footer'>
+                            <span className="card__price">$ {numberFormat(food.ProPrice)}</span>
+                            <span className="card__des" style={{ color: APColor }}>$ {numberFormat(food.ProDescuento)}</span>
+                        </div>}
+                    </CtnBox>
+                    <CtnBox>
+                        {isVisible === true && <Image
+                            objectFit='cover'
+                            // width={150}
+                            // height={150}
+                            layout='fill'
+                            src={food.ProImage}
+                            blurDataURL="/images/DEFAULTBANNER.png"
+                            alt={food.ProDescription || 'img'}
+                        />}
+                    </CtnBox>
+                </CardProductsContent>
+            </WrapperCard>}
+        </div>
     );
 };
 DashboardStore.propTypes = {

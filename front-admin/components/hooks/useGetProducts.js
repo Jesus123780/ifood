@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { GET_ALL_PRODUCTS } from 'container/update/Products/queries'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export const useGetProducts = () => {
     const { data, loading, error } = useQuery(GET_ALL_PRODUCTS)

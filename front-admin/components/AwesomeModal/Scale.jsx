@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled, { css, keyframes } from 'styled-components'
 import { MODAL_SIZES } from './constanst'
@@ -7,7 +7,6 @@ import { BtnClose, ModalHeader, ModalTitle } from './styled'
 import { IconCancel } from 'public/icons'
 
 const ScaleModal = ({ show, children, size, title, height }) => {
-  const [state, setState] = useState(show)
   const { setSalesOpen } = useContext(Context)
 
 
@@ -16,7 +15,7 @@ const ScaleModal = ({ show, children, size, title, height }) => {
 
   }
   return (
-    <Container show={show || state} size={size}>
+    <Container show={show} size={size}>
       <Modal height={height} show={show} size={size} onClick={(e) => e.preventDefault()}>
         <ModalHeader>
           <ModalTitle>{title}</ModalTitle>

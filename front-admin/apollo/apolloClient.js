@@ -174,6 +174,7 @@ function createApolloClient() {
 
         return link.request(operation)
     }
+    // eslint-disable-next-line
     const defaultOptions = {
         watchQuery: {
             fetchPolicy: 'cache-first',

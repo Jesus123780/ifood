@@ -28,6 +28,7 @@ export const ScheduleTimings = () => {
     const handleChange = e => {
         setValues({ ...values, [e.target.name]: e.target.value })
     }
+    console.log(starTime)
     const [setStoreSchedule] = useMutation(CREATE_STORE_CALENDAR);
     const handleForm = (e) => {
         e.preventDefault();

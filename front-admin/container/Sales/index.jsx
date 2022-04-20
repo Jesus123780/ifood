@@ -135,8 +135,6 @@ const GenerateSales = () => {
         }
     }, [totalProductPrice, suma, total, data])
     const newArray = data?.PRODUCT?.map(x => { return x })
-
-    console.log(newArray)
     const handleSales = async (bool) => {
         await createMultipleOrderStore({
             variables: {
