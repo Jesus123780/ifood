@@ -1,26 +1,16 @@
 import { ApolloError } from 'apollo-server-micro'
-import { filterKeyObject, REFRESH_TOKEN_COOKIE_OPTIONS } from '../../../../../utils'
+import { filterKeyObject } from '../../../../../utils'
 import Store from '../../models/Store/Store'
 import Users from '../../models/Users'
 import Userprofile from '../../models/users/UserProfileModel'
-import { LoginEmail } from '../../templates/LoginEmail'
-import { generateCode, generateToken, sendEmail } from '../../utils'
-import { deCode, enCode, getAttributes } from '../../utils/util'
+import { generateCode, generateToken } from '../../utils'
+import { deCode, getAttributes } from '../../utils/util'
 const { Op } = require('sequelize')
 
 export const newRegisterUser = async (root, input) => {
-    const setCookies = []
-    // const refreshTokenExpiry = new Date(Date.now() + parseInt(10) * 1000)
-    // setCookies.push({
-    //     name: 'refreshToken',
-    //     value: 232342,
-    //     options: {
-    //         ...REFRESH_TOKEN_COOKIE_OPTIONS,
-    //         expires: refreshTokenExpiry
-    //     }
-    // })
     const { name, password, email, username } = input
     try {
+        // eslint-disable-next-line
         const { count, rows } = await Users.findAndCountAll({
             where: {
                 [Op.or]: [
@@ -43,7 +33,7 @@ export const newRegisterUser = async (root, input) => {
             // console.log(project instanceof Project, 0); // true
             // Its primary key is 123
         }
-
+        // eslint-disable-next-line
         const [user, _created] = await Users.findOrCreate({
             where: { email: email },
             defaults: {
@@ -74,7 +64,7 @@ export const newRegisterUser = async (root, input) => {
         return error
     }
 }
-
+// eslint-disable-next-line
 export const sayHello = async (_, { input }, ctx) => {
     return 'Hello Pero que pasa chavales todo bien todo correcto...'
 }
@@ -83,21 +73,7 @@ export const registerEmailLogin = async (_, { input }, ctx) => {
     try {
         const existEmail = await Users.findOne({ attributes: ['email'], where: { email: uEmail } })
         const uToken = await generateCode()
-        const dataUser = {
-            uEmail: uEmail,
-            code: uToken,
-        }
-        const token = await generateToken(dataUser)
-        // sendEmail({
-        //     from: 'juvi69elpapu@gmail.com',
-        //     to: uEmail,
-        //     text: 'Code recuperation.',
-        //     subject: 'Code recuperation.',
-        //     html: LoginEmail({
-        //         code: uToken,
-        //         or_JWT_Token: token
-        //     })
-        // }).then(res => console.log(res, 'the res')).catch(err => console.log(err, 'the err 1'))
+
         if (!existEmail) {
             Users.create({ email: uEmail, uState: 1, uToken: uToken })
         } else {
@@ -115,10 +91,11 @@ export const registerEmailLogin = async (_, { input }, ctx) => {
  * @param {*} info _
  * @returns 
  */
+// eslint-disable-next-line
 export const LoginEmailConfirmation = async (_root, { email, otp }, context, info) => {
     try {
         const existEmail = await Users.findOne({ attributes: ['email', 'uToken', 'id'], where: { email } })
-        const StoreInfo = await Store.findOne({ attributes: ['storeName', 'idStore', 'id'], where: { id: deCode(existEmail.id) } })
+        await Store.findOne({ attributes: ['storeName', 'idStore', 'id'], where: { id: deCode(existEmail.id) } })
         const error = new ApolloError('Lo sentimos, ha ocurrido un error interno', 400)
         if (!existEmail) return error
         const dataUser = {
@@ -146,16 +123,6 @@ export const LoginEmailConfirmation = async (_root, { email, otp }, context, inf
                 message: 'El codigo ya no es valido.',
             }
         }
-        // sendEmail({
-        //     from: 'juvi69elpapu@gmail.com',
-        //     to: uEmail,
-        //     text: 'Code recuperation.',
-        //     subject: 'Code recuperation.',
-        //     html: LoginEmail({
-        //         code: uToken,
-        //         or_JWT_Token: token
-        //     })
-        // }).then(res => console.log(res, 'the res')).catch(err => console.log(err, 'the err esteeeeeeeeee'))
     } catch (error) {
         return { success: false, message: error }
     }
@@ -189,9 +156,10 @@ export const getOneUser = async (root, { uEmail }, context, info) => {
         return error
     }
 }
-
+// eslint-disable-next-line
 const updateUserProfile = async (_root, { input }, context) => {
     try {
+        // eslint-disable-next-line
         const { user, ...rest } = input || {}
         const { id, ...resUser } = user
         await Users.update({ ...resUser }, { where: { id: deCode(id) } })
@@ -203,6 +171,7 @@ const updateUserProfile = async (_root, { input }, context) => {
 
 export const setUserProfile = async (_root, { input }, context) => {
     const data = input
+    // eslint-disable-next-line
     const { user, ...res } = data || {}
     const { id } = user || {}
     try {
@@ -226,6 +195,7 @@ export const setUserProfile = async (_root, { input }, context) => {
         return error
     }
 }
+// eslint-disable-next-line
 export const getOneUserProfile = async (_root, { id }, context, info) => {
     try {
         const attributes = getAttributes(Userprofile, info)

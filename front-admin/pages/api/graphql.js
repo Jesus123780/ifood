@@ -17,6 +17,7 @@ const apolloServer = new ApolloServer({
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground(), httpHeadersPlugin],
     context: withSession(async ({ req, next, connection }) => {
         let tokenClient
+        let User = {}
         // const DeviceDetector = require('node-device-detector');
         // const detector = new DeviceDetector;
         // const resultOs = detector.parseOs(req.headers.useragent);
@@ -37,7 +38,7 @@ const apolloServer = new ApolloServer({
             const excluded = ['/login', '/forgotpassword', '/register', '/teams/invite/[id]', '/teams/manage/[id]']
             if (excluded.indexOf(req.session) > -1) return next()
             const { error } = await getUserFromToken(token)
-            // if (error) req.session.destroy()
+            if (error) req.session.destroy()
             if (token) {
                 User = await jwt.verify(token, process.env.AUTHO_USER_KEY)
                 return { req, setCookies: setCookies || [], setHeaders: setHeaders || [], User: User || {}, restaurant: restaurant || {} }
