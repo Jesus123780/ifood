@@ -34,17 +34,6 @@ const CustomersModel = sequelize.define('customers', {
         },
         get(x) {return enCode(this.getDataValue(x))}
     },
-    taId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-        references: {
-            model: TypeAddressesModel,
-            key: 'taId'
-        },
-        get(x) {return enCode(this.getDataValue(x))}
-    },
     cName: {
         type: Sequelize.STRING(200),
         allowNull: false

@@ -1,23 +1,23 @@
 import { ApolloError } from 'apollo-server-micro'
-import { filterKeyObject } from 'utils'
 import CatStore from '../../models/information/CategorieStore'
 import CitiesModel from '../../models/information/CitiesModel'
 import CountriesModel from '../../models/information/CountriesModel'
 import DepartmentsModel from '../../models/information/DepartmentsModel'
 import productModelFood from '../../models/product/productFood'
 import FavoritesModel from '../../models/Store/FavoritesModel'
-import ScheduleStore from '../../models/Store/ScheduleStore'
 import ShoppingCard from '../../models/Store/ShoppingCard'
 import RatingStore from '../../models/Store/ratingStore'
 import SubProducts from '../../models/Store/shoppingCardSubProduct'
 import Store from '../../models/Store/Store'
 import { deCode, getAttributes } from '../../utils/util'
 import ratingStoreStart from '../../models/Store/ratingStoreStart'
+import ScheduleStore from '../../models/Store/scheduleStore'
 const { Op } = require('sequelize')
 
+// eslint-disable-next-line
 export const newRegisterStore = async (_, { input }, ctx) => {
     // const id = ctx.User.id || ''
-    const { idStore, cId, dId, ctId, id, catStore, neighborhoodStore, Viaprincipal, storeOwner, storeName, emailStore, storePhone, socialRaz, Image, banner, documentIdentifier, uPhoNum, ULocation, upLat, upLon, uState, siteWeb, description, NitStore, typeRegiments, typeContribute, addressStore, createAt, } = input
+    const { cId, dId, ctId, id, catStore } = input
     try {
         let res = {}
         res = await Store.create({ ...input, uState: 2, cId: deCode(cId), id: deCode(id), dId: deCode(dId), ctId: deCode(ctId), catStore: deCode(catStore) })
@@ -40,6 +40,7 @@ export const newRegisterStore = async (_, { input }, ctx) => {
         return { success: false, message: error }
     }
 }
+// eslint-disable-next-line
 export const getStore = async (_root, { id, StoreName, idStore }, context, info) => {
     const attributes = getAttributes(Store, info)
     const data = await Store.findOne({
@@ -52,6 +53,7 @@ export const getStore = async (_root, { id, StoreName, idStore }, context, info)
     })
     return data
 }
+// eslint-disable-next-line
 export const oneCategoriesStore = async (parent, _args, _context, info) => {
     try {
         // const attributes = getAttributes(CatStore, info)
@@ -82,9 +84,9 @@ const updateExtraProduct = async ({ input }) => {
  * @param {*} context contexto de la app 
  * @param {*} _info ADMINISTRA SHOPPING_CART 
  */
+// eslint-disable-next-line
 export const deleteOneItem = async (root, args, context, _info) => {
     try {
-        console.log(args)
         const { ShoppingCard: id, cState } = args || {}
         // ShoppingCard.destroy({ where: { ShoppingCard: deCode(id) } })
         await ShoppingCard.update({ cState: cState === 1 ? 0 : 1 }, { where: { ShoppingCard: deCode(id) } })
@@ -93,10 +95,11 @@ export const deleteOneItem = async (root, args, context, _info) => {
         return { success: false, message: 'No pudo ser eliminado' }
     }
 }
+// eslint-disable-next-line
 export const registerShoppingCard = async (root, input, context, _info) => {
     const { idSubArray } = input || {}
     const { id } = context.User
-    const { cName, cantProducts, cState, csDescription, pId, comments, idStore } = input.input || {}
+    const { cantProducts, pId, comments, idStore } = input.input || {}
     const { setID } = idSubArray || {}
     try {
         const data = await ShoppingCard.create({ pId: deCode(pId), id: deCode(id), comments, cantProducts, idStore: deCode(idStore) })
@@ -106,11 +109,11 @@ export const registerShoppingCard = async (root, input, context, _info) => {
         }
         return data
     } catch (e) {
-        console.log(e)
         const error = new Error('Lo sentimos, ha ocurrido un error interno')
-        return e
+        return error
     }
 }
+// eslint-disable-next-line
 export const getAllShoppingCard = async (_root, { input }, context, info) => {
     if (!context.User) return []
     try {
@@ -133,7 +136,7 @@ export const getAllShoppingCard = async (_root, { input }, context, info) => {
         throw new ApolloError(`Lo sentimos, ha ocurrido un error interno en el carrito, ${e}`)
     }
 }
-
+// eslint-disable-next-line
 export const getAllStoreInStore = async (root, args, context, _info) => {
     try {
         const { search, min, max } = args
@@ -145,7 +148,6 @@ export const getAllStoreInStore = async (root, args, context, _info) => {
                 ]
             }
         }
-        const attributes = getAttributes(Store, _info)
         const data = await Store.findAll({
             attributes: [
                 'idStore', 'cId',
@@ -251,7 +253,7 @@ export const getAllStoreInStore = async (root, args, context, _info) => {
 //     }
 // }
 export const getOneStore = async (parent, args, context, info) => {
-    const { idStore, StoreName } = args
+    const { idStore } = args
     try {
         const attributes = getAttributes(Store, info)
         const data = Store.findOne({ attributes, where: { idStore: idStore ? deCode(idStore) : deCode(parent.idStore) } })
@@ -271,11 +273,12 @@ export const updateFavorites = async (_root, { input }, context) => {
 
     } catch (e) {
         const error = new Error('Lo sentimos, ha ocurrido un error interno')
-        return e
+        return error
     }
 }
 export const getFavorite = async (_root, args, context, info) => {
     try {
+        // eslint-disable-next-line
         const attributes = getAttributes(FavoritesModel, info)
         const data = await FavoritesModel.findAll({
             attributes: ['id', 'fState', 'fIStoreId', 'idStore', 'updateAt', 'createAt'],
@@ -284,9 +287,10 @@ export const getFavorite = async (_root, args, context, info) => {
         return data
     } catch (e) {
         const error = new Error('Lo sentimos, ha ocurrido un error interno')
-        return e
+        return error
     }
 }
+// eslint-disable-next-line
 export const getOneFavorite = async (_root, { idStore }, context, info) => {
     try {
         // console.log(idStore)
@@ -297,7 +301,7 @@ export const getOneFavorite = async (_root, { idStore }, context, info) => {
         return data
     } catch (e) {
         const error = new Error('Lo sentimos, ha ocurrido un error interno')
-        return e
+        return error
     }
 }
 export const getOneRating = async (_root, args, context, info) => {
@@ -332,6 +336,7 @@ export const getAllRating = async (_root, args, ctx, info) => {
     }
 
 }
+// eslint-disable-next-line
 export const getAllRatingStar = async (_root, { idStore }, ctx, info) => {
     const data = await ratingStoreStart.findAll({
         attributes: ['rScore', 'idStore', 'rSId', 'createAt'],
@@ -343,6 +348,7 @@ export const setRatingStar = async (_root, { input }, context) => {
     const { idStore, rScore } = input || {}
     console.log(idStore, rScore)
     try {
+        // eslint-disable-next-line
         const [rating, _created] = await ratingStoreStart.findOrCreate({
             where: { id: deCode(context.User.id) },
             defaults: {
@@ -366,6 +372,7 @@ export const setRatingStar = async (_root, { input }, context) => {
 export const setRating = async (_root, { input }, context) => {
     const { idStore, rAppearance, rTasty, rGoodTemperature, rGoodCondition } = input || {}
     try {
+        // eslint-disable-next-line
         const [rating, _created] = await RatingStore.findOrCreate({
             where: { id: deCode(context.User.id) },
             defaults: {
@@ -427,7 +434,7 @@ export const setFavorites = async (_root, { input }, context) => {
 
 export const getAllMatchesStore = async (root, args, context, info) => {
     try {
-        const { search, min, max, pId } = args
+        const { search, min, max } = args
         let whereSearch = {}
         if (search) {
             whereSearch = {
@@ -509,6 +516,7 @@ export default {
             },
         },
         Store: {
+            // eslint-disable-next-line
             getAllRatingStar: async (parent, _args, _context, info) => {
                 const data = await ratingStoreStart.findAll({
                     attributes: ['rScore', 'idStore', 'rSId', 'createAt'],

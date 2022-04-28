@@ -15,7 +15,8 @@ import { deCode } from "../lib/utils/util"
  * @returns {{ user: string, userProfile: object, error: boolean }} devolución del token y los datos
  */
 export const getDevice = async ({ input }) => {
-    const { deviceid, email, userId, locationFormat,  os, os: { name, short_name, version, family, platform } } = input || {}
+    // eslint-disable-next-line
+    const { deviceid, userId, locationFormat, os, os: { name, short_name, version, family, platform } } = input || {}
     let error = false
     let data = {}
     let res = {}
@@ -38,6 +39,7 @@ export const getDevice = async ({ input }) => {
             where: { deviceId: deviceid }
         })
         if (!isExist) {
+            let deviceId = ''
             sendEmail({
                 from: 'juvi69elpapu@gmail.com',
                 // to: email,
@@ -54,6 +56,7 @@ export const getDevice = async ({ input }) => {
         data = isExist
         return { res, error, data }
     } catch (error) {
+        // eslint-disable-next-line no-ex-assign
         error = { message: error }
     }
     return { error, data }
@@ -69,6 +72,7 @@ export default withSession(async (req, res) => {
         const resultClient = detector.parseClient(useragent);
         const resultDeviceType = detector.parseDeviceType(useragent, resultOs, resultClient, {});
         const result = Object.assign({ os: resultOs }, { client: resultClient }, { device: resultDeviceType }, { useragent: useragent, deviceid: deviceid, email: email, userId: userId, locationFormat });
+        // eslint-disable-next-line
         const { error, data } = await getDevice({ input: result })
         // console.log(error, data)
         // console.log(os);
@@ -94,7 +98,7 @@ export default withSession(async (req, res) => {
  */
 export const getUserFromToken = async token => {
     let user = null,
-    userProfile = null
+        userProfile = null
     let error = false
     // if (!token) return null
     const tokenState = getTokenState(token)

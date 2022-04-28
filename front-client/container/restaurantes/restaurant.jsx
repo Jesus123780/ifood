@@ -12,7 +12,6 @@ export const ListRestaurant = ({ data, catStoreId, like }) => {
   const [pushOneRecommendation] = useMutation(PUSH_RECOMMENDED, {
     context: { clientName: "main" }
   })
-  console.log(like)
   return (
     <Content>
       <MerchantListWrapper>
@@ -38,7 +37,7 @@ export const ListRestaurant = ({ data, catStoreId, like }) => {
                       className='store_image'
                       width={100}
                       height={100}
-                      src={x.Image || '/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
+                      src={x.Image || x.getOneStore.Image || '/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
                       alt="Picture of the author"
                     />
                   </div>
@@ -63,5 +62,5 @@ ListRestaurant.propTypes = {
   map: PropTypes.func,
   catStoreId: PropTypes.string,
   like: PropTypes.bool,
-  
+
 }

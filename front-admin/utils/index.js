@@ -1112,3 +1112,34 @@ export const getFileSizeByUnit = (file, unit = "B") => {
 
 //     ...
 // });
+
+export const cleanRut = (rut) => {
+    return typeof rut === 'string'
+      ? rut.replace(/^(0+|[^0-9kK]+)/g, '').toUpperCase()
+      : '';
+  };
+  
+export const formatRut = (rut) => {
+    rut = cleanRut(rut);
+    if (rut.length === 0) {
+      return '';
+    }
+    let result = rut.slice(-4, -1) + '-' + rut.slice(rut.length - 1);
+    for (let i = 4; i < rut.length; i += 3) {
+      result = rut.slice(-3 - i, -i) + '.' + result;
+    }
+    return result;
+  };
+  const lol = formatRut('https://www.facebook.com/messages/t/100017146501277');
+  console.log(lol);
+
+
+export const toKebabCase = (string) =>
+  string
+    .replace(/([A-Z])([A-Z])/g, '$1-$2')
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .replace(/[\s_]+/g, '-')
+    .toLowerCase()
+
+// const lol = toKebabCase('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoianVhbml0YUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6Imp1YW5pdGFAZ21haWwuY29tIiwicmVzdGF1cmFudCI6bnVsbCwiaWQiOiJOVFEwTVRjM05qSTVOekF6TURNeU9UQXciLCJpYXQiOjE2NTA3MzIyNDEsImV4cCI6MTY1MTA2NTU0MX0.WV3bQAizoPlCoXyFAweHELKBKdJnnm2IkYFFooLBDIU');
+// console.log(lol);
