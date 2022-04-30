@@ -1,3 +1,4 @@
+// import React from 'react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
@@ -16,7 +17,7 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-
+        {process.env.URL_BASE}
         <p className={styles.description}>
           Get started by editing{' '}
           <code className={styles.code}>pages/index.tsx</code>
