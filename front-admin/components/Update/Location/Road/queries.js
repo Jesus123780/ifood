@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from '@apollo/client'
 
 export const UPDATE_ROAD = gql`
 mutation createRoadMutation($input: IRoad!){

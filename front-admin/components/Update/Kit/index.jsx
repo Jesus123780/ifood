@@ -1,265 +1,294 @@
-import ReactDOM from 'react-dom'
-import { useState } from 'react';
-import { Rate } from '../../Rate';
+import PropTypes from 'prop-types'
+import { useState } from 'react'
+import { Rate } from '../../Rate'
 import NewSelect from '../../NewSelectHooks/NewSelect'
-import { numberFormat } from '../../../utils';
-import { RippleButton } from '../../Ripple';
+import { numberFormat } from '../../../utils'
+import { RippleButton } from '../../Ripple'
 import {
-    Container,
-    FormProducts,
-    Card,
-    Button,
-    CardOne,
-    Label,
-    ContainerCardProduct,
-    CardProduct,
-    Img,
-    ContentImg,
-    Title,
-    Text,
-    ContentInfo,
-    ContentIconFav,
-    ButtonCard,
-    ContainerFilter,
-    ItemFilter,
-    ContainerBurger
-} from './styled';
-import { Skeleton } from '../../Skeleton/SkeletonCard';
-import { IconArrowRight, IconDelete, IconEdit, IconLove } from '../../../public/icons';
-import { APColor, PColor, PVColor, SEGColor } from '../../../public/colors';
-import InputHooks from '../../InputHooks/InputHooks';
+  Container,
+  FormProducts,
+  CardOne,
+  Label,
+  CardProduct,
+  Text
+} from './styled'
+import { APColor, PVColor, SEGColor } from '../../../public/colors'
+import InputHooks from '../../InputHooks/InputHooks'
+import { Skeleton } from 'components/Skeleton/SkeletonCard'
 
 export const Kit = ({
-    datafatures,
-    finalDataAreas,
-    features,
-    handleAddFeature,
-    dispatch,
-    search,
-    state,
-    handleChangeFilter,
-    data,
-    setShowMore,
-    values,
-    handleRegister,
-    handleChange,
-    countries,
-    setRating,
-    rating,
-    color,
-    size,
-    onChangeSearch,
-    departments,
-    cities,
-    setName,
-    names,
-    loading,
-    handleDelete,
-    // filtro
-    handleChangeClick,
-    onClickClear,
-    onClickSearch,
-    dataCategories,
-    state: grid,
-    setLocalStorage,
-    intPorcentaje,
-    dataFree,
+  values,
+  handleRegister,
+  handleChange,
+  countries,
+  setRating,
+  rating,
+  color,
+  size,
+  onChangeSearch,
+  departments,
+  cities,
+  setName,
+  names
+  // filtro
 }) => {
-    const [stateCard, setState] = useState(false)
-    const handleClick = () => {
-        setState(!stateCard)
-    }
-    const [modal, setModal] = useState(0)
-    const handleClickModal = index => {
-        setModal(index === modal ? true : index)
-    }
-    // const columns = [
-    //     { name: 'Nombres y Apellidos' },
-    //     { name: 'CC', accessor: 'user.userprofile.up_ideNum' },
-    //     { name: 'Monto solicitado', accessor: 'mr_retire', render: () => `$ ${ numberFormat(423432) }` },
-    //     { name: 'Monto solicitado', accessor: 'mr_retire', render: () => `$ ${ numberFormat(423432) }` },
-    //     { name: 'Medio de pago', accessor: 'userbankentity.typebank.tb_name' },
-    //     { name: 'Tipo de cuenta', accessor: 'userbankentity.accounttype.at_name' },
-    //     { name: 'N° de cuenta', accessor: 'userbankentity.ube_accNum' },
-    // ]
-    // const count = 100
-    return (<div>
-        <Container>
-            <CardOne state={stateCard}>
-                <FormProducts onSubmit={handleRegister}>
-                    <InputHooks label='Nombre del producto'
-                        type="text"
-                        placeholder="Nombre del producto"
-                        value={names}
-                        name='pName'
-                        required
-                        onChange={e => setName(e.target.value)}
-                        range={{ min: 0, max: 180 }}
-                    />
-                    <InputHooks label='ProPrice'
-                        value={numberFormat(values.ProPrice)}
-                        name='ProPrice'
-                        required
-                        onChange={handleChange}
-                        range={{ min: 0, max: 180 }} />
-                    <InputHooks label='Descuento'
-                        value={values.ProDescuento}
-                        name='ProDescuento'
-                        onChange={handleChange}
-                        range={{ min: 0, max: 180 }} />
-                    <InputHooks label='Unidades Disponibles'
-                        value={values.ProUniDisponibles}
-                        name='ProUniDisponibles'
-                        onChange={handleChange}
-                        range={{ min: 0, max: 180 }} />
-                    <InputHooks label='Producto Protegido'
-                        value={values.ProProtegido}
-                        name='ProProtegido'
-                        onChange={handleChange}
-                        range={{ min: 0, max: 180 }} />
-                    <InputHooks label='Garantia'
-                        value={values.ProAssurance}
-                        name='ProAssurance'
-                        onChange={handleChange}
-                        range={{ min: 0, max: 180 }} />
-                    <>
-                        <Rate rating={rating} onRating={rate => setRating(rate)} size={20} value={values.rating} />
-                        <img />
-                        <InputHooks label='Ancho'
-                            value={values.Width}
-                            name='Width'
-                            onChange={handleChange}
-                            numeric
-                            range={{ min: 0, max: 180 }} />
-                        <InputHooks label='Alto'
-                            value={values.Height}
-                            name='Height'
-                            onChange={handleChange}
-                            numeric
-                            range={{ min: 0, max: 180 }} />
-                        <InputHooks label='Largo'
-                            value={values.ProLength}
-                            name='ProLength'
-                            onChange={handleChange}
-                            range={{ min: 0, max: 180 }} />
-                        <InputHooks label='Peso'
-                            value={values.ProWeight}
-                            name='ProWeight'
-                            onChange={handleChange}
-                            range={{ min: 0, max: 180 }} />
-                        <InputHooks label='Cantidad # Disponible'
-                            value={values.Cantidad}
-                            name='Cantidad'
-                            onChange={handleChange}
-                            range={{ min: 0, max: 180 }} />
-                        <InputHooks label='Destacado'
-                            value={values.Destacado}
-                            name='Destacado'
-                            onChange={handleChange}
-                            range={{ min: 0, max: 180 }} />
-                        <InputHooks label='Envio gratis?'
-                            value={values.IstFree}
-                            name='IstFree'
-                            onChange={handleChange}
-                            range={{ min: 0, max: 180 }} />
-                        <InputHooks label='Voltaje'
-                            value={values.ProVoltaje}
-                            name='ProVoltaje'
-                            onChange={handleChange}
-                            range={{ min: 0, max: 180 }} />
-                        <NewSelect
-                            name='colorId'
-                            options={color}
-                            id='colorId'
-                            onChange={handleChange}
-                            optionName='colorName'
-                            value={values?.colorId}
-                            title='Color'
-                        />
-                        <NewSelect
-                            name='sizeId'
-                            options={size}
-                            id='sizeId'
-                            onChange={handleChange}
-                            optionName='sizeName'
-                            value={values?.sizeId}
-                            title='Talla' />
-                        <NewSelect
-                            name='countryId'
-                            options={countries}
-                            id='cId'
-                            onChange={onChangeSearch}
-                            optionName='cName'
-                            value={values?.countryId}
-                            title='País' />
-                        <NewSelect
-                            name='dId'
-                            options={departments}
-                            id='dId'
-                            onChange={onChangeSearch}
-                            optionName='dName'
-                            value={values?.dId}
-                            title='Departamento' />
-                        <NewSelect
-                            name='ctI d'
-                            options={cities}
-                            id='ctId'
-                            onChange={handleChange}
-                            optionName='cName'
-                            value={values?.ctId}
-                            title='Ciudad' />
-                        {/* <TextAreaHooks
-                            title='Description'
-                            value={values.ProDescription}
-                            name='ProDescription'
-                            onChange={handleChange}
-                            range={{ min: 0, max: 7000 }}
-                            showRange
-                        /> */}
-                        <Text size='30px'>Registra el producto en una categoria</Text>
-                        <div>
-                            <Text>Agregar Características principales</Text>
-                            {/* {ReactDOM.createPortal(<>
-                                <AwesomeModal
-                                    show={modal}
-                                    title={'Selecciona una característica para el producto'}
-                                    backdrop
-                                    onCancel={() => setModal(false)}
-                                    onHide={() => setModal(false)}
-                                    btnConfirm={false}
-                                    header={false}
-                                    footer={false}
-                                    padding='20px'
-                                    size='large'
-                                >
-                                    <div>
-                                        {modal === 1 ? <CustomSlider handleAddFeature={handleAddFeature} autoPlayTime={4000} state={state} dispatch={dispatch} duration={'500ms'} datafatures={datafatures} /> :
-                                            <FeaturesProducts />
-                                        }
-                                    </div>
-                                </AwesomeModal>
-                            </>, document.getElementById('root')
-                            )} */}
-                        </div>
-                    </>
-                    <RippleButton type="button" margin='20px auto' onClick={() => handleClickModal(1)} widthButton='100%' bgColor={SEGColor}> <Label>Características principales</Label></RippleButton>
-                    <RippleButton type="button" margin='20px auto' onClick={() => handleClickModal(2)} widthButton='100%' bgColor={PVColor}> <Label>Registrar Características principales</Label></RippleButton>
-                    <RippleButton widthButton='100%' margin='20px auto' type='submit' bgColor={APColor}>Subir</RippleButton>
-                </FormProducts>
-            </CardOne>
+  const [modal, setModal] = useState(0)
+  const handleClickModal = index => {
+    setModal(index === modal ? true : index)
+  }
+  return (<div>
+    <Container>
+      <CardOne state={false}>
+        <FormProducts onSubmit={handleRegister}>
+          <InputHooks
+            label='Nombre del producto'
+            name='pName'
+            onChange={e => {return setName(e.target.value)}}
+            placeholder='Nombre del producto'
+            range={{ min: 0, max: 180 }}
+            required
+            type='text'
+            value={names}
+          />
+          <InputHooks
+            label='ProPrice'
+            name='ProPrice'
+            onChange={handleChange}
+            range={{ min: 0, max: 180 }}
+            required
+            value={numberFormat(values.ProPrice)}
+          />
+          <InputHooks
+            label='Descuento'
+            name='ProDescuento'
+            onChange={handleChange}
+            range={{ min: 0, max: 180 }}
+            value={values.ProDescuento}
+          />
+          <InputHooks
+            label='Unidades Disponibles'
+            name='ProUniDisponibles'
+            onChange={handleChange}
+            range={{ min: 0, max: 180 }}
+            value={values.ProUniDisponibles}
+          />
+          <InputHooks
+            label='Producto Protegido'
+            name='ProProtegido'
+            onChange={handleChange}
+            range={{ min: 0, max: 180 }}
+            value={values.ProProtegido}
+          />
+          <InputHooks
+            label='Garantia'
+            name='ProAssurance'
+            onChange={handleChange}
+            range={{ min: 0, max: 180 }}
+            value={values.ProAssurance}
+          />
+          <>
+            <Rate
+              onRating={rate => {return setRating(rate)}}
+              rating={rating}
+              size={20}
+              value={values.rating}
+            />
+            <img />
+            <InputHooks
+              label='Ancho'
+              name='Width'
+              numeric
+              onChange={handleChange}
+              range={{ min: 0, max: 180 }}
+              value={values.Width}
+            />
+            <InputHooks
+              label='Alto'
+              name='Height'
+              numeric
+              onChange={handleChange}
+              range={{ min: 0, max: 180 }}
+              value={values.Height}
+            />
+            <InputHooks
+              label='Largo'
+              name='ProLength'
+              onChange={handleChange}
+              range={{ min: 0, max: 180 }}
+              value={values.ProLength}
+            />
+            <InputHooks
+              label='Peso'
+              name='ProWeight'
+              onChange={handleChange}
+              range={{ min: 0, max: 180 }}
+              value={values.ProWeight}
+            />
+            <InputHooks
+              label='Cantidad # Disponible'
+              name='Cantidad'
+              onChange={handleChange}
+              range={{ min: 0, max: 180 }}
+              value={values.Cantidad}
+            />
+            <InputHooks
+              label='Destacado'
+              name='Destacado'
+              onChange={handleChange}
+              range={{ min: 0, max: 180 }}
+              value={values.Destacado}
+            />
+            <InputHooks
+              label='Envio gratis?'
+              name='IstFree'
+              onChange={handleChange}
+              range={{ min: 0, max: 180 }}
+              value={values.IstFree}
+            />
+            <InputHooks
+              label='Voltaje'
+              name='ProVoltaje'
+              onChange={handleChange}
+              range={{ min: 0, max: 180 }}
+              value={values.ProVoltaje}
+            />
+            <NewSelect
+              id='colorId'
+              name='colorId'
+              onChange={handleChange}
+              optionName='colorName'
+              options={color}
+              title='Color'
+              value={values?.colorId}
+            />
+            <NewSelect
+              id='sizeId'
+              name='sizeId'
+              onChange={handleChange}
+              optionName='sizeName'
+              options={size}
+              title='Talla'
+              value={values?.sizeId}
+            />
+            <NewSelect
+              id='cId'
+              name='countryId'
+              onChange={onChangeSearch}
+              optionName='cName'
+              options={countries}
+              title='País'
+              value={values?.countryId}
+            />
+            <NewSelect
+              id='dId'
+              name='dId'
+              onChange={onChangeSearch}
+              optionName='dName'
+              options={departments}
+              title='Departamento'
+              value={values?.dId}
+            />
+            <NewSelect
+              id='ctId'
+              name='ctI d'
+              onChange={handleChange}
+              optionName='cName'
+              options={cities}
+              title='Ciudad'
+              value={values?.ctId}
+            />
+            <Text size='30px'>Registra el producto en una categoria</Text>
+          </>
+          <RippleButton
+            bgColor={SEGColor}
+            margin='20px auto'
+            onClick={() => {return handleClickModal(1)}}
+            type='button'
+            widthButton='100%'
+          > <Label>Características principales</Label></RippleButton>
+          <RippleButton
+            bgColor={PVColor}
+            margin='20px auto'
+            onClick={() => {return handleClickModal(2)}}
+            type='button'
+            widthButton='100%'
+          > <Label>Registrar Características principales</Label></RippleButton>
+          <RippleButton
+            bgColor={APColor}
+            margin='20px auto'
+            type='submit'
+            widthButton='100%'
+          >Subir</RippleButton>
+        </FormProducts>
+      </CardOne>
 
-        </Container>
-    </div>
-    )
+    </Container>
+  </div>
+  )
+}
+
+Kit.propTypes = {
+  cities: PropTypes.any,
+  color: PropTypes.any,
+  countries: PropTypes.any,
+  data: PropTypes.any,
+  dataCategories: PropTypes.any,
+  dataFree: PropTypes.any,
+  datafatures: PropTypes.any,
+  departments: PropTypes.any,
+  dispatch: PropTypes.any,
+  features: PropTypes.any,
+  finalDataAreas: PropTypes.any,
+  handleAddFeature: PropTypes.any,
+  handleChange: PropTypes.any,
+  handleChangeClick: PropTypes.any,
+  handleChangeFilter: PropTypes.any,
+  handleDelete: PropTypes.any,
+  handleRegister: PropTypes.any,
+  intPorcentaje: PropTypes.any,
+  loading: PropTypes.any,
+  names: PropTypes.any,
+  onChangeSearch: PropTypes.any,
+  onClickClear: PropTypes.any,
+  onClickSearch: PropTypes.any,
+  rating: PropTypes.any,
+  search: PropTypes.any,
+  setLocalStorage: PropTypes.any,
+  setName: PropTypes.func,
+  setRating: PropTypes.func,
+  setShowMore: PropTypes.any,
+  size: PropTypes.any,
+  state: PropTypes.any,
+  values: PropTypes.shape({
+    Cantidad: PropTypes.any,
+    Destacado: PropTypes.any,
+    Height: PropTypes.any,
+    IstFree: PropTypes.any,
+    ProAssurance: PropTypes.any,
+    ProDescuento: PropTypes.any,
+    ProLength: PropTypes.any,
+    ProPrice: PropTypes.any,
+    ProProtegido: PropTypes.any,
+    ProUniDisponibles: PropTypes.any,
+    ProVoltaje: PropTypes.any,
+    ProWeight: PropTypes.any,
+    Width: PropTypes.any,
+    colorId: PropTypes.any,
+    countryId: PropTypes.any,
+    ctId: PropTypes.any,
+    dId: PropTypes.any,
+    rating: PropTypes.any,
+    sizeId: PropTypes.any
+  })
 }
 export const SkeletonP = () => {
-    return <>
-        <>
-            {[1, 2, 3, 4].map((x, i) => (
-                <CardProduct key={i + 1}>
-                    <Skeleton />
-                </CardProduct>
-            ))}
-        </>
+  return <>
+    <>
+      {[1, 2, 3, 4].map((x, i) => {return (
+        <CardProduct key={i + 1}>
+          <Skeleton />
+        </CardProduct>
+      )})}
     </>
+  </>
 }

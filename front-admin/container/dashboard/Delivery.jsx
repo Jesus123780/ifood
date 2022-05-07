@@ -7,17 +7,22 @@ export const DeliveryFood = () => {
   return (
     <MainCard noneShadow={true} title={'Sobre el domicilio'}>
       <ContentGrid>
-        {[1, 2, 3, 4].map((x, i) => (
+        {[1, 2, 3, 4].map((x, i) => {return (
           <MainCard key={i + 1} width='100%' >
             <Box>
-            <Text align='center' justify='center' size='1.2em' color='#3f3e3e'>Tiempo</Text>
+              <Text
+                align='center'
+                color='#3f3e3e'
+                justify='center'
+                size='1.2em'
+              >Tiempo</Text>
               <CardStatus active={true}>
-                <Text size='1.2em' color='#3f3e3e'>0</Text>
-                <Text size='1.2em' color='#3f3e3e'>1</Text>
+                <Text color='#3f3e3e' size='1.2em'>0</Text>
+                <Text color='#3f3e3e' size='1.2em'>1</Text>
               </CardStatus>
             </Box>
           </MainCard>
-        ))}
+        )})}
       </ContentGrid>
     </MainCard>
   )

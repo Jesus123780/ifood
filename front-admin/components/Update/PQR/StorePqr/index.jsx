@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { useQuery } from '@apollo/client'
 import React from 'react'
 import styled from 'styled-components'
@@ -7,39 +8,45 @@ import { IconArrowRight } from '../../../../assets/icons/icons'
 import { SFColor, SFVColor } from '../../../../assets/colors'
 import { icons } from './codeIcon'
 export const StorePqr = () => {
-    const { data, loading, error: errorC } = useQuery(GET_TYPE_PQR)
+  const { data, loading, error: errorC } = useQuery(GET_TYPE_PQR)
 
-    if (errorC) return <>Ocurrió un error interno</>
-    return (<>
-        {loading && <i>Cargando datos</i>}
-        <Container>
-            <Content>
-                {!loading &&
+  if (errorC) return <>Ocurrió un error interno</>
+  return (<>
+    {loading && <i>Cargando datos</i>}
+    <Container>
+      <Content>
+        {!loading &&
                     <CardWrapper>
-                        <div style={{ position: 'relative', display: 'flex', flexDirection: 'column ', boxShadow: '0 1px 2px 0 rgb(0 0 0 / 12%)' }}>
-                            {/* eslint-disable-next-line */}
+                      <div style={{ position: 'relative', display: 'flex', flexDirection: 'column ', boxShadow: '0 1px 2px 0 rgb(0 0 0 / 12%)' }}>
+                        {/* eslint-disable-next-line */}
                             {!!data?.typopqr && data.typopqr.map(x => <QuestionsList title={x.thpName} icon={icons.find(j => j.index == x.thpIcon)?.icon} iconArrow={ <IconArrowRight color='red' size='10px' />}/>)}
-                        </div>
+                      </div>
                     </CardWrapper>
-                }
+        }
 
-            </Content>
-        </Container>
-    </>
-    )
+      </Content>
+    </Container>
+  </>
+  )
 }
 const QuestionsList = ({ icon, title, iconArrow }) => {
-    return (
-        <ContainerQuestion>
-            <AndesListItem>
-                <ItemFirstColumn>
-                    <>{icon}</>
-                    <ItemPrimary>{title}</ItemPrimary>
-                </ItemFirstColumn>
-                <span>{iconArrow}</span>
-            </AndesListItem>
-        </ContainerQuestion>
-    )
+  return (
+    <ContainerQuestion>
+      <AndesListItem>
+        <ItemFirstColumn>
+          <>{icon}</>
+          <ItemPrimary>{title}</ItemPrimary>
+        </ItemFirstColumn>
+        <span>{iconArrow}</span>
+      </AndesListItem>
+    </ContainerQuestion>
+  )
+}
+
+QuestionsList.propTypes = {
+  icon: PropTypes.any,
+  iconArrow: PropTypes.any,
+  title: PropTypes.any
 }
 // Questions List
 const ContainerQuestion = styled.div`
@@ -92,18 +99,18 @@ const CardWrapper = styled.div`
 `
 export const LabelInput = styled.span`
     position: absolute;
-    font-size: ${ ({ value }) => value ? '11px' : '13px' };
-    top: ${ ({ value }) => value ? '-17px' : '10px' };
-    left: ${ ({ left }) => left ? left : '10px' };
-    color: ${ ({ value }) => value ? SFColor : SFVColor };
+    font-size: ${ ({ value }) => {return value ? '11px' : '13px'} };
+    top: ${ ({ value }) => {return value ? '-17px' : '10px'} };
+    left: ${ ({ left }) => {return left ? left : '10px'} };
+    color: ${ ({ value }) => {return value ? SFColor : SFVColor} };
     transition: .3s;
     pointer-events: none;
-    font-weight: ${ ({ value }) => value ? 600 : 400 };
+    font-weight: ${ ({ value }) => {return value ? 600 : 400} };
 `
 
 export const TextArea = styled.textarea`
     width: 100%;
-    height: ${ ({ height }) => height ? height : '0' };
+    height: ${ ({ height }) => {return height ? height : '0'} };
     font-size: 15px;
     padding: 15px;
     outline: none;
@@ -116,7 +123,7 @@ export const TextArea = styled.textarea`
         font-size: 15px;
     }
     & ~ ${ LabelInput } {
-        top: ${ ({ value }) => value ? '-17px' : '10px' };
+        top: ${ ({ value }) => {return value ? '-17px' : '10px'} };
         font-size: 13px;
     }
 `

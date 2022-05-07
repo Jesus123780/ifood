@@ -27,7 +27,7 @@ export const Preview = styled.div`
     max-height: 500px;
     overflow-y: auto;
     overflow-x: none;
-    ${ props => props?.previewImg?.length ? css`border: 2px dashed rgba(0, 0, 0, 0.1);` : css`border: none;` };
+    ${ props => {return props?.previewImg?.length ? css`border: 2px dashed rgba(0, 0, 0, 0.1);` : css`border: none;`} };
     box-sizing: border-box;
     height: fit-content;
     width: 145px;
@@ -43,7 +43,7 @@ export const PreviewLoader = styled.div`
     display: flex;
     flex-direction: column;
     max-height: 500px;
-    ${ props => props?.previewImg?.length ? css`border: 2px dashed rgba(0, 0, 0, 0.1);` : css`border: none;` };
+    ${ props => {return props?.previewImg?.length ? css`border: 2px dashed rgba(0, 0, 0, 0.1);` : css`border: none;`} };
     box-sizing: border-box;
     height: fit-content;
     max-width: 140px;

@@ -1,5 +1,5 @@
-import styled, { css } from 'styled-components';
-import { BGColor, PColor } from '../../../public/colors';
+import styled, { css } from 'styled-components'
+import { BGColor } from '../../../public/colors'
 
 export const Button = styled.button` 
     position: absolute;
@@ -20,14 +20,14 @@ export const FormProducts = styled.form`
 export const Card = styled.div` 
     position: relative;
     padding: 10px;
-    background-color: ${ ({ theme }) => theme.InvColor };
+    background-color: ${ ({ theme }) => {return theme.InvColor} };
     border: 1px solid #ccc;
-    height: ${({ height }) => height || 'auto'};
+    height: ${({ height }) => {return height || 'auto'}};
 `
 export const Container = styled.div`
     display: flex;
     border-radius: 4px;
-    background-color: ${ ({ theme }) => theme.InvColor };
+    background-color: ${ ({ theme }) => {return theme.InvColor} };
     transition:  6s ease;
     padding-bottom: 30px;
     padding: 30px;
@@ -57,8 +57,8 @@ export const ButtonCard = styled.button`
     transition: .4s ease;
     width: 50px;
     height: 50px;
-    top: ${ ({ top }) => top ? top : '20px' };
-    transition-delay: ${ ({ delay }) => delay ? delay : 'auto' };
+    top: ${ ({ top }) => {return top ? top : '20px'} };
+    transition-delay: ${ ({ delay }) => {return delay ? delay : 'auto'} };
     max-height: 50px;
     max-width: 50px;
     border-radius: 50%;
@@ -66,16 +66,16 @@ export const ButtonCard = styled.button`
     display: grid;
     justify-content: center;
     background-color: ${ BGColor };
-    ${ props => props.grid && css`
-        top: ${ ({ top }) => top ? top : '80px' };
-        `
+    ${ props => {return props.grid && css`
+        top: ${ ({ top }) => {return top ? top : '80px'} };
+        `}
 }
 `
 export const CardProduct = styled.div` 
     flex: 0 1 auto;
     display: flex;
     position: relative;
-    width: ${({ width }) => width ? width : '100%'};
+    width: ${({ width }) => {return width ? width : '100%'}};
     overflow: hidden;
     flex-direction: column;
     margin: 10px;
@@ -90,9 +90,9 @@ export const CardProduct = styled.div`
         padding: 30px;
         justify-content: space-between;
     }
-    ${ props => props.grid && css`
+    ${ props => {return props.grid && css`
     height: min-content;
     flex-direction: row;
 
-` }
+`} }
 `

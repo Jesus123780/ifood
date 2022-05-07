@@ -1,5 +1,5 @@
-import styled, { css } from 'styled-components';
-import { BGColor, PColor, SFColor } from '../../../../public/colors';
+import styled, { css } from 'styled-components'
+import { BGColor, PColor, SFColor } from '../../../../public/colors'
 
 export const SliderContainer = styled.div`
   position: relative;
@@ -10,7 +10,7 @@ export const SliderContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100%;
-`;
+`
 
 export const SliderWrapper = styled.div`
   top: 0;
@@ -29,7 +29,7 @@ export const SliderItem = styled.div`
   justify-content: center;
   background-color: ${ BGColor };
 
-`;
+`
 export const ContentList = styled.div`
     position: relative;
     display: flex;
@@ -48,13 +48,13 @@ export const ContentList = styled.div`
       box-shadow: 0px 4px 10px rgb(0 0 0 / 5%), 0px 4px 16px rgb(0 0 0 / 8%);
       border-color: transparent;
     }
-    ${ ({ show }) => show
+    ${ ({ show }) => {return show
     && css`
         box-shadow: 0px 4px 10px rgb(0 0 0 / 5%), 0px 4px 16px rgb(0 0 0 / 8%);
         border-color: transparent;
         
         
-        ` }
+        `} }
         `
 
 export const Navigation = styled.ul`
@@ -66,7 +66,7 @@ export const Navigation = styled.ul`
   display: flex;
   justify-content: center;
   background-color: transparent;
-`;
+`
 
 export const NavigationItem = styled.li`
     width: 7px;
@@ -83,19 +83,19 @@ export const NavigationItem = styled.li`
     transition: .5s ease;
     margin-left: 20px;
     background-color: #c0c0c0f6;
-  ${ props => props.active &&
+  ${ props => {return props.active &&
     css`
       width: 7px;
       height: 7px;
       border-radius: 50%;
       background-color: ${ PColor };
-    ` };
-`;
+    `} };
+`
 
 export const Control = styled.button`
     position: absolute;
     top: 50%;
-    color: ${ props => props.color || SFColor };
+    color: ${ props => {return props.color || SFColor} };
     align-items:center;
     width: 40px;
     height: 40px;
@@ -115,20 +115,20 @@ export const Control = styled.button`
         background-color:#b4b4b4;
     }
 
-`;
+`
 
 export const ControlLeft = styled(Control)`
   left: 0;
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
-`;
+`
 export const ControlRight = styled(Control)`
   right: 0;
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
-  color: ${ props => props.color || SFColor };
+  color: ${ props => {return props.color || SFColor} };
 
-`;
+`
 
 export const BigElement = styled.div`
-`;
+`

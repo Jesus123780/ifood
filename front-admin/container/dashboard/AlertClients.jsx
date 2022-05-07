@@ -2,22 +2,26 @@ import { MainCard } from 'components/common/Reusable/ShadowCard'
 import { PColor, SFVColor } from 'public/colors'
 import React from 'react'
 import styled from 'styled-components'
-import { Content, ContentGrid, Text } from './styled'
+import { ContentGrid, Text } from './styled'
 
 export const AlertStatistic = () => {
   return (
     <MainCard title={'Mis clientes dicen'}>
       <ContentGrid>
-        {[1, 2, 3, 4].map((x, i) => (
-          <MainCard key={i + 1} width='100%' noneShadow={true}>
+        {[1, 2, 3, 4].map((x, i) => {return (
+          <MainCard
+            key={i + 1}
+            noneShadow={true}
+            width='100%'
+          >
             <Box>
               <CircleStatus active={true}>
-                <Text size='1.2em' color='#3f3e3e'>0</Text>
+                <Text color='#3f3e3e' size='1.2em'>0</Text>
               </CircleStatus>
-              <Text size='1.2em' color='#3f3e3e'>Pedidos errados</Text>
+              <Text color='#3f3e3e' size='1.2em'>Pedidos errados</Text>
             </Box>
           </MainCard>
-        ))}
+        )})}
       </ContentGrid>
     </MainCard>
   )
@@ -25,7 +29,7 @@ export const AlertStatistic = () => {
 const CircleStatus = styled.div`
   height: 100px;
   width: 100px;
-  border: ${({ active }) => active ? `4px solid ${SFVColor}65` : `4px solid ${PColor}`};
+  border: ${({ active }) => {return active ? `4px solid ${SFVColor}65` : `4px solid ${PColor}`}};
   border-radius: 50%;
   place-content: center;
   display: flex;

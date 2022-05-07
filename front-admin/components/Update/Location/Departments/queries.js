@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from '@apollo/client'
 
 export const UPDATE_DEPARTMENT = gql`
 mutation createDepartments ($input: IDepartment){

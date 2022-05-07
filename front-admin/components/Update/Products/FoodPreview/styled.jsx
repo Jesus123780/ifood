@@ -1,11 +1,11 @@
-import styled, { css } from 'styled-components';
-import { BGColor } from '../../../../public/colors';
+import styled, { css } from 'styled-components'
+import { BGColor } from '../../../../public/colors'
 
 export const Container = styled.div`
     display: flex;
     padding:  10px;
     display: flex;
-    background-color: ${ ({ theme }) => theme.InvColor };
+    background-color: ${ ({ theme }) => {return theme.InvColor} };
     border-radius: 4px;
     overflow: hidden;
 `
@@ -16,18 +16,18 @@ export const Card = styled.div`
     padding: 24px 16px;
     margin: 10px;
     border-radius: 8px;
-    background-color: ${ ({ theme }) => theme.InvColor };
+    background-color: ${ ({ theme }) => {return theme.InvColor} };
     border: 1px solid rgba(0,0,0,.1);
-    width: ${ ({ width }) => width && css`width: ${ width };` };
-    ${ props => props.sticky && css`
+    width: ${ ({ width }) => {return width && css`width: ${ width };`} };
+    ${ props => {return props.sticky && css`
         position: sticky;
         z-index: 0;
         top: 0px;
-        ` };
+        `} };
 
     `
 export const Text = styled.h2`
-    font-size: ${ ({ size }) => size ? size : '24px' };
+    font-size: ${ ({ size }) => {return size ? size : '24px'} };
     font-weight: 400;
     padding-bottom: 24px;
     padding-top: 30px;
@@ -54,7 +54,7 @@ export const Discount = styled.span`
     width: fit-content;
     font-family: PFont-Light;
     color: rgba(0,0,0,.8);
-    ${ props => props.discount &&css`
+    ${ props => {return props.discount &&css`
     &::after{
     position: absolute;
     display: block;
@@ -67,7 +67,7 @@ export const Discount = styled.span`
     color: #18171773;
     z-index: 999;
 }
-` }
+`} }
 `
 export const StickyWrapper = styled.div`
     display: flex;
@@ -91,10 +91,10 @@ export const Price = styled.h2`
     font-weight: 400;
 `
 export const Info = styled.span`
-    color:${ ({ color }) => (color ? color : '#3483fa') };
-    font-size:${ ({ size }) => (size ? size : '13px') };
+    color:${ ({ color }) => {return (color ? color : '#3483fa')} };
+    font-size:${ ({ size }) => {return (size ? size : '13px')} };
     font-family: PFont-Light;
-    margin: ${ ({ margin }) => margin ? margin : '15px 0px' };
+    margin: ${ ({ margin }) => {return margin ? margin : '15px 0px'} };
 `
 export const Button = styled.button`
  background-color: transparent !important;
@@ -119,11 +119,11 @@ tbody tr:nth-child(odd) .andes-table:first-child {
 export const Location = styled.div`
     display: flex;
     align-items: center;
-    ${ props =>props.direction &&css`
+    ${ props =>{return props.direction &&css`
     margin: 0px;
     flex-direction: column;
     align-items: flex-start;
-    ` }
+    `} }
 `
 export const BoxComponent = styled.div`
     border-top: 1px solid rgba(0,0,0,.1);

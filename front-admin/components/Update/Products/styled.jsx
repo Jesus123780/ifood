@@ -1,5 +1,5 @@
-import styled, { css } from 'styled-components';
-import { BColor, BGColor, PColor, PLColor } from '../../../public/colors';
+import styled, { css } from 'styled-components'
+import { BColor, BGColor, PColor, PLColor } from '../../../public/colors'
 
 export const Button = styled.button` 
     position: absolute;
@@ -20,7 +20,7 @@ export const FormProducts = styled.form`
 export const Container = styled.div`
     display: flex;
     border-radius: 4px;
-    background-color: ${({ theme }) => theme.InvColor};
+    background-color: ${({ theme }) => {return theme.InvColor}};
     transition:  6s ease;
     padding-bottom: 30px;
     border-bottom: 1px solid rgba(0,0,0,.1);
@@ -36,8 +36,8 @@ export const Container = styled.div`
 `
 export const Card = styled.div` 
     position: relative;
-    width: ${props => props.state ? '100%' : '70%'};
-    background-color: ${({ theme }) => theme.InvColor};
+    width: ${props => {return props.state ? '100%' : '70%'}};
+    background-color: ${({ theme }) => {return theme.InvColor}};
 
 `
 export const ContainerButton = styled.div` 
@@ -69,7 +69,7 @@ export const Item = styled.div`
         background-color: transparent;
     }
     & span {
-        color: ${({ color }) => color || PLColor};
+        color: ${({ color }) => {return color || PLColor}};
     }
 `
 export const ContainerCardProduct = styled.div` 
@@ -86,13 +86,13 @@ export const ContainerCardProduct = styled.div`
     @media only screen and (max-width: 760px){
         grid-template-columns: 50% repeat(auto-fill, 50%) 50%;
     }
-    ${props => props.grid && css`
+    ${props => {return props.grid && css`
     width: 100%;
     grid-template-columns: 100% repeat(auto-fill, 100%) 100%; 
       @media only screen and (max-width: 760px){
         grid-template-columns: 50% repeat(auto-fill, 50%) 50%;
     }
-    ` }
+    `} }
 
 `
 export const ContentProducts = styled.div` 
@@ -106,16 +106,16 @@ export const ContentProducts = styled.div`
 `
 export const Grid = styled.div`
     display: grid;
-    width: ${({ width }) => width ? width : '100%'};
-    height: ${({ height }) => height ? height : 'auto'};
-    grid-template-columns: repeat(${({ gridColumns }) => gridColumns ? gridColumns : 1}, 1fr);
-    grid-template-rows: repeat(${({ gridRows }) => gridRows ? gridRows : 1}, 1fr);
-    grid-column-gap: ${({ gridColGap }) => gridColGap ? gridColGap : '5px'};
-    grid-row-gap: ${({ gridRowsGap }) => gridRowsGap ? gridRowsGap : '5px'};
+    width: ${({ width }) => {return width ? width : '100%'}};
+    height: ${({ height }) => {return height ? height : 'auto'}};
+    grid-template-columns: repeat(${({ gridColumns }) => {return gridColumns ? gridColumns : 1}}, 1fr);
+    grid-template-rows: repeat(${({ gridRows }) => {return gridRows ? gridRows : 1}}, 1fr);
+    grid-column-gap: ${({ gridColGap }) => {return gridColGap ? gridColGap : '5px'}};
+    grid-row-gap: ${({ gridRowsGap }) => {return gridRowsGap ? gridRowsGap : '5px'}};
     padding: 10px;
 
     @media (max-width: 600px) {
-        grid-template-columns: repeat(${({ gridColsMd }) => gridColsMd ? gridColsMd : 1}, 1fr);
+        grid-template-columns: repeat(${({ gridColsMd }) => {return gridColsMd ? gridColsMd : 1}}, 1fr);
         padding: 6px;
     }
 `
@@ -142,8 +142,8 @@ export const ButtonCard = styled.button`
     width: 50px;
     height: 50px;
     z-index: 999; 
-    top: ${({ top }) => top ? top : '20px'};
-    transition-delay: ${({ delay }) => delay ? delay : 'auto'};
+    top: ${({ top }) => {return top ? top : '20px'}};
+    transition-delay: ${({ delay }) => {return delay ? delay : 'auto'}};
     max-height: 50px;
     max-width: 50px;
     border-radius: 50%;
@@ -155,10 +155,10 @@ export const ButtonCard = styled.button`
         opacity: 1;
         z-index: 900;
     }
-    ${props => props.grid && css`
-        top: ${({ top }) => top ? top : '80px'};
-        `
-    }
+    ${props => {return props.grid && css`
+        top: ${({ top }) => {return top ? top : '80px'}};
+        `}
+}
 `
 export const DragulaContainer = styled.div`
     min-height: 100%;
@@ -169,7 +169,7 @@ export const CardProduct = styled.div`
     flex: 0 1 auto;
     display: flex;
     position: relative;
-    width: ${({ width }) => width ? width : '100%'};
+    width: ${({ width }) => {return width ? width : '100%'}};
     overflow: hidden;
     flex-direction: column;
     margin: 10px;
@@ -184,10 +184,10 @@ export const CardProduct = styled.div`
         padding: 30px;
         justify-content: space-between;
     }
-    ${props => props.grid && css`
+    ${props => {return props.grid && css`
     flex-direction: row;
 
-` }
+`} }
 `
 export const CardInput = styled.div`
     margin-bottom: 10px;
@@ -205,7 +205,7 @@ export const CardCheckBox = styled.input`
 `
 export const CardRadioLabel = styled.label`
     margin-left: 8px;
-    color: ${({ theme }) => theme.SFSColor};
+    color: ${({ theme }) => {return theme.SFSColor}};
 `
 export const Footer = styled.div`
     position: fixed;
@@ -232,13 +232,13 @@ export const ContentImg = styled.div`
     border-radius: 8px 8px 0px 0px;
     /* background-color: #ededed; */
     border-bottom: 1px solid #eaeaea;
-    ${props => props.grid && css`
+    ${props => {return props.grid && css`
     border-bottom: none;
     /* width: max-content; */
 
 
 
-` }
+`} }
 `
 export const Img = styled.img` 
     width: 100%;
@@ -251,12 +251,12 @@ export const ContentInfo = styled.div`
     flex-direction: column;
     padding: 24px 16px;
     position: relative;
-   /*  ${props => props.direction && css`
+   /*  ${props => {return props.direction && css`
     padding: 0;
     flex-direction: row;
     display: flex;
 
-    ` } */
+    `} } */
 `
 export const Title = styled.h2` 
     font-size: 14px;
@@ -271,7 +271,7 @@ export const ContentIconFav = styled.button`
     top: -30px;
     /* 20px */
     box-shadow: 0px 0px 6px 0px #16101028;
-    right: ${({ right }) => right ? right : '20px'};
+    right: ${({ right }) => {return right ? right : '20px'}};
     width: 50px;;
     height: 50px;
     max-height: 50px;
@@ -281,15 +281,15 @@ export const ContentIconFav = styled.button`
     display: grid;
     justify-content: center;
     background-color: ${BGColor};
-    ${props => props.grid && css`
+    ${props => {return props.grid && css`
         top: 20px;
 
-` }
+`} }
 
 `
 export const Text = styled.h3` 
-    font-size: ${({ size }) => size ? size : '15px'};
-    color: ${({ color }) => color || BColor};
+    font-size: ${({ size }) => {return size ? size : '15px'}};
+    color: ${({ color }) => {return color || BColor}};
     width: 100%;
     margin: 5px 0px;
     font-weight: 400;
@@ -344,7 +344,7 @@ export const ContainerBurger = styled.div`
 export const ReadMore = styled.button`
     align-items: center;
     cursor: pointer;
-    color: ${({ theme }) => theme.BGAColor};
+    color: ${({ theme }) => {return theme.BGAColor}};
     justify-content: center;
     align-self: center;
     display: flex;
@@ -373,14 +373,14 @@ export const LateralModal = styled.div`
     z-index: 9999;
     box-shadow: 0px 1px 4px rgb(0 0 0 / 5%), 0px 4px 16px rgb(0 0 0 / 6%);
     transition: 300ms ease;
-    ${({ open }) => open && css`
+    ${({ open }) => {return open && css`
     right: -100%;
 
-    `}
+    `}}
 
 
 `
 export const CardOne = styled(Card)` 
-    ${props => props.state ? css`width: 0%` : css`width: 30%;`}
+    ${props => {return props.state ? css`width: 0%` : css`width: 30%;`}}
     transition:  .6s ease;
 `

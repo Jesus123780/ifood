@@ -1,9 +1,9 @@
-import { Container } from './styled';
+import { Container } from './styled'
 
 export const PopularCategories = () => {
-    return (
-        <Container>
+  return (
+    <Container>
             PopularCategories
-        </Container>
-    )
+    </Container>
+  )
 }

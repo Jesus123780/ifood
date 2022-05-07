@@ -52,7 +52,7 @@ export const Restaurant = () => {
                             ctId: values?.ctId,
                             catStore: dataForm?.catStore,
                             // ctId: values.ctId,
-                            neighborhoodStore: dataForm.storePhone,
+                            neighborhoodStore: dataForm?.storePhone,
                             Viaprincipal: dataForm.storePhone,
                             storeOwner: dataForm.storeOwner,
                             storeName: dataForm.storeName,
@@ -113,7 +113,7 @@ export const Restaurant = () => {
         if (nextStep >= 1) {
             setNextStep(nextStep - 1)
         } else {
-            setModalConfirm(true)
+               setModalConfirm(true)
         }
     }
 

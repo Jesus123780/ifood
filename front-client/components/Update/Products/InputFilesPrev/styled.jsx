@@ -102,34 +102,3 @@ export const ButtonDelete = styled.button`
 export const Tooltip = styled.span`
     position: absolute;
 `
-// export const Details = styled.div`
-//     z-index: 20;
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     opacity: 0;
-//     font-size: 13px;
-//     min-width: 100%;
-//     max-width: 100%;
-//     padding: 2em 1em;
-//     text-align: center;
-//     color: rgba(0, 0, 0, 0.9);
-//     line-height: 150%;
-// `
-// export const Progress = styled.div`
-//     background: linear-gradient(to bottom, #666, #444);
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     bottom: 0;
-//     width: 100%;
-// `
-// export const SpanCont = styled.div`
-//     overflow: hidden;
-//     text-overflow: ellipsis;
-// `
-// export const Span = styled.span`
-//     background-color: rgba(255, 255, 255, 0.4);
-//     padding: 0 0.4em;
-//     border-radius: 3px;
-// `

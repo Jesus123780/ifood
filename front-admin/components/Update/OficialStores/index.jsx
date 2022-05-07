@@ -1,9 +1,9 @@
-import { Container } from './styled';
+import { Container } from './styled'
 
 export const OficialStores = () => {
-    return (
-        <Container>
+  return (
+    <Container>
             Productos Oficiales
-        </Container>
-    )
+    </Container>
+  )
 }

@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "tabnine.tabnine-vscode",
-        "GitHub.copilot"
+        "github.copilot",
+        "blanu.vscode-styled-jsx"
     ]
 }

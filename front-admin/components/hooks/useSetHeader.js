@@ -1,32 +1,31 @@
-import { useState, useEffect } from "react";
-import { useStickyState } from "../../context/contextsticky";
-
+import { useState, useEffect } from 'react'
+import { useStickyState } from '../../context/contextsticky'
 
 function useSentinelOffsets(topSentinelRef) {
-  const { stickyRefs } = useStickyState();
-  const [bottomSentinelHeight, setBottomSentinelHeight] = useState("");
-  const [topSentinelMarginTop, setTopSentinelMarginTop] = useState("");
+  const { stickyRefs } = useStickyState()
+  const [bottomSentinelHeight, setBottomSentinelHeight] = useState('')
+  const [topSentinelMarginTop, setTopSentinelMarginTop] = useState('')
 
   // Move the sentinel up by the top margin of the sticky component
   useEffect(() => {
-    const stickyNode = stickyRefs.get(topSentinelRef.current);
-    const topStyle = window.getComputedStyle(stickyNode);
-    const getProp = name => topStyle.getPropertyValue(name);
-    const paddingtop = getProp("padding-top");
-    const paddingBottom = getProp("padding-bottom");
-    const height = getProp("height");
-    const marginTop = getProp("margin-top");
+    const stickyNode = stickyRefs.get(topSentinelRef.current)
+    const topStyle = window.getComputedStyle(stickyNode)
+    const getProp = name => {return topStyle.getPropertyValue(name)}
+    const paddingtop = getProp('padding-top')
+    const paddingBottom = getProp('padding-bottom')
+    const height = getProp('height')
+    const marginTop = getProp('margin-top')
 
     const bottomSentinelHeight = `calc(${marginTop} +
         ${paddingtop} +
         ${height} +
-        ${paddingBottom})`;
+        ${paddingBottom})`
 
-    setBottomSentinelHeight(bottomSentinelHeight);
-    setTopSentinelMarginTop(marginTop);
-  }, [stickyRefs, topSentinelRef]);
+    setBottomSentinelHeight(bottomSentinelHeight)
+    setTopSentinelMarginTop(marginTop)
+  }, [stickyRefs, topSentinelRef])
 
-  return { bottomSentinelHeight, topSentinelMarginTop };
+  return { bottomSentinelHeight, topSentinelMarginTop }
 }
 
 /**
@@ -45,26 +44,26 @@ function useObserveTopSentinels(
     events: { onStuck, onUnstuck, onChange }
   }
 ) {
-  const { stickyRefs, containerRef } = useStickyState();
+  const { stickyRefs, containerRef } = useStickyState()
 
   useEffect(() => {
-    if (!containerRef) return;
-    if (!containerRef.current) return;
+    if (!containerRef) return
+    if (!containerRef.current) return
 
-    const root = containerRef.current;
-    const options = { threshold: [0], root };
+    const root = containerRef.current
+    const options = { threshold: [0], root }
 
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        const target = stickyRefs.get(entry.target);
-        const targetInfo = entry.boundingClientRect;
-        const rootBoundsInfo = entry.rootBounds;
+        const target = stickyRefs.get(entry.target)
+        const targetInfo = entry.boundingClientRect
+        const rootBoundsInfo = entry.rootBounds
 
-        let type = undefined;
+        let type = undefined
         // Started sticking.
         if (targetInfo.bottom < rootBoundsInfo.top) {
-          type = "stuck";
-          onStuck(target);
+          type = 'stuck'
+          onStuck(target)
         }
 
         // Stopped sticking.
@@ -72,20 +71,21 @@ function useObserveTopSentinels(
           targetInfo.bottom >= rootBoundsInfo.top &&
           targetInfo.bottom < rootBoundsInfo.bottom
         ) {
-          type = "unstuck";
-          onUnstuck(target);
+          type = 'unstuck'
+          onUnstuck(target)
         }
 
-        type && onChange({ type, target });
-      });
-    }, options);
+        type && onChange({ type, target })
+      })
+    }, options)
 
-    const sentinel = topSentinelRef.current;
-    sentinel && observer.observe(sentinel);
+    const sentinel = topSentinelRef.current
+    sentinel && observer.observe(sentinel)
+    // eslint-disable-next-line consistent-return
     return () => {
-      observer.unobserve(sentinel);
-    };
-  }, [topSentinelRef, onChange, onStuck, onUnstuck, stickyRefs, containerRef]);
+      observer.unobserve(sentinel)
+    }
+  }, [topSentinelRef, onChange, onStuck, onUnstuck, stickyRefs, containerRef])
 }
 
 /**
@@ -102,24 +102,24 @@ function useObserveBottomSentinels(
      */ events: { onStuck, onUnstuck, onChange }
   }
 ) {
-  const { stickyRefs, containerRef } = useStickyState();
+  const { stickyRefs, containerRef } = useStickyState()
 
   useEffect(() => {
-    if (!containerRef) return;
-    if (!containerRef.current) return;
+    if (!containerRef) return
+    if (!containerRef.current) return
 
-    const root = containerRef.current;
-    const options = { threshold: [1], root };
+    const root = containerRef.current
+    const options = { threshold: [1], root }
 
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        const target = stickyRefs.get(entry.target);
-        const targetRect = target.getBoundingClientRect();
-        const bottomSentinelRect = entry.boundingClientRect;
-        const rootBounds = entry.rootBounds;
-        const intersectionRatio = entry.intersectionRatio;
+        const target = stickyRefs.get(entry.target)
+        const targetRect = target.getBoundingClientRect()
+        const bottomSentinelRect = entry.boundingClientRect
+        const rootBounds = entry.rootBounds
+        const intersectionRatio = entry.intersectionRatio
 
-        let type = undefined;
+        let type = undefined
 
         if (
           bottomSentinelRect.top >= rootBounds.top &&
@@ -127,24 +127,25 @@ function useObserveBottomSentinels(
           intersectionRatio === 1 &&
           targetRect.y === 0
         ) {
-          type = "stuck";
-          onStuck(target);
+          type = 'stuck'
+          onStuck(target)
         }
 
         if (bottomSentinelRect.top <= rootBounds.top) {
-          type = "unstuck";
-          onUnstuck(target);
+          type = 'unstuck'
+          onUnstuck(target)
         }
 
-        type && onChange({ type, target });
-      });
-    }, options);
+        type && onChange({ type, target })
+      })
+    }, options)
 
-    const sentinel = bottomSentinelRef.current;
-    sentinel && observer.observe(sentinel);
+    const sentinel = bottomSentinelRef.current
+    sentinel && observer.observe(sentinel)
+    // eslint-disable-next-line consistent-return
     return () => {
-      observer.unobserve(sentinel);
-    };
+      observer.unobserve(sentinel)
+    }
   }, [
     bottomSentinelRef,
     onChange,
@@ -152,11 +153,11 @@ function useObserveBottomSentinels(
     onUnstuck,
     stickyRefs,
     containerRef
-  ]);
+  ])
 }
 
 export {
   useSentinelOffsets,
   useObserveTopSentinels,
   useObserveBottomSentinels
-};
+}

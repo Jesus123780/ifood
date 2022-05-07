@@ -54,13 +54,13 @@ export const ContainerTask = styled.div`
         box-shadow: 0px 4px 10px rgb(0 0 0 / 5%), 0px 4px 16px rgb(0 0 0 / 8%);
         border-color: transparent;
     }
-    ${ ({ show }) => show
+    ${ ({ show }) => {return show
         && css`
         box-shadow: 0px 4px 10px rgb(0 0 0 / 5%), 0px 4px 16px rgb(0 0 0 / 8%);
         border-color: transparent;
 
 
-              ` }
+              `} }
     
 `
 export const OptionsFunction = styled.div`
@@ -68,19 +68,19 @@ export const OptionsFunction = styled.div`
     display: grid;
     transition: all 200ms ease-in-out;
     display: flex;
-  ${ ({ show }) => show
-        ? css`
+  ${ ({ show }) => {return show
+    ? css`
                   visibility: visible;
                   opacity: 1;
                   transform: translateX(0);
               `
-        : css`
+    : css`
                 
                   margin: 0;
                   visibility: hidden;
                   opacity: 0;
                   transform: translateX(-50px);
-              ` }
+              `} }
     @media only screen and (min-width: 960px){
     }
 `
@@ -98,14 +98,14 @@ export const ListTask = styled.div`
     align-items: center;
     font-size: 16px !important;
     font-family: PFont-Light;
-  ${ ({ show }) => show
-        ? css`
+  ${ ({ show }) => {return show
+    ? css`
         margin-left: 200px;
         `
-        : css`
+    : css`
                 
                 margin-left: 30px;
-              ` }
+              `} }
     @media only screen and (min-width: 960px){
     }
 `

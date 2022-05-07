@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 import React from 'react'
 
@@ -7,8 +8,8 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 transition: opacity 150ms ease-in-out;
-${ ({ modal }) => modal
-        ? css`  
+${ ({ modal }) => {return modal
+    ? css`  
     position: absolute; 
     top: 0;
     left: 0;
@@ -19,11 +20,11 @@ ${ ({ modal }) => modal
 
 
           `
-        : css`
+    : css`
             
         opacity: 0;
 
-          ` }
+          `} }
 `
 
 export const Container = styled.div``
@@ -44,13 +45,13 @@ export const ContentList = styled.div`
       box-shadow: 0px 4px 10px rgb(0 0 0 / 5%), 0px 4px 16px rgb(0 0 0 / 8%);
       border-color: transparent;
     }
-    ${ ({ show }) => show
+    ${ ({ show }) => {return show
     && css`
         box-shadow: 0px 4px 10px rgb(0 0 0 / 5%), 0px 4px 16px rgb(0 0 0 / 8%);
         border-color: transparent;
         
         
-        ` }
+        `} }
         `
 export const TextList = styled.h3`
     font-size: 14px !important;
@@ -65,13 +66,17 @@ export const ContentTooltip = styled.div`
 `
 export const Options = ({ icon, name }) => {
 
-    return (
-        <React.Fragment>
-            <div>
-                {icon}
-            </div>
-            <ContentTooltip title={name}>
-            </ContentTooltip>
-        </React.Fragment>
-    )
+  return (
+    <React.Fragment>
+      <div>
+        {icon}
+      </div>
+      <ContentTooltip title={name}>
+      </ContentTooltip>
+    </React.Fragment>
+  )
+}
+Options.propTypes = {
+  icon: PropTypes.any,
+  name: PropTypes.string
 }

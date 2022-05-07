@@ -29,11 +29,12 @@ export const ItemTeam = styled.div`
 `
 export const ItemInf = styled.div`
   padding: .75rem;
-  ${props => props.end && css`
+  ${props => {
+    return props.end && css`
   justify-content: flex-end;
     display: flex;
 
-  `}
+  `}}
 `
 export const Toolbar = styled.div`
     position: relative;
@@ -48,12 +49,13 @@ export const Toolbar = styled.div`
 export const Options = styled.div`
   display: flex;
   align-items: center;
-  /* flex-direction: ${({ direction }) => direction || 'column'}; */
+  /* flex-direction: ${({ direction }) => { return direction || 'column' }}; */
   justify-content: space-between;
-  ${props => props.justify && css`
+  ${props => {
+    return props.justify && css`
       width: 50%;
       align-items: flex-end;
-  `}
+  `}}
 `
 export const MerchantListWrapper = styled.div`
     display: grid;
@@ -67,7 +69,7 @@ export const MerchantListWrapper = styled.div`
 `
 export const TooltipCardProduct = styled.div`
   position: absolute;
-  ${({ left }) => left && css`left: ${left};`}
+  ${({ left }) => { return left && css`left: ${left};` }}
   z-index: -99;
   transition: .3s ease-in-out;
   transform: translateY(30px);
@@ -212,15 +214,16 @@ export const Wrapper = styled.div`
     /* background: linear-gradient(90deg, rgb(255, 254, 254) 0%, rgb(194, 190, 190) 20%, rgba(255, 255, 255, 0.904) 50%, rgba(255, 255, 255, 0.219) 80%, rgba(250, 250, 250, 0.911) 100%) 0% 0% / 200% 200%; */
     margin: auto;
     position: relative;
-    ${props => props.center && css`
+    ${props => {
+    return props.center && css`
     display: grid;
-    `}
+    `}}
     margin: auto;
     justify-content: center;
     margin: auto;
     height: 100%;
     display: grid;
-    justify-content: ${({ justifyContent }) => justifyContent || 'normal'};
+    justify-content: ${({ justifyContent }) => { return justifyContent || 'normal' }};
     &:last-child {
         border-right: none;
     }
@@ -297,8 +300,8 @@ export const AnchorLink = styled.a`
 `
 export const Button = styled.button`
   background-color: transparent;
-  padding: ${({ padding }) => padding || '7px'};
-  height: ${({ height }) => height || '50px'};
+  padding: ${({ padding }) => { return padding || '7px' }};
+  height: ${({ height }) => { return height || '50px' }};
   font-family: PFont-Light;
   transition: 100ms;
   display: inline-flex;
@@ -308,25 +311,28 @@ export const Button = styled.button`
   position: relative;
   overflow: hidden;
   color: ${BColor};
-  font-size: ${({ size }) => size || '1.1em'};
-  ${props => props.active && css`
+  font-size: ${({ size }) => { return size || '1.1em' }};
+  ${props => {
+    return props.active && css`
     border-bottom: 3px solid ${PColor};
     font-weight: 400;
     border: 1px solid #ccc;
-  ` }
-  ${props => props.border && css`
+  `}}
+  ${props => {
+    return props.border && css`
   border-bottom: 1px solid #ccc;
   &:last-child {
     border-bottom: none;
   }
-  `}
-  ${props => props.shadow && css`
+  `}}
+  ${props => {
+    return props.shadow && css`
   box-shadow: 0 2px 16px 0 rgb(0 0 0 / 10%);
   margin-right: 24px;
   transition: color .16s ease-in-out,
   background-color .16s ease-in-out,
   border-color .16s ease-in-out;
-  ` }
+  `}}
 `
 
 export const WrapperFilter = styled.div`  
@@ -347,19 +353,21 @@ export const Circle = styled.div`
   display: grid;
   place-content: center;
   min-width: 50px;
-  ${props => props.pulse
-    ? css`
+  ${props => {
+    return props.pulse
+      ? css`
     animation: ${pulse} 2s infinite;
   `
-    : css`
-  ` }
-  ${props => props.active
-    ? css`
+      : css`
+  `}}
+  ${props => {
+    return props.active
+      ? css`
     box-shadow: 0 0 0 10px #12d4aaef, 0 0 0 22px #12d4aa9e;
     `
-    : css`
+      : css`
     box-shadow: 0 0 0 5px #ebeef3, 0 0 0 10px #f3f4f6;
-  ` }
+  `}}
 `
 export const CheckAnimation = styled.div`
  .success-checkmark {
@@ -522,12 +530,13 @@ export const Clip = styled.div`
     height: 30px;
     align-items: center;
     border-radius: 16px;
-    /* ${props => props.activebg ? css`
+    /* ${props => {
+    return props.activebg ? css`
       background-color: rgba(15, 183, 107,0.12) !important;
       ` : css`
       background-color: rgba(242, 17, 54,0.12) !important;
     
-    `} */
+    `}} */
     vertical-align: middle;
     text-decoration: none;
     justify-content: center;
@@ -542,13 +551,14 @@ export const PaymentStatus = styled.div`
   text-align: center;
   display: flex;
   place-content: center;
-  ${props => props.active
-    ? css`
+  ${props => {
+    return props.active
+      ? css`
         color #12d4aa7d;
         `
-    : css`
+      : css`
     color ${BColor};
-  ` }
+  `}}
 `
 export const CircleCompany = styled.div` 
   border: 2px solid #12d4aaef;
@@ -562,12 +572,13 @@ export const CircleCompany = styled.div`
   margin-left: calc(10% - 45px);
   place-content: center;
   min-width: 50px;
-  ${props => props.pulse
-    ? css`
+  ${props => {
+    return props.pulse
+      ? css`
     animation: ${pulse} 2s infinite;
   `
-    : css`
-  ` }
+      : css`
+  `}}
   margin-left: calc(10% - 30px);
   &:first-child {
     margin-left: -5px;
@@ -606,13 +617,14 @@ export const OptionsFunction = styled.div`
     padding: 10px 0;
     top: 60px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  ${({ show }) => show
-    ? css`
+  ${({ show }) => {
+    return show
+      ? css`
                  display: grid;
                  `
-    : css`
+      : css`
         display: none;
-              ` }
+              `}}
     @media only screen and (min-width: 960px){
     }
     border-radius: 10px;
@@ -620,11 +632,12 @@ export const OptionsFunction = styled.div`
 `
 export const Current = styled.div`
   cursor: pointer;
- ${props => props.current && css`
+ ${props => {
+    return props.current && css`
       border-bottom: 3px solid ${PColor};
       font-weight: 400;
       background-color: ${BColor};
-  ` }
+  `}}
 `
 export const ContainerInfo = styled.div`
 
@@ -637,19 +650,20 @@ export const ContentModal = styled.div`
     width: 100%;
     grid-template-columns: repeat(auto-fill,minmax(20%, 1fr));
     position: relative;
-    ${({ overflow }) => overflow && css`overflow: ${overflow};`}
-    height: ${({ height }) => height || '50vh'};
-    min-height: ${({ height }) => height || '50vh'};
-    max-height: ${({ height }) => height || '50vh'};
+    ${({ overflow }) => { return overflow && css`overflow: ${overflow};` }}
+    height: ${({ height }) => { return height || '50vh' }};
+    min-height: ${({ height }) => { return height || '50vh' }};
+    max-height: ${({ height }) => { return height || '50vh' }};
     @media only screen and (max-width: 960px){
       grid-template-columns: repeat(auto-fill,minmax(25%, 1fr));
     }
     @media only screen and (max-width: 768px){
       grid-template-columns: repeat(auto-fill,minmax(50%, 1fr));
     }
-    ${props => props.showInvoice && css`
+    ${props => {
+    return props.showInvoice && css`
         grid-template-columns: repeat(auto-fill,minmax(25%, 1fr));
-    `}
+    `}}
 `
 export const ButtonAdd = styled.button`
     position: absolute;
@@ -736,9 +750,10 @@ export const CtnInfo = styled.div`
   justify-content: space-between;
   align-items: center;
   line-height: 1.5;
-  ${props => props.border && css`
+  ${props => {
+    return props.border && css`
   border-top: 1px solid #33282830;
-  `}
+  `}}
 `
 export const WrapperInnerInvoiceTo = styled.div`
   /* border: 1px solid rgb(206, 206, 206); */
@@ -750,21 +765,22 @@ export const CardInvoice = styled.div`
     margin: 5px;
     font-size: 12px;
     font-weight: 400;
-    ${props => !props.showInvoice && css`
+    ${props => {
+    return !props.showInvoice && css`
          border: 1px solid rgb(206, 206, 206);
          box-shadow: 0 4px 0 rgb(91 105 135 / 20%);
         &:hover {
           border: 1px solid #c0c2d3;
           box-shadow: 0 2px 0 rgb(91 105 135 / 20%);
         }
-    `}
+    `}}
     border-radius: .5rem;
     height: 300px;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
     transition: all 0.2s ease;
-    ${({ height }) => height && css`height: ${height};`}
+    ${({ height }) => { return height && css`height: ${height};` }}
     `
 
 export const ButtonPagination = styled.button`
@@ -798,17 +814,17 @@ export const LineItems = styled.div`
     position: absolute;
     bottom: -134px;
     background-color: red;
-    height: ${({ height }) => height || 'auto'}px;
-    margin: ${({ margin }) => margin || ' .5% auto'};
+    height: ${({ height }) => { return height || 'auto' }}px;
+    margin: ${({ margin }) => { return margin || ' .5% auto' }};
     box-shadow: 0px 0px 14px #00000017;
     `
 export const Section = styled.div`
      display: grid;
-    grid-template-columns: ${({ columnWidth }) => columnWidth ? columnWidth?.map(x => `${x?.width} `) : '1fr'}; 
+    grid-template-columns: ${({ columnWidth }) => { return columnWidth ? columnWidth?.map(x => { return `${x?.width} ` }) : '1fr' }}; 
     height: auto;
     align-items: center;
     border-bottom: 1px solid #f0f0f0;
-    background-color: ${({ bgRow }) => bgRow === 1 ? `${TBGAColor}` : bgRow === 2 ? `${TBGVColor}` : bgRow === 3 ? `${TBGBColor}` : bgRow === 4 ? `${TBGSColor}` : bgRow === 5 ? TBGAColor : bgRow === 6 ? TBGEColor : bgRow === 7 ? TBGRColor : bgRow === 8 && TBGDColor};
+    background-color: ${({ bgRow }) => { return bgRow === 1 ? `${TBGAColor}` : bgRow === 2 ? `${TBGVColor}` : bgRow === 3 ? `${TBGBColor}` : bgRow === 4 ? `${TBGSColor}` : bgRow === 5 ? TBGAColor : bgRow === 6 ? TBGEColor : bgRow === 7 ? TBGRColor : bgRow === 8 && TBGDColor }};
     :hover {
         background-color: rgba(0,0,0,.075);
         :first-child {
@@ -828,7 +844,7 @@ export const PageA4Format = styled.div`
 `
 export const BoxArrow = styled.div`
   display: flex;
-  /* flex-direction: ${({ direction }) => direction || 'column'}; */
+  /* flex-direction: ${({ direction }) => { return direction || 'column' }}; */
 `
 export const InputHide = styled.input`
   display: block;
@@ -843,7 +859,7 @@ export const InputHide = styled.input`
 export const ArrowsLabel = styled.label`
   position: relative;
   display: flex;
-  /* flex-direction: ${({ direction }) => direction || 'column'}; */
+  /* flex-direction: ${({ direction }) => { return direction || 'column' }}; */
   user-select: none;
 `
 export const List = styled.div`
@@ -855,20 +871,21 @@ export const List = styled.div`
     align-items: center;
     font-size: 16px !important;
     font-family: PFont-Light;
-  ${({ show }) => show
-    ? css`
+  ${({ show }) => {
+    return show
+      ? css`
         margin-left: 20px;
         `
-    : css`
+      : css`
           margin-left: 30px;
-      ` }
+      `}}
     @media only screen and (min-width: 960px){
     }
 `
 export const Container = styled.div`
   background-color: ${BGColor};
   @media (max-width: 769px) {
-    /* flex-direction: ${({ direction }) => direction || 'column'}; */
+    /* flex-direction: ${({ direction }) => { return direction || 'column' }}; */
   }
 `
 export const Avatar = styled.img`
@@ -910,7 +927,7 @@ export const Content = styled.div`
 export const WrapperRow = styled.div`
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(33.33%, 1fr));
-    ${({ margin }) => margin && css`margin: ${margin};`}
+    ${({ margin }) => { return margin && css`margin: ${margin};` }}
 
 
 `
@@ -942,32 +959,33 @@ export const CtnItems = styled.div`
 }
 `
 export const Card = styled.div`
-  display: ${({ display }) => display || 'flex'};
-  flex-wrap: ${({ wrap }) => wrap || 'wrap'};
-  height: ${({ height }) => height || 'min-content'};
-  width: ${({ width }) => width || 'auto'};
-  justify-content: ${({ justify }) => justify || 'initial'};
-  padding: ${({ padding }) => padding || '1%'};
+  display: ${({ display }) => { return display || 'flex' }};
+  flex-wrap: ${({ wrap }) => { return wrap || 'wrap' }};
+  height: ${({ height }) => { return height || 'min-content' }};
+  width: ${({ width }) => { return width || 'auto' }};
+  justify-content: ${({ justify }) => { return justify || 'initial' }};
+  padding: ${({ padding }) => { return padding || '1%' }};
   position: relative;
-  ${({ radius }) => radius && css`border-radius: ${radius};`}
-  ${({ overflow }) => overflow && css`overflow: ${overflow};`}
+  ${({ radius }) => { return radius && css`border-radius: ${radius};` }}
+  ${({ overflow }) => { return overflow && css`overflow: ${overflow};` }}
   transition: .5s ease;  
-  margin: ${({ margin }) => margin || '0'};
-  background-color: ${({ bgColor }) => bgColor || '#e0f2df'};
-  ${props => props.active ? css`border: 3px solid ${PVColor};` : css`border: 3px solid transparent;`}
+  margin: ${({ margin }) => { return margin || '0' }};
+  background-color: ${({ bgColor }) => { return bgColor || '#e0f2df' }};
+  ${props => { return props.active ? css`border: 3px solid ${PVColor};` : css`border: 3px solid transparent;` }}
   box-shadow: 0px 0px 14px #00000017;
-  flex-direction: ${({ direction }) => direction || 'row'};
+  flex-direction: ${({ direction }) => { return direction || 'row' }};
   &:hover {
     cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
   }
 
-  ${props => props.animation && css`
+  ${props => {
+    return props.animation && css`
     &:hover {
       transform: scale(1.2); 
       z-index: 9999;
     }  
-  ` }
+  `}}
 `
 export const CircleUser = styled.div`
   border: 1px solid #ccc;
@@ -988,8 +1006,8 @@ export const CircleUser = styled.div`
 export const CardPrimary = styled.div`
     margin: auto;
     justify-content: center;
-    background-color: ${({ bgColor }) => bgColor || BGColor};
-    padding: ${({ padding }) => padding || '0px'};
+    background-color: ${({ bgColor }) => { return bgColor || BGColor }};
+    padding: ${({ padding }) => { return padding || '0px' }};
     display: flex;
     align-items: center;
     position: relative;
@@ -1019,7 +1037,7 @@ export const FilterOptions = styled.div`
     border-bottom: 1px solid #ccc;
 `
 export const Toast = styled.div`
-    animation: ${({ open }) => open && (open ? fadeIn : fadeOut)} 1s forwards;
+    animation: ${({ open }) => { return open && (open ? fadeIn : fadeOut) }} 1s forwards;
     height: 89px;
     top: -50%;
     background-color: #50a773;
@@ -1085,16 +1103,16 @@ export const ContentInfo = styled.div`
 export const Text = styled.span`
     margin: 0;
     color: #3f3e3e;
-    font-size: ${({ size }) => size || '1.5rem'};
-    text-align:  ${({ align }) => align || 'start'};
+    font-size: ${({ size }) => { return size || '1.5rem' }};
+    text-align:  ${({ align }) => { return align || 'start' }};
     height: min-content;
-    ${({ lineHeight }) => lineHeight && css`line-height: ${lineHeight};`}
+    ${({ lineHeight }) => { return lineHeight && css`line-height: ${lineHeight};` }}
     font-weight: 400;
-    ${({ weight }) => weight && css`font-weight: ${weight};`}
-    ${({ padding }) => padding && css`padding: ${padding};`}
-    margin: ${({ margin }) => margin || '0'};
-    color: ${({ color }) => color || '#3f3e3e   '};
-    font-family: ${({ font }) => font || 'PFont-Light'};
+    ${({ weight }) => { return weight && css`font-weight: ${weight};` }}
+    ${({ padding }) => { return padding && css`padding: ${padding};` }}
+    margin: ${({ margin }) => { return margin || '0' }};
+    color: ${({ color }) => { return color || '#3f3e3e   ' }};
+    font-family: ${({ font }) => { return font || 'PFont-Light' }};
     word-break: break-word;
 `
 // Create styles
@@ -1133,7 +1151,7 @@ export const SwitchButton = styled.button`
     border-radius: 50%;
     top: 2px;
     position: absolute;
-    ${({ active }) => active && css`left: ${active};`}
+    ${({ active }) => { return active && css`left: ${active};` }}
     transition: .3s ease;
 `
 export const ContentToggle = styled.div`
@@ -1148,11 +1166,11 @@ export const TableButton = styled.button`
     align-items: center;
     justify-content: space-evenly;
     margin-left: 10px;
-    background-color: ${({ backgroundColor }) => backgroundColor};
+    background-color: ${({ backgroundColor }) => { return backgroundColor }};
     border-radius: 4px;
     border:none;
     outline: none;
-    color:${({ color }) => color === 1 ? '#1db9aa' : color === 2 ? 'red' : color || null};
+    color:${({ color }) => { return color === 1 ? '#1db9aa' : color === 2 ? 'red' : color || null }};
     font-size: 12px;
     font-weight:bold;
     :hover{
@@ -1225,18 +1243,19 @@ export const LateralModal = styled.div`
     animation-fill-mode: both;
     border-left: 1px solid #d4d7dc;
     z-index: 1000;
-    ${({ openSchedule }) => openSchedule
-    ? css`
+    ${({ openSchedule }) => {
+    return openSchedule
+      ? css`
                  animation-name: ${SideIn};
                  visibility: visible;
                  opacity: 1;
                  transform: translateY(0);
                  `
-    : css`
+      : css`
             animation-name: ${SlideInLeft};
             /* transform: translateY(0); */
             /* visibility: hidden; */
-              `}
+              `}}
 
 `
 export const TimeSlotsList = styled.div`

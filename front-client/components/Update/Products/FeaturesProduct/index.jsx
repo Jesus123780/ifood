@@ -3,7 +3,6 @@ import React, { useContext, useState } from 'react'
 import { Context } from '../../../../Context'
 import { updateCache, validationSubmitHooks } from '../../../../utils'
 import InputHooks from '../../../InputHooks/InputHooks'
-// import { SpinnerColorJust } from '../../../Loading'
 import NewSelect from '../../../NewSelectHooks/NewSelect'
 import { RippleButton } from '../../../Ripple'
 import { CREATE_FEATURES, CREATE_TYPE_FEATURES, GET_ALL_FEATURES_ON_PARENT, GET_TYPE_FEATURES } from './queries'
@@ -13,7 +12,6 @@ import { icons } from './codeCat'
 export const FeaturesProducts = () => {
     const [values, setValues] = useState({})
     const [errors, setErrors] = useState({})
-  //  const { setAlertBox } = useContext(Context)
     const [createFeatureType, { loading: loadingUpdate }] = useMutation(CREATE_TYPE_FEATURES)
     const [createFeature, { loading: loadingUpdateFeature }] = useMutation(CREATE_FEATURES)
     const { data, loading, error: err } = useQuery(GET_TYPE_FEATURES)

@@ -1,30 +1,30 @@
 import React from 'react'
 import { GET_BANNER_PROMO_DASHBOARD } from './queries'
 import { useQuery } from '@apollo/client'
-import Image from 'next/image';
+import Image from 'next/image'
 import styled from 'styled-components'
 import { PColor } from '../../public/colors'
 
 export const BannerDashboard = () => {
-    const { data } = useQuery(GET_BANNER_PROMO_DASHBOARD)
-    return (
-        <ContainerBanner>
-            {!!data && data?.getPromoStoreAdmin.map((x, i) => (
-                <div className="wrapper" key={i + 1}>
-                    <Image
-                        objectFit='cover'
-                        layout='fixed'
-                        height={100}
-                        width={1000}
-                        src={'/images/bannerdashboard.jpg'}
-                        alt={"Picture of the author"}
-                        blurDataURL="/images/DEFAULTBANNER.png"
-                        placeholder="blur"
-                    />
-                </div>
-            ))}
-        </ContainerBanner>
-    )
+  const { data } = useQuery(GET_BANNER_PROMO_DASHBOARD)
+  return (
+    <ContainerBanner>
+      {!!data && data?.getPromoStoreAdmin.map((x, i) => {return (
+        <div className='wrapper' key={i + 1}>
+          <Image
+            alt={'Picture of the author'}
+            blurDataURL='/images/DEFAULTBANNER.png'
+            height={100}
+            layout='fixed'
+            objectFit='cover'
+            placeholder='blur'
+            src={'/images/bannerdashboard.jpg'}
+            width={1000}
+          />
+        </div>
+      )})}
+    </ContainerBanner>
+  )
 }
 
 const ContainerBanner = styled.div`

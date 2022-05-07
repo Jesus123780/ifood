@@ -1,5 +1,5 @@
-import styled, { css } from 'styled-components';
-import { BGColor } from '../../../assets/colors';
+import styled, { css } from 'styled-components'
+import { BGColor } from '../../../assets/colors'
 
 export const Button = styled.button` 
     position: absolute;
@@ -21,15 +21,15 @@ export const Container = styled.div`
     display: flex;
     position: relative;
     border-radius: 4px;
-    background-color: ${ ({ theme }) => theme.InvColor };
+    background-color: ${ ({ theme }) => {return theme.InvColor} };
     transition:  6s ease;
     padding-bottom: 30px;
     border-bottom: 1px solid rgba(0,0,0,.1);
 `
 export const Card = styled.div` 
     position: relative;
-    width: ${ props => props.state ? '100%' : '70%' };
-    background-color: ${ ({ theme }) => theme.InvColor };
+    width: ${ props => {return props.state ? '100%' : '70%'} };
+    background-color: ${ ({ theme }) => {return theme.InvColor} };
 
 `
 export const ContainerButton = styled.div` 
@@ -85,8 +85,8 @@ export const ButtonCard = styled.button`
     transition: .4s ease;
     width: 50px;
     height: 50px;
-    top: ${ ({ top }) => top ? top : '20px' };
-    transition-delay: ${ ({ delay }) => delay ? delay : 'auto' };
+    top: ${ ({ top }) => {return top ? top : '20px'} };
+    transition-delay: ${ ({ delay }) => {return delay ? delay : 'auto'} };
     max-height: 50px;
     max-width: 50px;
     border-radius: 50%;
@@ -159,7 +159,7 @@ position: absolute;
     background-color: ${ BGColor };
 `
 export const Text = styled.h3` 
-    font-size: ${ ({ size })=> size ? size : '15px' };
+    font-size: ${ ({ size })=> {return size ? size : '15px'} };
     width: 100%;
     margin: 5px 0px;
     font-weight: 400;
@@ -169,7 +169,7 @@ export const Text = styled.h3`
 export const ReadMore = styled.button`
     align-items: center;
     cursor: pointer;
-    color: ${ ({ theme }) => theme.BGAColor };
+    color: ${ ({ theme }) => {return theme.BGAColor} };
     justify-content: center;
     align-self: center;
     display: flex;
@@ -187,7 +187,7 @@ export const ReadMore = styled.button`
 `
 
 export const CardOne = styled(Card)` 
-    ${ props => props.state ? css`width: 0%` : css`width: 30%;` }
+    ${ props => {return props.state ? css`width: 0%` : css`width: 30%;`} }
     transition:  .6s ease;
     position: sticky;
     top: 50px;

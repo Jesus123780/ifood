@@ -1,10 +1,10 @@
 
-import { Container } from './styled';
+import { Container } from './styled'
 
 export const Offers = () => {
-    return (
-        <Container>
+  return (
+    <Container>
              
-        </Container>
-    )
+    </Container>
+  )
 }

@@ -14,118 +14,135 @@ import { EditForm } from './EditForm'
 // import { IconEdit, IconDost, IconDelete } from '../../../../assets/icons/icons'
 import { Container, Form, Card, ContainerTask, OptionsFunction, Button, ListTask } from './styled'
 import { IconDelete, IconDost, IconEdit } from '../../../../public/icons'
+import { PColor } from 'public/colors'
 
 export const Departments = () => {
-    const [createDepartments, { loading }] = useMutation(UPDATE_DEPARTMENT)
-  //  const { setAlertBox } = useContext(Context)
-    const [values, setValues] = useState({})
-    const [errors, setErrors] = useState({})
-    const handleChange = (e, error) => {
-        setValues({ ...values, [e.target.name]: e.target.value })
-        setErrors({ ...errors, [e.target.name]: error })
+  const [createDepartments, { loading }] = useMutation(UPDATE_DEPARTMENT)
+  const { setAlertBox } = useContext(Context)
+  const [values, setValues] = useState({})
+  const [errors, setErrors] = useState({})
+  const handleChange = (e, error) => {
+    setValues({ ...values, [e.target.name]: e.target.value })
+    setErrors({ ...errors, [e.target.name]: error })
+  }
+  // Query para traer a todos los departamentos
+  const { data: dataCountries } = useQuery(GET_COUNTRY)
+  const { data } = useQuery(GET_DEPARTMENT_ALL)
+  const handleRegister = async e => {
+    e.preventDefault()
+    // Declarando variables
+    let errorSubmit = false
+    for (const x in errors) {
+      if (errors[x]) errorSubmit = true
     }
-    // Query para traer a todos los departamentos
-    const { data: dataCountries } = useQuery(GET_COUNTRY)
-    const { data } = useQuery(GET_DEPARTMENT_ALL)
-    const handleRegister = async e => {
-        e.preventDefault()
-        // Declarando variables
-        let errorSubmit = false
-        for (const x in errors) {
-            if (errors[x]) errorSubmit = true
-        }
-        // Validando todos los campos que no sean nulos
-        const errorForm = validationSubmitHooks(e.target.elements)
-        for (const x in errorForm) {
-            if (errorForm[x]) errorSubmit = true
-        }
-        setErrors({ ...errorForm })
-        if (errorSubmit) {
-            setAlertBox({ message: 'Por favor, verifique que los Campos estén correctos', duration: 5000 })
-        }
-        try {
-            if (!errorSubmit) {
-                createDepartments({ variables: { input : { dName: values.dName, cId: values.cId } }, update(cache) {
-                    cache.modify({
-                        fields: {
-                            department(dataOld=[]){
-                                return cache.writeQuery({ query: GET_DEPARTMENT_ALL, data: dataOld })
-                            }
-                        }
-                    })
-                } }).catch(err=> setAlertBox({ message: `${ err }`, duration: 7000 }))
-            }
-        } catch (error) {
-            setValues({})
-            setErrors({})
-            setAlertBox({ message: `${ error }`, duration: 7000 })
-        }
+    // Validando todos los campos que no sean nulos
+    const errorForm = validationSubmitHooks(e.target.elements)
+    for (const x in errorForm) {
+      if (errorForm[x]) errorSubmit = true
     }
-    const [show, setShow] = useState(false)
-    const [edit, setEdit] = useState({
-        id: null,
-        value: ''
-    });
-    const submitUpdate = () => {
-        setEdit({
-            id: null,
-            value: ''
-        });
-    };
-    if (edit.id) {
-        return <EditForm edit={edit} onSubmit={submitUpdate} />;
+    setErrors({ ...errorForm })
+    if (errorSubmit) {
+      setAlertBox({ message: 'Por favor, verifique que los Campos estén correctos', duration: 5000 })
     }
-    const handleDelete = department => {
-        // eslint-disable-next-line
+    try {
+      if (!errorSubmit) {
+        createDepartments({
+          variables: { input: { dName: values.dName, cId: values.cId } }, update(cache) {
+            cache.modify({
+              fields: {
+                department(dataOld = []) {
+                  return cache.writeQuery({ query: GET_DEPARTMENT_ALL, data: dataOld })
+                }
+              }
+            })
+          }
+        }).catch(err => { return setAlertBox({ message: `${err}`, duration: 7000 }) })
+      }
+    } catch (error) {
+      setValues({})
+      setErrors({})
+      setAlertBox({ message: `${error}`, duration: 7000 })
     }
-    return (<>
-        <Container>
-            <Form onSubmit={handleRegister}>
-                <NewSelect search disabled={!dataCountries?.countries[0]?.cId} options={dataCountries?.countries.filter(x => x?.c_name === x?.c_name) || []} id='cId' name='cId' value={values?.cId || ''} optionName='cName' title='Ingresa el País' onChange={handleChange} margin='10px' />
-                <InputHooks
-                    title='Ingresa un departamento'
-                    required
-                    errors={values?.dName}
-                    value={values?.dName}
-                    onChange={handleChange}
-                    name='dName'
-                />
-                <RippleButton>
-                    {!loading ? 'Subir' : <LoadEllipsis color='#fff' /> }
-                </RippleButton>
-            </Form>
-            <Card>
-                {data?.department ? data?.department.map(index => (
-                    <ContainerTask show={show === index} key={index.dId}>
-                        <OptionsFunction show={show === index}>
-                            <Button onClick={ () => handleDelete({ ...index, dState: 0 }, 'DELETE') }><IconDelete size={30} /></Button>
-                            <Button onClick={() => setEdit({ id: index.dId, value: index.dName })} ><IconEdit size={30} /></Button>
-                        </OptionsFunction>
-                        <ListTask show={show === index}>
-                            {index.dName}
-                        </ListTask>
-                        <div style={{ display: 'contents' }}><Button onClick={() => setShow(index === show ? false : index)}><IconDost size={30} color={show === index ? PColor : '#CCC'} /></Button></div>
-                    </ContainerTask>
-                )) : <i>No hay ningún Departamento en base de datos</i>}
-            </Card>
-        </Container>
-    </>
-    )
+  }
+  const [show, setShow] = useState(false)
+  const [edit, setEdit] = useState({
+    id: null,
+    value: ''
+  })
+  const submitUpdate = () => {
+    setEdit({
+      id: null,
+      value: ''
+    })
+  }
+  if (edit.id) {
+    return <EditForm edit={edit} onSubmit={submitUpdate} />
+  }
+  // eslint-disable-next-line
+  const handleDelete = department => {
+    // eslint-disable-next-line
+    }
+  return (<>
+    <Container>
+      <Form onSubmit={handleRegister}>
+        <NewSelect
+          disabled={!dataCountries?.countries[0]?.cId}
+          id='cId'
+          margin='10px'
+          name='cId'
+          onChange={handleChange}
+          optionName='cName'
+          options={dataCountries?.countries.filter(x => { return x?.c_name === x?.c_name }) || []}
+          search
+          title='Ingresa el País'
+          value={values?.cId || ''}
+        />
+        <InputHooks
+          errors={values?.dName}
+          name='dName'
+          onChange={handleChange}
+          required
+          title='Ingresa un departamento'
+          value={values?.dName}
+        />
+        <RippleButton>
+          {!loading ? 'Subir' : <LoadEllipsis color='#fff' />}
+        </RippleButton>
+      </Form>
+      <Card>
+        {data?.department ? data?.department.map(index => {
+          return (
+            <ContainerTask key={index.dId} show={show === index}>
+              <OptionsFunction show={show === index}>
+                <Button onClick={() => { return handleDelete({ ...index, dState: 0 }, 'DELETE') }}><IconDelete size={30} /></Button>
+                <Button onClick={() => { return setEdit({ id: index.dId, value: index.dName }) }} ><IconEdit size={30} /></Button>
+              </OptionsFunction>
+              <ListTask show={show === index}>
+                {index.dName}
+              </ListTask>
+              <div style={{ display: 'contents' }}><Button onClick={() => { return setShow(index === show ? false : index) }}><IconDost color={show === index ? PColor : '#CCC'} size={30} /></Button></div>
+            </ContainerTask>
+          )
+        }) : <i>No hay ningún Departamento en base de datos</i>}
+      </Card>
+    </Container>
+  </>
+  )
 }
 
 export const LabelInput = styled.span`
     position: absolute;
-    font-size: ${ ({ value }) => value ? '11px' : '13px' };
-    top: ${ ({ value }) => value ? '-17px' : '10px' };
-    left: ${ ({ left }) => left ? left : '10px' };
+    font-size: ${({ value }) => { return value ? '11px' : '13px' }};
+    top: ${({ value }) => { return value ? '-17px' : '10px' }};
+    left: ${({ left }) => { return left ? left : '10px' }};
     transition: .3s;
     pointer-events: none;
-    font-weight: ${ ({ value }) => value ? 600 : 400 };
+    font-weight: ${({ value }) => { return value ? 600 : 400 }};
 `
 
 export const TextArea = styled.textarea`
     width: 100%;
-    height: ${ ({ height }) => height ? height : '0' };
+    height: ${({ height }) => { return height ? height : '0' }};
     font-size: 15px;
     padding: 15px;
     outline: none;
@@ -133,12 +150,12 @@ export const TextArea = styled.textarea`
     min-width: 99%;
     min-height: 200px;
     border: 1px solid #cccccc42;
-    &:focus ~ ${ LabelInput } {
+    &:focus ~ ${LabelInput} {
         top: -17px;
         font-size: 15px;
     }
-    & ~ ${ LabelInput } {
-        top: ${ ({ value }) => value ? '-17px' : '10px' };
+    & ~ ${LabelInput} {
+        top: ${({ value }) => { return value ? '-17px' : '10px' }};
         font-size: 13px;
     }
 `

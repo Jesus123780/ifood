@@ -13,22 +13,22 @@ import { Main } from './Main'
 import { ChatStatistic } from 'container/ventas/ListVentas'
 
 const Dashboard = () => {
-    return (<>
-        <Wrapper>
-            <Main />
-            <MainCard weight={'200'} title={`Ventas por meses del año`}>
-                <ChatStatistic />
-            </MainCard>
-            <SalesWeekShortDays />
-            <SalesWeek />
-            <Addons />
-            <LastedStatistic />
-            <OurFood />
-            <AlertStatistic />
-            <DeliveryFood />
-        </Wrapper >
-    </>
-    )
+  return (<>
+    <Wrapper>
+      <Main />
+      <MainCard title={`Ventas por meses del año`} weight={'200'}>
+        <ChatStatistic />
+      </MainCard>
+      <SalesWeekShortDays />
+      <SalesWeek />
+      <Addons />
+      <LastedStatistic />
+      <OurFood />
+      <AlertStatistic />
+      <DeliveryFood />
+    </Wrapper >
+  </>
+  )
 }
 
 Dashboard.propTypes = {
@@ -37,19 +37,18 @@ Dashboard.propTypes = {
 
 export default Dashboard
 
-
 export const Addons = () => {
-    return (
-        <ContentGrid>
-            <MainCard title='Mi equipo'>
-                <TeamStore />
-            </MainCard>
-            <MainCard title='Dispositivos conectados'>
-                {/*  */}
-            </MainCard>
-            <MainCard title='Dispositivos conectados'>
-                <Devices />
-            </MainCard>
-        </ContentGrid>
-    )
+  return (
+    <ContentGrid>
+      <MainCard title='Mi equipo'>
+        <TeamStore />
+      </MainCard>
+      <MainCard title='Dispositivos conectados'>
+        {/*  */}
+      </MainCard>
+      <MainCard title='Dispositivos conectados'>
+        <Devices />
+      </MainCard>
+    </ContentGrid>
+  )
 }

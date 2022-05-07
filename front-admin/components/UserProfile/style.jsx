@@ -7,8 +7,8 @@ export const ContainerMain = styled.div`
 export const TextContent = styled.div`
     display: flex;
     flex-direction: column;
-    width: ${ ({ width }) => width ? width : '50%' };
-    margin: ${ ({ margin }) => margin ? margin : '0 20px' };
+    width: ${ ({ width }) => {return width ? width : '50%'} };
+    margin: ${ ({ margin }) => {return margin ? margin : '0 20px'} };
 
     @media (max-width: 767.98px) {
         width: 100%;
@@ -19,8 +19,8 @@ export const TextContent = styled.div`
 export const Card = styled.div`
     width: 100%;
     border-radius: 4px;
-    background-color: ${ ({ theme }) => theme.InvColor };
-    border: 1px solid ${ ({ theme }) => theme.PLColor };
+    background-color: ${ ({ theme }) => {return theme.InvColor} };
+    border: 1px solid ${ ({ theme }) => {return theme.PLColor} };
     margin: 0 auto 50px;
     padding: 30px 10px;
 
@@ -32,13 +32,13 @@ export const Card = styled.div`
 export const ContentInfo = styled.div`
     display: flex;
     flex-direction: row;
-    ${ ({ margin }) => margin && css`margin: ${ margin };` };
-    ${ ({ mLeft }) => mLeft && css`
-        margin-left: ${ ({ marginLeft }) => marginLeft ? marginLeft : 'auto' };
-    ` }
-    ${ ({ Action }) => Action && css`
+    ${ ({ margin }) => {return margin && css`margin: ${ margin };`} };
+    ${ ({ mLeft }) => {return mLeft && css`
+        margin-left: ${ ({ marginLeft }) => {return marginLeft ? marginLeft : 'auto'} };
+    `} }
+    ${ ({ Action }) => {return Action && css`
         cursor: pointer;
-    ` }
+    `} }
     @media(max-width: 768px){
         flex-direction: column;
     }
@@ -48,28 +48,28 @@ export const InputSelect = styled.select`
     outline: none;
     margin: auto;
     border-radius: 5px;
-    border: 1px solid ${ ({ theme }) => theme.PLVColor };
-    background-color: ${ ({ theme }) => theme.BGAColor };
+    border: 1px solid ${ ({ theme }) => {return theme.PLVColor} };
+    background-color: ${ ({ theme }) => {return theme.BGAColor} };
     width: 100%;
     padding: 10px 5px;
 `
 export const Option = styled.option`
     :checked{
-            background-color:${ ({ theme }) => theme.PLVColor }
+            background-color:${ ({ theme }) => {return theme.PLVColor} }
         }
 `
 export const Text = styled.span`
-    text-align: ${ ({ tAlign }) => tAlign ? tAlign : 'left' };
-    font-size: ${ ({ fSize }) => fSize ? fSize : '16px' };
+    text-align: ${ ({ tAlign }) => {return tAlign ? tAlign : 'left'} };
+    font-size: ${ ({ fSize }) => {return fSize ? fSize : '16px'} };
     font-family: PFont-Regular;
-    ${ ({ margin }) => margin && css`margin: ${ margin }` };
-    color: ${ ({ theme }) => theme.InvTColor };
-    ${ ({ tit }) => tit && css`
-        font-weight: ${ ({ fontWeight }) => fontWeight ? fontWeight : '700' };
-    ` }
-    ${ ({ aSelf }) => aSelf && css`
-        align-self: ${ ({ alignS }) => alignS ? alignS : 'flex-end' };
-    ` }
+    ${ ({ margin }) => {return margin && css`margin: ${ margin }`} };
+    color: ${ ({ theme }) => {return theme.InvTColor} };
+    ${ ({ tit }) => {return tit && css`
+        font-weight: ${ ({ fontWeight }) => {return fontWeight ? fontWeight : '700'} };
+    `} }
+    ${ ({ aSelf }) => {return aSelf && css`
+        align-self: ${ ({ alignS }) => {return alignS ? alignS : 'flex-end'} };
+    `} }
 
     @media (max-width: 767.98px) {
         font-size: 15px;
@@ -81,15 +81,15 @@ export const TextButton = styled.span`
     color: #fff;
 `
 export const Title = styled.span`
-    text-align: ${ ({ tAlign }) => tAlign ? tAlign : 'left' };
-    font-size: ${ ({ fSize }) => fSize ? fSize : '16px' };
+    text-align: ${ ({ tAlign }) => {return tAlign ? tAlign : 'left'} };
+    font-size: ${ ({ fSize }) => {return fSize ? fSize : '16px'} };
     font-family: PFont-Regular;
-    color: ${ ({ theme }) => theme.SFColor };
-    font-weight: ${ ({ fontWeight }) => fontWeight ? fontWeight : '700' };
-    ${ ({ margin }) => margin && css`margin: ${ margin };` };
-    ${ ({ aSelf }) => aSelf && css`
-        align-self: ${ ({ alignS }) => alignS ? alignS : 'flex-end' };
-    ` }
+    color: ${ ({ theme }) => {return theme.SFColor} };
+    font-weight: ${ ({ fontWeight }) => {return fontWeight ? fontWeight : '700'} };
+    ${ ({ margin }) => {return margin && css`margin: ${ margin };`} };
+    ${ ({ aSelf }) => {return aSelf && css`
+        align-self: ${ ({ alignS }) => {return alignS ? alignS : 'flex-end'} };
+    `} }
 `
 export const ButtonStatus = styled.button`
     background-color:#20c0f3;
@@ -101,7 +101,7 @@ export const ButtonStatus = styled.button`
     margin-bottom: 10px;
     padding:10px 15px;
     font-weight: 600;
-    font-size: ${ ({ fSize }) => fSize ? fSize : '13px' };
+    font-size: ${ ({ fSize }) => {return fSize ? fSize : '13px'} };
     min-width: 120px;
     width: 150px;
     border-radius: 50px;
@@ -112,33 +112,26 @@ export const ButtonSave = styled.button`
     cursor: pointer;
     font-family: PFont-Regular;
     color: #fff;
-    padding: ${ ({ padding }) => padding ? padding : '15px 30px' };
+    padding: ${ ({ padding }) => {return padding ? padding : '15px 30px'} };
     font-weight: 600;
-    font-size: ${ ({ fSize }) => fSize ? fSize : '16px' };
+    font-size: ${ ({ fSize }) => {return fSize ? fSize : '16px'} };
     min-width: 120px;
     width: 220px;
-    ${ ({ bgColor }) => bgColor && css`background-color: ${ bgColor };` };
+    ${ ({ bgColor }) => {return bgColor && css`background-color: ${ bgColor };`} };
     border-radius: 5px;
 `
 export const ImgContainer = styled.div`
     display: inline-block;
     margin: 0 20px;
 `
-export const Img = styled.img`
-    width: 100px;
-    height: 100px;
-    object-fit: contain;
-    border-radius: 4px;
-    margin-right: 20px;
-`
 
 export const InputText = styled.input`
-    width: ${ ({ width }) => width ? width : '100%' };
-    margin: ${ ({ margin }) => margin ? margin : '20px 0' };
-    border: 1px solid ${ ({ theme }) => theme.InpBorColor };
-    background-color: ${ ({ theme }) => theme.TColor };
+    width: ${ ({ width }) => {return width ? width : '100%'} };
+    margin: ${ ({ margin }) => {return margin ? margin : '20px 0'} };
+    border: 1px solid ${ ({ theme }) => {return theme.InpBorColor} };
+    background-color: ${ ({ theme }) => {return theme.TColor} };
     border-radius: 4px;
-    color: ${ ({ theme }) => theme.InvTColor };
+    color: ${ ({ theme }) => {return theme.InvTColor} };
     font-size: 15px;
     min-height: 45px;
     padding: 0 15px;
@@ -148,9 +141,9 @@ export const InputText = styled.input`
         box-shadow: none;
         outline: 0 none;
     }
-    ${ ({ radio }) => radio && css`
+    ${ ({ radio }) => {return radio && css`
         width: 20px;
-    ` }
+    `} }
 `
 export const InputFile = styled.input`
     display: none;
@@ -161,10 +154,10 @@ export const Container = styled.div`
 `
 //---- NO SE ESTA USANDO
 export const InputTextArea = styled.textarea`
-    border: 1px solid ${ ({ theme }) => theme.InpBorColor };
-    background-color: ${ ({ theme }) => theme.TColor };
+    border: 1px solid ${ ({ theme }) => {return theme.InpBorColor} };
+    background-color: ${ ({ theme }) => {return theme.TColor} };
     border-radius: 4px;
-    color: ${ ({ theme }) => theme.InvTColor };
+    color: ${ ({ theme }) => {return theme.InvTColor} };
     font-size: 15px;
     max-height: 150px;
     max-width: 88%;
@@ -177,9 +170,9 @@ export const InputTextArea = styled.textarea`
         box-shadow: none;
         outline: 0 none;
     }
-    ${ ({ radio }) => radio && css`
+    ${ ({ radio }) => {return radio && css`
         width: 20px;
-    ` }
+    `} }
 `
 export const Required = styled.span`
    color: #ff0100 !important;

@@ -1,424 +1,526 @@
-import ReactDOM from 'react-dom'
-import { useState } from 'react';
-import { InputHook } from './Input';
-import { ViewProducts } from './ViewProducts';
-import { Rate } from '../../Rate';
+import PropTypes from 'prop-types'
+import { useState } from 'react'
+import { InputHook } from './Input'
+import { ViewProducts } from './ViewProducts'
+import { Rate } from '../../Rate'
 import NewSelect from '../../NewSelectHooks/NewSelect'
-import { numberFormat } from '../../../utils';
-import { RippleButton } from '../../Ripple';
-import { FeaturesProducts } from './FeaturesProduct';
+import { numberFormat } from '../../../utils'
+import { RippleButton } from '../../Ripple'
 import {
-    Container,
-    FormProducts,
-    Card,
-    Button,
-    CardOne,
-    Label,
-    ContainerCardProduct,
-    CardProduct,
-    Img,
-    ContentImg,
-    Title,
-    Text,
-    ContentInfo,
-    ContentIconFav,
-    ButtonCard,
-    ActionName,
-    ReadMore,
-    ContentProducts,
-    CardInput,
-    CardCheckBox,
-    CardRadioLabel,
-    ContainerFilter,
-    ItemFilter,
-    ContainerBurger
-} from './styled';
-import { Skeleton } from '../../Skeleton/SkeletonCard';
-// import { AwesomeModal } from '../../AwesomeModal';
-import { CustomSlider } from './CustomSlider';
-// import { ReactTable } from '../../common/ReactTable';
-import { SliderAreas } from './SliderAreas';
-import { Discount } from './ViewProducts/styled';
-import { SliderCategory } from './SliderCategories';
-import { LoadingBabel } from '../../Loading/LoadingBabel';
-import { Range } from '../../InputRange';
-import { SliderCategoryUpdate } from './SliderCategoriesUpdate';
-import { IconArrowRight, IconDelete, IconEdit, IconLove } from '../../../public/icons';
-import { APColor, PColor, PVColor, SEGColor } from '../../../public/colors';
+  Container,
+  FormProducts,
+  Card,
+  Button,
+  CardOne,
+  Label,
+  ContainerCardProduct,
+  CardProduct,
+  Img,
+  ContentImg,
+  Title,
+  Text,
+  ContentInfo,
+  ContentIconFav,
+  ButtonCard,
+  ActionName,
+  ReadMore,
+  ContentProducts,
+  CardInput,
+  CardCheckBox,
+  CardRadioLabel,
+  ContainerFilter,
+  ItemFilter,
+  ContainerBurger
+} from './styled'
+import { Skeleton } from '../../Skeleton/SkeletonCard'
+import { SliderAreas } from './SliderAreas'
+import { Discount } from './ViewProducts/styled'
+import { SliderCategory } from './SliderCategories'
+import { LoadingBabel } from '../../Loading/LoadingBabel'
+import { Range } from '../../InputRange'
+import { SliderCategoryUpdate } from './SliderCategoriesUpdate'
+import { IconArrowRight, IconDelete, IconEdit, IconLove } from '../../../public/icons'
+import { APColor, PColor, PVColor, SEGColor } from '../../../public/colors'
 
-export const Products = ({ datafatures,
-    finalDataAreas,
-    features,
-    handleAddFeature,
-    dispatch,
-    search,
-    state,
-    handleChangeFilter,
-    data,
-    setShowMore,
-    values,
-    handleRegister,
-    handleChange,
-    countries,
-    setRating,
-    rating,
-    color,
-    size,
-    onChangeSearch,
-    departments,
-    cities,
-    setName,
-    names,
-    loading,
-    handleDelete,
-    // filtro
-    handleChangeClick,
-    onClickClear,
-    onClickSearch,
-    dataCategories,
-    state: grid,
-    setLocalStorage,
-    intPorcentaje,
-    dataFree,
+export const Products = ({ 
+  finalDataAreas,
+  features,
+  search,
+  handleChangeFilter,
+  data,
+  setShowMore,
+  values,
+  handleRegister,
+  handleChange,
+  countries,
+  setRating,
+  rating,
+  color,
+  size,
+  onChangeSearch,
+  departments,
+  cities,
+  setName,
+  names,
+  loading,
+  handleDelete,
+  // filtro
+  handleChangeClick,
+  onClickClear,
+  onClickSearch,
+  dataCategories,
+  state: grid,
+  setLocalStorage,
+  intPorcentaje,
+  dataFree
 }) => {
-    const [stateCard, setState] = useState(false)
-    const handleClick = () => {
-        setState(!stateCard)
-    }
-    const [modal, setModal] = useState(0)
-    const handleClickModal = index => {
-        setModal(index === modal ? true : index)
-    }
-    // const columns = [
-    //     { name: 'Nombres y Apellidos' },
-    //     { name: 'CC', accessor: 'user.userprofile.up_ideNum' },
-    //     { name: 'Monto solicitado', accessor: 'mr_retire', render: () => `$ ${ numberFormat(423432) }` },
-    //     { name: 'Monto solicitado', accessor: 'mr_retire', render: () => `$ ${ numberFormat(423432) }` },
-    //     { name: 'Medio de pago', accessor: 'userbankentity.typebank.tb_name' },
-    //     { name: 'Tipo de cuenta', accessor: 'userbankentity.accounttype.at_name' },
-    //     { name: 'N° de cuenta', accessor: 'userbankentity.ube_accNum' },
-    // ]
-    // const count = 100
-    return (<div>
-        {loading && <LoadingBabel />}
-        <Container>
-            <CardOne state={stateCard}>
-                <FormProducts onSubmit={handleRegister}>
-                    <InputHook label='Nombre del producto'
-                        type="text"
-                        placeholder="Nombre del producto"
-                        value={names}
-                        name='pName'
-                        required
-                        onChange={e => setName(e.target.value)}
-                        range={{ min: 0, max: 180 }}
-                    />
-                    <InputHook label='ProPrice'
-                        value={numberFormat(values.ProPrice)}
-                        name='ProPrice'
-                        required
-                        onChange={handleChange}
-                        range={{ min: 0, max: 180 }} />
-                    <InputHook label='Descuento'
-                        value={values.ProDescuento}
-                        name='ProDescuento'
-                        onChange={handleChange}
-                        range={{ min: 0, max: 180 }} />
-                    <InputHook label='Unidades Disponibles'
-                        value={values.ProUniDisponibles}
-                        name='ProUniDisponibles'
-                        onChange={handleChange}
-                        range={{ min: 0, max: 180 }} />
-                    <InputHook label='Producto Protegido'
-                        value={values.ProProtegido}
-                        name='ProProtegido'
-                        onChange={handleChange}
-                        range={{ min: 0, max: 180 }} />
-                    <InputHook label='Garantia'
-                        value={values.ProAssurance}
-                        name='ProAssurance'
-                        onChange={handleChange}
-                        range={{ min: 0, max: 180 }} />
-                    <>
-                        <Rate rating={rating} onRating={rate => setRating(rate)} size={20} value={values.rating} />
-                        <img />
-                        <InputHook label='Ancho'
-                            value={values.Width}
-                            name='Width'
-                            onChange={handleChange}
-                            numeric
-                            range={{ min: 0, max: 180 }} />
-                        <InputHook label='Alto'
-                            value={values.Height}
-                            name='Height'
-                            onChange={handleChange}
-                            numeric
-                            range={{ min: 0, max: 180 }} />
-                        <InputHook label='Largo'
-                            value={values.ProLength}
-                            name='ProLength'
-                            onChange={handleChange}
-                            range={{ min: 0, max: 180 }} />
-                        <InputHook label='Peso'
-                            value={values.ProWeight}
-                            name='ProWeight'
-                            onChange={handleChange}
-                            range={{ min: 0, max: 180 }} />
-                        <InputHook label='Cantidad # Disponible'
-                            value={values.Cantidad}
-                            name='Cantidad'
-                            onChange={handleChange}
-                            range={{ min: 0, max: 180 }} />
-                        <InputHook label='Destacado'
-                            value={values.Destacado}
-                            name='Destacado'
-                            onChange={handleChange}
-                            range={{ min: 0, max: 180 }} />
-                        <InputHook label='Envio gratis?'
-                            value={values.IstFree}
-                            name='IstFree'
-                            onChange={handleChange}
-                            range={{ min: 0, max: 180 }} />
-                        <InputHook label='Voltaje'
-                            value={values.ProVoltaje}
-                            name='ProVoltaje'
-                            onChange={handleChange}
-                            range={{ min: 0, max: 180 }} />
-                        <NewSelect
-                            name='colorId'
-                            options={color}
-                            id='colorId'
-                            onChange={handleChange}
-                            optionName='colorName'
-                            value={values?.colorId}
-                            title='Color'
-                        />
-                        <NewSelect
-                            name='sizeId'
-                            options={size}
-                            id='sizeId'
-                            onChange={handleChange}
-                            optionName='sizeName'
-                            value={values?.sizeId}
-                            title='Talla' />
-                        <NewSelect
-                            name='countryId'
-                            options={countries}
-                            id='cId'
-                            onChange={onChangeSearch}
-                            optionName='cName'
-                            value={values?.countryId}
-                            title='País' />
-                        <NewSelect
-                            name='dId'
-                            options={departments}
-                            id='dId'
-                            onChange={onChangeSearch}
-                            optionName='dName'
-                            value={values?.dId}
-                            title='Departamento' />
-                        <NewSelect
-                            name='ctI d'
-                            options={cities}
-                            id='ctId'
-                            onChange={handleChange}
-                            optionName='cName'
-                            value={values?.ctId}
-                            title='Ciudad' />
-                        {/* <TextAreaHooks
-                            title='Description'
-                            value={values.ProDescription}
-                            name='ProDescription'
-                            onChange={handleChange}
-                            range={{ min: 0, max: 7000 }}
-                            showRange
-                        /> */}
-                        <Text size='30px'>Registra el producto en una categoria</Text>
-                        <SliderCategoryUpdate duration={'500ms'} dataCategories={dataCategories} handleChangeClick={handleChangeClick} />
-                        <div>
-                            <Text>Agregar Características principales</Text>
-                            {/* {ReactDOM.createPortal(<>
-                                <AwesomeModal
-                                    show={modal}
-                                    title={'Selecciona una característica para el producto'}
-                                    backdrop
-                                    onCancel={() => setModal(false)}
-                                    onHide={() => setModal(false)}
-                                    btnConfirm={false}
-                                    header={false}
-                                    footer={false}
-                                    padding='20px'
-                                    size='large'
-                                >
-                                    <div>
-                                        {modal === 1 ? <CustomSlider handleAddFeature={handleAddFeature} autoPlayTime={4000} state={state} dispatch={dispatch} duration={'500ms'} datafatures={datafatures} /> :
-                                            <FeaturesProducts />
-                                        }
-                                    </div>
-                                </AwesomeModal>
-                            </>, document.getElementById('root')
-                            )} */}
-                        </div>
-                    </>
-                    <RippleButton type="button" margin='20px auto' onClick={() => handleClickModal(1)} widthButton='100%' bgColor={SEGColor}> <Label>Características principales</Label></RippleButton>
-                    <RippleButton type="button" margin='20px auto' onClick={() => handleClickModal(2)} widthButton='100%' bgColor={PVColor}> <Label>Registrar Características principales</Label></RippleButton>
-                    <RippleButton widthButton='100%' margin='20px auto' type='submit' bgColor={APColor}>Subir</RippleButton>
-                </FormProducts>
-            </CardOne>
-            <i style={{ position: 'relative' }}>
-                <Button onClick={handleClick}><IconArrowRight color='blue' size='20px' /></Button>
-            </i>
-            <Card state={stateCard} bgColor='#ededed'>
-                <ViewProducts
-                    features={features}
-                    valuesP={'name'}
-                    Country={countries}
-                    price={values?.ProPrice}
-                    desc={values?.ProDescuento}
-                    PCant={values?.ProUniDisponibles}
-                    PDescription={values?.ProDescription}
-                    start={rating}
-                    intPorcentaje={intPorcentaje}
-                    setRating={setRating} />
-            </Card>
-        </Container>
-        <ContentProducts>
-            <Text size='30px'>Filtrar productos</Text>
-            <ContainerCardProduct>
-                <CardProduct>
-                    <InputHook label='Busca tus productos' name='search' value={search} onChange={handleChangeFilter} type='text' range={{ min: 0, max: 20 }} />
-                    <i>Filtro de precio</i>
-                    <InputHook
-                        type='range'
-                        label={`${data[0]?.ProPrice}`}
-                        // value={data[0]?.ProPrice}
-                        name='price'
-                        maxLength={data[0]?.ProPrice}
-                        minLength={data[0]?.ProPrice}
-                        onChange={handleChange}
-                        range={{ min: 0, max: 180 }}
-                    />
-                </CardProduct>
-                <CardProduct id='space'>
-                    <Text size='20px'>Filtrar productos</Text>
-                    <div>
-                        <CardInput onChange={handleChangeClick}>
-                            <div>
-                                <CardCheckBox name='gender' value="1" type="checkbox" id="checkboxF" />
-                            </div>
-                            <CardRadioLabel htmlFor='checkboxF'>Envío gratis</CardRadioLabel>
-                        </CardInput>
-                        <CardInput onChange={handleChangeClick}>
-                            <CardCheckBox name='desc' value="1" type="checkbox" id="checkboxF" />
-                            <CardRadioLabel htmlFor='checkboxF'>Ofertas</CardRadioLabel>
-                        </CardInput>
-                    </div>
-                    <RippleButton onClick={() => onClickSearch()} bgColor={PVColor}>Buscar</RippleButton>
-                    <Range min={1962} max={2018} value={2018} label="Year" />
-                </CardProduct>
-                <CardProduct>
-                    <SliderCategory duration={'500ms'} dataCategories={dataCategories} handleChangeClick={handleChangeClick} />
-                    <RippleButton margin='5px 30px 30px 30px' onClick={() => onClickSearch()} bgColor={PVColor}>Buscar</RippleButton>
-                </CardProduct>
-                <CardProduct>
-                    {dataCategories?.length}
-                    <RippleButton margin='5px 30px 30px 30px' onClick={() => onClickSearch()} bgColor={PVColor}>Buscar</RippleButton>
-                </CardProduct>
-            </ContainerCardProduct>
-            {/* Slider para filtrar productos */}
-            <Text size='30px'>Lista de productos registrados</Text>
-            <ContainerFilter>
-                <ItemFilter onClick={() => setLocalStorage(grid)}>
-                    <ContainerBurger>
-                        <div className="BurgerMenu__container" role="button" >
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    </ContainerBurger>
-                </ItemFilter>
-                <ItemFilter>Mejor precio</ItemFilter>
-                <ItemFilter>Mayor precio</ItemFilter>
-                <ItemFilter>Envio gratis</ItemFilter>
-                <ItemFilter>Evaluacion</ItemFilter>
-                <ItemFilter>Full envio</ItemFilter>
-                <ItemFilter>Tarifa de envio</ItemFilter>
-                <ItemFilter>Distancia mas corta</ItemFilter>
-                <ItemFilter>Ordenar</ItemFilter>
-                <ItemFilter onClick={() => onClickClear()}>Limpio</ItemFilter>
-            </ContainerFilter>
-            <SliderAreas autoPlayTime={4000} duration={'500ms'} finalDataAreas={finalDataAreas} />
-            <ContainerCardProduct grid={grid}>
-                <div>
-                    <ItemFilter>{data.length ? `${data.length} Productos` : 'No hay productos'}</ItemFilter>
-                    <ItemFilter>{dataFree.length ? `${dataFree.length} Productos con envio gratis` : 'No hay productos con envio gratis'}</ItemFilter>
-                </div>
-                {!data?.length ? <SkeletonP /> : data?.map(product => (
-                    <CardProduct grid={grid} key={product.pId} >
-                        <ButtonCard grid={grid} onClick={() => handleDelete(product.pId)}>
-                            <IconDelete size={20} color={PColor} />
-                            <ActionName >
+  const [stateCard, setState] = useState(false)
+  const handleClick = () => {
+    setState(!stateCard)
+  }
+  const [modal, setModal] = useState(0)
+  const handleClickModal = index => {
+    setModal(index === modal ? true : index)
+  }
+  return (<div>
+    {loading && <LoadingBabel />}
+    <Container>
+      <CardOne state={stateCard}>
+        <FormProducts onSubmit={handleRegister}>
+          <InputHook
+            label='Nombre del producto'
+            name='pName'
+            onChange={e => {return setName(e.target.value)}}
+            placeholder='Nombre del producto'
+            range={{ min: 0, max: 180 }}
+            required
+            type='text'
+            value={names}
+          />
+          <InputHook
+            label='ProPrice'
+            name='ProPrice'
+            onChange={handleChange}
+            range={{ min: 0, max: 180 }}
+            required
+            value={numberFormat(values.ProPrice)}
+          />
+          <InputHook
+            label='Descuento'
+            name='ProDescuento'
+            onChange={handleChange}
+            range={{ min: 0, max: 180 }}
+            value={values.ProDescuento}
+          />
+          <InputHook
+            label='Unidades Disponibles'
+            name='ProUniDisponibles'
+            onChange={handleChange}
+            range={{ min: 0, max: 180 }}
+            value={values.ProUniDisponibles}
+          />
+          <InputHook
+            label='Producto Protegido'
+            name='ProProtegido'
+            onChange={handleChange}
+            range={{ min: 0, max: 180 }}
+            value={values.ProProtegido}
+          />
+          <InputHook
+            label='Garantia'
+            name='ProAssurance'
+            onChange={handleChange}
+            range={{ min: 0, max: 180 }}
+            value={values.ProAssurance}
+          />
+          <>
+            <Rate
+              onRating={rate => {return setRating(rate)}}
+              rating={rating}
+              size={20}
+              value={values.rating}
+            />
+            <img />
+            <InputHook
+              label='Ancho'
+              name='Width'
+              numeric
+              onChange={handleChange}
+              range={{ min: 0, max: 180 }}
+              value={values.Width}
+            />
+            <InputHook
+              label='Alto'
+              name='Height'
+              numeric
+              onChange={handleChange}
+              range={{ min: 0, max: 180 }}
+              value={values.Height}
+            />
+            <InputHook
+              label='Largo'
+              name='ProLength'
+              onChange={handleChange}
+              range={{ min: 0, max: 180 }}
+              value={values.ProLength}
+            />
+            <InputHook
+              label='Peso'
+              name='ProWeight'
+              onChange={handleChange}
+              range={{ min: 0, max: 180 }}
+              value={values.ProWeight}
+            />
+            <InputHook
+              label='Cantidad # Disponible'
+              name='Cantidad'
+              onChange={handleChange}
+              range={{ min: 0, max: 180 }}
+              value={values.Cantidad}
+            />
+            <InputHook
+              label='Destacado'
+              name='Destacado'
+              onChange={handleChange}
+              range={{ min: 0, max: 180 }}
+              value={values.Destacado}
+            />
+            <InputHook
+              label='Envio gratis?'
+              name='IstFree'
+              onChange={handleChange}
+              range={{ min: 0, max: 180 }}
+              value={values.IstFree}
+            />
+            <InputHook
+              label='Voltaje'
+              name='ProVoltaje'
+              onChange={handleChange}
+              range={{ min: 0, max: 180 }}
+              value={values.ProVoltaje}
+            />
+            <NewSelect
+              id='colorId'
+              name='colorId'
+              onChange={handleChange}
+              optionName='colorName'
+              options={color}
+              title='Color'
+              value={values?.colorId}
+            />
+            <NewSelect
+              id='sizeId'
+              name='sizeId'
+              onChange={handleChange}
+              optionName='sizeName'
+              options={size}
+              title='Talla'
+              value={values?.sizeId}
+            />
+            <NewSelect
+              id='cId'
+              name='countryId'
+              onChange={onChangeSearch}
+              optionName='cName'
+              options={countries}
+              title='País'
+              value={values?.countryId}
+            />
+            <NewSelect
+              id='dId'
+              name='dId'
+              onChange={onChangeSearch}
+              optionName='dName'
+              options={departments}
+              title='Departamento'
+              value={values?.dId}
+            />
+            <NewSelect
+              id='ctId'
+              name='ctI d'
+              onChange={handleChange}
+              optionName='cName'
+              options={cities}
+              title='Ciudad'
+              value={values?.ctId}
+            />
+
+            <Text size='30px'>Registra el producto en una categoría</Text>
+            <SliderCategoryUpdate
+              dataCategories={dataCategories}
+              duration={'500ms'}
+              handleChangeClick={handleChangeClick}
+            />
+            <div>
+              <Text>Agregar Características principales</Text>
+            </div>
+          </>
+          <RippleButton
+            bgColor={SEGColor}
+            margin='20px auto'
+            onClick={() => {return handleClickModal(1)}}
+            type='button'
+            widthButton='100%'
+          > <Label>Características principales</Label></RippleButton>
+          <RippleButton
+            bgColor={PVColor}
+            margin='20px auto'
+            onClick={() => {return handleClickModal(2)}}
+            type='button'
+            widthButton='100%'
+          > <Label>Registrar Características principales</Label></RippleButton>
+          <RippleButton
+            bgColor={APColor}
+            margin='20px auto'
+            type='submit'
+            widthButton='100%'
+          >Subir</RippleButton>
+        </FormProducts>
+      </CardOne>
+      <i style={{ position: 'relative' }}>
+        <Button onClick={handleClick}><IconArrowRight color='blue' size='20px' /></Button>
+      </i>
+      <Card bgColor='#ededed' state={stateCard}>
+        <ViewProducts
+          Country={countries}
+          PCant={values?.ProUniDisponibles}
+          PDescription={values?.ProDescription}
+          desc={values?.ProDescuento}
+          features={features}
+          intPorcentaje={intPorcentaje}
+          price={values?.ProPrice}
+          setRating={setRating}
+          start={rating}
+          valuesP={'name'}
+        />
+      </Card>
+    </Container>
+    <ContentProducts>
+      <Text size='30px'>Filtrar productos</Text>
+      <ContainerCardProduct>
+        <CardProduct>
+          <InputHook
+            label='Busca tus productos'
+            name='search'
+            onChange={handleChangeFilter}
+            range={{ min: 0, max: 20 }}
+            type='text'
+            value={search}
+          />
+          <i>Filtro de precio</i>
+          <InputHook
+            label={`${data[0]?.ProPrice}`}
+            maxLength={data[0]?.ProPrice}
+            // value={data[0]?.ProPrice}
+            minLength={data[0]?.ProPrice}
+            name='price'
+            onChange={handleChange}
+            range={{ min: 0, max: 180 }}
+            type='range'
+          />
+        </CardProduct>
+        <CardProduct id='space'>
+          <Text size='20px'>Filtrar productos</Text>
+          <div>
+            <CardInput onChange={handleChangeClick}>
+              <div>
+                <CardCheckBox
+                  id='checkboxF'
+                  name='gender'
+                  type='checkbox'
+                  value='1'
+                />
+              </div>
+              <CardRadioLabel htmlFor='checkboxF'>Envío gratis</CardRadioLabel>
+            </CardInput>
+            <CardInput onChange={handleChangeClick}>
+              <CardCheckBox
+                id='checkboxF'
+                name='desc'
+                type='checkbox'
+                value='1'
+              />
+              <CardRadioLabel htmlFor='checkboxF'>Ofertas</CardRadioLabel>
+            </CardInput>
+          </div>
+          <RippleButton bgColor={PVColor} onClick={() => {return onClickSearch()}}>Buscar</RippleButton>
+          <Range
+            label='Year'
+            max={2018}
+            min={1962}
+            value={2018}
+          />
+        </CardProduct>
+        <CardProduct>
+          <SliderCategory
+            dataCategories={dataCategories}
+            duration={'500ms'}
+            handleChangeClick={handleChangeClick}
+          />
+          <RippleButton
+            bgColor={PVColor}
+            margin='5px 30px 30px 30px'
+            onClick={() => {return onClickSearch()}}
+          >Buscar</RippleButton>
+        </CardProduct>
+        <CardProduct>
+          {dataCategories?.length}
+          <RippleButton
+            bgColor={PVColor}
+            margin='5px 30px 30px 30px'
+            onClick={() => {return onClickSearch()}}
+          >Buscar</RippleButton>
+        </CardProduct>
+      </ContainerCardProduct>
+      {/* Slider para filtrar productos */}
+      <Text size='30px'>Lista de productos registrados</Text>
+      <ContainerFilter>
+        <ItemFilter onClick={() => {return setLocalStorage(grid)}}>
+          <ContainerBurger>
+            <div className='BurgerMenu__container' role='button' >
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </ContainerBurger>
+        </ItemFilter>
+        <ItemFilter>Mejor precio</ItemFilter>
+        <ItemFilter>Mayor precio</ItemFilter>
+        <ItemFilter>Envio gratis</ItemFilter>
+        <ItemFilter>Evaluacion</ItemFilter>
+        <ItemFilter>Full envio</ItemFilter>
+        <ItemFilter>Tarifa de envio</ItemFilter>
+        <ItemFilter>Distancia mas corta</ItemFilter>
+        <ItemFilter>Ordenar</ItemFilter>
+        <ItemFilter onClick={() => {return onClickClear()}}>Limpio</ItemFilter>
+      </ContainerFilter>
+      <SliderAreas
+        autoPlayTime={4000}
+        duration={'500ms'}
+        finalDataAreas={finalDataAreas}
+      />
+      <ContainerCardProduct grid={grid}>
+        <div>
+          <ItemFilter>{data.length ? `${data.length} Productos` : 'No hay productos'}</ItemFilter>
+          <ItemFilter>{dataFree.length ? `${dataFree.length} Productos con envio gratis` : 'No hay productos con envio gratis'}</ItemFilter>
+        </div>
+        {!data?.length ? <SkeletonP /> : data?.map(product => {return (
+          <CardProduct grid={grid} key={product.pId} >
+            <ButtonCard grid={grid} onClick={() => {return handleDelete(product.pId)}}>
+              <IconDelete color={PColor} size={20} />
+              <ActionName >
                                 Eliminar
-                            </ActionName>
-                        </ButtonCard>
-                        <ButtonCard grid={grid} delay='.1s' top={'80px'}>
-                            <IconEdit size={20} color={PColor} />
-                            <ActionName>
+              </ActionName>
+            </ButtonCard>
+            <ButtonCard
+              delay='.1s'
+              grid={grid}
+              top={'80px'}
+            >
+              <IconEdit color={PColor} size={20} />
+              <ActionName>
                                 Editar
-                            </ActionName>
-                        </ButtonCard>
-                        <ContentImg grid={grid}>
-                            {!product.ProImage ? <i>No img</i> : <Img src={product.ProImage} alt={product.ProImage} />}
-                        </ContentImg>
-                        <ContentInfo>
-                            <ContentIconFav grid={grid}>
-                                <IconLove color={PVColor} size={20} />
-                            </ContentIconFav>
-                            {product.ProDescuento && <Discount discount={product.ProDescuento} > {numberFormat(product.ProDescuento)}</Discount>}
-                            <Title>{product.pName}</Title>
-                            <Text>{numberFormat(product.ProPrice)}</Text>
-                            <ContentInfo >
-                                <Rate rating={product.ProStar} onRating={() => setRating(product.ProStar)} size={20} value={product.ProStar} />
-                                {product.ProDelivery === 1 && <span>Gratis</span>}
-                            </ContentInfo>
-                        </ContentInfo>
-                    </CardProduct>
-                ))}
-            </ContainerCardProduct>
-            <ReadMore onClick={() => setShowMore(s => s + 5)}>CARGAR MÁS </ReadMore>
-            {/* <ReactTable
-                data={data}
-                collapse
-                nowrap
-                columns={columns}
-                // selectable
-                loading={loading}
-                isDisabled={x => x.register}
-                orderable
-                collapse
-                resizable
-                nowrap
-                serverSideRender
-                searchable={true}
-                serverSideRender
-                isDisabled={x => x.register}
-                length={count}
-                loading={loading}
-                // onFetch={(page, length, search) => fetchData(length * (page - 1), length, search)}
-                caption={<h2>Historial de transacciones</h2>}
-            /> */}
-        </ContentProducts>
-    </div>
-    )
+              </ActionName>
+            </ButtonCard>
+            <ContentImg grid={grid}>
+              {!product.ProImage ? <i>No img</i> : <Img alt={product.ProImage} src={product.ProImage} />}
+            </ContentImg>
+            <ContentInfo>
+              <ContentIconFav grid={grid}>
+                <IconLove color={PVColor} size={20} />
+              </ContentIconFav>
+              {product.ProDescuento && <Discount discount={product.ProDescuento} > {numberFormat(product.ProDescuento)}</Discount>}
+              <Title>{product.pName}</Title>
+              <Text>{numberFormat(product.ProPrice)}</Text>
+              <ContentInfo >
+                <Rate
+                  onRating={() => {return setRating(product.ProStar)}}
+                  rating={product.ProStar}
+                  size={20}
+                  value={product.ProStar}
+                />
+                {product.ProDelivery === 1 && <span>Gratis</span>}
+              </ContentInfo>
+            </ContentInfo>
+          </CardProduct>
+        )})}
+      </ContainerCardProduct>
+      <ReadMore onClick={() => {return setShowMore(s => {return s + 5})}}>CARGAR MÁS </ReadMore>
+    </ContentProducts>
+  </div>
+  )
+}
+
+Products.propTypes = {
+  cities: PropTypes.any,
+  color: PropTypes.any,
+  countries: PropTypes.any,
+  data: PropTypes.shape({
+    length: PropTypes.any,
+    map: PropTypes.func
+  }),
+  dataCategories: PropTypes.shape({
+    length: PropTypes.any
+  }),
+  dataFree: PropTypes.shape({
+    length: PropTypes.any
+  }),
+  datafatures: PropTypes.any,
+  departments: PropTypes.any,
+  dispatch: PropTypes.any,
+  features: PropTypes.any,
+  finalDataAreas: PropTypes.any,
+  handleAddFeature: PropTypes.any,
+  handleChange: PropTypes.any,
+  handleChangeClick: PropTypes.any,
+  handleChangeFilter: PropTypes.any,
+  handleDelete: PropTypes.func,
+  handleRegister: PropTypes.any,
+  intPorcentaje: PropTypes.any,
+  loading: PropTypes.any,
+  names: PropTypes.any,
+  onChangeSearch: PropTypes.any,
+  onClickClear: PropTypes.func,
+  onClickSearch: PropTypes.func,
+  rating: PropTypes.any,
+  search: PropTypes.any,
+  setLocalStorage: PropTypes.func,
+  setName: PropTypes.func,
+  setRating: PropTypes.func,
+  setShowMore: PropTypes.func,
+  size: PropTypes.any,
+  state: PropTypes.any,
+  values: PropTypes.shape({
+    Cantidad: PropTypes.any,
+    Destacado: PropTypes.any,
+    Height: PropTypes.any,
+    IstFree: PropTypes.any,
+    ProAssurance: PropTypes.any,
+    ProDescription: PropTypes.any,
+    ProDescuento: PropTypes.any,
+    ProLength: PropTypes.any,
+    ProPrice: PropTypes.any,
+    ProProtegido: PropTypes.any,
+    ProUniDisponibles: PropTypes.any,
+    ProVoltaje: PropTypes.any,
+    ProWeight: PropTypes.any,
+    Width: PropTypes.any,
+    colorId: PropTypes.any,
+    countryId: PropTypes.any,
+    ctId: PropTypes.any,
+    dId: PropTypes.any,
+    rating: PropTypes.any,
+    sizeId: PropTypes.any
+  })
 }
 export const SkeletonP = () => {
-    return <>
-        <>
-            {[1, 2, 3, 4].map((x, i) => (
-                <CardProduct key={i +1}>
-                    <Skeleton />
-                </CardProduct>
-            ))}
-        </>
+  return <>
+    <>
+      {[1, 2, 3, 4].map((x, i) => {return (
+        <CardProduct key={i +1}>
+          <Skeleton />
+        </CardProduct>
+      )})}
     </>
+  </>
 }

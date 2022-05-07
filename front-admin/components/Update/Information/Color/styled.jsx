@@ -46,13 +46,13 @@ export const ContainerTask = styled.div`
         box-shadow: 0px 4px 10px rgb(0 0 0 / 5%), 0px 4px 16px rgb(0 0 0 / 8%);
         border-color: transparent;
     }
-    ${ ({ show }) => show
+    ${ ({ show }) => {return show
         && css`
         box-shadow: 0px 4px 10px rgb(0 0 0 / 5%), 0px 4px 16px rgb(0 0 0 / 8%);
         border-color: transparent;
 
 
-              ` }
+              `} }
     
 `
 export const OptionsFunction = styled.div`
@@ -60,19 +60,19 @@ export const OptionsFunction = styled.div`
     display: grid;
     transition: all 200ms ease-in-out;
     display: flex;
-  ${ ({ show }) => show
-        ? css`
+  ${ ({ show }) => {return show
+    ? css`
                   visibility: visible;
                   opacity: 1;
                   transform: translateX(0);
               `
-        : css`
+    : css`
                 
                   margin: 0;
                   visibility: hidden;
                   opacity: 0;
                   transform: translateX(-50px);
-              ` }
+              `} }
     @media only screen and (min-width: 960px){
     }
 `
@@ -95,14 +95,14 @@ export const ListTask = styled.div`
     align-items: center;
     font-size: 16px !important;
     font-family: PFont-Light;
-  ${ ({ show }) => show
-        ? css`
+  ${ ({ show }) => {return show
+    ? css`
         margin-left: 200px;
         `
-        : css`
+    : css`
                 
                 margin-left: 30px;
-              ` }
+              `} }
     @media only screen and (min-width: 960px){
     }
 `
@@ -132,8 +132,8 @@ export const Input = styled.input`
 `
 export const ContentModal = styled.div`
     transition: opacity 150ms ease-in-out;
-    ${ ({ modal }) => modal
-        ? css`  
+    ${ ({ modal }) => {return modal
+    ? css`  
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -148,12 +148,12 @@ export const ContentModal = styled.div`
     z-index: 10000;
     background-color: rgba(0,0,0,0.322);
     `
-        : css`
+    : css`
             
             margin: 0;
             opacity: 0;
             z-index: -99999099;
-            ` }
+            `} }
             `
 export const AwesomeModal = styled.div`
             width: 97%;
@@ -164,11 +164,11 @@ export const AwesomeModal = styled.div`
             position: absolute;
             transition: 500ms ease;
             overflow-y: auto;
-            background-color: ${ ({ theme }) => theme.InvColor };
+            background-color: ${ ({ theme }) => {return theme.InvColor} };
             max-height: 700px;
             padding: 50px;
-            ${ ({ modal }) => modal
-        ? css`  
+            ${ ({ modal }) => {return modal
+    ? css`  
                     top: -50px;
                     bottom: 0;
                     transform: translateY(95px);
@@ -176,12 +176,12 @@ export const AwesomeModal = styled.div`
                     opacity: 1;
                     z-index: 99999909;
                       `
-        : css`
+    : css`
                         
                     margin: 0;
                     opacity: 0;
                     z-index: -99999;
-                      ` }
+                      `} }
             &::-webkit-scrollbar {
                 width: 3px;
                 background-color: #dcdcdc;

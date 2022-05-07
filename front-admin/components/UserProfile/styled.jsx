@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const Container = styled.div`
     width: 98%;
@@ -76,7 +76,7 @@ export const InputTextDesabled = styled.input`
         border: 1px solid #ccc;
     background-color: #ddd;
     border-radius: 4px;
-    color: ${({ theme }) => theme.InvTColor};
+    color: ${({ theme }) => {return theme.InvTColor}};
     font-size: 15px;
     min-height: 46px;
     padding: 4px 15px;
@@ -91,7 +91,7 @@ export const InputTextDesabled = styled.input`
 
 export const Form = styled.form`
     width: 99%;
-    background-color: ${({ theme }) => theme.InvColor};
+    background-color: ${({ theme }) => {return theme.InvColor}};
     border: 1px solid #ccc;
     margin: auto;
 `
@@ -119,8 +119,8 @@ export const ButtonSubmit = styled.button`
 export const TextContent = styled.div`
     display: flex;
     flex-direction: column;
-    width: ${({ width }) => width ? width : '50%'};
-    margin: ${({ margin }) => margin ? margin : '0 20px'};
+    width: ${({ width }) => {return width ? width : '50%'}};
+    margin: ${({ margin }) => {return margin ? margin : '0 20px'}};
 
     @media (max-width: 767.98px) {
         width: 100%;
@@ -130,17 +130,17 @@ export const TextContent = styled.div`
 `
 
 export const Text = styled.span`
-    text-align: ${({ tAlign }) => tAlign ? tAlign : 'left'};
-    font-size: ${({ fSize }) => fSize ? fSize : '16px'};
+    text-align: ${({ tAlign }) => {return tAlign ? tAlign : 'left'}};
+    font-size: ${({ fSize }) => {return fSize ? fSize : '16px'}};
     font-family: PFont-Regular;
-    ${({ margin }) => margin && css`margin: ${margin};`};
-    color: ${({ theme }) => theme.InvTColor};
-    ${({ tit }) => tit && css`
-        font-weight: ${({ fontWeight }) => fontWeight ? fontWeight : '700'};
-    ` }
-    ${({ aSelf }) => aSelf && css`
-        align-self: ${({ alignS }) => alignS ? alignS : 'flex-end'};
-    ` }
+    ${({ margin }) => {return margin && css`margin: ${margin};`}};
+    color: ${({ theme }) => {return theme.InvTColor}};
+    ${({ tit }) => {return tit && css`
+        font-weight: ${({ fontWeight }) => {return fontWeight ? fontWeight : '700'}};
+    `} }
+    ${({ aSelf }) => {return aSelf && css`
+        align-self: ${({ alignS }) => {return alignS ? alignS : 'flex-end'}};
+    `} }
 
     @media (max-width: 767.98px) {
         font-size: 15px;
