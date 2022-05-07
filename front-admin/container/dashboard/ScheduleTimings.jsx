@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+import PropTypes from 'prop-types'
 import React, { Fragment, useEffect, useState, useContext } from 'react'
 import { useMutation, useQuery } from '@apollo/client'
 import { GET_SCHEDULE_STORE } from './queriesStore'
@@ -12,132 +14,181 @@ import { RippleButton } from '../../components/Ripple'
 import { Context } from '../../context/Context'
 
 export const ScheduleTimings = () => {
-    const { setAlertBox } = useContext(Context)
-    const { data } = useQuery(GET_SCHEDULE_STORE, { variables: { schDay: 1 } })
-    const [showTiming, setShowTiming] = useState(0)
-    const SHOW_TIMING = useSetState(false)
-    const SHOW_ALERT = useSetState(false)
-    const handleClick = n => {
-        setShowTiming(n)
-        SHOW_TIMING.setState(!SHOW_TIMING.state)
-    }
-    const [values, setValues] = useState({})
-    // const [message, setMessage] = useState('')
-    const starTime = moment(values.startTime, 'HH:mm:ss')
-    const endTime = moment(values.endTime, 'HH:mm:ss')
-    const handleChange = e => {
-        setValues({ ...values, [e.target.name]: e.target.value })
-    }
-    console.log(starTime)
-    const [setStoreSchedule] = useMutation(CREATE_STORE_CALENDAR);
-    const handleForm = (e) => {
-        e.preventDefault();
-        if (moment(starTime).isAfter(endTime)) {
-            SHOW_ALERT.setState(!SHOW_ALERT.state)
-            return setAlertBox({ message: 'La Hora Final no puede ser menor que la Hora de Inicio.' })
-        } else if (moment(starTime).isSame(endTime)) {
-            SHOW_ALERT.setState(!SHOW_ALERT.state)
-            return setAlertBox({ message: 'La Hora final no puede ser igual que la Hora de inicio.' })
-        } else {
-            return setStoreSchedule({
-                variables: {
-                    input:
+  const { setAlertBox } = useContext(Context)
+  const { data } = useQuery(GET_SCHEDULE_STORE, { variables: { schDay: 1 } })
+  const [showTiming, setShowTiming] = useState(0)
+  const SHOW_TIMING = useSetState(false)
+  const SHOW_ALERT = useSetState(false)
+  const handleClick = n => {
+    setShowTiming(n)
+    SHOW_TIMING.setState(!SHOW_TIMING.state)
+  }
+  const [values, setValues] = useState({})
+  // const [message, setMessage] = useState('')
+  const starTime = moment(values.startTime, 'HH:mm:ss')
+  const endTime = moment(values.endTime, 'HH:mm:ss')
+  const handleChange = e => {
+    setValues({ ...values, [e.target.name]: e.target.value })
+  }
+  const [setStoreSchedule] = useMutation(CREATE_STORE_CALENDAR)
+  const handleForm = (e) => {
+    e.preventDefault()
+    if (moment(starTime).isAfter(endTime)) {
+      SHOW_ALERT.setState(!SHOW_ALERT.state)
+      return setAlertBox({ message: 'La Hora Final no puede ser menor que la Hora de Inicio.' })
+    } else if (moment(starTime).isSame(endTime)) {
+      SHOW_ALERT.setState(!SHOW_ALERT.state)
+      return setAlertBox({ message: 'La Hora final no puede ser igual que la Hora de inicio.' })
+    } 
+    return setStoreSchedule({
+      variables: {
+        input:
                     {
-                        schHoSta: values.startTime,
-                        schHoEnd: values.endTime,
-                        schState: 1, schDay: showTiming
+                      schHoSta: values.startTime,
+                      schHoEnd: values.endTime,
+                      schState: 1, schDay: showTiming
                     }
-                }, update(cache) {
-                    cache.modify({
-                        fields: {
-                            getStoreSchedules(dataOld = []) {
-                                return cache.writeQuery({ query: GET_SCHEDULE_STORE, data: dataOld })
-                            }
-                        }
-                    })
-                }
-            }).then(() => {
-                SHOW_TIMING.setState(!SHOW_TIMING.state)
-            }).catch(e => console.log(e))
-        }
-    }
-    // eslint-disable-next-line
+      }, update(cache) {
+        cache.modify({
+          fields: {
+            getStoreSchedules(dataOld = []) {
+              return cache.writeQuery({ query: GET_SCHEDULE_STORE, data: dataOld })
+            }
+          }
+        })
+      }
+    }).then(() => {
+      SHOW_TIMING.setState(!SHOW_TIMING.state)
+    }).catch(() => {})
+        
+  }
+  // eslint-disable-next-line
     let suma = 0
-    useEffect(() => {
-        if (data && data?.getStoreSchedules?.length > 0) {
-            data?.getStoreSchedules.forEach((a) => {
-                let count = 0
-                // eslint-disable-next-line
+  useEffect(() => {
+    if (data && data?.getStoreSchedules?.length > 0) {
+      data?.getStoreSchedules.forEach((a) => {
+        let count = 0
+        // eslint-disable-next-line
                 const { schHoEnd, schHoSta } = a || {}
-                const starTime = parseFloat(starTime ? starTime : 0)
-                const endTime = parseFloat(schHoEnd ? schHoEnd : 0)
-                count = endTime + starTime
-                // eslint-disable-next-line
+        const starTime = parseFloat(starTime ? starTime : 0)
+        const endTime = parseFloat(schHoEnd ? schHoEnd : 0)
+        count = endTime + starTime
+        // eslint-disable-next-line
                 suma += count
-            })
-        }
-    }, [data])
-    const PortalContent = (
-        <AwesomeModal title={showTiming === 1 ? 'Lunes' : showTiming === 2 ? 'Martes ' : showTiming === 3 ? 'Miercoles' : showTiming === 4 ? 'Jueves ' : showTiming === 5 ? 'Viernes' : showTiming === 6 ? 'Sabado' : showTiming === 7 ? 'Domingo' : null} backdrop='static' zIndex='9990' padding='25px' height='50vh' show={SHOW_TIMING.state} onHide={() => { SHOW_TIMING.setState(!SHOW_TIMING.state) }} onCancel={() => false} size='small' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
-            <Form onSubmit={(e) => handleForm(e)}>
-                {[1]?.map((x, i) => <AModalRow key={i + 10}>
-                    <SelectInfo title='Hora Inicial' name={'startTime'} value={values.schHoSta} handleChange={handleChange} index={i} hide={x.schState} />
-                    <SelectInfo title='Hora Final' name={'endTime'} value={values.schHoEnd} handleChange={handleChange} index={i} hide={x.schState} />
-                </AModalRow>)}
-                <RippleButton label='Guardar' type={'submit'} />
-            </Form>
-        </AwesomeModal>
-    )
-    // if (browser)  return ReactDOM.createPortal(portalContent, document.getElementById('portal'))
-    return (
-        <div>
-            {PortalContent}
-            <ScheduleHeader>
-                <ScheduleHeaderNav onClick={() => handleClick(1)} current={showTiming === 1 && 1}>Lunes</ScheduleHeaderNav>
-                <ScheduleHeaderNav onClick={() => handleClick(2)} current={showTiming === 2 && 1}>Martes</ScheduleHeaderNav>
-                <ScheduleHeaderNav onClick={() => handleClick(3)} current={showTiming === 3 && 1}>Miércoles</ScheduleHeaderNav>
-                <ScheduleHeaderNav onClick={() => handleClick(4)} current={showTiming === 4 && 1}>Jueves</ScheduleHeaderNav>
-                <ScheduleHeaderNav onClick={() => handleClick(5)} current={showTiming === 5 && 1}>Viernes</ScheduleHeaderNav>
-                <ScheduleHeaderNav onClick={() => handleClick(6)} current={showTiming === 6 && 1}>Sábado</ScheduleHeaderNav>
-                <ScheduleHeaderNav onClick={() => handleClick(7)} current={showTiming === 7 && 1}>Domingo</ScheduleHeaderNav>
-            </ScheduleHeader>
-            <ScheduleHeader>
-                {data ? data?.getStoreSchedules?.map((s, i) => (
-                    <Card direction='column' active={s.schDay === showTiming} margin='10px' key={i + 1} onClick={() => handleClick(s.schDay)} current={s.schDay === showTiming}>
-                        <Text>
-                            {s.schDay === 1 ? 'Lunes' : s.schDay === 2 ? 'Martes ' : s.schDay === 3 ? 'Miercoles' : s.schDay === 4 ? 'Jueves ' : s.schDay === 5 ? 'Viernes' : s.schDay === 6 ? 'Sabado' : s.schDay === 7 ? 'Domingo' : null}
-                        </Text>
-                        <Text size='1em'>
-                            {s.schHoSta} - {s.schHoEnd}
-                        </Text>
-                    </Card>
-                )) : <div>Agenda tus horarios</div>}
-            </ScheduleHeader>
-        </div>
+      })
+    }
+  }, [data])
+  const PortalContent = (
+    <AwesomeModal
+      backdrop='static'
+      borderRadius='10px'
+      btnCancel={true}
+      btnConfirm={false}
+      footer={false}
+      header={true}
+      height='50vh'
+      onCancel={() => {return false}}
+      onHide={() => { SHOW_TIMING.setState(!SHOW_TIMING.state) }}
+      padding='25px'
+      show={SHOW_TIMING.state}
+      size='small'
+      title={showTiming === 1 ? 'Lunes' : showTiming === 2 ? 'Martes ' : showTiming === 3 ? 'Miercoles' : showTiming === 4 ? 'Jueves ' : showTiming === 5 ? 'Viernes' : showTiming === 6 ? 'Sabado' : showTiming === 7 ? 'Domingo' : null}
+      zIndex='9990'
+    >
+      <Form onSubmit={(e) => {return handleForm(e)}}>
+        {[1]?.map((x, i) => {return <AModalRow key={i + 10}>
+          <SelectInfo
+            handleChange={handleChange}
+            hide={x.schState}
+            index={i}
+            name={'startTime'}
+            title='Hora Inicial'
+            value={values.schHoSta}
+          />
+          <SelectInfo
+            handleChange={handleChange}
+            hide={x.schState}
+            index={i}
+            name={'endTime'}
+            title='Hora Final'
+            value={values.schHoEnd}
+          />
+        </AModalRow>})}
+        <RippleButton label='Guardar' type={'submit'} />
+      </Form>
+    </AwesomeModal>
+  )
+  // if (browser)  return ReactDOM.createPortal(portalContent, document.getElementById('portal'))
+  return (
+    <div>
+      {PortalContent}
+      <ScheduleHeader>
+        <ScheduleHeaderNav current={showTiming === 1 && 1} onClick={() => {return handleClick(1)}}>Lunes</ScheduleHeaderNav>
+        <ScheduleHeaderNav current={showTiming === 2 && 1} onClick={() => {return handleClick(2)}}>Martes</ScheduleHeaderNav>
+        <ScheduleHeaderNav current={showTiming === 3 && 1} onClick={() => {return handleClick(3)}}>Miércoles</ScheduleHeaderNav>
+        <ScheduleHeaderNav current={showTiming === 4 && 1} onClick={() => {return handleClick(4)}}>Jueves</ScheduleHeaderNav>
+        <ScheduleHeaderNav current={showTiming === 5 && 1} onClick={() => {return handleClick(5)}}>Viernes</ScheduleHeaderNav>
+        <ScheduleHeaderNav current={showTiming === 6 && 1} onClick={() => {return handleClick(6)}}>Sábado</ScheduleHeaderNav>
+        <ScheduleHeaderNav current={showTiming === 7 && 1} onClick={() => {return handleClick(7)}}>Domingo</ScheduleHeaderNav>
+      </ScheduleHeader>
+      <ScheduleHeader>
+        {data ? data?.getStoreSchedules?.map((s, i) => {return (
+          <Card
+            active={s.schDay === showTiming}
+            current={s.schDay === showTiming}
+            direction='column'
+            key={i + 1}
+            margin='10px'
+            onClick={() => {return handleClick(s.schDay)}}
+          >
+            <Text>
+              {s.schDay === 1 ? 'Lunes' : s.schDay === 2 ? 'Martes ' : s.schDay === 3 ? 'Miercoles' : s.schDay === 4 ? 'Jueves ' : s.schDay === 5 ? 'Viernes' : s.schDay === 6 ? 'Sabado' : s.schDay === 7 ? 'Domingo' : null}
+            </Text>
+            <Text size='1em'>
+              {s.schHoSta} - {s.schHoEnd}
+            </Text>
+          </Card>
+        )}) : <div>Agenda tus horarios</div>}
+      </ScheduleHeader>
+    </div>
 
-    )
+  )
 
 }
 
-const SelectInfo = ({ title, name, value, handleChange, index, hide }) => (
-    <ModalSelectC hide={hide} >
-        <CardSelectLabel>{title} </CardSelectLabel>
-        <Select name={name} id={index} value={value} onChange={handleChange}>
-            <CardSelectOption>Seleccionar</CardSelectOption>
-            {[6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(x => <Fragment key={x}>
-                <CardSelectOption value={`${x}:00`}> {moment(`${x}:00`, 'HH:mm:ss').format('hh:mm A')}</CardSelectOption>
-                <CardSelectOption value={`${x}:30`}> {moment(`${x}:30`, 'HH:mm:ss').format('hh:mm A')}</CardSelectOption>
-            </Fragment>)}
-        </Select>
-    </ModalSelectC>
-)
+const SelectInfo = ({ title, name, value, handleChange, index, hide }) => {return (
+  <ModalSelectC hide={hide} >
+    <CardSelectLabel>{title} </CardSelectLabel>
+    <Select
+      id={index}
+      name={name}
+      onChange={handleChange}
+      value={value}
+    >
+      <CardSelectOption>Seleccionar</CardSelectOption>
+      {[6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(x => {return <Fragment key={x}>
+        <CardSelectOption value={`${x}:00`}> {moment(`${x}:00`, 'HH:mm:ss').format('hh:mm A')}</CardSelectOption>
+        <CardSelectOption value={`${x}:30`}> {moment(`${x}:30`, 'HH:mm:ss').format('hh:mm A')}</CardSelectOption>
+      </Fragment>})}
+    </Select>
+  </ModalSelectC>
+)}
+
+SelectInfo.propTypes = {
+  handleChange: PropTypes.any,
+  hide: PropTypes.any,
+  index: PropTypes.any,
+  name: PropTypes.any,
+  title: PropTypes.any,
+  value: PropTypes.any
+}
 ScheduleTimings.propTypes = {
 
 }
 
 export const Text = styled.h3`
     padding: 7px 0;
-    font-size: ${({ size }) => size || '13px'};
+    font-size: ${({ size }) => {return size || '13px'}};
     color: ${TFSColor};
     font-family:  PFont-Light;
     font-weight: 400;
@@ -174,8 +225,8 @@ const ScheduleHeader = styled.div`
 export const CardSelect = styled.select`
     font-size: 16px;
     padding: 7px 17px;
-    border: 1px solid ${({ theme }) => theme.PLVColor}; 
-    background-color: ${({ theme }) => theme.BGAColor};
+    border: 1px solid ${({ theme }) => {return theme.PLVColor}}; 
+    background-color: ${({ theme }) => {return theme.BGAColor}};
     width: 200px;
 `
 export const ModalSelect = styled(CardSelect)`
@@ -189,19 +240,19 @@ const ScheduleHeaderNav = styled.button`
     border-radius: 20px;
     flex-grow: 1;
     font-size: 11px;
-    background-color: ${({ current }) => current ? PVColor : 'transparent'};
-    color: ${({ current }) => current ? BGColor : TFSColor};
+    background-color: ${({ current }) => {return current ? PVColor : 'transparent'}};
+    color: ${({ current }) => {return current ? BGColor : TFSColor}};
     /* color: ${TFSColor}; */
     text-align: center;
     transition: 0.3s;
     cursor: pointer;
     
-    ${({ current }) => !current && css`
+    ${({ current }) => {return !current && css`
     :hover{
-        background-color:${({ theme }) => theme.BGColor};
-        color:${({ theme }) => theme.SFColor}; 
+        background-color:${({ theme }) => {return theme.BGColor}};
+        color:${({ theme }) => {return theme.SFColor}}; 
         
-    }` }
+    }`} }
 `
 export const AModalRow = styled.div`
     padding: 10px;
@@ -223,9 +274,9 @@ export const AModalBtnDelete = styled.div`
     height: 38px;
     margin-top: 50px;   
     width: 68px;
-    background-color: ${({ theme }) => theme.EColor};
-    color: ${({ theme }) => theme.BGAColor};
-    ${({ hide }) => hide === 0 && css`display:none;`};
+    background-color: ${({ theme }) => {return theme.EColor}};
+    color: ${({ theme }) => {return theme.BGAColor}};
+    ${({ hide }) => {return hide === 0 && css`display:none;`}};
     border-radius: 5px;
     :hover{
         cursor:pointer;
@@ -237,7 +288,7 @@ export const AModalBtnDelete = styled.div`
 `
 export const CardSelectOption = styled.option`
      :checked{
-            background-color:${({ theme }) => theme.PLVColor}
+            background-color:${({ theme }) => {return theme.PLVColor}}
         }
     
 `
@@ -249,7 +300,7 @@ export const CardSelectC = styled.div`
 export const ModalSelectC = styled(CardSelectC)`
     justify-content: flex-end;
     min-width: 200px;
-    ${({ hide }) => hide === 0 && css`display:none;`}
+    ${({ hide }) => {return hide === 0 && css`display:none;`}}
     @media only screen and (max-width: 860px){
         width:100%;
     }
