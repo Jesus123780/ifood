@@ -1,5 +1,5 @@
-import { BColor, BGColor, PColor, PLVColor } from "public/colors";
-import styled, { css } from "styled-components";
+import { BColor, BGColor, PColor, PLVColor } from 'public/colors'
+import styled, { css } from 'styled-components'
 
 export const ContainerContextMessage = styled.div`
     position: fixed;
@@ -73,8 +73,8 @@ export const ContentAction = styled.div`
     }
 `
 export const TextMessage = styled.span`
-    background-color: ${ ({ messageUser, user }) => messageUser === user ? PColor : PLVColor };
-    color: ${ ({ messageUser, user }) => messageUser === user ? BGColor : BColor };
+    background-color: ${ ({ messageUser, user }) => {return messageUser === user ? PColor : PLVColor} };
+    color: ${ ({ messageUser, user }) => {return messageUser === user ? BGColor : BColor} };
     width: fit-content;
     border-radius: 5px;
     padding: 5px;
@@ -87,7 +87,7 @@ export const ContentMessage = styled.div`
     padding-top: 1%;
     display: flex;
     position: relative;
-    justify-content: ${ ({ messageUser, user }) => messageUser === user ? 'flex-end' : 'flex-start' };
+    justify-content: ${ ({ messageUser, user }) => {return messageUser === user ? 'flex-end' : 'flex-start'} };
     /* width: 100%; */
     /* padding: 5px; */
     font-family: PFont-Light;
@@ -115,11 +115,11 @@ export const WrapperChat = styled.form`
     button {
         background-color: transparent;
     }
-    ${props => props.show ? css`
+    ${props => {return props.show ? css`
         transform: translateY(425px);
         
         ` : css`
         transform: translateY(0px);
     
-    `}
+    `}}
 `

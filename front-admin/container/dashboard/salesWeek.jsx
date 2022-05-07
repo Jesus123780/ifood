@@ -17,7 +17,7 @@ export const SalesWeek = () => {
   const [GROUP_BY_DAYS, setGROUP_BY_DAYS] = useState([])
   let suma = 0
   useEffect(() => {
-    var dt = new Date()
+    let dt = new Date()
     getAllSalesStoreStatistic({ variables: { min: 0, fromDate: moment(dt.setDate(dt.getDate() - 30)).format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD') } })
     data?.getAllSalesStoreStatistic.forEach((a) => {
       const { totalProductsPrice, pDatCre } = a || {}
@@ -25,30 +25,36 @@ export const SalesWeek = () => {
       setTotalProductPrice(suma)
     })
     if (!loading && data) {
-      const GROUP_BY_DAYS = data?.getAllSalesStoreStatistic.map((elem) => elem)?.sort((a, b) => moment(a.pDatCre).day() - b).reduce(function (r, a) {
-        r[moment(a.pDatCre).day()] = r[moment(a.pDatCre).day()] || [];
+      const GROUP_BY_DAYS = data?.getAllSalesStoreStatistic.map((elem) => {return elem})?.sort((a, b) => {return moment(a.pDatCre).day() - b}).reduce(function (r, a) {
+        r[moment(a.pDatCre).day()] = r[moment(a.pDatCre).day()] || []
         r[moment(a.pDatCre).day()].push(a)
-        return r;
-      }, Object.create(null));
+        return r
+      }, Object.create(null))
       const dataKeyDays = Object.keys(GROUP_BY_DAYS)
       setGROUP_BY_DAYS(GROUP_BY_DAYS)
       setSetKey(dataKeyDays)
     }
   }, [data])
   return (
-    <MainCard weight={'200'} title={`Últimos 30 Dias $ ${numberFormat(totalProductPrice || 0)}`}>
-      <Text size='.8em' color='#3f3e3e' >{ `Media de ventas en los últimos 30 Dias $ ${numberFormat(totalProductPrice || 0)}`}</Text>
+    <MainCard title={`Últimos 30 Dias $ ${numberFormat(totalProductPrice || 0)}`} weight={'200'}>
+      <Text color='#3f3e3e' size='.8em' >{ `Media de ventas en los últimos 30 Dias $ ${numberFormat(totalProductPrice || 0)}`}</Text>
       <Container>
         {key?.map((day, i) => {
           let suma = 0
           let sumaNoOrder = 0
           let totalProduct = 0
-          const avg = GROUP_BY_DAYS[day]?.map((x, index) => (suma += x.pSState === 4) / (index + 1))
+          const avg = GROUP_BY_DAYS[day]?.map((x, index) => {return (suma += x.pSState === 4) / (index + 1)})
           !!avg && ((avg[avg.length - 1]))
-          const noOrder = GROUP_BY_DAYS[day]?.map((x, index) => (sumaNoOrder += x.pSState === 5) / (index + 1))
+          const noOrder = GROUP_BY_DAYS[day]?.map((x, index) => {return (sumaNoOrder += x.pSState === 5) / (index + 1)})
           !!noOrder && ((noOrder[noOrder.length - 1]))
           return (
-            <CardStatistic sales={GROUP_BY_DAYS[day]?.length} key={i + 1} noOrder={!!noOrder && ((noOrder[noOrder.length - 1])?.toFixed(2))} OrderConcludes={!!avg && ((avg[avg.length - 1])?.toFixed(2))}  day={day == 1 ? 'Lunes' : day == 2 ? 'Martes' : day == 3 ? 'Miércoles' : day == 4 ? 'Jueves' : day == 5 ? 'viernes' : day == 6 ? 'Sábado' : 'Domingo'} />
+            <CardStatistic
+              OrderConcludes={!!avg && ((avg[avg.length - 1])?.toFixed(2))}
+              day={day == 1 ? 'Lunes' : day == 2 ? 'Martes' : day == 3 ? 'Miércoles' : day == 4 ? 'Jueves' : day == 5 ? 'viernes' : day == 6 ? 'Sábado' : 'Domingo'}
+              key={i + 1}
+              noOrder={!!noOrder && ((noOrder[noOrder.length - 1])?.toFixed(2))}
+              sales={GROUP_BY_DAYS[day]?.length}
+            />
           )
         })}
       </Container>
@@ -60,8 +66,12 @@ export const CardStatistic = ({ day, sales, OrderConcludes, noOrder }) => {
   return (
     <WrapperBox>
       <h2>{day || null}</h2>
-      <Text size='1.2em' margin='10px 0' color='#3f3e3e' >Ventas</Text>
-      <Text size='2em' color='#3f3e3e' >{sales || 0}</Text>
+      <Text
+        color='#3f3e3e'
+        margin='10px 0'
+        size='1.2em'
+      >Ventas</Text>
+      <Text color='#3f3e3e' size='2em' >{sales || 0}</Text>
       <Orders>
         <Flex>
           <Text size='.8em'>Pedidos concluidos</Text>
@@ -85,16 +95,16 @@ const Orders = styled.div`
 const Text = styled.h3`
     margin: 0;
     color: #3f3e3e;
-    font-size: ${({ size }) => size || '1.5rem'};
-    text-align:  ${({ align }) => align || 'start'};
+    font-size: ${({ size }) => {return size || '1.5rem'}};
+    text-align:  ${({ align }) => {return align || 'start'}};
     height: min-content;
-    ${({ lineHeight }) => lineHeight && css`line-height: ${lineHeight};`}
+    ${({ lineHeight }) => {return lineHeight && css`line-height: ${lineHeight};`}}
     font-weight: 400;
-    ${({ weight }) => weight && css`font-weight: ${weight};`}
-    ${({ padding }) => padding && css`padding: ${padding};`}
-    margin: ${({ margin }) => margin || '0'};
-    color: ${({ color }) => color || '#3f3e3e   '};
-    font-family: ${({ font }) => font || 'PFont-Light'};
+    ${({ weight }) => {return weight && css`font-weight: ${weight};`}}
+    ${({ padding }) => {return padding && css`padding: ${padding};`}}
+    margin: ${({ margin }) => {return margin || '0'}};
+    color: ${({ color }) => {return color || '#3f3e3e   '}};
+    font-family: ${({ font }) => {return font || 'PFont-Light'}};
     word-break: break-word;
 `
 const WrapperBox = styled.div`

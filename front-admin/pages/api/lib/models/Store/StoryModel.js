@@ -8,51 +8,51 @@ import ItemStory from './ItemStory'
 const conn = connect()
 conn.sync()
 export default conn.define('storyStore', {
-    stoId: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        get(x) { return enCode(this.getDataValue(x)) }
+  stoId: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    get(x) { return enCode(this.getDataValue(x)) }
+  },
+  id: {
+    type: Sequelize.INTEGER,
+    onUpdate: null,
+    onDelete: null,
+    references: {
+      model: Users,
+      key: 'id'
     },
-    id: {
-        type: Sequelize.INTEGER,
-        onUpdate: null,
-        onDelete: null,
-        references: {
-            model: Users,
-            key: 'id'
-        },
-        get(x) { return this.getDataValue(x) ? enCode(this.getDataValue(x)) : null }
+    get(x) { return this.getDataValue(x) ? enCode(this.getDataValue(x)) : null }
+  },
+  idStore: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+    references: {
+      model: Store,
+      key: 'idStore'
     },
-    idStore: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-        references: {
-            model: Store,
-            key: 'idStore'
-        },
-        get(x) { return enCode(this.getDataValue(x)) }
-    },
-    nameStore: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    sState: {
-        type: Sequelize.SMALLINT(6),
-        allowNull: false
-    },
-    createAt: {
-        type: 'TIMESTAMP',
-        allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-    },
-    updateAt: {
-        type: 'TIMESTAMP',
-        allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-    }
+    get(x) { return enCode(this.getDataValue(x)) }
+  },
+  nameStore: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  sState: {
+    type: Sequelize.SMALLINT(6),
+    allowNull: false
+  },
+  createAt: {
+    type: 'TIMESTAMP',
+    allowNull: false,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+  },
+  updateAt: {
+    type: 'TIMESTAMP',
+    allowNull: false,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+  }
 }, {
-    timestamps: false
+  timestamps: false
 })

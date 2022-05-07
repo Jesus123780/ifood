@@ -9,34 +9,34 @@ import informationResolver from './informations'
 import Providers from './Providers'
 import recommendedCategorieStoreResolver from './recommended'
 export default {
-    ...UserResolvers.TYPES,
-    ...storeResolver.TYPES,
-    ...informationResolver.TYPES,
-    ...Providers.TYPES,
-    ...products.TYPES,
-    ...deviceResolver.TYPES,
-    ...recommendedCategorieStoreResolver.TYPES,
-    ...categoriesResolver.TYPES,
-    DateTime: dateTimeScalar,
-    // Upload: GraphQLUpload,
-    Query: {
-        ...UserResolvers.QUERIES,
-        ...categoriesResolver.QUERIES,
-        ...Providers.QUERIES,
-        ...recommendedCategorieStoreResolver.QUERIES,
-        ...informationResolver.QUERIES,
-        ...storeResolver.QUERIES,
-        ...products.QUERIES,
-        ...deviceResolver.QUERIES,
-    },
-    Mutation: {
-        ...UserResolvers.MUTATIONS,
-        ...Providers.MUTATIONS,
-        ...categoriesResolver.MUTATIONS,
-        ...storeResolver.MUTATIONS,
-        ...informationResolver.MUTATIONS,
-        ...products.MUTATIONS,
-        ...recommendedCategorieStoreResolver.MUTATIONS,
-        ...deviceResolver.MUTATIONS,
-    }
+  ...UserResolvers.TYPES,
+  ...storeResolver.TYPES,
+  ...informationResolver.TYPES,
+  ...Providers.TYPES,
+  ...products.TYPES,
+  ...deviceResolver.TYPES,
+  ...recommendedCategorieStoreResolver.TYPES,
+  ...categoriesResolver.TYPES,
+  DateTime: dateTimeScalar,
+  // Upload: GraphQLUpload,
+  Query: {
+    ...UserResolvers.QUERIES,
+    ...categoriesResolver.QUERIES,
+    ...Providers.QUERIES,
+    ...recommendedCategorieStoreResolver.QUERIES,
+    ...informationResolver.QUERIES,
+    ...storeResolver.QUERIES,
+    ...products.QUERIES,
+    ...deviceResolver.QUERIES
+  },
+  Mutation: {
+    ...UserResolvers.MUTATIONS,
+    ...Providers.MUTATIONS,
+    ...categoriesResolver.MUTATIONS,
+    ...storeResolver.MUTATIONS,
+    ...informationResolver.MUTATIONS,
+    ...products.MUTATIONS,
+    ...recommendedCategorieStoreResolver.MUTATIONS,
+    ...deviceResolver.MUTATIONS
+  }
 }

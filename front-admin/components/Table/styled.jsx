@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { BGColor, EColor, PVColor, SEGColor, SFVColor, TBGAColor, TBGBColor, TBGDColor, TBGEColor, TBGRColor, TBGSColor, TBGVColor, TFBColor, TFEColor, TFSColor } from '../../public/colors'
+import { BGColor, EColor, PVColor, SEGColor, SFVColor, TBGAColor, TBGBColor, TBGDColor, TBGEColor, TBGRColor, TBGSColor, TFBColor, TFEColor, TFSColor } from '../../public/colors'
 
 export const ContainerTable = styled.div`
     width: 100%;
@@ -16,19 +16,19 @@ export const Button = styled.button`
 `
 export const Section = styled.th`
      display: grid;
-    grid-template-columns: ${({ columnWidth }) => columnWidth ? columnWidth?.map(x => `${x?.width} `) : '1fr'}; 
+    grid-template-columns: ${({ columnWidth }) => {return columnWidth ? columnWidth?.map(x => {return `${x?.width} `}) : '1fr'}}; 
     height: auto;
     align-items: center;
     margin: 0 auto;
-    padding: ${({ padding }) => padding};
+    padding: ${({ padding }) => {return padding}};
     place-content: center;
     border-bottom: 1px solid #f0f0f0;
-   ${props => props.odd && css`
+   ${props => {return props.odd && css`
     &:nth-of-type(odd), .thead-default th {
         background-color: rgba(0, 0, 0, 0.03);
     }
-   `}
-    background-color: ${({ bgRow }) => bgRow === 1 ? `${TBGAColor}` : bgRow === 2 ? `${BGColor}` : bgRow === 3 ? `${TBGBColor}` : bgRow === 4 ? `${TBGSColor}` : bgRow === 5 ? TBGAColor : bgRow === 6 ? TBGEColor : bgRow === 7 ? TBGRColor : bgRow === 8 && TBGDColor};
+   `}}
+    background-color: ${({ bgRow }) => {return bgRow === 1 ? `${TBGAColor}` : bgRow === 2 ? `${BGColor}` : bgRow === 3 ? `${TBGBColor}` : bgRow === 4 ? `${TBGSColor}` : bgRow === 5 ? TBGAColor : bgRow === 6 ? TBGEColor : bgRow === 7 ? TBGRColor : bgRow === 8 && TBGDColor}};
     :hover {
         background-color: #e9e9e933;
         :first-child {
@@ -42,16 +42,16 @@ export const Content = styled.div`
     align-items: center;
     margin: 10px 0;
     justify-content: space-around;
-    ${({ column }) => column && css`
+    ${({ column }) => {return column && css`
         flex-direction: column;
         justify-content:center;
         align-items: flex-start};
-    `}
-    justify-content: ${({ justify }) => justify || 'start'};
+    `}}
+    justify-content: ${({ justify }) => {return justify || 'start'}};
 
 `
 export const Title = styled.span`
-    cursor: ${({ pointer }) => pointer && 'pointer'};
+    cursor: ${({ pointer }) => {return pointer && 'pointer'}};
     font-size: 0.875rem;
     font-family: PFont-Regular;
     user-select: none;
@@ -65,28 +65,28 @@ export const Box = styled.div`
 export const Text = styled.span`
     display: block;
     border-radius: 4px;
-    font-size: ${({ size }) => size ? `${size}` : '12px'};
-    color: ${({ color }) => color === 1 ? TFSColor : color === 2 ? TFEColor : color === 3 ? TFBColor : '#272b41'};
+    font-size: ${({ size }) => {return size ? `${size}` : '12px'}};
+    color: ${({ color }) => {return color === 1 ? TFSColor : color === 2 ? TFEColor : color === 3 ? TFBColor : '#272b41'}};
     transition: .5s;
-    ${({ hover, theme }) => hover && css`
+    ${({ hover, theme }) => {return hover && css`
         :hover {
             cursor: pointer;
             color:  ${theme.TFBColor};
         }
-    `}
+    `}}
 `
 export const StatusC = styled.span`
     display:block;
     font-family: sans-serif;
     border-radius: 10rem;
-    background-color: ${({ theme, color }) => color === 1 && theme.SCColor};
-    color: ${({ color, theme }) => color === 1 ? theme.TFSColor : color === 2 ? theme.TFEColor : color === 3 ? theme.TFBColor : '#272b41'};
+    background-color: ${({ theme, color }) => {return color === 1 && theme.SCColor}};
+    color: ${({ color, theme }) => {return color === 1 ? theme.TFSColor : color === 2 ? theme.TFEColor : color === 3 ? theme.TFBColor : '#272b41'}};
     font-size: 12px;
     min-width: 100px;
     text-align:center;
     padding: 2px;
     font-weight: 700;
-    color: ${({ theme }) => theme.BGAColor};
+    color: ${({ theme }) => {return theme.BGAColor}};
 `
 export const ProfileImg = styled.div`
     width: 40px;
@@ -97,7 +97,7 @@ export const ProfileImg = styled.div`
     border: 1px solid blue;
     border-radius: 100px;
     object-fit: cover;
-    cursor: ${({ pointer }) => pointer && 'pointer'};
+    cursor: ${({ pointer }) => {return pointer && 'pointer'}};
 `
 export const BtnIcon = styled.div`
     margin-right: 5px;
@@ -108,7 +108,7 @@ export const TableBtn = styled.button`
     outline: none;
     padding: 10px 7px;
     border: 1px solid ${SEGColor};
-    background-color: ${({ color, theme }) => color === 1 ? theme.TFSColor : color === 2 ? theme.TFEColor : color === 3 ? theme.TFBColor : BGColor};
+    background-color: ${({ color, theme }) => {return color === 1 ? theme.TFSColor : color === 2 ? theme.TFEColor : color === 3 ? theme.TFBColor : BGColor}};
 
     font-size: 12px;
     :hover{

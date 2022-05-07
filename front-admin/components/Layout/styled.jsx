@@ -57,19 +57,6 @@ export const Anchor = styled.a`
   line-height: 0.875rem;
 `
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 // HEADER
 export const AdicionalComponent = styled.div`
 position: relative;
@@ -96,7 +83,7 @@ export const UseSize = styled.div`
     bottom: -45px;
     width: 60px;
     max-width: 60px;
-    background-color: ${ ({ theme }) => theme.InvColor };
+    background-color: ${ ({ theme }) => {return theme.InvColor} };
     border-radius: 50%;
     height: 60px;
     align-items: center;
@@ -116,7 +103,7 @@ export const ButtonOption = styled.button`
     cursor: pointer;
     /* z-index: 999; */
     background-color:  transparent;
-    ${ props => props.space &&css`
+    ${ props => {return props.space &&css`
         display: flex;
         justify-content: space-between;
         width: 100%;
@@ -124,9 +111,9 @@ export const ButtonOption = styled.button`
         & > span {
             font-family: PFont-Light;
             font-size: 14px;
-            color: ${ ({ theme }) => `${ theme.PColor }` };
+            color: ${ ({ theme }) => {return `${ theme.PColor }`} };
         }
-    ` }
+    `} }
     @media only screen and (min-width: 960px){
     }
 `
@@ -138,16 +125,16 @@ export const FloatingBox = styled.div`
     background-color: ${ BGColor };
     padding: 10px;
     z-index: 99999;
-  ${ ({ show }) => show
-        ? css`
+  ${ ({ show }) => {return show
+    ? css`
                   visibility: visible;
                   transform: translateY(0);
                   `
-        : css`
+    : css`
                 
                 visibility: hidden;
                   transform: translateY(-50px);
-              ` }
+              `} }
     @media only screen and (min-width: 960px){
     }
 `
@@ -172,7 +159,7 @@ export const Overline = styled.div`
     height: 100vh;
     width: 100%;
     background-color: transparent;
-    ${ props => props.show ? css`display: block` : css`display: none;` };
+    ${ props => {return props.show ? css`display: block` : css`display: none;`} };
     @media only screen and (min-width: 960px){
     }
   

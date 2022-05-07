@@ -17,7 +17,7 @@ const PedidosStore = () => {
     pollInterval: 60000,
     fetchPolicy: 'cache-and-network',
     nextFetchPolicy: 'cache-first',
-    onError: (e) => console.log(e),
+    onError: (e) => {return console.log(e)}
   })
   const { setAlertBox, setCountPedido, countPedido } = useContext(Context)
   useEffect(() => {
@@ -31,7 +31,12 @@ const PedidosStore = () => {
         <LocationName />
         <Tabs width={['33.33%', '33.33%', '33.330%']} >
           <Tabs.Panel label={`Pedidos`}>
-            <ListPedidos setMore={setMore} more={more} data={data?.getAllPedidoStoreFinal} fetchMore={fetchMore} />
+            <ListPedidos
+              data={data?.getAllPedidoStoreFinal}
+              fetchMore={fetchMore}
+              more={more}
+              setMore={setMore}
+            />
           </Tabs.Panel>
           <Tabs.Panel label={``}>
 

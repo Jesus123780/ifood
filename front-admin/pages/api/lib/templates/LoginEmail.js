@@ -1,6 +1,6 @@
 
 export const LoginEmail = ({ code, or_JWT_Token }) => {
-    return `
+  return `
     <!DOCTYPE html>
     <html lang="es">
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap" rel="stylesheet" />

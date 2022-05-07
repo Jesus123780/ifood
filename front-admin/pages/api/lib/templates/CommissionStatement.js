@@ -1,5 +1,6 @@
+/* eslint-disable no-irregular-whitespace */
 export const TemplateCommissionStatement = ({ username, id }) => {
-    return `
+  return `
     <!DOCTYPE html>
 
     <html lang="en" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">

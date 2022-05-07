@@ -4,23 +4,23 @@ import productsfoodResolver from './productsfood'
 import extraProducts from './extraProducts'
 
 export default {
-    TYPES: {
-        ...productsResolver.TYPES,
-        ...foodResolver.TYPES,
-        ...extraProducts.TYPES,
-        ...productsfoodResolver.TYPES,
+  TYPES: {
+    ...productsResolver.TYPES,
+    ...foodResolver.TYPES,
+    ...extraProducts.TYPES,
+    ...productsfoodResolver.TYPES
 
-    },
-    QUERIES: {
-        ...productsResolver.QUERIES,
-        ...productsfoodResolver.QUERIES,
-        ...extraProducts.QUERIES,
-        ...foodResolver.QUERIES
-    },
-    MUTATIONS: {
-        ...productsResolver.MUTATIONS,
-        ...productsfoodResolver.MUTATIONS,
-        ...extraProducts.MUTATIONS,
-        ...foodResolver.MUTATIONS
-    }
+  },
+  QUERIES: {
+    ...productsResolver.QUERIES,
+    ...productsfoodResolver.QUERIES,
+    ...extraProducts.QUERIES,
+    ...foodResolver.QUERIES
+  },
+  MUTATIONS: {
+    ...productsResolver.MUTATIONS,
+    ...productsfoodResolver.MUTATIONS,
+    ...extraProducts.MUTATIONS,
+    ...foodResolver.MUTATIONS
+  }
 }

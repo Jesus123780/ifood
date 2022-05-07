@@ -1,5 +1,4 @@
-import { useContext, useState } from 'react'
-import { Context } from '../../context/Context'
+import { useState } from 'react'
 
 export default function useLocalStorage(key, initialValue) {
   // const { setAlertBox } = useContext(Context)
@@ -30,7 +29,6 @@ export default function useLocalStorage(key, initialValue) {
       window.localStorage.setItem(key, JSON.stringify(valueToStore))
     } catch (error) {
       // A more advanced implementation would handle the error case
-      console.log({ message: ` ${ error }`, duration: 5000 })
     }
   }
 

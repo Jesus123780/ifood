@@ -11,22 +11,22 @@ import { GET_All_RATING_STORE } from './queriesStore'
 
 export const OurFood = () => {
   const { data: dataRating, loading: loadRating } = useQuery(GET_All_RATING_STORE)
-  const [appearance, SetAppearance] = useState(0);
-  const [rTasty, setTasty] = useState(0);
-  const [rGoodTemperature, setGoodTemperature] = useState(0);
-  const [rGoodCondition, setGoodCondition] = useState(0);
+  const [appearance, SetAppearance] = useState(0)
+  const [rTasty, setTasty] = useState(0)
+  const [rGoodTemperature, setGoodTemperature] = useState(0)
+  const [rGoodCondition, setGoodCondition] = useState(0)
   useEffect(() => {
     let rGoodCondition = 0
     let goodCondition = 0
     let goodTemperature = 0
     let rTasty = 0
-    let totalAppearance = 0, numeros = [1, 2, 3, 4, 5];
+    let totalAppearance = 0; let numeros = [1, 2, 3, 4, 5]
     dataRating?.getAllRating?.forEach(function (a) {
       totalAppearance += a.rAppearance
       rTasty += a.rTasty
       rGoodCondition += a.rGoodCondition
       goodTemperature += a.rGoodTemperature
-    });
+    })
     SetAppearance(totalAppearance)
     setTasty(rTasty)
     setGoodTemperature(goodTemperature)
@@ -36,40 +36,40 @@ export const OurFood = () => {
   const dataArr = [
     {
       name: 'Buena apariencia',
-      value: appearance,
+      value: appearance
     },
     {
       name: 'Es deliciosa',
-      value: rTasty,
+      value: rTasty
     },
     {
       name: 'Buenas condiciones',
-      value: rGoodCondition,
+      value: rGoodCondition
     },
     {
       name: 'Buena temperatura',
-      value: rGoodTemperature,
-    },
+      value: rGoodTemperature
+    }
   ]
   return (
     <MainCard noneShadow={true} title={'Sobre Su comida'}>
       <WrapSlide>
-        {dataArr?.map(((item, i) => (
+        {dataArr?.map(((item, i) => {return (
           <Box key={i + 1}>
             <Image
+              alt={'Picture of the author'}
+              blurDataURL='/images/DEFAULTBANNER.png'
               className='store_image'
-              width={100}
-              objectFit='cover'
               height={100}
+              objectFit='cover'
+              placeholder='blur'
               src={'/images/202109081904_64O5_i.webp'}
-              alt={"Picture of the author"}
-              blurDataURL="/images/DEFAULTBANNER.png"
-              placeholder="blur"
+              width={100}
             />
-            <Text size='1em' color='#3f3e3e'>{item.name}</Text>
-            <Text size='1em' color='#3f3e3e'>{item.value}</Text>
+            <Text color='#3f3e3e' size='1em'>{item.name}</Text>
+            <Text color='#3f3e3e' size='1em'>{item.value}</Text>
           </Box>
-        )))}
+        )}))}
       </WrapSlide>
     </MainCard>
   )

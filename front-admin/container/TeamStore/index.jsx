@@ -6,25 +6,30 @@ import Link from 'next/link'
 import { RippleButton } from 'components/Ripple'
 
 export const TeamStore = () => {
-    const { data: dataEmployees, error: errEmployees } = useQuery(GET_ALL_EMPLOYEE_STORE)
-    return (
-        <div>
-            {dataEmployees?.employees?.map(x => (
-                <ItemTeam key={x.eId}>
-                    <ItemInf>
-                        {x.uEmail}
-                    </ItemInf>
-                    <Link activeClassName="active" href={`/team/${x.idEmployee}`}>
-                        <a>
-                            <ItemInf end>
-                                <RippleButton margin='0' widthButton='70px' size='10px' padding='5px'>{x.uEmail.slice(0, 2).toUpperCase()}</RippleButton>
-                            </ItemInf>
-                        </a>
-                    </Link>
-                </ItemTeam>
-            ))}
-        </div>
-    )
+  const { data: dataEmployees, error: errEmployees } = useQuery(GET_ALL_EMPLOYEE_STORE)
+  return (
+    <div>
+      {dataEmployees?.employees?.map(x => {return (
+        <ItemTeam key={x.eId}>
+          <ItemInf>
+            {x.uEmail}
+          </ItemInf>
+          <Link activeClassName='active' href={`/team/${x.idEmployee}`}>
+            <a>
+              <ItemInf end>
+                <RippleButton
+                  margin='0'
+                  padding='5px'
+                  size='10px'
+                  widthButton='70px'
+                >{x.uEmail.slice(0, 2).toUpperCase()}</RippleButton>
+              </ItemInf>
+            </a>
+          </Link>
+        </ItemTeam>
+      )})}
+    </div>
+  )
 }
 
 export const ItemTeam = styled.div`
@@ -39,9 +44,9 @@ export const ItemTeam = styled.div`
 `
 export const ItemInf = styled.div`
   padding: .75rem;
-  ${props => props.end && css`
+  ${props => {return props.end && css`
   justify-content: flex-end;
     display: flex;
 
-  `}
+  `}}
 `

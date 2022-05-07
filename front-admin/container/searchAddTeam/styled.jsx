@@ -1,15 +1,15 @@
 import Link from 'next/link'
-import styled, { css } from 'styled-components';
-import { APColor, BGColor, EColor, PColor, PVColor } from '../../public/colors';
+import styled, { css } from 'styled-components'
+import { APColor, BGColor, EColor, PColor, PVColor } from '../../public/colors'
 
 export const ContentTeam = styled.div`
     width: 100%;
-    ${({ border }) => border ? css`
+    ${({ border }) => {return border ? css`
         border: 2px solid ${APColor};
         box-shadow: ${`${APColor}82`} 0px 0px 2px 0px;
     ` : css`
         border: 3px solid #ccc;
-    `};
+    `}};
     border-radius: 5px;
     cursor: pointer;
     display: grid;
@@ -61,11 +61,11 @@ export const Text = styled.h2`
 @media only screen and (min-width: 960px){
     margin: 0 0 42px;
     text-align: center;
-    font-size: ${({ size }) => size ? size : '1.5rem'};
+    font-size: ${({ size }) => {return size ? size : '1.5rem'}};
 }
     font-weight: initial;
     font-family: PFont-Regular;
-    color: ${({ color }) => color ? color : '#717171'};
+    color: ${({ color }) => {return color ? color : '#717171'}};
     margin: 0 0 22px;
-    ${props => props.cursor && css`cursor: pointer;`}
+    ${props => {return props.cursor && css`cursor: pointer;`}}
 `

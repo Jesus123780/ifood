@@ -1,7 +1,7 @@
-import { useRouter } from "next/router";
-import { EmailVerifyCode } from "../../../container/entrar/vefify";
+import { useRouter } from 'next/router'
+import { EmailVerifyCode } from '../../../container/entrar/vefify'
 
 export default function EmailView() {
-    const router = useRouter()
-    return (<EmailVerifyCode code={router.query.verify} />)
+  const router = useRouter()
+  return (<EmailVerifyCode code={router.query.verify} />)
 }

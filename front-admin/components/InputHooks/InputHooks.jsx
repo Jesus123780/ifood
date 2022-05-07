@@ -44,7 +44,6 @@ const InputHooks = ({
 }) => {
   // STATE
   const [errors, setError] = useState(error)
-  const [valueInput, setValue] = useState(value)
   const [isPasswordShown, setIsPasswordShown] = useState(false)
   const [message, setMessage] = useState('El campo no debe estar vacío')
   // HM
@@ -86,10 +85,10 @@ const InputHooks = ({
     if (emailDomain !== undefined) {
       if (emailDomain === '') {
         suggestionList = topLevelEmailDomainList?.map(
-          domain => emailUsername + '@' + domain
+          domain => {return emailUsername + '@' + domain}
         )
       } else {
-        suggestionList = otherLevelEmailDomainList.filter(domain => domain.startsWith(emailDomain)).map(domain => emailUsername + '@' + domain)
+        suggestionList = otherLevelEmailDomainList.filter(domain => {return domain.startsWith(emailDomain)}).map(domain => {return emailUsername + '@' + domain})
       }
     }
     return suggestionList
@@ -114,6 +113,7 @@ const InputHooks = ({
         setSuggestionList(suggestionList)
       } else {
         const errorMessage = simpleVerifyEmail(email)
+        // eslint-disable-next-line no-empty
         if (errorMessage) {
         }
       }
@@ -157,7 +157,7 @@ const InputHooks = ({
     }
   }, [arrowUpPressed, arrowDownPressed, backSpace])
   const refInput = useRef()
-  const handleSuggestionOnClick = (suggestion) => {
+  const handleSuggestionOnClick = () => {
     // setEmail(suggestion)
     setShowSuggestions(!showSuggestions)
     // setValue(suggestion)
@@ -172,39 +172,40 @@ const InputHooks = ({
      * @return {boolean} returns true or false if validation is successful or unsuccessful
      *
      */
+  // eslint-disable-next-line consistent-return
   const validations = e => {
     autoCompleteEmail(e.target.value)
     // Valida que el campo no sea nulo
     if (required) {
       if (isNull(e.target.value)) return errorFunc(e, true, 'El campo no debe estar vacío')
-      else errorFunc(e, false, '')
+      errorFunc(e, false, '')
     }
     // Valida que el campo sea tipo numérico
     if (numeric) {
       if (isNaN(e.target.value)) return errorFunc(e, true, 'El campo debe ser numérico')
-      else errorFunc(e, false, '')
+      errorFunc(e, false, '')
     }
     // Valida que el campo sea solo letras
     if (letters) {
       if (onlyLetters(e.target.value)) return errorFunc(e, true, 'El campo debe contener solo letras')
-      else errorFunc(e, false, '')
+      errorFunc(e, false, '')
     }
     // Valida que el campo esté en el rango correcto
     if (range) {
       if (rangeLength(e.target.value, range.min, range.max)) return errorFunc(e, true, `El rango de carácteres es de ${range.min} a ${range.max}`)
-      else errorFunc(e, false, '')
+      errorFunc(e, false, '')
     }
     // Valida si el campo tiene un formato de email correcto
     if (email) {
       if (isEmail(e.target.value)) return errorFunc(e, true, 'El formato de email no es válido')
-      else errorFunc(e, false, '')
+      errorFunc(e, false, '')
     }
     if (pass) {
-      if (isPassword(e.target.value)) { return errorFunc(e, true, 'La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula. Puede tener otros símbolos.') } else errorFunc(e, false, '')
+      if (isPassword(e.target.value)) { return errorFunc(e, true, 'La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula. Puede tener otros símbolos.') } errorFunc(e, false, '')
     }
     // Valida que las contraseñas coincidan
     if (passConfirm?.validate) {
-      if (passwordConfirm(e.target.value, passConfirm?.passValue)) { return errorFunc(e, true, 'Las contraseñas no coinciden.') } else errorFunc(e, false, '')
+      if (passwordConfirm(e.target.value, passConfirm?.passValue)) { return errorFunc(e, true, 'Las contraseñas no coinciden.') } errorFunc(e, false, '')
     }
   }
   const simpleVerifyEmail = (email) => {
@@ -216,6 +217,7 @@ const InputHooks = ({
         errorMessage = 'please provide email address domain'
         setMessage(errorMessage)
       } else {
+        // eslint-disable-next-line no-useless-escape
         const validDomainRegExp = /^((?:(?:(?:\w[\.\-\+]?)*)\w)+)((?:(?:(?:\w[\.\-+]?){0,62})\w)+)\.(\w{2,6})$/
         if (!emailDomain.match(validDomainRegExp)) {
           errorMessage = 'please verify email address domain'
@@ -233,51 +235,61 @@ const InputHooks = ({
   }
 
   return (
-    <BoxInput width={width} maxWidth={maxWidth} padding={padding} minWidth={minWidth}>
-      {pass && <ShowPass type='button' onClick={() => setIsPasswordShown(!isPasswordShown)}>
+    <BoxInput
+      maxWidth={maxWidth}
+      minWidth={minWidth}
+      padding={padding}
+      width={width}
+    >
+      {pass && <ShowPass onClick={() => {return setIsPasswordShown(!isPasswordShown)}} type='button'>
         {isPasswordShown ? <IconNoShow size='20px' /> : <IconShowEye size='20px' />}
       </ShowPass>}
       {!TypeTextarea
         ? <div>
           <InputV
-            value={value}
-            ref={email ? refInput : reference}
-            onChange={(e) => validations(e)}
-            name={name}
-            margin={margin}
-            display={display}
-            disabled={disabled}
-            checked={checked}
-            onBlur={onBlur || handleBlur}
-            onFocus={handleFocus}
-            size={fontSize}
-            radius={radius}
+            autoComplete={type === 'password' ? 'current-password' : email ? 'off' : !autoComplete ? 'off' : autoComplete}
             border={border}
+            checked={checked}
+            disabled={disabled}
+            display={display}
             error={errors}
             focus={onFocus}
-            placeholder={placeholder}
-            type={isPasswordShown ? 'text' : type}
-            autoComplete={type === 'password' ? 'current-password' : email ? 'off' : !autoComplete ? 'off' : autoComplete}
+            margin={margin}
+            name={name}
+            onBlur={onBlur || handleBlur}
+            onChange={(e) => {return validations(e)}}
+            onFocus={handleFocus}
             paddingInput={paddingInput}
+            placeholder={placeholder}
+            radius={radius}
+            ref={email ? refInput : reference}
+            size={fontSize}
+            type={isPasswordShown ? 'text' : type}
+            value={value}
           />
           {(email && !!showSuggestions) && (
             <div>
-              <Listbox role="listbox" >
+              <Listbox role='listbox' >
                 {suggestionList.map((suggestion, index) => {
                   return (
-                    <List onClick={() => {
-                      dispatch({ type: 'select', payload: index })
-                      handleSuggestionOnClick(suggestion)
-                      setDataValue({ ...dataForm, [name]: suggestion })
-                    }} style={{ cursor: 'pointer', backgroundColor: index === state.selectedIndex ? `${SFVColor}2e` : 'transparent' }} aria-pressed={index === state.selectedIndex} tabIndex={0}
+                    <List
+                      aria-pressed={index === state.selectedIndex}
+                      key={index}
+                      onClick={() => {
+                        dispatch({ type: 'select', payload: index })
+                        handleSuggestionOnClick(suggestion)
+                        setDataValue({ ...dataForm, [name]: suggestion })
+                      }}
                       onKeyPress={(e) => {
                         if (e.key === 'Enter') {
-                          e.preventDefault();
+                          e.preventDefault()
                           dispatch({ type: 'select', payload: index })
                           e.target.blur()
                         }
                       }}
-                      key={index} >
+                      style={{ cursor: 'pointer', backgroundColor: index === state.selectedIndex ? `${SFVColor}2e` : 'transparent' }}
+                      tabIndex={0}
+                    >
                       {suggestion}
                     </List>
                   )
@@ -287,25 +299,77 @@ const InputHooks = ({
           )}
         </div>
         : <TextAreaInput
-          ref={reference}
-          value={value || ''}
-          onChange={validations}
-          name={name}
-          disabled={disabled}
-          width={width} maxWidth={maxWidth} minWidth={minWidth}
-          onBlur={onBlur}
           border={border}
-          size={fontSize}
-          padding={padding}
-          radius={radius}
+          disabled={disabled}
           error={errors}
-          placeholder={placeholder}
+          maxWidth={maxWidth}
+          minWidth={minWidth}
+          name={name}
+          onBlur={onBlur}
+          onChange={validations}
+          padding={padding}
           paddingInput={paddingInput}
+          placeholder={placeholder}
+          radius={radius}
+          ref={reference}
+          size={fontSize}
+          value={value || ''}
+          width={width}
         />}
-      {<LabelInput value={value} type={type} labelColor={labelColor} error={error}>{title}</LabelInput>}
+      {<LabelInput
+        error={error}
+        labelColor={labelColor}
+        type={type}
+        value={value}
+      >{title}</LabelInput>}
       {errors && <Tooltip>{message}</Tooltip>}
     </BoxInput>
   )
+}
+
+InputHooks.propTypes = {
+  TypeTextarea: PropTypes.any,
+  autoComplete: PropTypes.any,
+  border: PropTypes.any,
+  checked: PropTypes.any,
+  dataForm: PropTypes.any,
+  disabled: PropTypes.any,
+  display: PropTypes.any,
+  email: PropTypes.shape({
+    split: PropTypes.func
+  }),
+  error: PropTypes.any,
+  fontSize: PropTypes.any,
+  labelColor: PropTypes.any,
+  letters: PropTypes.any,
+  margin: PropTypes.any,
+  maxWidth: PropTypes.any,
+  minWidth: PropTypes.any,
+  name: PropTypes.any,
+  numeric: PropTypes.any,
+  onBlur: PropTypes.any,
+  onChange: PropTypes.func,
+  onFocus: PropTypes.any,
+  padding: PropTypes.any,
+  paddingInput: PropTypes.any,
+  pass: PropTypes.any,
+  passConfirm: PropTypes.shape({
+    passValue: PropTypes.any,
+    validate: PropTypes.any
+  }),
+  placeholder: PropTypes.any,
+  radius: PropTypes.any,
+  range: PropTypes.shape({
+    max: PropTypes.any,
+    min: PropTypes.any
+  }),
+  reference: PropTypes.any,
+  required: PropTypes.any,
+  setDataValue: PropTypes.func,
+  title: PropTypes.any,
+  type: PropTypes.string,
+  value: PropTypes.string,
+  width: PropTypes.any
 }
 
 /**

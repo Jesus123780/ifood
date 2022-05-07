@@ -1,16 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint no-console: "error" */
-import React, { useCallback, useState, useContext } from 'react'
+import React, { useCallback, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
-// import { GoogleMap, Marker, LoadScript } from '@react-google-maps/api'
 import mapStyle from './mapStyles'
 import { IconArrowLeft } from '../../public/icons'
 import { BGColor, PColor } from '../../public/colors'
 import { Span } from './styled'
 import { useMutation, useQuery, useLazyQuery } from '@apollo/client'
 import { SAVE_LOCATION_USER } from './queries'
-// import { Context } from '../../../../context'
-import InputHooks from '../InputHooks/InputHooks'
 import { RippleButton } from '../Ripple'
 import { useFormTools } from '../BaseForm'
 import { GET_ALL_CITIES, GET_ALL_COUNTRIES, GET_ALL_DEPARTMENTS, GET_ALL_ROAD } from '../../gql/Location'
@@ -35,9 +34,9 @@ export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
   const [map, setMap] = useState(null)
   const fetchData = async () => {
     // const API = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}${city}${province}${country}&key=${process.env.REACT_APP_API_KEY}`;
-    const API = `https://maps.googleapis.com/maps/api/geocode/json?address=${dataForm.address}${dataForm.city}${dataForm.province}&key=AIzaSyAy0SY1G3OFqesWSTQRHJvzyJzNgURPoN8`;
+    const API = `https://maps.googleapis.com/maps/api/geocode/json?address=${dataForm.address}${dataForm.city}${dataForm.province}&key=AIzaSyAy0SY1G3OFqesWSTQRHJvzyJzNgURPoN8`
     fetch(API)
-      .then(response => response.json())
+      .then(response => {return response.json()})
       .then(response => {
         setMap(response?.results)
       })
@@ -51,10 +50,10 @@ export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
   const center = {
     lat: -3.745,
     lng: -38.523
-  };
+  }
   const hableSearchLocation = (params) => {
     handleClickMap(2)
-    fetchData();
+    fetchData()
   }
   const onLoad = useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds()
@@ -63,10 +62,10 @@ export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
   }, [])
   const [markers, setMarkers] = React.useState([])
   const onMapClick = React.useCallback(e => {
-    setMarkers(() => [{
+    setMarkers(() => {return [{
       lat: e.latLng.lat(),
-      lng: e.latLng.lng(),
-    }])
+      lng: e.latLng.lng()
+    }]})
   })
   const [saveLocation] = useMutation(SAVE_LOCATION_USER)
   const handleSave = async () => {
@@ -76,7 +75,7 @@ export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
         lat: map ? map[0]?.geometry?.location?.lat : 10,
         long: map ? map[0]?.geometry?.location?.lng : 10
       }
-    }).catch(err => console.log({ message: 'error' }))
+    }).catch(() => {})
   }
 
   const onUnmount = React.useCallback(function callback(map) {
@@ -105,19 +104,55 @@ export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
   const cities = dataCities?.cities || []
   
   return (
-    <ContainerModal showModal={showModal} onClick={() => setShowModal(!showModal)}>
-      <AwesomeModal onClick={e => e.stopPropagation()} showModal={showModal}>
+    <ContainerModal onClick={() => {return setShowModal(!showModal)}} showModal={showModal}>
+      <AwesomeModal onClick={e => {return e.stopPropagation()}} showModal={showModal}>
         {<Container modal={modal === 1}>
-          <NewSelect name='countryId' options={countries} id='cId' onChange={handleChangeSearch} error={errors?.countryId} optionName='cName' value={values?.countryId} title='País' />
-          <NewSelect name='dId' options={departments} id='dId' onChange={handleChangeSearch} error={errors?.dId} optionName='dName' value={values?.dId} title='Departamento' />
-          <NewSelect name='ctId' options={cities} id='ctId' onChange={handleChangeSearch} error={errors?.ctId} optionName='cName' value={values?.ctId} title='Ciudad' />
-          <NewSelect name='rId' options={road} id='rId' onChange={handleChangeSearch} error={errors?.rId} optionName='rName' value={values?.rId} title='Tipo de via' />
-          <RippleButton widthButton={'100%'} onClick={() => hableSearchLocation()}><Text>Search Address</Text></RippleButton>
+          <NewSelect
+            error={errors?.countryId}
+            id='cId'
+            name='countryId'
+            onChange={handleChangeSearch}
+            optionName='cName'
+            options={countries}
+            title='País'
+            value={values?.countryId}
+          />
+          <NewSelect
+            error={errors?.dId}
+            id='dId'
+            name='dId'
+            onChange={handleChangeSearch}
+            optionName='dName'
+            options={departments}
+            title='Departamento'
+            value={values?.dId}
+          />
+          <NewSelect
+            error={errors?.ctId}
+            id='ctId'
+            name='ctId'
+            onChange={handleChangeSearch}
+            optionName='cName'
+            options={cities}
+            title='Ciudad'
+            value={values?.ctId}
+          />
+          <NewSelect
+            error={errors?.rId}
+            id='rId'
+            name='rId'
+            onChange={handleChangeSearch}
+            optionName='rName'
+            options={road}
+            title='Tipo de via'
+            value={values?.rId}
+          />
+          <RippleButton onClick={() => {return hableSearchLocation()}} widthButton={'100%'}><Text>Search Address</Text></RippleButton>
         </Container>}
         <ContainerMap modal={modal === 2}>
           <MapHeader>
-            <button style={{ backgroundColor: 'transparent' }} onClick={() => handleClickMap(1)} >
-              <IconArrowLeft size={20} color={PColor} />
+            <button onClick={() => {return handleClickMap(1)}} style={{ backgroundColor: 'transparent' }} >
+              <IconArrowLeft color={PColor} size={20} />
             </button>
             <Span>{dataForm?.address}</Span><div></div>
           </MapHeader>
@@ -157,7 +192,7 @@ background-color: ${BGColor};
 padding: 30px;
 position: absolute;
 transition: 200ms ease-in-out;
-${({ modal }) => modal
+${({ modal }) => {return modal
     ? css`  
     transform: translateY(95px);
     border-radius: 4px;
@@ -167,7 +202,7 @@ ${({ modal }) => modal
     : css`
       z-index: -10000;
       opacity: 0;
-              `}
+              `}}
 `
 const Text = styled.span`
 
@@ -184,7 +219,7 @@ const AwesomeModal = styled.div`
     /* position: absolute; */
     transition: 500ms ease;
     overflow-y: auto;
-  ${({ showModal }) => showModal
+  ${({ showModal }) => {return showModal
     ? css`  
             top: 80px;
             transform: translateY(95px);
@@ -195,7 +230,7 @@ const AwesomeModal = styled.div`
             /* margin: 0; */
             /* opacity: 0; */
             z-index: -99999;
-              `}
+              `}}
     &::-webkit-scrollbar {
         width: 3px;
         background-color: #dcdcdc;
@@ -209,7 +244,7 @@ const ContainerModal = styled.div`
     align-items: center;
     position: fixed;
     transition: opacity 150ms ease-in-out;
-    ${({ showModal }) => showModal
+    ${({ showModal }) => {return showModal
     ? css`  
         top: 0;
         left: 0;
@@ -223,14 +258,14 @@ const ContainerModal = styled.div`
           z-index: -10000;
           visibility: hidden;
           opacity: 0;
-              `}
+              `}}
     `
 const ContainerMap = styled.div`
     position: absolute;
     transition: 500ms ease;
     top: 0;
     bottom: 0;
-    ${({ modal }) => modal
+    ${({ modal }) => {return modal
     ? css`  
             transform: translateY(0px);
             border-radius: 4px;
@@ -239,7 +274,7 @@ const ContainerMap = styled.div`
     : css`
           z-index: -10000;
           opacity: 0;
-              `}
+              `}}
 `
 const MapHeader = styled.div`
     width: 100%;

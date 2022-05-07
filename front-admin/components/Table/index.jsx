@@ -28,6 +28,7 @@ export const Table = ({ titles = [], bgRow, data, pointer, renderBody = [], entr
   }
   const arrowUpPressed = useKeyPress('ArrowUp')
   const arrowDownPressed = useKeyPress('ArrowDown')
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [state, dispatch] = useReducer(reducer, initialState)
   useEffect(() => {
     if (arrowUpPressed) {
@@ -55,7 +56,7 @@ export const Table = ({ titles = [], bgRow, data, pointer, renderBody = [], entr
     const allPages = Math.ceil(data?.length / properties.entriesValue)
     setPages([])
     for (let i = 0; i < allPages; i++) {
-      setPages(s => [...s, i])
+      setPages(s => {return [...s, i]})
     }
     const indexLastElem = properties.currentPage * properties.entriesValue
     const indexFirstElem = indexLastElem - properties.entriesValue
@@ -82,34 +83,54 @@ export const Table = ({ titles = [], bgRow, data, pointer, renderBody = [], entr
       <EntryPerViewC>
         {(entryPerView && data?.length > 0) && <EntryLabel>
           Mostrar
-          <EntryInput step={100} max={data?.length?.toString()} onChange={handleEntries} value={properties.entriesValue} type="number" />
+          <EntryInput
+            max={data?.length?.toString()}
+            onChange={handleEntries}
+            step={100}
+            type='number'
+            value={properties.entriesValue}
+          />
           elementos
         </EntryLabel>}
-        {buttonAdd && <TableButton onClick={handleAdd} type={4} label={`Add ${labelBtn}`} />}
+        {buttonAdd && <TableButton
+          label={`Add ${labelBtn}`}
+          onClick={handleAdd}
+          type={4}
+        />}
       </EntryPerViewC>
       <TableResponsive>
         <ContainerTable>
           <Section bgRow={bgRow} columnWidth={titles || []}>
-            {titles?.map((x, i) => <Content justify={x.justify} key={i}>
+            {titles?.map((x, i) => {return <Content justify={x.justify} key={i}>
               <ArrowsLabel htmlFor={x.key}>
-                <Title pointer={pointer} onClick={onTargetClick}>{x.name}</Title>
+                <Title onClick={onTargetClick} pointer={pointer}>{x.name}</Title>
               </ArrowsLabel>
               {x.arrow && <ArrowsLabel htmlFor={x.key}>
-                <ArrowsCheck type="checkbox" ref={fileInputRef} name={x.key} id={x.key} onChange={(e) => handleColumn(e, x.key)} />
-                <Button style={{ height: '10px' }} onClick={onTargetClick}><IconArrowTop size='15px' color={currentColumn?.[`${x.key}`] === 0 ? BColor : '#d0d7ec'} /></Button>
-                <Button style={{ height: '10px' }} onClick={onTargetClick}><IconArrowBottom size='15px' color={currentColumn?.[`${x.key}`] === 1 ? BColor : '#d0d7ec'} /></Button>
+                <ArrowsCheck
+                  id={x.key}
+                  name={x.key}
+                  onChange={(e) => {return handleColumn(e, x.key)}}
+                  ref={fileInputRef}
+                  type='checkbox'
+                />
+                <Button onClick={onTargetClick} style={{ height: '10px' }}><IconArrowTop color={currentColumn?.[`${x.key}`] === 0 ? BColor : '#d0d7ec'} size='15px' /></Button>
+                <Button onClick={onTargetClick} style={{ height: '10px' }}><IconArrowBottom color={currentColumn?.[`${x.key}`] === 1 ? BColor : '#d0d7ec'} size='15px' /></Button>
               </ArrowsLabel>}
-            </Content>)}
+            </Content>})}
           </Section>
-          {renderBody(data?.filter((x, i) => ((i >= properties.indexFirstElem) && i < properties.indexLastElem))?.sort((prev, post) => orderColumn(prev, post, currentColumn)), titles, properties.indexFirstElem)}
+          {renderBody(data?.filter((x, i) => {return ((i >= properties.indexFirstElem) && i < properties.indexLastElem)})?.sort((prev, post) => {return orderColumn(prev, post, currentColumn)}), titles, properties.indexFirstElem)}
         </ContainerTable>
       </TableResponsive>
       {entryPerView && data?.length > 0 && <EntryPaginationC>
         <Text size='12px'>Show {properties.currentPage} / {pages.length} Pages </Text>
         <div style={{ display: 'flex' }}>
-          <EntryButton onClick={() => setProperties(s => ({ ...properties, currentPage: properties.currentPage !== 1 ? s.currentPage - 1 : 1 }))}>Before</EntryButton>
-          {pages.map(x => <CurrentPage current={(x + 1 === properties.currentPage && 'true')} onClick={() => setProperties({ ...properties, currentPage: x + 1 })} key={x}>{x + 1}</CurrentPage>)}
-          <EntryButton onClick={() => setProperties(s => ({ ...properties, currentPage: s.currentPage !== pages.length ? s.currentPage + 1 : s.currentPage }))} >Next</EntryButton>
+          <EntryButton onClick={() => {return setProperties(s => {return { ...properties, currentPage: properties.currentPage !== 1 ? s.currentPage - 1 : 1 }})}}>Before</EntryButton>
+          {pages.map(x => {return <CurrentPage
+            current={(x + 1 === properties.currentPage && 'true')}
+            key={x}
+            onClick={() => {return setProperties({ ...properties, currentPage: x + 1 })}}
+          >{x + 1}</CurrentPage>})}
+          <EntryButton onClick={() => {return setProperties(s => {return { ...properties, currentPage: s.currentPage !== pages.length ? s.currentPage + 1 : s.currentPage }})}} >Next</EntryButton>
         </div>
       </EntryPaginationC>}
     </>
@@ -118,9 +139,9 @@ export const Table = ({ titles = [], bgRow, data, pointer, renderBody = [], entr
 // Botones de la tabla, recibe tres props, Type, Icon, Label
 export const TableButton = ({ onClick, type, icon, label }) => {
   return (
-    <TableBtn onClick={onClick} color={type}>
+    <TableBtn color={type} onClick={onClick}>
       <BtnIcon icon={icon} />
-      <Text padding color={type}>{label} </Text>
+      <Text color={type} padding>{label} </Text>
     </TableBtn>
   )
 }
@@ -129,7 +150,12 @@ export const StatusToggle = ({ id, state, onChange }) => {
   return (
     <>
       <CheckBoxWrapper>
-        <CheckBox id={id} type="checkbox" defaultChecked={!state} onChange={onChange} />
+        <CheckBox
+          defaultChecked={!state}
+          id={id}
+          onChange={onChange}
+          type='checkbox'
+        />
         <CheckBoxLabel htmlFor={id} />
       </CheckBoxWrapper>
     </>

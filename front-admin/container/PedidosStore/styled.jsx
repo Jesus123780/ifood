@@ -1,5 +1,5 @@
-import { BColor, BGColor, PColor } from "public/colors";
-import styled from "styled-components";
+import { BColor, BGColor, PColor } from 'public/colors'
+import styled from 'styled-components'
 
 export const Container = styled.div`
     width: 100%;
@@ -28,7 +28,7 @@ export const Text = styled.span`
     color: #3e3e3e;
     font-weight: 400;
     margin-top: 0;
-    font-size: ${({ size }) => size || '1.125rem'};
+    font-size: ${({ size }) => {return size || '1.125rem'}};
     line-height: 1.5rem;
     overflow: hidden;
     text-overflow: ellipsis;

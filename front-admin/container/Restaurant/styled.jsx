@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import styled, { css } from 'styled-components';
-import { FadeOup } from '../../components/animations';
-import { BGColor, EColor, PColor, SECColor } from '../../public/colors';
+import styled, { css } from 'styled-components'
+import { FadeOup } from '../../components/animations'
+import { BGColor, EColor, PColor, SECColor } from '../../public/colors'
 
 export const Content = styled.div`
     width: 100%;
@@ -43,7 +43,7 @@ box-shadow: 0px 1px 4px rgb(0 0 0 / 5%), 0px 4px 16px rgb(0 0 0 / 6%);
     position: relative;
     align-self: center;
     transition: all 0.5s ease;
-    ${props => props.showLocation ? css`
+    ${props => {return props.showLocation ? css`
     padding: 0;
     height: auto;
     padding: 36px;
@@ -51,7 +51,7 @@ box-shadow: 0px 1px 4px rgb(0 0 0 / 5%), 0px 4px 16px rgb(0 0 0 / 6%);
     height: 0;
 
     
-    `};
+    `}};
     `
 export const ContainerSliderForm = styled.form`
     @media (min-width: 768px) {
@@ -63,24 +63,24 @@ export const ContainerSliderForm = styled.form`
         height: 100%;
         background-color: ${BGColor};
         left: 0;
-        transform: ${props => props.activeLogin ? 'translateX(0px)' : 'translateX(900px)'};
+        transform: ${props => {return props.activeLogin ? 'translateX(0px)' : 'translateX(900px)'}};
         transition: all 0.6s ease;
     }
 `
 export const Iconos = styled.div`
-    color: ${({ color }) => (color ? color : EColor)};
-    margin: ${({ margin }) => (margin ? margin : '0px 7px')};
-    ${({ size }) => size &&
+    color: ${({ color }) => {return (color ? color : EColor)}};
+    margin: ${({ margin }) => {return (margin ? margin : '0px 7px')}};
+    ${({ size }) => {return size &&
         css`
             font-size: ${size};
-        ` }
+        `} }
 `
 export const ButtonSubmit = styled.button`
-    background-color: ${({ color, theme }) => color === '1'
-        ? ' #4065b4'
-        : color === '2'
-            ? `${BGColor}`
-            : theme.SFAColor};
+    background-color: ${({ color, theme }) => {return color === '1'
+    ? ' #4065b4'
+    : color === '2'
+      ? `${BGColor}`
+      : theme.SFAColor}};
     outline: none;
     border: none;
     box-shadow: 0px 1px 4px rgb(0 0 0 / 5%), 0px 4px 16px rgb(0 0 0 / 6%);
@@ -89,28 +89,28 @@ export const ButtonSubmit = styled.button`
     padding: 15px;
     display: flex;
     align-items: center;
-    justify-content: ${({ content }) => content ? content : 'space-between'};
-    font-size: ${({ size }) => (size ? size : '1rem')};
-    color: ${({ colorFont }) => (colorFont ? colorFont : `${BGColor}`)};
+    justify-content: ${({ content }) => {return content ? content : 'space-between'}};
+    font-size: ${({ size }) => {return (size ? size : '1rem')}};
+    color: ${({ colorFont }) => {return (colorFont ? colorFont : `${BGColor}`)}};
     line-height: 1.5;
     border-radius: 0.3rem;
     text-align: center;
     width: 100%;
     margin: 10px 7px;
-    ${props => props.hoverColor &&
+    ${props => {return props.hoverColor &&
         css`
             &:hover {
                 color: ${BGColor};
                 background-color:${PColor};
             }
-        ` };
-    ${props => props.colorPrimary &&
+        `} };
+    ${props => {return props.colorPrimary &&
         css`
             {
                 color: ${BGColor};
                 background-color:${PColor};
             }
-        ` };
+        `} };
 `
 export const Enlace = styled(Link)`
     position: absolute;
@@ -172,7 +172,6 @@ export const ContentCards = styled.div`
     padding: 56px 24px;
 `
 
-
 export const Cards = styled.div`
     border-radius: 6px;
     border: 1px solid rgb(242, 242, 242);
@@ -203,21 +202,21 @@ export const GoBack = styled.div`
             font-size: 14px;
             text-align: center;
             width: 100%;
-            color: ${({ theme }) => `${theme.PColor}`};
+            color: ${({ theme }) => {return `${theme.PColor}`}};
         }
 `
 export const Text = styled.h2`
 @media only screen and (min-width: 960px){
     margin: 0 0 42px;
-    text-align: ${({ align }) => align ? align : 'start'};
-    margin: ${({ margin }) => margin ? margin : '0'};
-    font-size: ${({ size }) => size ? size : '1.5rem'};
+    text-align: ${({ align }) => {return align ? align : 'start'}};
+    margin: ${({ margin }) => {return margin ? margin : '0'}};
+    font-size: ${({ size }) => {return size ? size : '1.5rem'}};
 }
     font-weight: initial;
     font-family: PFont-Regular;
-    color: ${({ color }) => color ? color : '#717171'};
+    color: ${({ color }) => {return color ? color : '#717171'}};
     margin: 0 0 22px;
-    ${props => props.cursor && css`cursor: pointer;`}
+    ${props => {return props.cursor && css`cursor: pointer;`}}
 `
 
 // cards
@@ -259,7 +258,7 @@ export const BtnItem = styled.button`
         text-decoration: underline;
         cursor: pointer;     
     }
-    ${props => props.overflow &&css`
+    ${props => {return props.overflow &&css`
         margin-top: 0;
         margin-bottom: 0.5rem;
         font-weight: 500;
@@ -270,7 +269,7 @@ export const BtnItem = styled.button`
         overflow: hidden;
         text-overflow: ellipsis;
 
-    `}
+    `}}
 `
 export const FeatureItem = styled.div`
     display: flex;
@@ -313,7 +312,7 @@ export const SwitchButton = styled.button`
     border-radius: 50%;
     top: 3px;
     position: absolute;
-    ${({ active }) => active && css`left: ${active};`}
+    ${({ active }) => {return active && css`left: ${active};`}}
     transition: .3s ease;
 `
 export const ContentCarPrice = styled.div`
@@ -352,39 +351,39 @@ export const BtnClose = styled.button`
     z-index: 1305;
 `
 export const CardWrap = styled.div`
-    display: ${({ display }) => display || 'flex'};
-    /* flex-direction: ${({ flexDirection }) => flexDirection || 'row'}; */
-    justify-content: ${({ justify }) => justify || 'space-between'};
-    flex-wrap: ${({ wrap }) => wrap || 'wrap'};
-    margin: ${({ margin }) => margin || '30px 0px 0px 0px'};
-    border: ${({ border }) => border || 'none'};
-    padding: ${({ padding }) => padding || '0'};
-    background-color: ${({ bgColor }) => bgColor || BGColor};
-    min-width:${({ minWidth }) => minWidth || 'auto'};
-    max-width:${({ maxWidth }) => maxWidth || 'auto'};
-    min-height:${({ minHeight }) => minHeight || 'auto'};
-    height:${({ height }) => height || 'auto'};
-    ${({ shadow }) => shadow && css`box-shadow: ${shadow};`}
-    ${({ overflow }) => overflow && css`overflow: ${overflow};`}
-    ${({ radius }) => radius && css`border-radius: ${radius};`}
-    ${({ alignContent }) => alignContent && css`align-content: ${alignContent};`}
+    display: ${({ display }) => {return display || 'flex'}};
+    /* flex-direction: ${({ flexDirection }) => {return flexDirection || 'row'}}; */
+    justify-content: ${({ justify }) => {return justify || 'space-between'}};
+    flex-wrap: ${({ wrap }) => {return wrap || 'wrap'}};
+    margin: ${({ margin }) => {return margin || '30px 0px 0px 0px'}};
+    border: ${({ border }) => {return border || 'none'}};
+    padding: ${({ padding }) => {return padding || '0'}};
+    background-color: ${({ bgColor }) => {return bgColor || BGColor}};
+    min-width:${({ minWidth }) => {return minWidth || 'auto'}};
+    max-width:${({ maxWidth }) => {return maxWidth || 'auto'}};
+    min-height:${({ minHeight }) => {return minHeight || 'auto'}};
+    height:${({ height }) => {return height || 'auto'}};
+    ${({ shadow }) => {return shadow && css`box-shadow: ${shadow};`}}
+    ${({ overflow }) => {return overflow && css`overflow: ${overflow};`}}
+    ${({ radius }) => {return radius && css`border-radius: ${radius};`}}
+    ${({ alignContent }) => {return alignContent && css`align-content: ${alignContent};`}}
     /* flex-flow: column; */
-    width:${({ width }) => width || 'auto'};
-    ${({ media }) => media && css`
+    width:${({ width }) => {return width || 'auto'}};
+    ${({ media }) => {return media && css`
         @media (max-width: 900px) {
             width: 47%;
             
         }
     
-    ;`}
-    ${({ mediax }) => mediax && css`
+    ;`}}
+    ${({ mediax }) => {return mediax && css`
         @media (max-width: 900px) {
             width: 33%;
             min-width: 192px;
             
         }
     
-    ;`}
+    ;`}}
 `
 export const Module = styled.div`
     padding: 2.375rem .625rem 0 2.5rem;
@@ -413,16 +412,16 @@ export const ModuleInfo = styled.div`
     height: 25rem;
     cursor: pointer;
     transition: all 200ms ease-in-out;
-    ${({ show }) => show
-        ? css`
+    ${({ show }) => {return show
+    ? css`
                 opacity: 1;
                 animation: ${FadeOup} 333ms cubic-bezier(.35,0,.5,1) backwards;
                 `
-        : css`
+    : css`
                 
                 visibility: hidden;
                 margin: 0;
                 opacity: 0;
                 transform: translateY(-11px);
-              `}
+              `}}
 `

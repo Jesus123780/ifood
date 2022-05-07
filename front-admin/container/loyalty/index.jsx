@@ -10,147 +10,165 @@ import moment from 'moment'
 import React from 'react'
 import { Button, Item, Container } from './styled'
 
-export const LoyaltyC    = () => {
-    const HandleGetOne = () => { }
-    const OPEN_MODAL = useSetState()
-    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
-    return (
-        <Container>
+export const LoyaltyC = () => {
+  const HandleGetOne = () => { }
+  const OPEN_MODAL = useSetState()
+  const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
+  return (
+    <Container>
             realtad
-            <RippleButton onClick={() => OPEN_MODAL.setState(!OPEN_MODAL.state)}>Crear nuevo</RippleButton>
-            <AwesomeModal height='100vh' zIndex='9999' padding='25px' show={OPEN_MODAL.state} onHide={() => { OPEN_MODAL.setState(!OPEN_MODAL.state) }} onCancel={() => false} size='90%' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
-                <form>
-                    <InputHooks
-                        title='Desde'
-                        width={'20%'}
-                        required
-                        error={errorForm?.Desde}
-                        value={dataForm?.Desde}
-                        onChange={handleChange}
-                        name='Desde'
-                        type='date'
-                    />
-                </form>
-            </AwesomeModal>
-            <form>
-                <InputHooks
-                    title='Desde'
-                    width={'20%'}
-                    required
-                    error={errorForm?.Desde}
-                    value={dataForm?.Desde}
-                    onChange={handleChange}
-                    name='Desde'
-                    type='date'
-                />
-                <InputHooks
-                    title='Hasta'
-                    width='20%'
-                    required
-                    type='date'
-                    error={errorForm?.ProDescuento}
-                    value={dataForm?.ProDescuento}
-                    onChange={handleChange}
-                    name='ProDescuento'
-                />
-                <InputHooks
-                    title='Numero'
-                    width='30%'
-                    required
-                    error={errorForm?.ProPrice}
-                    value={dataForm?.ProPrice}
-                    onChange={handleChange}
-                    name='ProPrice'
-                />
-                <InputHooks
-                    title='Nombre'
-                    width='30%'
-                    numeric
-                    required
-                    error={errorForm?.ProPrice}
-                    value={dataForm?.ProPrice}
-                    onChange={handleChange}
-                    name='ProPrice'
-                />
-                <NewSelect
-                    width='33.33%'
-                    name='colorId'
-                    options={[1, 2]}
-                    id='colorId'
-                    onChange={handleChange}
-                    optionName='colorName'
-                    value={dataForm?.Color}
-                    title='Restaurante'
-                />
-                <NewSelect
-                    width='33.33%'
-                    name='colorId'
-                    options={[1, 2]}
-                    id='colorId'
-                    onChange={handleChange}
-                    optionName='colorName'
-                    value={dataForm?.Color}
-                    title='Método de pago'
-                />
-                <NewSelect
-                    width='33.33%'
-                    name='colorId'
-                    options={[1, 2]}
-                    id='colorId'
-                    onChange={handleChange}
-                    optionName='colorName'
-                    value={dataForm?.Color}
-                    title='STATUS'
-                />
-                <Button type='submit'>
+      <RippleButton onClick={() => {return OPEN_MODAL.setState(!OPEN_MODAL.state)}}>Crear nuevo</RippleButton>
+      <AwesomeModal
+        borderRadius='10px'
+        btnCancel={true}
+        btnConfirm={false}
+        footer={false}
+        header={true}
+        height='100vh'
+        onCancel={() => {return false}}
+        onHide={() => { OPEN_MODAL.setState(!OPEN_MODAL.state) }}
+        padding='25px'
+        show={OPEN_MODAL.state}
+        size='90%'
+        zIndex='9999'
+      >
+        <form>
+          <InputHooks
+            error={errorForm?.Desde}
+            name='Desde'
+            onChange={handleChange}
+            required
+            title='Desde'
+            type='date'
+            value={dataForm?.Desde}
+            width={'20%'}
+          />
+        </form>
+      </AwesomeModal>
+      <form>
+        <InputHooks
+          error={errorForm?.Desde}
+          name='Desde'
+          onChange={handleChange}
+          required
+          title='Desde'
+          type='date'
+          value={dataForm?.Desde}
+          width={'20%'}
+        />
+        <InputHooks
+          error={errorForm?.ProDescuento}
+          name='ProDescuento'
+          onChange={handleChange}
+          required
+          title='Hasta'
+          type='date'
+          value={dataForm?.ProDescuento}
+          width='20%'
+        />
+        <InputHooks
+          error={errorForm?.ProPrice}
+          name='ProPrice'
+          onChange={handleChange}
+          required
+          title='Numero'
+          value={dataForm?.ProPrice}
+          width='30%'
+        />
+        <InputHooks
+          error={errorForm?.ProPrice}
+          name='ProPrice'
+          numeric
+          onChange={handleChange}
+          required
+          title='Nombre'
+          value={dataForm?.ProPrice}
+          width='30%'
+        />
+        <NewSelect
+          id='colorId'
+          name='colorId'
+          onChange={handleChange}
+          optionName='colorName'
+          options={[1, 2]}
+          title='Restaurante'
+          value={dataForm?.Color}
+          width='33.33%'
+        />
+        <NewSelect
+          id='colorId'
+          name='colorId'
+          onChange={handleChange}
+          optionName='colorName'
+          options={[1, 2]}
+          title='Método de pago'
+          value={dataForm?.Color}
+          width='33.33%'
+        />
+        <NewSelect
+          id='colorId'
+          name='colorId'
+          onChange={handleChange}
+          optionName='colorName'
+          options={[1, 2]}
+          title='STATUS'
+          value={dataForm?.Color}
+          width='33.33%'
+        />
+        <Button type='submit'>
                     Mas opciones
-                </Button>
-                <RippleButton padding='10px' margin='30px'>Consultar</RippleButton>
-                <RippleButton padding='10px' margin='30px'>Consultar y exportar</RippleButton>
-            </form>
-            <Table
-                titles={[
-                    { name: 'Numero', justify: 'flex-center', width: '.5fr' },
-                    { name: 'Cancelado por', key: '', justify: 'flex-center', width: '1fr' },
-                    { name: 'Pedido', key: 'bDescription', justify: 'flex-center', width: '1fr' },
-                    { name: 'Date', justify: 'flex-center', width: '1fr' },
-                    { name: 'Canal', justify: 'flex-center', width: '1fr' },
-                    { name: 'Método de pago', justify: 'flex-center', width: '1fr' },
-                    { name: 'Numero de Entrega', justify: 'flex-center', width: '1fr' },
-                    { name: '', justify: 'flex-center', width: '1fr' },
-                ]}
-                labelBtn='Product'
-                data={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
-                renderBody={(dataB, titles) => dataB?.map((x, i) => <Section odd padding='10px 0' columnWidth={titles} key={i}>
-                    <Item>
-                        <span> {i + 1}</span>
-                    </Item>
-                    <Item>
-                        <span> Restaurante</span>
-                    </Item>
-                    <Item>
-                        {/* <span> {x.pCodeRef}</span> */}
-                    </Item>
-                    <Item>
-                        {/* <span> {moment(x.pDatCre).format('DD-MM-YYYY')} - {moment(x.pDatCre).format('HH:mm A')}</span> */}
-                    </Item>
-                    <Item>
-                        <span> DELIVERY-APP </span>
-                    </Item>
-                    <Item>
-                        {/* <span> {x.payMethodPState ? 'EFECTIVO' : 'TRANSFERENCIA'}</span> */}
-                    </Item>
-                    <Item>
-                        {/* <span> $ {numberFormat(x.totalProductsPrice)}</span> */}
-                    </Item>
+        </Button>
+        <RippleButton margin='30px' padding='10px'>Consultar</RippleButton>
+        <RippleButton margin='30px' padding='10px'>Consultar y exportar</RippleButton>
+      </form>
+      <Table
+        data={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
+        labelBtn='Product'
+        renderBody={(dataB, titles) => {return dataB?.map((x, i) => {return <Section
+          columnWidth={titles}
+          key={i}
+          odd
+          padding='10px 0'
+        >
+          <Item>
+            <span> {i + 1}</span>
+          </Item>
+          <Item>
+            <span> Restaurante</span>
+          </Item>
+          <Item>
+            {/* <span> {x.pCodeRef}</span> */}
+          </Item>
+          <Item>
+            {/* <span> {moment(x.pDatCre).format('DD-MM-YYYY')} - {moment(x.pDatCre).format('HH:mm A')}</span> */}
+          </Item>
+          <Item>
+            <span> DELIVERY-APP </span>
+          </Item>
+          <Item>
+            {/* <span> {x.payMethodPState ? 'EFECTIVO' : 'TRANSFERENCIA'}</span> */}
+          </Item>
+          <Item>
+            {/* <span> $ {numberFormat(x.totalProductsPrice)}</span> */}
+          </Item>
 
-                    <Item>
-                        <Button onClick={() => HandleGetOne({})}>
+          <Item>
+            <Button onClick={() => {return HandleGetOne({})}}>
                             Ver detalles
-                        </Button>
-                    </Item>
-                </Section>)}
-            />
-        </Container>
-    )
+            </Button>
+          </Item>
+        </Section>})}}
+        titles={[
+          { name: 'Numero', justify: 'flex-center', width: '.5fr' },
+          { name: 'Cancelado por', key: '', justify: 'flex-center', width: '1fr' },
+          { name: 'Pedido', key: 'bDescription', justify: 'flex-center', width: '1fr' },
+          { name: 'Date', justify: 'flex-center', width: '1fr' },
+          { name: 'Canal', justify: 'flex-center', width: '1fr' },
+          { name: 'Método de pago', justify: 'flex-center', width: '1fr' },
+          { name: 'Numero de Entrega', justify: 'flex-center', width: '1fr' },
+          { name: '', justify: 'flex-center', width: '1fr' }
+        ]}
+      />
+    </Container>
+  )
 }

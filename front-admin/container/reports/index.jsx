@@ -12,35 +12,48 @@ import React from 'react'
 import { Container } from './styled'
 
 export const ReportsC = () => {
-    const OPEN_MODAL = useSetState()
-    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
-    return (
-        <Container>
-            <MainCard weight={'200'} title={`Ventas por meses del año`}>
-                <ChatStatistic />
-            </MainCard>
-            {/* <RippleButton onClick={() => OPEN_MODAL.setState(!OPEN_MODAL.state)}>Crear nuevo</RippleButton> */}
-            <SalesWeekShortDays />
-            <SalesWeek />
-            {/* <Addons /> */}
-            <LastedStatistic />
-            <OurFood />
-            {/* <AlertStatistic /> */}
-            {/* <DeliveryFood /> */}
-            <AwesomeModal height='100vh' zIndex='9999' padding='25px' show={OPEN_MODAL.state} onHide={() => { OPEN_MODAL.setState(!OPEN_MODAL.state) }} onCancel={() => false} size='90%' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
-                <form>
-                    <InputHooks
-                        title='Desde'
-                        width={'20%'}
-                        required
-                        error={errorForm?.Desde}
-                        value={dataForm?.Desde}
-                        onChange={handleChange}
-                        name='Desde'
-                        type='date'
-                    />
-                </form>
-            </AwesomeModal>
-        </Container>
-    )
+  const OPEN_MODAL = useSetState()
+  const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
+  return (
+    <Container>
+      <MainCard title={`Ventas por meses del año`} weight={'200'}>
+        <ChatStatistic />
+      </MainCard>
+      {/* <RippleButton onClick={() => OPEN_MODAL.setState(!OPEN_MODAL.state)}>Crear nuevo</RippleButton> */}
+      <SalesWeekShortDays />
+      <SalesWeek />
+      {/* <Addons /> */}
+      <LastedStatistic />
+      <OurFood />
+      {/* <AlertStatistic /> */}
+      {/* <DeliveryFood /> */}
+      <AwesomeModal
+        borderRadius='10px'
+        btnCancel={true}
+        btnConfirm={false}
+        footer={false}
+        header={true}
+        height='100vh'
+        onCancel={() => {return false}}
+        onHide={() => { OPEN_MODAL.setState(!OPEN_MODAL.state) }}
+        padding='25px'
+        show={OPEN_MODAL.state}
+        size='90%'
+        zIndex='9999'
+      >
+        <form>
+          <InputHooks
+            error={errorForm?.Desde}
+            name='Desde'
+            onChange={handleChange}
+            required
+            title='Desde'
+            type='date'
+            value={dataForm?.Desde}
+            width={'20%'}
+          />
+        </form>
+      </AwesomeModal>
+    </Container>
+  )
 }

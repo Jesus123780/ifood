@@ -9,33 +9,59 @@ import { EColor } from '../../public/colors'
 import { Cards, ContentCards, Text } from './styled'
 
 const CodeValidation = props => {
-    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
-    const [step, setStep] = useState(0)
-    const router = useRouter()
-    const nextPage = () => {
-        if (step === 1) {
-            router.push('/restaurante/planes')
-        } else {
-            setStep(1)
-        }
+  const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
+  const [step, setStep] = useState(0)
+  const router = useRouter()
+  const nextPage = () => {
+    if (step === 1) {
+      router.push('/restaurante/planes')
+    } else {
+      setStep(1)
     }
-    return (
-        <div>
-            <ContentCards>
-                <h1>Confirma tu correo electrónico</h1>
-                <Text margin='30px 0' size='14px'>Introduce el código de validación enviado al correo electrónico:</Text>
-                {step === 1 ?
-                    <div>
-                        <OTPInput autoFocus length={6} isNumberInput className="otpContainer" inputClassName="otpInput" onChangeOTP={(otp) => console.log("String OTP: ", otp)} />
-                        <Text align='center' color={EColor} margin='30px 0' size='14px'>Introduce el código de validación enviado al correo electrónico:</Text>
-                    </div>
-                    :
-                    <InputHooks title='Informa tu correo.' width='100%' required error={errorForm?.email} value={dataForm?.email} onChange={handleChange} name='email' />
-                }
-                <RippleButton widthButton='100%' margin='20px auto' type='submit' onClick={() => nextPage()} bgColor={EColor}>{step !== 1 ? 'Continuar' : 'Enviar'}</RippleButton>
-            </ContentCards>
-        </div>
-    )
+  }
+  return (
+    <div>
+      <ContentCards>
+        <h1>Confirma tu correo electrónico</h1>
+        <Text margin='30px 0' size='14px'>Introduce el código de validación enviado al correo electrónico:</Text>
+        {step === 1 ?
+          <div>
+            <OTPInput
+              autoFocus
+              className='otpContainer'
+              inputClassName='otpInput'
+              isNumberInput
+              length={6}
+              onChangeOTP={(otp) => {return console.log('String OTP: ', otp)}}
+            />
+            <Text
+              align='center'
+              color={EColor}
+              margin='30px 0'
+              size='14px'
+            >Introduce el código de validación enviado al correo electrónico:</Text>
+          </div>
+          :
+          <InputHooks
+            error={errorForm?.email}
+            name='email'
+            onChange={handleChange}
+            required
+            title='Informa tu correo.'
+            value={dataForm?.email}
+            width='100%'
+          />
+        }
+        <RippleButton
+          bgColor={EColor}
+          margin='20px auto'
+          onClick={() => {return nextPage()}}
+          type='submit'
+          widthButton='100%'
+        >{step !== 1 ? 'Continuar' : 'Enviar'}</RippleButton>
+      </ContentCards>
+    </div>
+  )
 }
 
 CodeValidation.propTypes = {

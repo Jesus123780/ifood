@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-expressions */
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { useApolloClient } from '@apollo/client'
 import PropTypes from 'prop-types'
 import { BGColor, PColor } from '../../../public/colors'
-import { IconHome, IconHorario, IconLogo, IconLogout, IconPromo, IconShopping, IconUser, IconWallet } from '../../../public/icons'
+import { IconHome, IconHorario, IconLogo, IconLogout, IconShopping, IconUser, IconWallet } from '../../../public/icons'
 import ActiveLink from '../../common/Link'
-import { Anchor, AnchorRouter, ButtonActionLink, ButtonGlobalCreate, Card, ContainerAside, ContentAction, CtnAnchor, DynamicNav, Info, LeftNav, OptionButton, Router, SubMenuModules } from './styled'
+import { Anchor, AnchorRouter, ButtonGlobalCreate, Card, ContainerAside, ContentAction, DynamicNav, Info, LeftNav, OptionButton, Router } from './styled'
 import { useRouter } from 'next/router'
 import { URL_BASE } from 'apollo/urls'
 import { ButtonOption } from '../styled'
@@ -14,12 +14,11 @@ import { Context } from 'context/Context'
 // import Options from '../../../components/Acordion'
 import Link from 'next/link'
 import Options from 'components/Acordion/Options'
-import { ContentToggle } from 'container/dashboard/styled'
 
 const Aside = () => {
   const { client } = useApolloClient()
   const location = useRouter()
-  const { error, isSession, setAlertBox, openSchedule, setOpenSchedule, countPedido } = useContext(Context)
+  const { openSchedule, setOpenSchedule, countPedido } = useContext(Context)
 
   const [show, setShow] = useState(false)
   const onClickLogout = useCallback(async () => {
@@ -33,6 +32,7 @@ const Aside = () => {
         }
       })
       .catch(() => {
+        // eslint-disable-next-line no-console
         console.log({
           message: 'Se ha producido un error.',
           duration: 30000,
@@ -41,7 +41,7 @@ const Aside = () => {
       })
 
   }, [client])
-  const [dataStore, { loading: LoadingRes }] = useStore()
+  const [dataStore] = useStore()
   const { storeName, idStore, uState } = dataStore || {}
   const data = [
     {
@@ -52,61 +52,61 @@ const Aside = () => {
         {
           smId: 1,
           smName: 'proveedores',
-          smPath: 'proveedores',
-        },
+          smPath: 'proveedores'
+        }
       ]
-    },
+    }
   ]
   const [menu, setMenu] = useState(false)
-  const handleClick = index => setMenu(index === menu ? false : index)
+  const handleClick = index => {return setMenu(index === menu ? false : index)}
   return (
     <>
       <ContainerAside>
         <Card>
           <Info>
-            <ButtonGlobalCreate onClick={() => setShow(!show)}>
+            <ButtonGlobalCreate onClick={() => {return setShow(!show)}}>
               Add new
             </ButtonGlobalCreate>
             <LeftNav show={show}>
               <Info>
                 <h2>Customers</h2>
-                <ActiveLink activeClassName="active" href="/sales-invoices">
+                <ActiveLink activeClassName='active' href='/sales-invoices'>
                   <Anchor>Invoices</Anchor>
                 </ActiveLink>
-                <ActiveLink activeClassName="active" href="/sales-invoices">
+                <ActiveLink activeClassName='active' href='/sales-invoices'>
                   <Anchor>Sales Invoice</Anchor>
                 </ActiveLink>
               </Info>
               <Info>
                 <h2>Supplier</h2>
-                <ActiveLink activeClassName="active" href="/bills">
+                <ActiveLink activeClassName='active' href='/bills'>
                   <Anchor>Bills</Anchor>
                 </ActiveLink>
-                <ActiveLink activeClassName="active" href="/pay-bills">
+                <ActiveLink activeClassName='active' href='/pay-bills'>
                   <Anchor>Pay Bills</Anchor>
                 </ActiveLink>
-                <ActiveLink activeClassName="active" href="/">
+                <ActiveLink activeClassName='active' href='/'>
                   <Anchor>Purchase Orders</Anchor>
                 </ActiveLink>
-                <ActiveLink activeClassName="active" href="/">
+                <ActiveLink activeClassName='active' href='/'>
                   <Anchor>Expenses</Anchor>
                 </ActiveLink>
               </Info>
               <Info>
                 <h2>Employees</h2>
-                <ActiveLink activeClassName="active" href="/companies/dashboard">
+                <ActiveLink activeClassName='active' href='/companies/dashboard'>
                   <Anchor>Admin</Anchor>
                 </ActiveLink>
-                <ActiveLink activeClassName="active" href="/">
+                <ActiveLink activeClassName='active' href='/'>
                   <Anchor>Home</Anchor>
                 </ActiveLink>
               </Info>
               <Info>
                 <h2>Productos</h2>
-                <ActiveLink activeClassName="active" href="/proveedores/products">
+                <ActiveLink activeClassName='active' href='/proveedores/products'>
                   <Anchor>Productos</Anchor>
                 </ActiveLink>
-                <ActiveLink activeClassName="active" href="/dashboard">
+                <ActiveLink activeClassName='active' href='/dashboard'>
                   <Anchor>Panel Restaurante</Anchor>
                 </ActiveLink>
               </Info>
@@ -114,84 +114,84 @@ const Aside = () => {
 
             <Link href={`/dashboard/${storeName?.replace(/\s/g, '-').toLowerCase()}/${idStore}`}>
               <a>
-                <h1 className="title_store">{storeName}</h1>
+                <h1 className='title_store'>{storeName}</h1>
               </a>
             </Link>
-            {uState == 1 && <div className="program_state">
-              <IconLogo size='20px' color={PColor} />
-              <h3 className="sub_title_store">En pausa programada</h3>
+            {uState == 1 && <div className='program_state'>
+              <IconLogo color={PColor} size='20px' />
+              <h3 className='sub_title_store'>En pausa programada</h3>
             </div>}
           </Info>
           <Router>
-            <ActiveLink activeClassName="active" href="/dashboard">
+            <ActiveLink activeClassName='active' href='/dashboard'>
               <AnchorRouter><IconHome size='15px' />Home</AnchorRouter>
             </ActiveLink>
-            <ActiveLink activeClassName="active" href="/pedidos">
+            <ActiveLink activeClassName='active' href='/pedidos'>
               <AnchorRouter>
-                <div className="count_pedidos">{countPedido}</div>
+                <div className='count_pedidos'>{countPedido}</div>
                 <IconShopping size='15px' />Pedidos
               </AnchorRouter>
             </ActiveLink>
             <DynamicNav>
-              <ActiveLink activeClassName="active" href="/horarios">
+              <ActiveLink activeClassName='active' href='/horarios'>
                 <AnchorRouter><IconHorario size='15px' />Horarios</AnchorRouter>
               </ActiveLink>
-              <ContentAction onClick={() => setOpenSchedule(!openSchedule)}>
+              <ContentAction onClick={() => {return setOpenSchedule(!openSchedule)}}>
                 <IconHorario color={BGColor} size='15px' />
               </ContentAction>
             </DynamicNav>
-            <ActiveLink activeClassName="active" href="/ventas">
+            <ActiveLink activeClassName='active' href='/ventas'>
               <AnchorRouter><IconShopping size='15px' />Ventas</AnchorRouter>
             </ActiveLink>
-            <ActiveLink activeClassName="active" href="/compras">
+            <ActiveLink activeClassName='active' href='/compras'>
               <AnchorRouter><IconShopping size='15px' />Compras</AnchorRouter>
             </ActiveLink>
-            <ActiveLink activeClassName="active" href="/contactos">
+            <ActiveLink activeClassName='active' href='/contactos'>
               <AnchorRouter><IconShopping size='15px' />Contactos</AnchorRouter>
             </ActiveLink>
-            <ActiveLink activeClassName="active" href="/informes">
+            <ActiveLink activeClassName='active' href='/informes'>
               <AnchorRouter><IconShopping size='15px' />Informes</AnchorRouter>
             </ActiveLink>
-            <ActiveLink activeClassName="active" href="/fidelizacion">
+            <ActiveLink activeClassName='active' href='/fidelizacion'>
               <AnchorRouter><IconShopping size='15px' />Lealtad</AnchorRouter>
             </ActiveLink>
-            <ActiveLink activeClassName="active" href="/">
+            <ActiveLink activeClassName='active' href='/'>
               <AnchorRouter><IconShopping size='15px' />Recomendaciones</AnchorRouter>
             </ActiveLink>
-            <ActiveLink activeClassName="active" href="/fidelizacion">
+            <ActiveLink activeClassName='active' href='/fidelizacion'>
               <AnchorRouter><IconShopping size='15px' />Lealtad</AnchorRouter>
             </ActiveLink>
-            <ActiveLink activeClassName="active" href="/clientes">
+            <ActiveLink activeClassName='active' href='/clientes'>
               <AnchorRouter>  <IconUser size='20px' />Clientes</AnchorRouter>
             </ActiveLink>
-            <ActiveLink activeClassName="active" href="/billetera">
+            <ActiveLink activeClassName='active' href='/billetera'>
               <AnchorRouter>  <IconWallet size='20px' />Billetera</AnchorRouter>
             </ActiveLink>
             <OptionButton>
-              <ButtonOption space onClick={onClickLogout}>
-                <IconLogout size='20px' color={PColor} />
+              <ButtonOption onClick={onClickLogout} space>
+                <IconLogout color={PColor} size='20px' />
               </ButtonOption>
             </OptionButton>
-            {data?.map((m, i) => (
+            {data?.map((m, i) => {return (
               <Options
-                key={m.mId}
-                index={i}
                 active={menu === i}
-                path={m.mPath}
+                handleClick={() => {return handleClick(i)}}
+                index={i}
+                key={m.mId}
                 label={m.mName}
-                handleClick={() => handleClick(i)}
+                path={m.mPath}
               // icon={<FontAwesomeIcon icon={iconModules[x.mIcon]} color={active === i ? '#a6b0cf' : '#a6b0cf'} size='lg' />}
               >
-                {!!m.subModules && m.subModules.map(sm => <ActiveLink
-                  key={sm.smId}
-                  onClick={e => e.stopPropagation()}
+                {!!m.subModules && m.subModules.map(sm => {return <ActiveLink
                   href={`/${m.mPath}/${sm.smPath}`}
+                  key={sm.smId}
+                  onClick={e => {return e.stopPropagation()}}
                 >
                   <AnchorRouter><IconShopping size='15px' />{sm.smName}</AnchorRouter>
-                </ActiveLink>)}
+                </ActiveLink>})}
               </Options>
 
-            ))}
+            )})}
           </Router>
         </Card>
 

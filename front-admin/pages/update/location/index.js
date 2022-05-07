@@ -1,5 +1,3 @@
-import Head from 'next/head'
-import Image from 'next/image'
 import { useContext } from 'react'
 import { LocationC } from '../../../container/update/Location'
 import { Context } from '../../../context/Context'

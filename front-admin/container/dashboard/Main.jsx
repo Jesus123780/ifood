@@ -7,29 +7,35 @@ import Link from 'next/link'
 import { BannerDashboard } from './BannerDashboard'
 
 export const Main = () => {
-    const [dataUser] = useUser()
-    const { email } = dataUser || {}
-    const [dataStore] = useStore()
-    const { storeName, idStore } = dataStore || {}
+  const [dataUser] = useUser()
+  const { email } = dataUser || {}
+  const [dataStore] = useStore()
+  const { storeName, idStore } = dataStore || {}
 
-    return (
-        <Content margin='0 0 100px 0' width="20%">
-            <Card bgColor={BGColor}>
-                <CardPrimary bgColor={`${SFVColor}65`} padding='30px 10px'>
-                    <Text size='15px' >{email}</Text>
-                </CardPrimary>
-                <CardPrimary padding='' >
-                    {dataStore !== null && <Link activeClassName="active" href={`/dashboard/${storeName?.replace(/\s/g, '-').toLowerCase()}/${idStore}`}>
-                        <a>
-                            <ButtonStore style={{ justifyContent: 'center' }} margin='50px 0' widthButton='100%' size='10px' padding='5px'>Ir a la tienda</ButtonStore>
-                        </a>
-                    </Link>}
-                    <CircleUser>
-                        {email?.slice(0, 2).toUpperCase() || 'User'}
-                    </CircleUser>
-                </CardPrimary>
-            </Card>
-            <BannerDashboard />
-        </Content>
-    )
+  return (
+    <Content margin='0 0 100px 0' width='20%'>
+      <Card bgColor={BGColor}>
+        <CardPrimary bgColor={`${SFVColor}65`} padding='30px 10px'>
+          <Text size='15px' >{email}</Text>
+        </CardPrimary>
+        <CardPrimary padding='' >
+          {dataStore !== null && <Link activeClassName='active' href={`/dashboard/${storeName?.replace(/\s/g, '-').toLowerCase()}/${idStore}`}>
+            <a>
+              <ButtonStore
+                margin='50px 0'
+                padding='5px'
+                size='10px'
+                style={{ justifyContent: 'center' }}
+                widthButton='100%'
+              >Ir a la tienda</ButtonStore>
+            </a>
+          </Link>}
+          <CircleUser>
+            {email?.slice(0, 2).toUpperCase() || 'User'}
+          </CircleUser>
+        </CardPrimary>
+      </Card>
+      <BannerDashboard />
+    </Content>
+  )
 }

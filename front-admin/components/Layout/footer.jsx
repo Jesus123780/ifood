@@ -6,7 +6,7 @@ import { PColor } from '../../public/colors'
 import { Context } from '../../context/Context'
 
 export const Footer = () => {
-  const { error, isSession, setAlertBox } = useContext(Context)
+  const { setAlertBox } = useContext(Context)
   useEffect(() => {
     setAlertBox({ message: '', color: 'success' })
   }, [])
@@ -14,16 +14,16 @@ export const Footer = () => {
     <>
       <FooterComponent>
         <>
-          <ActiveLink activeClassName="active" href="/dashboard">
+          <ActiveLink activeClassName='active' href='/dashboard'>
             <Anchor><IconHome color={PColor} size='20px' />&nbsp;<Text>Home</Text></Anchor>
           </ActiveLink>
-          <ActiveLink activeClassName="active" href="/search">
+          <ActiveLink activeClassName='active' href='/search'>
             <Anchor><IconSearch color={PColor} size='20px' />&nbsp;<Text>Explore</Text></Anchor>
           </ActiveLink>
-          <ActiveLink activeClassName="active" href="/config">
+          <ActiveLink activeClassName='active' href='/config'>
             <Anchor><IconConfig color={PColor} size='20px' />&nbsp;<Text>Config</Text></Anchor>
           </ActiveLink>
-          <ActiveLink activeClassName="active" href="/profile">
+          <ActiveLink activeClassName='active' href='/profile'>
             <Anchor><IconUser color={PColor} size='20px' />&nbsp;<Text>Profile</Text></Anchor>
           </ActiveLink>
         </>

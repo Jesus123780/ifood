@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import {  BGColor, SECColor, TFSColor } from '../../public/colors'
+import { BGColor, SECColor, TFSColor } from '../../public/colors'
 
 export const RestaurantColumn = styled.div`
   line-height: 1.15;
@@ -36,8 +36,8 @@ export const ButtonCard = styled.button`
     transition: .4s ease;
     width: 35px;
     height: 35px;
-    top: ${({ top }) => top || '20px'};
-    transition-delay: ${({ delay }) => delay || 'auto'};
+    top: ${({ top }) => {return top || '20px'}};
+    transition-delay: ${({ delay }) => {return delay || 'auto'}};
     max-height: 35px;
     max-width: 35px;
     border-radius: 50%;
@@ -49,10 +49,10 @@ export const ButtonCard = styled.button`
         opacity: 1;
         z-index: 900;
     }
-    ${props => props.grid && css`
-        top: ${({ top }) => top || '80px'};
-        `
-  }
+    ${props => {return props.grid && css`
+        top: ${({ top }) => {return top || '80px'}};
+        `}
+}
 `
 
 export const Section = styled.div`
@@ -163,7 +163,7 @@ export const MerchantBannerWrapperInfo = styled.div`
     padding-left: 30px;
     background-color: rgb(0 0 0 / 6%);
     background-blend-mode: overlay;
-    background-image: ${({ bannerImage }) => bannerImage && (bannerImage)};
+    background-image: ${({ bannerImage }) => {return bannerImage && (bannerImage)}};
     .merchant-banner__status-description {
       line-height: 1.15;
       font-size: 16px;
@@ -199,7 +199,6 @@ export const MerchantBannerWrapperInfo = styled.div`
     }
 `
 
-
 // IMAGE
 
 export const InputFile = styled.input`
@@ -213,7 +212,7 @@ export const ContentSearch = styled.div`
   flex-grow: 1;
   font-family: PFont-Light;
   `
-  export const Title = styled.h1`
+export const Title = styled.h1`
   text-rendering: optimizeLegibility;
   font-family: PFont-Light;
   box-sizing: border-box;
@@ -223,7 +222,7 @@ export const ContentSearch = styled.div`
   margin-right: 10px;
   font-weight: 400;
   letter-spacing: -1px;
-  font-size: ${({ size })=> size || '2.25rem'};
+  font-size: ${({ size })=> {return size || '2.25rem'}};
   line-height: 44px;
   margin-bottom: 0;
   width: fit-content;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import {
   Chart,
   ArcElement,
@@ -23,7 +24,7 @@ import {
   Legend,
   Title,
   Tooltip
-} from 'chart.js';
+} from 'chart.js'
 
 Chart.register(
   ArcElement,
@@ -49,7 +50,7 @@ Chart.register(
   Legend,
   Title,
   Tooltip
-);
+)
 
 import { Line, Pie, Doughnut, Bar } from 'react-chartjs-2'
 
@@ -100,35 +101,35 @@ const options = {
 
 }
 
-export const HorizontalBarChart = () => (
+export const HorizontalBarChart = () => {return (
   <>
     <div className='header'>
       <div className='links'>
       </div>
-    <Line data={data} options={options} />
+      <Line data={data} options={options} />
     </div>
   </>
-)
+)}
 
-export const Circle = () => (
+export const Circle = () => {return (
   <>
     <div className='header'>
       <div className='links'>
       </div>
-    <Pie data={data} options={options} />
+      <Pie data={data} options={options} />
     </div>
   </>
-)
-export const DoughnutChar = () => (
+)}
+export const DoughnutChar = () => {return (
   <>
     <div className='header'>
       <div className='links'>
       </div>
-    <Doughnut data={data} />
+      <Doughnut data={data} />
     </div>
   </>
-)
-export const BarChat = ({ data }) => (
+)}
+export const BarChat = ({ data }) => {return (
   <>
     <div className='header'>
       <div className='links'>
@@ -136,4 +137,8 @@ export const BarChat = ({ data }) => (
       <Bar data={data || data} />
     </div>
   </>
-)
+)}
+
+BarChat.propTypes = {
+  data: PropTypes.any
+}

@@ -3,36 +3,64 @@ import React from 'react'
 import styled, { keyframes } from 'styled-components'
 // import './style.css'
 export const Loading = () => {
-    return (
-        <Container>
-            <LsRipple>
-                <div></div>
-                <div></div>
-            </LsRipple>
-        </Container>
-    )
+  return (
+    <Container>
+      <LsRipple>
+        <div></div>
+        <div></div>
+      </LsRipple>
+    </Container>
+  )
 }
 export const SpinnerColor = () => {
-    return (
-        <Container>
-            <LsRipple>
-                <svg className="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-                    <circle className="path" fill="none" strokeWidth="6" strokeLinecap="round" cx="33" cy="33" r="30"></circle>
-                </svg>
-            </LsRipple>
-        </Container>
-    )
+  return (
+    <Container>
+      <LsRipple>
+        <svg
+          className='spinner'
+          height='65px'
+          viewBox='0 0 66 66'
+          width='65px'
+          xmlns='http://www.w3.org/2000/svg'
+        >
+          <circle
+            className='path'
+            cx='33'
+            cy='33'
+            fill='none'
+            r='30'
+            strokeLinecap='round'
+            strokeWidth='6'
+          ></circle>
+        </svg>
+      </LsRipple>
+    </Container>
+  )
 }
 export const SpinnerColorJust = () => {
-    return (
-        <Container>
-            <LsRipple>
-                <svg className="spinner" width="50px" height="50px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-                    <circle className="path" fill="none" strokeWidth="6" strokeLinecap="round" cx="33" cy="33" r="30"></circle>
-                </svg>
-            </LsRipple>
-        </Container>
-    )
+  return (
+    <Container>
+      <LsRipple>
+        <svg
+          className='spinner'
+          height='50px'
+          viewBox='0 0 66 66'
+          width='50px'
+          xmlns='http://www.w3.org/2000/svg'
+        >
+          <circle
+            className='path'
+            cx='33'
+            cy='33'
+            fill='none'
+            r='30'
+            strokeLinecap='round'
+            strokeWidth='6'
+          ></circle>
+        </svg>
+      </LsRipple>
+    </Container>
+  )
 }
 
 const AnimationRipple = keyframes`
@@ -74,7 +102,7 @@ const LsRipple = styled.div`
         border: 4px solid ${PColor};
         opacity: 1;
         border-radius: 50%;
-        animation: ${ AnimationRipple } .1s cubic-bezier(0, 0.2, 0.8, 1)
+        animation: ${AnimationRipple} .1s cubic-bezier(0, 0.2, 0.8, 1)
             infinite;
     }
     & div:nth-child(2) {

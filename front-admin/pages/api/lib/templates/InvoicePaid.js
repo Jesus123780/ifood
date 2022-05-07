@@ -1,5 +1,5 @@
-export const TemplateInvoicePaid = ({ invoiceRef, uEmail, statusInvoice, date, hour }) => {
-    return `
+export const TemplateInvoicePaid = () => {
+  return `
     <!DOCTYPE html>
 
 <html lang="en" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">
@@ -737,7 +737,7 @@ export const TemplateInvoicePaid = ({ invoiceRef, uEmail, statusInvoice, date, h
 }
 
 export const isApprovedInvoiceSenderStatement = ({ invoiceRef, uEmail, statusInvoice, date, hour }) => {
-    return `<!DOCTYPE html>
+  return `<!DOCTYPE html>
     <html lang="es">
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap" rel="stylesheet" />
     <style type="text/css">
@@ -897,7 +897,7 @@ export const isApprovedInvoiceSenderStatement = ({ invoiceRef, uEmail, statusInv
 }
 
 export const InvoicePaidTemplate = ({ idComp, today, hour, uEmail }) => {
-    return `
+  return `
     <!DOCTYPE html>
 
 <html lang="en" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">

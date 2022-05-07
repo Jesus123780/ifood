@@ -71,7 +71,6 @@ export const Login = ({ watch, settings }) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(bodyfalse)
     }).then(res => {
-      console.log(res)
       setAlertBox({ message: `${res.message}`, color: 'success' })
       const { storeUserId, token } = res
       const { idStore, id } = storeUserId || {}

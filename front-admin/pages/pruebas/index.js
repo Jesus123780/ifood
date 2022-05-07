@@ -1,4 +1,3 @@
-import { ExtrasProductsItems } from "../../container/producto/extras";
-import { CustomTable } from "../../container/pruebas";
+import { ExtrasProductsItems } from '../../container/producto/extras'
 
-export default function RegisterView() { return (<ExtrasProductsItems /> ) }
+export default function RegisterView() { return (<ExtrasProductsItems />) }

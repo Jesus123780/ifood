@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
 
 export default function useKeyPress(targetKey) {
@@ -74,3 +75,7 @@ const Label = ({ value, isBold }) => {return (
     {value}
   </div>
 )}
+Label.propTypes = {
+  isBold: PropTypes.any,
+  value: PropTypes.any
+}

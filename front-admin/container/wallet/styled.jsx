@@ -1,5 +1,5 @@
-import { PColor, BGColor } from "public/colors"
-import styled, { css, keyframes } from "styled-components"
+import { PColor, BGColor } from 'public/colors'
+import styled, { css, keyframes } from 'styled-components'
 
 export const ColumnList = styled.div`
     display: grid;
@@ -50,19 +50,19 @@ export const HeaderStatic = styled.div`
 
 `
 export const Card = styled.div`
-    margin: ${({ margin }) => margin &&css`margin: ${margin};`};
-    width: ${({ width }) => width ? width : '70%'};
-    display: ${({ display }) => display || 'block'};
-    ${props => props.align && css`
+    margin: ${({ margin }) => {return margin &&css`margin: ${margin};`}};
+    width: ${({ width }) => {return width ? width : '70%'}};
+    display: ${({ display }) => {return display || 'block'}};
+    ${props => {return props.align && css`
     align-items: flex-start;
     margin: auto;
-    `}
-    ${props => props.sticky && css`
+    `}}
+    ${props => {return props.sticky && css`
     position: sticky;
     top: 0;
     left: 0;
     height: min-content;
-    `}
+    `}}
 
     `
 export const OrganiceProduct = styled(Card)`
@@ -71,7 +71,7 @@ export const OrganiceProduct = styled(Card)`
     width: 100%;
     place-content: space-between;
     gap: 5px;
-    ${({ margin }) => margin && css`margin: ${margin};`}
+    ${({ margin }) => {return margin && css`margin: ${margin};`}}
 
     @media only screen and (max-width: 760px){
         grid-template-columns: 33% repeat(auto-fill, 33%) 33%;
@@ -168,10 +168,10 @@ export const AnimationLeft = keyframes`
 }
 `
 export const ContainerAnimation = styled.div`
-${ props=> props.active === 1 ? css`animation: ${ AnimationRight } 200ms;` : css`animation: ${ AnimationRight } 200ms;` }
+${ props=> {return props.active === 1 ? css`animation: ${ AnimationRight } 200ms;` : css`animation: ${ AnimationRight } 200ms;`} }
 `
 export const ContainerAnimationTow = styled.div`
-${ props=> props.active === 2 ? css`animation: ${ AnimationLeft } 200ms;` : css`animation: ${ AnimationLeft } 200ms;` }
+${ props=> {return props.active === 2 ? css`animation: ${ AnimationLeft } 200ms;` : css`animation: ${ AnimationLeft } 200ms;`} }
 
 `
 export const WrapperClient = styled.div`
@@ -183,5 +183,5 @@ export const WrapperClient = styled.div`
     box-shadow: 0 1px 4px rgb(0 0 0 / 26%);
     margin: 10px 0;
     cursor: pointer;
-    ${props => props.active ? css`border: 1px solid ${PColor};` : css`border: 1px solid transparent;` }
+    ${props => {return props.active ? css`border: 1px solid ${PColor};` : css`border: 1px solid transparent;`} }
 `

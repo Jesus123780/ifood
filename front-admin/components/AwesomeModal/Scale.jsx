@@ -9,17 +9,21 @@ import { IconCancel } from 'public/icons'
 const ScaleModal = ({ show, children, size, title, height }) => {
   const { setSalesOpen } = useContext(Context)
 
-
   const onBackdropHide = () => {
     setSalesOpen(false)
 
   }
   return (
     <Container show={show} size={size}>
-      <Modal height={height} show={show} size={size} onClick={(e) => e.preventDefault()}>
+      <Modal
+        height={height}
+        onClick={(e) => {return e.preventDefault()}}
+        show={show}
+        size={size}
+      >
         <ModalHeader>
           <ModalTitle>{title}</ModalTitle>
-          <BtnClose onClick={() => onBackdropHide()}><IconCancel size='20px' /></BtnClose>
+          <BtnClose onClick={() => {return onBackdropHide()}}><IconCancel size='20px' /></BtnClose>
         </ModalHeader>
         {children}
       </Modal>
@@ -28,7 +32,11 @@ const ScaleModal = ({ show, children, size, title, height }) => {
 }
 
 ScaleModal.propTypes = {
-  show: PropTypes.bool
+  children: PropTypes.any,
+  height: PropTypes.any,
+  show: PropTypes.bool,
+  size: PropTypes.any,
+  title: PropTypes.any
 }
 
 export default ScaleModal
@@ -57,23 +65,23 @@ const Modal = styled.div`
     if (size === MODAL_SIZES.small) return '30%'
     else if (size === MODAL_SIZES.medium) return '60%'
     else if (size === MODAL_SIZES.large) return '100%'
-    else return size
+    return size
   }};
     min-width: 340px;
-    height: ${({ height }) => height || 'auto'};
-    border-radius: ${({ borderRadius }) => borderRadius};
+    height: ${({ height }) => {return height || 'auto'}};
+    border-radius: ${({ borderRadius }) => {return borderRadius}};
     border: 1px solid rgba(0,0,0,.2);
     z-index: 999;
     overflow: hidden;
     transform:scale(0);
     position: relative;
     border-radius: 5px;
-     ${({ show }) => show ? css`
+     ${({ show }) => {return show ? css`
      animation: ${zoomIn} .5s .1s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
      ` :
     css`
     animation:  ${zoomOut}  .2s .1s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
-    `} 
+    `}} 
 `
 const Container = styled.div`
     position: fixed;
@@ -82,7 +90,7 @@ const Container = styled.div`
     bottom: 0;
     right: 0;
     display: flex;
-    ${({ show }) => show ? css`
+    ${({ show }) => {return show ? css`
         z-index: 1000;
         opacity: 1;
         ` :
@@ -90,5 +98,5 @@ const Container = styled.div`
     z-index: -1000;
     opacity: 0;
 
-    `} 
+    `}} 
 `

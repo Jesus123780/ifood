@@ -9,57 +9,55 @@ const productsOptionalExtra = require('../../models/product/productsOptionalExtr
 sequelize.sync()
 
 const SubProducts = sequelize.define('subproducts', {
-    subProductsId: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        get(x) { return enCode(this.getDataValue(x)) }
+  subProductsId: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    get(x) { return enCode(this.getDataValue(x)) }
+  },
+  id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+    references: {
+      model: Users,
+      key: 'id'
     },
-    id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-        references: {
-            model: Users,
-            key: 'id'
-        },
-        get(x) { return enCode(this.getDataValue(x)) },
+    get(x) { return enCode(this.getDataValue(x)) }
+  },
+  pId: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+    references: {
+      model: productModelFood,
+      key: 'pId'
     },
-    pId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-        references: {
-            model: productModelFood,
-            key: 'pId'
-        },
-        get(x) { return enCode(this.getDataValue(x)) },
+    get(x) { return enCode(this.getDataValue(x)) }
+  },
+  opExPid: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+    references: {
+      model: productsOptionalExtra,
+      key: 'opExPid'
     },
-    opExPid: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-        references: {
-            model: productsOptionalExtra,
-            key: 'opExPid'
-        },
-        get(x) { return enCode(this.getDataValue(x)) },
-    },
-    cDatCre: {
-        type: Sequelize.DATE,
-        default: Date.now()
-    },
-    cDatMod: {
-        type: Sequelize.DATE,
-        default: Date.now()
-    }
+    get(x) { return enCode(this.getDataValue(x)) }
+  },
+  cDatCre: {
+    type: Sequelize.DATE,
+    default: Date.now()
+  },
+  cDatMod: {
+    type: Sequelize.DATE,
+    default: Date.now()
+  }
 }, {
-    timestamps: false
+  timestamps: false
 })
-
-
 
 module.exports = SubProducts

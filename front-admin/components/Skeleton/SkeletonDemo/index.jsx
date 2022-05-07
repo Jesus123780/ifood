@@ -2,18 +2,18 @@ import React from 'react'
 import styled from 'styled-components'
 
 export const Skeleton = () => {
-    return (
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Container>
-                <div className="wrapper">
-                    <div className="card-loader card-loader--tabs"></div>
-                </div>
-                <div className="wrapper">
-                    <div className="card-loader card-loader--tabs"></div>
-                </div>
-            </Container>
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <Container>
+        <div className='wrapper'>
+          <div className='card-loader card-loader--tabs'></div>
         </div>
-    )
+        <div className='wrapper'>
+          <div className='card-loader card-loader--tabs'></div>
+        </div>
+      </Container>
+    </div>
+  )
 }
 const Container = styled.div`
     z-index: 9999999;

@@ -1,5 +1,5 @@
-import { PColor } from "public/colors"
-import styled from "styled-components"
+import { PColor } from 'public/colors'
+import styled from 'styled-components'
 
 export const Container = styled.div`
     width: 100%;

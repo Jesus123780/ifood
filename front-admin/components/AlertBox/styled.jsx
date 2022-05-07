@@ -20,9 +20,9 @@ export const fadeOut = keyframes`
   }
 `
 export const ContainerToast = styled.div`
-    animation: ${ ({ error, closed }) => error && (closed ? fadeOut : fadeIn) } 1s forwards;
-    height: ${ props => props.error ? '89px' : 0 };
-    padding: ${ props => props.error ? '15px' : 0 };
+    animation: ${ ({ error, closed }) => {return error && (closed ? fadeOut : fadeIn)} } 1s forwards;
+    height: ${ props => {return props.error ? '89px' : 0} };
+    padding: ${ props => {return props.error ? '15px' : 0} };
     display: flex;
     justify-content: space-between;
     position: fixed;
@@ -33,7 +33,7 @@ export const ContainerToast = styled.div`
     transition: 400ms;
     box-shadow: 0px 0px 6px #00000052;
     color: ${ BGColor };
-    background-color: ${ ({ color }) => color === 'success' ? '#50a773' : color === 'error' ? `${ PColor };` : color === 'warning' ? '#ebbc26' : 'rgba(0, 0, 0, 0.9)' };
+    background-color: ${ ({ color }) => {return color === 'success' ? '#50a773' : color === 'error' ? `${ PColor };` : color === 'warning' ? '#ebbc26' : 'rgba(0, 0, 0, 0.9)'} };
 `
 export const ContentToast = styled.div`
  

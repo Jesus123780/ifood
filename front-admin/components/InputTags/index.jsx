@@ -7,7 +7,7 @@ import { IconCancel } from '../../public/icons'
 export const InputTags = ({ width, disabled, setTags, tags, ...props }) => {
   const refBox = useRef()
   const removeTags = (indexToRemove) => {
-    setTags([...tags.filter((_, index) => index !== indexToRemove)])
+    setTags([...tags.filter((_, index) => {return index !== indexToRemove})])
   }
 
   const addTags = (event) => {
@@ -22,16 +22,27 @@ export const InputTags = ({ width, disabled, setTags, tags, ...props }) => {
     }
   }
   return (
-    <Box width={width} block={disabled} disabled={disabled} onClick={() => refBox.current.focus() }>
-      <InputTag width={width} id="tags">
+    <Box
+      block={disabled}
+      disabled={disabled}
+      onClick={() => {return refBox.current.focus()} }
+      width={width}
+    >
+      <InputTag id='tags' width={width}>
         <>
-          {tags?.map((tag, index) => (
+          {tags?.map((tag, index) => {return (
             <Tags key={index}>
               <Span>{tag}</Span>
-              <IconContent onClick={() => !disabled && removeTags(index)}> <IconCancel size='11px' /> </IconContent>
+              <IconContent onClick={() => {return !disabled && removeTags(index)}}> <IconCancel size='11px' /> </IconContent>
             </Tags>
-          ))}
-          <InputText disabled={disabled} ref={refBox} type="text" onKeyDown={(event) => (event.key === 'Enter' ? addTags(event) : null)} placeholder="Press enter to add tags" />
+          )})}
+          <InputText
+            disabled={disabled}
+            onKeyDown={(event) => {return (event.key === 'Enter' ? addTags(event) : null)}}
+            placeholder='Press enter to add tags'
+            ref={refBox}
+            type='text'
+          />
         </>
       </InputTag>
     </Box>
@@ -53,17 +64,17 @@ const Tags = styled.div`
 `
 const Box = styled.div`
     display: block;
-    flex-direction: ${({ direction }) => direction || 'row'};
+    flex-direction: ${({ direction }) => {return direction || 'row'}};
     position: relative;
-    ${({ width }) => width && css`width: ${width};`}
+    ${({ width }) => {return width && css`width: ${width};`}}
     box-sizing: border-box;
     margin: 10px 5px;
     border: 1px solid #cccccc;
     border-radius: 5px;
-    ${props => props.block && css`
+    ${props => {return props.block && css`
         background-color: ${SFVColor};
         cursor: no-drop;
-    `}
+    `}}
  
 `
 const InputText = styled.input`
@@ -94,7 +105,7 @@ const InputTag = styled.div`
     flex-direction: row;
     cursor: text;
     align-items: center;
-    ${({ maxHeight }) => maxHeight && css`max-height: ${maxHeight};`}
+    ${({ maxHeight }) => {return maxHeight && css`max-height: ${maxHeight};`}}
 
 
 `

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import Image from 'next/image';
+import Image from 'next/image'
 import styled, { css } from 'styled-components'
 import InputHooks from '../../../components/InputHooks/InputHooks'
 import { useFormTools } from '../../../components/BaseForm'
@@ -20,250 +20,264 @@ import { Context } from 'context/Context'
 import { useRouter } from 'next/router'
 
 export const ProductEdit = ({ id }) => {
-    // STATES
-    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm }] = useFormTools()
-    const initialState = { alt: "/images/DEFAULTBANNER.png", src: "/images/DEFAULTBANNER.png" };
-    const [modal, openModal] = useState(false)
-    const { setAlertBox } = useContext(Context)
-    const [{ alt, src }, setPreviewImg] = useState(initialState)
-    const router = useRouter()
-    const [image, setImage] = useState({})
-    // QUERIES
-    const [productFoodsOne, { data: dataProduct, loading, error }] = useLazyQuery(GET_ONE_PRODUCTS_FOOD)
-    const [ExtProductFoodsOptionalAll, { error: errorOptional, data: dataOptional }] = useLazyQuery(GET_EXTRAS_PRODUCT_FOOD_OPTIONAL)
-    const [updateProductFoods] = useMutation(UPDATE_PRODUCT_FOOD)
-    const [ExtProductFoodsAll, { data: dataExtra }] = useLazyQuery(GET_ALL_EXTRA_PRODUCT)
-    const [editProductFoods] = useMutation(EDIT_PRODUCT)
-    const [setImageProducts] = useMutation(UPDATE_IMAGE_PRODUCT_FOOD, {
-        context: { clientName: "admin-server" },
-        onCompleted: () => {
-        }
+  // STATES
+  const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm }] = useFormTools()
+  const initialState = { alt: '/images/DEFAULTBANNER.png', src: '/images/DEFAULTBANNER.png' }
+  const [modal, openModal] = useState(false)
+  const { setAlertBox } = useContext(Context)
+  const [{ alt, src }, setPreviewImg] = useState(initialState)
+  const router = useRouter()
+  const [image, setImage] = useState({})
+  // QUERIES
+  const [productFoodsOne, { data: dataProduct, loading, error }] = useLazyQuery(GET_ONE_PRODUCTS_FOOD)
+  const [ExtProductFoodsOptionalAll, { error: errorOptional, data: dataOptional }] = useLazyQuery(GET_EXTRAS_PRODUCT_FOOD_OPTIONAL)
+  const [updateProductFoods] = useMutation(UPDATE_PRODUCT_FOOD)
+  const [ExtProductFoodsAll, { data: dataExtra }] = useLazyQuery(GET_ALL_EXTRA_PRODUCT)
+  const [editProductFoods] = useMutation(EDIT_PRODUCT)
+  const [setImageProducts] = useMutation(UPDATE_IMAGE_PRODUCT_FOOD, {
+    context: { clientName: 'admin-server' },
+    onCompleted: () => {
+    }
+  })
+  // EFFECTS
+  console.log(dataProduct)
+  const { getStore, pCode, ProPrice, ProDescuento, ValueDelivery, ProDescription, ProImage, ProDelivery, pState } = dataProduct?.productFoodsOne || {}
+  useEffect(() => {
+    if (id) {
+      productFoodsOne({ variables: { pId: id } })
+      ExtProductFoodsOptionalAll({ variables: { pId: id } })
+      ExtProductFoodsAll({ variables: { pId: id } })
+      setDataValue({
+        ...dataProduct?.productFoodsOne || {}
+      })
+    }
+    setDataValue({
+      ...dataProduct?.productFoodsOne || {}
     })
-    // EFFECTS
-    console.log(dataProduct)
-    const { getStore, pCode, ProPrice, ProDescuento, ValueDelivery, ProDescription, ProImage, ProDelivery, pState } = dataProduct?.productFoodsOne || {}
-    useEffect(() => {
-        if (id) {
-            productFoodsOne({ variables: { pId: id } })
-            ExtProductFoodsOptionalAll({ variables: { pId: id } })
-            ExtProductFoodsAll({ variables: { pId: id } })
-            setDataValue({
-                ...dataProduct?.productFoodsOne || {}
-            })
+  }, [id, dataProduct, dataOptional, loading, error, errorOptional])
+  // HANDLESS
+  const onFileInputChange = event => {
+    const { files } = event.target
+    setImage(files[0])
+    setPreviewImg(
+      files.length
+        ? {
+          src: URL.createObjectURL(files[0]),
+          alt: files[0].name
         }
-        setDataValue({
-            ...dataProduct?.productFoodsOne || {}
-        })
-    }, [id, dataProduct, dataOptional, loading, error, errorOptional])
-    // HANDLESS
-    const onFileInputChange = event => {
-        const { files } = event.target;
-        setImage(files[0])
-        setPreviewImg(
-            files.length
-                ? {
-                    src: URL.createObjectURL(files[0]),
-                    alt: files[0].name
-                }
-                : initialState
-        )
-
-    }
-    const ProImage1 = `${URL_ADMIN_SERVER}static/platos/${image?.name}`
-    console.log(ProImage1)
-    const handleForm = (e) =>
-        handleSubmit({
-            event: e,
-            action: () => {
-                setImageProducts({
-                    variables: {
-                        input: {
-                            file: image,
-                            pCode: pCode,
-                            pId: id
-                        }
-                    }
-                }).then(() => {
-                    // setDataValue({})
-                })
-                const { pName, ProPrice, ProDescuento, ValueDelivery, ProUniDisponibles, ProDescription, ProProtegido, ProAssurance, ProWidth, ProHeight, ProLength, ProWeight, ProQuantity, ProOutstanding, ProDelivery, ProVoltaje, pState, sTateLogistic } = dataForm || {}
-                return editProductFoods({
-                    variables: {
-                        input: {
-                            pId: id,
-                            pName,
-                            ProPrice: parseFloat(ProPrice),
-                            ProDescuento,
-                            ValueDelivery: parseFloat(ValueDelivery),
-                            ProUniDisponibles,
-                            ProDescription,
-                            ProProtegido,
-                            ProAssurance,
-                            // ...(image) && ProImage,
-                            ProWidth,
-                            ProHeight,
-                            ProLength,
-                            ProWeight,
-                            ProQuantity,
-                            ProOutstanding,
-                            ProDelivery,
-                            ProVoltaje,
-                            pState,
-                            sTateLogistic,
-                        }
-                    }, update: (cache, { data: { productFoodsOne } }) => updateCache({
-                        cache,
-                        query: GET_ONE_PRODUCTS_FOOD,
-                        nameFun: 'productFoodsOne',
-                        dataNew: productFoodsOne
-                    })
-
-                })
-
-            }
-        })
-    const fileInputRef = useRef(null)
-    const onTargetClick = e => {
-        e.preventDefault()
-        fileInputRef.current.click()
-    }
-    const handleDelete = () => {
-        updateProductFoods({
-            variables: {
-                input: {
-                    pId: id,
-                    pState
-                }
-            }, update(cache) {
-                cache.modify({
-                    fields: {
-                        productFoodsAll(dataOld = []) {
-                            return cache.writeQuery({ query: GET_ALL_PRODUCT_STORE, data: dataOld })
-                        }
-                    }
-                })
-                cache.modify({
-                    fields: {
-                        getCatProductsWithProduct(dataOld = []) {
-                            return cache.writeQuery({ query: GET_ALL_CATEGORIES_WITH_PRODUCT, data: dataOld })
-                        }
-                    }
-                })
-                setAlertBox({ message: 'El producto ha sido eliminado', color: 'error', duration: 7000 })
-            }
-        }).then(() => {
-            router.back();
-        }).catch(err => setAlertBox({ message: `${err}`, duration: 7000 }))
-    }
-    return (
-        <Container>
-            <>
-                <Card>
-                    <div className="dish-card__info">
-                        <h3 className='dish-card__description'>{''}</h3>
-                        <span className="description">{ProDescription}</span>
-                        <span className="description">$ {numberFormat(ValueDelivery)} <IconPay size={20} color={PColor} /></span>
-                        <RippleButton widthButton='100%' padding='0' margin='5px auto' onClick={() => handleDelete()}> <IconDelete size={20} color={BGColor} /></RippleButton>
-                        <div className="flex-wrap">
-                            <span className="price">$ {numberFormat(ProPrice)}</span>
-                            <span className="price discount">$ {numberFormat(ProDescuento)}</span>
-                        </div>
-                    </div>
-                    <div className="dish-card__container-image">
-                        <img
-                            className="marmita-image--responsive"
-                            alt=''
-                            src={ProImage}
-                        />
-                    </div>
-                </Card>
-                <ExtrasProductsItems
-                    setModal={() => openModal(!modal)}
-                    modal={modal}
-                    dataOptional={dataOptional?.ExtProductFoodsOptionalAll || []}
-                    dataExtra={dataExtra?.ExtProductFoodsAll || []} />
-            </>
-            <form onSubmit={(e) => handleForm(e)}>
-                <InputHooks
-                    title='Nombre del Producto'
-                    width={'100%'}
-                    required
-                    error={errorForm?.pName}
-                    value={dataForm?.pName}
-                    onChange={handleChange}
-                    name='pName'
-                />
-                <InputHooks
-                    title='Precio'
-                    width='100%'
-                    required
-                    numeric
-                    error={errorForm?.ProPrice}
-                    value={dataForm?.ProPrice}
-                    onChange={handleChange}
-                    name='ProPrice'
-                />
-                <InputHooks
-                    title='Descuento'
-                    width='100%'
-                    required
-                    numeric
-                    error={errorForm?.ProDescuento}
-                    value={dataForm?.ProDescuento}
-                    onChange={handleChange}
-                    name='ProDescuento'
-                />
-                <InputHooks
-                    title='Costo de envio'
-                    width='100%'
-                    required
-                    numeric
-                    error={errorForm?.ValueDelivery}
-                    value={dataForm?.ValueDelivery}
-                    onChange={handleChange}
-                    name='ValueDelivery'
-                />
-                <InputHooks
-                    TypeTextarea={true}
-                    title='Description'
-                    width='100%'
-                    required
-                    error={errorForm?.ProDescription}
-                    value={dataForm?.ProDescription}
-                    onChange={handleChange}
-                    name='ProDescription'
-                />
-                <div>
-                    {ProDelivery === 1 ? <span>Gratis</span> : <span>{numberFormat(ValueDelivery)}</span>}
-                </div>
-                <div>
-                    {pState === 1 ? <span>Activo</span> : <span>No activo</span>}
-                </div>
-                {getStore &&
-                    <DisRestaurant>
-                        <Link href={`${CLIENT_URL_BASE}delivery/${getStore.city.cName?.toLocaleLowerCase()}-${getStore.department.dName?.toLocaleLowerCase()}/${getStore.storeName}/${getStore.idStore}`}>
-                            <a target='_blank'>
-                                <span margin={'0 0 0 10px'} color={PColor} >{getStore.storeName}</span>
-                            </a>
-                        </Link>
-                    </DisRestaurant>
-                }
-                <ContentImage >
-                    <img src={src} alt={alt} onClick={(e) => onTargetClick(e)} />
-                    <Inputdeker
-                        type='file'
-                        ref={fileInputRef}
-                        accept=".jpg, .png"
-                        onChange={(event) => onFileInputChange(event)}
-                        id='iFile'
-                    />
-                </ContentImage>
-                <RippleButton widthButton='100%' margin='20px auto' type='submit'>
-                    Guardar y salir
-                </RippleButton>
-            </form>
-        </Container>
+        : initialState
     )
+
+  }
+  const ProImage1 = `${URL_ADMIN_SERVER}static/platos/${image?.name}`
+  console.log(ProImage1)
+  const handleForm = (e) =>
+  {return handleSubmit({
+    event: e,
+    action: () => {
+      setImageProducts({
+        variables: {
+          input: {
+            file: image,
+            pCode: pCode,
+            pId: id
+          }
+        }
+      }).then(() => {
+        // setDataValue({})
+      })
+      const { pName, ProPrice, ProDescuento, ValueDelivery, ProUniDisponibles, ProDescription, ProProtegido, ProAssurance, ProWidth, ProHeight, ProLength, ProWeight, ProQuantity, ProOutstanding, ProDelivery, ProVoltaje, pState, sTateLogistic } = dataForm || {}
+      return editProductFoods({
+        variables: {
+          input: {
+            pId: id,
+            pName,
+            ProPrice: parseFloat(ProPrice),
+            ProDescuento,
+            ValueDelivery: parseFloat(ValueDelivery),
+            ProUniDisponibles,
+            ProDescription,
+            ProProtegido,
+            ProAssurance,
+            // ...(image) && ProImage,
+            ProWidth,
+            ProHeight,
+            ProLength,
+            ProWeight,
+            ProQuantity,
+            ProOutstanding,
+            ProDelivery,
+            ProVoltaje,
+            pState,
+            sTateLogistic
+          }
+        }, update: (cache, { data: { productFoodsOne } }) => {return updateCache({
+          cache,
+          query: GET_ONE_PRODUCTS_FOOD,
+          nameFun: 'productFoodsOne',
+          dataNew: productFoodsOne
+        })}
+
+      })
+
+    }
+  })}
+  const fileInputRef = useRef(null)
+  const onTargetClick = e => {
+    e.preventDefault()
+    fileInputRef.current.click()
+  }
+  const handleDelete = () => {
+    updateProductFoods({
+      variables: {
+        input: {
+          pId: id,
+          pState
+        }
+      }, update(cache) {
+        cache.modify({
+          fields: {
+            productFoodsAll(dataOld = []) {
+              return cache.writeQuery({ query: GET_ALL_PRODUCT_STORE, data: dataOld })
+            }
+          }
+        })
+        cache.modify({
+          fields: {
+            getCatProductsWithProduct(dataOld = []) {
+              return cache.writeQuery({ query: GET_ALL_CATEGORIES_WITH_PRODUCT, data: dataOld })
+            }
+          }
+        })
+        setAlertBox({ message: 'El producto ha sido eliminado', color: 'error', duration: 7000 })
+      }
+    }).then(() => {
+      router.back()
+    }).catch(err => {return setAlertBox({ message: `${err}`, duration: 7000 })})
+  }
+  return (
+    <Container>
+      <>
+        <Card>
+          <div className='dish-card__info'>
+            <h3 className='dish-card__description'>{''}</h3>
+            <span className='description'>{ProDescription}</span>
+            <span className='description'>$ {numberFormat(ValueDelivery)} <IconPay color={PColor} size={20} /></span>
+            <RippleButton
+              margin='5px auto'
+              onClick={() => {return handleDelete()}}
+              padding='0'
+              widthButton='100%'
+            > <IconDelete color={BGColor} size={20} /></RippleButton>
+            <div className='flex-wrap'>
+              <span className='price'>$ {numberFormat(ProPrice)}</span>
+              <span className='price discount'>$ {numberFormat(ProDescuento)}</span>
+            </div>
+          </div>
+          <div className='dish-card__container-image'>
+            <img
+              alt=''
+              className='marmita-image--responsive'
+              src={ProImage}
+            />
+          </div>
+        </Card>
+        <ExtrasProductsItems
+          dataExtra={dataExtra?.ExtProductFoodsAll || []}
+          dataOptional={dataOptional?.ExtProductFoodsOptionalAll || []}
+          modal={modal}
+          setModal={() => {return openModal(!modal)}}
+        />
+      </>
+      <form onSubmit={(e) => {return handleForm(e)}}>
+        <InputHooks
+          error={errorForm?.pName}
+          name='pName'
+          onChange={handleChange}
+          required
+          title='Nombre del Producto'
+          value={dataForm?.pName}
+          width={'100%'}
+        />
+        <InputHooks
+          error={errorForm?.ProPrice}
+          name='ProPrice'
+          numeric
+          onChange={handleChange}
+          required
+          title='Precio'
+          value={dataForm?.ProPrice}
+          width='100%'
+        />
+        <InputHooks
+          error={errorForm?.ProDescuento}
+          name='ProDescuento'
+          numeric
+          onChange={handleChange}
+          required
+          title='Descuento'
+          value={dataForm?.ProDescuento}
+          width='100%'
+        />
+        <InputHooks
+          error={errorForm?.ValueDelivery}
+          name='ValueDelivery'
+          numeric
+          onChange={handleChange}
+          required
+          title='Costo de envio'
+          value={dataForm?.ValueDelivery}
+          width='100%'
+        />
+        <InputHooks
+          TypeTextarea={true}
+          error={errorForm?.ProDescription}
+          name='ProDescription'
+          onChange={handleChange}
+          required
+          title='Description'
+          value={dataForm?.ProDescription}
+          width='100%'
+        />
+        <div>
+          {ProDelivery === 1 ? <span>Gratis</span> : <span>{numberFormat(ValueDelivery)}</span>}
+        </div>
+        <div>
+          {pState === 1 ? <span>Activo</span> : <span>No activo</span>}
+        </div>
+        {getStore &&
+                    <DisRestaurant>
+                      <Link href={`${CLIENT_URL_BASE}delivery/${getStore.city.cName?.toLocaleLowerCase()}-${getStore.department.dName?.toLocaleLowerCase()}/${getStore.storeName}/${getStore.idStore}`}>
+                        <a target='_blank'>
+                          <span color={PColor} margin={'0 0 0 10px'} >{getStore.storeName}</span>
+                        </a>
+                      </Link>
+                    </DisRestaurant>
+        }
+        <ContentImage >
+          <img
+            alt={alt}
+            onClick={(e) => {return onTargetClick(e)}}
+            src={src}
+          />
+          <Inputdeker
+            accept='.jpg, .png'
+            id='iFile'
+            onChange={(event) => {return onFileInputChange(event)}}
+            ref={fileInputRef}
+            type='file'
+          />
+        </ContentImage>
+        <RippleButton
+          margin='20px auto'
+          type='submit'
+          widthButton='100%'
+        >
+                    Guardar y salir
+        </RippleButton>
+      </form>
+    </Container>
+  )
 }
 
 ProductEdit.propTypes = {
@@ -306,8 +320,8 @@ export const ButtonCard = styled.button`
     width: 50px;
     height: 50px;
     z-index: 999; 
-    top: ${({ top }) => top ? top : '20px'};
-    transition-delay: ${({ delay }) => delay ? delay : 'auto'};
+    top: ${({ top }) => {return top ? top : '20px'}};
+    transition-delay: ${({ delay }) => {return delay ? delay : 'auto'}};
     max-height: 50px;
     max-width: 50px;
     border-radius: 50%;
@@ -319,10 +333,10 @@ export const ButtonCard = styled.button`
         opacity: 1;
         z-index: 900;
     }
-    ${props => props.grid && css`
-        top: ${({ top }) => top ? top : '80px'};
-        `
-    }
+    ${props => {return props.grid && css`
+        top: ${({ top }) => {return top ? top : '80px'}};
+        `}
+}
 `
 const Card = styled.div`
     position: relative;
@@ -488,50 +502,61 @@ const Inputdeker = styled.input`
 // `
 
 export const CardProducts = ({ pName, del, edit, key, ProDescription, ValueDelivery, pId, ProPrice, render = null, onClick = () => { }, handleDelete = () => { }, ProDescuento, ProImage, widthButton }) => {
-    const router = useRouter()
-    return (
-        <Card key={key}>
-            {del && <ButtonCard grid={false} onClick={handleDelete}>
-                <IconDelete size={20} color={PColor} />
-                <ActionName >
+  const router = useRouter()
+  return (
+    <Card key={key}>
+      {del && <ButtonCard grid={false} onClick={handleDelete}>
+        <IconDelete color={PColor} size={20} />
+        <ActionName >
                     Eliminar
-                </ActionName>
-            </ButtonCard>}
-            {edit && <ButtonCard grid={false} delay='.1s' top={'80px'} onClick={() => router.push(`/producto/editar/${pId}`)}>
-                <IconEdit size={20} color={PColor} />
-                <ActionName>
+        </ActionName>
+      </ButtonCard>}
+      {edit && <ButtonCard
+        delay='.1s'
+        grid={false}
+        onClick={() => {return router.push(`/producto/editar/${pId}`)}}
+        top={'80px'}
+      >
+        <IconEdit color={PColor} size={20} />
+        <ActionName>
                     Editar
-                </ActionName>
-            </ButtonCard>}
-            <div className="dish-card__info">
-                {ValueDelivery && <span className="description">Domicilio $ {numberFormat(ValueDelivery || 0)}</span>}
+        </ActionName>
+      </ButtonCard>}
+      <div className='dish-card__info'>
+        {ValueDelivery && <span className='description'>Domicilio $ {numberFormat(ValueDelivery || 0)}</span>}
 
-                <div className="flex-wrap">
-                    <span className="price">$ {ProPrice ? numberFormat(ProPrice) : 'Gratis'}</span>
-                    {ProDescuento !== 0 && <span className="price discount">{`${numberFormat(ProDescuento)}`}</span>}
-                </div>
-            </div>
-            <div className='info-price'>
-                <span>
-                    <h3 className='dish-card__description'>{pName}</h3>
-                    <span className="description">{ProDescription}</span>
-                </span>
-                <ContainerActions>
-                    {render && <RippleButton bgColor={BGColor} widthButton={widthButton} padding='0' margin='5px auto' onClick={() => onClick()}>{render}</RippleButton>}
-                </ContainerActions>
-            </div>
-            <div className="dish-card__container-image">
-                <Image
-                    className='store_image'
-                    objectFit='cover'
-                    height={157}
-                    width={157}
-                    layout='fill'
-                    src={ProImage || '/images/dish-image-placeholder.png'}
-                    alt={pName}
-                    blurDataURL="/images/DEFAULTBANNER.png"
-                />
-            </div>
-        </Card>
-    )
+        <div className='flex-wrap'>
+          <span className='price'>$ {ProPrice ? numberFormat(ProPrice) : 'Gratis'}</span>
+          {ProDescuento !== 0 && <span className='price discount'>{`${numberFormat(ProDescuento)}`}</span>}
+        </div>
+      </div>
+      <div className='info-price'>
+        <span>
+          <h3 className='dish-card__description'>{pName}</h3>
+          <span className='description'>{ProDescription}</span>
+        </span>
+        <ContainerActions>
+          {render && <RippleButton
+            bgColor={BGColor}
+            margin='5px auto'
+            onClick={() => {return onClick()}}
+            padding='0'
+            widthButton={widthButton}
+          >{render}</RippleButton>}
+        </ContainerActions>
+      </div>
+      <div className='dish-card__container-image'>
+        <Image
+          alt={pName}
+          blurDataURL='/images/DEFAULTBANNER.png'
+          className='store_image'
+          height={157}
+          layout='fill'
+          objectFit='cover'
+          src={ProImage || '/images/dish-image-placeholder.png'}
+          width={157}
+        />
+      </div>
+    </Card>
+  )
 }

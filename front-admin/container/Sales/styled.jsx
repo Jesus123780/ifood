@@ -1,6 +1,6 @@
-import { APColor, BGColor, PColor, PLColor } from 'public/colors';
-import styled, { css } from 'styled-components';
-import { animationTop, FadeOutLeftBig } from '../../components/animations';
+import { APColor, BGColor, PColor, PLColor } from 'public/colors'
+import styled, { css } from 'styled-components'
+import { animationTop, FadeOutLeftBig } from '../../components/animations'
 
 export const Input = styled.input`
     outline: none;
@@ -21,7 +21,7 @@ export const ContentCalcules = styled.div`
 export const ScrollbarProduct = styled.div`
     overflow: hidden auto;
     height: 100%;
-    margin: ${({ margin }) => margin || '100px 0'};
+    margin: ${({ margin }) => {return margin || '100px 0'}};
     border-top: 2px dashed rgba(166,166,166,.2);
     border-bottom: 2px dashed rgba(166,166,166,.2);
     h2 {
@@ -92,10 +92,10 @@ export const FlipTop = styled.div`
     } 
 `
 export const Box = styled.div`
-    width: ${({ width }) => width || '60%'};
+    width: ${({ width }) => {return width || '60%'}};
     place-content: center;
     place-items: center;
-    ${({ display }) => display && css` display: ${display};`}
+    ${({ display }) => {return display && css` display: ${display};`}}
     position: relative;
 `
 export const Wrapper = styled.div`
@@ -136,7 +136,7 @@ export const SliderCategoryProducts = styled.div`
     display: flex;
 `
 export const Text = styled.span`
-    font-weight: ${ ({ fontWeight }) => fontWeight ? fontWeight : '700'};
+    font-weight: ${ ({ fontWeight }) => {return fontWeight ? fontWeight : '700'}};
 `
 export const Item = styled.div`
     display: flex;

@@ -1,13 +1,13 @@
-import styled from 'styled-components';
-import { BGColor } from '../../../../assets/colors';
+import styled from 'styled-components'
+import { BGColor } from '../../../../assets/colors'
 
 export const LabelInput = styled.span`
     position: absolute;
     text-align: left;
-    font-size: ${ ({ value }) => value ? '16px' : '16px' };
-    top: ${ ({ value }) => value ? '5px' : '10px' };
+    font-size: ${ ({ value }) => {return value ? '16px' : '16px'} };
+    top: ${ ({ value }) => {return value ? '5px' : '10px'} };
     left: 15px;;
-    left: ${ ({ left }) => left ? left : '17px' };
+    left: ${ ({ left }) => {return left ? left : '17px'} };
     transition: .2s;
     background-color: ${ BGColor };
     color:  #CCC;
@@ -40,6 +40,6 @@ export const Input = styled.input`
 `
 export const BoxInput = styled.div`
     position: relative;
-    padding: ${ ({ padding }) => padding ? padding : '10px 5px' };
-    width: ${ ({ width }) => width ? width : '100%' };
+    padding: ${ ({ padding }) => {return padding ? padding : '10px 5px'} };
+    width: ${ ({ width }) => {return width ? width : '100%'} };
 `

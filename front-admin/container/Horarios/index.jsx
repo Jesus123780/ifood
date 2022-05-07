@@ -17,88 +17,100 @@ import { MainCard } from 'components/common/Reusable/ShadowCard'
 import { ScheduleTimings } from 'container/dashboard/ScheduleTimings'
 
 export const Horarios = () => {
-    const HandleGetOne = () => { }
-    const OPEN_MODAL = useSetState()
-    const [createContacts] = useMutation(CREATE_CONTACTS)
-    const { data, loading, error } = useQuery(GET_ALL_CONTACTS)
-    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
-    const handleForm = (e) =>
-        handleSubmit({
-            event: e,
-            action: () => {
-                return createContacts({
-                    variables: {
-                        input: {
-                            cntName: dataForm.cntName,
-                            cntComments: dataForm.cntComments,
-                        }
-                    }, update: (cache, { data: { getAllContacts } }) => updateCache({
-                        cache,
-                        query: GET_ALL_CONTACTS,
-                        nameFun: 'getAllContacts',
-                        dataNew: getAllContacts
-                    })
-                })
-            }
-        })
+  const HandleGetOne = () => { }
+  const OPEN_MODAL = useSetState()
+  const [createContacts] = useMutation(CREATE_CONTACTS)
+  const { data, loading, error } = useQuery(GET_ALL_CONTACTS)
+  const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
+  const handleForm = (e) =>
+  {return handleSubmit({
+    event: e,
+    action: () => {
+      return createContacts({
+        variables: {
+          input: {
+            cntName: dataForm.cntName,
+            cntComments: dataForm.cntComments
+          }
+        }, update: (cache, { data: { getAllContacts } }) => {return updateCache({
+          cache,
+          query: GET_ALL_CONTACTS,
+          nameFun: 'getAllContacts',
+          dataNew: getAllContacts
+        })}
+      })
+    }
+  })}
 
-    return (
-        <Container>
-            {/* <RippleButton onClick={() => OPEN_MODAL.setState(!OPEN_MODAL.state)}>Crear nuevo</RippleButton> */}
-            <AwesomeModal zIndex='9999' padding='25px' show={OPEN_MODAL.state} onHide={() => { OPEN_MODAL.setState(!OPEN_MODAL.state) }} onCancel={() => false} size='small' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
-                <form onSubmit={(e) => handleForm(e)}>
-                    <InputHooks
-                        title='Nombre'
-                        width={'100%'}
-                        required
-                        error={errorForm?.cntName}
-                        value={dataForm?.cntName}
-                        onChange={handleChange}
-                        name='cntName'
-                    />
-                    <InputHooks
-                        title='Comentario'
-                        width={'100%'}
-                        required
-                        error={errorForm?.cntComments}
-                        value={dataForm.cntComments}
-                        onChange={handleChange}
-                        name='cntComments'
-                    />
-                    <RippleButton type='submit' widthButton='100%' >Crear</RippleButton>
-                </form>
-            </AwesomeModal>
-            <MainCard title={'Escoja los horarios que su restaurante va abrir'} size='1em'>
-                <GridContainer>
-                    <h2>
+  return (
+    <Container>
+      {/* <RippleButton onClick={() => OPEN_MODAL.setState(!OPEN_MODAL.state)}>Crear nuevo</RippleButton> */}
+      <AwesomeModal
+        borderRadius='10px'
+        btnCancel={true}
+        btnConfirm={false}
+        footer={false}
+        header={true}
+        onCancel={() => {return false}}
+        onHide={() => { OPEN_MODAL.setState(!OPEN_MODAL.state) }}
+        padding='25px'
+        show={OPEN_MODAL.state}
+        size='small'
+        zIndex='9999'
+      >
+        <form onSubmit={(e) => {return handleForm(e)}}>
+          <InputHooks
+            error={errorForm?.cntName}
+            name='cntName'
+            onChange={handleChange}
+            required
+            title='Nombre'
+            value={dataForm?.cntName}
+            width={'100%'}
+          />
+          <InputHooks
+            error={errorForm?.cntComments}
+            name='cntComments'
+            onChange={handleChange}
+            required
+            title='Comentario'
+            value={dataForm.cntComments}
+            width={'100%'}
+          />
+          <RippleButton type='submit' widthButton='100%' >Crear</RippleButton>
+        </form>
+      </AwesomeModal>
+      <MainCard size='1em' title={'Escoja los horarios que su restaurante va abrir'}>
+        <GridContainer>
+          <h2>
                         Recomendaciones de Deliver
-                    </h2>
+          </h2>
 
-                </GridContainer>
-            </MainCard>
-            <RippleButton margin={'20px 0'} onClick={() => OPEN_MODAL.setState(!OPEN_MODAL.state)}>Adicionar Horario</RippleButton>
+        </GridContainer>
+      </MainCard>
+      <RippleButton margin={'20px 0'} onClick={() => {return OPEN_MODAL.setState(!OPEN_MODAL.state)}}>Adicionar Horario</RippleButton>
 
-            <StatisticHours>
-                <div>
-                    <h2>
+      <StatisticHours>
+        <div>
+          <h2>
                         42h-30m
-                    </h2>
-                    <p>Total en semana</p>
-                </div>
-                <div>
-                    <h2>
+          </h2>
+          <p>Total en semana</p>
+        </div>
+        <div>
+          <h2>
                         42h-30m
-                    </h2>
-                    <p>Total en semana</p>
-                </div>
-                <div>
-                    <h2>
+          </h2>
+          <p>Total en semana</p>
+        </div>
+        <div>
+          <h2>
                         42h-30m
-                    </h2>
-                    <p>Total en semana</p>
-                </div>
-            </StatisticHours>
-            <ScheduleTimings />
-        </Container>
-    )
+          </h2>
+          <p>Total en semana</p>
+        </div>
+      </StatisticHours>
+      <ScheduleTimings />
+    </Container>
+  )
 }

@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import styled, { css } from 'styled-components';
-import { BGColor, EColor, PColor } from '../../public/colors';
+import styled, { css } from 'styled-components'
+import { BGColor, EColor, PColor } from '../../public/colors'
 
 export const Content = styled.div`
     width: 100%;
@@ -38,24 +38,24 @@ export const ContainerSliderForm = styled.form`
         height: 100%;
         background-color: ${BGColor};
         left: 0;
-        transform: ${props => props.activeLogin ? 'translateX(0px)' : 'translateX(900px)'};
+        transform: ${props => {return props.activeLogin ? 'translateX(0px)' : 'translateX(900px)'}};
         transition: all 0.6s ease;
     }
 `
 export const Iconos = styled.div`
-    color: ${({ color }) => (color ? color : EColor)};
-    margin: ${({ margin }) => (margin ? margin : '0px 7px')};
-    ${({ size }) => size &&
+    color: ${({ color }) => {return (color ? color : EColor)}};
+    margin: ${({ margin }) => {return (margin ? margin : '0px 7px')}};
+    ${({ size }) => {return size &&
         css`
             font-size: ${size};
-        ` }
+        `} }
 `
 export const ButtonSubmit = styled.button`
-    background-color: ${({ color, theme }) => color === '1'
-        ? ' #4065b4'
-        : color === '2'
-            ? `${BGColor}`
-            : theme.SFAColor};
+    background-color: ${({ color, theme }) => {return color === '1'
+    ? ' #4065b4'
+    : color === '2'
+      ? `${BGColor}`
+      : theme.SFAColor}};
     outline: none;
     border: none;
     box-shadow: 0px 1px 4px rgb(0 0 0 / 5%), 0px 4px 16px rgb(0 0 0 / 6%);
@@ -64,28 +64,28 @@ export const ButtonSubmit = styled.button`
     padding: 15px;
     display: flex;
     align-items: center;
-    justify-content: ${({ content }) => content ? content : 'space-between'};
-    font-size: ${({ size }) => (size ? size : '1rem')};
-    color: ${({ colorFont }) => (colorFont ? colorFont : `${BGColor}`)};
+    justify-content: ${({ content }) => {return content ? content : 'space-between'}};
+    font-size: ${({ size }) => {return (size ? size : '1rem')}};
+    color: ${({ colorFont }) => {return (colorFont ? colorFont : `${BGColor}`)}};
     line-height: 1.5;
     border-radius: 0.3rem;
     text-align: center;
     width: 100%;
     margin: 10px 7px;
-    ${props => props.hoverColor &&
+    ${props => {return props.hoverColor &&
         css`
             &:hover {
                 color: ${BGColor};
                 background-color:${PColor};
             }
-        ` };
-    ${props => props.colorPrimary &&
+        `} };
+    ${props => {return props.colorPrimary &&
         css`
             {
                 color: ${BGColor};
                 background-color:${PColor};
             }
-        ` };
+        `} };
 `
 export const Enlace = styled(Link)`
     position: absolute;
@@ -140,18 +140,18 @@ export const GoBack = styled.div`
             font-size: 14px;
             text-align: center;
             width: 100%;
-            color: ${ ({ theme }) => `${ theme.PColor }` };
+            color: ${ ({ theme }) => {return `${ theme.PColor }`} };
         }
 `
 export const Text = styled.h2`
 @media only screen and (min-width: 960px){
     margin: 0 0 42px;
     text-align: center;
-    font-size: ${({ size }) => size ? size : '1.5rem'};
+    font-size: ${({ size }) => {return size ? size : '1.5rem'}};
 }
     font-weight: initial;
     font-family: PFont-Regular;
-    color: ${({ color }) => color ? color : '#717171'};
+    color: ${({ color }) => {return color ? color : '#717171'}};
     margin: 0 0 22px;
-    ${props => props.cursor && css`cursor: pointer;`}
+    ${props => {return props.cursor && css`cursor: pointer;`}}
 `

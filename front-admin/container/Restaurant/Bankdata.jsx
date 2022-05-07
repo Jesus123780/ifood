@@ -4,17 +4,57 @@ import InputHooks from '../../components/InputHooks/InputHooks'
 import { Cards, ContentCards } from './styled'
 
 const Bankdata = props => {
-    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
+  const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
 
-    return (
-        <ContentCards>
-            <InputHooks title='Banco' width='100%' required error={errorForm?.email} value={dataForm?.email} onChange={handleChange} name='email' />
-            <InputHooks title='Tipo de cuenta' width='100%' required error={errorForm?.email} value={dataForm?.email} onChange={handleChange} name='email' />
-            <InputHooks title='Nombre del Representante Legal' width='100%' required error={errorForm?.email} value={dataForm?.email} onChange={handleChange} name='email' />
-            <InputHooks title='Número de cuenta bancaria' width='100%' required error={errorForm?.email} value={dataForm?.email} onChange={handleChange} name='email' />
-            <InputHooks title='Banco' width='100%' required error={errorForm?.email} value={dataForm?.email} onChange={handleChange} name='email' />
-        </ContentCards>
-    )
+  return (
+    <ContentCards>
+      <InputHooks
+        error={errorForm?.email}
+        name='email'
+        onChange={handleChange}
+        required
+        title='Banco'
+        value={dataForm?.email}
+        width='100%'
+      />
+      <InputHooks
+        error={errorForm?.email}
+        name='email'
+        onChange={handleChange}
+        required
+        title='Tipo de cuenta'
+        value={dataForm?.email}
+        width='100%'
+      />
+      <InputHooks
+        error={errorForm?.email}
+        name='email'
+        onChange={handleChange}
+        required
+        title='Nombre del Representante Legal'
+        value={dataForm?.email}
+        width='100%'
+      />
+      <InputHooks
+        error={errorForm?.email}
+        name='email'
+        onChange={handleChange}
+        required
+        title='Número de cuenta bancaria'
+        value={dataForm?.email}
+        width='100%'
+      />
+      <InputHooks
+        error={errorForm?.email}
+        name='email'
+        onChange={handleChange}
+        required
+        title='Banco'
+        value={dataForm?.email}
+        width='100%'
+      />
+    </ContentCards>
+  )
 }
 
 Bankdata.propTypes = {

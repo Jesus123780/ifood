@@ -7,52 +7,52 @@ const Users = require('../UsersLogin/Users')
 // 
 
 const FollowModel = sequelize.define('followModel', {
-    idFollower: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        get(x) { return enCode(this.getDataValue(x)) }
+  idFollower: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    get(x) { return enCode(this.getDataValue(x)) }
+  },
+  id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+    references: {
+      model: Users,
+      key: 'id'
     },
-    id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-        references: {
-            model: Users,
-            key: 'id'
-        },
-        unique: false,
-        get(x) { return enCode(this.getDataValue(x)) },
+    unique: false,
+    get(x) { return enCode(this.getDataValue(x)) }
+  },
+  follow: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+    references: {
+      model: Users,
+      key: 'id'
     },
-    follow: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-        references: {
-            model: Users,
-            key: 'id'
-        },
-        unique: false,
-        get(x) { return enCode(this.getDataValue(x)) },
-    },
-    fState: {
-        type: Sequelize.SMALLINT,
-        allowNull: false
-    },
-    DatCre: {
-        type: 'TIMESTAMP',
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-        allowNull: false
-    },
-    DatMod: {
-        type: 'TIMESTAMP',
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-        allowNull: false
-    }
+    unique: false,
+    get(x) { return enCode(this.getDataValue(x)) }
+  },
+  fState: {
+    type: Sequelize.SMALLINT,
+    allowNull: false
+  },
+  DatCre: {
+    type: 'TIMESTAMP',
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    allowNull: false
+  },
+  DatMod: {
+    type: 'TIMESTAMP',
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    allowNull: false
+  }
 }, {
-    timestamps: false,
+  timestamps: false
 })
 
 module.exports = FollowModel

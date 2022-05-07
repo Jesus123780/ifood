@@ -1,5 +1,5 @@
-import { BColor, BGColor, BGVColor, PColor } from "public/colors";
-import styled, { css } from "styled-components";
+import { BColor, BGColor, BGVColor, PColor } from 'public/colors'
+import styled, { css } from 'styled-components'
 
 export const Container = styled.div`
     width: 100%;
@@ -72,15 +72,15 @@ export const HeadSticky = styled.div`
 `
 
 export const Text = styled.span`
-    font-size: ${({ size }) => size || '12px'};
-    text-align:  ${({ align }) => align || 'start'};
-    ${({ lineHeight }) => lineHeight && css`line-height: ${lineHeight};`}
-    ${({ padding }) => padding && css`padding: ${padding};`}
-    margin: ${({ margin }) => margin || '0'};
-    color: ${({ color }) => color || BColor};
-    /* justify-content: ${({ justify }) => justify || 'flex-start'}; */
+    font-size: ${({ size }) => {return size || '12px'}};
+    text-align:  ${({ align }) => {return align || 'start'}};
+    ${({ lineHeight }) => {return lineHeight && css`line-height: ${lineHeight};`}}
+    ${({ padding }) => {return padding && css`padding: ${padding};`}}
+    margin: ${({ margin }) => {return margin || '0'}};
+    color: ${({ color }) => {return color || BColor}};
+    /* justify-content: ${({ justify }) => {return justify || 'flex-start'}}; */
     display: flex;
-    font-family: ${({ font }) => font || 'PFont-Regular'};
+    font-family: ${({ font }) => {return font || 'PFont-Regular'}};
     word-break: break-word;
 `
 export const Flex = styled.div`
@@ -88,7 +88,7 @@ export const Flex = styled.div`
   width: 100%;
   
   `
-  export const DisRestaurant = styled.div`
+export const DisRestaurant = styled.div`
   display: flex;
   flex-direction: column;
   border: 1px solid rgba(63,62,62,.1);

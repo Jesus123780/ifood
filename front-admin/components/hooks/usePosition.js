@@ -41,6 +41,7 @@ export const usePosition = (watch = false, settings = defaultSettings) => {
       navigator.geolocation.getCurrentPosition(onChange, onError, settings)
     }
 
+    // eslint-disable-next-line consistent-return
     return () => {return watcher && navigator.geolocation.clearWatch(watcher)}
   }, [
     settings,

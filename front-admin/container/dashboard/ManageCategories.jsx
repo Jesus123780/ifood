@@ -20,226 +20,301 @@ import { Section } from 'components/Table/styled'
 import { CardProducts } from 'components/CartProduct'
 
 export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
-    // STATES
-    const initialStateInvoice = {
-        PRODUCT: [],
+  // STATES
+  const initialStateInvoice = {
+    PRODUCT: []
+  }
+  const SHOW_CATEGORIES = useSetState(false)
+  const [idCat, setIdCat] = useState('')
+  const [dataProducto, setData] = useState([])
+  const [showMore, setShowMore] = useState(100)
+  const [openModalProducts, setOpenModalProducts] = useState(false)
+  // QUERIES
+  const [updatedProducts, { loading, error }] = useMutation(REGISTER_CAT_OF_PRODUCTS)
+  const [deleteCatOfProducts] = useMutation(DELETE_ONE_CAT_PRODUCTS, {
+    onError: (error) => {
+      console.error({
+        message: error.graphQLErrors[0].message,
+        color: WColor
+      })
+    },
+    update(cache) {
+      cache.modify({
+        fields: {
+          catProductsAll(dataOld = []) {
+            return cache.writeQuery({ query: GET_ULTIMATE_CATEGORY_PRODUCTS, data: dataOld })
+          }
+        }
+      })
     }
-    const SHOW_CATEGORIES = useSetState(false)
-    const [idCat, setIdCat] = useState('')
-    const [dataProducto, setData] = useState([])
-    const [showMore, setShowMore] = useState(100)
-    const [openModalProducts, setOpenModalProducts] = useState(false)
-    // QUERIES
-    const [updatedProducts, { loading, error }] = useMutation(REGISTER_CAT_OF_PRODUCTS)
-    const [deleteCatOfProducts] = useMutation(DELETE_ONE_CAT_PRODUCTS, {
-        onError: (error) => {
-            console.error({
-                message: error.graphQLErrors[0].message,
-                color: WColor
-            })
+  })
+  const [deleteCatFinalOfProducts] = useMutation(DELETE_ONE_CAT_PRODUCTS_FINAL, {
+    onError: (error) => {
+      console.error({
+        message: error.graphQLErrors[0].message,
+        color: WColor
+      })
+    },
+    update(cache) {
+      cache.modify({
+        fields: {
+          catProductsAll(dataOld = []) {
+            return cache.writeQuery({ query: GET_ULTIMATE_CATEGORY_PRODUCTS, data: dataOld })
+          }
+        }
+      })
+    }
+  })
+  const [updatedCatWithProducts] = useMutation(UPDATE_CAT_IN_PRODUCT, {
+    onError: (error) => {
+      console.error({
+        message: error.graphQLErrors[0].message,
+        color: WColor
+      })
+    },
+    update(cache) {
+      cache.modify({
+        fields: {
+          catProductsAll(dataOld = []) {
+            return cache.writeQuery({ query: GET_ULTIMATE_CATEGORY_PRODUCTS, data: dataOld })
+          }
+        }
+      })
+    }
+  })
+  const { data: datCat } = useQuery(GET_ULTIMATE_CATEGORY_PRODUCTS)
+  const [productFoodsAll, { data: dataProduct }] = useLazyQuery(GET_ALL_PRODUCT_STORE)
+  const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm }] = useFormTools()
+  // HANDLES
+  const handleForm = (e) =>
+  {return handleSubmit({
+    event: e,
+    action: () => {
+      const { catName, catDescription } = dataForm
+      return updatedProducts({
+        variables: {
+          input: {
+            pName: catName,
+            ProDescription: catDescription
+          }
         },
         update(cache) {
-            cache.modify({
-                fields: {
-                    catProductsAll(dataOld = []) {
-                        return cache.writeQuery({ query: GET_ULTIMATE_CATEGORY_PRODUCTS, data: dataOld })
-                    }
-                }
-            })
-        }
-    })
-    const [deleteCatFinalOfProducts] = useMutation(DELETE_ONE_CAT_PRODUCTS_FINAL, {
-        onError: (error) => {
-            console.error({
-                message: error.graphQLErrors[0].message,
-                color: WColor
-            })
-        },
-        update(cache) {
-            cache.modify({
-                fields: {
-                    catProductsAll(dataOld = []) {
-                        return cache.writeQuery({ query: GET_ULTIMATE_CATEGORY_PRODUCTS, data: dataOld })
-                    }
-                }
-            })
-        }
-    })
-    const [updatedCatWithProducts] = useMutation(UPDATE_CAT_IN_PRODUCT, {
-        onError: (error) => {
-            console.error({
-                message: error.graphQLErrors[0].message,
-                color: WColor
-            })
-        },
-        update(cache) {
-            cache.modify({
-                fields: {
-                    catProductsAll(dataOld = []) {
-                        return cache.writeQuery({ query: GET_ULTIMATE_CATEGORY_PRODUCTS, data: dataOld })
-                    }
-                }
-            })
-        }
-    })
-    const { data: datCat } = useQuery(GET_ULTIMATE_CATEGORY_PRODUCTS)
-    const [productFoodsAll, { data: dataProduct }] = useLazyQuery(GET_ALL_PRODUCT_STORE)
-    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm }] = useFormTools()
-    // HANDLES
-    const handleForm = (e) =>
-        handleSubmit({
-            event: e,
-            action: () => {
-                const { catName, catDescription } = dataForm
-                return updatedProducts({
-                    variables: {
-                        input: {
-                            pName: catName,
-                            ProDescription: catDescription,
-                        }
-                    },
-                    update(cache) {
-                        cache.modify({
-                            fields: {
-                                catProductsAll(dataOld = []) {
-                                    return cache.writeQuery({ query: GET_ULTIMATE_CATEGORY_PRODUCTS, data: dataOld })
-                                }
-                            }
-                        })
-                    }
-                })
-            },
-            actionAfterSuccess: () => {
-                setDataValue({})
-                SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state)
+          cache.modify({
+            fields: {
+              catProductsAll(dataOld = []) {
+                return cache.writeQuery({ query: GET_ULTIMATE_CATEGORY_PRODUCTS, data: dataOld })
+              }
             }
-        })
+          })
+        }
+      })
+    },
+    actionAfterSuccess: () => {
+      setDataValue({})
+      SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state)
+    }
+  })}
 
-
-
-    const productRecoger = (state, action) => {
-        switch (action.type) {
-            case 'ADD_PRODUCT':
-                return {
-                    ...state,
-                    // eslint-disable-next-line
+  const productRecoger = (state, action) => {
+    switch (action.type) {
+      case 'ADD_PRODUCT':
+        return {
+          ...state,
+          // eslint-disable-next-line
                     PRODUCT: [...state?.PRODUCT, action?.payload]
-                }
-            case 'REMOVE_PRODUCT':
-                return {
-                    PRODUCT: state?.PRODUCT?.filter((t, idx) => idx !== action?.idx)
-                };
-            case 'REMOVE_ALL':
-                return {
-                    PRODUCT: []
-                };
-            case "TOGGLE_INVOICE":
-                return {
-                    PRODUCT: state?.PRODUCT.map((t, idx) => idx === action.idx ? { ...t, isPaid: !t.isPaid } : t),
-                };
-            default:
-                return state;
         }
-    }
-    const [data, dispatch] = useReducer(productRecoger, initialStateInvoice)
-
-    const handleAddProduct   = elem => {
-        let includes = data?.PRODUCT.includes(elem);
-        if (includes) {
-            console.log({ message: 'The invoice is already added to the list' })
-        } else {
-            dispatch({ type: 'ADD_PRODUCT', payload: elem })
+      case 'REMOVE_PRODUCT':
+        return {
+          PRODUCT: state?.PRODUCT?.filter((t, idx) => {return idx !== action?.idx})
         }
+      case 'REMOVE_ALL':
+        return {
+          PRODUCT: []
+        }
+      case 'TOGGLE_INVOICE':
+        return {
+          PRODUCT: state?.PRODUCT.map((t, idx) => {return idx === action.idx ? { ...t, isPaid: !t.isPaid } : t})
+        }
+      default:
+        return state
+    }
+  }
+  const [data, dispatch] = useReducer(productRecoger, initialStateInvoice)
 
+  const handleAddProduct = elem => {
+    let includes = data?.PRODUCT.includes(elem)
+    if (includes) {
+      console.log({ message: 'The invoice is already added to the list' })
+    } else {
+      dispatch({ type: 'ADD_PRODUCT', payload: elem })
     }
-    const handleUpdateCatInProduct = async () => {
-        await updatedCatWithProducts({
-            variables: {
-                input: {
-                    setData: data?.PRODUCT?.map(x => ({ idProduct: x.pId })),
-                    idCat: idCat
-                }
-            }
-        })
-    }
-    const openModal = (carProId) => {
-        setIdCat(carProId)
-        setOpenModalProducts(!openModalProducts)
-    }
-    // EFFECTS
-    useEffect(() => {
-        // eslint-disable-next-line
+
+  }
+  const handleUpdateCatInProduct = async () => {
+    await updatedCatWithProducts({
+      variables: {
+        input: {
+          setData: data?.PRODUCT?.map(x => {return { idProduct: x.pId }}),
+          idCat: idCat
+        }
+      }
+    })
+  }
+  const openModal = (carProId) => {
+    setIdCat(carProId)
+    setOpenModalProducts(!openModalProducts)
+  }
+  // EFFECTS
+  useEffect(() => {
+    // eslint-disable-next-line
         dataProduct?.productFoodsAll && setData([...dataProduct?.productFoodsAll])
-    }, [dataProduct])
-    useEffect(() => {
-        productFoodsAll({ variables: { max: showMore } })
-    }, [showMore])
-    return (
-        <>
-            <AwesomeModal backdrop='static' zIndex='90' bgColor='transparent' padding='25px' show={SHOW_CATEGORIES.state} onHide={() => { SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state) }} onCancel={() => false} size='large' height='100vh' btnCancel={true} btnConfirm={false} header={true} footer={false} borderRadius='10px' >
-                <form onSubmit={(e) => handleForm(e)}>
-                    <InputHooks title='Nombre de la categoría' width='100%' required error={errorForm?.catName} value={dataForm?.catName} onChange={handleChange} name='catName' />
-                    <InputHooks TypeTextarea title='Description' width='100%' required error={errorForm?.catDescription} value={dataForm?.catDescription} onChange={handleChange} name='catDescription' />
-                    <ButtonAction type='submit'>
+  }, [dataProduct])
+  useEffect(() => {
+    productFoodsAll({ variables: { max: showMore } })
+  }, [showMore])
+  return (
+    <>
+      <AwesomeModal
+        backdrop='static'
+        bgColor='transparent'
+        borderRadius='10px'
+        btnCancel={true}
+        btnConfirm={false}
+        footer={false}
+        header={true}
+        height='100vh'
+        onCancel={() => {return false}}
+        onHide={() => { SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state) }}
+        padding='25px'
+        show={SHOW_CATEGORIES.state}
+        size='large'
+        zIndex='90'
+      >
+        <form onSubmit={(e) => {return handleForm(e)}}>
+          <InputHooks
+            error={errorForm?.catName}
+            name='catName'
+            onChange={handleChange}
+            required
+            title='Nombre de la categoría'
+            value={dataForm?.catName}
+            width='100%'
+          />
+          <InputHooks
+            TypeTextarea
+            error={errorForm?.catDescription}
+            name='catDescription'
+            onChange={handleChange}
+            required
+            title='Description'
+            value={dataForm?.catDescription}
+            width='100%'
+          />
+          <ButtonAction type='submit'>
                         Submit
-                    </ButtonAction>
-                </form>
-                <ButtonAction onClick={() => SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state)}> Registrar  Categorías de productos </ButtonAction>
-            </AwesomeModal>
-            <ButtonAction onClick={() => SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state)}> Adicionar Categorías</ButtonAction>
-            <Table
-                titles={[
-                    { name: 'Nombre', key: '', justify: 'flex-center', width: '1fr' },
-                    { name: 'Descripción', justify: 'flex-center', width: '1fr' },
-                    { name: 'Pausar ventas', justify: 'flex-center', width: '1fr' },
-                    { name: '', justify: 'flex-center', width: '1fr' },
-                    { name: '', justify: 'flex-center', width: '1fr' },
-                ]}
-                labelBtn='Product'
-                data={datCat?.catProductsAll}
-                renderBody={(dataB, titles) => dataB?.map((x, i) => <Section odd padding='10px 0' columnWidth={titles} key={i}>
-                    <Item>
-                        <span># {x.pName}</span>
-                    </Item>
-                    <Item>
-                        <span> {x.ProDescription}</span>
-                    </Item>
-                    <Item>
-                        <button className='btn' onClick={() => deleteCatOfProducts({ variables: { idPc: x.carProId, pState: x.pState } })}>
-                            <IconPause size={30} color={PColor} />
-                        </button>
-                    </Item>
-                    <Item>
-                        <Button onClick={() => openModal(x.carProId)}> Seleccionar </Button>
-                    </Item>
-                    <Item>
-                        <button onClick={() => deleteCatFinalOfProducts({ variables: { idPc: x.carProId } })}>
-                            <IconDelete size={20} color={PColor} />
-                        </button>
-                    </Item>
-                </Section>)
-                }
-            />
-            <AwesomeModal size='large' height='100vh' backdrop='static' zIndex='990' bgColor='transparent' padding='25px' show={openModalProducts} onHide={() => setOpenModalProducts(!openModalProducts)} onCancel={() => setOpenModalProducts(!openModalProducts)} btnCancel={true} btnConfirm={true} onConfirm={() => handleUpdateCatInProduct()} header={true} footer={true} borderRadius='10px' >
-                <RippleButton padding='5px' onClick={() => SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state)}> Subir productos</RippleButton >
-                <FlexContent>
-                    <CtnItems>
-                        {!dataProducto?.length ? <SkeletonP /> : dataProducto?.map((x) => (
-                            <CardProducts edit render={<IconBuy color={PColor} size={20} />} onClick={() => handleAddProduct(x)} key={x.pId} pId={x.pId} ProDescription={x.ProDescription} ProPrice={x.ProPrice} pName={x.pName} ProImage={x.ProImage} ValueDelivery={x.ValueDelivery} ProDescuento={x.ProDescuento} />
-                        ))}
-                    </CtnItems>
-                    <CtnItems>
-                        {data?.PRODUCT?.map((x, idx) => {
-                            return (
+          </ButtonAction>
+        </form>
+        <ButtonAction onClick={() => {return SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state)}}> Registrar  Categorías de productos </ButtonAction>
+      </AwesomeModal>
+      <ButtonAction onClick={() => {return SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state)}}> Adicionar Categorías</ButtonAction>
+      <Table
+        data={datCat?.catProductsAll}
+        labelBtn='Product'
+        renderBody={(dataB, titles) => {return dataB?.map((x, i) => {return <Section
+          columnWidth={titles}
+          key={i}
+          odd
+          padding='10px 0'
+        >
+          <Item>
+            <span># {x.pName}</span>
+          </Item>
+          <Item>
+            <span> {x.ProDescription}</span>
+          </Item>
+          <Item>
+            <button className='btn' onClick={() => {return deleteCatOfProducts({ variables: { idPc: x.carProId, pState: x.pState } })}}>
+              <IconPause color={PColor} size={30} />
+            </button>
+          </Item>
+          <Item>
+            <Button onClick={() => {return openModal(x.carProId)}}> Seleccionar </Button>
+          </Item>
+          <Item>
+            <button onClick={() => {return deleteCatFinalOfProducts({ variables: { idPc: x.carProId } })}}>
+              <IconDelete color={PColor} size={20} />
+            </button>
+          </Item>
+        </Section>})}
+        }
+        titles={[
+          { name: 'Nombre', key: '', justify: 'flex-center', width: '1fr' },
+          { name: 'Descripción', justify: 'flex-center', width: '1fr' },
+          { name: 'Pausar ventas', justify: 'flex-center', width: '1fr' },
+          { name: '', justify: 'flex-center', width: '1fr' },
+          { name: '', justify: 'flex-center', width: '1fr' }
+        ]}
+      />
+      <AwesomeModal
+        backdrop='static'
+        bgColor='transparent'
+        borderRadius='10px'
+        btnCancel={true}
+        btnConfirm={true}
+        footer={true}
+        header={true}
+        height='100vh'
+        onCancel={() => {return setOpenModalProducts(!openModalProducts)}}
+        onConfirm={() => {return handleUpdateCatInProduct()}}
+        onHide={() => {return setOpenModalProducts(!openModalProducts)}}
+        padding='25px'
+        show={openModalProducts}
+        size='large'
+        zIndex='990'
+      >
+        <RippleButton onClick={() => {return SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state)}} padding='5px'> Subir productos</RippleButton >
+        <FlexContent>
+          <CtnItems>
+            {!dataProducto?.length ? <SkeletonP /> : dataProducto?.map((x) => {return (
+              <CardProducts
+                ProDescription={x.ProDescription}
+                ProDescuento={x.ProDescuento}
+                ProImage={x.ProImage}
+                ProPrice={x.ProPrice}
+                ValueDelivery={x.ValueDelivery}
+                edit
+                key={x.pId}
+                onClick={() => {return handleAddProduct(x)}}
+                pId={x.pId}
+                pName={x.pName}
+                render={<IconBuy color={PColor} size={20} />}
+              />
+            )})}
+          </CtnItems>
+          <CtnItems>
+            {data?.PRODUCT?.map((x, idx) => {
+              return (
 
-                                <CardProducts edit render={<IconDelete color={PColor} size={20} />} onClick={() => dispatch({ type: 'REMOVE_PRODUCT', idx })} key={x.pId} pId={x.pId} ProDescription={x.ProDescription} ProPrice={x.ProPrice} pName={x.pName} ProImage={x.ProImage} ValueDelivery={x.ValueDelivery} ProDescuento={x.ProDescuento} />
-                            )
-                        })}
-                    </CtnItems>
-                </FlexContent>
-            </AwesomeModal >
-        </>
-    )
+                <CardProducts
+                  ProDescription={x.ProDescription}
+                  ProDescuento={x.ProDescuento}
+                  ProImage={x.ProImage}
+                  ProPrice={x.ProPrice}
+                  ValueDelivery={x.ValueDelivery}
+                  edit
+                  key={x.pId}
+                  onClick={() => {return dispatch({ type: 'REMOVE_PRODUCT', idx })}}
+                  pId={x.pId}
+                  pName={x.pName}
+                  render={<IconDelete color={PColor} size={20} />}
+                />
+              )
+            })}
+          </CtnItems>
+        </FlexContent>
+      </AwesomeModal >
+    </>
+  )
 }
 
 const Button = styled.button`

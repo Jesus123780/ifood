@@ -19,270 +19,302 @@ import { Context } from 'context/Context'
 import { IconLocationMap } from 'public/icons'
 import { useStore } from '../../components/hooks/useStore'
 import { CLIENT_URL_BASE } from 'apollo/urls'
-moment.locale('SG');
+moment.locale('SG')
 
 export const ListPedidos = ({ data, fetchMore, setMore, more }) => {
-    const moment = require('moment')
-    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
-    const [modal, setModal] = useState(false)
-    const [dataModal, setDataModal] = useState(null)
+  const moment = require('moment')
+  const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
+  const [modal, setModal] = useState(false)
+  const [dataModal, setDataModal] = useState(null)
 
-    const m1 = moment(new Date('2019/06/01 3:04:03'))
-    const handleOpenModal = elem => {
-        setModal(!modal)
-        setDataModal(elem)
-    }
-    // console.log(data)
-    return (
-        <div>
-            <Card>
-                <form>
-                    <InputHooks
-                        title='Desde'
-                        width={'20%'}
-                        required
-                        error={errorForm?.Desde}
-                        value={dataForm?.Desde}
-                        onChange={handleChange}
-                        name='Desde'
-                        type='date'
-                    />
-                    <InputHooks
-                        title='Hasta'
-                        width='20%'
-                        required
-                        type='date'
-                        error={errorForm?.ProDescuento}
-                        value={dataForm?.ProDescuento}
-                        onChange={handleChange}
-                        name='ProDescuento'
-                    />
-                    <InputHooks
-                        title='Numero'
-                        width='30%'
-                        required
-                        error={errorForm?.ProPrice}
-                        value={dataForm?.ProPrice}
-                        onChange={handleChange}
-                        name='ProPrice'
-                    />
-                    <InputHooks
-                        title='Nombre'
-                        width='30%'
-                        numeric
-                        required
-                        error={errorForm?.ProPrice}
-                        value={dataForm?.ProPrice}
-                        onChange={handleChange}
-                        name='ProPrice'
-                    />
-                    <NewSelect
-                        width='33.33%'
-                        name='colorId'
-                        options={[1, 2]}
-                        id='colorId'
-                        onChange={handleChange}
-                        optionName='colorName'
-                        value={dataForm?.Color}
-                        title='Restaurante'
-                    />
-                    <NewSelect
-                        width='33.33%'
-                        name='colorId'
-                        options={[1, 2]}
-                        id='colorId'
-                        onChange={handleChange}
-                        optionName='colorName'
-                        value={dataForm?.Color}
-                        title='Método de pago'
-                    />
-                    <NewSelect
-                        width='33.33%'
-                        name='colorId'
-                        options={[1, 2]}
-                        id='colorId'
-                        onChange={handleChange}
-                        optionName='colorName'
-                        value={dataForm?.Color}
-                        title='STATUS'
-                    />
-                    <Button type='submit'>
+  const m1 = moment(new Date('2019/06/01 3:04:03'))
+  const handleOpenModal = elem => {
+    setModal(!modal)
+    setDataModal(elem)
+  }
+  // console.log(data)
+  return (
+    <div>
+      <Card>
+        <form>
+          <InputHooks
+            error={errorForm?.Desde}
+            name='Desde'
+            onChange={handleChange}
+            required
+            title='Desde'
+            type='date'
+            value={dataForm?.Desde}
+            width={'20%'}
+          />
+          <InputHooks
+            error={errorForm?.ProDescuento}
+            name='ProDescuento'
+            onChange={handleChange}
+            required
+            title='Hasta'
+            type='date'
+            value={dataForm?.ProDescuento}
+            width='20%'
+          />
+          <InputHooks
+            error={errorForm?.ProPrice}
+            name='ProPrice'
+            onChange={handleChange}
+            required
+            title='Numero'
+            value={dataForm?.ProPrice}
+            width='30%'
+          />
+          <InputHooks
+            error={errorForm?.ProPrice}
+            name='ProPrice'
+            numeric
+            onChange={handleChange}
+            required
+            title='Nombre'
+            value={dataForm?.ProPrice}
+            width='30%'
+          />
+          <NewSelect
+            id='colorId'
+            name='colorId'
+            onChange={handleChange}
+            optionName='colorName'
+            options={[1, 2]}
+            title='Restaurante'
+            value={dataForm?.Color}
+            width='33.33%'
+          />
+          <NewSelect
+            id='colorId'
+            name='colorId'
+            onChange={handleChange}
+            optionName='colorName'
+            options={[1, 2]}
+            title='Método de pago'
+            value={dataForm?.Color}
+            width='33.33%'
+          />
+          <NewSelect
+            id='colorId'
+            name='colorId'
+            onChange={handleChange}
+            optionName='colorName'
+            options={[1, 2]}
+            title='STATUS'
+            value={dataForm?.Color}
+            width='33.33%'
+          />
+          <Button type='submit'>
                         Mas opciones
-                    </Button>
-                    <RippleButton padding='10px' margin='30px'>Consultar</RippleButton>
-                    <RippleButton padding='10px' margin='30px'>Consultar y exportar</RippleButton>
-                </form>
-            </Card>
-            <Table
-                titles={[
-                    { name: 'Cancelado por', key: '', justify: 'flex-center', width: '1fr' },
-                    { name: 'Pedido', key: 'bDescription', justify: 'flex-center', width: '1fr' },
-                    { name: 'Date', justify: 'flex-center', width: '1fr' },
-                    { name: 'Canal', justify: 'flex-center', width: '1fr' },
-                    { name: 'Método de pago', justify: 'flex-center', width: '1fr' },
-                    { name: 'Costo total', justify: 'flex-center', width: '1fr' },
-                    { name: 'Numero de Entrega', justify: 'flex-center', width: '1fr' },
-                    { name: 'Numero', justify: 'flex-center', width: '1fr' },
-                    { name: '', justify: 'flex-center', width: '1fr' },
-                ]}
-                labelBtn='Product'
-                data={data}
-                renderBody={(dataB, titles) => dataB?.map((x, i) => <Section odd padding='10px 0' columnWidth={titles} key={i}>
-                    <Item>
-                        <span> Restaurante</span>
-                    </Item>
-                    <Item>
-                        <span># {x.pCodeRef}</span>
-                    </Item>
-                    <Item>
-                        <span> {moment(x.pDatCre).format('DD/MM/YYYY')} - {moment(x.pDatCre).format('h:mma')} </span>
-                    </Item>
-                    <Item>
-                        <span> DELIVERY-APP </span>
-                    </Item>
-                    <Item>
-                        <span> {x.payMethodPState ? 'EFECTIVO' : 'TRANSFERENCIA'}</span>
-                    </Item>
-                    <Item>
-                        <span> $ {numberFormat(x.totalProductsPrice)} </span>
-                    </Item>
-                    <Item>
-                        {x.pSState === 1 ? 'Aceptado' : x.pSState === 2 ? 'Pedido en proceso' : x.pSState === 3 ? 'listo para entrega' : x.pSState === 4 ? 'Pedido pagado (Concluido)' : 'Rechazado'}
-                    </Item>
-                    <Item>
-                        <span> {i + 1}</span>
-                    </Item>
-                    <Item>
-                        <Button onClick={() => handleOpenModal(x)}>
+          </Button>
+          <RippleButton margin='30px' padding='10px'>Consultar</RippleButton>
+          <RippleButton margin='30px' padding='10px'>Consultar y exportar</RippleButton>
+        </form>
+      </Card>
+      <Table
+        data={data}
+        labelBtn='Product'
+        renderBody={(dataB, titles) => {return dataB?.map((x, i) => {return <Section
+          columnWidth={titles}
+          key={i}
+          odd
+          padding='10px 0'
+        >
+          <Item>
+            <span> Restaurante</span>
+          </Item>
+          <Item>
+            <span># {x.pCodeRef}</span>
+          </Item>
+          <Item>
+            <span> {moment(x.pDatCre).format('DD/MM/YYYY')} - {moment(x.pDatCre).format('h:mma')} </span>
+          </Item>
+          <Item>
+            <span> DELIVERY-APP </span>
+          </Item>
+          <Item>
+            <span> {x.payMethodPState ? 'EFECTIVO' : 'TRANSFERENCIA'}</span>
+          </Item>
+          <Item>
+            <span> $ {numberFormat(x.totalProductsPrice)} </span>
+          </Item>
+          <Item>
+            {x.pSState === 1 ? 'Aceptado' : x.pSState === 2 ? 'Pedido en proceso' : x.pSState === 3 ? 'listo para entrega' : x.pSState === 4 ? 'Pedido pagado (Concluido)' : 'Rechazado'}
+          </Item>
+          <Item>
+            <span> {i + 1}</span>
+          </Item>
+          <Item>
+            <Button onClick={() => {return handleOpenModal(x)}}>
                             Ver detalles
-                        </Button>
-                    </Item>
-                </Section>)}
-            />
-            <Action>
-                <RippleButton padding='10px' margin='30px 0' onClick={() => {
-                    setMore(more + 100)
-                    // getAllStoreAdmin()
-                    fetchMore({
-                        variables: { max: more, min: 0 },
-                        updateQuery: (prevResult, { fetchMoreResult }) => {
-                            if (!fetchMoreResult) return prevResult
-                            return {
-                                getAllPedidoStoreFinal: [...fetchMoreResult.getAllPedidoStoreFinal]
+            </Button>
+          </Item>
+        </Section>})}}
+        titles={[
+          { name: 'Cancelado por', key: '', justify: 'flex-center', width: '1fr' },
+          { name: 'Pedido', key: 'bDescription', justify: 'flex-center', width: '1fr' },
+          { name: 'Date', justify: 'flex-center', width: '1fr' },
+          { name: 'Canal', justify: 'flex-center', width: '1fr' },
+          { name: 'Método de pago', justify: 'flex-center', width: '1fr' },
+          { name: 'Costo total', justify: 'flex-center', width: '1fr' },
+          { name: 'Numero de Entrega', justify: 'flex-center', width: '1fr' },
+          { name: 'Numero', justify: 'flex-center', width: '1fr' },
+          { name: '', justify: 'flex-center', width: '1fr' }
+        ]}
+      />
+      <Action>
+        <RippleButton
+          margin='30px 0'
+          onClick={() => {
+            setMore(more + 100)
+            // getAllStoreAdmin()
+            fetchMore({
+              variables: { max: more, min: 0 },
+              updateQuery: (prevResult, { fetchMoreResult }) => {
+                if (!fetchMoreResult) return prevResult
+                return {
+                  getAllPedidoStoreFinal: [...fetchMoreResult.getAllPedidoStoreFinal]
 
-                            }
-                        }
-                    })
-                }}>Cargar Mas</RippleButton>
-            </Action>
-            <CheckStatus
-                setModal={setModal}
-                modal={modal}
-                dataModal={dataModal}
-            />
-        </div>
-    )
+                }
+              }
+            })
+          }}
+          padding='10px'
+        >Cargar Mas</RippleButton>
+      </Action>
+      <CheckStatus
+        dataModal={dataModal}
+        modal={modal}
+        setModal={setModal}
+      />
+    </div>
+  )
 }
 
-
 export const CheckStatus = ({ setModal, modal, dataModal }) => {
-    // STATES
-    const { setAlertBox } = useContext(Context)
-    const { pCodeRef, getAllPedidoStore, totalProductsPrice, pDatCre, locationUser } = dataModal || {}
-    const dataLocation = locationUser && JSON.parse(locationUser) || {}
-    const { cName, country, dName, uLocationKnow } = dataLocation || {}
-    // QUERIES
-    const [changePPStatePPedido] = useMutation(CHANGE_STATE_STORE_PEDIDO, {
-        onCompleted: data => {
-            setAlertBox({ message: data?.changePPStatePPedido?.message })
-        }
-    })
-    // HANDLES
-
-    const HandleChangeState = (stateNumber) => {
-        changePPStatePPedido({
-            variables: {
-                pPStateP: stateNumber,
-                pCodeRef: pCodeRef
-            }, update: (cache, { data: { getAllPedidoStoreFinal } }) => updateCache({
-                cache,
-                query: GET_ALL_PEDIDOS,
-                nameFun: 'getAllPedidoStoreFinal',
-                dataNew: getAllPedidoStoreFinal
-            })
-
-        })
+  // STATES
+  const { setAlertBox } = useContext(Context)
+  const { pCodeRef, getAllPedidoStore, totalProductsPrice, pDatCre, locationUser } = dataModal || {}
+  const dataLocation = locationUser && JSON.parse(locationUser) || {}
+  const { cName, country, dName, uLocationKnow } = dataLocation || {}
+  // QUERIES
+  const [changePPStatePPedido] = useMutation(CHANGE_STATE_STORE_PEDIDO, {
+    onCompleted: data => {
+      setAlertBox({ message: data?.changePPStatePPedido?.message })
     }
-    const [dataStore, { loading: LoadingRes }] = useStore()
+  })
+  // HANDLES
 
-    return (
-        <div>
-            <AwesomeModal show={modal} onCancel={() => setModal(false)} onHide={() => setModal(false)} btnConfirm={false} header={false} footer={false} padding='20px' zIndex='9999' size='medium' >
-                <ModalContainer>
-                    <Text size='2em'>{moment(pDatCre).format('DD/MM/YYYY')} - {moment(pDatCre).format('h:mma')}</Text>
-                    <CardTicket>
-                        <Text size='25px'># {pCodeRef}</Text>
-                    </CardTicket>
-                    <CardTicket>
-                        <IconLocationMap size={30} color={PColor} />
-                        <Text size='25px'>{cName}</Text>
-                        <Text size='25px'>{country}</Text>
-                        <Text size='25px'>{dName}</Text>
-                        <Text size='25px'>{uLocationKnow}</Text>
-                    </CardTicket>
-                    {getAllPedidoStore && getAllPedidoStore?.map(p => {
-                        const { getAllShoppingCard } = p || {}
-                        const { productFood, comments } = getAllShoppingCard || {}
-                        return (
-                            <div key={p.ShoppingCard}>
-                                <Card>
-                                    <CardProductsModal>
-                                        <Image
-                                            className='store_image'
-                                            width={250}
-                                            height={250}
-                                            objectFit='contain'
-                                            src={'/images/hamb.jpg'}
-                                            alt="Picture"
-                                            blurDataURL="data:..."
-                                            placeholder="blur" // Optional blur-up while loading
-                                        />
-                                        <ContentInfo>
-                                            <HeadSticky>
-                                                <Text size='1.9em'>{p?.getAllShoppingCard?.productFood?.pName}</Text>
-                                                <Text size='1.5em'>Cantidad: {p.getAllShoppingCard.cantProducts} </Text>
-                                            </HeadSticky>
-                                            <Text size='14px' margin='20px 0' color='#676464'>{p?.getAllShoppingCard?.productFood?.ProDescription}</Text>
-                                            <Flex>
-                                                <Text margin='12px 0' size='.875rem' color={APColor}>$ {numberFormat(p?.getAllShoppingCard?.productFood.ProPrice)}</Text>
-                                                <Text margin='12px 0 0 5px' size='14px' color={PLColor} style={{ textDecoration: 'line-through' }} >$ {numberFormat(p?.getAllShoppingCard?.productFood.ProDescuento)}</Text>
-                                            </Flex>
-                                            <DisRestaurant>
-                                                {dataStore && <Link
-                                                    passHref
-                                                    shallow
-                                                    replace
-                                                    href={{
-                                                        pathname: `${CLIENT_URL_BASE}delivery/${dataStore?.city?.cName?.toLocaleLowerCase()}-${dataStore?.department?.dName?.toLocaleLowerCase()}/${dataStore.storeName.replace(/\s/g, '-').toLocaleLowerCase()}/${dataStore.idStore}`,
-                                                    }} >
-                                                    <a target="_blank">
-                                                        <Text margin='12px 0 0 5px' size='19px'>$ {dataStore.storeName}</Text>
-                                                    </a>
-                                                </Link>}
-                                                <div className="dish-restaurant__divisor"></div>
-                                                <label tabIndex="0" className="dish-observation-form__label" >¿Algún comentario?</label>
-                                            </DisRestaurant>
-                                            <DisRestaurant>
-                                                <Text size='1.4'>{p?.getAllShoppingCard.comments}</Text>
-                                            </DisRestaurant>
-                                            {0 > 0 && <GarnishChoicesHeader>
-                                                <div>
-                                                    <p className="garnish-choices__title">Adicionales</p>
-                                                    <p className="garnish-choices__title-desc">Escoge hasta opciones.</p>
-                                                </div>
-                                                {/* <IconMiniCheck size={'15px'} color={'#009b3a'} /> */}
-                                            </GarnishChoicesHeader>}
-                                            {/* {ExtProductFoodsAll?.map(extra => (
+  const HandleChangeState = (stateNumber) => {
+    changePPStatePPedido({
+      variables: {
+        pPStateP: stateNumber,
+        pCodeRef: pCodeRef
+      }, update: (cache, { data: { getAllPedidoStoreFinal } }) => {return updateCache({
+        cache,
+        query: GET_ALL_PEDIDOS,
+        nameFun: 'getAllPedidoStoreFinal',
+        dataNew: getAllPedidoStoreFinal
+      })}
+
+    })
+  }
+  const [dataStore, { loading: LoadingRes }] = useStore()
+
+  return (
+    <div>
+      <AwesomeModal
+        btnConfirm={false}
+        footer={false}
+        header={false}
+        onCancel={() => {return setModal(false)}}
+        onHide={() => {return setModal(false)}}
+        padding='20px'
+        show={modal}
+        size='medium'
+        zIndex='9999'
+      >
+        <ModalContainer>
+          <Text size='2em'>{moment(pDatCre).format('DD/MM/YYYY')} - {moment(pDatCre).format('h:mma')}</Text>
+          <CardTicket>
+            <Text size='25px'># {pCodeRef}</Text>
+          </CardTicket>
+          <CardTicket>
+            <IconLocationMap color={PColor} size={30} />
+            <Text size='25px'>{cName}</Text>
+            <Text size='25px'>{country}</Text>
+            <Text size='25px'>{dName}</Text>
+            <Text size='25px'>{uLocationKnow}</Text>
+          </CardTicket>
+          {getAllPedidoStore && getAllPedidoStore?.map(p => {
+            const { getAllShoppingCard } = p || {}
+            const { productFood, comments } = getAllShoppingCard || {}
+            return (
+              <div key={p.ShoppingCard}>
+                <Card>
+                  <CardProductsModal>
+                    <Image
+                      alt='Picture'
+                      blurDataURL='data:...'
+                      className='store_image'
+                      height={250}
+                      objectFit='contain'
+                      placeholder='blur'
+                      src={'/images/hamb.jpg'}
+                      width={250} // Optional blur-up while loading
+                    />
+                    <ContentInfo>
+                      <HeadSticky>
+                        <Text size='1.9em'>{p?.getAllShoppingCard?.productFood?.pName}</Text>
+                        <Text size='1.5em'>Cantidad: {p.getAllShoppingCard.cantProducts} </Text>
+                      </HeadSticky>
+                      <Text
+                        color='#676464'
+                        margin='20px 0'
+                        size='14px'
+                      >{p?.getAllShoppingCard?.productFood?.ProDescription}</Text>
+                      <Flex>
+                        <Text
+                          color={APColor}
+                          margin='12px 0'
+                          size='.875rem'
+                        >$ {numberFormat(p?.getAllShoppingCard?.productFood.ProPrice)}</Text>
+                        <Text
+                          color={PLColor}
+                          margin='12px 0 0 5px'
+                          size='14px'
+                          style={{ textDecoration: 'line-through' }}
+                        >$ {numberFormat(p?.getAllShoppingCard?.productFood.ProDescuento)}</Text>
+                      </Flex>
+                      <DisRestaurant>
+                        {dataStore && <Link
+                          href={{
+                            pathname: `${CLIENT_URL_BASE}delivery/${dataStore?.city?.cName?.toLocaleLowerCase()}-${dataStore?.department?.dName?.toLocaleLowerCase()}/${dataStore.storeName.replace(/\s/g, '-').toLocaleLowerCase()}/${dataStore.idStore}`
+                          }}
+                          passHref
+                          replace
+                          shallow
+                        >
+                          <a target='_blank'>
+                            <Text margin='12px 0 0 5px' size='19px'>$ {dataStore.storeName}</Text>
+                          </a>
+                        </Link>}
+                        <div className='dish-restaurant__divisor'></div>
+                        <label className='dish-observation-form__label' tabIndex='0' >¿Algún comentario?</label>
+                      </DisRestaurant>
+                      <DisRestaurant>
+                        <Text size='1.4'>{p?.getAllShoppingCard.comments}</Text>
+                      </DisRestaurant>
+                      {0 > 0 && <GarnishChoicesHeader>
+                        <div>
+                          <p className='garnish-choices__title'>Adicionales</p>
+                          <p className='garnish-choices__title-desc'>Escoge hasta opciones.</p>
+                        </div>
+                        {/* <IconMiniCheck size={'15px'} color={'#009b3a'} /> */}
+                      </GarnishChoicesHeader>}
+                      {/* {ExtProductFoodsAll?.map(extra => (
                                             <CardsComponent key={extra.exPid}>
                                                 <div>
                                                     <h3 className="title_card">{extra.extraName}</h3>
@@ -292,45 +324,57 @@ export const CheckStatus = ({ setModal, modal, dataModal }) => {
                                                 </RippleButton>
                                             </CardsComponent>
                                         ))} */}
-                                            {![1, 2, 4]?.map((itemOptional, i) => (
-                                                <div key={i + 1}>
-                                                    <GarnishChoicesHeader >
-                                                        <div>
-                                                            <p className="garnish-choices__title">{itemOptional?.OptionalProName}</p>
-                                                            <p className="garnish-choices__title-desc">Escoge hasta {itemOptional?.numbersOptionalOnly} opciones.</p>
-                                                        </div>
-                                                        {/* <IconMiniCheck size={'15px'} color={'#009b3a'} /> */}
-                                                    </GarnishChoicesHeader>
-                                                    {itemOptional?.ExtProductFoodsSubOptionalAll?.map(x => (
-                                                        <CardsComponent key={x.opSubExPid}>
-                                                            <div>
-                                                                <h3 className="title_card">{x.OptionalSubProName}</h3>
-                                                            </div>
-                                                            <input name='subOptional' value={x?.opSubExPid} type="checkbox" id="cat" onChange={handleChangeClickOnTable} />
-                                                            <RippleButton bgColor={'transparent'} margin='0px' widthButton='min-content' type="button" onClick={() => console.log(x)} >
-                                                            </RippleButton>
-                                                        </CardsComponent>
-
-                                                    ))}
-                                                </div>
-                                            ))}
-                                        </ContentInfo>
-                                        <div />
-                                    </CardProductsModal>
-                                </Card>
+                      {![1, 2, 4]?.map((itemOptional, i) => {return (
+                        <div key={i + 1}>
+                          <GarnishChoicesHeader >
+                            <div>
+                              <p className='garnish-choices__title'>{itemOptional?.OptionalProName}</p>
+                              <p className='garnish-choices__title-desc'>Escoge hasta {itemOptional?.numbersOptionalOnly} opciones.</p>
                             </div>
-                        )
-                    })}
-                </ModalContainer>
-                <Text size='2em'>Total: $ {numberFormat(totalProductsPrice)}</Text>
-                <RippleButton onClick={() => HandleChangeState(1)}> Confirmar pedido</RippleButton>
-                <RippleButton onClick={() => HandleChangeState(2)}> Pedido en proceso</RippleButton>
-                <RippleButton onClick={() => HandleChangeState(3)}> Pedido en listo para entrega</RippleButton>
-                <RippleButton onClick={() => HandleChangeState(4)}> Pedido concluido</RippleButton>
-                <RippleButton onClick={() => HandleChangeState(5)}> Rechazar pedido</RippleButton>
-            </AwesomeModal>
-        </div >
-    )
+                            {/* <IconMiniCheck size={'15px'} color={'#009b3a'} /> */}
+                          </GarnishChoicesHeader>
+                          {itemOptional?.ExtProductFoodsSubOptionalAll?.map(x => {return (
+                            <CardsComponent key={x.opSubExPid}>
+                              <div>
+                                <h3 className='title_card'>{x.OptionalSubProName}</h3>
+                              </div>
+                              <input
+                                id='cat'
+                                name='subOptional'
+                                onChange={handleChangeClickOnTable}
+                                type='checkbox'
+                                value={x?.opSubExPid}
+                              />
+                              <RippleButton
+                                bgColor={'transparent'}
+                                margin='0px'
+                                onClick={() => {return console.log(x)}}
+                                type='button'
+                                widthButton='min-content'
+                              >
+                              </RippleButton>
+                            </CardsComponent>
+
+                          )})}
+                        </div>
+                      )})}
+                    </ContentInfo>
+                    <div />
+                  </CardProductsModal>
+                </Card>
+              </div>
+            )
+          })}
+        </ModalContainer>
+        <Text size='2em'>Total: $ {numberFormat(totalProductsPrice)}</Text>
+        <RippleButton onClick={() => {return HandleChangeState(1)}}> Confirmar pedido</RippleButton>
+        <RippleButton onClick={() => {return HandleChangeState(2)}}> Pedido en proceso</RippleButton>
+        <RippleButton onClick={() => {return HandleChangeState(3)}}> Pedido en listo para entrega</RippleButton>
+        <RippleButton onClick={() => {return HandleChangeState(4)}}> Pedido concluido</RippleButton>
+        <RippleButton onClick={() => {return HandleChangeState(5)}}> Rechazar pedido</RippleButton>
+      </AwesomeModal>
+    </div >
+  )
 }
 export const Tooltip = styled.div`
     border-radius: 2px;
@@ -376,15 +420,15 @@ export const ModalContainer = styled.div`
     height: 700px;
 `
 export const Text = styled.span`
-    font-size: ${({ size }) => size || '12px'};
-    text-align:  ${({ align }) => align || 'start'};
-    ${({ lineHeight }) => lineHeight && css`line-height: ${lineHeight};`}
-    ${({ padding }) => padding && css`padding: ${padding};`}
-    margin: ${({ margin }) => margin || '0'};
-    color: ${({ color }) => color || BColor};
-    /* justify-content: ${({ justify }) => justify || 'flex-start'}; */
+    font-size: ${({ size }) => {return size || '12px'}};
+    text-align:  ${({ align }) => {return align || 'start'}};
+    ${({ lineHeight }) => {return lineHeight && css`line-height: ${lineHeight};`}}
+    ${({ padding }) => {return padding && css`padding: ${padding};`}}
+    margin: ${({ margin }) => {return margin || '0'}};
+    color: ${({ color }) => {return color || BColor}};
+    /* justify-content: ${({ justify }) => {return justify || 'flex-start'}}; */
     display: flex;
-    font-family: ${({ font }) => font || 'PFont-Regular'};
+    font-family: ${({ font }) => {return font || 'PFont-Regular'}};
     word-break: break-word;
 `
 export const GarnishChoicesHeader = styled.div`
@@ -598,7 +642,7 @@ const pulse = keyframes`
 export const CircleStatus = styled.div` 
   border-radius: 50%;
   height: 30px;
-  background-color: ${({ status }) => status === 1 ? `${WColor}` : status === 2 ? `${TBGEColor}` : status === 3 ? `${SCColor}` : status === 4 ? `${PColor}` : status === 5 ? SECColor : BGColor};
+  background-color: ${({ status }) => {return status === 1 ? `${WColor}` : status === 2 ? `${TBGEColor}` : status === 3 ? `${SCColor}` : status === 4 ? `${PColor}` : status === 5 ? SECColor : BGColor}};
   width: 30px;
   min-height: 30px;
   text-align: center;
@@ -610,12 +654,12 @@ export const CircleStatus = styled.div`
     opacity: 1;
                 animation: ${FadeOup} 333ms cubic-bezier(.35,0,.5,1) backwards;
      }
-  ${props => props.pulse
-        ? css`
+  ${props => {return props.pulse
+    ? css`
     animation: ${pulse} 2s infinite;
   `
-        : css`
-  ` }
+    : css`
+  `} }
 `
 const Item = styled.div`
     padding: 15px 1px;

@@ -13,7 +13,12 @@ export const StepsComponent = ({ current, status, titles }) => {
     } else {
       stepStatus = status === 'finish' ? 'finish' : 'wait'
     }
-    return <Step key={i} stepNumber={i + 1} title={title} status={stepStatus} />
+    return <Step
+      key={i}
+      status={stepStatus}
+      stepNumber={i + 1}
+      title={title}
+    />
   })
   return (
     <Styled.Steps>
@@ -21,7 +26,7 @@ export const StepsComponent = ({ current, status, titles }) => {
     </Styled.Steps>
   )
 }
-const formatNumber = (n) => n > 9 ? `${n}` : `0${n}`
+const formatNumber = (n) => {return n > 9 ? `${n}` : `0${n}`}
 const StepIcon = ({ status, children }) => {
   let IconComponent
   switch (status) {
@@ -39,7 +44,7 @@ const StepIcon = ({ status, children }) => {
   }
   return <IconComponent>{children}</IconComponent>
 }
-const Step = ({ stepNumber, title, status }) => (
+const Step = ({ stepNumber, title, status }) => {return (
   <Styled.Step>
     <Styled.Tail finished={status === 'finish'} />
     <StepIcon status={status}>
@@ -49,7 +54,7 @@ const Step = ({ stepNumber, title, status }) => (
       <Styled.Title>{title}</Styled.Title>
     </Styled.Content>
   </Styled.Step>
-)
+)}
 
 Step.propTypes = {
   title: PropTypes.string,

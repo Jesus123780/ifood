@@ -86,7 +86,7 @@ export const Tail = styled.div`
   &:after {
     content: '';
     display: inline-block;
-    background: ${props => props.finished ? MainColor : lightGray};
+    background: ${props => {return props.finished ? MainColor : lightGray}};
     height: 2px;
     border-radius: 2px;
     width: 100%;

@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from '@apollo/client'
 
 export const UPDATE_CATEGORIES = gql`
 mutation updateCategoryProducts($input: ICategoryProduct){

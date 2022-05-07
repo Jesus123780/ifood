@@ -15,85 +15,97 @@ import useLocalStorage from '../../components/hooks/useLocalSorage'
 import Context from '../../context/Context'
 
 const CheckYourData = props => {
-    // const { setCompanyLink } = useContext(Context)
-    const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
-    const [step, setStep] = useState(0)
-    const [dataUser] = useUser()
-    const router = useRouter()
-    const { data } = useQuery(GET_ONE_STORE)
-    const store = data?.getStore || {}
-    const handleRedirect = () => {
-        router.push('/restaurante/firma-el-contrato')
-    }
-    return (
-        <div>
-            <ContentCardInfo>
-                <h1>Antes de terminar, revisa tus datos</h1>
-                <Card2>
-                    <div>
-                        <Text size='15px' color={BColor}>Nombre del restaurante </Text>
-                        <Text size='15px' color={BColor}>{store?.storeName}</Text>
-                    </div>
-                    <div>
-                        <Text size='15px' color={BColor}>NIT </Text>
-                        <Text size='15px' color={BColor}>{store?.NitStore}</Text>
-                    </div>
+  // const { setCompanyLink } = useContext(Context)
+  const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
+  const [step, setStep] = useState(0)
+  const [dataUser] = useUser()
+  const router = useRouter()
+  const { data } = useQuery(GET_ONE_STORE)
+  const store = data?.getStore || {}
+  const handleRedirect = () => {
+    router.push('/restaurante/firma-el-contrato')
+  }
+  return (
+    <div>
+      <ContentCardInfo>
+        <h1>Antes de terminar, revisa tus datos</h1>
+        <Card2>
+          <div>
+            <Text color={BColor} size='15px'>Nombre del restaurante </Text>
+            <Text color={BColor} size='15px'>{store?.storeName}</Text>
+          </div>
+          <div>
+            <Text color={BColor} size='15px'>NIT </Text>
+            <Text color={BColor} size='15px'>{store?.NitStore}</Text>
+          </div>
 
-                </Card2>
-                <Card2>
-                    <div>
-                        <Text size='15px' color={BColor}>Documento de identidad </Text>
-                        <Text size='15px' color={BColor}>{store?.documentIdentifier}</Text>
-                    </div>
-                    <div>
-                        <Text size='15px' color={BColor}>Email Store </Text>
-                        <Text size='15px' color={BColor}>{store?.emailStore}</Text>
-                    </div>
-                </Card2>
-                <Card2>
-                    <div>
-                        <div>
-                            <Text size='15px' color={BColor}>Información del representante legal </Text>
-                            {/* <Text size='15px' color={BColor}>{store?.NitStore}</Text> */}
-                        </div>
+        </Card2>
+        <Card2>
+          <div>
+            <Text color={BColor} size='15px'>Documento de identidad </Text>
+            <Text color={BColor} size='15px'>{store?.documentIdentifier}</Text>
+          </div>
+          <div>
+            <Text color={BColor} size='15px'>Email Store </Text>
+            <Text color={BColor} size='15px'>{store?.emailStore}</Text>
+          </div>
+        </Card2>
+        <Card2>
+          <div>
+            <div>
+              <Text color={BColor} size='15px'>Información del representante legal </Text>
+              {/* <Text size='15px' color={BColor}>{store?.NitStore}</Text> */}
+            </div>
 
-                    </div>
-                    <div>
-                        {dataUser?.email || ''}
-                    </div>
-                </Card2>
-                <Card2>
-                    <div>
-                        <div>
-                            <Text size='15px' color={BColor}>Dirección</Text>
-                            <Text size='15px' color={BColor}>{store?.addressStore}</Text>
-                        </div>
-                    </div>
-                </Card2>
-                <Card2>
-                    <div>
+          </div>
+          <div>
+            {dataUser?.email || ''}
+          </div>
+        </Card2>
+        <Card2>
+          <div>
+            <div>
+              <Text color={BColor} size='15px'>Dirección</Text>
+              <Text color={BColor} size='15px'>{store?.addressStore}</Text>
+            </div>
+          </div>
+        </Card2>
+        <Card2>
+          <div>
                         Numero
-                    </div>
-                    {store.uPhoNum}
-                </Card2>
-                <Card2>
-                    <div>
-                        <Text size='15px' color={BColor}>  Descripcion </Text>
-                        <Text size='15px' color={BColor}>{store?.description}</Text>
-                    </div>
-                    <div>
-                        <Text size='15px' color={BColor}>Categoría </Text>
-                        <Text size='15px' color={BColor}>{store?.cateStore?.cName}</Text>
-                    </div>
+          </div>
+          {store.uPhoNum}
+        </Card2>
+        <Card2>
+          <div>
+            <Text color={BColor} size='15px'>  Descripcion </Text>
+            <Text color={BColor} size='15px'>{store?.description}</Text>
+          </div>
+          <div>
+            <Text color={BColor} size='15px'>Categoría </Text>
+            <Text color={BColor} size='15px'>{store?.cateStore?.cName}</Text>
+          </div>
 
-                </Card2>
-                <RippleButton widthButton='100%' margin='20px auto' type='submit' onClick={() => handleRedirect()} bgColor={EColor}>{step !== 1 ? 'Continuar' : 'Finalizar'}</RippleButton>
-                <RippleButton widthButton='150px' padding={'15px 5px'} bgColor={PVColor} color={BGColor} onClick={() => generatePdfDocumentInvoice({ dataInvoice: { ...data } })}>
+        </Card2>
+        <RippleButton
+          bgColor={EColor}
+          margin='20px auto'
+          onClick={() => {return handleRedirect()}}
+          type='submit'
+          widthButton='100%'
+        >{step !== 1 ? 'Continuar' : 'Finalizar'}</RippleButton>
+        <RippleButton
+          bgColor={PVColor}
+          color={BGColor}
+          onClick={() => {return generatePdfDocumentInvoice({ dataInvoice: { ...data } })}}
+          padding={'15px 5px'}
+          widthButton='150px'
+        >
                     Download
-                </RippleButton>
-            </ContentCardInfo>
-        </div>
-    )
+        </RippleButton>
+      </ContentCardInfo>
+    </div>
+  )
 }
 
 CheckYourData.propTypes = {

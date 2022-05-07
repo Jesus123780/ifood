@@ -1,3 +1,3 @@
 import { useContext } from 'react'
 import AutoContext from '../../AutoContext'
-export default () => useContext(AutoContext)
+export default () => {return useContext(AutoContext)}

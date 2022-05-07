@@ -26,13 +26,13 @@ const options = {
   }
 }
 
-export const LineChart = () => (
-    <>
-        <div className='header'>
-            <div className='links'>
+export const LineChart = () => {return (
+  <>
+    <div className='header'>
+      <div className='links'>
 
-            </div>
-        </div>
-        <Line data={data} options={options} />
-    </>
-)
+      </div>
+    </div>
+    <Line data={data} options={options} />
+  </>
+)}

@@ -1,5 +1,5 @@
-import styled, { css } from 'styled-components';
-import { BGColor, EColor, PColor, PLColor, PVColor, BColor } from '../../../public/colors';
+import styled, { css } from 'styled-components'
+import { BGColor, EColor, PColor, PLColor, PVColor, BColor } from '../../../public/colors'
 
 export const ContainerListOptions = styled.div`
     display: flex;
@@ -102,7 +102,7 @@ export const CardsComponent = styled.div`
     }
 `
 export const ContentModal = styled.form`
-    height: ${({ height }) => height ? height : '600px'};
+    height: ${({ height }) => {return height ? height : '600px'}};
 `
 export const ContentLinesItems = styled.div`
     display: flex;
@@ -110,7 +110,7 @@ export const ContentLinesItems = styled.div`
     justify-content: center;
     height: min-content;
     border-bottom: 1px solid #ccc;
-    ${props => props.noBorder && `border-bottom: none`}
+    ${props => {return props.noBorder && `border-bottom: none`}}
 `
 export const ContentCheckbox = styled.div`
     transition: all .1s;
@@ -122,37 +122,37 @@ export const ContentCheckbox = styled.div`
 `
 export const Input = styled.input`
     width: 100%;
-    ${props => props.margin && css`margin: ${props.margin};`}
-    ${props => props.card && css`
+    ${props => {return props.margin && css`margin: ${props.margin};`}}
+    ${props => {return props.card && css`
     padding: 15px;
     border: 2px solid ${PColor};
-    `}
-    ${props => props.inputText && css`
+    `}}
+    ${props => {return props.inputText && css`
         font-weight: 500;
         margin: 0.625rem 0 0;
         overflow: visible;
         border: none;
         margin: 0 0 0 5px;
-        color: ${({ color }) => color};
+        color: ${({ color }) => {return color}};
         outline: none;
         padding: 5px;
         border: 2px solid transparent;
-    `}
-    ${props => props.inputText && css`
+    `}}
+    ${props => {return props.inputText && css`
         overflow: visible;
         border: none;
         margin: 0 0 0 5px;
-        color: ${({ color }) => color};
+        color: ${({ color }) => {return color}};
         outline: none;
         padding: 5px;
         border: 2px solid transparent;
-    `}
-    ${props => props.checkbox && css`
+    `}}
+    ${props => {return props.checkbox && css`
         cursor: inherit;
         zoom: inherit;
         margin: 0;
         z-index: 2;
-    `}
+    `}}
     &:focus {
         border: 2px solid ${PVColor};
         outline: none;

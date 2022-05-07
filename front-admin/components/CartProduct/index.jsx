@@ -1,58 +1,88 @@
-import { RippleButton } from "components/Ripple"
-import Image from "next/image"
-import { useRouter } from "next/router"
-import { APColor, BColor, BGColor, PColor } from "public/colors"
-import { IconDelete, IconEdit } from "public/icons"
-import styled, { css } from "styled-components"
-import { numberFormat } from "utils"
+import PropTypes from 'prop-types'
+import { RippleButton } from 'components/Ripple'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { APColor, BColor, BGColor, PColor } from 'public/colors'
+import { IconDelete, IconEdit } from 'public/icons'
+import styled, { css } from 'styled-components'
+import { numberFormat } from 'utils'
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 export const CardProducts = ({ pName, del, edit, key, ProDescription, ValueDelivery, pId, ProPrice, render = null, onClick = () => { }, handleDelete = () => { }, ProDescuento, ProImage, widthButton }) => {
-    const router = useRouter()
-    return (
-        <Card key={key}>
-            {del && <ButtonCard grid={false} onClick={handleDelete}>
-                <IconDelete size={20} color={PColor} />
-                <ActionName >
+  const router = useRouter()
+  return (
+    <Card key={key}>
+      {del && <ButtonCard grid={false} onClick={handleDelete}>
+        <IconDelete color={PColor} size={20} />
+        <ActionName >
                     Eliminar
-                </ActionName>
-            </ButtonCard>}
-            {edit && <ButtonCard grid={false} delay='.1s' top={'80px'} onClick={() => router.push(`/producto/editar/${pId}`)}>
-                <IconEdit size={20} color={PColor} />
-                <ActionName>
+        </ActionName>
+      </ButtonCard>}
+      {edit && <ButtonCard
+        delay='.1s'
+        grid={false}
+        onClick={() => {return router.push(`/producto/editar/${pId}`)}}
+        top={'80px'}
+      >
+        <IconEdit color={PColor} size={20} />
+        <ActionName>
                     Editar
-                </ActionName>
-            </ButtonCard>}
-            <div className="dish-card__info">
-                {ValueDelivery && <span className="description">Domicilio $ {numberFormat(ValueDelivery || 0)}</span>}
+        </ActionName>
+      </ButtonCard>}
+      <div className='dish-card__info'>
+        {ValueDelivery && <span className='description'>Domicilio $ {numberFormat(ValueDelivery || 0)}</span>}
 
-                <div className="flex-wrap">
-                    <span className="price">$ {ProPrice ? numberFormat(ProPrice) : 'Gratis'}</span>
-                    {ProDescuento !== 0 && <span className="price discount">{`$ ${numberFormat(ProDescuento)}`}</span>}
-                </div>
-            </div>
-            <div className='info-price'>
-                <span>
-                    <h3 className='dish-card__description'>{pName}</h3>
-                    <span className="description">{ProDescription}</span>
-                </span>
-                <ContainerActions>
-                    {render && <RippleButton bgColor={BGColor} widthButton={widthButton} padding='0' margin='5px auto' onClick={() => onClick()}>{render}</RippleButton>}
-                </ContainerActions>
-            </div>
-            <div className="dish-card__container-image">
-                <Image
-                    className='store_image'
-                    objectFit='cover'
-                    height={157}
-                    width={157}
-                    layout='fill'
-                    src={ProImage || '/images/dish-image-placeholder.png'}
-                    alt={pName}
-                    blurDataURL="/images/DEFAULTBANNER.png"
-                />
-            </div>
-        </Card>
-    )
+        <div className='flex-wrap'>
+          <span className='price'>$ {ProPrice ? numberFormat(ProPrice) : 'Gratis'}</span>
+          {ProDescuento !== 0 && <span className='price discount'>{`$ ${numberFormat(ProDescuento)}`}</span>}
+        </div>
+      </div>
+      <div className='info-price'>
+        <span>
+          <h3 className='dish-card__description'>{pName}</h3>
+          <span className='description'>{ProDescription}</span>
+        </span>
+        <ContainerActions>
+          {render && <RippleButton
+            bgColor={BGColor}
+            margin='5px auto'
+            onClick={() => {return onClick()}}
+            padding='0'
+            widthButton={widthButton}
+          >{render}</RippleButton>}
+        </ContainerActions>
+      </div>
+      <div className='dish-card__container-image'>
+        <Image
+          alt={pName}
+          blurDataURL='/images/DEFAULTBANNER.png'
+          className='store_image'
+          height={157}
+          layout='fill'
+          objectFit='cover'
+          src={ProImage || '/images/dish-image-placeholder.png'}
+          width={157}
+        />
+      </div>
+    </Card>
+  )
+}
+
+CardProducts.propTypes = {
+  ProDescription: PropTypes.any,
+  ProDescuento: PropTypes.number,
+  ProImage: PropTypes.string,
+  ProPrice: PropTypes.any,
+  ValueDelivery: PropTypes.number,
+  del: PropTypes.any,
+  edit: PropTypes.any,
+  handleDelete: PropTypes.func,
+  key: PropTypes.any,
+  onClick: PropTypes.func,
+  pId: PropTypes.any,
+  pName: PropTypes.any,
+  render: PropTypes.any,
+  widthButton: PropTypes.any
 }
 
 export const ContentImage = styled.div`
@@ -92,8 +122,8 @@ export const ButtonCard = styled.button`
     width: 50px;
     height: 50px;
     z-index: 999; 
-    top: ${({ top }) => top ? top : '20px'};
-    transition-delay: ${({ delay }) => delay ? delay : 'auto'};
+    top: ${({ top }) => {return top ? top : '20px'}};
+    transition-delay: ${({ delay }) => {return delay ? delay : 'auto'}};
     max-height: 50px;
     max-width: 50px;
     border-radius: 50%;
@@ -105,10 +135,10 @@ export const ButtonCard = styled.button`
         opacity: 1;
         z-index: 900;
     }
-    ${props => props.grid && css`
-        top: ${({ top }) => top ? top : '80px'};
-        `
-    }
+    ${props => {return props.grid && css`
+        top: ${({ top }) => {return top ? top : '80px'}};
+        `}
+}
 `
 const Card = styled.div`
     position: relative;
