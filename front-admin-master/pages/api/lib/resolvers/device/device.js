@@ -4,7 +4,7 @@ import Users from '../../models/Users'
 import UserDeviceModel from '../../models/users/userDevice'
 import { generateToken } from '../../utils'
 import { deCode, getAttributes } from '../../utils/util'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 /**
  * 

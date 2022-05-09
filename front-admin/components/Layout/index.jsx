@@ -47,7 +47,6 @@ export const Layout = ({ children, watch, settings }) => {
   }, [dataWS])
   return (
     <>
-      {/* setSalesOpen, salesOpen */}
       <AlertBox err={error} />
       <Main aside={!['/', '/login', '/entrar', '/restaurante', '/entrar/email', '/contact', '/varify-email', '/checkout/[id]', '/add-payment-method', '/register', '/terms_and_conditions', '/email/confirm/[code]', '/forgotpassword', '/teams/invite/[id]', '/autho', '/contact-us', '/switch-options'].find(x => {return x === location.pathname})} >
         {!isSession && !['/login', '/', '/entrar', '/restaurante', '/entrar/email', '/entrar/email/[verify]', '/register', '/varify-email', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => {return x === location.pathname}) && <Header />}
@@ -61,10 +60,10 @@ export const Layout = ({ children, watch, settings }) => {
             btnConfirm={false}
             footer={false}
             header={true}
-            height='100vh'
+            height='95vh'
             onCancel={() => {return false}}
             onHide={() => {return setSalesOpen(!salesOpen)} }
-            padding='25px'
+            padding={0}
             show={salesOpen}
             size='large'
             title='Crea una venta'

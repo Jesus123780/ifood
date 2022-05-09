@@ -13,7 +13,7 @@ import SubProducts from '../../models/Store/shoppingCardSubProduct'
 import Store from '../../models/Store/Store'
 import { deCode, getAttributes } from '../../utils/util'
 import ratingStoreStart from '../../models/Store/ratingStoreStart'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 export const newRegisterStore = async (_, { input }, ctx) => {
     // const id = ctx.User.id || ''

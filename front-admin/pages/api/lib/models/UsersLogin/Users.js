@@ -1,11 +1,10 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-var-requires */
 const Sequelize = require('sequelize')
 const connect = require('../../db')
 const sequelize = connect()
-const CitiesModel = require('../information/CitiesModel')
-const DepartmentsModel = require('../information/DepartmentsModel')
-const CountriesModel = require('../information/CountriesModel')
-const UserMasters = require('../userMaster/userMasterModel')
-const { enCode } = require('../../utils/util')
+const { enCode, validationID } = require('../../utils/util')
+const UsersModel = require('../users/UsersModel')
 
 // 
 

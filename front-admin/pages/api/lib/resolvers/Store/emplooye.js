@@ -1,10 +1,12 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-console */
 import { ApolloError } from 'apollo-server-micro'
 import EmployeesModelStore from '../../models/employees/EmployeesStore'
 import Users from '../../models/Users'
 import { LoginEmail } from '../../templates/LoginEmail'
 import { generateCode, generateToken, sendEmail } from '../../utils'
-import { deCode, filterKeyObject, getAttributes } from '../../utils/util'
-const { Op } = require('sequelize')
+import { deCode, getAttributes } from '../../utils/util'
+import { Op } from 'sequelize'
 
 export const createOneEmployeeStore = async (_root, { input }, context) => {
   try {
@@ -40,7 +42,6 @@ export const createOneEmployeeStore = async (_root, { input }, context) => {
     }).then(res => {return console.log(res, 'the res')}).catch(err => {return console.log(err, 'the err')})
     return { success: true, message: 'Update' }
   } catch (e) {
-    console.log(e)
     const error = new ApolloError(e || 'Lo sentimos, ha ocurrido un error interno')
     return error
   }
@@ -52,7 +53,7 @@ export const createOneEmployeeStore = async (_root, { input }, context) => {
  * @param {*} context 
  * @returns 
  */
-export const employees = async (_root, { caId, max, min, cId }, context, info) => {
+export const employees = async (_root, { max, min }, context, info) => {
   try {
     const attributes = getAttributes(EmployeesModelStore, info)
     let whereSearch = {}
@@ -72,7 +73,6 @@ export const employees = async (_root, { caId, max, min, cId }, context, info) =
 export const createOneEmployeeStoreAndUser = async (_root, { input }, context) => {
   console.log(input, 'heheheh')
   try {
-    let res = {}
     const { idEmployee, eState, uEmail } = input || {}
     const dataObjUserEmployee = {
       idEmployee,

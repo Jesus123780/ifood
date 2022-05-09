@@ -108,6 +108,10 @@ const Store = sequelize.define('store', {
     type: Sequelize.STRING,
     trim: true
   },
+  ImageName: {
+    type: Sequelize.STRING,
+    trim: true
+  },
   banner: {
     type: Sequelize.STRING,
     trim: true

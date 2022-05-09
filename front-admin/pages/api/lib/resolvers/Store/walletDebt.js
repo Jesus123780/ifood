@@ -1,14 +1,11 @@
-import { ApolloError } from 'apollo-server-micro'
-import productModelFood from '../../models/product/productFood'
-import catProducts from '../../models/Store/cat'
-import shopping from '../../models/Store/shopping'
+/* eslint-disable consistent-return */
 import Walletdebt from '../../models/Store/walletdebt'
 import walletdebtproducts from '../../models/Store/walletdebtproducts'
-import { deCode, filterKeyObject, getAttributes, linkBelongsTo } from '../../utils/util'
-const { Op } = require('sequelize')
+import { deCode, getAttributes } from '../../utils/util'
+import { Op } from 'sequelize'
+import { ApolloError } from 'apollo-server-core'
 
-export const createwalletdebtproducts = async (_, { input }, context) => {
-  console.log(input, 'habla')
+export const createwalletdebtproducts = async (_, { input }) => {
   const { RefDebtCode, UserDebtId, pId, ctx, debtAmountProduct } = input || {}
   await walletdebtproducts.create({
     RefDebtCode,
@@ -26,8 +23,7 @@ export const createwalletdebtproducts = async (_, { input }, context) => {
 }
 export const createWalletDebt = async (_, { input, inputLineItems }, ctx) => {
   try {
-    const { UserDebtId, RefDebtCode, gender } = input || {}
-    console.log(gender)
+    const { UserDebtId, RefDebtCode } = input || {}
     const { setData } = inputLineItems || {}
     const data = await Walletdebt.create({
       ...input,
@@ -42,12 +38,11 @@ export const createWalletDebt = async (_, { input, inputLineItems }, ctx) => {
     }
     return data
   } catch (error) {
-    console.log(error)
+    return new ApolloError('Lo sentimos, ha ocurrido un error interno, al crear la Billetera')
   }
 }
-export const delWalletDebt = async (_, { input }, ctx, info) => {
+export const delWalletDebt = async (_, { input }) => {
   const { debtWalletId, debtState } = input || {}
-  console.log(debtWalletId, debtState)
   try {
     await Walletdebt.update({ debtState: debtState === 1 ? 0 : 1 }, { where: { debtWalletId: deCode(debtWalletId) } })
     return { success: true, message: 'delete' }
@@ -57,7 +52,7 @@ export const delWalletDebt = async (_, { input }, ctx, info) => {
   }
 
 }
-export const WalletDebt = async (_, { idStore, search, min, max, refDebtCode }, ctx, info) => {
+export const WalletDebt = async (_, { search, min, max }, ctx, info) => {
   let whereSearch = {}
   if (search) {
     whereSearch = {
@@ -113,9 +108,6 @@ export const getAllWalletDebtProduct = async (parent, args, ctx, info) => {
           }
         ]
       }, limit: [min || 0, max || 100], order: [['debtProductState', 'DESC']]
-      // where: {
-      //     RefDebtCode: (parent.RefDebtCode)
-      // }
     })
     return data
   } catch {

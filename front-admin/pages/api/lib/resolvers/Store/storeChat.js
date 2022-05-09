@@ -1,11 +1,10 @@
-import promosStoreAdmin from '../../models/Store/promosStoreAdmin'
 import StatusPedidosModel from '../../models/Store/statusPedidoFinal'
 import { deCode } from '../../utils'
 import { getAttributes } from '../../utils/util'
 import { getOneStore } from './store'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
-export const getAllStoreActiveChat = async (_, { min, max, search, id }, ctx, info) => {
+export const getAllStoreActiveChat = async (_, { id }, ctx, info) => {
   try {
     const attributes = getAttributes(StatusPedidosModel, info)
     const data = await StatusPedidosModel.findAll({

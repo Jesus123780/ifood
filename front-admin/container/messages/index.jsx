@@ -2,12 +2,8 @@ import { useLazyQuery, useSubscription, useMutation, useQuery } from '@apollo/cl
 import { useUser } from 'components/hooks/useUser'
 import { MessageComp } from 'components/Messages'
 import { ContainerContextMessage } from 'components/Messages/styled'
-import { GET_USER } from 'container/profile/queries'
-// import { Context } from 'Context'
 import { GET_MESSAGES, NEW_MESSAGE, SEND_MESSAGES } from 'gql/Messages'
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { validationSubmitHooks } from 'utils'
-// import { Context } from '../../context/index'
 import { GET_ALL_STORY_ACTIVE_MESSAGE_ORDER } from './queries'
 import { useApolloClient } from '@apollo/client'
 import { Context } from 'context/Context'
@@ -50,6 +46,7 @@ export const Messages = () => {
       // const dataMessage = client.readQuery({ query: GET_MESSAGES })
     },
     onSubscriptionData: ({ subscriptionData }) => {
+      console.log(subscriptionData)
       // client.writeQuery({
       //     query: GET_MESSAGES,
       //     // data: {
@@ -65,7 +62,7 @@ export const Messages = () => {
   const [dataMessage, setDataMessage] = useState([])
   useEffect(() => {
     if (messageError) console.log(messageError)
-    messageData?.getMessages && setDataMessage([...messageData?.getMessages])
+    messageData?.getMessages && setDataMessage([...messageData.getMessages])
     if (messageDataNew) {
       setDataMessage([...dataMessage, messageDataNew?.newMessage ]) 
     }
@@ -74,10 +71,11 @@ export const Messages = () => {
   useEffect(() => {
     refetch
   }, [refetch])
-  const [sendMessage, { loading }] = useMutation(SEND_MESSAGES, {
+  const [sendMessage, { data, loading }] = useMutation(SEND_MESSAGES, {
     context: { clientName: 'admin-server' }
     // fetchPolicy: 'cache-and-network',
   })
+  console.log(data)
   //EFECTOS
   useEffect(() => {
     if (selectedStore) {
@@ -99,7 +97,7 @@ export const Messages = () => {
 
   const handleSendMessage = async e => {
     e.preventDefault()
-    // input.current.focus()
+    input.current.focus()
     try {
       if (selectedStore && id && !!content) {
         sendMessage({

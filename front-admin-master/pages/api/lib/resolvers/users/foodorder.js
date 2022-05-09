@@ -8,7 +8,7 @@ import { LoginEmail } from '../../templates/LoginEmail'
 import { generateCode, generateToken, sendEmail } from '../../utils'
 import { deCode, enCode, getAttributes } from '../../utils/util'
 
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 // store
 export const getAllPedidoStoreFinal = async (_, args, ctx, info) => {
     const { idStore } = args || {}

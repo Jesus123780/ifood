@@ -13,17 +13,14 @@ export const ContentCalcules = styled.div`
     right: 0;
     bottom: -1px;
     display: flex;
+    width: 40%;
     justify-content: space-between;
     background-color: ${PColor};
-    /* width: 40%; */
-    padding: 20px;
 `
 export const ScrollbarProduct = styled.div`
     overflow: hidden auto;
     height: 100%;
     margin: ${({ margin }) => {return margin || '100px 0'}};
-    border-top: 2px dashed rgba(166,166,166,.2);
-    border-bottom: 2px dashed rgba(166,166,166,.2);
     h2 {
     text-rendering: optimizeLegibility;
     font-family: PFont-Light;
@@ -32,7 +29,6 @@ export const ScrollbarProduct = styled.div`
     margin: 0 0 2px;
     font-weight: 400;
     font-size: 1.9em;
-    line-height: 44px;
     text-align: center;
     display: flex;
     justify-content: center;
@@ -91,6 +87,19 @@ export const FlipTop = styled.div`
         animation: ${animationTop} .1s linear;
     } 
 `
+export const Form = styled.div`
+    flex-wrap: wrap;
+    display: flex;
+`
+export const CtnSwiper = styled.div`
+    position: sticky;
+    top: 0;
+    height: min-content;    
+    background-color: ${BGColor};
+    Z-index: 999;
+    box-shadow: inset 0 -1px 0 #dcdcdc;
+
+`
 export const Box = styled.div`
     width: ${({ width }) => {return width || '60%'}};
     place-content: center;
@@ -101,6 +110,17 @@ export const Box = styled.div`
 export const Wrapper = styled.div`
     display: flex;
     flex-wrap: wrap;
+`
+export const ContentCheckbox = styled.div`
+    display: flex;
+    text-align: center;
+    place-content: space-between;
+    display: flex;
+    align-items: center;
+    padding-bottom: 20px;
+    label {
+        color: ${APColor};
+    }
 `
 export const ContainerGrid = styled.div`
     display: grid;    
@@ -123,14 +143,50 @@ export const ContainerGrid = styled.div`
 
 `
 export const CateItem = styled.div`
+    line-height: 1.15;
+    font-family: 'PFont-Regular';
+    box-sizing: border-box;
+    text-align: center;
+    column-gap: 12px;
+    align-items: center;
+    position: relative;
+    list-style: none;
     cursor: pointer;
-    box-shadow: 1px 1px 3px #00000052;
-    margin: auto;
-    border: 2px solid transparent;
-    border-radius: 5px;
-    width: 100%;
-    height: 150px;
-
+    box-sizing: border-box;
+    font-weight: lighter;
+    color: #717171;
+    word-break: break-word;
+    margin-bottom: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    padding: 8px 12px;
+    border-radius: 200px;
+    transition: background-color .3s ease-in-out;
+    background-color: #f7f7f7;
+    text-rendering: optimizeLegibility;
+    cursor: pointer;
+    color: #717171;
+    word-break: break-word;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    overflow: hidden;
+    place-content: space-around;
+    align-items: center;
+    min-width: 100px;
+    max-width: 250px;
+    min-height: 50px;
+    max-height: 50px;
+    user-select: none;
+    display: flex;
+    place-content: space-between;
+    .icon {
+        min-width: 20%;
+        max-width: 20%;
+        min-height: 20%;
+        max-height: 20%;
+    }
 `
 export const SliderCategoryProducts = styled.div`
     display: flex;

@@ -12,7 +12,7 @@ import Store from '../../models/Store/Store'
 import { deCode, getAttributes } from '../../utils/util'
 import ratingStoreStart from '../../models/Store/ratingStoreStart'
 import ScheduleStore from '../../models/Store/scheduleStore'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 // eslint-disable-next-line
 export const newRegisterStore = async (_, { input }, ctx) => {
@@ -47,21 +47,16 @@ export const getStore = async (_root, { id, StoreName, idStore }, context, info)
     attributes,
     where: {
       idStore: deCode(context.restaurant)
-      // idStore: deCode(id) 
     }
-    // where: { id: deCode('NjUzMDEzMTU1NjQzNjM5NTAwMA==') }
   })
   return data
 }
 // eslint-disable-next-line
 export const oneCategoriesStore = async (parent, _args, _context, info) => {
   try {
-    // const attributes = getAttributes(CatStore, info)
-
     const data = CatStore.findOne({ attributes: ['catStore', 'cName'], where: { catStore: deCode(parent.catStore) } })
     return data
   } catch (e) {
-    console.log(e)
     const error = new Error('Lo sentimos, ha ocurrido un error interno')
     return error
   }
@@ -189,7 +184,6 @@ export const getAllStoreInStore = async (root, args, context, _info) => {
     })
     return data
   } catch (e) {
-    console.log(e)
     const error = new Error('Lo sentimos, ha ocurrido un error interno')
     return error
   }
@@ -345,7 +339,6 @@ export const getAllRatingStar = async (_root, { idStore }, ctx, info) => {
 }
 export const setRatingStar = async (_root, { input }, context) => {
   const { idStore, rScore } = input || {}
-  console.log(idStore, rScore)
   try {
     // eslint-disable-next-line
         const [rating, _created] = await ratingStoreStart.findOrCreate({
@@ -425,7 +418,6 @@ export const setFavorites = async (_root, { input }, context) => {
     return { success: true, message: 'El Restaurante ha sido agregado a tus favoritos' }
         
   } catch (e) {
-    console.log(e)
     return e
   }
 }
@@ -462,7 +454,6 @@ export const getAllMatchesStore = async (root, args, context, info) => {
     })
     return data
   } catch (e) {
-    console.log(e)
     const error = new Error('Lo sentimos, ha ocurrido un error interno')
     return error
   }

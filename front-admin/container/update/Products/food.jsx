@@ -284,7 +284,7 @@ export const Food = () => {
   const handleAddProductR = elem => {
     let includes = product_state?.PRODUCT_RECOGER.includes(elem)
     if (includes) {
-      setAlertBox({ message: 'The invoice is already added to the list' })
+      setAlertBox({ message: 'El producto ya esta en la lista' })
     } else {
       dispatch({ type: 'ADD_PRODUCT', payload: elem })
     }

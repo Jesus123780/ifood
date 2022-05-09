@@ -51,7 +51,7 @@ export default function useScrollHook() {
   useEffect(() => {
     let scrollPos = 0
     const handleChangeHeaderStyle = () => {
-      if (document.body.getBoundingClientRect().top > scrollPos) {
+      if ( document.body?.getBoundingClientRect && document.body.getBoundingClientRect().top > scrollPos) {
         setStyle({})
       } else {
         setStyle({ transform: 'translateY(-300%)' })

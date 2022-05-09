@@ -16,12 +16,9 @@ import { useCountLetters } from 'components/hooks/useCountLetters'
 import { usePosition } from 'components/hooks/usePosition'
 import { Context } from 'context/Context'
 
-export const Login = ({ watch, settings }) => {
+export const Login = () => {
   const router = useRouter()
   const { setAlertBox } = useContext(Context)
-
-  const responseFacebook = response => {
-  }
   const [location, setLocation] = useState({})
   const [locationFormat, setLocationFormat] = useState('')
   const [newRegisterUser, { loading }] = useMutation(CREATE_CURRENT_SESSION)
@@ -33,17 +30,16 @@ export const Login = ({ watch, settings }) => {
   const fetchData = async () => {
     const API = `https://maps.googleapis.com/maps/api/geocode/json?address=${latitude} ${longitude}&key=AIzaSyAy0SY1G3OFqesWSTQRHJvzyJzNgURPoN8`
     fetch(API)
-      .then(response => {return response.json()})
+      .then(response => { return response.json() })
       .then(response => {
         setLocationFormat(response?.results)
       })
-      .catch(() => {
-      })
+      .catch(() => { return })
     return locationFormat ?? locationFormat[0].formatted_address
   }
   const responseGoogle = async (e) => {
     e.preventDefault()
-    const dataLocation = await fetchData()
+    await fetchData()
     // window.localStorage.setItem('sessionGoogle', JSON.stringify(response.profileObj))
     // const { name, googleId, email, imageUrl } = response?.profileObj
     // const body = {
@@ -83,56 +79,58 @@ export const Login = ({ watch, settings }) => {
       } else {
         router.push('/restaurante')
       }
-    }).catch(e => {
-      console.log(e)
+    }).catch(() => {
+      setAlertBox({ message: 'Lo sentimos ha ocurrido un error', color: 'error' })
     })
   }
   return (
     <Content>
-      {/* {useCountLetters()} */}
       <Card>
-        {/* sdfasd */}
       </Card>
       <Form>
         <Text size='30px'>¡Falta poco para saciar tu hambre!</Text>
         <Text size='15px'>¿Cómo deseas continuar?</Text>
-        <button onClick={(e) => {return responseGoogle(e)}}>Login falso</button>
-        <GoogleLogin
+        <button onClick={responseGoogle}>Login falso</button>
+        {/* <GoogleLogin
           autoLoad={false}
           clientId='58758655786-u323tp1dpi6broro865rrm488gh4mnpu.apps.googleusercontent.com'
           cookiePolicy={'single_host_origin'}
           onFailure={responseGoogle}
           onSuccess={responseGoogle}
-          render={renderProps => {return (
-            <div>
+          render={renderProps => {
+            return (
+              <div>
 
-              <ButtonSubmit
-                color='2'
-                colorFont='#717171'
-                disabled={renderProps.disabled}
-                height='40px'
-                onClick={renderProps.onClick}
-                size='14px'
-              ><IconGoogleFullColor size='30px' /> Continue with Google<div style={{ width: 'min-content' }} /> </ButtonSubmit>
-            </div>
-          )}}
-        />
-        <FacebookLogin
+                <ButtonSubmit
+                  color='2'
+                  colorFont='#717171'
+                  disabled={renderProps.disabled}
+                  height='40px'
+                  onClick={renderProps.onClick}
+                  size='14px'
+                ><IconGoogleFullColor size='30px' /> Continue with Google<div style={{ width: 'min-content' }} /> </ButtonSubmit>
+              </div>
+            )
+          }}
+        /> */}
+        {/* <FacebookLogin
           appId='467885964900974'
           autoLoad={false}
           callback={responseFacebook}
           fields='name,email,picture'
-          render={renderProps => {return (
-            <ButtonSubmit
-              color='1'
-              disabled={renderProps.disabled}
-              height='40px'
-              onClick={renderProps.onClick}
-              size='14px'
-              type='button'
-            ><Facebook color={BGColor} size='30px' /> Login <div style={{ width: 'min-content' }} />    </ButtonSubmit>
-          )}}
-        />
+          render={renderProps => {
+            return (
+              <ButtonSubmit
+                color='1'
+                disabled={renderProps.disabled}
+                height='40px'
+                onClick={renderProps.onClick}
+                size='14px'
+                type='button'
+              ><Facebook color={BGColor} size='30px' /> Login <div style={{ width: 'min-content' }} />    </ButtonSubmit>
+            )
+          }}
+        /> */}
         <ActiveLink activeClassName='active' href='/entrar/email'>
           <a>
             <RippleButton

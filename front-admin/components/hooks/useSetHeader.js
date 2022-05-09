@@ -114,7 +114,7 @@ function useObserveBottomSentinels(
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         const target = stickyRefs.get(entry.target)
-        const targetRect = target.getBoundingClientRect()
+        const targetRect = target?.getBoundingClientRect()
         const bottomSentinelRect = entry.boundingClientRect
         const rootBounds = entry.rootBounds
         const intersectionRatio = entry.intersectionRatio

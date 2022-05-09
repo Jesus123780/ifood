@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import styled, { css } from 'styled-components'
@@ -35,12 +36,9 @@ export const ProductEdit = ({ id }) => {
   const [ExtProductFoodsAll, { data: dataExtra }] = useLazyQuery(GET_ALL_EXTRA_PRODUCT)
   const [editProductFoods] = useMutation(EDIT_PRODUCT)
   const [setImageProducts] = useMutation(UPDATE_IMAGE_PRODUCT_FOOD, {
-    context: { clientName: 'admin-server' },
-    onCompleted: () => {
-    }
+    context: { clientName: 'admin-server' }
   })
   // EFFECTS
-  console.log(dataProduct)
   const { getStore, pCode, ProPrice, ProDescuento, ValueDelivery, ProDescription, ProImage, ProDelivery, pState } = dataProduct?.productFoodsOne || {}
   useEffect(() => {
     if (id) {
@@ -99,7 +97,6 @@ export const ProductEdit = ({ id }) => {
             ProDescription,
             ProProtegido,
             ProAssurance,
-            // ...(image) && ProImage,
             ProWidth,
             ProHeight,
             ProLength,
@@ -281,7 +278,7 @@ export const ProductEdit = ({ id }) => {
 }
 
 ProductEdit.propTypes = {
-
+  id: PropTypes.string
 }
 export const ContentImage = styled.div`
     display: flex;
@@ -501,6 +498,7 @@ const Inputdeker = styled.input`
 // margin: 5px;
 // `
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 export const CardProducts = ({ pName, del, edit, key, ProDescription, ValueDelivery, pId, ProPrice, render = null, onClick = () => { }, handleDelete = () => { }, ProDescuento, ProImage, widthButton }) => {
   const router = useRouter()
   return (
@@ -559,4 +557,21 @@ export const CardProducts = ({ pName, del, edit, key, ProDescription, ValueDeliv
       </div>
     </Card>
   )
+}
+
+CardProducts.propTypes = {
+  ProDescription: PropTypes.string,
+  ProDescuento: PropTypes.number,
+  ProImage: PropTypes.string,
+  ProPrice: PropTypes.number,
+  ValueDelivery: PropTypes.number,
+  del: PropTypes.bool,
+  edit: PropTypes.bool,
+  handleDelete: PropTypes.func,
+  key: PropTypes.string || PropTypes.number,
+  onClick: PropTypes.func,
+  pId: PropTypes.string,
+  pName: PropTypes.string,
+  render: PropTypes.any,
+  widthButton: PropTypes.string || PropTypes.number
 }

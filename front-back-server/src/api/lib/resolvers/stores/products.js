@@ -2,7 +2,7 @@ import { URL_BASE } from "../../utils"
 import productModelFood from "../../models/product/productFood"
 import fs from 'fs'
 import { deCode } from "../../utils/util"
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 export const saveImagesProducts = async ({ filename, mimetype, fileStream, state }) => {
     const path = `public/platos/${filename}`

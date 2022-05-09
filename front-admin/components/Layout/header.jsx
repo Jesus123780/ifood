@@ -39,22 +39,31 @@ export const Header = () => {
   return (
     <HeaderC scrollNav={scrollNav} style={style} >
       <Link href={'/dashboard'}>
-        <a >
+        <a>
           <IconLogo color={PColor} size='80px' />
         </a>
       </Link>
-      <Options />
-      <HeaderWrapperButton onClick={() => {return setSalesOpen(!salesOpen)}} style={style}>
-        <IconSales size={30} />
-        <div className='info-sales'>
-          <span>Crear una venta</span>
-          <span>Total de ventas hoy {10}</span>
-        </div>
-      </HeaderWrapperButton>
+      <CtnItemOps>
+        <Options />
+        <HeaderWrapperButton onClick={() => { return setSalesOpen(!salesOpen) }} style={style}>
+          <IconSales size={30} />
+          <div className='info-sales'>
+            <span>Crear una venta</span>
+            <span>Total de ventas hoy {10}</span>
+          </div>
+        </HeaderWrapperButton>
+      </CtnItemOps>
     </HeaderC>
   )
 }
 
+export const CtnItemOps = styled.div`
+  display: flex;
+  width: fit-content;
+  place-content: center;
+  place-items: center;
+  flex-wrap: wrap;
+`
 export const HeaderWrapperButton = styled.div`
     display: flex;
     flex-direction: row;
@@ -71,11 +80,12 @@ export const HeaderWrapperButton = styled.div`
     border: 0;
     cursor: pointer;
     background-color: #f7f7f7;
+    margin-left: 30px;
     &:hover {
       background-color: #f7f7f7;
     }
     .info-sales {
-      margin: 0 0 0 6px;
+    margin: 0 0 0 6px;
     color: #717171;
     transition: background-color .3s ease-in-out;
     white-space: nowrap;
@@ -91,10 +101,11 @@ export const HeaderC = styled.header`
     display: flex;
     height: auto;
     grid-area: head;
-    background-color: ${({ scrollNav }) => {return (scrollNav ? 'none' : 'transparent')}};
+    background-color: ${({ scrollNav }) => { return (scrollNav ? 'none' : 'transparent') }};
     flex-direction: row;
     align-items: center;
     width: 100%;
+    padding: 0 1.2em;
     display: flex;
     height: 80px;
     justify-content: space-between;

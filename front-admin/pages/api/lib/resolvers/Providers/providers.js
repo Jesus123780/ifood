@@ -1,7 +1,5 @@
-import { Op, fn } from 'sequelize'
-import productModelFood from '../../models/product/productFood'
+import { Op } from 'sequelize'
 import Providers from '../../models/Providers/providers'
-import Store from '../../models/Store/Store'
 import { deCode, getAttributes } from '../../utils/util'
 
 export const getAllProviders = async (root, args, context, info) => {
@@ -32,10 +30,10 @@ export const getAllProviders = async (root, args, context, info) => {
   })
   return data
 }
-export const registerProviders = async (root, { input }, context, info) => {
+// eslint-disable-next-line consistent-return
+export const registerProviders = async (root, { input }, context) => {
   try {
     const { PrNumberPhone, PrNumberIdentity } = input || {}
-    console.log(input)
     const [exist, created] = await Providers.findOrCreate({
       where: {
         PrNumberPhone,
@@ -52,7 +50,6 @@ export const registerProviders = async (root, { input }, context, info) => {
       return { success: true, message: 'El teléfono o El proveedor ya existe' }
     }
   } catch (e) {
-    console.log(e)
     return { success: false, message: 'Lo sentimos, ha ocurrido un error interno', e }
   }
 }

@@ -2,7 +2,7 @@ import { ApolloError } from 'apollo-server-micro'
 import productModelFood from '../../models/product/productFood'
 import catProducts from '../../models/Store/cat'
 import { deCode, filterKeyObject, getAttributes, linkBelongsTo } from '../../utils/util'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 export const updatedProducts = async (_, { input }, ctx) => {
     const id = ctx.User.id || ''

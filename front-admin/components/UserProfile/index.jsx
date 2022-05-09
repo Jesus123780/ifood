@@ -1,20 +1,14 @@
 import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import moment from 'moment'
 import { ContentInfo, Text, TextContent } from './style'
 import { ContainerHead, ContainerUpload, InputText, ImgContainer, Form, Container, Card } from './styled'
-import { Map } from '../Map'
 import { RippleButton } from '../Ripple'
-import { CardDevice } from 'container/dashboard/styled'
-const UserProfileSettings = ({ handleSubmit, onChange, dataForm, dataDevice }) => {
+const UserProfileSettings = ({ handleSubmit, onChange, dataForm }) => {
   const [showModal, setShowModal] = useState(false)
-  const [deviceId, setDeviceId] = useState(false)
-  useEffect(() => {
-    setDeviceId(window.localStorage.getItem('deviceid'))
-  }, [])
   return <div>
     <Container>
-      <RippleButton margin='40px 0' onClick={() => { return setShowModal(!showModal) }}>Registrar Ubicación</RippleButton>
+      {/* <RippleButton margin='40px 0' onClick={() => { return setShowModal(!showModal) }}>Registrar Ubicación</RippleButton> */}
       <Card >
         <Form onSubmit={handleSubmit}>
           <ContainerHead>
@@ -91,71 +85,11 @@ const UserProfileSettings = ({ handleSubmit, onChange, dataForm, dataDevice }) =
           </ContentInfo>
         </Form>
       </Card>
-      {dataDevice?.map(x => {
-        return (
-          <CardDevice key={x.dId}>
-            <span className='device__icon'>
-              {x.short_name === 'WIN' &&
-                <svg
-                  fill='none'
-                  height='24'
-                  viewBox='0 0 24 24'
-                  width='24'
-                ><rect
-                    height='15.5'
-                    rx='3.25'
-                    stroke='#3E3E3E'
-                    strokeWidth='1.5'
-                    width='20.5'
-                    x='1.75'
-                    // eslint-disable-next-line react/jsx-closing-bracket-location
-                    y='0.75' >
-                  </rect><path
-                    d='M5 13L19 13'
-                    stroke='#3E3E3E'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth='1.5'
-                  ></path><path
-                    d='M8 22C8 20.343 9.79133 19 12 19C14.2087 19 16 20.343 16 22H8Z'
-                    stroke='#3E3E3E'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth='1.5'
-                  ></path><path
-                    d='M12 17L12.0017 19'
-                    stroke='#3E3E3E'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth='1.5'
-                  ></path></svg>
-              }
-            </span>
-            <div className='device__info'>
-              <div className='device__description-wrapper'>
-                <span className='device__description'> {x.deviceName} - {x.platform} </span>
-                {deviceId === x.deviceId && <span className='device__current'>Current device </span>}
-              </div>
-              <span className='device__localization' tabIndex='0'> {x.short_name}</span>
-              <span className='device__localization' tabIndex='0'> {x.locationFormat}</span>
-              <span className='device__localization' tabIndex='0'> {moment(x.DatCre).format('YYYY-MM-DD')} </span>
-            </div>
-          </CardDevice>
-        )
-      })}
     </Container >
-    <Map
-      modal={1}
-      setShowModal={setShowModal}
-      showModal={showModal}
-    />
   </div>
 }
 
 UserProfileSettings.propTypes = {
-  dataDevice: PropTypes.shape({
-    map: PropTypes.func
-  }),
   dataForm: PropTypes.shape({
     email: PropTypes.string,
     lastName: PropTypes.string,

@@ -1,11 +1,13 @@
+/* eslint-disable consistent-return */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ApolloError } from 'apollo-server-micro'
 import clients from '../../models/Store/clients'
 import { deCode, getAttributes } from '../../utils/util'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 export const createClients = async (_root, { input }, context, _info) => {
 
-  const { idUser, ccClient, clientNumber } = input || {}
+  const { idUser, ccClient } = input || {}
   try {
     const isExist = await clients.findOne({
       attributes: ['clientNumber', 'ccClient'],
@@ -19,6 +21,7 @@ export const createClients = async (_root, { input }, context, _info) => {
     return error
         
   } catch (e) {
+    return new ApolloError('Ocurrió un error')
   }
   // try {
   //     const [exist, created] = await clients.findOrCreate({
@@ -48,8 +51,7 @@ export const getOneClients = async (_root, { cliId }, context, info) => {
 
 }
 // idStore: ID, cId: ID dId: ID ctId: ID search: String min: Int fromDate: DateTime toDate: DateTime max: Int
-export const getAllClients = async (_root, { idStore, cId, dId, ctId, search, min, max, fromDate, toDate }, context, info) => {
-  console.log(fromDate, toDate)
+export const getAllClients = async (_root, { idStore, fromDate, toDate }, context, info) => {
   try {
     const attributes = getAttributes(clients, info)
     const data = await clients.findAll({
@@ -65,12 +67,11 @@ export const getAllClients = async (_root, { idStore, cId, dId, ctId, search, mi
     })
     return data
   } catch (e) {
-    console.log(e)
     throw new ApolloError('No ha sido posible procesar su solicitud.', 500, e)
 
   }
 }
-export const deleteClient = async (_root, { cliId, clState }, context, info) => {
+export const deleteClient = async (_root, { cliId, clState }) => {
   try {
     await clients.update({ clState: clState === 1 ? 0 : 1 }, { where: { cliId: deCode(cliId) } })
   } catch (error) {

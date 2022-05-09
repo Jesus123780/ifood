@@ -7,7 +7,6 @@ import { PubSub } from 'graphql-subscriptions'
 import { SubscriptionServer } from 'subscriptions-transport-ws'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { graphqlUploadExpress, graphqlUploadKoa } from 'graphql-upload';
-import multer from 'multer';
 import jwt from 'jsonwebtoken'
 // @ts-ignore
 import typeDefs from './api/lib/typeDefs'
@@ -43,7 +42,6 @@ import indexRoutes from './api/lib/router'
     app.use(morgan('dev'))
     app.use(express.json({ limit: '50mb' }))
     app.use(graphqlUploadExpress({ maxFileSize: 1000000000, maxFiles: 10 }))
-
     // const storage = multer.diskStorage({
     //     destination: path.join(__dirname, '../public'),
     //     filename: (req, file, next) => {
@@ -77,7 +75,7 @@ import indexRoutes from './api/lib/router'
                     console.log(err)
                     console.log('Hola esto es un error del contexto')
                 }
-            } else { return { restaurant: restaurant || {} }}
+            } else { return { restaurant: restaurant || {} } }
 
         },
     });

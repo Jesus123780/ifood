@@ -90,6 +90,7 @@ type Store {
     storePhone: String
     socialRaz: String
     Image: String
+    ImageName: String
     banner: String
     documentIdentifier: String
     uPhoNum: String
@@ -127,6 +128,7 @@ input IStore {
     storePhone: String
     socialRaz: String
     Image: String
+    ImageName: String
     banner: String
     documentIdentifier: String
     uPhoNum: String

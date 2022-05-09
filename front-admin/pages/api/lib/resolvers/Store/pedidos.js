@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import productModelFood from '../../models/product/productFood'
 import pedidosModel from '../../models/Store/pedidos'
 import ShoppingCard from '../../models/Store/ShoppingCard'
@@ -5,7 +6,7 @@ import StatusPedidosModel from '../../models/Store/statusPedidoFinal'
 import Users from '../../models/Users'
 import { deCode, getAttributes } from '../../utils/util'
 import { deleteOneItem, getOneStore } from './store'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 export const createOnePedidoStore = async (_, { input }, ctx) => {
   const { id, idStore, ShoppingCard, change, pickUp, pCodeRef, payMethodPState, pPRecoger } = input || {}
@@ -31,7 +32,6 @@ export const createOnePedidoStore = async (_, { input }, ctx) => {
 // eslint-disable-next-line
 const changePPStatePPedido = async (_, { pPStateP, pCodeRef }, ctx) => {
   try {
-    console.log(pPStateP, pCodeRef)
     await StatusPedidosModel.update({ pSState: pPStateP }, { where: { pCodeRef: pCodeRef } })
     return {
       success: true,
@@ -61,7 +61,6 @@ const createMultipleOrderStore = async (_, { input }, ctx) => {
     }
     return { success: true, message: 'Update' }
   } catch (error) {
-    console.log(error)
     return { success: false, message: error }
   }
 }

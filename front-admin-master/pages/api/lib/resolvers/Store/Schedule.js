@@ -4,7 +4,7 @@ import ScheduleStore from '../../models/Store/ScheduleStore'
 import Store from '../../models/Store/Store'
 import { LoginEmail } from '../../templates/LoginEmail'
 import { deCode, filterKeyObject, getAttributes } from '../../utils/util'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 export const updateStoreSchedule = async (_root, { input }) => {
     try {

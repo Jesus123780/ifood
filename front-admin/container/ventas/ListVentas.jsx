@@ -11,7 +11,7 @@ import { numberFormat } from 'utils'
 import { GET_ALL_SALES, GET_ONE_SALES } from './queries'
 import moment from 'moment'
 import { GetOneSales } from './getOneSales'
-import { BarChat, Circle, DoughnutChar } from 'components/Chart'
+import { BarChat, Circle, DoughnutChar, HorizontalBarChart } from 'components/Chart'
 moment.locale('es')
 export const ListVentas = () => {
   let total = 0
@@ -223,7 +223,6 @@ export const ChatStatistic = () => {
   }, {})
 
   // Resultado:
-  console.log(moment()._locale._abbr)
   const dataChat = {
     labels: resultado.map(x => {return x.Mes === 0 ? 'Enero' : x.Mes === 1 ? 'Febrero' : x.Mes === 2 ? 'Marzo' : x.Mes === 3 ? 'Abril' : x.Mes === 4 ? 'Mayo' : x.Mes === 5 ? 'Junio' : x.Mes === 6 ? 'Julio' : x.Mes === 7 ? 'Agosto' : x.Mes === 8 ? 'Septiembre' : x.Mes === 9 ? 'Octubre' : x.Mes === 10 ? 'Noviembre' : 'Diciembre'}),
     // labels: moment()._locale._months,
@@ -260,7 +259,7 @@ export const ChatStatistic = () => {
         <BarChat data={dataChat || []} />
         <DoughnutChar data={dataChat || []} />
         <Circle data={dataChat || []} />
-        {/* <HorizontalBarChart data={dataChat || []} /> */}
+        <HorizontalBarChart data={dataChat || []} />
       </ContainChart>
     </div>
   )

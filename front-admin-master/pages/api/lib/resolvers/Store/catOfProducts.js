@@ -1,7 +1,7 @@
 import { ApolloError } from 'apollo-server-micro'
 import catOfProducts from '../../models/Store/catOfProducts'
 import { deCode, filterKeyObject, getAttributes } from '../../utils/util'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 export const createCatOfProducts = async (_root, { input }, context ) => {
     console.log(input)

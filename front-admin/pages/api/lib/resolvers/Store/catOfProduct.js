@@ -1,29 +1,21 @@
-import { ApolloError } from 'apollo-server-micro'
+import { Op } from 'sequelize'
 import productModelFood from '../../models/product/productFood'
 import catProducts from '../../models/Store/cat'
-import { deCode, filterKeyObject, getAttributes, linkBelongsTo } from '../../utils/util'
-const { Op } = require('sequelize')
+import { deCode, getAttributes, linkBelongsTo } from '../../utils/util'
 
 export const updatedProducts = async (_, { input }, ctx) => {
-  const id = ctx.User.id || ''
-  // const id = 'NjUzMDEzMTU1NjQzNjM5NTAwMA=='
-  const { idStore } = input
-  // console.log(input);
   try {
-    // let res = {}
     await catProducts.create({ ...input, pState: 1, id: deCode(ctx.User.id), idStore: deCode(ctx.restaurant) })
-    // await catProducts.create({ ...input, pState: 1, id: 8 })
-
     return {
       success: true,
-      message: 'Categoria creada'
+      message: 'Categoría creada'
     }
   } catch (error) {
     return { success: false, message: error }
   }
 }
 export const catProductsAll = async (root, args, context, info) => {
-  const { search, min, max, carProId, gender, desc, categories } = args
+  const { search, min, max, gender, desc, categories } = args
   let whereSearch = {}
   if (search) {
     whereSearch = {
@@ -39,21 +31,21 @@ export const catProductsAll = async (root, args, context, info) => {
     whereSearch = {
       ...whereSearch,
       ProDelivery: {
-        [Op.in]: gender.map(x => {return x})
+        [Op.in]: gender.map(x => { return x })
       }
     }
   }
   if (desc?.length) {
     whereSearch = {
       ...whereSearch,
-      ProDescuento: { [Op.in]: desc.map(x => {return x}) }
+      ProDescuento: { [Op.in]: desc.map(x => { return x }) }
     }
   }
   //validad que  venga una categoría para hacer el filtro por categorías
   if (categories?.length) {
     whereSearch = {
       ...whereSearch,
-      caId: { [Op.in]: categories.map(x => {return deCode(x)}) }
+      caId: { [Op.in]: categories.map(x => { return deCode(x) }) }
     }
   }
   const attributes = getAttributes(catProducts, info)
@@ -62,7 +54,7 @@ export const catProductsAll = async (root, args, context, info) => {
     where: {
       [Op.or]: [
         {
-          // ...whereSearch,
+          ...whereSearch,
           // get restaurant
           // idStore: deCode(context.restaurant),
           // get user
@@ -75,6 +67,7 @@ export const catProductsAll = async (root, args, context, info) => {
   })
   return data
 }
+// eslint-disable-next-line consistent-return
 export const updateCatInProduct = async (_root, { input }) => {
   const { idProduct, idCat } = input || {}
   try {
@@ -84,7 +77,8 @@ export const updateCatInProduct = async (_root, { input }) => {
     return error
   }
 }
-export const updatedCatWithProducts = async (_, input, ctx) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const updatedCatWithProducts = async (_, input, _ctx) => {
   const { setData, idCat } = input.input || {}
   for (let i = 0; i < setData.length; i++) {
     const { idProduct } = setData[i]
@@ -95,9 +89,8 @@ export const updatedCatWithProducts = async (_, input, ctx) => {
     message: 'Update cat'
   }
 }
-export const deleteCatOfProducts = async (_, { idPc, pState }, ctx) => {
+export const deleteCatOfProducts = async (_, { idPc, pState }) => {
   try {
-    console.log(idPc, pState)
     await catProducts.update({ pState: pState === 1 ? 0 : 1 }, { where: { carProId: deCode(idPc) } })
     return {
       success: true,
@@ -111,7 +104,7 @@ export const deleteCatOfProducts = async (_, { idPc, pState }, ctx) => {
 
   }
 }
-export const deleteCatFinalOfProducts = async (_, { idPc }, ctx) => {
+export const deleteCatFinalOfProducts = async (_, { idPc }) => {
   try {
     await catProducts.destroy({ where: { carProId: deCode(idPc) } })
     return {
@@ -127,7 +120,7 @@ export const deleteCatFinalOfProducts = async (_, { idPc }, ctx) => {
   }
 }
 export const getCatProductsWithProduct = async (root, args, context, info) => {
-  const { search, min, max, carProId, gender, desc, categories } = args
+  const { search, min, max, gender, desc, categories } = args
   linkBelongsTo(catProducts, productModelFood, 'pId', 'carProId')
   let whereSearch = {}
   if (search) {
@@ -144,21 +137,21 @@ export const getCatProductsWithProduct = async (root, args, context, info) => {
     whereSearch = {
       ...whereSearch,
       ProDelivery: {
-        [Op.in]: gender.map(x => {return x})
+        [Op.in]: gender.map(x => { return x })
       }
     }
   }
   if (desc?.length) {
     whereSearch = {
       ...whereSearch,
-      ProDescuento: { [Op.in]: desc.map(x => {return x}) }
+      ProDescuento: { [Op.in]: desc.map(x => { return x }) }
     }
   }
   //validad que  venga una categoría para hacer el filtro por categorías
   if (categories?.length) {
     whereSearch = {
       ...whereSearch,
-      caId: { [Op.in]: categories.map(x => {return deCode(x)}) }
+      caId: { [Op.in]: categories.map(x => { return deCode(x) }) }
     }
   }
   const attributes = getAttributes(catProducts, info)
@@ -188,10 +181,8 @@ export const getCatProductsWithProduct = async (root, args, context, info) => {
   return data
 }
 export const getCatProductsWithProductClient = async (root, args, context, info) => {
-  const { search, min, max, carProId, gender, desc, categories, idStore } = args
-  console.log(search, min, max, carProId, gender, desc, categories)
+  const { min, max, idStore } = args
   linkBelongsTo(catProducts, productModelFood, 'pId', 'carProId')
-  let whereSearch = {}
   const attributes = getAttributes(catProducts, info)
   const data = await catProducts.findAll({
     attributes,
@@ -199,7 +190,6 @@ export const getCatProductsWithProductClient = async (root, args, context, info)
       {
         attributes: ['pId', 'carProId'],
         model: productModelFood
-        // required: true,
       }
     ],
     where: {

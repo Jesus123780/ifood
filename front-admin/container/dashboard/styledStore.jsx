@@ -36,8 +36,8 @@ export const ButtonCard = styled.button`
     transition: .4s ease;
     width: 35px;
     height: 35px;
-    top: ${({ top }) => {return top || '20px'}};
-    transition-delay: ${({ delay }) => {return delay || 'auto'}};
+    top: ${({ top }) => { return top || '20px' }};
+    transition-delay: ${({ delay }) => { return delay || 'auto' }};
     max-height: 35px;
     max-width: 35px;
     border-radius: 50%;
@@ -49,8 +49,9 @@ export const ButtonCard = styled.button`
         opacity: 1;
         z-index: 900;
     }
-    ${props => {return props.grid && css`
-        top: ${({ top }) => {return top || '80px'}};
+    ${props => {
+    return props.grid && css`
+        top: ${({ top }) => { return top || '80px' }};
         `}
 }
 `
@@ -61,7 +62,7 @@ export const Section = styled.div`
     margin: auto;
     transition: 0.2s;
     /* height: 150px; */
-    overflow: hidden;
+    // overflow: hidden;
     cursor: pointer;
     position: relative;
     transition: .2s ease-in-out;
@@ -78,6 +79,7 @@ export const MerchantInfoTitle = styled.h1`
     justify-content: start;
     align-items: center;
     display: flex;
+    margin: 0 40px;
 `
 export const ButtonAction = styled.button`
     margin: 10px;
@@ -102,6 +104,36 @@ export const WrapperOptions = styled.div`
     justify-content: space-between;
     align-items: center;
 `
+export const ButtonOption = styled.div`
+    position: absolute;
+    z-index: 9999;
+    visibility: hidden;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+    display: grid;
+    opacity: 0;
+    background-color: ${BGColor};
+    width: 180px;
+    place-content: center;
+    gap: 10px;
+    height: auto;
+    place-content: center;
+    top: 70px;
+    padding: 5px;
+    transition: .5s ease ;
+    border-radius: 5px;
+    left: 0;
+    button {
+      padding: 10px;
+      justify-content: center;
+      place-content: space-between;
+      cursor: pointer;
+      border-radius: 5px;
+      width: 100%;
+      display: flex;
+      background-color: ${BGColor};
+    }
+
+`
 export const MerchantInfo = styled.div`
     box-sizing: border-box;
     border-radius: 4px 4px 0 0;
@@ -112,18 +144,15 @@ export const MerchantInfo = styled.div`
     padding: 0 30px;
     top: 0;
     margin: 30px auto 20px;
-    .logo {
-      width: 85px;
-      height: 85px;
-      border-radius: 50rem;
-      object-fit: contain;
-      border: 1px solid #f2f2f2;
-      /* height: 72px; */
-      /* width: 72px; */
-      transition: transform .2s ease-out;
-  }
+      &&:hover {
+        & ${ButtonOption} {
+            visibility: visible;
+            opacity: 1;
+        }
+    }
     }
     && > span {
+      position: relative;
       @media only screen and (min-width: 960px) {
         height: 70px;
         width: 70px;
@@ -163,7 +192,7 @@ export const MerchantBannerWrapperInfo = styled.div`
     padding-left: 30px;
     background-color: rgb(0 0 0 / 6%);
     background-blend-mode: overlay;
-    background-image: ${({ bannerImage }) => {return bannerImage && (bannerImage)}};
+    background-image: ${({ bannerImage }) => { return bannerImage && (bannerImage) }};
     .merchant-banner__status-description {
       line-height: 1.15;
       font-size: 16px;
@@ -210,7 +239,13 @@ export const ContentSearch = styled.div`
   font-size: 1.5rem;
   line-height: 1em;
   flex-grow: 1;
+  display: flex;
+  place-content: space-between;
+  align-items: center;
   font-family: PFont-Light;
+  button {
+    background-color: transparent;
+  }
   `
 export const Title = styled.h1`
   text-rendering: optimizeLegibility;
@@ -222,7 +257,7 @@ export const Title = styled.h1`
   margin-right: 10px;
   font-weight: 400;
   letter-spacing: -1px;
-  font-size: ${({ size })=> {return size || '2.25rem'}};
+  font-size: ${({ size }) => { return size || '2.25rem' }};
   line-height: 44px;
   margin-bottom: 0;
   width: fit-content;

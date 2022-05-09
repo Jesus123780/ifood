@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import promosStoreAdmin from '../../models/Store/promosStoreAdmin'
 import { getAttributes } from '../../utils/util'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
+import { AuthenticationError } from 'apollo-server-core'
 
 export const getPromoStoreAdmin = async (_, { min, max, search }, ctx, info) => {
   const attributes = getAttributes(promosStoreAdmin, info)
@@ -18,12 +20,13 @@ export const getPromoStoreAdmin = async (_, { min, max, search }, ctx, info) => 
 }
 
 export const createAPromoBanner = async (_, { input }, ctx) => {
+  if (!ctx.User.id) throw new AuthenticationError('Unauthenticated')
   try {
     await promosStoreAdmin.create({
       ...input
     })
     return { success: true, message: 'Banner creado' }
-        
+
   } catch (error) {
     return { success: false, message: 'error' }
   }

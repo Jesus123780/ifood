@@ -13,7 +13,7 @@ import Store from '../../models/Store/Store'
 import ThirdPartiesModel from '../../models/thirdParties/ThirdPartiesModel'
 import { LoginEmail } from '../../templates/LoginEmail'
 import { deCode, filterKeyObject, getAttributes } from '../../utils/util'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 export const productsOne = async (root, { pId }, context, info) => {
     try {

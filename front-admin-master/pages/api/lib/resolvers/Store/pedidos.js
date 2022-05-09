@@ -12,7 +12,7 @@ import Users from '../../models/Users'
 import { LoginEmail } from '../../templates/LoginEmail'
 import { deCode, filterKeyObject, getAttributes } from '../../utils/util'
 import { deleteOneItem, getOneStore } from './store'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 export const createOnePedidoStore = async (_, { input }, ctx) => {
     const { id, idStore, ShoppingCard, change, pickUp, pCodeRef, payMethodPState, pPRecoger } = input || {}

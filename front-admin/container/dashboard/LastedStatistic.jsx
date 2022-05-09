@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { MainCard } from 'components/common/Reusable/ShadowCard'
 import { Rate } from 'components/Rate'
 import React, { useEffect, useState } from 'react'
@@ -70,6 +71,10 @@ export const LastedStatistic = ({ idStore }) => {
       </MainCard>
     </div>
   )
+}
+
+LastedStatistic.propTypes = {
+  idStore: PropTypes.string
 }
 
 export const UserVisit = ({ days = 90 }) => {

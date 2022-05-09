@@ -22,6 +22,7 @@ Viaprincipal
 catStore
 storeOwner
 storeName
+ImageName
 emailStore
 storePhone
 socialRaz
@@ -29,6 +30,7 @@ Image
 banner
 documentIdentifier
 uPhoNum
+storeName
 ULocation
 upLat
 upLon

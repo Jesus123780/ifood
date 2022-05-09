@@ -4,7 +4,7 @@ import productModel from '../../models/product/food'
 import Store from '../../models/Store/Store'
 import { LoginEmail } from '../../templates/LoginEmail'
 import { deCode, filterKeyObject, getAttributes } from '../../utils/util'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 export const newRegisterFoodProduct = async (_, { input }, ctx) => {
     const id = ctx.User.id || ''

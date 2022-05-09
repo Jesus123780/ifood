@@ -1,9 +1,6 @@
-import { ApolloError } from 'apollo-server-micro'
-import productModelFood from '../../models/product/productFood'
-import catProducts from '../../models/Store/cat'
 import shopping from '../../models/Store/shopping'
-import { deCode, filterKeyObject, getAttributes, linkBelongsTo } from '../../utils/util'
-const { Op } = require('sequelize')
+import { deCode, getAttributes } from '../../utils/util'
+import { Op } from 'sequelize'
 
 export const newShopping = async (_, { input }, ctx) => {
   try {
@@ -16,6 +13,7 @@ export const newShopping = async (_, { input }, ctx) => {
     return { success: false, message: error }
   }
 }
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getAllShopping = async (_, { idStore }, ctx, info) => {
   try {
     const attributes = getAttributes(shopping, info)

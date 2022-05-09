@@ -39,7 +39,7 @@ const server = new ApolloServer({
     subscriptionsEndpoint: subscriptionsEndpoint,
     playground: {
         settings: {
-            'editor.theme': 'dark',
+            'editor.theme': 'light',
         }
     },
     plugins: [
@@ -52,7 +52,7 @@ const server = new ApolloServer({
             return connection.context;
         } else {
             // check from req
-            console.log(req.headers.authorization)
+            console.log(req.headers.authorization, 4323)
             const token = (req.headers.authorization)
             if (token !== 'null') {
                 try {

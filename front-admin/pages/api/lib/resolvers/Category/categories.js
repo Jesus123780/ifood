@@ -1,8 +1,7 @@
 import { ApolloError } from 'apollo-server-micro'
 import CategoryProductsModel from '../../models/Categories/CategoryProducts'
-import CitiesModel from '../../models/information/CitiesModel'
-import { deCode, filterKeyObject, getAttributes } from '../../utils/util'
-const { Op } = require('sequelize')
+import { deCode, getAttributes } from '../../utils/util'
+import { Op } from 'sequelize'
 
 // cities
 export const updateCategoryProducts = async (_root, { input }) => {

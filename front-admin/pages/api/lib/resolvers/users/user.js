@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { ApolloError } from 'apollo-server-micro'
 import { filterKeyObject } from '../../../../../utils'
 import Store from '../../models/Store/Store'
@@ -24,8 +25,6 @@ export const newRegisterUser = async (root, input) => {
       offset: 10,
       limit: 2
     })
-    // console.log(count);
-    // console.log(rows);
     const project = await Users.findByPk(1)
     if (project === null) {
       // eslint-disable-next-line no-console
@@ -61,7 +60,6 @@ export const newRegisterUser = async (root, input) => {
       message: `Bienvenido ${name}`
     }
   } catch (e) {
-    console.log(e)
     const error = new ApolloError('Lo sentimos, ha ocurrido un error interno', 400)
     return error
   }

@@ -57,11 +57,9 @@ export const CardProducts = ({ pName, del, edit, key, ProDescription, ValueDeliv
           alt={pName}
           blurDataURL='/images/DEFAULTBANNER.png'
           className='store_image'
-          height={157}
           layout='fill'
           objectFit='cover'
           src={ProImage || '/images/dish-image-placeholder.png'}
-          width={157}
         />
       </div>
     </Card>

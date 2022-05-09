@@ -1,7 +1,7 @@
+/* eslint-disable consistent-return */
 import { ApolloError } from 'apollo-server-micro'
 import AreasModel from '../../models/areas/AreasModel'
 import Feature from '../../models/feature/feature'
-import CatStore from '../../models/information/CategorieStore'
 import CitiesModel from '../../models/information/CitiesModel'
 import colorModel from '../../models/information/color'
 import CountriesModel from '../../models/information/CountriesModel'
@@ -9,11 +9,9 @@ import DepartmentsModel from '../../models/information/DepartmentsModel'
 import productModel from '../../models/product/product'
 import productModelFood from '../../models/product/productFood'
 import trademarkModel from '../../models/product/trademark'
-import Store from '../../models/Store/Store'
 import ThirdPartiesModel from '../../models/thirdParties/ThirdPartiesModel'
-import { LoginEmail } from '../../templates/LoginEmail'
-import { deCode, filterKeyObject, getAttributes } from '../../utils/util'
-const { Op } = require('sequelize')
+import { deCode, getAttributes } from '../../utils/util'
+import { Op } from 'sequelize'
 
 export const productsOne = async (root, { pId }, context, info) => {
   try {
@@ -163,7 +161,7 @@ export const productsLogis = async (root, args, context, info) => {
 }
 export const getAllMatchesProducts = async (root, args, context, info) => {
   try {
-    const { search, min, max, pId } = args
+    const { search, min, max } = args
     let whereSearch = {}
     if (search) {
       whereSearch = {

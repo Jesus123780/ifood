@@ -23,7 +23,7 @@ export const Footer = () => {
           <ActiveLink activeClassName='active' href='/config'>
             <Anchor><IconConfig color={PColor} size='20px' />&nbsp;<Text>Config</Text></Anchor>
           </ActiveLink>
-          <ActiveLink activeClassName='active' href='/profile'>
+          <ActiveLink activeClassName='active' href='/profile/user'>
             <Anchor><IconUser color={PColor} size='20px' />&nbsp;<Text>Profile</Text></Anchor>
           </ActiveLink>
         </>
