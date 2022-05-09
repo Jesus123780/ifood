@@ -16,10 +16,22 @@ import ratingStoreStart from '../../models/Store/ratingStoreStart'
 import { Op } from 'sequelize'
 
 export const newRegisterStore = async (_, { input }, ctx) => {
-    // const id = ctx.User.id || ''
-    const { idStore, cId, dId, ctId, id, catStore, neighborhoodStore, Viaprincipal, storeOwner, storeName, emailStore, storePhone, socialRaz, Image, banner, documentIdentifier, uPhoNum, ULocation, upLat, upLon, uState, siteWeb, description, NitStore, typeRegiments, typeContribute, addressStore, createAt, } = input
+    const id = ctx.User.id || input.id
+    const { idStore, cId, dId, ctId, catStore, neighborhoodStore, Viaprincipal, storeOwner, storeName, emailStore, storePhone, socialRaz, Image, banner, documentIdentifier, uPhoNum, ULocation, upLat, upLon, uState, siteWeb, description, NitStore, typeRegiments, typeContribute, addressStore, createAt, } = input
     try {
+        console.log(ctx.User.id)
         let res = {}
+        const data = await Store.findOne({
+            attributes: ['id', 'idStore'],
+            where: {
+                id: deCode(id) 
+            }
+        })
+        if (data) return {
+            success: false,
+            idStore: '',
+            message: 'Ya tiene una tienda registrada',
+        }
         res = await Store.create({ ...input, uState: 2, cId: deCode(cId), id: deCode(id), dId: deCode(dId), ctId: deCode(ctId), catStore: deCode(catStore) })
         // sendEmail({
         //     from: 'juvi69elpapu@gmail.com',
