@@ -11,7 +11,7 @@ export const Main = () => {
   const { email } = dataUser || {}
   const [dataStore] = useStore()
   const { storeName, idStore } = dataStore || {}
-
+  console.log(dataStore)
   return (
     <Content margin='0 0 100px 0' width='20%'>
       <Card bgColor={BGColor}>

@@ -1,3 +1,10 @@
 {
-    "extends": ["next/babel"]
+    "extends": [
+        "next/babel",
+        "plugin:react-hooks/recommended"
+    ],
+    "globals": {
+        "process": true
+    }
+    
 }

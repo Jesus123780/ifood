@@ -1,13 +1,16 @@
 module.exports = {
   'env': {
     'browser': true,
-    'es2021': true
+    'es2021': true,
+    'node': true,
+    'commonjs': true
   },
   'extends': [
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended'
   ],
+  
   'parser': '@typescript-eslint/parser',
   'parserOptions': {
     'ecmaFeatures': {
@@ -19,6 +22,7 @@ module.exports = {
   'plugins': [
     'react',
     'react-hooks',
+    
     '@typescript-eslint'
   ],
   'settings': {
@@ -27,7 +31,7 @@ module.exports = {
     }
   },
   'rules': {
-    // react hooks validations
+    'react-hooks/exhaustive-deps': 'warn',
     'react-hooks/rules-of-hooks': 'error',
     // suppress errors for missing "import React" in files
     'react/react-in-jsx-scope': 'off',

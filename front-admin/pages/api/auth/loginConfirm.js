@@ -5,10 +5,8 @@ import { LoginEmailConfirmation } from '../lib/resolvers/users/user'
 
 export default withSession(async (req, res) => {
   const { email, otp } = req.body
-  console.log(email, otp, 0)
   try {
     const { token, message, success, roles, idStore } = await LoginEmailConfirmation(null, { email, otp })
-    console.log(token, message, success, roles, idStore)
     if (success === true) {
       const user = { isLoggedIn: true, roles, token }
       req.session.set('user', user)

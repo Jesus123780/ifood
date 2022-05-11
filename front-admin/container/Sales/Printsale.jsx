@@ -31,7 +31,7 @@ export const Prints = ({ data, total, code, change }) => {
             </Item>
           )})}
         </Content>
-        <Item>
+        {/* <Item>
           <span>Pedido</span>
           <span>{code}</span>
         </Item>
@@ -50,7 +50,7 @@ export const Prints = ({ data, total, code, change }) => {
         <Item>
           <Text fontWeight='bold'>TOTAL</Text>
           <Text fontWeight='bold'>{total}</Text>
-        </Item>
+        </Item> */}
       </div>
     </Ticket>
   )

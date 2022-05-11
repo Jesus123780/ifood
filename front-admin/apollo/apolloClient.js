@@ -12,7 +12,6 @@ import { typeDefs } from './schema'
 import { cache, isLoggedVar } from './cache'
 import { WebSocketLink } from '@apollo/client/link/ws'
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
-
 let apolloClient
 let userAgent
 export const getDeviceId = async () => {
@@ -21,7 +20,6 @@ export const getDeviceId = async () => {
   userAgent = window.navigator.userAgent
   return result.visitorId
 }
-
 // eslint-disable-next-line
 const errorHandler = onError(({ graphQLErrors }) => {
   if (graphQLErrors) {
@@ -34,7 +32,6 @@ const errorHandler = onError(({ graphQLErrors }) => {
     })
   }
 })
-
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
     graphQLErrors.map(({ message, locations, path }) => {
@@ -52,7 +49,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   })
   if (networkError) console.log(`[Network error]: ${networkError}`)
 })
-
 // const authLink = setContext(async (_, { headers }) => {
 //     const lol = await getDeviceId()
 //     window.localStorage.setItem('deviceid', lol)
@@ -68,7 +64,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 //         }
 //     }
 // })
-
 const authLink = async () => {
   const device = await getDeviceId()
   window.localStorage.setItem('deviceid', device)
@@ -81,7 +76,6 @@ const authLink = async () => {
     deviceid: await getDeviceId() || ''
   }
 }
-
 // eslint-disable-next-line
 const httpLink = createUploadLink({
   uri: `${URL_BASE}graphql`, // Server URL (must be absolute)
@@ -109,16 +103,15 @@ const wsLink = process.browser ? new WebSocketLink({
     }
   }
 }) : null
-
 function createApolloClient() {
   const ssrMode = typeof window === 'undefined'
   const getLink = async (operation) => {
     // await splitLink({ query: operation.query })
     const headers = await authLink()
     const service = operation.getContext().clientName
-    let uri = `${URL_BASE}graphql`
+    let uri = `${process.env.URL_BASE}api/graphql`
     if (service === 'subscriptions') uri = 'http://localhost:4000/graphql'
-    if (service === 'main') uri = 'http://localhost:3000/api/graphql'
+    if (service === 'main') uri = `${process.env.URL_BASE}api/graphql`
     if (service === 'admin-store') uri = `${URL_ADMIN}graphql`
     if (service === 'admin') uri = `${URL_BASE_ADMIN_MASTER}graphql`
     if (service === 'admin-server') uri = `${URL_ADMIN_SERVER}graphql`
@@ -145,7 +138,6 @@ function createApolloClient() {
         ...headers
       }
     })
-
     return link.request(operation)
   }
   // eslint-disable-next-line
@@ -187,7 +179,6 @@ function createApolloClient() {
     ApolloLink.split(() => { return true }, operation => { return getLink(operation) },
       errorLink
     )
-
     )
     : ApolloLink.split(() => { return true }, operation => { return getLink(operation) },
       errorLink
@@ -201,16 +192,13 @@ function createApolloClient() {
     cache
   })
 }
-
 export function initializeApollo(initialState = null) {
   const _apolloClient = apolloClient ?? createApolloClient()
-
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
   // gets hydrated here
   if (initialState) {
     // Get existing cache, loaded during client side data fetching
     const existingCache = _apolloClient.extract()
-
     // Merge the existing cache into data passed from getStaticProps/getServerSideProps
     const data = merge(initialState, existingCache, {
       // combine arrays using object equality (like in sets)
@@ -222,7 +210,6 @@ export function initializeApollo(initialState = null) {
         ]
       }
     })
-
     // Restore the cache with the merged data
     _apolloClient.cache.restore(data)
   }
@@ -230,18 +217,14 @@ export function initializeApollo(initialState = null) {
   if (typeof window === 'undefined') return _apolloClient
   // Create the Apollo Client once in the client
   if (!apolloClient) apolloClient = _apolloClient
-
   return _apolloClient
 }
-
 export function addApolloState(client, pageProps) {
   if (pageProps?.props) {
     pageProps.props[APOLLO_STATE_PROP_NAME] = client.cache.extract()
   }
-
   return pageProps
 }
-
 export function useApollo(pageProps) {
   const state = pageProps[APOLLO_STATE_PROP_NAME]
   const store = useMemo(() => { return initializeApollo(state) }, [state])

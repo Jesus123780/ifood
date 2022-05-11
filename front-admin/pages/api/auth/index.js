@@ -50,7 +50,7 @@ export const getDevice = async ({ input }) => {
           code: deviceId + name,
           or_JWT_Token: short_name
         })
-      }).then(res => {return console.log(res, 'the res')}).catch(err => {return console.log(err, 'the err')})
+      }).then(res => {return (res, 'the res')}).catch(err => {return (err, 'the err')})
       // send email
     }
     data = isExist
@@ -62,9 +62,9 @@ export const getDevice = async ({ input }) => {
   return { error, data }
 }
 
+// eslint-disable-next-line consistent-return
 export default withSession(async (req, res) => {
   const { name, username, lastName, email, password, useragent, deviceid, locationFormat } = req.body
-  console.log(name, username, lastName, email, password, useragent, deviceid, locationFormat)
   try {
     const { token, message, success, roles, storeUserId, userId } = await newRegisterUser(null, { name, username, lastName, email, password })
     const detector = new DeviceDetector
@@ -77,7 +77,6 @@ export default withSession(async (req, res) => {
     // console.log(error, data)
     // console.log(os);
     if (success) {
-      console.log(token, 0)
       const user = { isLoggedIn: true, roles, token, storeUserId }
       req.session.set('user', user)
       await req.session.save()

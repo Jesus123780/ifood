@@ -53,16 +53,16 @@ export const Login = () => {
     //     deviceid: await getDeviceId() || '',
     // }
     const bodyfalse = {
-      name: 'juvinaojesusdsssssww@gmail.com',
-      username: 'juvinaojesusdsssssww@gmail.com',
-      lastName: 'juvinaojesusdsssssww@gmail.com',
-      email: 'juvinaojesusdsssssww@gmail.com',
+      name: 'juvinaojesusd@gmail.com',
+      username: 'juvinaojesusd@gmail.com',
+      lastName: 'juvinaojesusd@gmail.com',
+      email: 'juvinaojesusd@gmail.com',
       password: '113561675852804771364',
       locationFormat: locationFormat[0]?.formatted_address,
       useragent: window.navigator.userAgent,
       deviceid: '234232342423423asdasd'
     }
-    await fetchJson(`${URL_BASE}auth`, {
+    await fetchJson(`${process.env.URL_BASE}api/auth`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(bodyfalse)
