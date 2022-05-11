@@ -1,6 +1,6 @@
 import { ApolloError } from 'apollo-server-micro'
 import { COOKIE_OPTIONS } from 'utils'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 const pushOneRecommendation = async (_parent, { input }, { setCookies }) => {
     try {

@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-undef */
 const graphqlFields = require('graphql-fields')
 const { Base64 } = require('js-base64')
 
+// eslint-disable-next-line consistent-return
 const codeRed = async model => {
   /** variables necesarias */
-  let result = ''; let error = false
+  let result = ''
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
   /** creación de codigo */
@@ -12,7 +14,8 @@ const codeRed = async model => {
     result += characters.charAt(Math.floor(Math.random() * characters.length))
   }
   /** busca si ya existe */
-  const dataUP = await model.findOne({ attributes: ['up_id'], where: { up_code: result } }).catch(x = error = true)
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  const dataUP = await model.findOne({ attributes: ['up_id'], where: { up_code: result } }).catch(() => {})
   /** verifica si existe */
   if (dataUP) { await codeRed() }
   else { return result }
@@ -59,11 +62,11 @@ const UpCrNotFind = async (model, newItem, where, condition, updateFind = false)
   } return await model.create(newItem) 
 }
 
-const UpCrFind = async (model, newItem, where, condition, updateFind = false) => {
+const UpCrFind = async (model, newItem, where, condition) => {
   const res = await model.findOne({ where: where ? where : { [condition.id]: deCode(condition.value) } })
   /** confirma si hay id para actualizar o registrar */
   if (res) {
-    const data = await model.update(newItem, { where: where ? where : { [condition.id]: deCode(condition.value) } })
+    await model.update(newItem, { where: where ? where : { [condition.id]: deCode(condition.value) } })
     return res
   } return await model.create(newItem) 
 }

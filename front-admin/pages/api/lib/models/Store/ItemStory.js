@@ -1,7 +1,6 @@
 import Sequelize from 'sequelize'
 import connect from '../../db'
 import Store from './Store'
-import Users from '../Users'
 import { enCode } from '../../utils/util'
 import StoryModel from './StoryModel'
 

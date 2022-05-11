@@ -11,7 +11,7 @@ import TypeRoad from '../../models/information/TypeOfRoad'
 import Users from '../../models/Users'
 import { LoginEmail } from '../../templates/LoginEmail'
 import { deCode, filterKeyObject, getAttributes } from '../../utils/util'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 // cities
 export const getCities = async (_root, _args, _context, info) => {

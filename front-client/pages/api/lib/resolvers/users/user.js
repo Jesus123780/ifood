@@ -1,7 +1,7 @@
 import { ApolloError } from 'apollo-server-micro'
 import Users from '../../models/Users'
 import { generateToken } from '../../utils'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 export const newRegisterUser = async (_, input) => {
     const { name, password, email, username } = input

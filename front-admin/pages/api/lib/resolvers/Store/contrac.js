@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ApolloError } from 'apollo-server-micro'
 import Contract from '../../models/Store/contract'
-import { deCode, filterKeyObject, getAttributes } from '../../utils/util'
-const { Op } = require('sequelize')
+import { deCode } from '../../utils/util'
 
 export const createOneContract = async (_root, { input }, context) => {
   try {

@@ -2,7 +2,7 @@
 import { PColor } from 'public/colors'
 import React from 'react'
 
-export const IconLove = ({ size, color, style }) => {return <svg
+export const IconLove = ({ size, style }) => {return <svg
   height={size}
   style={style}
   viewBox='0 0 36 32'

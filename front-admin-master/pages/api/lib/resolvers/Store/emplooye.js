@@ -4,7 +4,7 @@ import Users from '../../models/Users'
 import { LoginEmail } from '../../templates/LoginEmail'
 import { generateCode, generateToken, sendEmail } from '../../utils'
 import { deCode, filterKeyObject, getAttributes } from '../../utils/util'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 
 export const createOneEmployeeStore = async (_root, { input }, context) => {

@@ -96,8 +96,8 @@ module.exports = {
     'no-multiple-empty-lines': [
       'error',
       {
-        'max': 1,
-        'maxBOF': 1
+        'max': 2,
+        'maxBOF': 2
       }
     ],
     'jsx-quotes': [

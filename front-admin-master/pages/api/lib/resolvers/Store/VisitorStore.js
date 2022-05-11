@@ -1,7 +1,7 @@
 import { ApolloError } from 'apollo-server-micro'
 import visitUserStore from '../../models/Store/visitUserStore'
 import { deCode, getAttributes } from '../../utils/util'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 export const setVisitorStore = async (_root, { input }) => {
     try {

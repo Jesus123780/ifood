@@ -10,7 +10,7 @@ import { deCode, enCode, getAttributes } from '../../utils/util'
 import CountriesModel from '../../models/information/CountriesModel'
 import DepartmentsModel from '../../models/information/DepartmentsModel'
 import CitiesModel from '../../models/information/CitiesModel'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 export const updateUserLocations = async (root, input, context, info) => {
     console.log(input)

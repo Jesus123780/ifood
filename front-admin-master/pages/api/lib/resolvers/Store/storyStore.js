@@ -3,7 +3,7 @@ import ItemStory from '../../models/Store/ItemStory'
 import messageStory from '../../models/Store/messageStory'
 import storyStore from '../../models/Store/StoryModel'
 import { deCode, filterKeyObject, getAttributes } from '../../utils/util'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 export const registerStoryItemPhotoStore = async (_root, { input }, context) => {
     try {

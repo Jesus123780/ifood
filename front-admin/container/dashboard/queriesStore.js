@@ -182,12 +182,22 @@ mutation registerBanner($input: IBanner) {
   }
 }
 `
+export const DELETE_ONE_LOGO_STORE = gql`
+  mutation deleteALogoStore($idStore: ID, $Image: String) {
+  deleteALogoStore(idStore: $idStore, Image: $Image) {
+      message
+      success
+  }
+
+}
+`
 export const GET_ONE_BANNER_STORE = gql`
 query getOneBanners($idStore: ID, $id: ID) {
   getOneBanners(idStore: $idStore, id: $id) {
     bnId
     id
     path
+    bnImageFileName
     idStore
     bnState
     createAt
@@ -196,8 +206,8 @@ query getOneBanners($idStore: ID, $id: ID) {
 }
 `
 export const DELETE_ONE_BANNER_STORE = gql`
-mutation DeleteOneBanner($bnState: Int, $idStore: ID, $bnId: ID) {
-  DeleteOneBanner(bnState: $bnState, idStore: $idStore, bnId: $bnId ) {
+mutation DeleteOneBanner($bnState: Int, $idStore: ID, $bnId: ID, $bnImage: String, $bnImageFileName: String) {
+  DeleteOneBanner(bnState: $bnState, idStore: $idStore, bnId: $bnId, bnImage: $bnImage, bnImageFileName: $bnImageFileName ) {
     success
     message
     

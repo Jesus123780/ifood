@@ -30,7 +30,7 @@ export const Restaurant = () => {
     let includes = state_product_card?.PRODUCT.includes(elem);
     console.log(includes)
     if (includes) {
-      setAlertBox({ message: 'The invoice is already added to the list' })
+      setAlertBox({ message: 'El producto ya esta en la lista' })
     } else {
       dispatch({ type: 'ADD_PRODUCT', payload: elem })
     }

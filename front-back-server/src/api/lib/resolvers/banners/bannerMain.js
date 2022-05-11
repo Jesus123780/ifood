@@ -6,7 +6,7 @@ import { URL_BASE } from '../../utils'
 import bannerspromo from '../../models/bannerspromo/bannerspromo'
 import { unlink } from 'fs/promises';
 import { unlinkSync } from 'fs';
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 export const getAllMasterBanners = async (_, { min, max, search }, ctx, info) => {
     const attributes = getAttributes(banners, info)
     const data = await banners.findAll({

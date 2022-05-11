@@ -1,10 +1,8 @@
-import { ApolloError } from 'apollo-server-micro'
-import CatStore from '../../models/information/CategorieStore'
+/* eslint-disable no-undef */
 import productModel from '../../models/product/food'
 import Store from '../../models/Store/Store'
-import { LoginEmail } from '../../templates/LoginEmail'
-import { deCode, filterKeyObject, getAttributes } from '../../utils/util'
-const { Op } = require('sequelize')
+import { deCode, getAttributes } from '../../utils/util'
+import { Op } from 'sequelize'
 
 export const newRegisterFoodProduct = async (_, { input }, ctx) => {
   const id = ctx.User.id || ''
@@ -33,7 +31,7 @@ export const getStore = async (root, args, context, info) => {
   return data
 }
 export const getFoodAllProduct = async (root, args, context, info) => {
-  const { search, min, max, pfId, gender, desc, categories } = args
+  const { search, min, max, gender, desc, categories } = args
   let whereSearch = {}
   if (search) {
     whereSearch = {
@@ -73,7 +71,7 @@ export const getFoodAllProduct = async (root, args, context, info) => {
     where: {
       [Op.or]: [
         {
-          // ...whereSearch,
+          ...whereSearch,
           // ID Productos
           // pfId: pfId ? deCode(pfId) : { [Op.gt]: 0 },
           pState: 1
@@ -87,28 +85,7 @@ export const getFoodAllProduct = async (root, args, context, info) => {
   })
   return data
 }
-const expensesCredits = async (parent, { i_id, fromDate, toDate, state, order, limit }, { user }, info) => {
-  try {
-    if (!user?.auth) throw new ApolloError('Es necesario iniciar sesión.', 403)
-
-    const data = await ExpensesCreditsModel.findAll({
-      attributes: getAttributes(ExpensesCreditsModel, info),
-      where: {
-        ...((parent?.i_id || i_id) ? deCode(parent?.i_id || i_id) : {}),
-        ...((fromDate && toDate) ? { ec_datInc: { [Op.between]: [fromDate, `${toDate} 23:59:59`] } } : {}),
-        ec_state: state ? { [Op.or]: state } : 1
-      },
-      order: order || [['ec_consecutive', 'ASC']],
-      ...(limit ? { limit } : {})
-    })
-
-    if (!data.length && !parent?.i_id) throw new ApolloError('No se ha encontrado ningún resultado.', 404)
-    return data
-  } catch (error) {
-    if (parent?.i_id) return []
-    throw new ApolloError(error || 'Lo sentimos, ha ocurrido un error interno.', error.extensions?.code || 500)
-  }
-}
+// eslint-disable-next-line
 
 export default {
   TYPES: {

@@ -3,7 +3,8 @@ import { deCode, enCode, getAttributes } from '../../utils/util'
 import { URL_BASE } from '../../utils'
 import bannerStore from '../../models/Store/bannerStore'
 import { saveImages } from './bannerMain'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
+import { unlinkSync } from 'fs';
 
 export const getOneBanners = async (_, { idStore }, _ctx, info) => {
     const attributes = getAttributes(bannerStore, info)
@@ -12,6 +13,7 @@ export const getOneBanners = async (_, { idStore }, _ctx, info) => {
         where: {
             [Op.or]: [
                 {
+                    bnState: 1,
                     idStore: deCode(idStore)
                 }
             ]
@@ -38,13 +40,13 @@ export const registerBanner = async (_, { input }, _ctx) => {
             }
         })
         if (OneBannerData) {
-            await bannerStore.update({ path: `${URL_BASE}static/banner/${nameFile}`, bnImage: `${URL_BASE}static/banner/${nameFile}` },
+            await bannerStore.update({ path: `${URL_BASE}static/banner/${nameFile}`, bnImageFileName: filename, bnImage: `${URL_BASE}static/banner/${nameFile}` },
                 {
                     where: { idStore: deCode(idStore) }
                 })
         } else {
             if (path) {
-                await bannerStore.create({ idStore: deCode(idStore), bnState: 1, path: `${URL_BASE}static/banner/${nameFile}`, bnImage: `${URL_BASE}static/banner/${nameFile}` })
+                await bannerStore.create({ idStore: deCode(idStore), bnState: 1, path: `${URL_BASE}static/banner/${nameFile}`, bnImageFileName: filename,  bnImage: `${URL_BASE}static/banner/${nameFile}` })
                 return { success: true, message: 'Subido con éxito' }
             } else {
                 return { success: false, message: 'No se pudo cargar la imagen' }
@@ -57,7 +59,15 @@ export const registerBanner = async (_, { input }, _ctx) => {
     }
 }
 
-export const DeleteOneBanner = async (_, { bnId, bnState, idStore }, ctx, info) => {
+export const DeleteOneBanner = async (_, { bnId, bnState, idStore, bnImageFileName }, ctx, info) => {
+    console.log(bnImageFileName)
+    try {
+        if (bnImageFileName && idStore) {
+            unlinkSync(`public/banner/${bnImageFileName}`);
+        }
+    } catch (err) {
+        console.log(err)
+    };
     try {
         await bannerStore.destroy({
             where: {

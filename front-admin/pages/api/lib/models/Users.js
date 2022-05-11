@@ -1,3 +1,6 @@
+
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-var-requires */
 const Sequelize = require('sequelize')
 const connect = require('../db')
 const { enCode } = require('../utils/util')

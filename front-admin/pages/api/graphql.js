@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { ApolloServer } from 'apollo-server-micro'
 import httpHeadersPlugin from 'apollo-server-plugin-http-headers'
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'

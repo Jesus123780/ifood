@@ -1,6 +1,8 @@
-import { PColor } from 'public/colors'
+import PropTypes from 'prop-types'
+import { BGColor, PColor } from 'public/colors'
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
+import { LoadingBabel } from './LoadingBabel'
 // import './style.css'
 export const Loading = () => {
   return (
@@ -12,6 +14,65 @@ export const Loading = () => {
     </Container>
   )
 }
+export function LoadingClosed({ error }) {
+  return (
+    <Container>
+      <Modal>
+        <h3>{error ? 'A ocurrido un error' : 'Cerrando session'}</h3>
+        <h2>{error ? ':(' : 'Tienes que regresar'}</h2>
+        {/* <LoadingBabel color={PColor} size={'1090px'} speed={1} /> */}
+      </Modal>
+    </Container>
+  )
+}
+
+LoadingClosed.propTypes = {
+  error: PropTypes.bool
+}
+const Modal = styled.div`
+  display: grid;
+  border: 1px solid #ccc;
+  background-color: ${BGColor};
+  width: 300px;
+  padding: 30px;
+  height: 200px;
+  border-radius: 10px;
+  place-content: center;
+  text-align: center;
+  align-items: center;
+  h2 {
+    margin-top: 20px;
+    line-height: 1.15;
+    text-rendering: optimizeLegibility;
+    font-size: 1rem;
+    text-align: center;
+    height: min-content;
+    font-weight: 400;
+    font-weight: 200;
+    color: #3f3e3e;
+  }
+  h3 {
+    line-height: 1.15;
+    text-rendering: optimizeLegibility;
+    font-size: 1.5rem;
+    text-align: start;
+    height: -webkit-min-content;
+    height: -moz-min-content;
+    height: min-content;
+    font-weight: 400;
+    font-weight: 200;
+    margin: 0;
+    color: #3f3e3e;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    font-family: PFont-Light;
+    word-break: break-word;
+    text-align: center;
+  }
+
+`
 export const SpinnerColor = () => {
   return (
     <Container>

@@ -1,13 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { RippleButton } from '../../components/Ripple'
-import { APColor, BColor, EColor, PLColor } from '../../public/colors'
+import { EColor, PLColor } from '../../public/colors'
 import InputHooks from '../../components/InputHooks/InputHooks'
 import { useFormTools } from '../../components/BaseForm'
-import OTPInput from '../../components/OTPInputHook'
 import { useMutation } from '@apollo/client'
 import { IconArrowLeft } from '../../public/icons'
 import { useRouter } from 'next/router'
-import { ButtonSubmit, Content, Form, Enlace, Card, Text, GoBack } from './styled'
+import { Content, Form, Card, GoBack } from './styled'
 import { CREATE_USER_SESSION } from './queries'
 import { Context } from '../../context/Context'
 import fetchJson from '../../components/hooks/fetchJson'
@@ -15,7 +14,7 @@ import { URL_BASE } from '../../apollo/urls'
 import { decodeToken, hiddenEmail } from 'utils'
 
 export const RegisterUser = () => {
-  const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
+  const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm }] = useFormTools()
   const [step, setStep] = useState(0)
   const router = useRouter()
   const [newRegisterUser, { loading }] = useMutation(CREATE_USER_SESSION)
@@ -42,9 +41,8 @@ export const RegisterUser = () => {
         setAlertBox({ message: `${res.message}`, color: 'success' })
         const decode = decodeToken(res?.token)
         localStorage.setItem('userlogin', JSON.stringify(decode))
-        console.log(decode)
         if (res?.storeUserId) {
-          const { idStore, id } = res?.storeUserId
+          const { idStore, id } = res.storeUserId
           localStorage.setItem('restaurant', idStore)
           localStorage.setItem('usuario', id)
           localStorage.setItem('session', res.token)
@@ -53,6 +51,7 @@ export const RegisterUser = () => {
           router.push('/restaurante')
         }
       }).catch(e => {
+
       })
 
     },

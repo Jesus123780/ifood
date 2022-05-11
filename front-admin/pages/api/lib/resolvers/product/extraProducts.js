@@ -1,21 +1,13 @@
+/* eslint-disable consistent-return */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ApolloError } from 'apollo-server-micro'
-import AreasModel from '../../models/areas/AreasModel'
-import Feature from '../../models/feature/feature'
-import CatStore from '../../models/information/CategorieStore'
-import CitiesModel from '../../models/information/CitiesModel'
-import DepartmentsModel from '../../models/information/DepartmentsModel'
 import ExtraProductModel from '../../models/product/productExtras'
-import productModelFood from '../../models/product/productFood'
 import productsOptionalExtra from '../../models/product/productsOptionalExtra'
 import productsSubOptionalExtra from '../../models/product/productsSubOptionalExtra'
-import trademarkModel from '../../models/product/trademark'
-import Store from '../../models/Store/Store'
-import ThirdPartiesModel from '../../models/thirdParties/ThirdPartiesModel'
-import { LoginEmail } from '../../templates/LoginEmail'
-import { deCode, filterKeyObject, getAttributes, linkBelongsTo } from '../../utils/util'
-const { Op } = require('sequelize')
+import { deCode, getAttributes } from '../../utils/util'
+import { Op } from 'sequelize'
 
-export const deleteextraproductfoods = async (_root, { state, id }, context) => {
+export const deleteextraproductfoods = async (_root, { state, id }) => {
   try {
     await ExtraProductModel.update({ state: state === 1 ? 0 : 1 }, { where: { exPid: deCode(id) } })
     return {
@@ -43,6 +35,7 @@ export const DeleteExtFoodSubsOptional = async (_root, { state, opSubExPid }, _c
 }
 export const updateExtProductFoods = async (_root, { input }, context) => {
   const { exPid, pId, exState, extraName, extraPrice, code } = input
+  let state
   try {
     if (!exPid) {
       const data = await ExtraProductModel.create({
@@ -53,18 +46,10 @@ export const updateExtProductFoods = async (_root, { input }, context) => {
         exState,
         code,
         idStore: 1
-        // idStore:  deCode(context.restaurant),
-
       })
       return data
     }
-        
     await ExtraProductModel.update({ state: state === 1 ? 0 : 1 }, { where: { exPid: deCode(exPid) } })
-    if (isExist) {
-    }
-    else {
-      throw new ApolloError('No se pudo eliminar el producto debido a un error interno.')
-    }
         
   } catch (e) {
     throw new ApolloError('No ha sido posible procesar su solicitud.', 500)

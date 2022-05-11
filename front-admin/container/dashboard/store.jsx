@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React, { useContext, useEffect, useState } from 'react'
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { BGColor, PColor, APColor } from '../../public/colors'
@@ -26,7 +27,7 @@ import { CLIENT_URL_BASE } from 'apollo/urls'
 import { ManageCategories } from './ManageCategories'
 import { Managebanner } from './profile/Managebanner'
 import { Sticky, StickyBoundary, StickyViewport } from './stickyheader'
-import { IconDelete, IconEdit, IconCategories } from 'public/icons'
+import { IconDelete, IconEdit } from 'public/icons'
 import { numberFormat } from 'utils'
 import { useOnScreen } from 'components/hooks/useIntersection'
 
@@ -60,12 +61,12 @@ const DashboardStore = () => {
   const [getCatProductsWithProduct, { data: dataProductAndCategory, loading: loadCatPro }] = useLazyQuery(GET_ALL_CATEGORIES_WITH_PRODUCT, {
     fetchPolicy: 'network-only',
     variables:
-        {
-          search,
-          gender: searchFilter?.gender,
-          desc: searchFilter?.desc,
-          categories: searchFilter?.speciality
-        }
+    {
+      search,
+      gender: searchFilter?.gender,
+      desc: searchFilter?.desc,
+      categories: searchFilter?.speciality
+    }
   })
 
   // QUERIES
@@ -86,13 +87,13 @@ const DashboardStore = () => {
       SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state)
       productFoodsOne({ variables: { pId: food.pId } })
       ExtProductFoodsOptionalAll({ variables: { pId: food.pId } })
-      ExtProductFoodsAll({ variables: { pId: food.pId } }).then(() => {return setAlertBox({ message: 'success' })}).catch(() => {return setAlertBox({ message: 'Lo sentimo no pudimos traer Los sub platos' })})
+      ExtProductFoodsAll({ variables: { pId: food.pId } }).then(() => { return setAlertBox({ message: 'success' }) }).catch(() => { return setAlertBox({ message: 'Lo sentimo no pudimos traer Los sub platos' }) })
     } catch (error) {
       setAlertBox({ message: 'Lo sentimos, ocurrió un error' })
     }
   }
   // eslint-disable-next-line no-unused-vars
-  const { getStore, pId, carProId, sizeId, colorId, idStore, cId, caId, dId, ctId, tpId, fId, pName, ProPrice, ProDescuento, ProUniDisponibles, ProDescription, ProProtegido, ProAssurance, ProImage, ProStar, ProWidth, ProHeight, ProLength, ProWeight, ProQuantity, ProOutstanding, ProDelivery, ProVoltaje, pState, sTateLogistic, pDatCre, pDatMod } = dataProduct?.productFoodsOne || {}
+  const { getStore, pId, pName, ProPrice, ProDescuento, ProDescription, ProImage } = dataProduct?.productFoodsOne || {}
   const { storeName } = getStore || {}
   const { storeName: nameStore } = store || {}
 
@@ -102,17 +103,19 @@ const DashboardStore = () => {
     target.style.backgroundColor = PColor
     target.style.boxShadow = '0 6px 10px 0 rgba(0, 0, 0, 0.14)'
   }
-  const handleUnstuck = target => {
+
+  const handleUnstuck = () => {
     // target.style.backgroundColor = BGColor
-    target.style.boxShadow = ''
+    // target?.style?.boxShadow = ''
   }
-  const handleChangeLol = ({ target, type }) => {
+  const handleChangeLol = ({ type }) => {
     if (type === 'stuck') {
+
       // target.style.backgroundColor = PColor;
       // target.style.BorderBottom = '1px solid'
     } else {
-      target.style.backgroundColor = BGColor
-      target.style.BorderBottom = '1px solid'
+      // target?.style?.backgroundColor = BGColor
+      // target?.style?.BorderBottom = '1px solid'
     }
   }
   // EFFECTS
@@ -154,11 +157,11 @@ const DashboardStore = () => {
                 <CardProducts
                   food={food}
                   key={food.pId}
-                  onClick={() => {return handleGetOneProduct(food)}}
+                  onClick={() => { return handleGetOneProduct(food) }}
                   setAlertBox={setAlertBox}
                 />
               )
-            }) : <div>No hay productos <IconCategories size={30} /></div>}
+            }) : <Text size='15px'>No hay productos En la categoría {x.pName}</Text>}
           </ContainerCarrusel>
         </StickyBoundary>
       </div>)
@@ -171,10 +174,10 @@ const DashboardStore = () => {
         <Managebanner />
         <WrapperOptions>
           <div>
-            <ButtonAction onClick={() => {return SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state)}}> Subir productos</ButtonAction >
-            <ButtonAction onClick={() => {return setOpenSchedule(!openSchedule)}}> Editar agenda </ButtonAction>
-            <ButtonAction onClick={() => {return SHOW_MANAGE_CATEGORIES.setState(!SHOW_MANAGE_CATEGORIES.state)}}> Administrar Categorías</ButtonAction>
-            <ButtonAction onClick={() => {return openTable(!table)}}> Ver sobre mesa</ButtonAction>
+            <ButtonAction onClick={() => { return SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state) }}> Subir productos</ButtonAction >
+            <ButtonAction onClick={() => { return setOpenSchedule(!openSchedule) }}> Editar agenda </ButtonAction>
+            <ButtonAction onClick={() => { return SHOW_MANAGE_CATEGORIES.setState(!SHOW_MANAGE_CATEGORIES.state) }}> Administrar Categorías</ButtonAction>
+            <ButtonAction onClick={() => { return openTable(!table) }}> Ver sobre mesa</ButtonAction>
           </div>
         </WrapperOptions>
         <InputHooks
@@ -197,7 +200,7 @@ const DashboardStore = () => {
         footer={false}
         header={true}
         height='100vh'
-        onCancel={() => {return false}}
+        onCancel={() => { return false }}
         onHide={() => { SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state) }}
         show={SET_OPEN_PRODUCT.state}
         size='large'
@@ -260,7 +263,7 @@ const DashboardStore = () => {
           </ContentInfo>
         </CardProductsModal>
         <ContainerFilter>
-          <ItemFilter onClick={() => {return setModal(!modal)}}>Añadir Adicionales</ItemFilter>
+          <ItemFilter onClick={() => { return setModal(!modal) }}>Añadir Adicionales</ItemFilter>
         </ContainerFilter>
         <OptionalExtraProducts
           dataOptional={dataOptional?.ExtProductFoodsOptionalAll || []}
@@ -274,7 +277,7 @@ const DashboardStore = () => {
         footer={false}
         header={true}
         height='100vh'
-        onCancel={() => {return false}}
+        onCancel={() => { return false }}
         onHide={() => { SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state) }}
         show={SHOW_MODAL_UPDATE_PRODUCTS.state}
         size='large'
@@ -289,8 +292,8 @@ const DashboardStore = () => {
         footer={false}
         header={true}
         height='100vh'
-        onCancel={() => {return false}}
-        onHide={() => {return openTable(!table)}}
+        onCancel={() => { return false }}
+        onHide={() => { return openTable(!table) }}
         padding='20px'
         show={table}
         size='large'
@@ -305,7 +308,7 @@ const DashboardStore = () => {
         footer={false}
         header={true}
         height='100vh'
-        onCancel={() => {return false}}
+        onCancel={() => { return false }}
         onHide={() => { SHOW_MANAGE_CATEGORIES.setState(!SHOW_MANAGE_CATEGORIES.state) }}
         padding='25px'
         show={SHOW_MANAGE_CATEGORIES.state}
@@ -348,7 +351,7 @@ export const CardProducts = ({ food, onClick, setAlertBox }) => {
         })
         setAlertBox({ message: `El producto ${pName} ha sido eliminado`, color: 'error', duration: 7000 })
       }
-    }).catch(err => {return setAlertBox({ message: `${err}`, duration: 7000 })})
+    }).catch(err => { return setAlertBox({ message: `${err}`, duration: 7000 }) })
   }
   // const da = HookMouse()
   return (
@@ -356,12 +359,12 @@ export const CardProducts = ({ food, onClick, setAlertBox }) => {
       {<WrapperCard>
         {/* {da}     */}
         <TooltipCardProduct>
-          <button onClick={() => {return router.push(`/producto/editar/${food.pId}`)}}>
+          <button onClick={() => { return router.push(`/producto/editar/${food.pId}`) }}>
             <IconEdit color={PColor} size={20} />
           </button>
         </TooltipCardProduct>
         <TooltipCardProduct left='50px'>
-          <button onClick={() => {return handleDelete(food)}}>
+          <button onClick={() => { return handleDelete(food) }}>
             <IconDelete color={PColor} size={20} />
           </button>
         </TooltipCardProduct>
@@ -390,6 +393,19 @@ export const CardProducts = ({ food, onClick, setAlertBox }) => {
       </WrapperCard>}
     </div>
   )
+}
+
+CardProducts.propTypes = {
+  food: PropTypes.shape({
+    ProDescription: PropTypes.string,
+    ProDescuento: PropTypes.any,
+    ProImage: PropTypes.any,
+    ProPrice: PropTypes.any,
+    pId: PropTypes.any,
+    pName: PropTypes.any
+  }),
+  onClick: PropTypes.any,
+  setAlertBox: PropTypes.func
 }
 DashboardStore.propTypes = {
 

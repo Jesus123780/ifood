@@ -1,7 +1,7 @@
+/* eslint-disable consistent-return */
 import { ApolloError } from 'apollo-server-micro'
 import AreasModel from '../../models/areas/AreasModel'
 import Feature from '../../models/feature/feature'
-import CatStore from '../../models/information/CategorieStore'
 import CitiesModel from '../../models/information/CitiesModel'
 import colorModel from '../../models/information/color'
 import CountriesModel from '../../models/information/CountriesModel'
@@ -12,7 +12,7 @@ import trademarkModel from '../../models/product/trademark'
 import Store from '../../models/Store/Store'
 import ThirdPartiesModel from '../../models/thirdParties/ThirdPartiesModel'
 import { deCode, getAttributes } from '../../utils/util'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 export const productsOne = async (root, { pId }, context, info) => {
   try {
@@ -58,7 +58,7 @@ export const productFoodsOne = async (root, { pId }, context, info) => {
     return error
   }
 }
-export const getMinPrice = async (root, { idStore }, context, info) => {
+export const getMinPrice = async (root, { idStore }, context) => {
   const data = await productModelFood.findAll({
     attributes: ['ProPrice'],
     where: {
@@ -140,7 +140,6 @@ export const productFoodsAll = async (root, args, context, info) => {
 
 export const editProductFoods = async (_root, { input }, context) => {
   try {
-    console.log(input)
     const { pName, pId, ProDescuento, ProPrice, ProDescription, ProImage, ValueDelivery } = input || {}
     await productModelFood.update({ pName, ProDescuento, ProPrice, ProDescription, ProImage, ValueDelivery }, {
       where: {
@@ -222,8 +221,6 @@ export default {
   TYPES: {
     ProductFood: {
       ExtProductFoodsAll: async (parent, _args, _context, info) => {
-        // linkBelongsTo(ExtraProductModel, productModelFood, 'exPid', 'pId')
-        console.log(1)
         try {
           const attributes = getAttributes(ExtraProductModel, info)
           const data = await ExtraProductModel.findAll({

@@ -1,6 +1,5 @@
 import { ApolloError } from 'apollo-server-micro'
 import CatStore from '../../models/information/CategorieStore'
-import ShoppingCard from '../../models/Store/ShoppingCard'
 import CitiesModel from '../../models/information/CitiesModel'
 import colorModel from '../../models/information/color'
 import CountriesModel from '../../models/information/CountriesModel'
@@ -8,10 +7,8 @@ import DepartmentsModel from '../../models/information/DepartmentsModel'
 import SizeModel from '../../models/information/size'
 import TypeIdentitiesModel from '../../models/information/TypeIdentitiesModel'
 import TypeRoad from '../../models/information/TypeOfRoad'
-import Users from '../../models/Users'
-import { LoginEmail } from '../../templates/LoginEmail'
 import { deCode, filterKeyObject, getAttributes } from '../../utils/util'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 // cities
 export const getCities = async (_root, _args, _context, info) => {
@@ -70,6 +67,7 @@ export const departments = async (_root, { cId }, _context, info) => {
     throw new ApolloError('Lo sentimos, ha ocurrido un error interno')
   }
 }
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const department = async (_root, _context, info) => {
   try {
     const data = await DepartmentsModel.findAll({
@@ -87,7 +85,6 @@ export const department = async (_root, _context, info) => {
 }
 export const createDepartments = async (_root, { input }) => {
   const { dName, cId } = input
-  console.log(input, 'object')
   try {
     const data = await DepartmentsModel.create({ dName, cId: deCode(cId), dState: 1 })
     return data
@@ -113,9 +110,11 @@ export const createRoad = async (_root, { input }) => {
     throw new ApolloError('No ha sido posible procesar su solicitud.', 500, e)
   }
 }
+// eslint-disable-next-line consistent-return
 export const editRoad = async (_root, { input }) => {
   try {
     /** Editar el registro del país */
+    // eslint-disable-next-line no-undef
     const data = await TypeRoad.update({ rName, rState }, { where: { rId: deCode(rId) } })
     const result = await TypeRoad.findOne({ ...filterKeyObject(input, ['rId']) }, { where: { rId: deCode(rId) } })
     if (data !== null) return result
@@ -124,6 +123,7 @@ export const editRoad = async (_root, { input }) => {
   }
 }
 // getSizes
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getSizes = async (_root, _context, _info) => {
   try {
     const data = await SizeModel.findAll({ attributes: ['sizeId', 'sizeName', 'sizeState'] })
@@ -142,7 +142,7 @@ export const create = async (_root, { input }, _context, _info) => {
   }
 }
 // typeIdentities
-export const typeIdentities = async (_root, { input }, _context, _info) => {
+export const typeIdentities = async (_root, { input }, _context, info) => {
   try {
     const attributes = getAttributes(TypeIdentitiesModel, info)
     const data = await TypeIdentitiesModel.findAll({ attributes, where: { tiState: { [Op.gt]: 0 } } })
@@ -159,7 +159,8 @@ export const createTypeIdentity = async (_root, { input }, _context, _info) => {
     throw new ApolloError('No ha sido posible procesar su solicitud.', 500, e)
   }
 }
-export const getAllColor = async (_root, { input }, _context, _info) => {
+export const getAllColor = async (_root, { input }, _context, info) => {
+  const { colorId } = input || {}
   try {
     const attributes = getAttributes(colorModel, info)
     const data = await colorModel.findAll({

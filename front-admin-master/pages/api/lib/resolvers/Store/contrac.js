@@ -1,7 +1,7 @@
 import { ApolloError } from 'apollo-server-micro'
 import Contract from '../../models/Store/contract'
 import { deCode, filterKeyObject, getAttributes } from '../../utils/util'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 export const createOneContract = async (_root, { input }, context) => {
     try {

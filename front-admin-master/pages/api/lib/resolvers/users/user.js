@@ -6,7 +6,7 @@ import Userprofile from '../../models/users/UserProfileModel'
 import { LoginEmail } from '../../templates/LoginEmail'
 import { generateCode, generateToken, sendEmail } from '../../utils'
 import { deCode, enCode, getAttributes } from '../../utils/util'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 export const newRegisterUser = async (root, input) => {
     const setCookies = []

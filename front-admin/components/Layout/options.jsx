@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useContext } from 'react'
 import Link from '../common/Link'
 import styled from 'styled-components'
 import { PColor } from '../../public/colors'
@@ -7,36 +7,39 @@ import { ButtonOption, FloatingBoxTwo, Overline } from './styled'
 import { IconLogout, IconMessageMain, IconShopping, IconUser } from '../../public/icons'
 import { useRouter } from 'next/router'
 import { URL_BASE } from '../../apollo/urls'
+import { Context } from 'context/Context'
+import { LoadingClosed } from 'components/Loading'
 
 export const Options = () => {
   const { client } = useApolloClient()
   const [show, setShow] = useState(false)
+  const { setAlertBox } = useContext(Context)
   const location = useRouter()
-  // const onClickLogout = () => {
-  //     client?.clearStore()
-  //     window.localStorage.clear()
-  //     location.replace('/')
-  // }
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
+
   // Cerrar sesión
   const onClickLogout = useCallback(async () => {
+    setLoading(true)
     await window
       .fetch(`${URL_BASE}auth/logout/`, {})
       .then(res => {
         if (res) {
           client?.clearStore()
-          // window.localStorage.clear()
           location.replace('/entrar')
+          setLoading(false)
         }
       })
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      .catch(() => {})
-
+      .catch(() => {
+        setError(true)
+        setAlertBox({ message: 'Ocurrió un error al cerrar session' })
+      })
   }, [client])
 
   useEffect(() => {
     const body = document.body
-    body.addEventListener('keyup', e => {return e.code === 'Escape' && setShow(false)})
-    return () => {return body.removeEventListener('keyup', () => {return setShow})}
+    body.addEventListener('keyup', e => { return e.code === 'Escape' && setShow(false) })
+    return () => { return body.removeEventListener('keyup', () => { return setShow }) }
 
   }, [setShow])
   const handleClick = index => {
@@ -47,7 +50,8 @@ export const Options = () => {
   }, [location])
   return (
     <ContainerOption>
-      <Overline onClick={() => {return setShow(!true)}} show={show} />
+      {(loading || error) && <LoadingClosed error={error} />}
+      <Overline onClick={() => { return setShow(!true) }} show={show} />
       <ButtonOption>
         <Enlace href='/messages'>
           <a>
@@ -58,13 +62,13 @@ export const Options = () => {
       <ButtonOption onClick={onClickLogout}>
         <IconLogout color={PColor} size='20px' />
       </ButtonOption>
-      <ButtonOption onClick={() => {return handleClick(2)}}>
+      <ButtonOption onClick={() => { return handleClick(2) }}>
         <IconShopping color={PColor} size='25px' />
       </ButtonOption>
       <ContainerOption>
         <FloatingBoxTwo show={show === 2}>
           <Option Theme={false} >
-            <ButtonOption onClick={() => {return location.push('/profile/user')}} space>
+            <ButtonOption onClick={() => { return location.push('/profile/user') }} space>
               <span>Perfil</span>
               <IconUser color={PColor} size='25px' />
             </ButtonOption>
@@ -82,7 +86,7 @@ export const Options = () => {
 }
 const ContainerOption = styled.div`
     position: relative;
-    width: ${({ width }) => {return width ? width : 'max-content'}};
+    width: ${({ width }) => { return width ? width : 'max-content' }};
 `
 const Enlace = styled(Link)`
     position: relative;

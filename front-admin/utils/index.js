@@ -1,9 +1,9 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-shadow */
 /* eslint-disable valid-jsdoc */
 
 // import nodemailer from 'nodemailer'
 import moment from 'moment'
-import jwtDecode from 'jwt-decode'
 import { useEffect } from 'react'
 import jwt, { decode } from 'jsonwebtoken'
 
@@ -50,7 +50,7 @@ export const rangeLength = (dato, min, max) => {
     if ((dato.length < min) || (dato.length > max)) {
       return true
     } return false
-  } return false 
+  } return false
 }
 
 export const Match = (dato1, dato2) => {
@@ -66,16 +66,16 @@ export const isEmail = email => {
   } return false
 }
 
-export const passwordConfirm = (value, valueConfirm) => {return !(value === valueConfirm)}
+export const passwordConfirm = (value, valueConfirm) => { return !(value === valueConfirm) }
 // export const numberFormat = value => value ? (parseInt(value) ? new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(parseFloat(`${value}`.replace(/\./g, ''))) : '') : (value === 0 ? 0 : '')
 
 // var options = { style: 'currency', currency: 'GBP' };
 // export const numberFormat = value => value && parseFloat(value) && new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(value)
 // export const numberFormat = value => value ? (parseInt(value) ? new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(parseFloat(`${value}`.replace(/\./g, ''))) : '') : (value === 0 ? 0 : '')
-export const numberFormat = value => {return value ? (parseInt(value) ? new Intl.NumberFormat('de-DE').format(parseFloat(`${value}`.replace(/\./g, ''))) : '') : (value === 0 ? 0 : '')}
+export const numberFormat = value => { return value ? (parseInt(value) ? new Intl.NumberFormat('de-DE').format(parseFloat(`${value}`.replace(/\./g, ''))) : '') : (value === 0 ? 0 : '') }
 
 // valida los inputs
-export const dateFormat = value => {return moment(value).format('DD-MM-YYYY')}
+export const dateFormat = value => { return moment(value).format('DD-MM-YYYY') }
 export const validations = (e, typeNull, typeLetters, typeNumeric, typeRange, minRange, maxRange, typeEmail, typeFormat) => {
   let { value } = e.target
   const { nextSibling } = e.target
@@ -146,7 +146,7 @@ export const validationForm = (inputs, error) => {
         errorForm = true
       }
     } else
-    if (error[inputs[i].name]) { errorForm = true }
+      if (error[inputs[i].name]) { errorForm = true }
   }
   return errorForm
 }
@@ -214,7 +214,7 @@ export const validationsSelect = v => {
   return false
 }
 
-export const validationImg = file => {return (/\.(jpg|png|gif|jpeg)$/i).test(file.name)}
+export const validationImg = file => { return (/\.(jpg|png|gif|jpeg)$/i).test(file.name) }
 
 export const CalcularDigitoVerificacion = value => {
   let x = 0; let y = 0; let i = 0; let myNit
@@ -367,9 +367,9 @@ export const filterKeyObjectOLD = (data, filters) => {
  */
 export const validationSubmitHooks = elements => {
   let errorForm = {}
-  for (let i = 0; i < elements.length; i++){
+  for (let i = 0; i < elements.length; i++) {
     if (elements[i].name) {
-      if (elements[i].type === 'text' || elements[i].type === 'password' || elements[i].type === 'email' || elements[i].type === 'number' || elements[i].type === 'hidden'){
+      if (elements[i].type === 'text' || elements[i].type === 'password' || elements[i].type === 'email' || elements[i].type === 'number' || elements[i].type === 'hidden') {
         if (elements[i].dataset.required === 'true') {
           if (!elements[i].value) errorForm = { ...errorForm, [elements[i].name]: !elements[i].value }
           else errorForm = { ...errorForm, [elements[i].name]: !elements[i].value }
@@ -423,7 +423,7 @@ export function parse(str) {
     alert()
     for (const current in str) {
       // eslint-disable-next-line
-            console.log('')
+      console.log(current)
     }
   }
 }
@@ -454,7 +454,7 @@ export const updateCacheMod = async ({ cache, query, nameFun, dataNew, type, id 
       [nameFun](dataOld = []) {
         if (type === 1) return cache.writeQuery({ query, data: [...(dataOld || []), { ...(dataNew || {}) }] })
         if (type === 2) return cache.writeQuery({ query, data: { ...(dataOld || {}), ...(dataNew || {}) } })
-        if (type === 3) return cache.writeQuery({ query, data: dataOld.filter(x => {return x === id}) })
+        if (type === 3) return cache.writeQuery({ query, data: dataOld.filter(x => { return x === id }) })
       }
     }
   })
@@ -464,7 +464,6 @@ export const updateCacheMod = async ({ cache, query, nameFun, dataNew, type, id 
  * @returns {null} no hay retorno
  */
 const TOKEN = 'sma.sv1'
-const RESTAURANT = 'restaurant'
 export function setToken(token) {
   if (token === null) return false
   else if (token !== null) return JSON.parse
@@ -492,9 +491,9 @@ export function getTokenState(token) {
     return { valid: false, needRefresh: true }
   } else if (decoded.exp && jwt.decode(token)?.exp < now) {
     return { valid: true, needRefresh: true }
-  } 
+  }
   return { valid: true, needRefresh: false }
-    
+
 }
 // Obtiene el token y lo elimina
 export function removeToken() {
@@ -510,7 +509,7 @@ export const validateEmail = email => {
  * @param {string} value valor en numeros
  * @return {string} nuevo formato en teléfono
  */
-export const upperCase = value => {return `${value || ''}`.toUpperCase()}
+export const upperCase = value => { return `${value || ''}`.toUpperCase() }
 
 /**
  * Transforma un numero en formato de teléfono
@@ -815,7 +814,7 @@ export const NumeroALetras = (value, format = false) => {
       if (data.pennies === 1) return `${Millones(data.pennies)} ${data.letterCoinPennieSingular}`
       return `${Millones(data.pennies)} ${data.letterCoinPenniesPlural}`
     })()
-    }`
+      }`
   }
 
   if (data.integers === 0) return `CERO ${data.letterCoinPlural} ${data.letterPennies}`
@@ -944,7 +943,7 @@ export default function useKeypress(key, action) {
       if (e.key === key) action()
     }
     window.addEventListener('keyup', onKeyup)
-    return () => {return window.removeEventListener('keyup', onKeyup)}
+    return () => { return window.removeEventListener('keyup', onKeyup) }
   }, [])
 }
 export const CalculateIva = (quantity, rate, iPercentage, state) => {
@@ -960,10 +959,10 @@ export const CalculateIva = (quantity, rate, iPercentage, state) => {
     const PercentageNumber = parseInt(iPercentage)
     TotalIva = SubTotal ? (SubTotal * PercentageNumber) / 100 : 0
     return TotalIva
-  } 
+  }
   TotalIva = 0
   return TotalIva
-    
+
 }
 /**
  *
@@ -1003,7 +1002,7 @@ export const hiddenEmail = email => {
   const sliceUsername = username.slice(0, 3)
   const lastChar = username.charAt(username.length - 1)
   const usernameLengthToHide =
-        username.length - (sliceUsername.length + lastChar.length)
+    username.length - (sliceUsername.length + lastChar.length)
   const hideUsername = '*'.repeat(usernameLengthToHide)
   const domainLengthToHide = domain.length - sliceDomain.length
   const hideDomain = '*'.repeat(domainLengthToHide)
@@ -1017,38 +1016,40 @@ export function RandomCode(length) {
   let result = ''
   let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
   let charactersLength = characters.length
-  for ( let i = 0; i < length; i++ ) {
-    result += characters.charAt(Math.floor(Math.random() * 
-    charactersLength))
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() *
+      charactersLength))
   }
   return result
 }
 
 export const NewDateFormat = (date) => {
   try {
+    if (!date) return
     // const dateString = new Date(dateString)
-    const dateString = date => {return new Date(date).toString() !== 'Invalid Date'}
+    const dateString = date => { return new Date(date).toString() !== 'Invalid Date' }
     const newDate = dateString instanceof Date && !isNaN(dateString)
     // return new Date(date).toISOString().slice(0, 10).replace(/-/g,"");
-    return date
-
+    return newDate
   } catch (error) {
+    new Error(error.message)
   }
 }
 
-export const convertBase64 = file =>
-{return new Promise((resolve, reject) => {
-  const reader = new FileReader()
-  if (file) {
-    reader.readAsDataURL(file)
-  }
-  reader.onload = () => {
-    resolve(reader.result)
-  }
-  reader.onerror = error => {
-    reject(error)
-  }
-})}
+export const convertBase64 = file => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    if (file) {
+      reader.readAsDataURL(file)
+    }
+    reader.onload = () => {
+      resolve(reader.result)
+    }
+    reader.onerror = error => {
+      reject(error)
+    }
+  })
+}
 /**
  * OBTIENE EL TAMAÑO DE EL ARCHIVO
  */
@@ -1059,11 +1060,11 @@ export const getFileSizeByUnit = (file, unit = 'B') => {
   }
   const unitStr = unit.toUpperCase()
   const unitFormula = {
-    B: size => {return size},
-    KB: size => {return size / 1024},
-    MB: size => {return size / (1024 * 1024)},
-    GB: size => {return size / (1024 * 1024 * 1024)},
-    TB: size => {return size / (1024 * 1024 * 1024 * 1024)}
+    B: size => { return size },
+    KB: size => { return size / 1024 },
+    MB: size => { return size / (1024 * 1024) },
+    GB: size => { return size / (1024 * 1024 * 1024) },
+    TB: size => { return size / (1024 * 1024 * 1024 * 1024) }
   }
   return [unitFormula[unitStr] ? unitFormula[unitStr](originFileSize) : 0, { unit }]
 }
@@ -1077,10 +1078,10 @@ export const getFileSizeByUnit = (file, unit = 'B') => {
 //     hotel_d : 5,
 //     hotel_e : 5
 //   };
-  
+
 //   // total number of stars
 //   const starTotal = 5;
-  
+
 //   for(const rating in ratings) {  
 //     const starPercentage = (ratings[rating] / starTotal) * 100;
 //     const starPercentageRounded = `${(Math.round(starPercentage / 10) * 10)}%`;
@@ -1117,7 +1118,7 @@ export const cleanRut = (rut) => {
     ? rut.replace(/^(0+|[^0-9kK]+)/g, '').toUpperCase()
     : ''
 }
-  
+
 export const formatRut = (rut) => {
   rut = cleanRut(rut)
   if (rut.length === 0) {
@@ -1129,15 +1130,12 @@ export const formatRut = (rut) => {
   }
   return result
 }
-const lol = formatRut('https://www.facebook.com/messages/t/100017146501277')
-console.log(lol)
+formatRut('https://www.facebook.com/messages/t/100017146501277')
 
-export const toKebabCase = (string) =>
-{return string
-  .replace(/([A-Z])([A-Z])/g, '$1-$2')
-  .replace(/([a-z])([A-Z])/g, '$1-$2')
-  .replace(/[\s_]+/g, '-')
-  .toLowerCase()}
-
-// const lol = toKebabCase('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoianVhbml0YUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6Imp1YW5pdGFAZ21haWwuY29tIiwicmVzdGF1cmFudCI6bnVsbCwiaWQiOiJOVFEwTVRjM05qSTVOekF6TURNeU9UQXciLCJpYXQiOjE2NTA3MzIyNDEsImV4cCI6MTY1MTA2NTU0MX0.WV3bQAizoPlCoXyFAweHELKBKdJnnm2IkYFFooLBDIU');
-// console.log(lol);
+export const toKebabCase = (string) => {
+  return string
+    .replace(/([A-Z])([A-Z])/g, '$1-$2')
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .replace(/[\s_]+/g, '-')
+    .toLowerCase()
+}

@@ -1,7 +1,7 @@
 import StatusPedidosModel from '../../models/Store/statusPedidoFinal'
 import { deCode, getAttributes } from '../../utils/util'
 
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 // store
 export const getAllPedidoStoreFinal = async (_, args, ctx, info) => {
   const { idStore } = args || {}

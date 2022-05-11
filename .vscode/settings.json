@@ -40,6 +40,7 @@
         "shoppingcards",
         "speciality",
         "subproducts",
+        "Swiper",
         "TBGB",
         "TINYINT",
         "tnum",
@@ -49,6 +50,9 @@
         "UUIDV",
         "varify",
         "Viaprincipal",
+        "Walletdebt",
+        "walletdebtproducts",
         "xlsb"
-    ]
+    ],
+    "typescript.tsdk": "node_modules\\typescript\\lib"
 }

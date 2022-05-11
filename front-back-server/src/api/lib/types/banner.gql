@@ -3,6 +3,7 @@ type Banner {
     bnId: ID
     id: ID  
     path: String
+    bnImageFileName: String
     idStore: ID
     bnState: Int
     bnImage: Upload
@@ -16,6 +17,7 @@ type ReBanner {
     idStore: ID
     bnState: Int
     bnImage: Upload
+      bnImageFileName: String
     createAt: DateTime
     updateAt: DateTime
 }
@@ -25,6 +27,7 @@ input IBanner {
     bnId: ID
     id: ID  
     path: String  
+    bnImageFileName: String  
     idStore: ID
     bnState: Int
     bnImage: Upload
@@ -44,5 +47,5 @@ type Mutation {
   "Edit Banner"
   editBanner(input: IBanner): Banner
    "Remove One Banner"
-    DeleteOneBanner(bnState: Int, idStore: ID, bnId: ID): Response
+    DeleteOneBanner(bnState: Int, idStore: ID, bnId: ID, bnImage: String, bnImageFileName: String): Response
 }

@@ -33,6 +33,10 @@ export default conn.define('bannerstore', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    bnImageFileName: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
     path: {
         type: Sequelize.STRING,
         allowNull: false

@@ -1,4 +1,3 @@
-import GraphQLUpload from 'graphql-upload'
 import dateTimeScalar from './CustomScalar'
 import storeResolver from './Store'
 import UserResolvers from './users'

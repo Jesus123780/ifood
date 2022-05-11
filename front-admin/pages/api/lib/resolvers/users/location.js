@@ -1,38 +1,31 @@
 import { ApolloError } from 'apollo-server-micro'
-import { filterKeyObject, REFRESH_TOKEN_COOKIE_OPTIONS } from '../../../../../utils'
-import Store from '../../models/Store/Store'
-import Users from '../../models/Users'
 import UserLocation from '../../models/product/userLocations'
-import Userprofile from '../../models/users/UserProfileModel'
-import { LoginEmail } from '../../templates/LoginEmail'
-import { generateCode, generateToken, sendEmail } from '../../utils'
-import { deCode, enCode, getAttributes } from '../../utils/util'
+import { deCode, getAttributes } from '../../utils/util'
 import CountriesModel from '../../models/information/CountriesModel'
 import DepartmentsModel from '../../models/information/DepartmentsModel'
 import CitiesModel from '../../models/information/CitiesModel'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
-export const updateUserLocations = async (root, input, context, info) => {
-  console.log(input)
+export const updateUserLocations = async (_root, input, context) => {
   try {
-    const { 
+    const {
       cId,
       dId,
       ctId,
       uLatitud,
       uLongitude,
       uLocationKnow,
-      uPiso,
-      DatCre,
-      DatMod } = input.input || {}
-    const data = await UserLocation.create({ id: deCode(context.User.id), uLocationKnow, uPiso, uLongitude, uLatitud, ctId: deCode(ctId), dId: deCode(dId), cId: deCode(cId)})
+      uPiso
+    } = input.input || {}
+    const data = await UserLocation.create({ id: deCode(context.User.id), uLocationKnow, uPiso, uLongitude, uLatitud, ctId: deCode(ctId), dId: deCode(dId), cId: deCode(cId) })
     return data
   } catch (e) {
     const error = new ApolloError('Lo sentimos, ha ocurrido un error interno', 400)
-    return e
+    return error
   }
 }
-export const deleteUserLocations = async (root, { uLocationState, locationId }, context, info) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const deleteUserLocations = async (_root, { uLocationState, locationId }, _context, _info) => {
   try {
     await UserLocation.update({ uLocationState: uLocationState === 1 ? 0 : 1 }, { where: { locationId: deCode(locationId) } })
     return {
@@ -41,7 +34,7 @@ export const deleteUserLocations = async (root, { uLocationState, locationId }, 
     }
   } catch (e) {
     const error = new ApolloError('Lo sentimos, ha ocurrido un error interno', 400)
-    return e
+    return error
   }
 }
 export const getUserLocations = async (_root, _args, context, info) => {

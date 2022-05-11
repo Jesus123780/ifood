@@ -1,7 +1,7 @@
 import { MainCard } from 'components/common/Reusable/ShadowCard'
 import React from 'react'
 import styled from 'styled-components'
-import { Content, ContentGrid, Text } from './styled'
+import { ContentGrid, Text } from './styled'
 
 export const DeliveryFood = () => {
   return (

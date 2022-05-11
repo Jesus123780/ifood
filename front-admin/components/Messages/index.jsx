@@ -3,8 +3,9 @@ import { useContext } from 'react'
 import Image from 'next/image'
 import { BoxChat, Chat, CircleStore, ContentAction, ContentMessage, ItemMessage, Message, TextMessage, WrapperChat } from './styled'
 import { RippleButton } from 'components/Ripple'
-import { IconCancel, IconSendMessageTwo } from 'public/icons'
+import { IconCancel } from 'public/icons'
 import { Context } from 'context/Context'
+import { PColor } from 'public/colors'
 
 export const MessageComp = ({ data, input, id, messagesEndRef, setStoreChatActive, messageData, er, handleSendMessage, values, handleChange }) => {
   const { selectedStore, hidden, setHidden } = useContext(Context)
@@ -12,36 +13,40 @@ export const MessageComp = ({ data, input, id, messagesEndRef, setStoreChatActiv
     <div>
       {er && 'Ocurrió un error'}
       <BoxChat>
-        {data.map((x, i) => {return <CircleStore key={i + 1} onClick={() => {return setStoreChatActive(x)}}>
-          <ItemMessage > {x?.getOneStore?.storeName.slice(0, 2).toUpperCase()}</ItemMessage>
-          <Image
-            alt={''}
-            blurDataURL='/images/DEFAULTBANNER.png'
-            className='store_image'
-            height={20}
-            layout='responsive'
-            objectFit='contain'
-            src={x.getOneStore.Image || '/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
-            width={20}
-          />
-        </CircleStore>})}
+        {data.map((x, i) => {
+          return <CircleStore key={i + 1} onClick={() => { return setStoreChatActive(x) }}>
+            <ItemMessage > {x?.getOneStore?.storeName.slice(0, 2).toUpperCase()}</ItemMessage>
+            <Image
+              alt={''}
+              blurDataURL='/images/DEFAULTBANNER.png'
+              className='store_image'
+              height={20}
+              layout='responsive'
+              objectFit='contain'
+              src={x.getOneStore.Image || '/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
+              width={20}
+            />
+          </CircleStore>
+        })}
       </BoxChat>
-      {<WrapperChat onSubmit={(e) => {return handleSendMessage(e)}} show={hidden}>
+      {<WrapperChat onSubmit={(e) => { return handleSendMessage(e) }} show={hidden}>
         <ContentAction>
-          <div className='header-chat' onClick={() => {return setHidden(!hidden)}} >
+          <div className='header-chat' onClick={() => { return setHidden(!hidden) }} >
             <button type='button'>{selectedStore?.getOneStore?.storeName || null}</button>
             <button type='button'><IconCancel size={20} /> </button>
           </div>
           <Chat id='scroll' ref={messagesEndRef}>
-            {messageData?.length > 0 && messageData?.map((x, i) => {return (
-              <Message key={i + 1}>
-                <ContentMessage messageUser={x.from} user={id}>
-                  <TextMessage messageUser={x.from} user={id}>
-                    {x.content}
-                  </TextMessage>
-                </ContentMessage>
-              </Message>
-            )})}
+            {messageData?.length > 0 && messageData?.map((x, i) => {
+              return (
+                <Message key={i + 1}>
+                  <ContentMessage messageUser={x.from} user={id}>
+                    <TextMessage messageUser={x.from} user={id}>
+                      {x.content}
+                    </TextMessage>
+                  </ContentMessage>
+                </Message>
+              )
+            })}
 
           </Chat>
           <div></div>
@@ -57,11 +62,9 @@ export const MessageComp = ({ data, input, id, messagesEndRef, setStoreChatActiv
               value={values?.content}
             />
             <RippleButton
-              height='40px'
-              padding='0'
+              color={PColor}
               type='submit'
-              widthButton='10% '
-            ><IconSendMessageTwo color='#000' size='10px' /></RippleButton>
+            >Enviar</RippleButton>
           </div>
         </ContentAction>
       </WrapperChat>}

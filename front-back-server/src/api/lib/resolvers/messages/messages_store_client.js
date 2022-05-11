@@ -42,7 +42,6 @@ export const getMessages = async (parent, { from }, ctx) => {
 
 }
 export const sendMessage = async (parent, { to, content }, ctx) => {
-    console.log(to, content)
     try {
         try {
             const message = await MessagesModel.create({ from: ctx.User.id, to, content, })
@@ -66,8 +65,7 @@ const SubscriptionSubscription = {
                 if (!ctx) throw new AuthenticationError('Unauthenticated')
                 return pubsub.asyncIterator(['NEW_MESSAGE'])
             }, ({ newMessage, ctx }, _, __) => {
-                console.log(newMessage)
-                if (newMessage.from === ctx.User.id || newMessage.to === ctx.User.id) {
+                if (newMessage.from === ctx.User.id || newMessage.from === ctx.User.id) {
                     return true
                 } else {
                     return false

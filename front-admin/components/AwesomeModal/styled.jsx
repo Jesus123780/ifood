@@ -80,14 +80,14 @@ export const Container = styled.div`
     else if (!show && !state) return 'none'
   }};
     position: fixed;
-    background: ${({ bgColor }) => {return bgColor || 'rgba(0,0,0,.4)'}};
+    background: ${({ bgColor }) => { return bgColor || 'rgba(0,0,0,.4)' }};
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
     width: 100%;
     height: 100%;
-    z-index: ${({ zIndex }) => {return zIndex || '100'}};
+    z-index: ${({ zIndex }) => { return zIndex || '100' }};
     opacity: 1;
     ${({ show, state }) => {
     if (show && state) return css`animation: ${fadeIn} .1s linear;`
@@ -103,7 +103,8 @@ export const Wrapper = styled.div`
     z-index: 888;
     display: flex;
     align-items: center;
-    ${props => {return props.backdropA && css`
+    ${props => {
+    return props.backdropA && css`
         animation: ${Pulse} .2s forwards;
     `}}
     justify-content: center;
@@ -117,15 +118,15 @@ export const Modal = styled.div`
     else if (size === MODAL_SIZES.large) return '100%'
     return size
   }};
-    ${props => {return props.backdropA && css`
+    ${props => {
+    return props.backdropA && css`
         animation: ${Pulse} .2s forwards;
     `}}
-    min-width: 340px;
-    height: ${({ height }) => {return height || 'auto'}};
-    border-radius: ${({ borderRadius }) => {return borderRadius}};
+    // min-width: 340px;
+    border-radius: ${({ borderRadius }) => { return borderRadius }};
     border: 1px solid rgba(0,0,0,.2);
     z-index: 999;
-    ${({ state }) => {return state ? css`animation: ${fadeInTop} .2s forwards;` : css`animation: ${fadeOutTop} .2s forwards;`}}
+    ${({ state }) => { return state ? css`animation: ${fadeInTop} .2s forwards;` : css`animation: ${fadeOutTop} .2s forwards;` }}
 `
 
 export const ModalHeader = styled.div`
@@ -148,7 +149,8 @@ export const ModalTitle = styled.h4`
 `
 // box-shadow: 0 0 17px 0 rgb(16 40 73 / 9%);
 export const BtnClose = styled.button`
-    ${({ fixed }) => {return fixed && css`
+    ${({ fixed }) => {
+    return fixed && css`
         position: absolute;
         right: 6px;
         top: 6px;
@@ -169,9 +171,11 @@ export const ModalBody = styled.div`
     position: relative;
     flex: 1 1 auto;
     overflow-y: auto;
-    display: ${({ display }) => {return display || 'block'}};
-    height: ${({ height }) => {return height || 'auto'}};
-    padding: ${({ padding }) => {return padding || '0'}};
+    display: ${({ display }) => { return display || 'block' }};
+    height: ${({ height }) => { return height || 'auto' }};
+    min-height: ${({ height }) => { return height || 'auto' }};
+    min-height: ${({ height }) => { return height || 'auto' }};
+    padding: ${({ padding }) => { return padding || '0' }};
     background-color: ${BGColor};
 `
 
@@ -190,16 +194,16 @@ export const ModalFooter = styled.div`
 
 export const BtnConfirm = styled.button`
     flex-direction: row;
-    padding: ${({ padding }) => {return padding || '5px'}};
+    padding: ${({ padding }) => { return padding || '5px' }};
     cursor: pointer;
-    border: ${({ border }) => {return border ? `${`1px solid ${SEGColor}`}` : 'none'}};
+    border: ${({ border }) => { return border ? `${`1px solid ${SEGColor}`}` : 'none' }};
     border-radius: 30px;
     font-size: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: ${({ height }) => {return height || 'auto'}};
-    background-color: ${({ bgColor }) => {return bgColor || 'transparent'}};
+    height: ${({ height }) => { return height || 'auto' }};
+    background-color: ${({ bgColor }) => { return bgColor || 'transparent' }};
     &:disabled {
         cursor: no-drop;
     }
@@ -207,16 +211,16 @@ export const BtnConfirm = styled.button`
 
 export const BtnCancel = styled.button`
     flex-direction: row;
-    padding: ${({ padding }) => {return padding || '5px'}};
+    padding: ${({ padding }) => { return padding || '5px' }};
     cursor: pointer;
-    border: ${({ border }) => {return border ? `${`1px solid ${SEGColor}`}` : 'none'}};
+    border: ${({ border }) => { return border ? `${`1px solid ${SEGColor}`}` : 'none' }};
     border-radius: 30px;
     font-size: 11px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: ${({ height }) => {return height || 'auto'}};
-    background-color: ${({ bgColor }) => {return bgColor || 'transparent'}};
+    height: ${({ height }) => { return height || 'auto' }};
+    background-color: ${({ bgColor }) => { return bgColor || 'transparent' }};
     &:disabled {
         cursor: no-drop;
     }

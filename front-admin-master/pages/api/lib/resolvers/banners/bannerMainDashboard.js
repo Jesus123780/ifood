@@ -1,6 +1,6 @@
 import promosStoreAdmin from '../../models/Store/promosStoreAdmin'
 import { getAttributes } from '../../utils/util'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
 
 export const getPromoStoreAdmin = async (_, { min, max, search }, ctx, info) => {
     const attributes = getAttributes(promosStoreAdmin, info)

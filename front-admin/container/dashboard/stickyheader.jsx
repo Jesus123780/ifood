@@ -1,7 +1,8 @@
+import PropTypes from 'prop-types'
 import React, { useContext, useRef } from 'react'
 import { useObserveBottomSentinels, useObserveTopSentinels, useSentinelOffsets } from '../../components/hooks/useSetHeader'
 // eslint-disable-next-line no-unused-vars
-import { StickyProvider, StickySectionContext, useStickyActions, useStickyState } from '../../context/contextsticky'
+import { StickyProvider, StickySectionContext, useStickyActions } from '../../context/contextsticky'
 import styles from './Home.module.css'
 
 function Sticky({ children, as = 'div', className = '', ...rest }) {
@@ -22,7 +23,13 @@ function Sticky({ children, as = 'div', className = '', ...rest }) {
     </Component>
   )
 }
-const noop = () => { }
+
+Sticky.propTypes = {
+  as: PropTypes.string,
+  children: PropTypes.any,
+  className: PropTypes.string
+}
+const noop = () => { return }
 /**
  * A section, in which <Sticky /> element element is observed
  */
@@ -83,6 +90,14 @@ function StickyBoundary({
   )
 }
 
+StickyBoundary.propTypes = {
+  as: PropTypes.string,
+  children: PropTypes.any,
+  onChange: PropTypes.func,
+  onStuck: PropTypes.func,
+  onUnstuck: PropTypes.func
+}
+
 /**
  * Ref to the sticky viewport
  */
@@ -98,6 +113,11 @@ function StickyRoot({ children, as: Component = 'div', ...rest }) {
   )
 }
 
+StickyRoot.propTypes = {
+  as: PropTypes.string,
+  children: PropTypes.any
+}
+
 function StickyViewport({ children, as = 'div', ...rest }) {
   return (
     <StickyProvider>
@@ -106,6 +126,11 @@ function StickyViewport({ children, as = 'div', ...rest }) {
       </StickyRoot>
     </StickyProvider>
   )
+}
+
+StickyViewport.propTypes = {
+  as: PropTypes.string,
+  children: PropTypes.any
 }
 
 export { StickyViewport, StickyBoundary, Sticky }

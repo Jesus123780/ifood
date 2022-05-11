@@ -96,6 +96,7 @@ type Store {
     ULocation: String
     upLat: String
     upLon: String
+    ImageName: String
     uState: String
     siteWeb: String
     description: String
@@ -122,6 +123,7 @@ input IStore {
     neighborhoodStore: String
     Viaprincipal: String
     storeOwner: String
+    ImageName: String
     storeName: String
     emailStore: String
     storePhone: String

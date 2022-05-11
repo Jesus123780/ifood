@@ -27,60 +27,64 @@ export const Restaurant = () => {
   const [modalConfirm, setModalConfirm] = useState(false)
   const router = useRouter()
   // eslint-disable-next-line
-    const [_, setName] = useLocalStorage('restaurant', '');
+  const [_, setName] = useLocalStorage('restaurant', '');
   const [newRegisterStore, { loading }] = useMutation(CREATE_ONE_STORE, {
-    onError: () => {return setAlertBox({ message: 'Lo sentimos ocurrió un error, vuelve a intentarlo' })},
+    onError: () => { return setAlertBox({ message: 'Lo sentimos ocurrió un error, vuelve a intentarlo' }) },
     onCompleted: (data) => {
       setName(data?.newRegisterStore?.idStore || null)
       router.push('/restaurante/validacion-de-codigo')
     }
   })
   const [dataUser] = useUser()
-  const [handleChange, handleSubmit, { dataForm, errorForm }] = useFormTools()
-  console.log(dataForm)
-  const handleForm = (e) =>
-  {return handleSubmit({
-    event: e,
-    action: () => {
-      return newRegisterStore({
-        variables: {
-          input: {
-            cId: values.countryId,
-            id: dataUser.id || '',
-            // dId: values.dId,
-            dId: values?.dId,
-            ctId: values?.ctId,
-            catStore: dataForm?.catStore,
-            // ctId: values.ctId,
-            neighborhoodStore: dataForm?.storePhone,
-            Viaprincipal: dataForm.storePhone,
-            storeOwner: dataForm.storeOwner,
-            storeName: dataForm.storeName,
-            emailStore: dataForm.storeName || dataUser.email,
-            storePhone: dataForm.storePhone,
-            socialRaz: dataForm.socialRaz,
-            Image: null,
-            banner: dataForm.storePhone,
-            documentIdentifier: dataForm.documentIdentifier,
-            uPhoNum: dataForm.uPhoNum,
-            ULocation: dataForm.ULocation,
-            upLat: '',
-            upLon: '',
-            siteWeb: dataForm.storePhone,
-            description: dataForm.storePhone,
-            NitStore: dataForm.storePhone,
-            typeRegiments: dataForm.storePhone,
-            typeContribute: dataForm.storePhone,
-            addressStore: dataForm.storePhone,
-            createAt: dataForm.storePhone
+  const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
+
+  const handleForm = (e) => {
+    return handleSubmit({
+      event: e,
+      action: () => {
+        return newRegisterStore({
+          variables: {
+            input: {
+              cId: values.countryId,
+              id: dataUser.id || '',
+              dId: values?.dId,
+              ctId: values?.ctId,
+              catStore: dataForm?.catStore,
+              neighborhoodStore: dataForm?.storePhone,
+              Viaprincipal: dataForm.storePhone,
+              storeOwner: dataForm.storeOwner,
+              storeName: dataForm.storeName,
+              emailStore: dataForm.storeName || dataUser.email,
+              storePhone: dataForm.storePhone,
+              socialRaz: dataForm.socialRaz,
+              Image: null,
+              banner: dataForm.storePhone,
+              documentIdentifier: dataForm.documentIdentifier,
+              uPhoNum: dataForm.uPhoNum,
+              ULocation: dataForm.ULocation,
+              upLat: '',
+              upLon: '',
+              siteWeb: dataForm.storePhone,
+              description: dataForm.storePhone,
+              NitStore: dataForm.storePhone,
+              typeRegiments: dataForm.storePhone,
+              typeContribute: dataForm.storePhone,
+              addressStore: dataForm.storePhone,
+              createAt: dataForm.storePhone
+            }
           }
-        }
-      })
-    },
-    actionAfterSuccess: () => {
-      // setDataValue({})
-    }
-  })}
+        }).then((x) => {
+          console.log(x)
+        }).catch((x) => {
+          console.log(x)
+
+        })
+      }
+      // actionAfterSuccess: () => {
+      //   // setDataValue({})
+      // }
+    })
+  }
   const [nextStep, setNextStep] = useState(0)
   // Herramientas de formulario
   const { data: dataCountries } = useQuery(GET_ALL_COUNTRIES)
@@ -120,32 +124,32 @@ export const Restaurant = () => {
   console.log(values)
   return (
     <Content>
-      {loading && <Loading /> }
+      {loading && <Loading />}
       <AwesomeModal
         backdrop
         btnCancel={false}
         btnConfirm={false}
         footer={false}
         header={false}
-        onHide={() => {return setModalConfirm(false)}}
+        onHide={() => { return setModalConfirm(false) }}
         show={modalConfirm}
         size={'small'}
       >
         <RippleButton
           bgColor={EColor}
           margin='20px auto'
-          onClick={() => {return setModalConfirm(false)}}
+          onClick={() => { return setModalConfirm(false) }}
           widthButton='100%'
         >
-                    cancelar
+          cancelar
         </RippleButton>
         <RippleButton
           bgColor={EColor}
           margin='20px auto'
-          onClick={() => {return router.back()}}
+          onClick={() => { return router.back() }}
           widthButton='100%'
         >
-                    Abandonar
+          Abandonar
         </RippleButton>
       </AwesomeModal>
       <Card></Card>
@@ -155,8 +159,8 @@ export const Restaurant = () => {
           status='progress'
           titles={['', '', '', '']}
         />
-        <Form onSubmit={e => {return handleForm(e, 1)}}>
-          <GoBack onClick={() => {return validateRouter()}}>
+        <Form onSubmit={e => { return handleForm(e, 1) }}>
+          <GoBack onClick={() => { return validateRouter() }}>
             <IconArrowLeft color={`${PLColor}`} size='25px' />
           </GoBack>
           {nextStep === 0 ? (
@@ -402,7 +406,7 @@ export const Restaurant = () => {
           <RippleButton
             bgColor={EColor}
             margin='20px auto'
-            onClick={() => {return setNextStep(nextStep + 1)}}
+            onClick={() => { return setNextStep(nextStep + 1) }}
             type={nextStep === 3 ? 'submit' : 'button'}
             widthButton='100%'
           >
@@ -436,42 +440,42 @@ export const AnimationLeft = keyframes`
 }
 `
 const ContainerAnimation = styled.div`
-    ${props =>
-  {return props.active === 1
-    ? css`
+    ${props => {
+    return props.active === 1
+      ? css`
                   animation: ${AnimationRight} 200ms;
               `
-    : css`
+      : css`
                   animation: ${AnimationRight} 200ms;
               `}}
 `
 const ContainerAnimationTow = styled.div`
-    ${props =>
-  {return props.active === 2
-    ? css`
+    ${props => {
+    return props.active === 2
+      ? css`
                   animation: ${AnimationLeft} 200ms;
               `
-    : css`
+      : css`
                   animation: ${AnimationLeft} 200ms;
               `}}
 `
 const ContainerAnimationThree = styled.div`
-    ${props =>
-  {return props.active === 2
-    ? css`
+    ${props => {
+    return props.active === 2
+      ? css`
                   animation: ${AnimationLeft} 200ms;
               `
-    : css`
+      : css`
                   animation: ${AnimationLeft} 200ms;
               `}}
 `
 const ContainerAnimationFour = styled.div`
-    ${props =>
-  {return props.active === 4
-    ? css`
+    ${props => {
+    return props.active === 4
+      ? css`
                   animation: ${AnimationLeft} 200ms;
               `
-    : css`
+      : css`
                   animation: ${AnimationLeft} 200ms;
               `}}
 `

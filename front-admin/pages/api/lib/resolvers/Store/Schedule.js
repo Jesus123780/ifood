@@ -1,12 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ApolloError } from 'apollo-server-micro'
-import ScheduleStore from '../../models/Store/ScheduleStore'
 import { deCode } from '../../utils/util'
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
+import ScheduleStore from '../../models/Store/scheduleStore'
 
 export const updateStoreSchedule = async (_root, { input }) => {
   try {
     const { schId, ...restArgs } = input || {}
-    const data = await ScheduleStore.update(restArgs, { where: { schId: deCode(schId) } })
+    await ScheduleStore.update(restArgs, { where: { schId: deCode(schId) } })
     return input
   } catch (e) {
     const error = new Error('Lo sentimos, ha ocurrido un error interno')
