@@ -121,7 +121,6 @@ export const Restaurant = () => {
     }
   }
 
-  console.log(values)
   return (
     <Content>
       {loading && <Loading />}

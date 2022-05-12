@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
 import PropTypes from 'prop-types'
-import { gql, useQuery, useMutation, useLazyQuery } from '@apollo/client'
-import { TextH2Main } from 'components/common/h2'
-import styled from 'styled-components'
+import React, { useEffect, useState } from 'react'
+import { useLazyQuery } from '@apollo/client'
+import styled, { css } from 'styled-components'
 import { Flex } from './styled'
 import moment from 'moment'
 import { MainCard } from 'components/common/Reusable/ShadowCard'
@@ -20,17 +20,17 @@ export const SalesWeek = () => {
     let dt = new Date()
     getAllSalesStoreStatistic({ variables: { min: 0, fromDate: moment(dt.setDate(dt.getDate() - 30)).format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD') } })
     data?.getAllSalesStoreStatistic?.forEach((a) => {
-      const { totalProductsPrice, pDatCre } = a || {}
+      const { totalProductsPrice } = a || {}
       suma += totalProductsPrice
       setTotalProductPrice(suma)
     })
     if (!loading && data) {
-      const GROUP_BY_DAYS = data?.getAllSalesStoreStatistic.map((elem) => {return elem})?.sort((a, b) => {return moment(a.pDatCre).day() - b}).reduce(function (r, a) {
+      const GROUP_BY_DAYS = data?.getAllSalesStoreStatistic?.map((elem) => {return elem})?.sort((a, b) => {return moment(a.pDatCre).day() - b}).reduce(function (r, a) {
         r[moment(a.pDatCre).day()] = r[moment(a.pDatCre).day()] || []
         r[moment(a.pDatCre).day()].push(a)
         return r
       }, Object.create(null))
-      const dataKeyDays = Object.keys(GROUP_BY_DAYS)
+      const dataKeyDays = Object?.keys(GROUP_BY_DAYS)
       setGROUP_BY_DAYS(GROUP_BY_DAYS)
       setSetKey(dataKeyDays)
     }
@@ -42,7 +42,6 @@ export const SalesWeek = () => {
         {key?.map((day, i) => {
           let suma = 0
           let sumaNoOrder = 0
-          let totalProduct = 0
           const avg = GROUP_BY_DAYS[day]?.map((x, index) => {return (suma += x.pSState === 4) / (index + 1)})
           !!avg && ((avg[avg.length - 1]))
           const noOrder = GROUP_BY_DAYS[day]?.map((x, index) => {return (sumaNoOrder += x.pSState === 5) / (index + 1)})
@@ -84,6 +83,13 @@ export const CardStatistic = ({ day, sales, OrderConcludes, noOrder }) => {
       </Orders>
     </WrapperBox>
   )
+}
+
+CardStatistic.propTypes = {
+  OrderConcludes: PropTypes.any,
+  day: PropTypes.any,
+  noOrder: PropTypes.any,
+  sales: PropTypes.number
 }
 
 const Orders = styled.div`

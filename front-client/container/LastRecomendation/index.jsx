@@ -60,7 +60,7 @@ export const ItMayInterestYou = ({ PRODUCT_NAME_COOKIE }) => {
     })
     return (
         <Container>
-            <Title>Te puede interesar {name} </Title>
+            {(name && dataProduct?.productFoodsAllRecommended?.length > 0) && <Title>Te puede interesar {name} </Title>}
             {dataProduct?.productFoodsAllRecommended?.length > 0 && dataProduct?.productFoodsAllRecommended?.map((food, i) => (
                 <div key={i + 1}>
                     <Link
