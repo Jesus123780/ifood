@@ -7,7 +7,7 @@ import DepartmentsModel from '../information/DepartmentsModel'
 import CitiesModel from '../information/CitiesModel'
 const sequelize = connect()
 
-// sequelize.sync()
+// 
 
 const Userprofile = sequelize.define('userprofile', {
   upId: {

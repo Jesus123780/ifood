@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import { useQuery, useLazyQuery } from '@apollo/client'
 import styled, { css } from 'styled-components'
@@ -27,8 +28,9 @@ export const SalesWeekShortDays = () => {
   useEffect(() => {
     getAllSalesStoreStatistic({ variables: { min: 0, fromDate: moment(dt.setDate(dt.getDate() - 7)).format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD') } })
     getAllVisitorStore({ variables: { fromDate: moment(dt.setDate(dt.getDate() - 7)).format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD') } })
-    data?.getAllSalesStoreStatistic.forEach((a) => {
+    data?.getAllSalesStoreStatistic?.forEach((a) => {
       const { totalProductsPrice } = a || {}
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       suma += totalProductsPrice
       setTotalProductPrice(suma)
     })
@@ -111,6 +113,13 @@ export const CardStatistic = ({ day, sales, OrderConcludes, noOrder }) => {
       </Orders>
     </WrapperBox>
   )
+}
+
+CardStatistic.propTypes = {
+  OrderConcludes: PropTypes.any,
+  day: PropTypes.any,
+  noOrder: PropTypes.any,
+  sales: PropTypes.number
 }
 
 const Orders = styled.div`

@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import bannerResolver from './bannerMain'
 import bannerStoreResolver from './bannerStoreProfile'
 

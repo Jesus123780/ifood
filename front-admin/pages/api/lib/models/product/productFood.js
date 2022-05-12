@@ -13,7 +13,7 @@ import Users from '../Users'
 import Store from '../Store/Store'
 import catProducts from '../Store/cat'
 
-sequelize.sync()
+
 
 const productModelFood = sequelize.define('productmodelfood', {
   pId: {

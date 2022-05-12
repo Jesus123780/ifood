@@ -4,7 +4,7 @@ import deviceResolver from './device'
 import messagesResolver from './messages'
 import bannerResolver from './banners'
 import storeResolver from './stores'
-import { GraphQLUpload } from "graphql-upload";
+import { GraphQLUpload } from 'graphql-upload'
 export default {
     ...deviceResolver.TYPES,
     DateTime: dateTimeScalar,

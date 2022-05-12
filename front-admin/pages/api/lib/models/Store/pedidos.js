@@ -6,7 +6,7 @@ import Users from '../Users'
 import ShoppingCard from './ShoppingCard'
 import Store from './Store'
 
-sequelize.sync()
+
 
 const pedidosModel = sequelize.define('storepedidos', {
   pdpId: {

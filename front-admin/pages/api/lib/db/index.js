@@ -17,7 +17,7 @@ export default function connect () {
         }
       )
     }
-    // sequelize.sync()
+    // 
     return sequelize
   } catch (error) {
     // eslint-disable-next-line no-console

@@ -63,7 +63,8 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 // Create Second Link
 const wsLink = process.browser ? new WebSocketLink({
-    uri: process.env.NODE_ENV === 'development' ? 'ws://localhost:4000/graphql' : 'ws://localhost:4000/graphql',
+    // uri: process.env.NODE_ENV === 'development' ? 'ws://localhost:4000/graphql' : 'ws://localhost:4000/graphql',
+    uri: process.env.NODE_ENV === 'development' ? 'ws://server-image-food.herokuapp.com/graphql' : 'ws://server-image-food.herokuapp.com/graphql',
     options: {
         reconnect: true,
         lazy: true,
@@ -83,11 +84,10 @@ const getLink = async (operation) => {
     const headers = await authLink()
     const definition = getMainDefinition(operation.query);
     const service = operation.getContext().clientName
-    let uri = `${URL_BASE}graphql`
-    if (service === 'subscriptions') uri = 'http://localhost:4000/graphql'
-    if (service === 'main') uri = 'http://localhost:3000/api/graphql'
-    if (service === 'admin') uri = `${URL_ADMIN}graphql`
-    if (service === 'admin-server') uri = `${URL_ADMIN_SERVER}graphql`
+    let uri = `${process.env.URL_BASE}api/graphql`
+    if (service === 'main') uri = `${process.env.URL_BASE}api/graphql`
+    if (service === 'admin') uri = `${URL_BASE_ADMIN_MASTER}graphql`
+    if (service === 'admin-server') uri = `${process.env.URL_ADMIN_SERVER}graphql`
     const link = new HttpLink({
         uri,
         credentials: 'same-origin',

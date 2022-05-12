@@ -33,10 +33,8 @@ function incrementNumber() {
 incrementNumber();
 const Query = {
   Query: {
-    currentNumber: async (parent, {
-      to,
-      content
-    }, ctx) => {
+    // eslint-disable-next-line
+    currentNumber: async (parent, _, ctx) => {
       setTimeout(incrementNumber, 1000);
       pubsub.publish('NUMBER_INCREMENTED', {
         numberIncremented: currentNumber

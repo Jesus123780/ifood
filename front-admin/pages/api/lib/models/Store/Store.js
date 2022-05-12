@@ -8,8 +8,8 @@ import DepartmentsModel from '../information/DepartmentsModel'
 import Users from '../Users'
 const sequelize = connect()
 
-// sequelize.sync()
-sequelize.sync()
+// 
+
 
 const Store = sequelize.define('store', {
   idStore: {

@@ -1,9 +1,9 @@
-import { Op } from 'sequelize'
+/* eslint-disable no-unused-vars */
 // import { PubSub, withFilter } from 'apollo-server'
-import { PubSub, withFilter } from 'graphql-subscriptions';
-import StatusPedidosModel from '../../models/Store/statusPedidoFinal';
-import { deCode, getAttributes } from '../../utils/util';
-const pubsub = new PubSub(); //create a PubSub instance
+import { PubSub, withFilter } from 'graphql-subscriptions'
+import StatusPedidosModel from '../../models/Store/statusPedidoFinal'
+import { deCode, getAttributes } from '../../utils/util'
+const pubsub = new PubSub() //create a PubSub instance
 /**
  * 
  * @param {*} _root no usado 
@@ -12,21 +12,21 @@ const pubsub = new PubSub(); //create a PubSub instance
  * @param {*} info _
  * @returns 
  */
-let currentNumber = 0;
+let currentNumber = 0
 function incrementNumber() {
     //  currentNumber++;
     const currentNumber = { success: true, message: 'lol' }
-    pubsub.publish('NEW_ORDER_STORE', { newStorePedidosNum: currentNumber });
-    setTimeout(incrementNumber, 1000);
+    pubsub.publish('NEW_ORDER_STORE', { newStorePedidosNum: currentNumber })
+    setTimeout(incrementNumber, 1000)
 }
 // Start incrementing
-incrementNumber();
+incrementNumber()
 
 const Query = {
     Query: {
         getOneSalesStoreS: async (parent, { to, content }, ctx) => {
-            setTimeout(incrementNumber, 1000);
-            pubsub.publish('NEW_ORDER_STORE', { newStorePedidosNum: currentNumber });
+            setTimeout(incrementNumber, 1000)
+            pubsub.publish('NEW_ORDER_STORE', { newStorePedidosNum: currentNumber })
             return 1
         },
     }
@@ -60,6 +60,7 @@ const NotificationMutation = {
                 pubsub.publish('NEW_NOTIFICATION', { newNotification: message })
                 return message
             } catch (err) {
+                // eslint-disable-next-line no-console
                 console.log(err)
             }
         }

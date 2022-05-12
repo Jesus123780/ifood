@@ -16,7 +16,7 @@ var _schema = require("@graphql-tools/schema");
 
 var _graphqlUpload = require("graphql-upload");
 
-var _multer = _interopRequireDefault(require("multer"));
+var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 
 var _typeDefs = _interopRequireDefault(require("./api/lib/typeDefs"));
 
@@ -24,17 +24,13 @@ var _resolvers = _interopRequireDefault(require("./api/lib/resolvers"));
 
 var _express = _interopRequireDefault(require("express"));
 
-var _path = _interopRequireDefault(require("path"));
-
 var _morgan = _interopRequireDefault(require("morgan"));
-
-var _cors = _interopRequireDefault(require("cors"));
 
 var _router = _interopRequireDefault(require("./api/lib/router"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// @ts-check
+/* eslint-disable no-console */
 // @ts-ignore
 (async () => {
   // config ports
@@ -67,19 +63,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
   app.use((0, _graphqlUpload.graphqlUploadExpress)({
     maxFileSize: 1000000000,
     maxFiles: 10
-  })); // const storage = multer.diskStorage({
-  //     destination: path.join(__dirname, '../public'),
-  //     filename: (req, file, next) => {
-  //         next(null, new Date().getTime() + path.extname(file.originalname))
-  //     }
-  // })
-  // Configure multer to accept a single file per post
-  // const storage = multer.memoryStorage();
-  // app.use(multer({
-  //     storage,
-  // }).single('file'));
-  // app.use(multer({dest: path.join(__dirname, '../public/img/uploads')}).single('image'));
-
+  }));
   const httpServer = (0, _http.createServer)(app);
   const schema = (0, _schema.makeExecutableSchema)({
     typeDefs: _typeDefs.default,
@@ -96,23 +80,28 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
       res
     }) => {
       // check from req
-      console.log('Run');
-      const token = req.headers.authorization;
+      const token = req.headers.authorization?.split(' ')[1];
+      const restaurant = req.headers.restaurant || {};
 
       if (token !== 'null') {
         try {
           //validate user in client.
-          // const User = await jwt.verify(token, process.env.AUTHO_USER_KEY);
-          let User = null;
+          const User = await _jsonwebtoken.default.verify(token, '12ba105efUaGjihGrh0LfJHTGIBGu6jXV'); // let User = null
+
           return {
             User,
             res,
-            pubsub
+            pubsub,
+            restaurant: restaurant || {}
           };
         } catch (err) {
           console.log(err);
           console.log('Hola esto es un error del contexto');
         }
+      } else {
+        return {
+          restaurant: restaurant || {}
+        };
       }
     }
   });

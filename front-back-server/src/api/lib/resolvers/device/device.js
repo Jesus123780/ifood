@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
 /**
  * 
  * @param {*} _root no usado 
@@ -14,8 +16,8 @@ export const getMessage = async (_root, _args, context, info) => {
     return 'Prueba 1'
 }
 export const currentNumber = async (_root, _args, context, info) => {
-    let currentNumber = 0;
-    context.pubsub.publish('NUMBER_INCREMENTED', { numberIncremented: currentNumber });
+    let currentNumber = 0
+    context.pubsub.publish('NUMBER_INCREMENTED', { numberIncremented: currentNumber })
     return 0
     // return 'Prueba 1'
 }

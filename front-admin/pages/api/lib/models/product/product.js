@@ -10,7 +10,7 @@ import Feature from '../feature/feature'
 import CategoryProductsModel from '../Categories/CategoryProducts'
 import { enCode, validationID } from '../../utils/util'
 
-sequelize.sync()
+
 
 const productModel = sequelize.define('product', {
   pId: {

@@ -9,6 +9,7 @@ var _device = _interopRequireDefault(require("./device"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/* eslint-disable linebreak-style */
 var _default = {
   TYPES: { ..._device.default.TYPES
   },

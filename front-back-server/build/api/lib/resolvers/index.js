@@ -24,11 +24,13 @@ var _default = { ..._device.default.TYPES,
   DateTime: _CustomScalar.default,
   Upload: _graphqlUpload.GraphQLUpload,
   Query: { ..._device.default.QUERIES,
+    ..._messages.default.QUERIES,
     ..._stores.default.QUERIES,
     ..._banners.default.QUERIES
   },
   Mutation: { ..._device.default.MUTATIONS,
     ..._stores.default.MUTATIONS,
+    ..._messages.default.MUTATIONS,
     ..._banners.default.MUTATIONS
   },
   Subscription: { ..._messages.default.SUBSCRIPTIONS,

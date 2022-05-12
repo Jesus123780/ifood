@@ -1,13 +1,12 @@
+/* eslint-disable no-unused-vars */
 import banners from '../../models/banners/banners'
-import { deCode, enCode, getAttributes } from '../../utils/util'
+import { deCode, getAttributes } from '../../utils/util'
 import fs from 'fs'
 import { ApolloError } from 'apollo-server-express'
 import { URL_BASE } from '../../utils'
 import bannerspromo from '../../models/bannerspromo/bannerspromo'
-import { unlink } from 'fs/promises';
-import { unlinkSync } from 'fs';
 import { Op } from 'sequelize'
-export const getAllMasterBanners = async (_, { min, max, search }, ctx, info) => {
+export const getAllMasterBanners = async (_, { min, max }, ctx, info) => {
     const attributes = getAttributes(banners, info)
     const data = await banners.findAll({
         attributes,
@@ -81,16 +80,14 @@ export const setBanners = async (_, { input }, ctx) => {
     try {
         const { description, image, name } = input
         const fileUpload = await image
-        const { createReadStream, filename, mimetype, encoding } = fileUpload
+        const { createReadStream, filename, mimetype } = fileUpload
         // const extFile = filename.substring(filename.lastIndexOf('.'), filename.length)
         const fileStream = createReadStream()
-        const path = await saveImages({ filename, mimetype, fileStream })
-        console.log(`${path}`)
+        await saveImages({ filename, mimetype, fileStream })
         const data = await banners.create({ BannersState: 1, description, path: `${URL_BASE}static/${filename}`, name })
         return data
 
     } catch (error) {
-        console.log(error)
         throw new ApolloError(error, 'No se pudo eliminar el producto debido a un error interno.')
     }
 
@@ -100,16 +97,14 @@ export const setPromoBanners = async (_, { input }, ctx) => {
     try {
         const { description, image, name } = input
         const fileUpload = await image
-        const { createReadStream, filename, mimetype, encoding } = fileUpload
+        const { createReadStream, filename, mimetype } = fileUpload
         // const extFile = filename.substring(filename.lastIndexOf('.'), filename.length)
         const fileStream = createReadStream()
-        const path = await saveImages({ filename, mimetype, fileStream, state: 2 })
-        console.log(`${path}`)
-        const data = await bannerspromo.create({ bpState: 1, description, path: `${URL_BASE}static/promo/${filename}`, name })
+        await saveImages({ filename, mimetype, fileStream, state: 2 })
+        await bannerspromo.create({ bpState: 1, description, path: `${URL_BASE}static/promo/${filename}`, name })
         // return data
 
     } catch (error) {
-        console.log(error)
         throw new ApolloError(error, 'No se pudo eliminar el producto debido a un error interno.')
     }
 

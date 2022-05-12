@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import messagesResolver from './messages'
 import clientStoreResResolver from './messages_store_client'
 

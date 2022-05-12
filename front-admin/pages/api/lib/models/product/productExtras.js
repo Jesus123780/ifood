@@ -5,7 +5,7 @@ import { enCode } from '../../utils/util'
 import Store from '../Store/Store'
 import productModelFood from './productFood'
 
-sequelize.sync()
+
 
 const ExtraProductModel = sequelize.define('extrasproducts', {
   exPid: {

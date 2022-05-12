@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.numberIncremented = exports.getRoles = exports.getMessage = exports.default = exports.currentNumber = void 0;
 
+/* eslint-disable no-unused-vars */
+
+/* eslint-disable no-console */
+
 /**
  * 
  * @param {*} _root no usado 

@@ -91,9 +91,7 @@ export const Food = () => {
   const [updateProductFoods] = useMutation(UPDATE_PRODUCT_FOOD, {
   })
   const [setImageProducts] = useMutation(UPDATE_IMAGE_PRODUCT_FOOD, {
-    context: { clientName: 'admin-server' },
-    onCompleted: () => {
-    }
+    context: { clientName: 'admin-server' }
   })
   const [check, setCheck] = useState(false)
   const handleCheckEnvioGratis = e => {
@@ -125,19 +123,16 @@ export const Food = () => {
         : initialState
     )
   }
-  const onTargetClick = e => {
+  const onTargetClick = () => {
     // e.preventDefault()
-    console.log(e)
     fileInputRef.current.click()
   }
-  console.log(``)
   // Contexto de las notificaciones
   const handleRegister = async e => {
     e.preventDefault()
     const { ProPrice, ProDescuento, ProDescription, ProWeight, ProHeight, ValueDelivery } = values
     // const ProImage = 'https://http2.mlstatic.com/D_NQ_NP_621798-MLA45543191295_042021-W.webp'
-    const ProImage = `${URL_ADMIN_SERVER}static/platos/${image?.name}`
-
+    const ProImage = `${process.env.URL_ADMIN_SERVER}static/platos/${image?.name}`
     const pCode = RandomCode(9)
     try {
       updateProductFoods({
@@ -297,6 +292,7 @@ export const Food = () => {
     const Years = (startYear) => {
       for (let i = 0; i < YearArray?.length; i++) {
         if (YearArray[i] < min) {
+          // eslint-disable-next-line react-hooks/exhaustive-deps
           min = YearArray[i]
         }
       }

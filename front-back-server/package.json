@@ -10,6 +10,9 @@
     "babel-node": "babel-node --presets=@babel/preset-env",
     "start": "node build/app.js",
     "dev": "nodemon --exec npm run babel-node  src/app.js",
+    "lint": "next lint",
+    "lint:fix": "npm run lint -- --fix",
+    "check:eslint": "eslint '*/**/*.{js,jsx,tsx}' --fix --max-warnings=0 --no-error-on-unmatched-pattern",
     "preinstall": "npx npm-force-resolutions"
   },
   "author": "",
@@ -46,7 +49,9 @@
     "@babel/node": "^7.16.8",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
     "@babel/preset-env": "^7.16.11",
+    "@typescript-eslint/eslint-plugin": "^5.23.0",
     "babel-node": "^0.0.1-security",
+    "eslint": "^8.15.0",
     "nodemon": "^2.0.15"
   }
 }

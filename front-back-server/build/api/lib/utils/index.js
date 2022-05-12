@@ -25,8 +25,6 @@ exports.validationsTwo = exports.validationsTF = exports.validationsSelectTwo = 
 
 var _moment = _interopRequireDefault(require("moment"));
 
-var _jwtDecode = _interopRequireDefault(require("jwt-decode"));
-
 var _react = require("react");
 
 var _jsonwebtoken = _interopRequireWildcard(require("jsonwebtoken"));
@@ -602,7 +600,7 @@ exports.getDataLS = getDataLS;
 
 function parse(str) {
   if (Array.isArray(str)) {
-    alert();
+    alert(); // eslint-disable-next-line
 
     for (const current in str) {// eslint-disable-next-line
     }
@@ -685,7 +683,6 @@ const updateCacheMod = async ({
 
 exports.updateCacheMod = updateCacheMod;
 const TOKEN = 'sma.sv1';
-const RESTAURANT = 'restaurant';
 
 function setToken(token) {
   if (token === null) return false;else if (token !== null) return JSON.parse;
@@ -1399,7 +1396,7 @@ const NewDateFormat = date => {
     // const dateString = new Date(dateString)
     const dateString = date => new Date(date).toString() !== 'Invalid Date';
 
-    const newDate = dateString instanceof Date && !isNaN(dateString); // return new Date(date).toISOString().slice(0, 10).replace(/-/g,"");
+    dateString instanceof Date && !isNaN(dateString); // return new Date(date).toISOString().slice(0, 10).replace(/-/g,"");
 
     return date;
   } catch (error) {
@@ -1431,7 +1428,7 @@ const convertBase64 = file => new Promise((resolve, reject) => {
 
 exports.convertBase64 = convertBase64;
 
-const getFileSizeByUnit = (file, unit = "B") => {
+const getFileSizeByUnit = (file, unit = 'B') => {
   const originFileSize = file && file.size;
 
   if (!originFileSize) {
@@ -1499,61 +1496,61 @@ const DEFAULT_CARD_FORMAT = /(\d{1,4})/g;
 exports.DEFAULT_CARD_FORMAT = DEFAULT_CARD_FORMAT;
 const CARD_TYPES = {
   amex: {
-    name: "Amex",
-    color: "green"
+    name: 'Amex',
+    color: 'green'
   },
   visa: {
-    name: "Visa",
-    color: "lime"
+    name: 'Visa',
+    color: 'lime'
   },
   diners: {
-    name: "Diners",
-    color: "orange"
+    name: 'Diners',
+    color: 'orange'
   },
   discover: {
-    name: "Discover",
-    color: "purple"
+    name: 'Discover',
+    color: 'purple'
   },
   jcb: {
-    name: "Jcb",
-    color: "red"
+    name: 'Jcb',
+    color: 'red'
   },
   jcb15: {
-    name: "Jcb",
-    color: "red"
+    name: 'Jcb',
+    color: 'red'
   },
   maestro: {
-    name: "Maestro",
-    color: "yellow"
+    name: 'Maestro',
+    color: 'yellow'
   },
   mastercard: {
-    name: "Mastercard",
-    color: "lightblue"
+    name: 'Mastercard',
+    color: 'lightblue'
   },
   unionpay: {
-    name: "Unipay",
-    color: "cyan"
+    name: 'Unipay',
+    color: 'cyan'
   }
 };
 exports.CARD_TYPES = CARD_TYPES;
 
 const getCardType = cardNum => {
-  var payCardType = "";
+  var payCardType = '';
   var regexMap = [{
     regEx: /^4[0-9]{5}/gi,
-    cardType: "VISA"
+    cardType: 'VISA'
   }, {
     regEx: /^5[1-5][0-9]{4}/gi,
-    cardType: "MASTERCARD"
+    cardType: 'MASTERCARD'
   }, {
     regEx: /^3[47][0-9]{3}/gi,
-    cardType: "AMEX"
+    cardType: 'AMEX'
   }, {
     regEx: /^6[0-9]{5}/gi,
-    cardType: "DISCOVER"
+    cardType: 'DISCOVER'
   }, {
     regEx: /^(5[06-8]\d{4}|6\d{5})/gi,
-    cardType: "MAESTRO"
+    cardType: 'MAESTRO'
   }];
 
   for (var j = 0; j < regexMap.length; j++) {
@@ -1565,16 +1562,16 @@ const getCardType = cardNum => {
 
   console.log(payCardType);
 
-  if (cardNum.indexOf("50") === 0 || cardNum.indexOf("60") === 0 || cardNum.indexOf("65") === 0) {
-    var g = "508500-508999|606985-607984|608001-608500|652150-653149";
-    var i = g.split("|");
+  if (cardNum.indexOf('50') === 0 || cardNum.indexOf('60') === 0 || cardNum.indexOf('65') === 0) {
+    var g = '508500-508999|606985-607984|608001-608500|652150-653149';
+    var i = g.split('|');
 
     for (var d = 0; d < i.length; d++) {
-      var c = parseInt(i[d].split("-")[0], 10);
-      var f = parseInt(i[d].split("-")[1], 10);
+      var c = parseInt(i[d].split('-')[0], 10);
+      var f = parseInt(i[d].split('-')[1], 10);
 
       if (cardNum.substr(0, 6) >= c && cardNum.substr(0, 6) <= f && cardNum.length >= 6) {
-        payCardType = "RUPAY";
+        payCardType = 'RUPAY';
         break;
       }
     }
@@ -1586,15 +1583,16 @@ const getCardType = cardNum => {
 exports.getCardType = getCardType;
 
 function copyToClipboard(text) {
+  // eslint-disable-next-line no-undef
   var data = [new ClipboardItem({
-    "text/plain": new Blob([text || ''], {
-      type: "text/plain"
+    'text/plain': new Blob([text || ''], {
+      type: 'text/plain'
     })
   })];
   navigator.clipboard.write(data).then(function () {
-    console.log("Copied to clipboard successfully!");
+    console.log('Copied to clipboard successfully!');
   }, function () {
-    console.error("Unable to write to clipboard. :-(");
+    console.error('Unable to write to clipboard. :-(');
   });
 } // 'midudev'.Length // 7
 // 'midudev' [1] // i

@@ -1,12 +1,11 @@
 // import { PubSub, withFilter } from 'apollo-server'
-import { ApolloError, AuthenticationError } from 'apollo-server-express';
-import { PubSub, withFilter } from 'graphql-subscriptions';
-import { Op } from 'sequelize';
-import MessagesModel from '../../models/Messages/messages';
-import Store from '../../models/Store/Store';
-import Users from '../../models/Users';
-import { deCode } from '../../utils/util';
-const pubsub = new PubSub(); //create a PubSub instance
+import { ApolloError, AuthenticationError } from 'apollo-server-express'
+import { PubSub, withFilter } from 'graphql-subscriptions'
+import { Op } from 'sequelize'
+import MessagesModel from '../../models/Messages/messages'
+import Store from '../../models/Store/Store'
+import { deCode } from '../../utils/util'
+const pubsub = new PubSub() //create a PubSub instance
 
 /**
  * 
@@ -30,7 +29,7 @@ export const getMessages = async (parent, { from }, ctx) => {
                 },
                 order: [['aDatCre', 'ASC']]
             })
-            return messages;
+            return messages
         } catch (e) {
             return e
         }
@@ -64,6 +63,7 @@ const SubscriptionSubscription = {
             subscribe: withFilter((_, __, ctx) => {
                 if (!ctx) throw new AuthenticationError('Unauthenticated')
                 return pubsub.asyncIterator(['NEW_MESSAGE'])
+            // eslint-disable-next-line no-unused-vars
             }, ({ newMessage, ctx }, _, __) => {
                 if (newMessage.from === ctx.User.id || newMessage.from === ctx.User.id) {
                     return true

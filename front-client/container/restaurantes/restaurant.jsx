@@ -37,7 +37,7 @@ export const ListRestaurant = ({ data, catStoreId, like }) => {
                       className='store_image'
                       width={100}
                       height={100}
-                      src={x.Image || x.getOneStore.Image || '/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
+                      src={x?.Image || x?.getOneStore?.Image || '/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
                       alt="Picture of the author"
                     />
                   </div>

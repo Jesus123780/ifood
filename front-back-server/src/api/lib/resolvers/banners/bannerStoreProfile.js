@@ -1,10 +1,9 @@
-import banners from '../../models/banners/banners'
-import { deCode, enCode, getAttributes } from '../../utils/util'
+import { deCode, getAttributes } from '../../utils/util'
 import { URL_BASE } from '../../utils'
 import bannerStore from '../../models/Store/bannerStore'
 import { saveImages } from './bannerMain'
 import { Op } from 'sequelize'
-import { unlinkSync } from 'fs';
+import { unlinkSync } from 'fs'
 
 export const getOneBanners = async (_, { idStore }, _ctx, info) => {
     const attributes = getAttributes(bannerStore, info)
@@ -21,12 +20,14 @@ export const getOneBanners = async (_, { idStore }, _ctx, info) => {
     })
     return data
 }
+// eslint-disable-next-line no-unused-vars
 export const registerBanner = async (_, { input }, _ctx) => {
     try {
         // CREATE FILE SAVE
         const { bnImage, idStore } = input
         if (!idStore) return { success: false, message: 'Ocurrió un error interno' }
         const fileUpload = await bnImage
+        // eslint-disable-next-line no-unused-vars
         const { createReadStream, filename, mimetype, encoding } = fileUpload
         const fileStream = createReadStream()
         let nameFile = filename.replace(/\s+/g, '')
@@ -54,21 +55,16 @@ export const registerBanner = async (_, { input }, _ctx) => {
         }
 
     } catch (error) {
-        console.log(error)
         return { success: false, message: 'Ocurrió un error' }
     }
 }
 
-export const DeleteOneBanner = async (_, { bnId, bnState, idStore, bnImageFileName }, ctx, info) => {
-    console.log(bnImageFileName)
+// eslint-disable-next-line no-unused-vars
+export const DeleteOneBanner = async (_, { bnId, idStore, bnImageFileName }, ctx, info) => {
     try {
         if (bnImageFileName && idStore) {
-            unlinkSync(`public/banner/${bnImageFileName}`);
+            unlinkSync(`public/banner/${bnImageFileName}`)
         }
-    } catch (err) {
-        console.log(err)
-    };
-    try {
         await bannerStore.destroy({
             where: {
                 bnId: deCode(bnId),

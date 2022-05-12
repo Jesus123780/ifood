@@ -1,4 +1,4 @@
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import styled, { css } from 'styled-components'
@@ -67,8 +67,6 @@ export const ProductEdit = ({ id }) => {
     )
 
   }
-  const ProImage1 = `${URL_ADMIN_SERVER}static/platos/${image?.name}`
-  console.log(ProImage1)
   const handleForm = (e) =>
   {return handleSubmit({
     event: e,

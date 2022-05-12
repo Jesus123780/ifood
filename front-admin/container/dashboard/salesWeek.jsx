@@ -19,7 +19,7 @@ export const SalesWeek = () => {
   useEffect(() => {
     let dt = new Date()
     getAllSalesStoreStatistic({ variables: { min: 0, fromDate: moment(dt.setDate(dt.getDate() - 30)).format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD') } })
-    data?.getAllSalesStoreStatistic.forEach((a) => {
+    data?.getAllSalesStoreStatistic?.forEach((a) => {
       const { totalProductsPrice, pDatCre } = a || {}
       suma += totalProductsPrice
       setTotalProductPrice(suma)

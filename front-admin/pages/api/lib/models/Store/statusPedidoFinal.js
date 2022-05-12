@@ -5,7 +5,7 @@ import { enCode } from '../../utils/util'
 import Users from '../Users'
 import Store from './Store'
 
-sequelize.sync()
+
 
 const StatusPedidosModel = sequelize.define('statuspedidos', {
   stPId: {

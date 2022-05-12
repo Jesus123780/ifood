@@ -3,7 +3,6 @@
 
 // import nodemailer from 'nodemailer'
 import moment from 'moment'
-import jwtDecode from 'jwt-decode'
 import { useEffect } from 'react'
 import jwt, { decode } from 'jsonwebtoken'
 
@@ -137,7 +136,7 @@ export const validationForm = (inputs, error) => {
                 errorForm = true
             }
         } else
-            if (error[inputs[i].name]) { errorForm = true }
+        if (error[inputs[i].name]) { errorForm = true }
     }
     return errorForm
 }
@@ -352,7 +351,7 @@ export const filterKeyObjectOLD = (data, filters) => {
 }
 export const filterObject = (obj, filters) => {
     let values = {}
-    values = Object.keys(obj).filter((key) => !key.includes(filters)).reduce((cur, key) => { return Object.assign(cur, { [key]: obj[key] }) }, {});
+    values = Object.keys(obj).filter((key) => !key.includes(filters)).reduce((cur, key) => { return Object.assign(cur, { [key]: obj[key] }) }, {})
     return values
 }
 /**
@@ -418,6 +417,7 @@ export const getDataLS = jsonValue => {
 export function parse(str) {
     if (Array.isArray(str)) {
         alert()
+        // eslint-disable-next-line
         for (const current in str) {
             // eslint-disable-next-line
         }
@@ -460,7 +460,6 @@ export const updateCacheMod = async ({ cache, query, nameFun, dataNew, type, id 
  * @returns {null} no hay retorno
  */
 const TOKEN = 'sma.sv1'
-const RESTAURANT = 'restaurant'
 export function setToken(token) {
     if (token === null) return false
     else if (token !== null) return JSON.parse
@@ -639,16 +638,16 @@ export const Bucket = 'NAME'
  */
 const Unidades = value => {
     switch (value) {
-        case 1: return 'UN'
-        case 2: return 'DOS'
-        case 3: return 'TRES'
-        case 4: return 'CUATRO'
-        case 5: return 'CINCO'
-        case 6: return 'SEIS'
-        case 7: return 'SIETE'
-        case 8: return 'OCHO'
-        case 9: return 'NUEVE'
-        default: return ''
+    case 1: return 'UN'
+    case 2: return 'DOS'
+    case 3: return 'TRES'
+    case 4: return 'CUATRO'
+    case 5: return 'CINCO'
+    case 6: return 'SEIS'
+    case 7: return 'SIETE'
+    case 8: return 'OCHO'
+    case 9: return 'NUEVE'
+    default: return ''
     }
 }
 
@@ -675,30 +674,30 @@ const Decenas = value => {
     const Unit = value - (ten * 10)
 
     switch (ten) {
-        case 1:
-            switch (Unit) {
-                case 0: return 'DIEZ'
-                case 1: return 'ONCE'
-                case 2: return 'DOCE'
-                case 3: return 'TRECE'
-                case 4: return 'CATORCE'
-                case 5: return 'QUINCE'
-                default: return `DIECI${Unidades(Unit)}`
-            }
-        case 2:
-            switch (Unit) {
-                case 0: return 'VEINTE'
-                default: return `VEITI${Unidades(Unit)}`
-            }
-        case 3: return DecenasY('TREINTA', Unit)
-        case 4: return DecenasY('CUARENTA', Unit)
-        case 5: return DecenasY('CINCUENTA', Unit)
-        case 6: return DecenasY('SESENTA', Unit)
-        case 7: return DecenasY('SETENTA', Unit)
-        case 8: return DecenasY('OCHENTA', Unit)
-        case 9: return DecenasY('NOVENTA', Unit)
-        case 0: return Unidades(Unit)
-        default: return ''
+    case 1:
+        switch (Unit) {
+        case 0: return 'DIEZ'
+        case 1: return 'ONCE'
+        case 2: return 'DOCE'
+        case 3: return 'TRECE'
+        case 4: return 'CATORCE'
+        case 5: return 'QUINCE'
+        default: return `DIECI${Unidades(Unit)}`
+        }
+    case 2:
+        switch (Unit) {
+        case 0: return 'VEINTE'
+        default: return `VEITI${Unidades(Unit)}`
+        }
+    case 3: return DecenasY('TREINTA', Unit)
+    case 4: return DecenasY('CUARENTA', Unit)
+    case 5: return DecenasY('CINCUENTA', Unit)
+    case 6: return DecenasY('SESENTA', Unit)
+    case 7: return DecenasY('SETENTA', Unit)
+    case 8: return DecenasY('OCHENTA', Unit)
+    case 9: return DecenasY('NOVENTA', Unit)
+    case 0: return Unidades(Unit)
+    default: return ''
     }
 }
 /**
@@ -712,18 +711,18 @@ const Centenas = value => {
     const tens = value - (hundreds * 100)
 
     switch (hundreds) {
-        case 1:
-            if (tens > 0) return `CIENTO${Decenas(tens)}`
-            return 'CIEN'
-        case 2: return `DOSCIENTOS${Decenas(tens)}`
-        case 3: return `TRESCIENTOS${Decenas(tens)}`
-        case 4: return `CUATROCIENTOS${Decenas(tens)}`
-        case 5: return `QUINIENTOS${Decenas(tens)}`
-        case 6: return `SEISCIENTOS${Decenas(tens)}`
-        case 7: return `SETECIENTOS${Decenas(tens)}`
-        case 8: return `OCHOCIENTOS${Decenas(tens)}`
-        case 9: return `NOVECIENTOS${Decenas(tens)}`
-        default: return Decenas(tens)
+    case 1:
+        if (tens > 0) return `CIENTO${Decenas(tens)}`
+        return 'CIEN'
+    case 2: return `DOSCIENTOS${Decenas(tens)}`
+    case 3: return `TRESCIENTOS${Decenas(tens)}`
+    case 4: return `CUATROCIENTOS${Decenas(tens)}`
+    case 5: return `QUINIENTOS${Decenas(tens)}`
+    case 6: return `SEISCIENTOS${Decenas(tens)}`
+    case 7: return `SETECIENTOS${Decenas(tens)}`
+    case 8: return `OCHOCIENTOS${Decenas(tens)}`
+    case 9: return `NOVECIENTOS${Decenas(tens)}`
+    default: return Decenas(tens)
     }
 }
 
@@ -809,7 +808,7 @@ export const NumeroALetras = (value, format = false) => {
             if (data.pennies === 1) return `${Millones(data.pennies)} ${data.letterCoinPennieSingular}`
             else return `${Millones(data.pennies)} ${data.letterCoinPenniesPlural}`
         })()
-            }`
+        }`
     }
 
     if (data.integers === 0) return `CERO ${data.letterCoinPlural} ${data.letterPennies}`
@@ -1005,14 +1004,14 @@ export const hiddenEmail = email => {
     return result
 }
 export const roundToTwo = (num) => {
-    return (Math.round(num + 'e+2') + 'e-2');
+    return (Math.round(num + 'e+2') + 'e-2')
 }
 
 export const NewDateFormat = (date) => {
     try {
         // const dateString = new Date(dateString)
-        const dateString = date => new Date(date).toString() !== 'Invalid Date';
-        const newDate = dateString instanceof Date && !isNaN(dateString);
+        const dateString = date => new Date(date).toString() !== 'Invalid Date'
+        dateString instanceof Date && !isNaN(dateString)
         // return new Date(date).toISOString().slice(0, 10).replace(/-/g,"");
         return date
 
@@ -1023,35 +1022,35 @@ export const NewDateFormat = (date) => {
 
 export const convertBase64 = file =>
     new Promise((resolve, reject) => {
-        const reader = new FileReader();
+        const reader = new FileReader()
         if (file) {
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(file)
         }
         reader.onload = () => {
-            resolve(reader.result);
-        };
+            resolve(reader.result)
+        }
         reader.onerror = error => {
-            reject(error);
-        };
-    });
+            reject(error)
+        }
+    })
 /**
  * OBTIENE EL TAMAÑO DE EL ARCHIVO
  */
-export const getFileSizeByUnit = (file, unit = "B") => {
-    const originFileSize = file && file.size;
+export const getFileSizeByUnit = (file, unit = 'B') => {
+    const originFileSize = file && file.size
     if (!originFileSize) {
-        return 0;
+        return 0
     }
-    const unitStr = unit.toUpperCase();
+    const unitStr = unit.toUpperCase()
     const unitFormula = {
         B: size => size,
         KB: size => size / 1024,
         MB: size => size / (1024 * 1024),
         GB: size => size / (1024 * 1024 * 1024),
         TB: size => size / (1024 * 1024 * 1024 * 1024)
-    };
+    }
     return [unitFormula[unitStr] ? unitFormula[unitStr](originFileSize) : 0, { unit }]
-};
+}
 export function RandomCode(length) {
     var result = ''
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -1059,7 +1058,7 @@ export function RandomCode(length) {
     for (var i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength))
     }
-    return result;
+    return result
 }
 export function getActiveToken(input, cursorPosition) {
     // recuperamos la posición actual del cursor
@@ -1084,95 +1083,96 @@ export function getActiveToken(input, cursorPosition) {
     )
 }
 
-export const DEFAULT_CVC_LENGTH = 3;
-export const DEFAULT_ZIP_LENGTH = 5;
-export const DEFAULT_CARD_FORMAT = /(\d{1,4})/g;
+export const DEFAULT_CVC_LENGTH = 3
+export const DEFAULT_ZIP_LENGTH = 5
+export const DEFAULT_CARD_FORMAT = /(\d{1,4})/g
 export const CARD_TYPES = {
     amex: {
-        name: "Amex",
-        color: "green"
+        name: 'Amex',
+        color: 'green'
     },
     visa: {
-        name: "Visa",
-        color: "lime"
+        name: 'Visa',
+        color: 'lime'
     },
     diners: {
-        name: "Diners",
-        color: "orange"
+        name: 'Diners',
+        color: 'orange'
     },
     discover: {
-        name: "Discover",
-        color: "purple"
+        name: 'Discover',
+        color: 'purple'
     },
     jcb: {
-        name: "Jcb",
-        color: "red"
+        name: 'Jcb',
+        color: 'red'
     },
     jcb15: {
-        name: "Jcb",
-        color: "red"
+        name: 'Jcb',
+        color: 'red'
     },
     maestro: {
-        name: "Maestro",
-        color: "yellow"
+        name: 'Maestro',
+        color: 'yellow'
     },
     mastercard: {
-        name: "Mastercard",
-        color: "lightblue"
+        name: 'Mastercard',
+        color: 'lightblue'
     },
     unionpay: {
-        name: "Unipay",
-        color: "cyan"
+        name: 'Unipay',
+        color: 'cyan'
     }
-};
+}
 
 export const getCardType = (cardNum) => {
-    var payCardType = "";
+    var payCardType = ''
     var regexMap = [
-        { regEx: /^4[0-9]{5}/gi, cardType: "VISA" },
-        { regEx: /^5[1-5][0-9]{4}/gi, cardType: "MASTERCARD" },
-        { regEx: /^3[47][0-9]{3}/gi, cardType: "AMEX" },
-        { regEx: /^6[0-9]{5}/gi, cardType: "DISCOVER" },
-        { regEx: /^(5[06-8]\d{4}|6\d{5})/gi, cardType: "MAESTRO" }
-    ];
+        { regEx: /^4[0-9]{5}/gi, cardType: 'VISA' },
+        { regEx: /^5[1-5][0-9]{4}/gi, cardType: 'MASTERCARD' },
+        { regEx: /^3[47][0-9]{3}/gi, cardType: 'AMEX' },
+        { regEx: /^6[0-9]{5}/gi, cardType: 'DISCOVER' },
+        { regEx: /^(5[06-8]\d{4}|6\d{5})/gi, cardType: 'MAESTRO' }
+    ]
 
     for (var j = 0; j < regexMap.length; j++) {
         if (cardNum.match(regexMap[j].regEx)) {
-            payCardType = regexMap[j].cardType;
-            break;
+            payCardType = regexMap[j].cardType
+            break
         }
     }
-    console.log(payCardType);
+    console.log(payCardType)
     if (
-        cardNum.indexOf("50") === 0 ||
-        cardNum.indexOf("60") === 0 ||
-        cardNum.indexOf("65") === 0
+        cardNum.indexOf('50') === 0 ||
+        cardNum.indexOf('60') === 0 ||
+        cardNum.indexOf('65') === 0
     ) {
-        var g = "508500-508999|606985-607984|608001-608500|652150-653149";
-        var i = g.split("|");
+        var g = '508500-508999|606985-607984|608001-608500|652150-653149'
+        var i = g.split('|')
         for (var d = 0; d < i.length; d++) {
-            var c = parseInt(i[d].split("-")[0], 10);
-            var f = parseInt(i[d].split("-")[1], 10);
+            var c = parseInt(i[d].split('-')[0], 10)
+            var f = parseInt(i[d].split('-')[1], 10)
             if (
                 cardNum.substr(0, 6) >= c &&
                 cardNum.substr(0, 6) <= f &&
                 cardNum.length >= 6
             ) {
-                payCardType = "RUPAY";
-                break;
+                payCardType = 'RUPAY'
+                break
             }
         }
     }
-    return payCardType;
-};
+    return payCardType
+}
 
 export function copyToClipboard(text) {
-    var data = [new ClipboardItem({ "text/plain": new Blob([text || ''], { type: "text/plain" }) })];
+    // eslint-disable-next-line no-undef
+    var data = [new ClipboardItem({ 'text/plain': new Blob([text || ''], { type: 'text/plain' }) })]
     navigator.clipboard.write(data).then(function () {
-        console.log("Copied to clipboard successfully!");
+        console.log('Copied to clipboard successfully!')
     }, function () {
-        console.error("Unable to write to clipboard. :-(");
-    });
+        console.error('Unable to write to clipboard. :-(')
+    })
 }
 
 // 'midudev'.Length // 7
@@ -1194,7 +1194,7 @@ export function copyToClipboard(text) {
 // d.setMonth(d.getMonth() -3);
 // console.log(todayDate)
 // console.log(d.toISOString().slice(0, 10));
-var threeMonthsAgo = moment().subtract(3, 'months');
+var threeMonthsAgo = moment().subtract(3, 'months')
 
-console.log(threeMonthsAgo.format()); // 2015-10-13T09:37:35+02:00
+console.log(threeMonthsAgo.format()) // 2015-10-13T09:37:35+02:00
  

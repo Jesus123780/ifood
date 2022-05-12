@@ -29,11 +29,11 @@ let sequelize = null;
 module.exports = function connect() {
   try {
     if (!sequelize) {
-      sequelize = new Sequelize('9F27g24N1A', //nombre Base de datos process.env.NAMEDB
-      '9F27g24N1A', //nombre usuario base de datos process.env.USERDB
-      'yGDyGrHvYa', // clave de base de datos, process.env.PASSDB
+      sequelize = new Sequelize(process.env === 'production' ? '9F27g24N1A' : 'app', //nombre Base de datos process.env.NAMEDB
+      process.env === 'production' ? '9F27g24N1A' : 'root', //nombre usuario base de datos process.env.USERDB
+      process.env === 'production' ? 'yGDyGrHvYa' : '', // clave de base de datos, process.env.PASSDB
       {
-        host: 'remotemysql.com',
+        host: process.env === 'production' ? 'remotemysql.com' : 'localhost',
         //process.env.HOSTDB
         dialect: 'mysql' //process.env.DIALECTDB
 

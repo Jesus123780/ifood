@@ -42,7 +42,7 @@ const AreasModel = sequelize.define('areas', {
         allowNull: false
     }
 },{
-    timestamps: false,
+    timestamps: false
 })
 
 module.exports = AreasModel

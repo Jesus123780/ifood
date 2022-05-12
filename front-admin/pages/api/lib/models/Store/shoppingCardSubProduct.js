@@ -6,7 +6,7 @@ import productModelFood from '../product/productFood'
 import Users from '../Users'
 import productsOptionalExtra from '../../models/product/productsOptionalExtra'
 
-sequelize.sync()
+
 
 const SubProducts = sequelize.define('subproducts', {
   subProductsId: {

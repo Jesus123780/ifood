@@ -6,7 +6,7 @@ import Store from '../Store/Store'
 import productModelFood from './productFood'
 import productsOptionalExtra from './productsOptionalExtra'
 
-sequelize.sync()
+
 
 const productsSubOptionalExtra = sequelize.define('productssuboptionalextra', {
   opSubExPid: {

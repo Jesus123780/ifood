@@ -4,7 +4,7 @@ import { enCode } from '../../utils/util'
 import Users from '../Users'
 const sequelize = connect()
 
-sequelize.sync()
+
 
 const catOfProducts = sequelize.define('categoriadeproductos', {
   cpId: {

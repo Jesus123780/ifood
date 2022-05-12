@@ -6,7 +6,7 @@ import Store from '../Store/Store'
 const sequelize = connect()
 
 // 
-sequelize.sync()
+
 
 const Providers = sequelize.define('providers', {
   idProvider: {

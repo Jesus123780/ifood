@@ -4,7 +4,7 @@ const sequelize = connect()
 import { enCode } from '../../utils/util'
 import Users from '../Users'
 import Store from '../Store/Store'
-sequelize.sync()
+// sequelize.sync()
 const EmployeesModelStore = sequelize.define('employeestore', {
   eId: {
     type: INTEGER,

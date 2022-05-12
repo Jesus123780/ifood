@@ -5,7 +5,7 @@ import Store from './Store'
 const sequelize = connect()
 import { enCode } from '../../utils/util'
 
-sequelize.sync()
+
 
 const ScheduleStore = sequelize.define('storechedules', {
   schId: {

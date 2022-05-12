@@ -4,7 +4,7 @@ import { enCode } from '../../utils/util'
 import Users from '../Users'
 const sequelize = connect()
 
-sequelize.sync()
+
 
 const UserDeviceModel = sequelize.define('userdevice', {
   dId: {

@@ -7,7 +7,7 @@ import { createUploadLink } from 'apollo-upload-client'
 import FingerprintJS from '@fingerprintjs/fingerprintjs'
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
-import { URL_ADMIN, URL_ADMIN_SERVER, URL_BASE, URL_BASE_ADMIN_MASTER } from './urls'
+import { URL_ADMIN, URL_BASE, URL_BASE_ADMIN_MASTER } from './urls'
 import { typeDefs } from './schema'
 import { cache, isLoggedVar } from './cache'
 import { WebSocketLink } from '@apollo/client/link/ws'
@@ -83,7 +83,7 @@ const httpLink = createUploadLink({
 })
 // Create Second Link
 const wsLink = process.browser ? new WebSocketLink({
-  uri: process.env.NODE_ENV === 'development' ? 'ws://localhost:4000/graphql' : 'ws://localhost:4000/graphql',
+  uri: process.env.NODE_ENV === 'development' ? 'ws://server-image-food.herokuapp.com/graphql' : 'ws://server-image-food.herokuapp.com/graphql',
   options: {
     reconnect: true,
     lazy: true,
@@ -110,11 +110,10 @@ function createApolloClient() {
     const headers = await authLink()
     const service = operation.getContext().clientName
     let uri = `${process.env.URL_BASE}api/graphql`
-    if (service === 'subscriptions') uri = 'http://localhost:4000/graphql'
     if (service === 'main') uri = `${process.env.URL_BASE}api/graphql`
     if (service === 'admin-store') uri = `${URL_ADMIN}graphql`
     if (service === 'admin') uri = `${URL_BASE_ADMIN_MASTER}graphql`
-    if (service === 'admin-server') uri = `${URL_ADMIN_SERVER}graphql`
+    if (service === 'admin-server') uri = `${process.env.URL_ADMIN_SERVER}graphql`
     const token = localStorage.getItem('session')
     operation.setContext({
       headers: {

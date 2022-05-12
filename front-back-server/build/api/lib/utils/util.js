@@ -8,8 +8,7 @@ const {
 
 const codeRed = async model => {
   /** variables necesarias */
-  let result = '',
-      error = false;
+  let result = '';
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   /** creación de código */
 
@@ -17,6 +16,7 @@ const codeRed = async model => {
     result += characters.charAt(Math.floor(Math.random() * characters.length));
   }
   /** busca si ya existe */
+  // eslint-disable-next-line no-unused-vars
 
 
   const dataUP = await model.findOne({
@@ -24,7 +24,7 @@ const codeRed = async model => {
     where: {
       up_code: result
     }
-  }).catch(x = error = true);
+  }).catch(() => {});
   /** verifica si existe */
 
   if (dataUP) {
@@ -96,7 +96,7 @@ const UpCrNotFind = async (model, newItem, where, condition, updateFind = false)
   }
 };
 
-const UpCrFind = async (model, newItem, where, condition, updateFind = false) => {
+const UpCrFind = async (model, newItem, where, condition) => {
   const res = await model.findOne({
     where: where ? where : {
       [condition.id]: deCode(condition.value)
@@ -105,7 +105,7 @@ const UpCrFind = async (model, newItem, where, condition, updateFind = false) =>
   /** confirma si hay id para actualizar o registrar */
 
   if (res) {
-    const data = await model.update(newItem, {
+    await model.update(newItem, {
       where: where ? where : {
         [condition.id]: deCode(condition.value)
       }

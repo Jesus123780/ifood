@@ -33,5 +33,5 @@ app.use('/', (req, res) => {
 app.listen(port, () => {
     console.log(
         `🚀 endpoint ready at http://localhost:${port}`
-    );
-});
+    )
+})

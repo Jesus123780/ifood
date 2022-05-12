@@ -37,11 +37,10 @@ export const LastedStatistic = ({ idStore }) => {
     setValueSales(val)
   }, [data])
   const [totalProductPrice, setTotalProductPrice] = useState(0)
-  const [key, setSetKey] = useState([])
   let suma = 0
   useEffect(() => {
     getAllSalesStoreStatistic({ variables: { min: 0, fromDate: moment(dt.setDate(dt.getDate() - 90)).format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD') } })
-    data?.getAllSalesStoreStatistic.forEach((a) => {
+    data?.getAllSalesStoreStatistic?.forEach((a) => {
       const { totalProductsPrice, pDatCre } = a || {}
       suma += totalProductsPrice
       setTotalProductPrice(suma)

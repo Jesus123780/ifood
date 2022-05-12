@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import deviceResolver from './device'
 
 export default {

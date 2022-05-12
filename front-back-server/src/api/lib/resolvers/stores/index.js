@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import storeResolver from './store'
 import productResolver from './products'
 import ordersResolver from './orders'
