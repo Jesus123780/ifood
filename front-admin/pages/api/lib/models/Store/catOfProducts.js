@@ -1,21 +1,20 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
-const { enCode } = require('../../utils/util')
-const Users = require('../Users')
-const Store = require('./Store')
+import { INTEGER, STRING, literal } from 'sequelize'
+import connect from '../../db'
+import { enCode } from '../../utils/util'
+import Users from '../Users'
 const sequelize = connect()
 
 sequelize.sync()
 
 const catOfProducts = sequelize.define('categoriadeproductos', {
   cpId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) {return enCode(this.getDataValue(x))}
   },
   id: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -26,30 +25,30 @@ const catOfProducts = sequelize.define('categoriadeproductos', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   catName: {
-    type: Sequelize.STRING,
+    type: STRING,
     allowNull: false
   },
   catDescription: {
-    type: Sequelize.STRING,
+    type: STRING,
     allowNull: true
   },
   schState: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     defaultValue: 1
   },
   createAt: {
     type: 'TIMESTAMP',
     allowNull: false,
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    defaultValue: literal('CURRENT_TIMESTAMP')
   },
   updateAt: {
     type: 'TIMESTAMP',
     allowNull: false,
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    defaultValue: literal('CURRENT_TIMESTAMP')
   }
 }, {
   timestamps: false
 })
 
-module.exports = catOfProducts
+export default catOfProducts

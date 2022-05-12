@@ -1,20 +1,20 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
-const { enCode, validationID } = require('../../utils/util')
+import { INTEGER, STRING, TEXT, SMALLINT, literal } from 'sequelize'
+import connect from '../../db'
+import { enCode, validationID } from '../../utils/util'
 const sequelize = connect()
-const TypePQR = require('./TypPQR')
+import TypePQR from './TypPQR'
 
 // 
 
 const PQR = sequelize.define('PQR', {
   hpqrId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get (x) { return this.getDataValue(x) ? enCode(this.getDataValue(x)) : null }
   },
   thpId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -26,34 +26,34 @@ const PQR = sequelize.define('PQR', {
     set (x) { this.setDataValue('thpId', validationID(x)) }
   },
   hpqrQuestion: {
-    type: Sequelize.STRING(120),
+    type: STRING(120),
     allowNull: false
   },
 
   hpqrAnswer: {
-    type: Sequelize.TEXT,
+    type: TEXT,
     allowNull: false
   },
 
   hpqrState: {
-    type: Sequelize.SMALLINT,
+    type: SMALLINT,
     allowNull: true,
     defaultValue: 1
   },
 
   hpqrDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
 
   hpqrDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 }, {
   timestamps: false
 })
 
-module.exports = PQR
+export default PQR

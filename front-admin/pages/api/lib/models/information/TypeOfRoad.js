@@ -1,35 +1,35 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
+import { INTEGER, STRING, SMALLINT, DATE } from 'sequelize'
+import connect from '../../db'
 const sequelize = connect()
-const { enCode } = require('../../utils/util')
+import { enCode } from '../../utils/util'
 
 // 
 
 const TypeRoad = sequelize.define('typeRoad', {
   rId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) {return enCode(this.getDataValue(x))}
   },
   rName: {
-    type: Sequelize.STRING(100),
+    type: STRING(100),
     allowNull: false
   },
   rState: {
-    type: Sequelize.SMALLINT,
+    type: SMALLINT,
     defaultValue: 1
   },
   rDatCre: {
-    type: Sequelize.DATE,
+    type: DATE,
     default: Date.now()
   },
   rDatMod: {
-    type: Sequelize.DATE,
+    type: DATE,
     default: Date.now()
   }
 }, {
   timestamps: false
 })
 
-module.exports = TypeRoad
+export default TypeRoad

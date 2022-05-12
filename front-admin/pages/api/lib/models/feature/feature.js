@@ -1,20 +1,20 @@
-const Sequelize = require('sequelize')
-const { enCode, validationID } = require('../../utils/util')
-const connect = require('../../db')
+import { INTEGER, STRING, SMALLINT, literal } from 'sequelize'
+import { enCode, validationID } from '../../utils/util'
+import connect from '../../db'
 const sequelize = connect()
-const Typefeature = require('./TypFeature')
+import Typefeature from './TypFeature'
 
 // 
 
 const Feature = sequelize.define('feature', {
   fId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get (x) { return this.getDataValue(x) ? enCode(this.getDataValue(x)) : null }
   },
   thpId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -26,26 +26,26 @@ const Feature = sequelize.define('feature', {
     set(x) { return this.setDataValue('thpId', validationID(x, false))}
   },
   hpqrQuestion: {
-    type: Sequelize.STRING(120),
+    type: STRING(120),
     allowNull: false
   },
   hpqrState: {
-    type: Sequelize.SMALLINT,
+    type: SMALLINT,
     allowNull: false
   },
   hpqrDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
 
   hpqrDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 }, {
   timestamps: false
 })
 
-module.exports = Feature
+export default Feature

@@ -1,28 +1,21 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
+import { INTEGER, STRING, literal } from 'sequelize'
+import connect from '../../db'
 const sequelize = connect()
-const SizeModel = require('../information/size')
-const colorModel = require('../information/color')
-const CountriesModel = require('../information/CountriesModel')
-const DepartmentsModel = require('../information/DepartmentsModel')
-const CitiesModel = require('../information/CitiesModel')
-const Feature = require('../feature/feature')
-const CategoryProductsModel = require('../Categories/CategoryProducts')
-const { enCode, validationID, validations } = require('../../utils/util')
-const Users = require('../Users')
-const Store = require('../Store/Store')
+import { enCode } from '../../utils/util'
+import Users from '../Users'
+import Store from '../Store/Store'
 
 sequelize.sync()
 
 const Contract = sequelize.define('contract', {
   ctrId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) { return enCode(this.getDataValue(x)) }
   },
   id: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -33,7 +26,7 @@ const Contract = sequelize.define('contract', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   idStore: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -44,25 +37,25 @@ const Contract = sequelize.define('contract', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   ctCode: {
-    type: Sequelize.STRING,
+    type: STRING,
     allowNull: false
   },
   catDescription: {
-    type: Sequelize.STRING,
+    type: STRING,
     allowNull: true
   },
   createAt: {
     type: 'TIMESTAMP',
     allowNull: false,
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    defaultValue: literal('CURRENT_TIMESTAMP')
   },
   updateAt: {
     type: 'TIMESTAMP',
     allowNull: false,
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    defaultValue: literal('CURRENT_TIMESTAMP')
   }
 }, {
   timestamps: false
 })
 
-module.exports = Contract
+export default Contract

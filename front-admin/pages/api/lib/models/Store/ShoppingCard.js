@@ -1,21 +1,20 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
+import { INTEGER, UUID, UUIDV4, STRING, SMALLINT, DATE } from 'sequelize'
+import connect from '../../db'
 const sequelize = connect()
-const { enCode } = require('../../utils/util')
-const productModelFood = require('../product/productFood')
-const Users = require('../Users')
-const SubProducts = require('./shoppingCardSubProduct')
-const Store = require('./Store')
+import { enCode } from '../../utils/util'
+import productModelFood from '../product/productFood'
+import Users from '../Users'
+import Store from './Store'
 
 const ShoppingCard = sequelize.define('shoppingcards', {
   ShoppingCard: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) { return enCode(this.getDataValue(x)) }
   },
   id: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -26,7 +25,7 @@ const ShoppingCard = sequelize.define('shoppingcards', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   pId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -38,7 +37,7 @@ const ShoppingCard = sequelize.define('shoppingcards', {
   },
   // id store
   idStore: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -49,36 +48,36 @@ const ShoppingCard = sequelize.define('shoppingcards', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   ShoppingCardRefCode: {
-    type: Sequelize.UUID,
-    defaultValue: Sequelize.UUIDV4,
+    type: UUID,
+    defaultValue: UUIDV4,
     allowNull: false
   },
   discountCardProduct: {
-    type: Sequelize.STRING(100),
+    type: STRING(100),
     allowNull: true
   },
   comments: {
-    type: Sequelize.STRING(100),
+    type: STRING(100),
     allowNull: true
   },
   cantProducts: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: true
   },
   cState: {
-    type: Sequelize.SMALLINT,
+    type: SMALLINT,
     defaultValue: 1
   },
   cDatCre: {
-    type: Sequelize.DATE,
+    type: DATE,
     default: Date.now()
   },
   cDatMod: {
-    type: Sequelize.DATE,
+    type: DATE,
     default: Date.now()
   }
 }, {
   timestamps: false
 })
 
-module.exports = ShoppingCard
+export default ShoppingCard

@@ -1,26 +1,24 @@
-/* eslint-disable no-undef */
-/* eslint-disable @typescript-eslint/no-var-requires */
 
-const Sequelize = require('sequelize')
-const connect = require('../../db')
-const CitiesModel = require('../information/CitiesModel')
-const CountriesModel = require('../information/CountriesModel')
-const TypeIdentitiesModel = require('../information/TypeIdentitiesModel')
-const DepartmentsModel = require('../information/DepartmentsModel')
-const { enCode, validationID } = require('../../utils/util')
+import { INTEGER, STRING, SMALLINT, literal } from 'sequelize'
+import connect from '../../db'
+import CitiesModel from '../information/CitiesModel'
+import CountriesModel from '../information/CountriesModel'
+import TypeIdentitiesModel from '../information/TypeIdentitiesModel'
+import DepartmentsModel from '../information/DepartmentsModel'
+import { enCode, validationID } from '../../utils/util'
 const sequelize = connect()
 
 // 
 
 const ThirdPartiesModel = sequelize.define('thirdparties', {
   tpId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) { return enCode(this.getDataValue(x)) }
   },
   countryId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -32,7 +30,7 @@ const ThirdPartiesModel = sequelize.define('thirdparties', {
     set(x) {this.setDataValue('countryId', validationID(x, false))}
   },
   dId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -44,7 +42,7 @@ const ThirdPartiesModel = sequelize.define('thirdparties', {
     set(x) {this.setDataValue('dId', validationID(x, false))}
   },
   ctId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -56,7 +54,7 @@ const ThirdPartiesModel = sequelize.define('thirdparties', {
     set(x) {this.setDataValue('cId', validationID(x, false))}
   },
   tiId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -68,51 +66,51 @@ const ThirdPartiesModel = sequelize.define('thirdparties', {
     set(x) {this.setDataValue('tiId', validationID(x, false))}
   },
   tpNitDV: {
-    type: Sequelize.STRING(2),
+    type: STRING(2),
     allowNull: true
   },
   tpNumDoc: {
-    type: Sequelize.STRING(15),
+    type: STRING(15),
     allowNull: false
     // unique: true
   },
   tpName: {
-    type: Sequelize.STRING(100),
+    type: STRING(100),
     allowNull: false
   },
   tpLasNam: {
-    type: Sequelize.STRING(100),
+    type: STRING(100),
     allowNull: false
   },
   tpPhone: {
-    type: Sequelize.STRING(20),
+    type: STRING(20),
     allowNull: false
   },
   tpEmail: {
-    type: Sequelize.STRING(100),
+    type: STRING(100),
     allowNull: false
     // unique: true
   },
   tpDir: {
-    type: Sequelize.STRING(100),
+    type: STRING(100),
     allowNull: false
   },
   tpState: {
-    type: Sequelize.SMALLINT,
+    type: SMALLINT,
     allowNull: false
   },
   tpDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   tpDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 }, {
   timestamps: false
 })
 
-module.exports = ThirdPartiesModel
+export default ThirdPartiesModel

@@ -1,20 +1,20 @@
-const Sequelize = require('sequelize')
-const { enCode, validationID } = require('../../utils/util')
-const connect = require('../../db')
+import { INTEGER, STRING, SMALLINT, literal } from 'sequelize'
+import { enCode, validationID } from '../../utils/util'
+import connect from '../../db'
 const sequelize = connect()
-const Products = require('../product/product')
-const GeneralFoldersModel = require('./GeneralFoldersModel')
+import Products from '../product/product'
+import GeneralFoldersModel from './GeneralFoldersModel'
 
 const GeneralDocumentsModel = sequelize.define('generaldocuments',
   {
     gdId: {
-      type: Sequelize.INTEGER,
+      type: INTEGER,
       primaryKey: true,
       autoIncrement: true,
       get(x) { return enCode(this.getDataValue(x)) }
     },
     pId: {
-      type: Sequelize.INTEGER,
+      type: INTEGER,
       allowNull: false,
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
@@ -26,7 +26,7 @@ const GeneralDocumentsModel = sequelize.define('generaldocuments',
       set(x) { return this.setDataValue('pId', validationID(x, false))}
     },
     gfId: {
-      type: Sequelize.INTEGER,
+      type: INTEGER,
       allowNull: false,
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
@@ -38,24 +38,24 @@ const GeneralDocumentsModel = sequelize.define('generaldocuments',
       set(x) { return this.setDataValue('gfId', validationID(x, false)) }
     },
     gdName: {
-      type: Sequelize.STRING(50),
+      type: STRING(50),
       allowNull: false
     },
     gdSecNam: {
-      type: Sequelize.STRING(50)
+      type: STRING(50)
     },
     gdState: {
-      type: Sequelize.SMALLINT,
+      type: SMALLINT,
       allowNull: false
     },
     gdDatCre: {
       type: 'TIMESTAMP',
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+      defaultValue: literal('CURRENT_TIMESTAMP'),
       allowNull: false
     },
     gdDatMod: {
       type: 'TIMESTAMP',
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+      defaultValue: literal('CURRENT_TIMESTAMP'),
       allowNull: false
     }
   },
@@ -64,4 +64,4 @@ const GeneralDocumentsModel = sequelize.define('generaldocuments',
   }
 )
 
-module.exports = GeneralDocumentsModel
+export default GeneralDocumentsModel

@@ -1,18 +1,18 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
+import { INTEGER, SMALLINT, literal } from 'sequelize'
+import connect from '../../db'
 const sequelize = connect()
-const EmployeesFoldersModel = require('./EmployeesFoldersModel')
-const { enCode, validationID } = require('../../utils/util')
+import EmployeesFoldersModel from './EmployeesFoldersModel'
+import { enCode, validationID } from '../../utils/util'
 
 const EmployeesFoldersParentsModel = sequelize.define('employeesFoldersParents', {
   efpId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) { return enCode(this.getDataValue(x)) }
   },
   efId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -24,7 +24,7 @@ const EmployeesFoldersParentsModel = sequelize.define('employeesFoldersParents',
     set(x) { this.setDataValue('efId', validationID(x, false)) }
   },
   parentId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -36,27 +36,27 @@ const EmployeesFoldersParentsModel = sequelize.define('employeesFoldersParents',
     set(x) { this.setDataValue('parentId', validationID(x, false)) }
   },
   efpLevel: {
-    type: Sequelize.INTEGER(4),
+    type: INTEGER(4),
     allowNull: false,
     defaultValue: 1
   },
   efpState: {
-    type: Sequelize.SMALLINT,
+    type: SMALLINT,
     allowNull: false,
     defaultValue: 1
   },
   efpDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   efpDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 }, {
   timestamps: false
 })
 
-module.exports = EmployeesFoldersParentsModel
+export default EmployeesFoldersParentsModel

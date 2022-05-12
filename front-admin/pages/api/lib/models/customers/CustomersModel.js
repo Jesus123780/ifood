@@ -1,19 +1,19 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
-const { enCode } = require('../../utils/util')
-const CitiesModel = require('../information/CitiesModel')
-const TypeIdentitiesModel = require('../information/TypeIdentitiesModel')
+import { INTEGER, STRING, SMALLINT, literal } from 'sequelize'
+import connect from '../../db'
+import { enCode } from '../../utils/util'
+import CitiesModel from '../information/CitiesModel'
+import TypeIdentitiesModel from '../information/TypeIdentitiesModel'
 const sequelize = connect()
 
 const CustomersModel = sequelize.define('customers', {
   cId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) {return enCode(this.getDataValue(x))}
   },
   tiId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -24,7 +24,7 @@ const CustomersModel = sequelize.define('customers', {
     get(x) {return enCode(this.getDataValue(x))}
   },
   cityId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -35,62 +35,62 @@ const CustomersModel = sequelize.define('customers', {
     get(x) {return enCode(this.getDataValue(x))}
   },
   cName: {
-    type: Sequelize.STRING(200),
+    type: STRING(200),
     allowNull: false
   },
   cNit: {
-    type: Sequelize.STRING(50),
+    type: STRING(50),
     allowNull: false,
     unique: true
   },
   cNitDV: {
-    type: Sequelize.STRING(10),
+    type: STRING(10),
     allowNull: false
   },
   cPhone: {
-    type: Sequelize.STRING(20),
+    type: STRING(20),
     allowNull: false
   },
   cEmail: {
-    type: Sequelize.STRING(50),
+    type: STRING(50),
     allowNull: false,
     unique: true
   },
   cNumAdd: {
-    type: Sequelize.STRING(30),
+    type: STRING(30),
     allowNull: false
   },
   cNumStr: {
-    type: Sequelize.STRING(30),
+    type: STRING(30),
     allowNull: false
   },
   cNumHou: {
-    type: Sequelize.STRING(30),
+    type: STRING(30),
     allowNull: false
   },
   cInformation: {
-    type: Sequelize.STRING(100),
+    type: STRING(100),
     allowNull: true
   },
   cCharge: {
-    type: Sequelize.STRING(50)
+    type: STRING(50)
   },
   cState: {
-    type: Sequelize.SMALLINT,
+    type: SMALLINT,
     allowNull: false
   },
   cDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   cDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 },{
   timestamps: false
 })
 
-module.exports = CustomersModel
+export default CustomersModel

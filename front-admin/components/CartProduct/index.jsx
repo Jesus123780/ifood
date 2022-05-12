@@ -8,10 +8,10 @@ import styled, { css } from 'styled-components'
 import { numberFormat } from 'utils'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-export const CardProducts = ({ pName, del, edit, key, ProDescription, ValueDelivery, pId, ProPrice, render = null, onClick = () => { }, handleDelete = () => { }, ProDescuento, ProImage, widthButton }) => {
+export const CardProducts = ({ pName, del, edit, ProDescription, ValueDelivery, pId, ProPrice, render = null, onClick = () => { }, handleDelete = () => { }, ProDescuento, ProImage, widthButton }) => {
   const router = useRouter()
   return (
-    <Card key={key}>
+    <Card>
       {del && <ButtonCard grid={false} onClick={handleDelete}>
         <IconDelete color={PColor} size={20} />
         <ActionName >
@@ -278,7 +278,7 @@ const Card = styled.div`
         padding: 0 20px;
     }
 `
-const ContainerActions = styled.button`
+const ContainerActions = styled.div`
     position: absolute;
     width: max-content;
     right: 25px;

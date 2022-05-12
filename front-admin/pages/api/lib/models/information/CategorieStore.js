@@ -1,40 +1,40 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
+import { INTEGER, STRING, SMALLINT, DATE } from 'sequelize'
+import connect from '../../db'
 const sequelize = connect()
-const { enCode } = require('../../utils/util')
+import { enCode } from '../../utils/util'
 
 const CatStore = sequelize.define('catstore', {
   catStore: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) {return enCode(this.getDataValue(x))}
   },
   cName: {
-    type: Sequelize.STRING(100),
+    type: STRING(100),
     allowNull: false
   },
   csDescription: {
-    type: Sequelize.STRING,
+    type: STRING,
     allowNull: false
   },
   cState: {
-    type: Sequelize.SMALLINT,
+    type: SMALLINT,
     defaultValue: 1
   },
   cPathImage: {
-    type: Sequelize.STRING
+    type: STRING
   },
   cDatCre: {
-    type: Sequelize.DATE,
+    type: DATE,
     default: Date.now()
   },
   cDatMod: {
-    type: Sequelize.DATE,
+    type: DATE,
     default: Date.now()
   }
 }, {
   timestamps: false
 })
 
-module.exports = CatStore
+export default CatStore

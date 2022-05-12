@@ -1,20 +1,20 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
+import { INTEGER, SMALLINT, literal } from 'sequelize'
+import connect from '../../db'
 const sequelize = connect()
-const { enCode } = require('../../utils/util')
-const Users = require('../UsersLogin/Users')
+import { enCode } from '../../utils/util'
+import Users from '../UsersLogin/Users'
 
 // 
 
 const FollowModel = sequelize.define('followModel', {
   idFollower: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) { return enCode(this.getDataValue(x)) }
   },
   id: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -26,7 +26,7 @@ const FollowModel = sequelize.define('followModel', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   follow: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -38,21 +38,21 @@ const FollowModel = sequelize.define('followModel', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   fState: {
-    type: Sequelize.SMALLINT,
+    type: SMALLINT,
     allowNull: false
   },
   DatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   DatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 }, {
   timestamps: false
 })
 
-module.exports = FollowModel
+export default FollowModel

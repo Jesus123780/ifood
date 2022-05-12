@@ -1,21 +1,21 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
-const Users = require('../Users')
-const Store = require('./Store')
+import { INTEGER, STRING, literal } from 'sequelize'
+import connect from '../../db'
+import Users from '../Users'
+import Store from './Store'
 const sequelize = connect()
-const { enCode } = require('../../utils/util')
+import { enCode } from '../../utils/util'
 
 sequelize.sync()
 
 const ScheduleStore = sequelize.define('storechedules', {
   schId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) { return enCode(this.getDataValue(x)) }
   },
   id: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -26,7 +26,7 @@ const ScheduleStore = sequelize.define('storechedules', {
     get(x) {return enCode(this.getDataValue(x))}
   },
   idStore: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -37,33 +37,33 @@ const ScheduleStore = sequelize.define('storechedules', {
     get(x) {return enCode(this.getDataValue(x))}
   },
   schDay: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false
   },
   schHoSta: {
-    type: Sequelize.STRING(60),
+    type: STRING(60),
     allowNull: false
   },
   schHoEnd: {
-    type: Sequelize.STRING(60),
+    type: STRING(60),
     allowNull: false
   },
   schState: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false
   },
   createAt: {
     type: 'TIMESTAMP',
     allowNull: false,
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    defaultValue: literal('CURRENT_TIMESTAMP')
   },
   updateAt: {
     type: 'TIMESTAMP',
     allowNull: false,
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    defaultValue: literal('CURRENT_TIMESTAMP')
   }
 }, {
   timestamps: false
 })
 
-module.exports = ScheduleStore
+export default ScheduleStore

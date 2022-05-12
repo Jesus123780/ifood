@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
 import React, { useContext, useEffect } from 'react'
 import { Context } from '../../context/Context'
-import { Footer } from './footer'
+// import { Footer } from './footer'
 import { gql, useSubscription } from '@apollo/client'
 import { Header } from './header'
 import { AlertBox } from '../AlertBox'
@@ -15,12 +15,12 @@ import { BtnClose } from 'components/AwesomeModal/styled'
 import { IconCancel } from 'public/icons'
 import GenerateSales from 'container/Sales'
 import { AwesomeModal } from 'components/AwesomeModal'
-import { Messages } from 'container/messages'
+// import { Messages } from 'container/messages'
 
 export const Layout = ({ children, watch, settings }) => {
   const location = useRouter()
   const { error, isSession, setAlertBox, openSchedule, setOpenSchedule, salesOpen, setSalesOpen } = useContext(Context)
-  const { latitude, longitude, timestamp, accuracy, speed } = usePosition(watch, settings)
+  const { latitude, longitude } = usePosition(watch, settings)
   const dataLocation = usePosition(watch, settings)
   useEffect(() => {
     setAlertBox({ message: '', color: 'success' })
@@ -29,7 +29,8 @@ export const Layout = ({ children, watch, settings }) => {
       window.localStorage.setItem('longitude', longitude)
       window.localStorage.setItem('location', JSON.stringify(dataLocation))
     }
-  }, [latitude, longitude, timestamp, accuracy, speed, setAlertBox, dataLocation])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   const NEW_NOTIFICATION = gql`
     subscription {
     newNotification
@@ -44,7 +45,8 @@ export const Layout = ({ children, watch, settings }) => {
     if (dataWS) {
       setAlertBox({ message: dataWS?.newNotification, duration: 30000 })
     }
-  }, [dataWS, setAlertBox])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataWS])
   return (
     <>
       <AlertBox err={error} />
@@ -71,9 +73,9 @@ export const Layout = ({ children, watch, settings }) => {
           >
             <GenerateSales />
           </AwesomeModal>
-          <Messages />
+          {/* <Messages /> */}
         </div>
-        {!['/login', '/register', '/varify-email', '/restaurante', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => {return x === location.pathname}) && <Footer />}
+        {/* {!['/login', '/register', '/varify-email', '/restaurante', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => {return x === location.pathname}) && <Footer />} */}
         <div style={{ gridArea: 'right' }}>
           <LateralModal openSchedule={openSchedule}>
             <BtnClose onClick={() => {return setOpenSchedule(!openSchedule)}}><IconCancel size='20px' /></BtnClose>

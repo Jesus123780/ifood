@@ -1,21 +1,21 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
+import { INTEGER, TINYINT, literal } from 'sequelize'
+import connect from '../../db'
 const sequelize = connect()
-const ModulesModel = require('./ModulesModel')
-const UsersModel = require('../users/UsersModel')
-const { enCode, validationID } = require('../../utils/util')
+import ModulesModel from './ModulesModel'
+import UsersModel from '../users/UsersModel'
+import { enCode, validationID } from '../../utils/util'
 /**
  * @deprecated
  */
 const UserModulesModel = sequelize.define('usermodules', {
   umdId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) {return enCode(this.getDataValue(x))}
   },
   mId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -27,7 +27,7 @@ const UserModulesModel = sequelize.define('usermodules', {
     set(x) {this.setDataValue('mId', validationID(x, false))}
   },
   umId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -38,25 +38,25 @@ const UserModulesModel = sequelize.define('usermodules', {
     get(x) {return enCode(this.getDataValue(x))}
   },
   umdState: {
-    type: Sequelize.TINYINT,
+    type: TINYINT,
     allowNull: false
   },
   umdPriority: {
-    type: Sequelize.TINYINT,
+    type: TINYINT,
     allowNull: false
   },
   umdDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   umdDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 },{
   timestamps: false
 })
 
-module.exports = UserModulesModel
+export default UserModulesModel

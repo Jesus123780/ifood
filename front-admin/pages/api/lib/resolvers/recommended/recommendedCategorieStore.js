@@ -6,7 +6,6 @@ import { deCode, getAttributes } from '../../utils/util'
 export const getAllMatchesStoreRecommended = async (root, args, context, info) => {
   try {
     const { min, max, catStore } = args
-    console.log(min, max, catStore)
     let whereSearch = {}
     const attributes = getAttributes(Store, info)
     // console.log(attributes)
@@ -31,7 +30,7 @@ export const getAllMatchesStoreRecommended = async (root, args, context, info) =
 
 export const productFoodsAllRecommended = async (root, args, context, info) => {
   try {
-    const { search, min, max, pId, gender, desc, categories } = args
+    const { search, min, max, gender, desc, categories } = args
     let whereSearch = {}
     if (search) {
       whereSearch = {

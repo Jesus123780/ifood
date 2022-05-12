@@ -1,22 +1,22 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
+import { INTEGER, DATE } from 'sequelize'
+import connect from '../../db'
 const sequelize = connect()
-const { enCode } = require('../../utils/util')
-const productModelFood = require('../product/productFood')
-const Users = require('../Users')
-const productsOptionalExtra = require('../../models/product/productsOptionalExtra')
+import { enCode } from '../../utils/util'
+import productModelFood from '../product/productFood'
+import Users from '../Users'
+import productsOptionalExtra from '../../models/product/productsOptionalExtra'
 
 sequelize.sync()
 
 const SubProducts = sequelize.define('subproducts', {
   subProductsId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) { return enCode(this.getDataValue(x)) }
   },
   id: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -27,7 +27,7 @@ const SubProducts = sequelize.define('subproducts', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   pId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -38,7 +38,7 @@ const SubProducts = sequelize.define('subproducts', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   opExPid: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -49,15 +49,15 @@ const SubProducts = sequelize.define('subproducts', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   cDatCre: {
-    type: Sequelize.DATE,
+    type: DATE,
     default: Date.now()
   },
   cDatMod: {
-    type: Sequelize.DATE,
+    type: DATE,
     default: Date.now()
   }
 }, {
   timestamps: false
 })
 
-module.exports = SubProducts
+export default SubProducts

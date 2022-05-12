@@ -1,86 +1,84 @@
 
-/* eslint-disable no-undef */
-/* eslint-disable @typescript-eslint/no-var-requires */
-const Sequelize = require('sequelize')
-const connect = require('../db')
-const { enCode } = require('../utils/util')
+import { INTEGER, STRING, DATE } from 'sequelize'
+import connect from '../db'
+import { enCode } from '../utils/util'
 const sequelize = connect()
 // 
 
 const Users = sequelize.define('users', {
   id: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) {return enCode(this.getDataValue(x))}
   },
   name: {
-    type: Sequelize.STRING,
+    type: STRING,
     require: true
   },
   username: {
-    type: Sequelize.STRING,
+    type: STRING,
     require: true,
     trim: true,
     unique: true
   },
   lastName: {
-    type: Sequelize.STRING,
+    type: STRING,
     require: true,
     trim: true,
     unique: true
   },
   email: {
-    type: Sequelize.STRING,
+    type: STRING,
     require: true,
     trim: true,
     unique: true
   },
   avatar: {
-    type: Sequelize.STRING,
+    type: STRING,
     trim: true
   },
   // News
   uToken: {
-    type: Sequelize.STRING(100),
+    type: STRING(100),
     trim: true
   },
   uPhoNum: {
-    type: Sequelize.STRING(50)
+    type: STRING(50)
   },
   ULocation: {
-    type: Sequelize.STRING(100)
+    type: STRING(100)
   },
   upLat: {
-    type: Sequelize.STRING(30)
+    type: STRING(30)
   },
   uState: {
-    type: Sequelize.INTEGER(30)
+    type: INTEGER(30)
   },
   upLon: {
-    type: Sequelize.STRING(30)
+    type: STRING(30)
   },
   upIdeDoc: {
-    type: Sequelize.STRING(50)
+    type: STRING(50)
   },
   siteWeb: {
-    type: Sequelize.STRING,
+    type: STRING,
     trim: true
   },
   description: {
-    type: Sequelize.STRING,
+    type: STRING,
     trim: true
   },
   password: {
-    type: Sequelize.STRING,
+    type: STRING,
     trim: true,
     require: true
   },
   createAt: {
-    type: Sequelize.DATE,
+    type: DATE,
     default: Date.now()
   }
 
 })
 
-module.exports = Users
+export default Users

@@ -171,7 +171,7 @@ const DashboardStore = () => {
     <Wrapper>
       {(loadCatPro || loading) && <Loading />}
       <Container>
-        <Managebanner />
+        {/* <Managebanner /> */}
         <WrapperOptions>
           <div>
             <ButtonAction onClick={() => { return SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state) }}> Subir productos</ButtonAction >
@@ -188,9 +188,9 @@ const DashboardStore = () => {
           title='Buscar en el menu'
           value={dataForm?.search}
         />
-        <StickyViewport as='main' style={containerStyle}>
+        {/* <StickyViewport as='main' style={containerStyle}>
           {stickySectionElements}
-        </StickyViewport>
+        </StickyViewport> */}
       </Container>
       {/* MODALS */}
       <AwesomeModal
@@ -265,10 +265,10 @@ const DashboardStore = () => {
         <ContainerFilter>
           <ItemFilter onClick={() => { return setModal(!modal) }}>Añadir Adicionales</ItemFilter>
         </ContainerFilter>
-        <OptionalExtraProducts
+        {/* <OptionalExtraProducts
           dataOptional={dataOptional?.ExtProductFoodsOptionalAll || []}
           pId={pId}
-        />
+        /> */}
       </AwesomeModal>
       <AwesomeModal
         backdrop='static'

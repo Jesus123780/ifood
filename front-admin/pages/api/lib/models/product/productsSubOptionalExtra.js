@@ -1,22 +1,22 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
+import { INTEGER, STRING, TINYINT, literal } from 'sequelize'
+import connect from '../../db'
 const sequelize = connect()
-const { enCode } = require('../../utils/util')
-const Store = require('../Store/Store')
-const productModelFood = require('./productFood')
-const productsOptionalExtra = require('./productsOptionalExtra')
+import { enCode } from '../../utils/util'
+import Store from '../Store/Store'
+import productModelFood from './productFood'
+import productsOptionalExtra from './productsOptionalExtra'
 
 sequelize.sync()
 
 const productsSubOptionalExtra = sequelize.define('productssuboptionalextra', {
   opSubExPid: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) { return enCode(this.getDataValue(x)) }
   },
   pId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -27,7 +27,7 @@ const productsSubOptionalExtra = sequelize.define('productssuboptionalextra', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   idStore: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -38,7 +38,7 @@ const productsSubOptionalExtra = sequelize.define('productssuboptionalextra', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   opExPid: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: true,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -49,34 +49,34 @@ const productsSubOptionalExtra = sequelize.define('productssuboptionalextra', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   OptionalSubProName: {
-    type: Sequelize.STRING,
+    type: STRING,
     allowNull: false
   },
   exCodeOptionExtra: {
-    type: Sequelize.STRING,
+    type: STRING,
     allowNull: false
   },
   exCode: {
-    type: Sequelize.STRING,
+    type: STRING,
     allowNull: false
   },
   state: {
-    type: Sequelize.TINYINT,
+    type: TINYINT,
     allowNull: false,
     defaultValue: 1
   },
   pDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   pDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 }, {
   timestamps: false
 })
 
-module.exports = productsSubOptionalExtra
+export default productsSubOptionalExtra

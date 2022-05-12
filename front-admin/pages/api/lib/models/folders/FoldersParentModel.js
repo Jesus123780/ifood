@@ -1,19 +1,20 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
+import { INTEGER, STRING, literal } from 'sequelize'
+import connect from '../../db'
+import { enCode } from '../../utils'
 const sequelize = connect()
-const {deCode, validationID} = require('../../utils/util')
-const FoldersModel = require('./FoldersModel')
+import { validationID } from '../../utils/util'
+import FoldersModel from './FoldersModel'
 // 
 
 const FolderParentsModel = sequelize.define('folderParents', {
   fpId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) {return enCode(this.getDataValue(x))}
   },
   fId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -25,7 +26,7 @@ const FolderParentsModel = sequelize.define('folderParents', {
     set(x) {this.setDataValue('fId', validationID(x, false))}
   },
   parentId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -37,25 +38,25 @@ const FolderParentsModel = sequelize.define('folderParents', {
     set(x) {this.setDataValue('parentId', validationID(x, false))}
   },
   fpLevel: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false
   },
   fpState: {
-    type: Sequelize.STRING(100),
+    type: STRING(100),
     allowNull: false
   },
   fpDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   fpDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 },{
   timestamps: false
 })
 
-module.exports = FolderParentsModel
+export default FolderParentsModel

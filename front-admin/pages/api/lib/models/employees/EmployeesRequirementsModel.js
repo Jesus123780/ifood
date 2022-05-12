@@ -1,20 +1,20 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
-const EmployeesModel = require('../employees/EmployeesModel')
-const RequirementsModel = require('../requirements/RequirementsModel')
+import { INTEGER, STRING, SMALLINT, literal } from 'sequelize'
+import connect from '../../db'
+import EmployeesModel from '../employees/EmployeesModel'
+import RequirementsModel from '../requirements/RequirementsModel'
 const sequelize = connect()
-const { enCode, validationID } = require('../../utils/util')
-const EmployeesFoldersModel = require('./EmployeesFoldersModel')
+import { enCode, validationID } from '../../utils/util'
+import EmployeesFoldersModel from './EmployeesFoldersModel'
 
 const EmployeesRequirementsModel = sequelize.define('employeesrequirements', {
   erId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) { return enCode(this.getDataValue(x)) }
   },
   eId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -26,7 +26,7 @@ const EmployeesRequirementsModel = sequelize.define('employeesrequirements', {
     set(x) {return this.setDataValue('eId', validationID(x, false))}
   },
   rId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -38,7 +38,7 @@ const EmployeesRequirementsModel = sequelize.define('employeesrequirements', {
     set(x) {return this.setDataValue('rId', validationID(x, false))}
   },
   efId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -50,31 +50,31 @@ const EmployeesRequirementsModel = sequelize.define('employeesrequirements', {
     set(x) { return this.setDataValue('efId', validationID(x, false)) }
   },
   erName: {
-    type: Sequelize.STRING(50),
+    type: STRING(50),
     allowNull: false
   },
   erSecNam: {
-    type: Sequelize.STRING(50)
+    type: STRING(50)
   },
   erObs: {
-    type: Sequelize.STRING(200)
+    type: STRING(200)
   },
   erState: {
-    type: Sequelize.SMALLINT,
+    type: SMALLINT,
     allowNull: false
   },
   erDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   erDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 },{
   timestamps: false
 })
 
-module.exports = EmployeesRequirementsModel
+export default EmployeesRequirementsModel

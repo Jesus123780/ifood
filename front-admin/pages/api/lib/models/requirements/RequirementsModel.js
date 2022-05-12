@@ -1,18 +1,18 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
-const AreasModel = require('../areas/AreasModel')
+import { INTEGER, SMALLINT, STRING, literal } from 'sequelize'
+import connect from '../../db'
+import AreasModel from '../areas/AreasModel'
 const sequelize = connect()
-const { enCode, validationID } = require('../../utils/util')
+import { enCode, validationID } from '../../utils/util'
 
 const RequirementsModel = sequelize.define('requirements', {
   rId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) {return enCode(this.getDataValue(x))}
   },
   aId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -24,37 +24,37 @@ const RequirementsModel = sequelize.define('requirements', {
     set(x) { this.setDataValue('aId', validationID(x, false)) }
   },
   rPriority: {
-    type: Sequelize.SMALLINT,
+    type: SMALLINT,
     allowNull: false
   },
   rName: {
-    type: Sequelize.STRING(60),
+    type: STRING(60),
     allowNull: false
   },
   rAcronym: {
-    type: Sequelize.STRING(15),
+    type: STRING(15),
     allowNull: false
   },
   rQuality: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false
   },
   rState: {
-    type: Sequelize.SMALLINT,
+    type: SMALLINT,
     allowNull: false
   },
   rDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   rDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 },{
   timestamps: false
 })
 
-module.exports = RequirementsModel
+export default RequirementsModel

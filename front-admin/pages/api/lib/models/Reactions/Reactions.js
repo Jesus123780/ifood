@@ -1,46 +1,46 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
+import { INTEGER, STRING, UUID, UUIDV4, literal } from 'sequelize'
+import connect from '../../db'
 const sequelize = connect()
-const { enCode } = require('../../utils/util')
+import { enCode } from '../../utils/util'
 
 // 
 
 const ReactionsModel = sequelize.define('reactions', {
   id: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) { return enCode(this.getDataValue(x)) }
   },
   content: {
-    type: Sequelize.STRING,
+    type: STRING,
     allowNull: false
   },
   uuid: {
-    type: Sequelize.UUID,
-    defaultValue: Sequelize.UUIDV4,
+    type: UUID,
+    defaultValue: UUIDV4,
     allowNull: false
   },
   messageId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false
   },
   userId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false
   },
   rDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   rDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 }, {
   timestamps: false
 })
 
-module.exports = ReactionsModel
+export default ReactionsModel

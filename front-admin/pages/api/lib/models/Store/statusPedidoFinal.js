@@ -1,21 +1,21 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
+import { INTEGER, TINYINT, STRING, DATE, literal } from 'sequelize'
+import connect from '../../db'
 const sequelize = connect()
-const { enCode } = require('../../utils/util')
-const Users = require('../Users')
-const Store = require('./Store')
+import { enCode } from '../../utils/util'
+import Users from '../Users'
+import Store from './Store'
 
 sequelize.sync()
 
 const StatusPedidosModel = sequelize.define('statuspedidos', {
   stPId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) { return enCode(this.getDataValue(x)) }
   },
   id: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -26,7 +26,7 @@ const StatusPedidosModel = sequelize.define('statuspedidos', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   idStore: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -37,49 +37,49 @@ const StatusPedidosModel = sequelize.define('statuspedidos', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   pSState: {
-    type: Sequelize.TINYINT,
+    type: TINYINT,
     defaultValue: 0
   },
   locationUser: {
-    type: Sequelize.STRING,
+    type: STRING,
     allowNull: false
   },
   pCodeRef: {
-    type: Sequelize.STRING(100),
+    type: STRING(100),
     unique: true,
     allowNull: false
   },
   change: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: true
   },
   totalProductsPrice: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false
   },
   payMethodPState: {
-    type: Sequelize.TINYINT,
+    type: TINYINT,
     defaultValue: 1
   },
   pickUp: {
-    type: Sequelize.TINYINT,
+    type: TINYINT,
     defaultValue: 0
   },
   pPDate: {
-    type: Sequelize.DATE
+    type: DATE
   },
   pDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   pDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 }, {
   timestamps: true
 })
 
-module.exports = StatusPedidosModel
+export default StatusPedidosModel

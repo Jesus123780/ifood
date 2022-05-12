@@ -1,20 +1,20 @@
-const Sequelize = require('sequelize')
-const { enCode, validationID } = require('../../utils/util')
-const connect = require('../../db')
+import { INTEGER, STRING, TINYINT, literal } from 'sequelize'
+import { enCode, validationID } from '../../utils/util'
+import connect from '../../db'
 const sequelize = connect()
-const ThirdPartiesModel = require('../thirdParties/ThirdPartiesModel')
+import ThirdPartiesModel from '../thirdParties/ThirdPartiesModel'
 
 // 
 
 const LawyersModel = sequelize.define('lawyers', {
   lId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) {return enCode(this.getDataValue(x))}
   },
   tpId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -27,29 +27,29 @@ const LawyersModel = sequelize.define('lawyers', {
     set(x) {this.setDataValue('tpId', validationID(x, false))}
   },
   lCollectionEntity: {
-    type: Sequelize.STRING,
+    type: STRING,
     allowNull: false
   },
   lFee: {
-    type: Sequelize.STRING,
+    type: STRING,
     allowNull: false
   },
   lState: {
-    type: Sequelize.TINYINT,
+    type: TINYINT,
     allowNull: false
   },
   lDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   lDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 },{
   timestamps: false
 })
 
-module.exports = LawyersModel
+export default LawyersModel

@@ -1,9 +1,10 @@
 'use strict'
 
-const Sequelize = require('sequelize')
+import Sequelize from 'sequelize'
 let sequelize = null
 
-module.exports = function connect () {
+// eslint-disable-next-line consistent-return
+export default function connect () {
   try {
     if (!sequelize) {
       sequelize = new Sequelize(
@@ -19,6 +20,7 @@ module.exports = function connect () {
     // sequelize.sync()
     return sequelize
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.log('/**** Error de conexión con base de datos, algunos datos erroneos o el .env no existe.')
   }
 }

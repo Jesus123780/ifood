@@ -1,44 +1,44 @@
-const Sequelize = require('sequelize')
-const { enCode } = require('../../utils/util')
-const connect = require('../../db')
+import { INTEGER, STRING, UUID, UUIDV4, literal } from 'sequelize'
+import { enCode } from '../../utils/util'
+import connect from '../../db'
 const sequelize = connect()
 
 const MessagesModel = sequelize.define('messages', {
   id: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) { return enCode(this.getDataValue(x)) }
   },
   content: {
-    type: Sequelize.STRING,
+    type: STRING,
     allowNull: false
   },
   uuid: {
-    type: Sequelize.UUID,
-    defaultValue: Sequelize.UUIDV4,
+    type: UUID,
+    defaultValue: UUIDV4,
     allowNull: false
   },
   from: {
-    type: Sequelize.STRING,
+    type: STRING,
     allowNull: false
   },
   to: {
-    type: Sequelize.STRING,
+    type: STRING,
     allowNull: false
   },
   aDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   aDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 }, {
   timestamps: false
 })
 
-module.exports = MessagesModel
+export default MessagesModel

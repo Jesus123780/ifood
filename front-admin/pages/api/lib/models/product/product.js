@@ -1,27 +1,27 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
+import { INTEGER, STRING, TEXT, TINYINT, literal } from 'sequelize'
+import connect from '../../db'
 const sequelize = connect()
-const SizeModel = require('../information/size')
-const colorModel = require('../information/color')
-const CountriesModel = require('../information/CountriesModel')
-const DepartmentsModel = require('../information/DepartmentsModel')
-const CitiesModel = require('../information/CitiesModel')
-const Feature = require('../feature/feature')
-const CategoryProductsModel = require('../Categories/CategoryProducts')
-const { enCode, validationID, validations } = require('../../utils/util')
+import SizeModel from '../information/size'
+import colorModel from '../information/color'
+import CountriesModel from '../information/CountriesModel'
+import DepartmentsModel from '../information/DepartmentsModel'
+import CitiesModel from '../information/CitiesModel'
+import Feature from '../feature/feature'
+import CategoryProductsModel from '../Categories/CategoryProducts'
+import { enCode, validationID } from '../../utils/util'
 
 sequelize.sync()
 
 const productModel = sequelize.define('product', {
   pId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) { return enCode(this.getDataValue(x)) }
   },
   // Talla
   sizeId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: true,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -33,7 +33,7 @@ const productModel = sequelize.define('product', {
   },
   // color
   colorId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: true,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -45,7 +45,7 @@ const productModel = sequelize.define('product', {
   },
   // Locations
   cId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: true,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -56,7 +56,7 @@ const productModel = sequelize.define('product', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   dId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
     allowNull: true,
@@ -67,7 +67,7 @@ const productModel = sequelize.define('product', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   ctId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
     allowNull: true,
@@ -78,7 +78,7 @@ const productModel = sequelize.define('product', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   fId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
     references: {
@@ -89,7 +89,7 @@ const productModel = sequelize.define('product', {
     set(x) { this.setDataValue('fId', validationID(x, false)) }
   },
   caId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
     references: {
@@ -110,104 +110,104 @@ const productModel = sequelize.define('product', {
   //     }
   // },
   pName: {
-    type: Sequelize.STRING,
+    type: STRING,
     allowNull: false
   },
   ProPrice: {
-    type: Sequelize.STRING,
+    type: STRING,
     allowNull: true
   },
   ProDescuento: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: true
   },
   ProUniDisponibles: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: true
   },
   ProDescription: {
-    type: Sequelize.TEXT,
+    type: TEXT,
     allowNull: true
   },
   pState: {
-    type: Sequelize.TINYINT,
+    type: TINYINT,
     allowNull: false
   },
   sTateLogistic: {
-    type: Sequelize.TINYINT,
+    type: TINYINT,
     allowNull: false
   },
   // Si el producto esta asegurado ( Protegido )
   ProProtegido: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: true
   },
   // GARANTÍA )
   ProAssurance: {
-    type: Sequelize.STRING,
+    type: STRING,
     allowNull: true
   },
   // Numero de estrellas
   ProStar: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: true
   },
   ProImage: {
-    type: Sequelize.STRING,
+    type: STRING,
     trim: true,
     allowNull: true
   },
   // ---------------------
   // Ancho
   ProWidth: {
-    type: Sequelize.INTEGER
+    type: INTEGER
   },
   // Alto
   ProHeight: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     defaultValue: 1
   },
   // Largo
   ProLength: {
-    type: Sequelize.STRING,
+    type: STRING,
     defaultValue: 1
   },
   // Peso
   ProWeight: {
-    type: Sequelize.STRING,
+    type: STRING,
     defaultValue: 1
   },
   // -----------------------------Listo-----------------------------
   // Cantidad
   ProQuantity: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: true
   },
   // Destacado
   ProOutstanding: {
-    type: Sequelize.INTEGER
+    type: INTEGER
   },
   // Entrega
   ProDelivery: {
-    type: Sequelize.INTEGER
+    type: INTEGER
   },
   // Entrega
   ProVoltaje: {
-    type: Sequelize.STRING,
+    type: STRING,
     allowNull: true
   },
   pDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   pDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 }, {
   timestamps: false
 })
 
-module.exports = productModel
+export default productModel

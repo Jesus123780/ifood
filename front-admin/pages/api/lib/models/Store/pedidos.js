@@ -1,23 +1,22 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
+import { INTEGER, TINYINT, STRING, DATE, literal } from 'sequelize'
+import connect from '../../db'
 const sequelize = connect()
-const { enCode } = require('../../utils/util')
-const productModelFood = require('../product/productFood')
-const Users = require('../Users')
-const ShoppingCard = require('./ShoppingCard')
-const Store = require('./Store')
+import { enCode } from '../../utils/util'
+import Users from '../Users'
+import ShoppingCard from './ShoppingCard'
+import Store from './Store'
 
 sequelize.sync()
 
 const pedidosModel = sequelize.define('storepedidos', {
   pdpId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) { return enCode(this.getDataValue(x)) }
   },
   id: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -28,7 +27,7 @@ const pedidosModel = sequelize.define('storepedidos', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   ShoppingCard: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: true,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -39,7 +38,7 @@ const pedidosModel = sequelize.define('storepedidos', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   idStore: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -50,46 +49,46 @@ const pedidosModel = sequelize.define('storepedidos', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   ppState: {
-    type: Sequelize.TINYINT,
+    type: TINYINT,
     allowNull: false,
     defaultValue: 0
   },
   pCodeRef: {
-    type: Sequelize.STRING(15),
+    type: STRING(15),
     allowNull: false
   },
   pPDate: {
-    type: Sequelize.DATE
+    type: DATE
     // defaultValue: Date.now()
   },
   pPStateP: {
-    type: Sequelize.TINYINT,
+    type: TINYINT,
     defaultValue: 0
   },
   payMethodPState: {
-    type: Sequelize.TINYINT,
+    type: TINYINT,
     defaultValue: 0
   },
   pPRecoger: {
-    type: Sequelize.TINYINT,
+    type: TINYINT,
     defaultValue: 0
   },
   unidProducts: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: true
   },
   pDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   pDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 }, {
   timestamps: true
 })
 
-module.exports = pedidosModel
+export default pedidosModel

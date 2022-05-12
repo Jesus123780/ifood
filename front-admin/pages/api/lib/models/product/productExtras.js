@@ -1,22 +1,22 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
+import { INTEGER, TINYINT, STRING, literal } from 'sequelize'
+import connect from '../../db'
 const sequelize = connect()
-const { enCode } = require('../../utils/util')
-const Store = require('../Store/Store')
-const productModelFood = require('./productFood')
+import { enCode } from '../../utils/util'
+import Store from '../Store/Store'
+import productModelFood from './productFood'
 
 sequelize.sync()
 
 const ExtraProductModel = sequelize.define('extrasproducts', {
   exPid: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) { return enCode(this.getDataValue(x)) }
   },
 
   pId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -27,7 +27,7 @@ const ExtraProductModel = sequelize.define('extrasproducts', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   idStore: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -38,36 +38,36 @@ const ExtraProductModel = sequelize.define('extrasproducts', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   exState: {
-    type: Sequelize.TINYINT,
+    type: TINYINT,
     allowNull: false,
     defaultValue: 0
   },
   extraName: {
-    type: Sequelize.STRING,
+    type: STRING,
     allowNull: false
   },
   extraPrice: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: true
   },
   // state
   state: {
-    type: Sequelize.TINYINT,
+    type: TINYINT,
     allowNull: false,
     defaultValue: 1
   },
   pDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   pDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 }, {
   timestamps: false
 })
 
-module.exports = ExtraProductModel
+export default ExtraProductModel

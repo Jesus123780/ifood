@@ -1,19 +1,19 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
-const { validationID, enCode } = require('../../utils/util')
+import { INTEGER, TINYINT, literal } from 'sequelize'
+import connect from '../../db'
+import { validationID, enCode } from '../../utils/util'
 const sequelize = connect()
-const SubModulesModel = require('../subModules/SubModulesModel')
-const Users = require('../UsersLogin/Users')
+import SubModulesModel from '../subModules/SubModulesModel'
+import Users from '../UsersLogin/Users'
 
 const UserPermitsModel = sequelize.define('userpermits', {
   upId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) {return enCode(this.getDataValue(x))}
   },
   id: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -25,7 +25,7 @@ const UserPermitsModel = sequelize.define('userpermits', {
     set(x) {this.setDataValue('id', validationID(x, false))}
   },
   smId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -37,24 +37,24 @@ const UserPermitsModel = sequelize.define('userpermits', {
     set(x) {this.setDataValue('smId', validationID(x, false))}
   },
   upState: {
-    type: Sequelize.TINYINT,
+    type: TINYINT,
     allowNull: false
   },
   upDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   upDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 }, {
   timestamps: false,
   hooks: {
-    afterBulkCreate: (model, options) => {return model}
+    afterBulkCreate: (model) => {return model}
   }
 })
 
-module.exports = UserPermitsModel
+export default UserPermitsModel

@@ -1,21 +1,21 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
+import { INTEGER, STRING, SMALLINT, literal } from 'sequelize'
+import connect from '../../db'
 const sequelize = connect()
-const { enCode, validationID } = require('../../utils/util')
+import { enCode, validationID } from '../../utils/util'
 
-const TypePQRArea = require('./TypPQRArea')
+import TypePQRArea from './TypPQRArea'
 
 // 
 
 const TypePQR = sequelize.define('typepqr', {
   thpId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get (x) { return this.getDataValue(x) ? enCode(this.getDataValue(x)) : null }
   },
   areaPqrId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -27,31 +27,31 @@ const TypePQR = sequelize.define('typepqr', {
     set (x) { this.setDataValue('thpId', validationID(x)) }
   },
   thpName: {
-    type: Sequelize.STRING(100),
+    type: STRING(100),
     allowNull: false
   },
   thpIcon: {
-    type: Sequelize.SMALLINT,
+    type: SMALLINT,
     allowNull: true,
     defaultValue: 1
   },
   thpState: {
-    type: Sequelize.SMALLINT,
+    type: SMALLINT,
     allowNull: true,
     defaultValue: 1
   },
   thpDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   thpDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 }, {
   timestamps: false
 })
 
-module.exports = TypePQR
+export default TypePQR

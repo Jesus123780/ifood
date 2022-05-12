@@ -1,23 +1,23 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
-const { enCode } = require('../../utils/util')
-const CitiesModel = require('../information/CitiesModel')
-const CountriesModel = require('../information/CountriesModel')
-const DepartmentsModel = require('../information/DepartmentsModel')
-const Users = require('../Users')
+import { INTEGER, STRING, TINYINT, literal } from 'sequelize'
+import connect from '../../db'
+import { enCode } from '../../utils/util'
+import CitiesModel from '../information/CitiesModel'
+import CountriesModel from '../information/CountriesModel'
+import DepartmentsModel from '../information/DepartmentsModel'
+import Users from '../Users'
 const sequelize = connect()
 
 sequelize.sync()
 
 const UserLocation = sequelize.define('userLocation', {
   locationId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) { return enCode(this.getDataValue(x)) }
   },
   id: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -29,7 +29,7 @@ const UserLocation = sequelize.define('userLocation', {
   },
   // Locations
   cId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: true,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -40,7 +40,7 @@ const UserLocation = sequelize.define('userLocation', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   dId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
     allowNull: true,
@@ -51,7 +51,7 @@ const UserLocation = sequelize.define('userLocation', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   ctId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
     allowNull: true,
@@ -63,39 +63,39 @@ const UserLocation = sequelize.define('userLocation', {
   },
   // latitud
   uLatitud: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: true
   },
   // longitude
   uLongitude: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: true
   },
   uLocationKnow: {
-    type: Sequelize.STRING,
+    type: STRING,
     allowNull: true
   },
   uPiso: {
-    type: Sequelize.TINYINT,
+    type: TINYINT,
     allowNull: false,
     defaultValue: 0
   },
   uLocationState: {
-    type: Sequelize.TINYINT,
+    type: TINYINT,
     defaultValue: 1
   },
   DatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   DatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 }, {
   timestamps: false
 })
 
-module.exports = UserLocation
+export default UserLocation

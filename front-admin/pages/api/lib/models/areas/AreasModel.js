@@ -1,18 +1,18 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
-const { enCode, validationID } = require('../../utils/util')
-const productModel = require('../product/product')
+import { INTEGER, STRING, SMALLINT, literal } from 'sequelize'
+import connect from '../../db'
+import { enCode, validationID } from '../../utils/util'
+import productModel from '../product/product'
 const sequelize = connect()
 
 const AreasModel = sequelize.define('areas', {
   aId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) { return enCode(this.getDataValue(x)) }
   },
   pId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -24,25 +24,25 @@ const AreasModel = sequelize.define('areas', {
     set(x) { this.setDataValue('pId', validationID(x, false)) }
   },
   aName: {
-    type: Sequelize.STRING(120),
+    type: STRING(120),
     allowNull: false
   },
   aState: {
-    type: Sequelize.SMALLINT,
+    type: SMALLINT,
     allowNull: false
   },
   aDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   aDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 },{
   timestamps: false
 })
 
-module.exports = AreasModel
+export default AreasModel

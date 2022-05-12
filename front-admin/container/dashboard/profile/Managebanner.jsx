@@ -40,7 +40,7 @@ export const Managebanner = () => {
       }
     }
 
-  }, [date, dataSchedule])
+  }, [])
 
   // QUERIES
   const [setALogoStore] = useMutation(CREATE_LOGO, {

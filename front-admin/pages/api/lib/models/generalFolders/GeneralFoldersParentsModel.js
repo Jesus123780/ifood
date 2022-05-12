@@ -1,18 +1,18 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
-const { enCode, validationID } = require('../../utils/util')
+import { INTEGER, SMALLINT, literal } from 'sequelize'
+import connect from '../../db'
+import { enCode, validationID } from '../../utils/util'
 const sequelize = connect()
-const GeneralFoldersModel = require('./GeneralFoldersModel')
+import GeneralFoldersModel from './GeneralFoldersModel'
 
 const GeneralFoldersParentsModel = sequelize.define('generalFoldersParents', {
   gfpId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) { return enCode(this.getDataValue(x)) }
   },
   gfId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -24,7 +24,7 @@ const GeneralFoldersParentsModel = sequelize.define('generalFoldersParents', {
     set(x) { this.setDataValue('gfId', validationID(x, false)) }
   },
   parentId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -36,27 +36,27 @@ const GeneralFoldersParentsModel = sequelize.define('generalFoldersParents', {
     set(x) { this.setDataValue('parentId', validationID(x, false)) }
   },
   gfpLevel: {
-    type: Sequelize.INTEGER(4),
+    type: INTEGER(4),
     allowNull: false,
     defaultValue: 1
   },
   gfpState: {
-    type: Sequelize.SMALLINT,
+    type: SMALLINT,
     allowNull: false,
     defaultValue: 1
   },
   gfpDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   gfpDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 }, {
   timestamps: false
 })
 
-module.exports = GeneralFoldersParentsModel
+export default GeneralFoldersParentsModel

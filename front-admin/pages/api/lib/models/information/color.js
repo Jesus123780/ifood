@@ -1,37 +1,37 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
+import { INTEGER, STRING, SMALLINT, DATE } from 'sequelize'
+import connect from '../../db'
 
 const sequelize = connect()
-const { enCode } = require('../../utils/util')
+import { enCode } from '../../utils/util'
 
 // 
 const colorModel = sequelize.define('color', {
   colorId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) { return this.getDataValue(x) ? enCode(this.getDataValue(x)) : null }
   },
   colorName: {
-    type: Sequelize.STRING(255),
+    type: STRING(255),
     allowNull: false
   },
   // CAMBIO DE ESTADO PARA BORRAR EL PRODUCTO
   colorState: {
-    type: Sequelize.SMALLINT,
+    type: SMALLINT,
     allowNull: false,
     defaultValue: 1
   },
   colorDatCre: {
-    type: Sequelize.DATE,
+    type: DATE,
     default: Date.now()
   },
   colorDatMod: {
-    type: Sequelize.DATE,
+    type: DATE,
     allowNull: true
   }
 }, {
   timestamps: false
 })
 
-module.exports = colorModel
+export default colorModel

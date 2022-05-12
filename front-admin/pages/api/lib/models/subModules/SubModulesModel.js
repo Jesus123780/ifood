@@ -1,19 +1,17 @@
-/* eslint-disable no-undef */
-/* eslint-disable @typescript-eslint/no-var-requires */
-const Sequelize = require('sequelize')
-const connect = require('../../db')
+import { INTEGER, STRING, TINYINT, literal } from 'sequelize'
+import connect from '../../db'
 const sequelize = connect()
-const ModulesModel = require('../modules/ModulesModel')
-const { enCode, validationID } = require('../../utils/util')
+import ModulesModel from '../modules/ModulesModel'
+import { enCode, validationID } from '../../utils/util'
 const SubModulesModel = sequelize.define('submodules', {
   smId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) {return enCode(this.getDataValue(x))}
   },
   mId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -25,33 +23,33 @@ const SubModulesModel = sequelize.define('submodules', {
     set(x) {this.setDataValue('mId', validationID(x, false))}
   },
   smName: {
-    type: Sequelize.STRING(100),
+    type: STRING(100),
     allowNull: false
   },
   smPath: {
-    type: Sequelize.STRING(50),
+    type: STRING(50),
     allowNull: false
   },
   smPriority: {
-    type: Sequelize.TINYINT,
+    type: TINYINT,
     allowNull: false
   },
   smState: {
-    type: Sequelize.TINYINT,
+    type: TINYINT,
     allowNull: false
   },
   smDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   smDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 }, {
   timestamps: false
 })
 
-module.exports = SubModulesModel
+export default SubModulesModel

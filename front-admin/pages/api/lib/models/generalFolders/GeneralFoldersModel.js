@@ -1,21 +1,21 @@
 'use strict'
 
-const Sequelize = require('sequelize')
-const connect = require('../../db')
+import { INTEGER, STRING, SMALLINT, literal } from 'sequelize'
+import connect from '../../db'
 const sequelize = connect()
-const ProductsModel = require('../product/product')
-const AreasModel = require('../areas/AreasModel')
-const { enCode, validationID } = require('../../utils/util')
+import ProductsModel from '../product/product'
+import AreasModel from '../areas/AreasModel'
+import { enCode, validationID } from '../../utils/util'
 
 const GeneralFoldersModel = sequelize.define('generalfolders', {
   gfId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) { return enCode(this.getDataValue(x)) }
   },
   pId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -27,7 +27,7 @@ const GeneralFoldersModel = sequelize.define('generalfolders', {
     set(x) { this.setDataValue('pId', validationID(x, false)) }
   },
   aId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -39,32 +39,32 @@ const GeneralFoldersModel = sequelize.define('generalfolders', {
     set(x) { this.setDataValue('aId', validationID(x, false)) }
   },
   gfName: {
-    type: Sequelize.STRING(60),
+    type: STRING(60),
     allowNull: false,
     defaultValue: 'New Folder'
   },
   gfLevel: {
-    type: Sequelize.INTEGER(4),
+    type: INTEGER(4),
     allowNull: false,
     defaultValue: 1
   },
   gfState: {
-    type: Sequelize.SMALLINT,
+    type: SMALLINT,
     allowNull: false,
     defaultValue: 1
   },
   gfDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   gfDatMod: {
     type:'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 }, {
   timestamps: false
 })
 
-module.exports = GeneralFoldersModel
+export default GeneralFoldersModel

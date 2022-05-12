@@ -1,24 +1,22 @@
-/* eslint-disable no-undef */
-/* eslint-disable @typescript-eslint/no-var-requires */
-const Sequelize = require('sequelize')
-const connect = require('../../db')
+import { INTEGER, TINYINT, literal } from 'sequelize'
+import connect from '../../db'
 const sequelize = connect()
-const { enCode, validationID } = require('../../utils')
-const UserModulesModel = require('../modules/UserModulesModel')
-const SubModulesModel = require('./SubModulesModel')
+import { enCode, validationID } from '../../utils'
+import UserModulesModel from '../modules/UserModulesModel'
+import SubModulesModel from './SubModulesModel'
 
 /**
  * @deprecated
  */
 const UserSubModulesModel = sequelize.define('usersubmodules', {
   usmId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) {return enCode(this.getDataValue(x))}
   },
   umdId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -30,7 +28,7 @@ const UserSubModulesModel = sequelize.define('usersubmodules', {
     set(x) {this.setDataValue('umdId', validationID(x, false))}
   },
   smId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -42,25 +40,25 @@ const UserSubModulesModel = sequelize.define('usersubmodules', {
     set(x) {this.setDataValue('smId', validationID(x, false))}
   },
   usmPriority: {
-    type: Sequelize.TINYINT,
+    type: TINYINT,
     allowNull: false
   },
   usmState: {
-    type: Sequelize.TINYINT,
+    type: TINYINT,
     allowNull: false
   },
   usmDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   usmDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 },{
   timestamps: false
 })
 
-module.exports = UserSubModulesModel
+export default UserSubModulesModel

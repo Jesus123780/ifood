@@ -2,8 +2,7 @@ import Sequelize from 'sequelize'
 import connect from '../../db'
 import Store from './Store'
 import Users from '../Users'
-import { enCode, validationID } from '../../utils/util'
-import StoryModel from './StoryModel'
+import { enCode } from '../../utils/util'
 
 const conn = connect()
 conn.sync()

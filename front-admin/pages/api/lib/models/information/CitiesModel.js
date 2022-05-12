@@ -1,20 +1,20 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
+import { INTEGER, STRING, SMALLINT, literal } from 'sequelize'
+import connect from '../../db'
 const sequelize = connect()
-const { enCode } = require('../../utils/util')
-const DepartmentsModel = require('./DepartmentsModel')
+import { enCode } from '../../utils/util'
+import DepartmentsModel from './DepartmentsModel'
 
 // 
 
 const CitiesModel = sequelize.define('cities', {
   ctId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) {return enCode(this.getDataValue(x))}
   },
   dId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -25,25 +25,25 @@ const CitiesModel = sequelize.define('cities', {
     get(x) {return enCode(this.getDataValue(x))}
   },
   cName: {
-    type: Sequelize.STRING(100),
+    type: STRING(100),
     allowNull: false
   },
   cState: {
-    type: Sequelize.SMALLINT,
+    type: SMALLINT,
     allowNull: false
   },
   cDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   cDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 }, {
   timestamps: false
 })
 
-module.exports = CitiesModel
+export default CitiesModel

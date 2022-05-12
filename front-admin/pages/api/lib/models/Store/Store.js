@@ -1,11 +1,11 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
-const { enCode } = require('../../utils/util')
-const CatStore = require('../information/CategorieStore')
-const CitiesModel = require('../information/CitiesModel')
-const CountriesModel = require('../information/CountriesModel')
-const DepartmentsModel = require('../information/DepartmentsModel')
-const Users = require('../Users')
+import { INTEGER, STRING, DATE } from 'sequelize'
+import connect from '../../db'
+import { enCode } from '../../utils/util'
+import CatStore from '../information/CategorieStore'
+import CitiesModel from '../information/CitiesModel'
+import CountriesModel from '../information/CountriesModel'
+import DepartmentsModel from '../information/DepartmentsModel'
+import Users from '../Users'
 const sequelize = connect()
 
 // sequelize.sync()
@@ -13,14 +13,14 @@ sequelize.sync()
 
 const Store = sequelize.define('store', {
   idStore: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) {return enCode(this.getDataValue(x))}
   },
   // Locations
   cId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     onUpdate: null,
     onDelete: null,
     references: {
@@ -30,7 +30,7 @@ const Store = sequelize.define('store', {
     get(x) { return this.getDataValue(x) ? enCode(this.getDataValue(x)) : null }
   },
   id: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     onUpdate: null,
     onDelete: null,
     unique: true,
@@ -41,7 +41,7 @@ const Store = sequelize.define('store', {
     get(x) { return this.getDataValue(x) ? enCode(this.getDataValue(x)) : null }
   },
   dId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     onUpdate: null,
     onDelete: null,
     references: {
@@ -51,7 +51,7 @@ const Store = sequelize.define('store', {
     get(x) { return this.getDataValue(x) ? enCode(this.getDataValue(x)) : null }
   },
   ctId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     onUpdate: null,
     onDelete: null,
     references: {
@@ -61,7 +61,7 @@ const Store = sequelize.define('store', {
     get(x) { return this.getDataValue(x) ? enCode(this.getDataValue(x)) : null }
   },
   catStore: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     onUpdate: null,
     onDelete: null,
     references: {
@@ -71,99 +71,99 @@ const Store = sequelize.define('store', {
     get(x) { return this.getDataValue(x) ? enCode(this.getDataValue(x)) : null }
   },
   neighborhoodStore: {
-    type: Sequelize.STRING,
+    type: STRING,
     require: true
   },
   Viaprincipal: {
-    type: Sequelize.STRING,
+    type: STRING,
     require: true
   },
   secVia: {
-    type: Sequelize.STRING,
+    type: STRING,
     require: false
   },
   storeOwner: {
-    type: Sequelize.STRING,
+    type: STRING,
     require: true
   },
   storeName: {
-    type: Sequelize.STRING,
+    type: STRING,
     require: true
   },
   emailStore: {
-    type: Sequelize.STRING,
+    type: STRING,
     require: true,
     trim: true,
     unique: true
   },
   storePhone: {
-    type: Sequelize.STRING,
+    type: STRING,
     require: true,
     trim: true
   },
   socialRaz: {
-    type: Sequelize.STRING
+    type: STRING
   },
   Image: {
-    type: Sequelize.STRING,
+    type: STRING,
     trim: true
   },
   ImageName: {
-    type: Sequelize.STRING,
+    type: STRING,
     trim: true
   },
   banner: {
-    type: Sequelize.STRING,
+    type: STRING,
     trim: true
   },
   documentIdentifier: {
-    type: Sequelize.STRING,
+    type: STRING,
     trim: true
   },
   uPhoNum: {
-    type: Sequelize.STRING(50)
+    type: STRING(50)
   },
   ULocation: {
-    type: Sequelize.STRING(100)
+    type: STRING(100)
   },
   upLat: {
-    type: Sequelize.STRING(30)
+    type: STRING(30)
   },
   upLon: {
-    type: Sequelize.STRING(30)
+    type: STRING(30)
   },
   uState: {
-    type: Sequelize.INTEGER(30)
+    type: INTEGER(30)
   },
   siteWeb: {
-    type: Sequelize.STRING,
+    type: STRING,
     trim: true
   },
   description: {
-    type: Sequelize.STRING,
+    type: STRING,
     trim: true
   },
   NitStore: {
-    type: Sequelize.STRING,
+    type: STRING,
     trim: true
   },
   typeRegiments: {
-    type: Sequelize.STRING,
+    type: STRING,
     trim: true
   },
   typeContribute: {
-    type: Sequelize.STRING,
+    type: STRING,
     trim: true
   },
   addressStore: {
-    type: Sequelize.STRING,
+    type: STRING,
     trim: true
   },
   createAt: {
-    type: Sequelize.DATE,
+    type: DATE,
     default: Date.now()
   }
 
 })
 
-module.exports = Store
+export default Store

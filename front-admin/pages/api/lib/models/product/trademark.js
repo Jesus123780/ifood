@@ -1,35 +1,35 @@
-const Sequelize = require('sequelize')
-const { enCode } = require('../../utils/util')
-const connect = require('../../db')
+import { INTEGER, STRING, DATE } from 'sequelize'
+import { enCode } from '../../utils/util'
+import connect from '../../db'
 const sequelize = connect()
 
 // 
 
 const trademarkModel = sequelize.define('trademark', {
   tId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get (x) { return this.getDataValue(x) ? enCode(this.getDataValue(x)) : null }
   },
   Name: {
-    type: Sequelize.STRING(255),
+    type: STRING(255),
     allowNull: false
   },
   Icon: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false
   },
   DatCre: {
-    type: Sequelize.DATE,
+    type: DATE,
     default: Date.now()
   },
   DatMod: {
-    type: Sequelize.DATE,
+    type: DATE,
     allowNull: true
   }
 }, {
   timestamps: false
 })
 
-module.exports = trademarkModel
+export default trademarkModel

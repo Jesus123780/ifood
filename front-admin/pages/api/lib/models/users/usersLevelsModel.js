@@ -1,35 +1,35 @@
-const Sequelize = require('sequelize')
-const { enCode } = require('../../utils/util')
-const connect = require('../../db')
+import { INTEGER, STRING, SMALLINT, literal } from 'sequelize'
+import { enCode } from '../../utils/util'
+import connect from '../../db'
 const sequelize = connect()
 
 const UsersLevelsModel = sequelize.define('userslevels', {
   ulId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) {return enCode(this.getDataValue(x))}
   },
   ulName: {
-    type: Sequelize.STRING(100),
+    type: STRING(100),
     allowNull: false
   },
   ulState: {
-    type: Sequelize.SMALLINT,
+    type: SMALLINT,
     allowNull: false
   },
   uldDtCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   ulDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 },{
   timestamps: false
 })
 
-module.exports = UsersLevelsModel
+export default UsersLevelsModel

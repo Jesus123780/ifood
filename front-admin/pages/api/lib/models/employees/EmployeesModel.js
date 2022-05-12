@@ -1,19 +1,19 @@
-const Sequelize = require('sequelize')
-const connect = require('../../db')
-const AreasModel = require('../areas/AreasModel')
+import { INTEGER, STRING, DATE, SMALLINT, literal } from 'sequelize'
+import connect from '../../db'
+import AreasModel from '../areas/AreasModel'
 const sequelize = connect()
-const { enCode, validationID } = require('../../utils/util')
-const ThirdPartiesModel = require('../thirdParties/ThirdPartiesModel')
+import { enCode, validationID } from '../../utils/util'
+import ThirdPartiesModel from '../thirdParties/ThirdPartiesModel'
 
 const EmployeesModel = sequelize.define('employees', {
   eId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) { return enCode(this.getDataValue(x)) }
   },
   aId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -25,7 +25,7 @@ const EmployeesModel = sequelize.define('employees', {
     set(x) { this.setDataValue('aId', validationID(x, false)) }
   },
   tpId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -37,50 +37,50 @@ const EmployeesModel = sequelize.define('employees', {
     set(x) { this.setDataValue('tpId', validationID(x, false)) }
   },
   eEnterprise: {
-    type: Sequelize.STRING(150)
+    type: STRING(150)
   },
   eSalary: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false
   },
   eCharge: {
-    type: Sequelize.STRING(50)
+    type: STRING(50)
   },
   typeContract: {
-    type: Sequelize.STRING(50)
+    type: STRING(50)
   },
   termContract: {
-    type: Sequelize.STRING(50)
+    type: STRING(50)
   },
   eDatAdm: {
-    type: Sequelize.DATE,
+    type: DATE,
     allowNull: false
   },
   eDatRet: {
-    type: Sequelize.DATE
+    type: DATE
   },
   eArl: {
-    type: Sequelize.STRING(100)
+    type: STRING(100)
   },
   eBoxComp: {
-    type: Sequelize.STRING(100)
+    type: STRING(100)
   },
   eState: {
-    type: Sequelize.SMALLINT,
+    type: SMALLINT,
     allowNull: false
   },
   eDatCre: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   eDatMod: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 },{
   timestamps: false
 })
 
-module.exports = EmployeesModel
+export default EmployeesModel

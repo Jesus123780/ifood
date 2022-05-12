@@ -1,20 +1,20 @@
 'use strict'
 
-const Sequelize = require('sequelize')
-const connect = require('../../db')
-const { enCode, validationID } = require('../../utils/util')
+import { INTEGER, STRING, SMALLINT, literal } from 'sequelize'
+import connect from '../../db'
+import { enCode, validationID } from '../../utils/util'
 const sequelize = connect()
-const EmployeesModel = require('./EmployeesModel')
+import EmployeesModel from './EmployeesModel'
 
 const EmployeesFoldersModel = sequelize.define('employeesFolders', {
   efId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
     get(x) { return enCode(this.getDataValue(x)) }
   },
   eId: {
-    type: Sequelize.INTEGER,
+    type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -26,32 +26,32 @@ const EmployeesFoldersModel = sequelize.define('employeesFolders', {
     set(x) { this.setDataValue('eId', validationID(x, false)) }
   },
   efName: {
-    type: Sequelize.STRING(60),
+    type: STRING(60),
     allowNull: false,
     defaultValue: 'New Folder'
   },
   efLevel: {
-    type: Sequelize.INTEGER(4),
+    type: INTEGER(4),
     allowNull: false,
     defaultValue: 1
   },
   efState: {
-    type: Sequelize.SMALLINT,
+    type: SMALLINT,
     allowNull: false,
     defaultValue: 1
   },
   efDatCre: {
     type: 'TIMESTAMP', 
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   },
   efDatMod: {
     type:'TIMESTAMP',
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: literal('CURRENT_TIMESTAMP'),
     allowNull: false
   }
 }, {
   timestamps: false
 })
 
-module.exports = EmployeesFoldersModel
+export default EmployeesFoldersModel
