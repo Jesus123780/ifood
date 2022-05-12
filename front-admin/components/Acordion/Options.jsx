@@ -15,10 +15,12 @@ const Options = ({ index, active, children, label, path, handleClick, icon }) =>
     setHeight(refButton.current.clientHeight - refMenu.current.clientHeight)
     setHeightMenu(refMenu.current.clientHeight)
     !!location.pathname.includes(path) && handleClick(index)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     setHeight(active ? (height + heightMenu) : refButton.current.clientHeight - refMenu.current.clientHeight)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active])
 
   return (

@@ -8,6 +8,6 @@ export const useGetProducts = () => {
   //  const { setAlertBox } = useContext(Context)
   useEffect(() => {
     setProducts(products)
-  }, [data])
+  }, [data, products])
   return [data, { loading }]
 }

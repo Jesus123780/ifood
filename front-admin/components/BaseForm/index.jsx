@@ -71,7 +71,7 @@ export const useFormTools = () => {
     }
 
     setErrorSubmit(errSub)
-  }, [errorForm, setErrorForm])
+  }, [errorForm, setAlertBox])
 
   useEffect(() => {return setCalledSubmit(false)}, [calledSubmit])
 

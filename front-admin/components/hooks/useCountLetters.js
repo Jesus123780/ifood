@@ -11,6 +11,7 @@ export const useCountLetters = () => {
 
   // Returns number of letters in a word
   // We make it slow by including a large and completely unnecessary loop
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const computeLetterCount = () => {
     let i = 0
     while (i < 1000000000) i++
@@ -19,7 +20,7 @@ export const useCountLetters = () => {
 
   // Memoize computeLetterCount so it uses cached return value if input array ...
   // ... values are the same as last time the function was run.
-  const letterCount = useMemo(() => {return computeLetterCount(word)}, [word])
+  const letterCount = useMemo(() => {return computeLetterCount(word)}, [computeLetterCount, word])
 
   // This would result in lag when incrementing the counter because ...
   // ... we'd have to wait for expensive function when re-rendering.

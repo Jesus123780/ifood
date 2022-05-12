@@ -25,7 +25,7 @@ export const CustomSlider = props => {
       }
     }, autoPlayTime)
     return () => {return clearTimeout(timer)}
-  }, [state])
+  }, [autoPlayTime, datafatures?.length, dispatch, state])
   return (
     <>
 

@@ -29,7 +29,7 @@ export const Layout = ({ children, watch, settings }) => {
       window.localStorage.setItem('longitude', longitude)
       window.localStorage.setItem('location', JSON.stringify(dataLocation))
     }
-  }, [latitude, longitude, timestamp, accuracy, speed])
+  }, [latitude, longitude, timestamp, accuracy, speed, setAlertBox, dataLocation])
   const NEW_NOTIFICATION = gql`
     subscription {
     newNotification
@@ -44,7 +44,7 @@ export const Layout = ({ children, watch, settings }) => {
     if (dataWS) {
       setAlertBox({ message: dataWS?.newNotification, duration: 30000 })
     }
-  }, [dataWS])
+  }, [dataWS, setAlertBox])
   return (
     <>
       <AlertBox err={error} />

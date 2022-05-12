@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { darkTheme, lightTheme } from '../../constants/theme'
 
 export const useTheme = () => {
@@ -11,22 +11,22 @@ export const useTheme = () => {
     setTheme(themeMode)
   }
 
-  const handleTheme = mode => {
+  const handleTheme = useCallback(mode => {
     mode === 'light' ? setMode(lightTheme, 'light') : setMode(darkTheme, mode)
     setKeyTheme(mode)
-  }
+  }, [])
   const [time, changeTime] = useState(new Date().toLocaleTimeString())
   useEffect(function () {
     setInterval(() => {
       changeTime(new Date().toLocaleTimeString())
     }, 1000)
     if (time > 10) setMode(darkTheme)
-  }, [])
+  }, [time])
   useEffect(() => {
     const localTheme = window.localStorage.getItem('theme')
     localTheme ? handleTheme(localTheme) : handleTheme('light')
     setMountedComponent(true)
-  }, [])
+  }, [handleTheme])
 
   return [theme, handleTheme, mountedComponent, { keyTheme }]
 }

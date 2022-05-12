@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types'
-import { useState } from 'react'
 import moment from 'moment'
 import { ContentInfo, Text, TextContent } from './style'
 import { ContainerHead, ContainerUpload, InputText, ImgContainer, Form, Container, Card } from './styled'
 import { RippleButton } from '../Ripple'
 const UserProfileSettings = ({ handleSubmit, onChange, dataForm }) => {
-  const [showModal, setShowModal] = useState(false)
   return <div>
     <Container>
       {/* <RippleButton margin='40px 0' onClick={() => { return setShowModal(!showModal) }}>Registrar Ubicación</RippleButton> */}

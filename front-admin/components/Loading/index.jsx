@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 import { BGColor, PColor } from 'public/colors'
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
-import { LoadingBabel } from './LoadingBabel'
 // import './style.css'
 export const Loading = () => {
   return (

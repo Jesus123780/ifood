@@ -40,7 +40,7 @@ const Aside = () => {
         })
       })
 
-  }, [client])
+  }, [client, location])
   const [dataStore] = useStore()
   const { storeName, idStore, uState } = dataStore || {}
   const data = [

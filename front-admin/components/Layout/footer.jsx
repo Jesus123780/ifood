@@ -9,7 +9,7 @@ export const Footer = () => {
   const { setAlertBox } = useContext(Context)
   useEffect(() => {
     setAlertBox({ message: '', color: 'success' })
-  }, [])
+  }, [setAlertBox])
   return (
     <>
       <FooterComponent>

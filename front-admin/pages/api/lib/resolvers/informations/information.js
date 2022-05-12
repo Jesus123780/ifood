@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ApolloError } from 'apollo-server-micro'
 import CatStore from '../../models/information/CategorieStore'
 import CitiesModel from '../../models/information/CitiesModel'
@@ -112,6 +113,7 @@ export const createRoad = async (_root, { input }) => {
 }
 // eslint-disable-next-line consistent-return
 export const editRoad = async (_root, { input }) => {
+  const { rId } = input || {}
   try {
     /** Editar el registro del país */
     // eslint-disable-next-line no-undef

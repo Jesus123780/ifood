@@ -5,6 +5,7 @@ import { ContentIcon } from './styled'
 export const Rate = ({ count, rating, color, onRating, size, noHover }) => {
   const [hoverRating, setHoverRating] = useState(0)
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getColor = index => {
     if (hoverRating >= index) {
       return color?.filled
@@ -32,7 +33,7 @@ export const Rate = ({ count, rating, color, onRating, size, noHover }) => {
         )})}
     </ContentIcon>
     )
-  }, [count, rating, hoverRating])
+  }, [count, getColor, size, onRating, noHover])
 
   return <div>{starRating}</div>
 }

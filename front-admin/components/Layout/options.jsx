@@ -34,7 +34,7 @@ export const Options = () => {
         setError(true)
         setAlertBox({ message: 'Ocurrió un error al cerrar session' })
       })
-  }, [client])
+  }, [client, location, setAlertBox])
 
   useEffect(() => {
     const body = document.body

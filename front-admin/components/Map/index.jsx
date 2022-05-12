@@ -61,12 +61,12 @@ export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
     setMap(map)
   }, [])
   const [markers, setMarkers] = React.useState([])
-  const onMapClick = React.useCallback(e => {
+  const onMapClick = useCallback(e => {
     setMarkers(() => {return [{
       lat: e.latLng.lat(),
       lng: e.latLng.lng()
     }]})
-  })
+  }, [])
   const [saveLocation] = useMutation(SAVE_LOCATION_USER)
   const handleSave = async () => {
     return saveLocation({

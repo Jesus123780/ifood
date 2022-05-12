@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { ApolloError } from 'apollo-server-micro'
 import CategoryProductsModel from '../../models/Categories/CategoryProducts'
 import { deCode, getAttributes } from '../../utils/util'

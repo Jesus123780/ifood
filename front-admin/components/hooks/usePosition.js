@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 const defaultSettings = {
   enableHighAccuracy: false,
@@ -20,9 +20,9 @@ export const usePosition = (watch = false, settings = defaultSettings) => {
     })
   }
 
-  const onError = () => {
+  const onError = useCallback(() => {
     setError(error?.message)
-  }
+  }, [error?.message])
 
   useEffect(() => {
     if (!navigator || !navigator.geolocation) {
@@ -42,14 +42,8 @@ export const usePosition = (watch = false, settings = defaultSettings) => {
     }
 
     // eslint-disable-next-line consistent-return
-    return () => {return watcher && navigator.geolocation.clearWatch(watcher)}
-  }, [
-    settings,
-    settings.enableHighAccuracy,
-    settings.timeout,
-    settings.maximumAge,
-    watch
-  ])
+    return () => { return watcher && navigator.geolocation.clearWatch(watcher) }
+  }, [settings, settings.enableHighAccuracy, settings.timeout, settings.maximumAge, watch, onError])
 
   return { ...position, error }
 }

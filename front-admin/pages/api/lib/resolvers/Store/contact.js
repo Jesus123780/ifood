@@ -19,7 +19,7 @@ export const getAllContacts = async (_, { idStore }, ctx, info) => {
     const data = await contacts.findAll({
       attributes,
       where: {
-        idStore: deCode(ctx.restaurant),
+        idStore: idStore ? deCode(idStore) : deCode(ctx.restaurant),
         id: deCode(ctx.User.id),
         cntState: { [Op.gt]: 0 }
       }

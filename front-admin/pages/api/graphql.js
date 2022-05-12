@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-console */
 /* eslint-disable no-undef */
 import { ApolloServer } from 'apollo-server-micro'
 import httpHeadersPlugin from 'apollo-server-plugin-http-headers'

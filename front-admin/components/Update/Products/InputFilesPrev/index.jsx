@@ -40,7 +40,7 @@ export const InputFilesProductos = ({ onChange, reset }) => {
       setImages([])
       setPreviewImg([])
     }
-  }, [])
+  }, [reset])
 
   const handleDelete = (e, item, index) => {
     e.stopPropagation()

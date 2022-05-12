@@ -12,7 +12,56 @@ export const CardProducts = ({ pName, del, edit, key, ProDescription, ValueDeliv
   const router = useRouter()
   return (
     <Card key={key}>
-      Hola
+      {del && <ButtonCard grid={false} onClick={handleDelete}>
+        <IconDelete color={PColor} size={20} />
+        <ActionName >
+                    Eliminar
+        </ActionName>
+      </ButtonCard>}
+      {edit && <ButtonCard
+        delay='.1s'
+        grid={false}
+        onClick={() => {return router.push(`/producto/editar/${pId}`)}}
+        top={'80px'}
+      >
+        <IconEdit color={PColor} size={20} />
+        <ActionName>
+                    Editar
+        </ActionName>
+      </ButtonCard>}
+      <div className='dish-card__info'>
+        {ValueDelivery && <span className='description'>Domicilio $ {numberFormat(ValueDelivery || 0)}</span>}
+
+        <div className='flex-wrap'>
+          <span className='price'>$ {ProPrice ? numberFormat(ProPrice) : 'Gratis'}</span>
+          {ProDescuento !== 0 && <span className='price discount'>{`$ ${numberFormat(ProDescuento)}`}</span>}
+        </div>
+      </div>
+      <div className='info-price'>
+        <span>
+          <h3 className='dish-card__description'>{pName}</h3>
+          <span className='description'>{ProDescription}</span>
+        </span>
+        <ContainerActions>
+          {render && <RippleButton
+            bgColor={BGColor}
+            margin='5px auto'
+            onClick={() => {return onClick()}}
+            padding='0'
+            widthButton={widthButton}
+          >{render}</RippleButton>}
+        </ContainerActions>
+      </div>
+      <div className='dish-card__container-image'>
+        <Image
+          alt={pName}
+          blurDataURL='/images/DEFAULTBANNER.png'
+          className='store_image'
+          layout='fill'
+          objectFit='cover'
+          src={ProImage || '/images/dish-image-placeholder.png'}
+        />
+      </div>
     </Card>
   )
 }
@@ -71,8 +120,8 @@ export const ButtonCard = styled.button`
     width: 50px;
     height: 50px;
     z-index: 999; 
-    top: ${({ top }) => { return top ? top : '20px' }};
-    transition-delay: ${({ delay }) => { return delay ? delay : 'auto' }};
+    top: ${({ top }) => {return top ? top : '20px'}};
+    transition-delay: ${({ delay }) => {return delay ? delay : 'auto'}};
     max-height: 50px;
     max-width: 50px;
     border-radius: 50%;
@@ -84,9 +133,8 @@ export const ButtonCard = styled.button`
         opacity: 1;
         z-index: 900;
     }
-    ${props => {
-    return props.grid && css`
-        top: ${({ top }) => { return top ? top : '80px' }};
+    ${props => {return props.grid && css`
+        top: ${({ top }) => {return top ? top : '80px'}};
         `}
 }
 `

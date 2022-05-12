@@ -49,7 +49,7 @@ export const SliderAreas = props => {
       }
     }, autoPlayTime)
     return () => {return clearTimeout(timer)}
-  }, [state])
+  }, [autoPlayTime, finalDataAreas?.length, state])
   return (
     <>
 

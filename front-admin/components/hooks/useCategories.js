@@ -7,6 +7,6 @@ export const useCategories = () => {
   const [categories, setCategories] = useState(data)
   useEffect(() => {
     setCategories(categories)
-  }, [data])
+  }, [categories, data])
   return [data, { loading }]
 }

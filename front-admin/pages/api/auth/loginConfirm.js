@@ -3,6 +3,7 @@
 import withSession from '../../../apollo/session'
 import { LoginEmailConfirmation } from '../lib/resolvers/users/user'
 
+// eslint-disable-next-line consistent-return
 export default withSession(async (req, res) => {
   const { email, otp } = req.body
   try {

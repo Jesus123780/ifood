@@ -8,6 +8,6 @@ export const useGetAreas = () => {
   //  const { setAlertBox } = useContext(Context)
   useEffect(() => {
     setAreas(areas)
-  }, [data])
+  }, [areas, data])
   return [data, { loading }]
 }

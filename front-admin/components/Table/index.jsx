@@ -61,6 +61,7 @@ export const Table = ({ titles = [], bgRow, data, pointer, renderBody = [], entr
     const indexLastElem = properties.currentPage * properties.entriesValue
     const indexFirstElem = indexLastElem - properties.entriesValue
     setProperties({ ...properties, indexLastElem, indexFirstElem })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [properties.entriesValue, properties.currentPage, data])
 
   const handleEntries = event => {

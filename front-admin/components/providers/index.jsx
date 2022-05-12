@@ -33,7 +33,7 @@ export const Providers = () => {
         // toDate,
       }
     })
-  }, [dataProvider])
+  }, [data?.getAllProviders, dataProvider, getAllProviders])
   return (
     <Container>
       <RippleButton onClick={() => { return OPEN_MODAL.setState(!OPEN_MODAL.state) }}>Crear nuevo</RippleButton>

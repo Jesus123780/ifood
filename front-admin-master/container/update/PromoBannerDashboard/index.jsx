@@ -15,7 +15,6 @@ export const PromoBannerDashboard = ({ setAlertBox }) => {
     const { data } = useQuery(GET_BANNER_PROMO_DASHBOARD, {
         // context: { clientName: "admin-master" }
     })
-    console.log(data)
     // ------------ HANDLES ------------
     const handleChange = (e, error) => {
         setValues({ ...values, [e.target.name]: e.target.value })
@@ -42,7 +41,6 @@ export const PromoBannerDashboard = ({ setAlertBox }) => {
             setAlertBox({ message: `${error.message}`, duration: 7000 })
         }
     }
-    console.log(data)
     return (
         <div>
             <form onSubmit={handleRegister}>
