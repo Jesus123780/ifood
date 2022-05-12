@@ -5,8 +5,6 @@ import { enCode } from '../../utils/util'
 import Users from '../Users'
 import Store from '../Store/Store'
 
-
-
 const Contract = sequelize.define('contract', {
   ctrId: {
     type: INTEGER,

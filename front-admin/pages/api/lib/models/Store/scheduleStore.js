@@ -6,7 +6,6 @@ const sequelize = connect()
 import { enCode } from '../../utils/util'
 
 
-
 const ScheduleStore = sequelize.define('storechedules', {
   schId: {
     type: INTEGER,

@@ -1,3 +1,4 @@
+import { EmptyLayout } from 'pages/_app'
 import ContractSignature from '../../container/Restaurant/FirmaElcontrato'
 
 export default function RestaurantPlanesView() {
@@ -5,3 +6,5 @@ export default function RestaurantPlanesView() {
     <ContractSignature />
   )
 }
+
+RestaurantPlanesView.Layout = EmptyLayout

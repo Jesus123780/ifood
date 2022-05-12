@@ -19,10 +19,16 @@ export const LastedStatistic = ({ idStore }) => {
   const [stars, setStars] = useState(null)
   useEffect(() => {
     getAllRatingStar()
-    getAllVisitorStore({ variables: { fromDate: moment(dt.setDate(dt.getDate() - 90)).format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD') } })
+    getAllVisitorStore({
+      variables:
+      {
+        fromDate: moment(dt.setDate(dt.getDate() - 90)).format('YYYY-MM-DD'),
+        toDate: moment().format('YYYY-MM-DD')
+      }
+    }).catch(() => {return {}})
     getMinPrice()
     let suma = 0
-    const avg = dataStartStore?.getAllRatingStar?.map((x, index) => {return (suma += x.rScore) / (index + 1)})
+    const avg = dataStartStore?.getAllRatingStar?.map((x, index) => { return (suma += x.rScore) / (index + 1) })
     !!avg && setStars((avg[avg.length - 1])?.toFixed(1))
   }, [dataStartStore, dataMinPedido, VISITOR])
 
@@ -32,7 +38,7 @@ export const LastedStatistic = ({ idStore }) => {
   })
   useEffect(() => {
     let suma = 0
-    const avg = data?.getAllSalesStoreStatistic?.map((x, index) => {return (suma += x.pSState === 4) / (index + 1)})
+    const avg = data?.getAllSalesStoreStatistic?.map((x, index) => { return (suma += x.pSState === 4) / (index + 1) })
     const val = avg?.length > 0 && ((avg[avg.length - 1])?.toFixed(2))
     setValueSales(val)
   }, [data])
@@ -87,15 +93,15 @@ export const UserVisit = ({ days = 90 }) => {
 const Text = styled.h3`
     margin: 0;
     color: #3f3e3e;
-    font-size: ${({ size }) => {return size || '1.5rem'}};
-    text-align:  ${({ align }) => {return align || 'start'}};
+    font-size: ${({ size }) => { return size || '1.5rem' }};
+    text-align:  ${({ align }) => { return align || 'start' }};
     height: min-content;
-    ${({ lineHeight }) => {return lineHeight && css`line-height: ${lineHeight};`}}
+    ${({ lineHeight }) => { return lineHeight && css`line-height: ${lineHeight};` }}
     font-weight: 400;
-    ${({ weight }) => {return weight && css`font-weight: ${weight};`}}
-    ${({ padding }) => {return padding && css`padding: ${padding};`}}
-    margin: ${({ margin }) => {return margin || '0'}};
-    color: ${({ color }) => {return color || '#3f3e3e   '}};
-    font-family: ${({ font }) => {return font || 'PFont-Light'}};
+    ${({ weight }) => { return weight && css`font-weight: ${weight};` }}
+    ${({ padding }) => { return padding && css`padding: ${padding};` }}
+    margin: ${({ margin }) => { return margin || '0' }};
+    color: ${({ color }) => { return color || '#3f3e3e   ' }};
+    font-family: ${({ font }) => { return font || 'PFont-Light' }};
     word-break: break-word;
 `

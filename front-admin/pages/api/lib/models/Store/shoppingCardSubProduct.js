@@ -7,7 +7,6 @@ import Users from '../Users'
 import productsOptionalExtra from '../../models/product/productsOptionalExtra'
 
 
-
 const SubProducts = sequelize.define('subproducts', {
   subProductsId: {
     type: INTEGER,

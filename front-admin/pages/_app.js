@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import '../styles/globals.css'
 import Context from '../context/Context'
-import { Layout } from '../components/Layout'
+import { Layout as MainLayout } from '../components/Layout'
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '../apollo/apolloClient'
 import { GlobalStyle } from '../public/styles/GlobalStyle'
@@ -16,6 +16,7 @@ import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps)
+  const Layout = Component.Layout ? Component.Layout : MainLayout
   return (
     <Context>
       <ApolloProvider client={apolloClient}>
@@ -39,4 +40,10 @@ export default function App({ Component, pageProps }) {
 App.propTypes = {
   Component: PropTypes.any,
   pageProps: PropTypes.any
+}
+
+export const EmptyLayout = ({ children }) => {return <div>{children}</div>}
+
+EmptyLayout.propTypes = {
+  children: PropTypes.node
 }

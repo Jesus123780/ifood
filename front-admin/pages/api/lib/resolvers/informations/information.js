@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ApolloError } from 'apollo-server-micro'
 import CatStore from '../../models/information/CategorieStore'

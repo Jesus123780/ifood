@@ -14,7 +14,6 @@ import Store from '../Store/Store'
 import catProducts from '../Store/cat'
 
 
-
 const productModelFood = sequelize.define('productmodelfood', {
   pId: {
     type: INTEGER,

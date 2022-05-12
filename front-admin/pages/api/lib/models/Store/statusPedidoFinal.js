@@ -6,7 +6,6 @@ import Users from '../Users'
 import Store from './Store'
 
 
-
 const StatusPedidosModel = sequelize.define('statuspedidos', {
   stPId: {
     type: INTEGER,

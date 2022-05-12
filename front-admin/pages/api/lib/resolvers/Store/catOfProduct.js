@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Op } from 'sequelize'
 import productModelFood from '../../models/product/productFood'
 import catProducts from '../../models/Store/cat'

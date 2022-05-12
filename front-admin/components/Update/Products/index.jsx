@@ -140,7 +140,6 @@ export const Products = ({
               size={20}
               value={values.rating}
             />
-            <img />
             <InputHook
               label='Ancho'
               name='Width'

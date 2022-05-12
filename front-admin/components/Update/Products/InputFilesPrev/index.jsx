@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useReducer, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { ButtonDelete, DropZone, FileText, Image, ImgCont, InputFile, Button, Preview, Box, Tooltip, PreviewLoader } from './styled'
@@ -75,7 +77,7 @@ export const InputFilesProductos = ({ onChange, reset }) => {
     }
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [state, dispatch] = useReducer(reducer, {
+  const [_, dispatch] = useReducer(reducer, {
     currentIndex: 0,
     data: [
       { id: 1, name: 'Slide 5', image: images[0] },

@@ -8,7 +8,9 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:@javascript-eslint/recommended"
+    "plugin:@javascript-eslint/recommended",
+    "eslint:recommended", "next"
+
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -28,7 +30,17 @@
       "version": "detect"
     }
   },
+
   "rules": {
+    "import/no-anonymous-default-export": ["error", {
+      "allowArray": false,
+      "allowArrowFunction": false,
+      "allowAnonymousClass": false,
+      "allowAnonymousFunction": false,
+      "allowCallExpression": true, // The true value here is for backward compatibility
+      "allowLiteral": false,
+      "allowObject": true // anonymous-default-export
+    }],
     // react hooks validations
     "react-hooks/exhaustive-deps": "warn",
     "react-hooks/rules-of-hooks": "error",

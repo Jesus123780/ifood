@@ -182,7 +182,7 @@ export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
   }, [dataProduct])
   useEffect(() => {
     productFoodsAll({ variables: { max: showMore } })
-  }, [showMore])
+  }, [productFoodsAll, showMore])
   return (
     <>
       <AwesomeModal

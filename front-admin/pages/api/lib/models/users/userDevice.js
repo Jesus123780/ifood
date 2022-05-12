@@ -5,7 +5,6 @@ import Users from '../Users'
 const sequelize = connect()
 
 
-
 const UserDeviceModel = sequelize.define('userdevice', {
   dId: {
     type: INTEGER,

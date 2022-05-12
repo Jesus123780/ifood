@@ -8,8 +8,8 @@ import { deCode, getAttributes } from '../../utils/util'
 import { deleteOneItem, getOneStore } from './store'
 import { Op } from 'sequelize'
 
-export const createOnePedidoStore = async (_, { input }, ctx) => {
-  const { id, idStore, ShoppingCard, change, pickUp, pCodeRef, payMethodPState, pPRecoger } = input || {}
+export const createOnePedidoStore = async (_, { input }) => {
+  const { id, idStore, ShoppingCard, pCodeRef, payMethodPState, pPRecoger } = input || {}
   try {
     await pedidosModel.create({
       ...input,

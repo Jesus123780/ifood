@@ -93,7 +93,6 @@ export const Kit = ({
               size={20}
               value={values.rating}
             />
-            <img />
             <InputHooks
               label='Ancho'
               name='Width'

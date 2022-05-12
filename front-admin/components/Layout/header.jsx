@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { IconLogo, IconSales } from '../../public/icons'

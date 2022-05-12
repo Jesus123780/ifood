@@ -107,11 +107,12 @@ module.exports = (phase) => {
     ]
   }
   const assetPrefix = isProd ? 'https://cdn.mydomain.com' : ''
+  const images = {
+    domains: ['http2.mlstatic.com', 'localhost', 'server-image-food.herokuapp.com', '*']
+  }
   return {
     env,
-    images: {
-      domains: ['http2.mlstatic.com', 'localhost', 'server-image-food.herokuapp.com']
-    },
+    images, 
     headers,
     nextConfig,
     basePath,

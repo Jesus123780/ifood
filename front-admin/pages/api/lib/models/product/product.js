@@ -11,7 +11,6 @@ import CategoryProductsModel from '../Categories/CategoryProducts'
 import { enCode, validationID } from '../../utils/util'
 
 
-
 const productModel = sequelize.define('product', {
   pId: {
     type: INTEGER,

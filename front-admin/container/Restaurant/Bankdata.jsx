@@ -1,3 +1,4 @@
+import { EmptyLayout } from 'pages/_app'
 import PropTypes from 'prop-types'
 import { useFormTools } from '../../components/BaseForm'
 import InputHooks from '../../components/InputHooks/InputHooks'

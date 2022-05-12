@@ -6,6 +6,7 @@ import { EColor } from '../../public/colors'
 import OTPInput from '../../components/OTPInputHook'
 import { useRouter } from 'next/router'
 import { decodeToken, getTokenState } from '../../utils'
+import { EmptyLayout } from 'pages/_app'
 
 export const EmailVerifyCode = ({ code }) => {
   const router = useRouter()
@@ -53,3 +54,5 @@ export const EmailVerifyCode = ({ code }) => {
 EmailVerifyCode.propTypes = {
   code: PropTypes.string
 }
+
+EmailVerifyCode.Layout = EmptyLayout

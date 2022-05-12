@@ -4,8 +4,6 @@ import { enCode } from '../../utils/util'
 import Users from '../Users'
 const sequelize = connect()
 
-
-
 const catOfProducts = sequelize.define('categoriadeproductos', {
   cpId: {
     type: INTEGER,

@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ApolloError } from 'apollo-server-micro'
 import catOfProducts from '../../models/Store/catOfProducts'
 import { deCode, getAttributes } from '../../utils/util'
@@ -11,7 +13,6 @@ export const createCatOfProducts = async (_root, { input }, context ) => {
     return error
   }
 }
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getAllCatOfProducts = async (root, { idStore }, context, info) => {
   try {
     const attributes = getAttributes(catOfProducts, info)

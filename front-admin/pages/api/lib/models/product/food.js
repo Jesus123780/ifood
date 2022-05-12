@@ -6,7 +6,6 @@ import Users from '../Users'
 import Store from '../Store/Store'
 
 
-
 const productModel = sequelize.define('productstore', {
   pfId: {
     type: INTEGER,

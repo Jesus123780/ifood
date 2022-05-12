@@ -29,7 +29,7 @@ export const Layout = ({ children, watch, settings }) => {
       window.localStorage.setItem('longitude', longitude)
       window.localStorage.setItem('location', JSON.stringify(dataLocation))
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const NEW_NOTIFICATION = gql`
     subscription {
@@ -45,14 +45,14 @@ export const Layout = ({ children, watch, settings }) => {
     if (dataWS) {
       setAlertBox({ message: dataWS?.newNotification, duration: 30000 })
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataWS])
   return (
     <>
       <AlertBox err={error} />
-      <Main aside={!['/', '/login', '/entrar', '/restaurante', '/entrar/email', '/contact', '/varify-email', '/checkout/[id]', '/add-payment-method', '/register', '/terms_and_conditions', '/email/confirm/[code]', '/forgotpassword', '/teams/invite/[id]', '/autho', '/contact-us', '/switch-options'].find(x => {return x === location.pathname})} >
-        {!isSession && !['/login', '/', '/entrar', '/restaurante', '/entrar/email', '/entrar/email/[verify]', '/register', '/varify-email', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => {return x === location.pathname}) && <Header />}
-        {!['/', '/login', '/entrar', '/entrar/email', '/register', '/terms_and_conditions', '/restaurante', '/varify-email', '/checkout/[id]', '/add-payment-method', '/teams/invite/[id]', '/forgotpassword', '/autho', '/contact-us', '/email/confirm/[code]', '/switch-options', '/contact', '/teams/invite/[id]'].find(x => {return x === location.pathname}) && (<Aside />)}
+      <Main aside={!['/'].find(x => { return x === location.pathname })} >
+        {!isSession && <Header />}
+        <Aside />
         <div style={{ gridArea: 'main', overflowY: 'auto' }}>
           {children}
           <AwesomeModal
@@ -63,8 +63,8 @@ export const Layout = ({ children, watch, settings }) => {
             footer={false}
             header={true}
             height='95vh'
-            onCancel={() => {return false}}
-            onHide={() => {return setSalesOpen(!salesOpen)} }
+            onCancel={() => { return false }}
+            onHide={() => { return setSalesOpen(!salesOpen) }}
             padding={0}
             show={salesOpen}
             size='large'
@@ -78,7 +78,7 @@ export const Layout = ({ children, watch, settings }) => {
         {/* {!['/login', '/register', '/varify-email', '/restaurante', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => {return x === location.pathname}) && <Footer />} */}
         <div style={{ gridArea: 'right' }}>
           <LateralModal openSchedule={openSchedule}>
-            <BtnClose onClick={() => {return setOpenSchedule(!openSchedule)}}><IconCancel size='20px' /></BtnClose>
+            <BtnClose onClick={() => { return setOpenSchedule(!openSchedule) }}><IconCancel size='20px' /></BtnClose>
             <ScheduleTimings />
           </LateralModal>
         </div>
@@ -112,12 +112,13 @@ const Main = styled.main`
         grid-template-columns: min-content 1fr;
     }
     @media (min-width: 960px) {
-        ${props => {return !props.aside &&
-        css`
+        ${props => {
+    return !props.aside &&
+      css`
                 /* grid-template-columns: 1fr; */
                 display: flex;
                 flex-direction: column;
                 height: 100%;
-            `} };
+            `}};
     }
 `

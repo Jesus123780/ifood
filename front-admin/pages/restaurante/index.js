@@ -4,10 +4,13 @@ import Store from 'pages/api/lib/models/Store/Store'
 import { deCode } from 'pages/api/lib/utils/util'
 import { Restaurant } from '../../container/Restaurant'
 import jwt from 'jsonwebtoken'
+import { EmptyLayout } from 'pages/_app'
 
 export default function RestaurantView() {
   return (<Restaurant />)
 }
+RestaurantView.Layout = EmptyLayout
+
 export const getServerSideProps = withSession(async function ({ req }) {
   // eslint-disable-next-line no-undef
   let User = {}

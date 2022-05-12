@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 export default ({ username, code, company }) => {
   return `<!DOCTYPE html>
 

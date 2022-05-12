@@ -25,7 +25,7 @@ export const updateUserLocations = async (_root, input, context) => {
   }
 }
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const deleteUserLocations = async (_root, { uLocationState, locationId }, _context, _info) => {
+export const deleteUserLocations = async (_root, { uLocationState, locationId }) => {
   try {
     await UserLocation.update({ uLocationState: uLocationState === 1 ? 0 : 1 }, { where: { locationId: deCode(locationId) } })
     return {

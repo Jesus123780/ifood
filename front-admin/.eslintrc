@@ -1,7 +1,8 @@
 {
     "extends": [
         "next/babel",
-        "plugin:react-hooks/recommended"
+        "plugin:react-hooks/recommended",
+        "eslint:recommended", "next"
     ],
     "globals": {
         "process": true

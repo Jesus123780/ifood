@@ -7,7 +7,6 @@ import ShoppingCard from './ShoppingCard'
 import Store from './Store'
 
 
-
 const pedidosModel = sequelize.define('storepedidos', {
   pdpId: {
     type: INTEGER,

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable consistent-return */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ApolloError } from 'apollo-server-micro'
@@ -33,7 +34,7 @@ export const DeleteExtFoodSubsOptional = async (_root, { state, opSubExPid }, _c
   }
 
 }
-export const updateExtProductFoods = async (_root, { input }, context) => {
+export const updateExtProductFoods = async (_root, { input }) => {
   const { exPid, pId, exState, extraName, extraPrice, code } = input
   let state
   try {
@@ -57,7 +58,7 @@ export const updateExtProductFoods = async (_root, { input }, context) => {
 }
 // OPTIONAL PRODUCTS
 export const updateExtProductFoodsOptional = async (_root, { input }, context) => {
-  const { opExPid, pId, state, OptionalProName, numbersOptionalOnly, code, required } = input
+  const { opExPid, pId, OptionalProName, numbersOptionalOnly, code, required } = input
   try {
     if (!opExPid) {
       const data = await productsOptionalExtra.create({
@@ -80,7 +81,7 @@ export const updateExtProductFoodsOptional = async (_root, { input }, context) =
 
 // SUB_OPTIONAL PRODUCTS
 export const updateExtProductFoodsSubOptional = async (_root, { input }, context) => {
-  const { opExPid, pId, state, OptionalSubProName, exCode, exCodeOptionExtra } = input
+  const { pId, state, OptionalSubProName, exCode, exCodeOptionExtra } = input
   try {
     const data = await productsSubOptionalExtra.create({
       state,
@@ -218,7 +219,7 @@ export const ExtProductFoodsOptionalAll = async (root, args, context, info) => {
     return error
   }
 }
-export const DeleteExtProductFoodsOptional = async (root, { state, opExPid }, context, info) => {
+export const DeleteExtProductFoodsOptional = async (root, { state, opExPid }) => {
   try {
     await productsOptionalExtra.update({ state: state === 1 ? 0 : 1 }, { where: { opExPid: deCode(opExPid) } })
   } catch (e) {
@@ -258,7 +259,7 @@ export const ExtProductFoodsSubOptionalAll = async (root, args, context, info) =
 
 export const updateMultipleExtProductFoods = async (_root, args, context) => {
   // eslint-disable-next-line no-unused-vars
-  const { inputLineItems, inputLineItems: { setData } } = args
+  const { inputLineItems: { setData } } = args
   const { restaurant } = context || {}
   try {
     for (let i = 0; i < setData.length; i++) {

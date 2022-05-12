@@ -70,10 +70,6 @@ const DashboardStore = () => {
   })
 
   // QUERIES
-  // eslint-disable-next-line no-unused-vars
-  const { data: dataSchedule } = useQuery(GET_ONE_SCHEDULE_STORE, { variables: { schDay: day } })
-  // eslint-disable-next-line no-unused-vars
-  const { data: dataScheduleTomorrow } = useQuery(GET_ONE_SCHEDULE_STORE, { variables: { schDay: day + 1 } })
   const [store] = useStore()
   const [productFoodsOne, { data: dataProduct, loading }] = useLazyQuery(GET_ONE_PRODUCTS_FOOD)
   const [ExtProductFoodsOptionalAll, { data: dataOptional }] = useLazyQuery(GET_EXTRAS_PRODUCT_FOOD_OPTIONAL)
@@ -152,7 +148,7 @@ const DashboardStore = () => {
             </ContentSearch>
           </Sticky>
           <ContainerCarrusel>
-            {x.productFoodsAll.length > 0 ? x.productFoodsAll.map(food => {
+            {x.productFoodsAll?.length > 0 ? x.productFoodsAll?.map(food => {
               return (
                 <CardProducts
                   food={food}
@@ -171,7 +167,7 @@ const DashboardStore = () => {
     <Wrapper>
       {(loadCatPro || loading) && <Loading />}
       <Container>
-        {/* <Managebanner /> */}
+        <Managebanner />
         <WrapperOptions>
           <div>
             <ButtonAction onClick={() => { return SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state) }}> Subir productos</ButtonAction >
@@ -188,9 +184,9 @@ const DashboardStore = () => {
           title='Buscar en el menu'
           value={dataForm?.search}
         />
-        {/* <StickyViewport as='main' style={containerStyle}>
-          {stickySectionElements}
-        </StickyViewport> */}
+        <StickyViewport as='main' style={containerStyle}>
+          {/* {stickySectionElements} */}
+        </StickyViewport>
       </Container>
       {/* MODALS */}
       <AwesomeModal

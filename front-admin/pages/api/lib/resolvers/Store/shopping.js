@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import shopping from '../../models/Store/shopping'
 import { deCode, getAttributes } from '../../utils/util'
 import { Op } from 'sequelize'

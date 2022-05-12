@@ -7,8 +7,6 @@ import DepartmentsModel from '../information/DepartmentsModel'
 import Users from '../Users'
 const sequelize = connect()
 
-
-
 const UserLocation = sequelize.define('userLocation', {
   locationId: {
     type: INTEGER,

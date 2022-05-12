@@ -5,8 +5,6 @@ import { enCode } from '../../utils/util'
 import Store from '../Store/Store'
 import productModelFood from './productFood'
 
-
-
 const ExtraProductModel = sequelize.define('extrasproducts', {
   exPid: {
     type: INTEGER,

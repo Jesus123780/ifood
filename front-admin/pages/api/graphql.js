@@ -57,7 +57,7 @@ const apolloServer = new ApolloServer({
     keepAlive: 9000,
     // eslint-disable-next-line no-unused-vars
     onConnect: (connectionParams, webSocket, context) => {return console.log('connected')},
-    onDisconnect: (webSocket, context) => {return console.log('disconnected')}
+    onDisconnect: () => {return console.log('disconnected')}
   },
   playground: {
     subscriptionEndpoint: '/api/graphqlSubscriptions',

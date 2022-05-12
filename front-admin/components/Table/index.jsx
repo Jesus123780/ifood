@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState, useReducer } from 'react'
 import PropTypes from 'prop-types'
 import { BtnIcon, ContainerTable, Content, Section, TableBtn, Text, Title, CheckBoxWrapper, CheckBox, CheckBoxLabel, TableResponsive, StatusC, EntryPerViewC, EntryLabel, EntryInput, EntryPaginationC, EntryButton, CurrentPage, ArrowsCheck, ArrowsLabel, Button } from './styled'

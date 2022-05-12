@@ -6,8 +6,6 @@ import Store from '../Store/Store'
 import productModelFood from './productFood'
 import productsOptionalExtra from './productsOptionalExtra'
 
-
-
 const productsSubOptionalExtra = sequelize.define('productssuboptionalextra', {
   opSubExPid: {
     type: INTEGER,

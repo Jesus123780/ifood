@@ -8,7 +8,8 @@ module.exports = {
   'extends': [
     'eslint:recommended',
     'plugin:react/recommended',
-    'plugin:@typescript-eslint/recommended'
+    'plugin:@typescript-eslint/recommended',
+    'eslint:recommended', 'next'
   ],
   
   'parser': '@typescript-eslint/parser',
@@ -31,6 +32,15 @@ module.exports = {
     }
   },
   'rules': {
+    'import/no-anonymous-default-export': ['error', {
+      'allowArray': false,
+      'allowArrowFunction': false,
+      'allowAnonymousClass': false,
+      'allowAnonymousFunction': false,
+      'allowCallExpression': true, // The true value here is for backward compatibility
+      'allowLiteral': false,
+      'allowObject': true
+    }],
     'react-hooks/exhaustive-deps': 'warn',
     'react-hooks/rules-of-hooks': 'error',
     // suppress errors for missing "import React" in files

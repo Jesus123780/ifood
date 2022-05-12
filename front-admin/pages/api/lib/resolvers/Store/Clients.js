@@ -5,7 +5,7 @@ import clients from '../../models/Store/clients'
 import { deCode, getAttributes } from '../../utils/util'
 import { Op } from 'sequelize'
 
-export const createClients = async (_root, { input }, context, _info) => {
+export const createClients = async (_root, { input }, context) => {
 
   const { idUser, ccClient } = input || {}
   try {

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import promosStoreAdmin from '../../models/Store/promosStoreAdmin'
 import { getAttributes } from '../../utils/util'

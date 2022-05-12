@@ -35,7 +35,7 @@ export const SalesWeekShortDays = () => {
       setTotalProductPrice(suma)
     })
     if (!loading && data) {
-      const GROUP_BY_DAYS = data?.getAllSalesStoreStatistic.reduce(function (r, a) {
+      const GROUP_BY_DAYS = data?.getAllSalesStoreStatistic?.length > 0 && data?.getAllSalesStoreStatistic?.reduce(function (r, a) {
         r[moment(a.pDatCre).day()] = r[moment(a.pDatCre).day()] || []
         r[moment(a.pDatCre).day()].push(a)
         return r
