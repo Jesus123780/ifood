@@ -16,9 +16,7 @@ const Dashboard = () => {
   return (<>
     <Wrapper>
       <Main />
-      <MainCard title={`Ventas por meses del año`} weight={'200'}>
-        <ChatStatistic />
-      </MainCard>
+      <ChatStatistic />
       <SalesWeekShortDays />
       <SalesWeek />
       <Addons />

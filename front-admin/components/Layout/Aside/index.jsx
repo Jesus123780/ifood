@@ -11,9 +11,9 @@ import { URL_BASE } from 'apollo/urls'
 import { ButtonOption } from '../styled'
 import { useStore } from 'components/hooks/useStore'
 import { Context } from 'context/Context'
-// import Options from '../../../components/Acordion'
 import Link from 'next/link'
 import Options from 'components/Acordion/Options'
+import { Skeleton } from 'components/Skeleton'
 
 const Aside = () => {
   const { client } = useApolloClient()
@@ -41,7 +41,7 @@ const Aside = () => {
       })
 
   }, [client, location])
-  const [dataStore] = useStore()
+  const [dataStore, { loading }] = useStore()
   const { storeName, idStore, uState } = dataStore || {}
   const data = [
     {
@@ -58,13 +58,13 @@ const Aside = () => {
     }
   ]
   const [menu, setMenu] = useState(false)
-  const handleClick = index => {return setMenu(index === menu ? false : index)}
+  const handleClick = index => { return setMenu(index === menu ? false : index) }
   return (
     <>
       <ContainerAside>
         <Card>
           <Info>
-            <ButtonGlobalCreate onClick={() => {return setShow(!show)}}>
+            <ButtonGlobalCreate onClick={() => { return setShow(!show) }}>
               Add new
             </ButtonGlobalCreate>
             <LeftNav show={show}>
@@ -112,11 +112,11 @@ const Aside = () => {
               </Info>
             </LeftNav>
 
-            <Link href={`/dashboard/${storeName?.replace(/\s/g, '-').toLowerCase()}/${idStore}`}>
+            {loading ? <Skeleton height={50} margin={'10px 0'} /> : <Link href={`/dashboard/${storeName?.replace(/\s/g, '-').toLowerCase()}/${idStore}`}>
               <a>
                 <h1 className='title_store'>{storeName}</h1>
               </a>
-            </Link>
+            </Link>}
             {uState == 1 && <div className='program_state'>
               <IconLogo color={PColor} size='20px' />
               <h3 className='sub_title_store'>En pausa programada</h3>
@@ -136,7 +136,7 @@ const Aside = () => {
               <ActiveLink activeClassName='active' href='/horarios'>
                 <AnchorRouter><IconHorario size='15px' />Horarios</AnchorRouter>
               </ActiveLink>
-              <ContentAction onClick={() => {return setOpenSchedule(!openSchedule)}}>
+              <ContentAction onClick={() => { return setOpenSchedule(!openSchedule) }}>
                 <IconHorario color={BGColor} size='15px' />
               </ContentAction>
             </DynamicNav>
@@ -172,29 +172,32 @@ const Aside = () => {
                 <IconLogout color={PColor} size='20px' />
               </ButtonOption>
             </OptionButton>
-            {data?.map((m, i) => {return (
-              <Options
-                active={menu === i}
-                handleClick={() => {return handleClick(i)}}
-                index={i}
-                key={m.mId}
-                label={m.mName}
-                path={m.mPath}
-              // icon={<FontAwesomeIcon icon={iconModules[x.mIcon]} color={active === i ? '#a6b0cf' : '#a6b0cf'} size='lg' />}
-              >
-                {!!m.subModules && m.subModules.map(sm => {return <ActiveLink
-                  href={`/${m.mPath}/${sm.smPath}`}
-                  key={sm.smId}
-                  onClick={e => {return e.stopPropagation()}}
+            {data?.map((m, i) => {
+              return (
+                <Options
+                  active={menu === i}
+                  handleClick={() => { return handleClick(i) }}
+                  index={i}
+                  key={m.mId}
+                  label={m.mName}
+                  path={m.mPath}
+                // icon={<FontAwesomeIcon icon={iconModules[x.mIcon]} color={active === i ? '#a6b0cf' : '#a6b0cf'} size='lg' />}
                 >
-                  <AnchorRouter><IconShopping size='15px' />{sm.smName}</AnchorRouter>
-                </ActiveLink>})}
-              </Options>
+                  {!!m.subModules && m.subModules.map(sm => {
+                    return <ActiveLink
+                      href={`/${m.mPath}/${sm.smPath}`}
+                      key={sm.smId}
+                      onClick={e => { return e.stopPropagation() }}
+                    >
+                      <AnchorRouter><IconShopping size='15px' />{sm.smName}</AnchorRouter>
+                    </ActiveLink>
+                  })}
+                </Options>
 
-            )})}
+              )
+            })}
           </Router>
         </Card>
-
       </ContainerAside>
     </>
   )

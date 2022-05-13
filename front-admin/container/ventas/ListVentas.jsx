@@ -12,13 +12,15 @@ import { GET_ALL_SALES, GET_ONE_SALES } from './queries'
 import moment from 'moment'
 import { GetOneSales } from './getOneSales'
 import { BarChat, Circle, DoughnutChar, HorizontalBarChart } from 'components/Chart'
+import { Skeleton } from 'components/Skeleton'
+import { MainCard } from 'components/common/Reusable/ShadowCard'
 moment.locale('es')
 export const ListVentas = () => {
   let total = 0
   let suma = 0
   const [handleChange, { dataForm, errorForm }] = useFormTools()
   const [valuesDates, setValuesDates] = useState({ fromDate: moment().format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD') })
-  const onChangeInput = (e) => {return setValuesDates({ ...valuesDates, [e.target.name]: e.target.value })}
+  const onChangeInput = (e) => { return setValuesDates({ ...valuesDates, [e.target.name]: e.target.value }) }
   const [more, setMore] = useState(100)
   const [getAllSalesStore, { data, fetchMore, loading }] = useLazyQuery(GET_ALL_SALES)
   const [getOneSalesStore, { data: dataOneSales }] = useLazyQuery(GET_ONE_SALES)
@@ -27,6 +29,7 @@ export const ListVentas = () => {
     getAllSalesStore({ variables: { min: 0 } })
     data?.getAllSalesStore.forEach((a) => {
       const { totalProductsPrice } = a || {}
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       suma += totalProductsPrice
       setTotalProductPrice(suma)
     })
@@ -36,7 +39,7 @@ export const ListVentas = () => {
     getOneSalesStore({ variables: { pCodeRef: pCodeRef } })
     setOpen(!open)
   }
-  const getFromDataToData = async () => {return getAllSalesStore({ variables: { fromDate: valuesDates?.fromDate, toDate: valuesDates?.toDate } })}
+  const getFromDataToData = async () => { return getAllSalesStore({ variables: { fromDate: valuesDates?.fromDate, toDate: valuesDates?.toDate } }) }
   return (
     <div>
       <GetOneSales
@@ -84,11 +87,11 @@ export const ListVentas = () => {
             width='30%'
           />
           <Button type='submit'>
-                        Mas opciones
+            Mas opciones
           </Button>
           <RippleButton
             margin='30px'
-            onClick={() => {return getFromDataToData()}}
+            onClick={() => { return getFromDataToData() }}
             padding='10px'
             type='button'
           >Consultar</RippleButton>
@@ -99,40 +102,44 @@ export const ListVentas = () => {
       <Table
         data={data?.getAllSalesStore || []}
         labelBtn='Product'
-        renderBody={(dataB, titles) => {return dataB?.map((x, i) => {return <Section
-          columnWidth={titles}
-          key={i}
-          odd
-          padding='10px 0'
-        >
-          <Item>
-            <span> {i + 1}</span>
-          </Item>
-          <Item>
-            <span> Restaurante</span>
-          </Item>
-          <Item>
-            <span> {x.pCodeRef}</span>
-          </Item>
-          <Item>
-            <span> {moment(x.pDatCre).format('DD-MM-YYYY')} - {moment(x.pDatCre).format('HH:mm A')}</span>
-          </Item>
-          <Item>
-            <span> DELIVERY-APP </span>
-          </Item>
-          <Item>
-            <span> {x.payMethodPState ? 'EFECTIVO' : 'TRANSFERENCIA'}</span>
-          </Item>
-          <Item>
-            <span> $ {numberFormat(x.totalProductsPrice)}</span>
-          </Item>
+        renderBody={(dataB, titles) => {
+          return dataB?.map((x, i) => {
+            return <Section
+              columnWidth={titles}
+              key={i}
+              odd
+              padding='10px 0'
+            >
+              <Item>
+                <span> {i + 1}</span>
+              </Item>
+              <Item>
+                <span> Restaurante</span>
+              </Item>
+              <Item>
+                <span> {x.pCodeRef}</span>
+              </Item>
+              <Item>
+                <span> {moment(x.pDatCre).format('DD-MM-YYYY')} - {moment(x.pDatCre).format('HH:mm A')}</span>
+              </Item>
+              <Item>
+                <span> DELIVERY-APP </span>
+              </Item>
+              <Item>
+                <span> {x.payMethodPState ? 'EFECTIVO' : 'TRANSFERENCIA'}</span>
+              </Item>
+              <Item>
+                <span> $ {numberFormat(x.totalProductsPrice)}</span>
+              </Item>
 
-          <Item>
-            <Button onClick={() => {return HandleGetOne(x.pCodeRef)}}>
-                            Ver detalles
-            </Button>
-          </Item>
-        </Section>})}}
+              <Item>
+                <Button onClick={() => { return HandleGetOne(x.pCodeRef) }}>
+                  Ver detalles
+                </Button>
+              </Item>
+            </Section>
+          })
+        }}
         titles={[
           { name: 'Numero', justify: 'flex-center', width: '.5fr' },
           { name: 'Cancelado por', key: '', justify: 'flex-center', width: '1fr' },
@@ -195,7 +202,7 @@ export const ListVentas = () => {
 
 export const ChatStatistic = () => {
   // Construcción del nuevo array:
-  const { data } = useQuery(GET_ALL_SALES)
+  const { data, loading } = useQuery(GET_ALL_SALES)
   // const array = filterKeyObject(data?.getAllSalesStore, ['__typename'])
   // console.log(array)
   let resultado = []
@@ -224,13 +231,13 @@ export const ChatStatistic = () => {
 
   // Resultado:
   const dataChat = {
-    labels: resultado.map(x => {return x.Mes === 0 ? 'Enero' : x.Mes === 1 ? 'Febrero' : x.Mes === 2 ? 'Marzo' : x.Mes === 3 ? 'Abril' : x.Mes === 4 ? 'Mayo' : x.Mes === 5 ? 'Junio' : x.Mes === 6 ? 'Julio' : x.Mes === 7 ? 'Agosto' : x.Mes === 8 ? 'Septiembre' : x.Mes === 9 ? 'Octubre' : x.Mes === 10 ? 'Noviembre' : 'Diciembre'}),
+    labels: resultado.map(x => { return x.Mes === 0 ? 'Enero' : x.Mes === 1 ? 'Febrero' : x.Mes === 2 ? 'Marzo' : x.Mes === 3 ? 'Abril' : x.Mes === 4 ? 'Mayo' : x.Mes === 5 ? 'Junio' : x.Mes === 6 ? 'Julio' : x.Mes === 7 ? 'Agosto' : x.Mes === 8 ? 'Septiembre' : x.Mes === 9 ? 'Octubre' : x.Mes === 10 ? 'Noviembre' : 'Diciembre' }),
     // labels: moment()._locale._months,
     datasets: [
       {
 
         label: 'Ventas',
-        data: resultado.map(x => {return x.totalProductsPrice}),
+        data: resultado.map(x => { return x.totalProductsPrice }),
         // data: resultado.map(x => x.Mes === 0 ? x.totalProductsPrice : x.Mes === 1 ? x.totalProductsPrice : x.Mes === 2 ? x.totalProductsPrice : x.Mes === 3 ? x.totalProductsPrice : x.Mes === 4 ? x.totalProductsPrice : x.Mes === 5 ? x.totalProductsPrice : x.Mes === 6 ? x.totalProductsPrice : x.Mes === 7 ? x.totalProductsPrice : x.Mes === 8 ? x.totalProductsPrice : x.Mes === 9 ? x.totalProductsPrice: x.Mes === 10 ? x.totalProductsPrice : 'Diciembre'),
 
         backgroundColor: [
@@ -255,12 +262,15 @@ export const ChatStatistic = () => {
   }
   return (
     <div>
-      <ContainChart>
-        <BarChat data={dataChat || []} />
-        <DoughnutChar data={dataChat || []} />
-        <Circle data={dataChat || []} />
-        <HorizontalBarChart data={dataChat || []} />
-      </ContainChart>
+      {loading ? <Skeleton height={300} margin={'20px 0'} /> : <MainCard title={`Ventas por meses del año`} weight={'200'}>
+        <ContainChart>
+          <BarChat data={dataChat || []} />
+          <DoughnutChar data={dataChat || []} />
+          <Circle data={dataChat || []} />
+          <HorizontalBarChart data={dataChat || []} />
+        </ContainChart>
+      </MainCard>}
+      {/* {loading ? <Skeleton height={300} margin={'10px 0'} /> :} */}
     </div>
   )
 }

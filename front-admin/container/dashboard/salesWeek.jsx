@@ -9,6 +9,7 @@ import { MainCard } from 'components/common/Reusable/ShadowCard'
 // import { DoughnutChar } from 'components/Chart'
 import { GET_ALL_SALES_STATISTICS } from 'container/ventas/queries'
 import { numberFormat } from 'utils'
+import { Skeleton } from 'components/Skeleton'
 
 export const SalesWeek = () => {
   const [getAllSalesStoreStatistic, { data, loading }] = useLazyQuery(GET_ALL_SALES_STATISTICS)
@@ -25,7 +26,7 @@ export const SalesWeek = () => {
       setTotalProductPrice(suma)
     })
     if (!loading && data) {
-      const GROUP_BY_DAYS = data?.getAllSalesStoreStatistic?.map((elem) => {return elem})?.sort((a, b) => {return moment(a.pDatCre).day() - b}).reduce(function (r, a) {
+      const GROUP_BY_DAYS = data?.getAllSalesStoreStatistic?.map((elem) => { return elem })?.sort((a, b) => { return moment(a.pDatCre).day() - b }).reduce(function (r, a) {
         r[moment(a.pDatCre).day()] = r[moment(a.pDatCre).day()] || []
         r[moment(a.pDatCre).day()].push(a)
         return r
@@ -36,28 +37,34 @@ export const SalesWeek = () => {
     }
   }, [data])
   return (
-    <MainCard title={`Últimos 30 Dias $ ${numberFormat(totalProductPrice || 0)}`} weight={'200'}>
-      <Text color='#3f3e3e' size='.8em' >{ `Media de ventas en los últimos 30 Dias $ ${numberFormat(totalProductPrice || 0)}`}</Text>
-      <Container>
-        {key?.map((day, i) => {
-          let suma = 0
-          let sumaNoOrder = 0
-          const avg = GROUP_BY_DAYS[day]?.map((x, index) => {return (suma += x.pSState === 4) / (index + 1)})
-          !!avg && ((avg[avg.length - 1]))
-          const noOrder = GROUP_BY_DAYS[day]?.map((x, index) => {return (sumaNoOrder += x.pSState === 5) / (index + 1)})
-          !!noOrder && ((noOrder[noOrder.length - 1]))
-          return (
-            <CardStatistic
-              OrderConcludes={!!avg && ((avg[avg.length - 1])?.toFixed(2))}
-              day={day == 1 ? 'Lunes' : day == 2 ? 'Martes' : day == 3 ? 'Miércoles' : day == 4 ? 'Jueves' : day == 5 ? 'viernes' : day == 6 ? 'Sábado' : 'Domingo'}
-              key={i + 1}
-              noOrder={!!noOrder && ((noOrder[noOrder.length - 1])?.toFixed(2))}
-              sales={GROUP_BY_DAYS[day]?.length}
-            />
-          )
-        })}
-      </Container>
-    </MainCard>
+    <React.Fragment>
+      {loading ? <Skeleton height={300} margin={'20px 0'} /> :
+        <MainCard title={`Últimos 30 Dias $ ${numberFormat(totalProductPrice || 0)}`} weight={'200'}>
+          <Text color='#3f3e3e' size='.8em' >{`Media de ventas en los últimos 30 Dias $ ${numberFormat(totalProductPrice || 0)}`}</Text>
+          <Container>
+            {key?.map((day, i) => {
+              let suma = 0
+              let sumaNoOrder = 0
+              const avg = GROUP_BY_DAYS[day]?.map((x, index) => { return (suma += x.pSState === 4) / (index + 1) })
+              !!avg && ((avg[avg.length - 1]))
+              const noOrder = GROUP_BY_DAYS[day]?.map((x, index) => { return (sumaNoOrder += x.pSState === 5) / (index + 1) })
+              !!noOrder && ((noOrder[noOrder.length - 1]))
+              return (
+                <CardStatistic
+                  OrderConcludes={!!avg && ((avg[avg.length - 1])?.toFixed(2))}
+                  day={day == 1 ? 'Lunes' : day == 2 ? 'Martes' : day == 3 ? 'Miércoles' : day == 4 ? 'Jueves' : day == 5 ? 'viernes' : day == 6 ? 'Sábado' : 'Domingo'}
+                  key={i + 1}
+                  noOrder={!!noOrder && ((noOrder[noOrder.length - 1])?.toFixed(2))}
+                  sales={GROUP_BY_DAYS[day]?.length}
+                />
+              )
+            })}
+          </Container>
+        </MainCard>
+      }
+    </React.Fragment>
+
+
   )
 }
 
@@ -101,16 +108,16 @@ const Orders = styled.div`
 const Text = styled.h3`
     margin: 0;
     color: #3f3e3e;
-    font-size: ${({ size }) => {return size || '1.5rem'}};
-    text-align:  ${({ align }) => {return align || 'start'}};
+    font-size: ${({ size }) => { return size || '1.5rem' }};
+    text-align:  ${({ align }) => { return align || 'start' }};
     height: min-content;
-    ${({ lineHeight }) => {return lineHeight && css`line-height: ${lineHeight};`}}
+    ${({ lineHeight }) => { return lineHeight && css`line-height: ${lineHeight};` }}
     font-weight: 400;
-    ${({ weight }) => {return weight && css`font-weight: ${weight};`}}
-    ${({ padding }) => {return padding && css`padding: ${padding};`}}
-    margin: ${({ margin }) => {return margin || '0'}};
-    color: ${({ color }) => {return color || '#3f3e3e   '}};
-    font-family: ${({ font }) => {return font || 'PFont-Light'}};
+    ${({ weight }) => { return weight && css`font-weight: ${weight};` }}
+    ${({ padding }) => { return padding && css`padding: ${padding};` }}
+    margin: ${({ margin }) => { return margin || '0' }};
+    color: ${({ color }) => { return color || '#3f3e3e   ' }};
+    font-family: ${({ font }) => { return font || 'PFont-Light' }};
     word-break: break-word;
 `
 const WrapperBox = styled.div`

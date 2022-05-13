@@ -19,7 +19,6 @@ const Container = styled.div`
   margin-bottom: 50px;
   height: 200px;
   overflow: hidden;
- /* padding: 10px; */
   &:before {
     content: '';
     height: 120px;

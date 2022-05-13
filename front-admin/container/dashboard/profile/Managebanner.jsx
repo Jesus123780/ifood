@@ -10,8 +10,10 @@ import { IconDelete, IconEdit, IconPromo } from 'public/icons'
 import { GET_ONE_STORE } from 'container/Restaurant/queries'
 import { Context } from 'context/Context'
 import moment from 'moment'
+import { Skeleton } from 'components/Skeleton/index'
 
-export const Managebanner = () => {
+
+const Banner = () => {
   // STATES
   const { setAlertBox } = useContext(Context)
   const fileInputRef = useRef(null)
@@ -73,7 +75,7 @@ export const Managebanner = () => {
       })
     }
   })
-  const { data } = useQuery(GET_ONE_STORE)
+  const { data, loading: loaStore } = useQuery(GET_ONE_STORE)
   const dataStore = data?.getStore || {}
   const { idStore, ImageName } = data?.getStore || {}
   const { data: dataBanner } = useQuery(GET_ONE_BANNER_STORE, {
@@ -199,7 +201,7 @@ export const Managebanner = () => {
           ref={fileInputRefLogo}
           type='file'
         />
-        <MerchantBannerWrapperInfo bannerImage={(path || src) ? `url(${path || src})` : `url("/images/DEFAULTBANNER.png")`} >
+        {(loading || loaStore) ? <Skeleton height={250} /> : <MerchantBannerWrapperInfo bannerImage={(path || src) ? `url(${path || src})` : `url("/images/DEFAULTBANNER.png")`} >
           <span>
             <svg
               height='53'
@@ -242,7 +244,8 @@ export const Managebanner = () => {
             {openStore && <h2 className='merchant-banner__status-title'>{'Restaurante  cerrado'}</h2>}
             {/* <h3 className="merchant-banner__status-message">{dataSchedule?.getOneStoreSchedules?.schHoEnd > hour ? `Abre mañana a las ${dataScheduleTomorrow?.getOneStoreSchedules?.schHoSta}` : null}</h3> */}
           </div>
-        </MerchantBannerWrapperInfo>
+        </MerchantBannerWrapperInfo>}
+
         {/* actions */}
         <ButtonCard onClick={() => { return path && bnImageFileName && HandleDeleteBanner() }}>
           <IconDelete color={PColor} size={20} />
@@ -313,3 +316,4 @@ export const Managebanner = () => {
     </div>
   )
 }
+export const Managebanner = React.memo(Banner)

@@ -2,17 +2,18 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
-export const Skeleton = ({ height, width, numberObject }) => {
+export const Skeleton = ({ height, width='100%', margin, numberObject }) => {
   return (
     <React.Fragment>
       {Array.from(Array(1).keys(numberObject || 1)).map(value => {
         return (
           <Container
-            height={height}
+            height={`${height}px`}
             key={value + 1}
-            width={width}
+            margin={`${margin}`}
+            width={`${width}`}
           >
-            <div className='card-loader'></div>
+            <div className='card-loader' height={`${height}`}></div>
           </Container>
         )
       })}
@@ -21,20 +22,19 @@ export const Skeleton = ({ height, width, numberObject }) => {
 }
 
 Skeleton.propTypes = {
-  height: PropTypes.any,
+  height: PropTypes.number,
   numberObject: PropTypes.number,
-  width: PropTypes.any
+  width: PropTypes.number
 }
 const Container = styled.div`
-    z-index: 999;
 .card-loader {
   background-color: #fff;
-  padding: 8px;
   position: relative;
+  margin: ${({ margin }) => { return margin || 0 }};
   border-radius: 2px;
-  margin-bottom: 0;
-  height: ${({ height }) => { height || '150px' }};
+  height: ${({ height }) => { return height || '150px' }};
   overflow: hidden;
+  padding: 0;
   &:after {
     content: '';
     background-color: #636363;
@@ -52,19 +52,17 @@ const Container = styled.div`
   }
   &:before {
     content: '';
-    height: 150px;
     display: block;
     background-color: #ededed;
     border-radius: 6px;
     box-shadow: -48px 78px 0 -48px #ededed, -51px 102px 0 -51px #ededed;
+    height: ${({ height }) => { return height || '150px' }};
   }
 
 
   
 }
- 
 
-// Loader animation
 @keyframes loader-animate{
  0%{
     transform: translate3d(-100%, 0, 0);

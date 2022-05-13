@@ -57,7 +57,6 @@ const Container = styled.div`
 }
  
 
-// Loader animation
 @keyframes loader-animate{
  0%{
     transform: translate3d(-100%, 0, 0);

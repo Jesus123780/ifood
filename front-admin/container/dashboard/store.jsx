@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { useContext, useEffect, useState } from 'react'
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
-import { BGColor, PColor, APColor } from '../../public/colors'
+import { useLazyQuery, useMutation } from '@apollo/client'
+import { PColor, APColor } from '../../public/colors'
 import { Loading } from '../../components/Loading'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -16,12 +16,12 @@ import { ContainerFilter, ItemFilter } from '../../components/Update/Products/st
 import { ButtonAction, WrapperOptions, ContentSearch, Title, ContainerCarrusel } from './styledStore'
 import InputHooks from '../../components/InputHooks/InputHooks'
 import { GET_ONE_PRODUCTS_FOOD } from '../producto/queries'
-import { ExtrasProductsItems, OptionalExtraProducts } from '../producto/extras'
+import { ExtrasProductsItems } from '../producto/extras'
 import { ExtraProducts } from '../Extraproducts'
 import { GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, UPDATE_PRODUCT_FOOD } from '../update/Products/queries'
 import { Context } from 'context/Context'
 import moment from 'moment'
-import { GET_ALL_PRODUCT_STORE, GET_ONE_SCHEDULE_STORE } from './queriesStore'
+import { GET_ALL_PRODUCT_STORE } from './queriesStore'
 import { useStore } from 'components/hooks/useStore'
 import { CLIENT_URL_BASE } from 'apollo/urls'
 import { ManageCategories } from './ManageCategories'
@@ -30,6 +30,7 @@ import { Sticky, StickyBoundary, StickyViewport } from './stickyheader'
 import { IconDelete, IconEdit } from 'public/icons'
 import { numberFormat } from 'utils'
 import { useOnScreen } from 'components/hooks/useIntersection'
+import { Skeleton } from 'components/Skeleton/index'
 
 const DashboardStore = () => {
   // STATE
@@ -121,7 +122,7 @@ const DashboardStore = () => {
   }, [dataProductAndCategory, searchFilter])
   useEffect(() => {
     getCatProductsWithProduct({ variables: { max: showMore } })
-  }, [searchFilter, showMore])
+  }, [getCatProductsWithProduct, searchFilter, showMore])
   useEffect(() => {
     let date = new Date().getTime()
     let dateDay = new Date().getUTCDay()
@@ -129,6 +130,7 @@ const DashboardStore = () => {
     setHour(moment(date).format('hh:mm'))
   }, [])
   // COMPONENTS
+  // eslint-disable-next-line
   const stickySectionElements = Array.from(dataProCat)?.map((x, key) => {
     return (
       <div key={x.carProId}>
