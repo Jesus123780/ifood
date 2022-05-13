@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useStore } from 'components/hooks/useStore'
 import React, { useEffect, useState } from 'react'
 import { Content, Item, Text, Ticket } from './styled'
@@ -26,8 +27,8 @@ export const Prints = ({ data, total, code, change }) => {
         <Content>
           {data.map((item, i) => {return (
             <Item key={i + 1}>
-              <span>{item.pName}</span>
-              <span>${item.ProPrice}</span>
+              <span>{item?.pName}</span>
+              <span>${item?.ProPrice}</span>
             </Item>
           )})}
         </Content>

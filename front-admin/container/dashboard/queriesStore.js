@@ -89,6 +89,7 @@ query productFoodsAll($search: String, $min: Int, $max: Int, $gender: [String], 
     pName
     ProPrice
     ProDescuento
+    free
 	  ProUniDisponibles
 	  ProDescription
 	  ProProtegido

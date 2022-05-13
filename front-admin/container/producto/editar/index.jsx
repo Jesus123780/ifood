@@ -14,7 +14,7 @@ import { ExtrasProductsItems } from '../extras'
 import { APColor, BColor, BGColor, PColor } from 'public/colors'
 import { IconDelete, IconEdit, IconPay } from 'public/icons'
 import Link from 'next/link'
-import { CLIENT_URL_BASE, URL_ADMIN_SERVER } from 'apollo/urls'
+import { CLIENT_URL_BASE } from 'apollo/urls'
 import { DisRestaurant } from 'container/PedidosStore/ListPedidos'
 import { GET_ALL_PRODUCT_STORE } from 'container/dashboard/queriesStore'
 import { Context } from 'context/Context'
@@ -23,7 +23,7 @@ import { useRouter } from 'next/router'
 export const ProductEdit = ({ id }) => {
   // STATES
   const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm }] = useFormTools()
-  const initialState = { alt: '/images/DEFAULTBANNER.png', src: '/images/DEFAULTBANNER.png' }
+  const initialState = { alt: '/app/images/DEFAULTBANNER.png', src: '/app/images/DEFAULTBANNER.png' }
   const [modal, openModal] = useState(false)
   const { setAlertBox } = useContext(Context)
   const [{ alt, src }, setPreviewImg] = useState(initialState)
@@ -52,7 +52,7 @@ export const ProductEdit = ({ id }) => {
     setDataValue({
       ...dataProduct?.productFoodsOne || {}
     })
-  }, [id, dataProduct, dataOptional, loading, error, errorOptional])
+  }, [id, dataProduct, dataOptional, loading, error, errorOptional, setDataValue, productFoodsOne, ExtProductFoodsOptionalAll, ExtProductFoodsAll])
   // HANDLESS
   const onFileInputChange = event => {
     const { files } = event.target

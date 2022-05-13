@@ -213,6 +213,10 @@ const productModelFood = sequelize.define('productmodelfood', {
     type: INTEGER,
     defaultValue: 1
   },
+  free: {
+    type: INTEGER,
+    defaultValue: 0
+  },
   // Largo
   ProLength: {
     type: STRING,

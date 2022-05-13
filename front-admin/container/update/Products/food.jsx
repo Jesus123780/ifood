@@ -100,7 +100,7 @@ export const Food = () => {
   }
   const { data: dataStore } = useQuery(GET_ONE_STORE)
   const fileInputRef = useRef(null)
-  const initialState = { alt: '/images/DEFAULTBANNER.png', src: '/images/DEFAULTBANNER.png' }
+  const initialState = { alt: '/app/ images/DEFAULTBANNER.png', src: '/app/images/DEFAULTBANNER.png' }
   const [{ alt, src }, setPreviewImg] = useState(initialState)
   // eslint-disable-next-line
     const [imageBase64, setImageBase64] = useState(null)

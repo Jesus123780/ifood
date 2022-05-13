@@ -85,7 +85,7 @@ const Banner = () => {
     }
   })
   const { path, bnState, bnId, bnImageFileName } = dataBanner?.getOneBanners || {}
-  const initialState = { alt: '/images/DEFAULTBANNER.png', src: '/images/DEFAULTBANNER.png' }
+  const initialState = { alt: '/app/images/DEFAULTBANNER.png', src: '/app/images/DEFAULTBANNER.png' }
   // eslint-disable-next-line
   const [{ alt, src }, setPreviewImg] = useState(initialState)
   // HANDLES
@@ -201,7 +201,7 @@ const Banner = () => {
           ref={fileInputRefLogo}
           type='file'
         />
-        {(loading || loaStore) ? <Skeleton height={250} /> : <MerchantBannerWrapperInfo bannerImage={(path || src) ? `url(${path || src})` : `url("/images/DEFAULTBANNER.png")`} >
+        {(loading || loaStore) ? <Skeleton height={250} /> : <MerchantBannerWrapperInfo bannerImage={(path || src) ? `url(${path || src})` : `url("/app/images/DEFAULTBANNER.png")`} >
           <span>
             <svg
               height='53'
@@ -289,25 +289,25 @@ const Banner = () => {
           {dataStore?.Image ?
             <Image
               alt={altLogo || 'logo'}
-              blurDataURL='/images/DEFAULTBANNER.png'
+              blurDataURL='/app/images/DEFAULTBANNER.png'
               className='logo'
               height={70}
               objectFit='contain'
               onClick={(e) => { return onTargetClickLogo(e) }}
               placeholder='blur'
-              src={dataStore?.Image || '/images/DEFAULTBANNER.png'}
+              src={dataStore?.Image || '/app/images/DEFAULTBANNER.png'}
               width={70} // Optional blur-up while loading
             />
             :
             <Image
               alt={altLogo || 'logo'}
-              blurDataURL='/images/DEFAULTBANNER.png'
+              blurDataURL='/app/images/DEFAULTBANNER.png'
               className='logo'
               height={70}
               objectFit='contain'
               onClick={(e) => { return onTargetClickLogo(e) }}
               placeholder='blur'
-              src={srcLogo || '/images/DEFAULTBANNER.png'}
+              src={srcLogo || '/app/images/DEFAULTBANNER.png'}
               width={70} // Optional blur-up while loading
             />}
           <MerchantInfoTitle>{dataStore.storeName}</MerchantInfoTitle>

@@ -2,6 +2,7 @@ import productModelFood from '../../models/product/productFood'
 import fs from 'fs'
 import { deCode } from '../../utils/util'
 import { Op } from 'sequelize'
+import { URL_BASE } from '../../utils'
 
 export const saveImagesProducts = async ({ filename, fileStream }) => {
     const res = await fetch('https://nodejs.org/api/documentation.json')
@@ -33,7 +34,7 @@ export const setImageProducts = async (_root, { input }) => {
             }
         })
         if (data) {
-            await productModelFood.update({ ProImage: `${process.env.URL_BASE}static/platos/${filename}` },
+            await productModelFood.update({ ProImage: `${URL_BASE}static/platos/${filename}` },
                 {
                     where: {
                         pCode: pCode,

@@ -17,23 +17,23 @@ module.exports = (phase) => {
   const isStaging = phase === PHASE_PRODUCTION_BUILD && process.env.STAGING === '1'
   const env = {
     NAMEDB: (() => {
-      // if (isDev) return 'app'
-      if (isDev) return '9F27g24N1A'
+      if (isDev) return 'app'
+      // if (isDev) return '9F27g24N1A'
       if (isProd) return '9F27g24N1A'
     })(),
     USERDB: (() => {
-      // if (isDev) return 'root'
-      if (isDev) return '9F27g24N1A'
+      if (isDev) return 'root'
+      // if (isDev) return '9F27g24N1A'
       if (isProd) return '9F27g24N1A'
     })(),
     PASSDB: (() => {
-      // if (isDev) return ''
-      if (isDev) return 'yGDyGrHvYa'
+      if (isDev) return ''
+      // if (isDev) return 'yGDyGrHvYa'
       if (isProd) return 'yGDyGrHvYa'
     })(),
     HOSTDB: (() => {
-      // if (isDev) return 'localhost'
-      if (isDev) return 'remotemysql.com'
+      if (isDev) return 'localhost'
+      // if (isDev) return 'remotemysql.com'
       if (isProd) return 'remotemysql.com'
     })(),
     DIALECTDB: 'mysql',
@@ -46,8 +46,8 @@ module.exports = (phase) => {
     })(),
     // URL_BASE_WS
     URL_ADMIN_SERVER: (() => {
-      // if (isDev) return 'http://localhost:3000/'
-      if (isDev) return 'https://server-image-food.herokuapp.com/'
+      if (isDev) return 'http://localhost:4000/'
+      // if (isDev) return 'https://server-image-food.herokuapp.com/'
       if (isProd) return 'https://server-image-food.herokuapp.com/'
     })(),
     // BANCOLOMBIA

@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useReducer, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Box, Button, CateItem, ContainerGrid, ContentCalcules, ContentCheckbox, CtnSwiper, FlipTop, Form, Input, OptionButton, ScrollbarProduct, Ticket, Wrapper } from './styled'
+import { Box, Button, CateItem, ContainerGrid, ContentCalcules, ContentCheckbox, CtnSwiper, DownLoadButton, FlipTop, Form, Input, OptionButton, ScrollbarProduct, Ticket, Toast, Wrapper } from './styled'
 import { useMutation, useQuery, useLazyQuery } from '@apollo/client'
 import { GET_ULTIMATE_CATEGORY_PRODUCTS } from 'container/dashboard/queries'
 import { Swiper, SwiperSlide } from 'swiper/react'
 // import { CardProducts } from 'container/producto/editar';
 import { Virtual, Navigation, Pagination, A11y, Parallax } from 'swiper'
 import { GET_ALL_PRODUCT_STORE, GET_MIN_PEDIDO } from 'container/dashboard/queriesStore'
-import { IconPrint, IconDelete, IconSales } from 'public/icons'
-import { PColor } from 'public/colors'
+import { IconPrint, IconDelete, IconSales, IconCancel } from 'public/icons'
+import { BGColor, PColor } from 'public/colors'
 import { numberFormat, RandomCode } from 'utils'
 import { RippleButton } from 'components/Ripple'
 import { AwesomeModal } from 'components/AwesomeModal'
@@ -20,6 +20,9 @@ import { Prints } from './Printsale'
 import { CREATE_MULTIPLE_ORDER_PRODUCTS } from './queries'
 import { Context } from 'context/Context'
 import { Range } from 'components/InputRange'
+import { TextH2Main } from 'components/common/h2'
+import { useCheckboxState } from 'components/hooks/useCheckbox'
+import { Checkbox } from 'components/Checkbox'
 const GenerateSales = () => {
   // STATES
   const { setAlertBox } = useContext(Context)
@@ -38,6 +41,7 @@ const GenerateSales = () => {
   const initialStateInvoice = {
     PRODUCT: []
   }
+
   // QUERIES
   const { data: datCat } = useQuery(GET_ULTIMATE_CATEGORY_PRODUCTS)
   const { data: dataMinPedido } = useQuery(GET_MIN_PEDIDO)
@@ -49,6 +53,13 @@ const GenerateSales = () => {
       }
     }
   })
+  const { checkedItems, disabledItems, handleChangeCheck } = useCheckboxState(datCat?.catProductsAll)
+  const arr = []
+  for (let categories of checkedItems.keys()) {
+    arr.push(categories)
+  }
+  console.log(arr)
+
   // llama a los productos y espera una acción
   /* Filtro  */
   const [productFoodsAll, { data: dataProduct, fetchMore, loading }] = useLazyQuery(GET_ALL_PRODUCT_STORE, {
@@ -70,7 +81,7 @@ const GenerateSales = () => {
   }, [dataProduct, searchFilter, search])
   useEffect(() => {
     productFoodsAll({ variables: { max: showMore, search: search } })
-  }, [searchFilter, showMore, search])
+  }, [searchFilter, showMore, search, productFoodsAll])
 
   // const download = () => {
   //     window.print();
@@ -95,8 +106,37 @@ const GenerateSales = () => {
     pri.focus()
     pri.print()
   }
+
+  const addToCartFunc = (pre, cur) => {
+    const productExist = pre.productName.find(
+      (items) => { return items.id === cur.payload.id }
+    )
+    return {
+      ...pre,
+      counter: pre.counter + 1,
+      totalAmount: pre.totalAmount + cur.payload.price,
+      productName: !productExist
+        ? [
+          ...pre.productName,
+          {
+            id: cur.payload.id,
+            quant: 1,
+            price: cur.payload.price,
+            name: cur.payload.name
+          }
+        ]
+        : pre.productName.map((items) => {
+          return items.id === cur.payload.id
+            ? { ...items, quant: items.quant + 1 }
+            : items
+        }
+        )
+    }
+  }
   const PRODUCT = (state, action) => {
     switch (action.type) {
+      case 'ADD_TO_CART':
+        return addToCartFunc(state, action)
       case 'ADD_PRODUCT':
         return {
           ...state,
@@ -117,21 +157,62 @@ const GenerateSales = () => {
           ...state,
           PRODUCT: []
         }
-      case 'TOGGLE_INVOICE':
+      case 'TOGGLE_FREE_PRODUCT':
         return {
           ...state,
-          PRODUCT: state?.PRODUCT.map((t, idx) => { return idx === action.idx ? { ...t, isPaid: !t.isPaid } : t })
+          PRODUCT: state?.PRODUCT.map((t, idx) => {
+            return idx === action.idx ? {
+              ...t,
+              free: !t.free
+            } : t
+          })
+        }
+      case 'INCREMENT':
+        return {
+          ...state,
+          PRODUCT: state?.PRODUCT.map((item) => {
+            if (item.pId === action.id) {
+              return {
+                ...item,
+                ProQuantity: item.ProQuantity + 1,
+                ProPrice: item.ProQuantity * item.ProPrice
+              }
+            }
+            return {
+              ...item
+            }
+
+          })
+        }
+      case 'DECREMENT':
+        return {
+          ...state,
+          PRODUCT: state.PRODUCT.map((item) => {
+            if (item.pId === action.id && item.ProQuantity > 0) {
+              return {
+                ...item,
+                ProQuantity: item.ProQuantity - 1,
+                ProPrice: item.ProPrice - item.ProPrice
+              }
+            }
+            return {
+              ...item
+            }
+
+          })
         }
       default:
         return state
     }
   }
+
   const [data, dispatch] = useReducer(PRODUCT, initialStateInvoice)
   let suma = 0
   let total = 0
   useEffect(() => {
     data.PRODUCT.forEach((a) => {
       const { ProPrice } = a || {}
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       suma += ProPrice
       setTotalProductPrice(Math.abs(suma))
     })
@@ -140,7 +221,7 @@ const GenerateSales = () => {
     }
   }, [totalProductPrice, suma, total, data])
   const newArray = data?.PRODUCT?.map(x => { return x })
-  const handleSales = async (bool) => {
+  const handleSales = async () => {
     await createMultipleOrderStore({
       variables: {
         input: {
@@ -158,18 +239,14 @@ const GenerateSales = () => {
                 nameFun: 'getAllShoppingCard',
                 dataNew: getAllShoppingCard
             }) */
-
-    }).then(() => {
-      if (bool) {
-        console.log('first')
-      }
-    }).catch(err => { return setAlertBox({ message: `${err}`, duration: 7000 }) })
+    })
 
   }
   const [minPrice, setMinPrice] = useState(0)
   useEffect(() => {
     setMinPrice(dataMinPedido?.getMinPrice || 0)
   }, [minPrice, dataMinPedido])
+
   return (
     <Wrapper>
       <AwesomeModal
@@ -180,12 +257,13 @@ const GenerateSales = () => {
         confirm='Guardar y salir'
         footer={true}
         header={true}
-        height='100vh'
+        height='90vh'
         onConfirm={() => { return handleSales('confirm') }}
         onHide={() => { return setPrint(!print) }}
         padding='25px'
         show={print}
-        size='small'
+        size='medium'
+        zIndex='999999'
       >
         <Prints
           change={values.change}
@@ -247,13 +325,23 @@ const GenerateSales = () => {
             virtual
           >
             {datCat && datCat?.catProductsAll?.map((slideContent, index) => {
+              const val = arr?.find(x => {return slideContent.carProId == x})
+              console.log(val)
               return (
                 <SwiperSlide
                   effect='fade'
                   key={slideContent.carProId}
                   virtualIndex={index}
                 >
-                  <CateItem>
+
+                  <CateItem border={val}>
+                    <Checkbox
+                      checked={checkedItems.has(slideContent.carProId)}
+                      disabled={disabledItems.has(slideContent.carProId)}
+                      id={slideContent.carProId}
+                      label={`${index + 1}`}
+                      onChange={handleChangeCheck}
+                    />
                     <div className='icon'>
                       <IconSales size={30} />
                     </div>
@@ -265,7 +353,7 @@ const GenerateSales = () => {
               )
             })}
           </Swiper>
-          <Form>
+          {/* <Form>
             <InputHooks
               name='fromDate'
               // eslint-disable-next-line no-undef
@@ -307,8 +395,8 @@ const GenerateSales = () => {
               Mas opciones
             </Button>
             <RippleButton margin='30px' padding='10px'>Consultar</RippleButton>
-          </Form>
-          <ContentCheckbox>
+          </Form> */}
+          {/* <ContentCheckbox>
             <ContentCheckbox>
               <label>
                 Envíos gratis
@@ -327,23 +415,37 @@ const GenerateSales = () => {
               min={numberFormat(dataMinPedido?.getMinPrice)}
               value={32432432}
             />
-          </ContentCheckbox>
+          </ContentCheckbox> */}
         </CtnSwiper>
         <ScrollbarProduct>
           <ContainerGrid>
-            {dataProducto.map((producto) => {
+            {dataProducto.map((producto, i) => {
               return (
-                <CardProducts
-                  ProDescription={producto.ProDescription}
-                  ProDescuento={producto.ProDescuento}
-                  ProImage={producto.ProImage}
-                  ProPrice={producto.ProPrice}
-                  ValueDelivery={producto.ValueDelivery}
-                  key={producto.pId}
-                  onClick={() => { return dispatch({ type: 'ADD_PRODUCT', payload: producto }) }}
-                  pName={producto.pName}
-                  render={<IconSales size='20px' />}
-                />
+                <div key={producto.pId}>
+                  <Toast open={false}>
+                    {/* <span size='15px'> {checkedItems?.size} Object selected </span>
+                    <DownLoadButton onClick={selectAll}>Select All</DownLoadButton>
+                    <DownLoadButton onClick={clearAll}>Clear All</DownLoadButton>
+                    <DownLoadButton onClick={toggleAll}>Toggle All</DownLoadButton>
+                    <DownLoadButton onClick={clearAll} style={{ border: 'none' }}><IconCancel color={BGColor} size='20px' />  </DownLoadButton> */}
+                  </Toast>
+
+                  <CardProducts
+                    ProDescription={producto.ProDescription}
+                    ProDescuento={producto.ProDescuento}
+                    ProImage={producto.ProImage}
+                    ProPrice={producto.ProPrice}
+                    ProQuantity={producto.ProQuantity}
+                    ValueDelivery={producto.ValueDelivery}
+                    handleDecrement={() => { return dispatch({ id: producto.pId, type: 'DECREMENT' }) }}
+                    handleIncrement={() => { return dispatch({ id: producto.pId, type: 'INCREMENT' }) }}
+
+                    onClick={() => { return dispatch({ type: 'ADD_PRODUCT', payload: producto }) }}
+                    pName={producto.pName}
+                    render={<IconSales size='20px' />}
+                    sum={true}
+                  />
+                </div>
               )
             })}
           </ContainerGrid>
@@ -365,17 +467,24 @@ const GenerateSales = () => {
                   ProDescuento={producto.ProDescuento}
                   ProImage={producto.ProImage}
                   ProPrice={producto.ProPrice}
+                  ProQuantity={producto.ProQuantity}
                   ValueDelivery={producto.ValueDelivery}
+                  free={producto.free}
+                  handleDecrement={() => { return dispatch({ id: producto.pId, type: 'DECREMENT' }) }}
+                  handleFree={true}
+                  handleFreeProducts={() => { return dispatch({ type: 'TOGGLE_FREE_PRODUCT', idx }) }}
+                  handleIncrement={() => { return dispatch({ id: producto.pId, type: 'INCREMENT' }) }}
                   key={idx + 1}
                   onClick={() => { return dispatch({ type: 'REMOVE_PRODUCT', idx }) }}
                   pName={producto.pName}
                   render={<IconDelete color={PColor} size='20px' />}
+                  sum={true}
                 />
               )
             }) : <div><IconSales size={100} /></div>}
           </ContainerGrid>
         </ScrollbarProduct>
-        {/* <ContentCalcules>
+        <ContentCalcules>
           <Box display='flex' width='40%'>
             <TextH2Main
               color={BGColor}
@@ -393,7 +502,7 @@ const GenerateSales = () => {
               <Button onClick={() => { return setPrint(!print) }} radius='50%'><IconPrint color={BGColor} size={30} /></Button>
             </FlipTop>
           </Box>
-        </ContentCalcules> */}
+        </ContentCalcules>
       </Box>
 
     </Wrapper >

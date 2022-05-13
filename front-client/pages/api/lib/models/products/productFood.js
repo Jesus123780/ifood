@@ -96,10 +96,11 @@ const productModelFood = sequelize.define('productmodelfood', {
         defaultValue: 1
     },
     // -----------------------------Listo-----------------------------
-    // Cantidad
+    // Cantidad dinamica 
     ProQuantity: {
         type: Sequelize.INTEGER,
-        allowNull: true
+        allowNull: true,
+        defaultValue: 1
     },
     // Destacado
     ProOutstanding: {

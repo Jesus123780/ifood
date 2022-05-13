@@ -1,6 +1,7 @@
+import { fadeIn, fadeOut } from 'components/AlertBox/styled'
 import { APColor, BGColor, PColor, PLColor } from 'public/colors'
 import styled, { css } from 'styled-components'
-import { animationTop, FadeOutLeftBig } from '../../components/animations'
+import { animationTop } from '../../components/animations'
 
 export const Input = styled.input`
     outline: none;
@@ -12,14 +13,16 @@ export const ContentCalcules = styled.div`
     position: fixed;
     right: 0;
     bottom: -1px;
+    padding: 10px;
     display: flex;
-    width: 40%;
+    width: 40.7%;
     justify-content: space-between;
     background-color: ${PColor};
 `
 export const ScrollbarProduct = styled.div`
     overflow: hidden auto;
     height: 100%;
+    border-left: 1px solid #e9ecef;
     margin: ${({ margin }) => {return margin || '100px 0'}};
     h2 {
     text-rendering: optimizeLegibility;
@@ -104,7 +107,7 @@ export const Box = styled.div`
     width: ${({ width }) => {return width || '60%'}};
     place-content: center;
     place-items: center;
-    ${({ display }) => {return display && css` display: ${display};`}}
+    display: ${({ display }) => {return display}};
     position: relative;
 `
 export const Wrapper = styled.div`
@@ -122,6 +125,41 @@ export const ContentCheckbox = styled.div`
         color: ${APColor};
     }
 `
+export const Toast = styled.div`
+    animation: ${({ open }) => {return open && (open ? fadeIn : fadeOut)}} 1s forwards;
+    height: 89px;
+    top: -50%;
+    background-color: #50a773;
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    left: 0;
+    align-items: center;
+    width: 100%;
+    margin: auto;
+    padding: 30px;
+    z-index: 999999999;
+    transition: 400ms;
+    box-shadow: 0px 0px 6px #00000052;
+    color: ${BGColor};
+`
+export const DownLoadButton = styled.button`
+    box-sizing: border-box;
+    margin: 0;
+    width: 200px;
+    overflow: visible;
+    text-transform: none;
+    cursor: pointer;
+    background-color: transparent;
+    border: 2px solid hsla(0,0%,100%,.9);
+    color: #fff;
+    border-radius: 2px;
+    padding: 5px 10px;
+    font-size: 13px;
+    transition: all;
+    transition-duration: .3s;
+    margin-left: 10px;
+`
 export const ContainerGrid = styled.div`
     display: grid;    
     margin: 0;
@@ -132,11 +170,11 @@ export const ContainerGrid = styled.div`
     height: 100vh;
 @media only screen and (min-width: 768px) and (min-width: 960px)
 {
-    grid-template-columns: repeat(auto-fill,minmax(275px,1fr));
+    grid-template-columns: repeat(auto-fill,minmax(175px,1fr));
     grid-gap: 30px;
 }
 @media only screen and (min-width: 768px) {
-    grid-template-columns: repeat(auto-fill,minmax(252px,1fr));
+    grid-template-columns: repeat(auto-fill,minmax(172px,1fr));
     grid-gap: 20px;
 }
 
@@ -164,7 +202,8 @@ export const CateItem = styled.div`
     padding: 8px 12px;
     border-radius: 200px;
     transition: background-color .3s ease-in-out;
-    background-color: #f7f7f7;
+    background-color: #fff;
+    background-color: ${({ border }) => {return 'blue' || 'red'}};
     text-rendering: optimizeLegibility;
     cursor: pointer;
     color: #717171;
@@ -187,6 +226,8 @@ export const CateItem = styled.div`
         min-height: 20%;
         max-height: 20%;
     }
+   
+
 `
 export const SliderCategoryProducts = styled.div`
     display: flex;

@@ -3,32 +3,56 @@ import { RippleButton } from 'components/Ripple'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { APColor, BColor, BGColor, PColor } from 'public/colors'
-import { IconDelete, IconEdit } from 'public/icons'
+import { IconDelete, IconEdit, IconPlus } from 'public/icons'
 import styled, { css } from 'styled-components'
 import { numberFormat } from 'utils'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-export const CardProducts = ({ pName, del, edit, ProDescription, ValueDelivery, pId, ProPrice, render = null, onClick = () => { }, handleDelete = () => { }, ProDescuento, ProImage, widthButton }) => {
+export const CardProducts = ({ pName, del, edit, sum, free, handleFree, ProDescription, handleFreeProducts = () => { }, handleIncrement, ProQuantity, handleDecrement, ValueDelivery, pId, ProPrice, render = null, onClick = () => { }, handleDelete = () => { }, ProDescuento, ProImage, widthButton }) => {
   const router = useRouter()
   return (
-    <Card>
+    <Card free={free}>
       {del && <ButtonCard grid={false} onClick={handleDelete}>
         <IconDelete color={PColor} size={20} />
-        <ActionName >
-                    Eliminar
-        </ActionName>
+        <ActionName>Eliminar</ActionName>
       </ButtonCard>}
       {edit && <ButtonCard
         delay='.1s'
         grid={false}
-        onClick={() => {return router.push(`/producto/editar/${pId}`)}}
+        onClick={() => { return router.push(`/producto/editar/${pId}`) }}
         top={'80px'}
       >
         <IconEdit color={PColor} size={20} />
-        <ActionName>
-                    Editar
-        </ActionName>
+        <ActionName>Editar</ActionName>
       </ButtonCard>}
+      <div>
+        {sum && <button
+          delay='.1s'
+          grid={false}
+          onClick={() => { return handleIncrement() }}
+          top={'80px'}
+        >
+          +
+        </button>}
+        {sum && <span>{ProQuantity}</span>}
+        {sum && <button
+          delay='.1s'
+          grid={false}
+          onClick={() => { return handleDecrement() }}
+          top={'80px'}
+        >
+          -
+        </button>}
+        {handleFree && <button
+          delay='.1s'
+          grid={false}
+          onClick={() => { return handleFreeProducts() }}
+          top={'80px'}
+        >
+          free products
+        </button>}
+
+      </div>
       <div className='dish-card__info'>
         {ValueDelivery && <span className='description'>Domicilio $ {numberFormat(ValueDelivery || 0)}</span>}
 
@@ -46,7 +70,7 @@ export const CardProducts = ({ pName, del, edit, ProDescription, ValueDelivery, 
           {render && <RippleButton
             bgColor={BGColor}
             margin='5px auto'
-            onClick={() => {return onClick()}}
+            onClick={() => { return onClick() }}
             padding='0'
             widthButton={widthButton}
           >{render}</RippleButton>}
@@ -120,8 +144,8 @@ export const ButtonCard = styled.button`
     width: 50px;
     height: 50px;
     z-index: 999; 
-    top: ${({ top }) => {return top ? top : '20px'}};
-    transition-delay: ${({ delay }) => {return delay ? delay : 'auto'}};
+    top: ${({ top }) => { return top ? top : '20px' }};
+    transition-delay: ${({ delay }) => { return delay ? delay : 'auto' }};
     max-height: 50px;
     max-width: 50px;
     border-radius: 50%;
@@ -133,8 +157,9 @@ export const ButtonCard = styled.button`
         opacity: 1;
         z-index: 900;
     }
-    ${props => {return props.grid && css`
-        top: ${({ top }) => {return top ? top : '80px'}};
+    ${props => {
+    return props.grid && css`
+        top: ${({ top }) => { return top ? top : '80px' }};
         `}
 }
 `
@@ -158,6 +183,9 @@ const Card = styled.div`
     height: 400px;
     align-items: flex-end;
     top: 0;
+    /* border: ${({ free }) => { return free && `${APColor}` }}; */
+    box-shadow: ${({ free }) => { return free && `0 1px 4px ${APColor}` }};
+
     &:hover  ${ButtonCard} {
         right: 15px;
     }

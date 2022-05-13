@@ -72,7 +72,7 @@ import indexRoutes from './api/lib/router'
         { server: httpServer, path: server.graphqlPath }
     )
 
-    httpServer.listen(process.env.PORT || 3000, () => {
+    httpServer.listen(process.env.PORT || 4000, () => {
         console.log(
             `🚀 Query endpoint ready at http://localhost:${process.env.PORT}`
         )
