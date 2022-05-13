@@ -202,8 +202,7 @@ export const CateItem = styled.div`
     padding: 8px 12px;
     border-radius: 200px;
     transition: background-color .3s ease-in-out;
-    background-color: #fff;
-    background-color: ${({ border }) => {return 'blue' || 'red'}};
+    background-color: #f7f7f7;
     text-rendering: optimizeLegibility;
     cursor: pointer;
     color: #717171;

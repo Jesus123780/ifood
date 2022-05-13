@@ -58,7 +58,6 @@ const GenerateSales = () => {
   for (let categories of checkedItems.keys()) {
     arr.push(categories)
   }
-  console.log(arr)
 
   // llama a los productos y espera una acción
   /* Filtro  */
@@ -107,27 +106,27 @@ const GenerateSales = () => {
     pri.print()
   }
 
-  const addToCartFunc = (pre, cur) => {
-    const productExist = pre.productName.find(
-      (items) => { return items.id === cur.payload.id }
+  const addToCartFunc = (state, action) => {
+    const productExist = state.PRODUCT.find(
+      (items) => { return items.pId === action.payload.pId }
     )
     return {
-      ...pre,
-      counter: pre.counter + 1,
-      totalAmount: pre.totalAmount + cur.payload.price,
-      productName: !productExist
+      ...state,
+      counter: state.counter + 1,
+      totalAmount: state.totalAmount + action.payload.ProPrice,
+      PRODUCT: !productExist
         ? [
-          ...pre.productName,
+          ...state.PRODUCT,
           {
-            id: cur.payload.id,
-            quant: 1,
-            price: cur.payload.price,
-            name: cur.payload.name
+            pId: action.payload.pId,
+            ProQuantity: 1,
+            ProPrice: action.payload.ProPrice,
+            name: action.payload.name
           }
         ]
-        : pre.productName.map((items) => {
-          return items.id === cur.payload.id
-            ? { ...items, quant: items.quant + 1 }
+        : state.PRODUCT.map((items) => {
+          return items.pId === action.payload.pId
+            ? { ...items, ProQuantity: items.ProQuantity + 1 }
             : items
         }
         )
@@ -246,6 +245,7 @@ const GenerateSales = () => {
   useEffect(() => {
     setMinPrice(dataMinPedido?.getMinPrice || 0)
   }, [minPrice, dataMinPedido])
+  console.log(data.PRODUCT)
 
   return (
     <Wrapper>
@@ -291,7 +291,7 @@ const GenerateSales = () => {
           onChange={handleChange}
           onKeyPress={(e) => {
             if (e.key === 'Enter') {
-              e.preventDefault()
+              e.stateventDefault()
               e.target.blur()
               setDelivery(!delivery)
             }
@@ -325,8 +325,7 @@ const GenerateSales = () => {
             virtual
           >
             {datCat && datCat?.catProductsAll?.map((slideContent, index) => {
-              const val = arr?.find(x => {return slideContent.carProId == x})
-              console.log(val)
+              const val = arr?.find(x => { return slideContent.carProId == x })
               return (
                 <SwiperSlide
                   effect='fade'
@@ -419,7 +418,7 @@ const GenerateSales = () => {
         </CtnSwiper>
         <ScrollbarProduct>
           <ContainerGrid>
-            {dataProducto.map((producto, i) => {
+            {dataProducto.map((producto) => {
               return (
                 <div key={producto.pId}>
                   <Toast open={false}>
@@ -429,7 +428,16 @@ const GenerateSales = () => {
                     <DownLoadButton onClick={toggleAll}>Toggle All</DownLoadButton>
                     <DownLoadButton onClick={clearAll} style={{ border: 'none' }}><IconCancel color={BGColor} size='20px' />  </DownLoadButton> */}
                   </Toast>
-
+                  <button
+                    onClick={() =>
+                    {return dispatch({
+                      type: 'ADD_TO_CART',
+                      payload: producto
+                    })}
+                    }
+                  >
+                    Add to cart
+                  </button>
                   <CardProducts
                     ProDescription={producto.ProDescription}
                     ProDescuento={producto.ProDescuento}
