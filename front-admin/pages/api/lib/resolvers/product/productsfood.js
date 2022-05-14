@@ -80,7 +80,7 @@ export const getMinPrice = async (root, { idStore }, context) => {
 }
 export const productFoodsAll = async (root, args, context, info) => {
   try {
-    const { search, min, max, pId, gender, desc, categories } = args
+    const { search, min, max, pId, gender, desc, categories, toDate, fromDate } = args
     let whereSearch = {}
     if (search) {
       whereSearch = {
@@ -110,7 +110,7 @@ export const productFoodsAll = async (root, args, context, info) => {
     if (categories?.length) {
       whereSearch = {
         ...whereSearch,
-        caId: { [Op.in]: categories.map(x => {return deCode(x)}) }
+        carProId: { [Op.in]: categories.map(x => {return deCode(x)}) }
       }
     }
     const attributes = getAttributes(productModelFood, info)
@@ -122,6 +122,7 @@ export const productFoodsAll = async (root, args, context, info) => {
             ...whereSearch,
             // get restaurant
             idStore: deCode(context.restaurant),
+            ...((fromDate && toDate) ? { pDatCre: { [Op.between]: [fromDate, `${toDate} 23:59:59`] } } : {}),
             // get user
             id: deCode(context.User.id),
             // ID Productos

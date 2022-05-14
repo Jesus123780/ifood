@@ -102,7 +102,7 @@ type Query {
     getProductFoods: [ProductFood]
     productFoods: [ProductFood]
     productFoodsOne(pId: ID, cId: ID, dId: ID, ctId: ID ): ProductFood
-    productFoodsAll(pId: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int,  gender: [String]  desc: [String], categories: [ID]  ): [ProductFood]
+    productFoodsAll(pId: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int,  gender: [String]  desc: [String], categories: [ID] fromDate: DateTime toDate: DateTime ): [ProductFood]
     productFoodsLogis(pId: ID, cId: ID, dId: ID, ctId: ID, search: String, min: Int, max: Int  ): [ProductFood]
     getMinPrice(idStore: ID): Float
 }

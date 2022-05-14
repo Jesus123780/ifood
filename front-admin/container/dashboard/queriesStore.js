@@ -77,8 +77,8 @@ query employees ($umId: ID, $cId: ID, $aId: ID){
 }
 `
 export const GET_ALL_PRODUCT_STORE = gql`
-query productFoodsAll($search: String, $min: Int, $max: Int, $gender: [String], $desc: [String], $categories: [ID], ) {
-  productFoodsAll(search: $search, min: $min, max: $max, gender: $gender, desc: $desc, categories: $categories,) {
+query productFoodsAll($search: String, $min: Int, $max: Int, $gender: [String], $desc: [String], $categories: [ID], $fromDate: DateTime, $toDate: DateTime ) {
+  productFoodsAll(search: $search, min: $min, max: $max, gender: $gender, desc: $desc, categories: $categories,  toDate: $toDate, fromDate: $fromDate) {
     pId
     sizeId #Talla
     colorId #Color

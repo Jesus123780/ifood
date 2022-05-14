@@ -63,7 +63,9 @@ const createMultipleOrderStore = async (_, { input }, ctx) => {
         await StatusPedidosModel.create({ id: deCode(ctx.User.id), locationUser, idStore: deCode(setInput[0].idStore), pSState: 0, pCodeRef: pCodeRef, change: change, payMethodPState: payMethodPState, pickUp, totalProductsPrice })
         for (let i = 0; i < setInput.length; i++) {
             const { ShoppingCard, idStore } = setInput[i]
-            await deleteOneItem(null, { ShoppingCard, cState: 1 })
+            if (ShoppingCard) {
+                await deleteOneItem(null, { ShoppingCard, cState: 1 })
+            }
             await createOnePedidoStore(null, { input: { id: ctx.User.id, idStore, ShoppingCard, change, pickUp, pCodeRef, payMethodPState, pPRecoger } })
             // console.log(ShoppingCard, idStore)
         }

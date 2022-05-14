@@ -80,6 +80,13 @@ export const MerchantInfoTitle = styled.h1`
     align-items: center;
     display: flex;
     margin: 0 40px;
+    button {
+      background-color: transparent;
+      cursor: pointer;
+    }
+    svg {
+      cursor: pointer;
+    }
 `
 export const ButtonAction = styled.button`
     margin: 10px;

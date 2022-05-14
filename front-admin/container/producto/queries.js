@@ -8,6 +8,14 @@ export const EDIT_PRODUCT = gql`
   }
 }
 `
+export const SET_EDIT_STORE_NAME = gql`
+mutation setEditNameStore($StoreName: String){
+  setEditNameStore(StoreName: $StoreName){
+    success
+    message
+  }
+}
+`
 export const GET_ONE_PRODUCTS_FOOD = gql`
 query productFoodsOne($pId: ID){
     productFoodsOne(pId: $pId ){

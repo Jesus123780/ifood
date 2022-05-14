@@ -134,8 +134,8 @@ const productModelFood = sequelize.define('productmodelfood', {
       model: CategoryProductsModel,
       key: 'caId'
     },
-    get(x) { return enCode(this.getDataValue(x)) },
-    set(x) { this.setDataValue('caId', validationID(x, false)) }
+    get(x) { return enCode(this.getDataValue(x)) }
+    // set(x) { this.setDataValue('caId', validationID(x, false)) }
   },
   // poPriority: {
   //     type: Sequelize.SMALLINT,

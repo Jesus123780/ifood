@@ -15,7 +15,7 @@ import { GET_ALL_CATEGORIES_WITH_PRODUCT, GET_ALL_EXTRA_PRODUCT } from './querie
 import { ContainerFilter, ItemFilter } from '../../components/Update/Products/styled'
 import { ButtonAction, WrapperOptions, ContentSearch, Title, ContainerCarrusel } from './styledStore'
 import InputHooks from '../../components/InputHooks/InputHooks'
-import { GET_ONE_PRODUCTS_FOOD } from '../producto/queries'
+import { GET_ONE_PRODUCTS_FOOD, SET_EDIT_STORE_NAME } from '../producto/queries'
 import { ExtrasProductsItems } from '../producto/extras'
 import { ExtraProducts } from '../Extraproducts'
 import { GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, UPDATE_PRODUCT_FOOD } from '../update/Products/queries'

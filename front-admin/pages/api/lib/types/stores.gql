@@ -195,6 +195,7 @@ type Mutation {
     newRegisterStore(input: IStore): AuthPayload
     createOneContract(input: InputContractType): AuthPayload
     setFavorites(input: IFavorites!): Response!
+    setEditNameStore(StoreName: String): Response!
     setRating(input: InputRatingStore): Response!
     setRatingStar(input: IStar): Response!
     setVisitorStore(input: InputVisitorStoreType): Response

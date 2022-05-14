@@ -272,7 +272,7 @@ export const updateFavorites = async (_root, { input }, context) => {
 export const getFavorite = async (_root, args, context, info) => {
   try {
     // eslint-disable-next-line
-        const attributes = getAttributes(FavoritesModel, info)
+    const attributes = getAttributes(FavoritesModel, info)
     const data = await FavoritesModel.findAll({
       attributes: ['id', 'fState', 'fIStoreId', 'idStore', 'updateAt', 'createAt'],
       where: { id: deCode(context.User.id), fState: 1 }
@@ -341,7 +341,7 @@ export const setRatingStar = async (_root, { input }, context) => {
   const { idStore, rScore } = input || {}
   try {
     // eslint-disable-next-line
-        const [rating, _created] = await ratingStoreStart.findOrCreate({
+    const [rating, _created] = await ratingStoreStart.findOrCreate({
       where: { id: deCode(context.User.id) },
       defaults: {
         id: deCode(context.User.id),
@@ -365,7 +365,7 @@ export const setRating = async (_root, { input }, context) => {
   const { idStore, rAppearance, rTasty, rGoodTemperature, rGoodCondition } = input || {}
   try {
     // eslint-disable-next-line
-        const [rating, _created] = await RatingStore.findOrCreate({
+    const [rating, _created] = await RatingStore.findOrCreate({
       where: { id: deCode(context.User.id) },
       defaults: {
         id: deCode(context.User.id),
@@ -400,7 +400,7 @@ export const setFavorites = async (_root, { input }, context) => {
     if (data.fState) {
       await updateFavorites(null, { input: data }, context)
       return { success: false, message: 'El Restaurante ha sido eliminado de tus favoritos' }
-    } 
+    }
     const isFavorites = await FavoritesModel.findOne({
       attributes: ['id', 'fState', 'fIStoreId', 'idStore'],
       where: { idStore: deCode(idStore) }
@@ -410,15 +410,25 @@ export const setFavorites = async (_root, { input }, context) => {
 
       if (isFavorites.fState === 0) {
         return { success: true, message: 'El Restaurante ha sido agregado nuevamente a tus favoritos' }
-      } 
+      }
       return { success: false, message: 'El Restaurante ha sido eliminado de tus favoritos' }
-                
-    } 
+    }
     await FavoritesModel.create({ fState: 1, id: deCode(context.User.id), idStore: deCode(idStore) })
     return { success: true, message: 'El Restaurante ha sido agregado a tus favoritos' }
-        
+
   } catch (e) {
     return e
+  }
+}
+export const setEditNameStore = async (_root, { StoreName }, context) => {
+  try {
+    await Store.update({
+      storeName: StoreName
+    }, { where: { idStore: deCode(context.restaurant), id: deCode(context.User.id) } })
+    return { success: true, message: 'El Restaurante ha cambiado de nombre' }
+    // eslint-disable-next-line no-unreachable
+  } catch (e) {
+    return { success: true, message: 'El Restaurante no pudo cambiar de nombre' }
   }
 }
 
@@ -506,7 +516,7 @@ export default {
     },
     Store: {
       // eslint-disable-next-line
-            getAllRatingStar: async (parent, _args, _context, info) => {
+      getAllRatingStar: async (parent, _args, _context, info) => {
         const data = await ratingStoreStart.findAll({
           attributes: ['rScore', 'idStore', 'rSId', 'createAt'],
           where: { idStore: deCode(parent.idStore) }
@@ -583,6 +593,7 @@ export default {
     setFavorites,
     setRatingStar,
     deleteOneItem,
+    setEditNameStore,
     setRating,
     registerShoppingCard
   }

@@ -1,7 +1,7 @@
 /* eslint-disable no-unsafe-optional-chaining */
 import React, { useContext, useEffect, useReducer, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Box, Button, CateItem, ContainerGrid, ContentCalcules, CtnSwiper, FlipTop, Warper, Input, OptionButton, ScrollbarProduct, Wrapper } from './styled'
+import { Box, Button, CateItem, ContainerGrid, ContentCalcules, CtnSwiper, FlipTop, Warper, Input, ScrollbarProduct, Wrapper } from './styled'
 import { useMutation, useQuery } from '@apollo/client'
 import { GET_ULTIMATE_CATEGORY_PRODUCTS } from 'container/dashboard/queries'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -12,7 +12,6 @@ import { BGColor, PColor } from 'public/colors'
 import { numberFormat, RandomCode } from 'utils'
 import { RippleButton } from 'components/Ripple'
 import { AwesomeModal } from 'components/AwesomeModal'
-import { useFormTools } from 'components/BaseForm'
 import InputHooks from 'components/InputHooks/InputHooks'
 import moment from 'moment'
 import { CardProducts } from 'components/CartProduct'
@@ -25,28 +24,32 @@ import { useCheckboxState } from 'components/hooks/useCheckbox'
 import { Checkbox } from 'components/Checkbox'
 import { Skeleton } from 'components/Skeleton'
 import { LoadingBabel } from 'components/Loading/LoadingBabel'
+import { InputHook } from 'components/Update/Products/Input'
 const GenerateSales = () => {
   // STATES
   const arr = []
+  let suma = 0
+  let total = 0
   const { setAlertBox } = useContext(Context)
   const [totalProductPrice, setTotalProductPrice] = useState(0)
   const code = RandomCode(5)
   const [search, setSearch] = useState('')
   const [showMore, setShowMore] = useState(50)
+  const [inputValue, setInputValue] = useState('')
   const [delivery, setDelivery] = useState(false)
   const [print, setPrint] = useState(false)
   const [values, setValues] = useState({})
   const handleChange = e => { return setValues({ ...values, [e.target.name]: e.target.value }) }
-  const [handleChangeProducts, { dataForm, errorForm }] = useFormTools()
   const [valuesDates, setValuesDates] = useState({ fromDate: moment().format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD') })
   const onChangeInput = (e) => { return setValuesDates({ ...valuesDates, [e.target.name]: e.target.value }) }
-
   // QUERIES
   const { data: dataProduct, loading, fetchMore } = useQuery(GET_ALL_PRODUCT_STORE, {
     fetchPolicy: 'network-only',
     variables:
     {
       search: search,
+      toDate: valuesDates?.toDate,
+      fromDate: valuesDates?.fromDate,
       min: 0,
       max: showMore,
       gender: [],
@@ -247,12 +250,38 @@ const GenerateSales = () => {
   // FILTER PRODUCT DATA
   const PriceRangeFunc = (products, price) => { return products.filter((items) => { return items.ProPrice >= price }) }
   const [data, dispatch] = useReducer(PRODUCT, initialStateInvoice)
+  // eslint-disable-next-line
+  const [_, setFilteredList] = useState([])
   const sortedProduct = getSortedProduct(data.PRODUCT, data.sortBy)
   const finalFilter = PriceRangeFunc(sortedProduct, data.priceRange)
+
+  const handleList = (text) => {
+    let inputText = text.toLowerCase()
+    let dataList = []
+    dataList = finalFilter.filter((item) => { return item.pName.toLowerCase().includes(inputText) })
+    return dataList
+  }
+  const searchedInput = (words) => {
+    setInputValue(words)
+    let n = words.split(' ')
+    if (n.length !== 0) {
+      if (n[n.length - 1] === '') {
+        n.pop()
+      }
+      return n[n.length - 1]
+    } return ''
+  }
+  const handleChangeFilterProduct = (e) => {
+    let text = searchedInput(e.target.value)
+    if (text === undefined || text === '') {
+      return
+    }
+    let filteredData = handleList(text)
+    setFilteredList(filteredData)
+  }
   // FILTER PRODUCT DATA_DB
   const handleChangeFilter = e => { setSearch(e.target.value) }
-  let suma = 0
-  let total = 0
+
 
   // EFFECTS
   useEffect(() => {
@@ -283,6 +312,7 @@ const GenerateSales = () => {
     })
 
   }
+
   return (
     <Wrapper>
       <AwesomeModal
@@ -294,7 +324,7 @@ const GenerateSales = () => {
         footer={true}
         header={true}
         height='90vh'
-        onConfirm={() => { return handleSales('confirm') }}
+        onConfirm={() => { return handleSales() }}
         onHide={() => { return setPrint(!print) }}
         padding='25px'
         show={print}
@@ -407,16 +437,6 @@ const GenerateSales = () => {
               width='20%'
             />
             <InputHooks
-              error={errorForm?.ProPrice}
-              name='ProPrice'
-              numeric
-              onChange={handleChangeProducts}
-              required
-              title='Precio'
-              value={dataForm?.ProPrice}
-              width='30%'
-            />
-            <InputHooks
               name='search'
               onChange={handleChangeFilter}
               range={{ min: 0, max: 20 }}
@@ -501,6 +521,15 @@ const GenerateSales = () => {
               value={data.priceRange}
             />
           </Warper>
+          <InputHook
+            id='myInput'
+            name='myInput'
+            onChange={(e) => {return handleChangeFilterProduct(e) }}
+            placeholder='Search for the data..'
+            required={true}
+            type='text'
+            value={inputValue}
+          />
           <ContainerGrid>
             {data?.PRODUCT?.length > 0 ? finalFilter.map((producto, idx) => {
               return (

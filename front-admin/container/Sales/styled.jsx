@@ -37,47 +37,6 @@ export const ScrollbarProduct = styled.div`
     justify-content: center;
     }
 `
-export const OptionButton = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    .free {
-        color: ${PColor};
-        width: 100px;
-        border-radius: 10px;
-        background-color: ${BGColor};
-        border: 1px solid ${`${PLColor}87`};
-    }
-    button {
-    margin: 10px;
-    border: 1px solid ${PLColor};
-    padding: 10px;
-    border-radius: 20px;
-    flex-grow: 1;
-    font-size: 15px;
-    background-color: transparent;
-    text-align: center;
-    transition: 0.3s;
-    cursor: pointer;
-    width: max-content;
-    position: relative;
-    span {
-        background-color: ${PColor};
-        color:  ${BGColor};
-        height: 25px;
-        width: 25px;
-        padding: 2px;
-        font-size: 12px;    
-        display: flex;
-        place-items: center;
-        place-content: center;
-        position: absolute;
-        top: -10px;
-        right: 0;
-        border-radius: 50%;
-    }
-    }
-`
 export const Button = styled.button`
     background-color: transparent;
     outline: none;
