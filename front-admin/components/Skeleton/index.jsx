@@ -2,10 +2,10 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
-export const Skeleton = ({ height, width='100%', margin, numberObject }) => {
+const SkeletonComponent = ({ height, width='100%', margin, numberObject }) => {
   return (
     <React.Fragment>
-      {Array.from(Array(1).keys(numberObject || 1)).map(value => {
+      {Array.from(Array(numberObject || 1).keys()).map(value => {
         return (
           <Container
             height={`${height}px`}
@@ -20,6 +20,8 @@ export const Skeleton = ({ height, width='100%', margin, numberObject }) => {
     </React.Fragment>
   )
 }
+
+export const Skeleton = React.memo(SkeletonComponent)
 
 Skeleton.propTypes = {
   height: PropTypes.number,

@@ -73,7 +73,8 @@ export const getMinPrice = async (root, { idStore }, context) => {
   let N = 0
   if (data?.length > 0) {
     myArray = data.map(x => { return x.ProPrice })
-    N = Math.min.apply(null, myArray)
+    
+    N = Math.min(...myArray)
     return N
   }
 }

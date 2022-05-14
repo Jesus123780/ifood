@@ -1,13 +1,13 @@
+/* eslint-disable no-unsafe-optional-chaining */
 import React, { useContext, useEffect, useReducer, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Box, Button, CateItem, ContainerGrid, ContentCalcules, ContentCheckbox, CtnSwiper, DownLoadButton, FlipTop, Form, Input, OptionButton, ScrollbarProduct, Ticket, Toast, Wrapper } from './styled'
-import { useMutation, useQuery, useLazyQuery } from '@apollo/client'
+import { Box, Button, CateItem, ContainerGrid, ContentCalcules, CtnSwiper, FlipTop, Warper, Input, OptionButton, ScrollbarProduct, Wrapper } from './styled'
+import { useMutation, useQuery } from '@apollo/client'
 import { GET_ULTIMATE_CATEGORY_PRODUCTS } from 'container/dashboard/queries'
 import { Swiper, SwiperSlide } from 'swiper/react'
-// import { CardProducts } from 'container/producto/editar';
 import { Virtual, Navigation, Pagination, A11y, Parallax } from 'swiper'
 import { GET_ALL_PRODUCT_STORE, GET_MIN_PEDIDO } from 'container/dashboard/queriesStore'
-import { IconPrint, IconDelete, IconSales, IconCancel } from 'public/icons'
+import { IconPrint, IconDelete, IconSales } from 'public/icons'
 import { BGColor, PColor } from 'public/colors'
 import { numberFormat, RandomCode } from 'utils'
 import { RippleButton } from 'components/Ripple'
@@ -23,68 +23,67 @@ import { Range } from 'components/InputRange'
 import { TextH2Main } from 'components/common/h2'
 import { useCheckboxState } from 'components/hooks/useCheckbox'
 import { Checkbox } from 'components/Checkbox'
+import { Skeleton } from 'components/Skeleton'
+import { LoadingBabel } from 'components/Loading/LoadingBabel'
 const GenerateSales = () => {
   // STATES
+  const arr = []
   const { setAlertBox } = useContext(Context)
   const [totalProductPrice, setTotalProductPrice] = useState(0)
   const code = RandomCode(5)
-  const [dataProducto, setData] = useState([])
-  const [showMore, setShowMore] = useState(50)
   const [search, setSearch] = useState('')
+  const [showMore, setShowMore] = useState(50)
   const [delivery, setDelivery] = useState(false)
   const [print, setPrint] = useState(false)
-  const [searchFilter, setSearchFilter] = useState({ gender: [], desc: [], speciality: [] })
   const [values, setValues] = useState({})
   const handleChange = e => { return setValues({ ...values, [e.target.name]: e.target.value }) }
-  const [{ fromDate, toDate }, setValuesDates] = useState({ fromDate: moment().format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD') })
   const [handleChangeProducts, { dataForm, errorForm }] = useFormTools()
-  const initialStateInvoice = {
-    PRODUCT: []
-  }
+  const [valuesDates, setValuesDates] = useState({ fromDate: moment().format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD') })
+  const onChangeInput = (e) => { return setValuesDates({ ...valuesDates, [e.target.name]: e.target.value }) }
 
   // QUERIES
-  const { data: datCat } = useQuery(GET_ULTIMATE_CATEGORY_PRODUCTS)
-  const { data: dataMinPedido } = useQuery(GET_MIN_PEDIDO)
-
-  const [createMultipleOrderStore] = useMutation(CREATE_MULTIPLE_ORDER_PRODUCTS, {
-    onCompleted: data => {
-      if (data.createMultipleOrderStore.success === true) {
-        console.log('first')
-      }
-    }
-  })
-  const { checkedItems, disabledItems, handleChangeCheck } = useCheckboxState(datCat?.catProductsAll)
-  const arr = []
-  for (let categories of checkedItems.keys()) {
-    arr.push(categories)
-  }
-
-  // llama a los productos y espera una acción
-  /* Filtro  */
-  const [productFoodsAll, { data: dataProduct, fetchMore, loading }] = useLazyQuery(GET_ALL_PRODUCT_STORE, {
+  const { data: dataProduct, loading, fetchMore } = useQuery(GET_ALL_PRODUCT_STORE, {
     fetchPolicy: 'network-only',
     variables:
     {
       search: search,
-      gender: searchFilter?.gender,
-      desc: searchFilter?.desc,
-      categories: searchFilter?.speciality
+      min: 0,
+      max: showMore,
+      gender: [],
+      desc: [],
+      categories: arr || []
     }
   })
-  // EFFECTS 
-  useEffect(() => {
-    if (dataProduct?.productFoodsAll) {
-      // eslint-disable-next-line no-unsafe-optional-chaining
-      setData([...dataProduct?.productFoodsAll])
+  const { data: datCat } = useQuery(GET_ULTIMATE_CATEGORY_PRODUCTS)
+  const { checkedItems, disabledItems, handleChangeCheck } = useCheckboxState(datCat?.catProductsAll)
+  const { data: dataMinPedido } = useQuery(GET_MIN_PEDIDO)
+  const max = dataProduct?.productFoodsAll?.reduce(function (a, b) {
+    return Math.max(a, b?.ProPrice || 0)
+  }, 0)
+  const initialStateInvoice = {
+    PRODUCT: [],
+    totalPrice: 0,
+    sortBy: null,
+    itemsInCart: 0,
+    priceRange: max || 0,
+    counter: 0,
+    totalAmount: 0
+  }
+  const [createMultipleOrderStore] = useMutation(CREATE_MULTIPLE_ORDER_PRODUCTS, {
+    onCompleted: data => {
+      if (data.createMultipleOrderStore.success === true) {
+        setAlertBox({ message: 'success' })
+      }
     }
-  }, [dataProduct, searchFilter, search])
-  useEffect(() => {
-    productFoodsAll({ variables: { max: showMore, search: search } })
-  }, [searchFilter, showMore, search, productFoodsAll])
+  })
 
-  // const download = () => {
-  //     window.print();
-  //   };
+
+  // EFFECTS 
+  for (let categories of checkedItems.keys()) {
+    arr.push(categories)
+  }
+  // HANDLES
+
   // eslint-disable-next-line
   const download = (elementId, uniqueIframeId) => {
     const content = document.getElementById(elementId)
@@ -121,7 +120,8 @@ const GenerateSales = () => {
             pId: action.payload.pId,
             ProQuantity: 1,
             ProPrice: action.payload.ProPrice,
-            name: action.payload.name
+            pName: action.payload.pName,
+            ProImage: action.payload.ProImage
           }
         ]
         : state.PRODUCT.map((items) => {
@@ -132,6 +132,36 @@ const GenerateSales = () => {
         )
     }
   }
+  const removeFunc = (state, action) => {
+    return {
+      ...state,
+      counter: state.counter - 1,
+      totalAmount: state.totalAmount - action.payload.ProPrice,
+      PRODUCT:
+        action.payload.ProQuantity > 1
+          ? state.PRODUCT.map((items) => {
+            return items.pId === action.payload.pId
+              ? {
+                ...items,
+                pId: action.payload.pId,
+                ProQuantity: items.ProQuantity - 1
+              }
+              : items
+          }
+          )
+          : state.PRODUCT.filter((items) => { return items.pId !== action.payload.pId })
+    }
+  }
+  const getSortedProduct = (data, sortBy) => {
+    if (sortBy && sortBy === 'PRICE_HIGH_TO_LOW') {
+      return data.sort((a, b) => { return b['ProPrice'] - a['ProPrice'] })
+    }
+    if (sortBy && sortBy === 'PRICE_LOW_TO_HIGH') {
+      return data.sort((a, b) => { return a['ProPrice'] - b['ProPrice'] })
+    }
+    return data
+  }
+
   const PRODUCT = (state, action) => {
     switch (action.type) {
       case 'ADD_TO_CART':
@@ -143,6 +173,8 @@ const GenerateSales = () => {
           PRODUCT: [...state?.PRODUCT, action?.payload]
         }
       case 'REMOVE_PRODUCT':
+        return removeFunc(state, action)
+      case 'REMOVE_PRODUCT_':
         return {
           ...state,
           PRODUCT: state?.PRODUCT?.filter((t, idx) => { return idx !== action?.idx })
@@ -183,6 +215,13 @@ const GenerateSales = () => {
 
           })
         }
+      case 'PRICE_RANGE':
+        return {
+          ...state,
+          priceRange: action.payload
+        }
+      case 'SORT':
+        return { ...state, sortBy: action.payload }
       case 'DECREMENT':
         return {
           ...state,
@@ -205,13 +244,21 @@ const GenerateSales = () => {
     }
   }
 
+  // FILTER PRODUCT DATA
+  const PriceRangeFunc = (products, price) => { return products.filter((items) => { return items.ProPrice >= price }) }
   const [data, dispatch] = useReducer(PRODUCT, initialStateInvoice)
+  const sortedProduct = getSortedProduct(data.PRODUCT, data.sortBy)
+  const finalFilter = PriceRangeFunc(sortedProduct, data.priceRange)
+  // FILTER PRODUCT DATA_DB
+  const handleChangeFilter = e => { setSearch(e.target.value) }
   let suma = 0
   let total = 0
+
+  // EFFECTS
   useEffect(() => {
     data.PRODUCT.forEach((a) => {
       const { ProPrice } = a || {}
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // eslint-disable-next-line
       suma += ProPrice
       setTotalProductPrice(Math.abs(suma))
     })
@@ -232,21 +279,10 @@ const GenerateSales = () => {
           payMethodPState: 1,
           pPRecoger: 1
         }
-      }/*  update: (cache, { data: { getAllShoppingCard } }) => updateCache({
-                cache,
-                query: GET_ALL_SHOPPING_CARD,
-                nameFun: 'getAllShoppingCard',
-                dataNew: getAllShoppingCard
-            }) */
+      }
     })
 
   }
-  const [minPrice, setMinPrice] = useState(0)
-  useEffect(() => {
-    setMinPrice(dataMinPedido?.getMinPrice || 0)
-  }, [minPrice, dataMinPedido])
-  console.log(data.PRODUCT)
-
   return (
     <Wrapper>
       <AwesomeModal
@@ -328,7 +364,7 @@ const GenerateSales = () => {
               const val = arr?.find(x => { return slideContent.carProId == x })
               return (
                 <SwiperSlide
-                  effect='fade'
+                  // effect='fade'
                   key={slideContent.carProId}
                   virtualIndex={index}
                 >
@@ -338,47 +374,37 @@ const GenerateSales = () => {
                       checked={checkedItems.has(slideContent.carProId)}
                       disabled={disabledItems.has(slideContent.carProId)}
                       id={slideContent.carProId}
-                      label={`${index + 1}`}
                       onChange={handleChangeCheck}
                     />
                     <div className='icon'>
                       <IconSales size={30} />
                     </div>
                     <div>
-                      {slideContent.pName.slice(0, 15)}
+                      {slideContent?.pName?.slice(0, 15)}
                     </div>
                   </CateItem>
                 </SwiperSlide>
               )
             })}
           </Swiper>
-          {/* <Form>
+          <Warper>
             <InputHooks
               name='fromDate'
-              // eslint-disable-next-line no-undef
-              onChange={e => { return setValuesDates({ ...valuesDates, [e.target.name]: e.target.value }) }}
+              onChange={onChangeInput}
+              required
               title='Desde'
               type='date'
-              value={fromDate}
-              width='30%'
+              value={valuesDates?.fromDate}
+              width={'20%'}
             />
             <InputHooks
               name='toDate'
-              // eslint-disable-next-line no-undef
-              onChange={e => { return setValuesDates({ ...valuesDates, [e.target.name]: e.target.value }) }}
+              onChange={onChangeInput}
+              required
               title='Hasta'
               type='date'
-              value={toDate}
-              width='30%'
-            />
-            <InputHooks
-              error={errorForm?.ProPrice}
-              name='ProPrice'
-              onChange={handleChangeProducts}
-              required
-              title='Numero'
-              value={dataForm?.ProPrice}
-              width='30%'
+              value={valuesDates?.toDate}
+              width='20%'
             />
             <InputHooks
               error={errorForm?.ProPrice}
@@ -386,58 +412,27 @@ const GenerateSales = () => {
               numeric
               onChange={handleChangeProducts}
               required
-              title='Nombre'
+              title='Precio'
               value={dataForm?.ProPrice}
               width='30%'
             />
-            <Button type='submit'>
-              Mas opciones
-            </Button>
-            <RippleButton margin='30px' padding='10px'>Consultar</RippleButton>
-          </Form> */}
-          {/* <ContentCheckbox>
-            <ContentCheckbox>
-              <label>
-                Envíos gratis
-                <input type='checkbox' />
-              </label>
-            </ContentCheckbox>
-            <ContentCheckbox>
-              <label>
-                Mejor precio
-                <input type='checkbox' />
-              </label>
-            </ContentCheckbox>
-            <Range
-              label={`$`}
-              max={13413241324}
-              min={numberFormat(dataMinPedido?.getMinPrice)}
-              value={32432432}
+            <InputHooks
+              name='search'
+              onChange={handleChangeFilter}
+              range={{ min: 0, max: 20 }}
+              title='Busca tus productos'
+              type='text'
+              value={search}
+
+              width='30%'
             />
-          </ContentCheckbox> */}
+          </Warper>
         </CtnSwiper>
         <ScrollbarProduct>
           <ContainerGrid>
-            {dataProducto.map((producto) => {
+            {(loading && loading && dataProduct?.productFoodsAll?.length <= 0) ? <Skeleton height={400} numberObject={50} /> : dataProduct?.productFoodsAll?.map((producto) => {
               return (
                 <div key={producto.pId}>
-                  <Toast open={false}>
-                    {/* <span size='15px'> {checkedItems?.size} Object selected </span>
-                    <DownLoadButton onClick={selectAll}>Select All</DownLoadButton>
-                    <DownLoadButton onClick={clearAll}>Clear All</DownLoadButton>
-                    <DownLoadButton onClick={toggleAll}>Toggle All</DownLoadButton>
-                    <DownLoadButton onClick={clearAll} style={{ border: 'none' }}><IconCancel color={BGColor} size='20px' />  </DownLoadButton> */}
-                  </Toast>
-                  <button
-                    onClick={() =>
-                    {return dispatch({
-                      type: 'ADD_TO_CART',
-                      payload: producto
-                    })}
-                    }
-                  >
-                    Add to cart
-                  </button>
                   <CardProducts
                     ProDescription={producto.ProDescription}
                     ProDescuento={producto.ProDescuento}
@@ -445,30 +440,69 @@ const GenerateSales = () => {
                     ProPrice={producto.ProPrice}
                     ProQuantity={producto.ProQuantity}
                     ValueDelivery={producto.ValueDelivery}
-                    handleDecrement={() => { return dispatch({ id: producto.pId, type: 'DECREMENT' }) }}
-                    handleIncrement={() => { return dispatch({ id: producto.pId, type: 'INCREMENT' }) }}
-
-                    onClick={() => { return dispatch({ type: 'ADD_PRODUCT', payload: producto }) }}
+                    onClick={() => { return dispatch({ type: 'ADD_TO_CART', payload: producto }) }}
                     pName={producto.pName}
                     render={<IconSales size='20px' />}
-                    sum={true}
                   />
                 </div>
               )
             })}
           </ContainerGrid>
-
         </ScrollbarProduct>
+        <RippleButton
+          margin='0px auto'
+          onClick={() => {
+            setShowMore(s => { return s + 5 })
+            fetchMore({
+              variables: { max: showMore, min: 0 },
+              updateQuery: (prevResult, { fetchMoreResult }) => {
+                if (!fetchMoreResult) return prevResult
+                return {
+                  productFoodsAll: [...fetchMoreResult.productFoodsAll]
+
+                }
+              }
+            })
+          }}
+          widthButton='100%'
+        >{loading ? <LoadingBabel /> : 'CARGAR MÁS'}</RippleButton>
       </Box>
       <Box width='40%'>
         <ScrollbarProduct margin={'0'}>
           <h2>Productos a vender</h2>
-          <OptionButton>
-            {/* <button onClick={() => { return setDelivery(!delivery) }}> {values?.ValueDelivery ? <span>1</span> : <span className='free'>Gratis</span>}Costo de envio {numberFormat(values?.ValueDelivery)}</button>
-            <button> {!!totalProductPrice && <span>1</span>} Costo total $ {numberFormat(totalProductPrice)}</button> */}
-          </OptionButton>
+          <Warper>
+            <label>
+              <input
+                checked={data.sortBy && data.sortBy === 'PRICE_HIGH_TO_LOW'}
+                name='sort'
+                onChange={() => { return dispatch({ type: 'SORT', payload: 'PRICE_HIGH_TO_LOW' }) }}
+                type='checkbox'
+              />
+            </label>
+            <label>
+              <input
+                checked={data.sortBy && data.sortBy === 'PRICE_LOW_TO_HIGH'}
+                name='sort'
+                onChange={() => { return dispatch({ type: 'SORT', payload: 'PRICE_LOW_TO_HIGH' }) }}
+                type='checkbox'
+              />
+            </label>
+            <Range
+              label='Rango de precio'
+              max={max || 0}
+              min={dataMinPedido?.getMinPrice || 0}
+              onChange={(e) => {
+                return dispatch({
+                  type: 'PRICE_RANGE',
+                  payload: e.target.value
+                })
+              }
+              }
+              value={data.priceRange}
+            />
+          </Warper>
           <ContainerGrid>
-            {data?.PRODUCT?.length > 0 ? data.PRODUCT.map((producto, idx) => {
+            {data?.PRODUCT?.length > 0 ? finalFilter.map((producto, idx) => {
               return (
                 <CardProducts
                   ProDescription={producto.ProDescription}
@@ -483,7 +517,7 @@ const GenerateSales = () => {
                   handleFreeProducts={() => { return dispatch({ type: 'TOGGLE_FREE_PRODUCT', idx }) }}
                   handleIncrement={() => { return dispatch({ id: producto.pId, type: 'INCREMENT' }) }}
                   key={idx + 1}
-                  onClick={() => { return dispatch({ type: 'REMOVE_PRODUCT', idx }) }}
+                  onClick={() => { return dispatch({ type: 'REMOVE_PRODUCT', payload: producto }) }}
                   pName={producto.pName}
                   render={<IconDelete color={PColor} size='20px' />}
                   sum={true}

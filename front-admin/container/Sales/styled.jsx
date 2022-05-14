@@ -90,16 +90,13 @@ export const FlipTop = styled.div`
         animation: ${animationTop} .1s linear;
     } 
 `
-export const Form = styled.div`
+export const Warper = styled.div`
     flex-wrap: wrap;
     display: flex;
 `
 export const CtnSwiper = styled.div`
-    position: sticky;
-    top: 0;
     height: min-content;    
     background-color: ${BGColor};
-    Z-index: 999;
     box-shadow: inset 0 -1px 0 #dcdcdc;
 
 `
@@ -113,52 +110,6 @@ export const Box = styled.div`
 export const Wrapper = styled.div`
     display: flex;
     flex-wrap: wrap;
-`
-export const ContentCheckbox = styled.div`
-    display: flex;
-    text-align: center;
-    place-content: space-between;
-    display: flex;
-    align-items: center;
-    padding-bottom: 20px;
-    label {
-        color: ${APColor};
-    }
-`
-export const Toast = styled.div`
-    animation: ${({ open }) => {return open && (open ? fadeIn : fadeOut)}} 1s forwards;
-    height: 89px;
-    top: -50%;
-    background-color: #50a773;
-    display: flex;
-    justify-content: space-between;
-    position: fixed;
-    left: 0;
-    align-items: center;
-    width: 100%;
-    margin: auto;
-    padding: 30px;
-    z-index: 999999999;
-    transition: 400ms;
-    box-shadow: 0px 0px 6px #00000052;
-    color: ${BGColor};
-`
-export const DownLoadButton = styled.button`
-    box-sizing: border-box;
-    margin: 0;
-    width: 200px;
-    overflow: visible;
-    text-transform: none;
-    cursor: pointer;
-    background-color: transparent;
-    border: 2px solid hsla(0,0%,100%,.9);
-    color: #fff;
-    border-radius: 2px;
-    padding: 5px 10px;
-    font-size: 13px;
-    transition: all;
-    transition-duration: .3s;
-    margin-left: 10px;
 `
 export const ContainerGrid = styled.div`
     display: grid;    

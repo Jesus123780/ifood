@@ -1,13 +1,16 @@
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 
-export const Range = ({ min = 0, max = 100, value = 0, label }) => {
+export const Range = ({ min = 0, max = 100, value = 0, label, onChange }) => {
   const [currentValue, setCurrentValue] = useState(value)
   const inputWidth = 900
   const width = inputWidth - 15
   const percent = (currentValue - min) / (max - min)
   const offset = -3
-
+  const onChangeInput = (event) => {
+    setCurrentValue(event.target.value)
+    onChange(event)
+  }
   return (
     <div className='range'>
       <div className='range__ballon' style={{ left: width * percent + offset || 0 }}>
@@ -18,7 +21,7 @@ export const Range = ({ min = 0, max = 100, value = 0, label }) => {
       <input
         max={max}
         min={min}
-        onChange={evt => {return setCurrentValue(evt.target.value)}}
+        onChange={evt => { return onChange ? onChangeInput(evt) : setCurrentValue(evt.target.value) }}
         type='range'
         value={currentValue}
       />

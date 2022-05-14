@@ -73,7 +73,6 @@ const fadeOutTop = keyframes`
 `
 
 export const Container = styled.div`
-    // eslint-disable-next-line consistent-return
     display: ${({ show, state }) => {
     if (show && state) return 'block'
     else if (show && !state) return 'block'
@@ -90,8 +89,9 @@ export const Container = styled.div`
     z-index: ${({ zIndex }) => { return zIndex || '100' }};
     opacity: 1;
     ${({ show, state }) => {
-    if (show && state) return css`animation: ${fadeIn} .1s linear;`
-    else if (show && !state) return css`animation: ${fadeout} .s linear;`
+    if (show && state) {
+      css`animation: ${fadeIn} .1s linear;`
+    } else if (show && !state) css`animation: ${fadeIn} .1s linear;`
   }}
 `
 
@@ -147,7 +147,6 @@ export const ModalTitle = styled.h4`
     font-weight: 500;
     font-family: PFont-Light;
 `
-// box-shadow: 0 0 17px 0 rgb(16 40 73 / 9%);
 export const BtnClose = styled.button`
     ${({ fixed }) => {
     return fixed && css`
