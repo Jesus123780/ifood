@@ -1,8 +1,8 @@
-import CheckYourData from '../../container/Restaurant/CheckYourData'
+// import CheckYourData from '../../container/Restaurant/CheckYourData'
 
 export default function RestaurantPlanesView() {
   
   return (
-    <CheckYourData />
+    <div />
   )
 }

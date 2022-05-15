@@ -1,6 +1,6 @@
 import { INTEGER, STRING, SMALLINT, literal } from 'sequelize'
 import connect from '../../db'
-import { enCode, validationID } from '../../utils'
+import { enCode, validationID } from '../../utils/util'
 import UserMastersModel from './userMasterModel'
 const sequelize = connect()
 

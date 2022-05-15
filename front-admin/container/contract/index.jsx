@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client'
 import { GET_ONE_CONTRACT } from 'gql/information/contract'
 import CanvasDraw from 'react-canvas-draw'
 import { TextH2Main } from 'components/common/h2'
+import { CanvasDrawn } from 'components/CanvasDrawn'
 import moment from 'moment'
 
 const Contract = () => {
@@ -18,6 +19,7 @@ const Contract = () => {
   }, [ctCode, data, loading])
   return (
     <div>
+      <CanvasDrawn />
       <TextH2Main text={'Firma de contrato sujeto al uso de Deliver '} />
       <TextH2Main text={` Fecha de contrato${moment(createAt).format('YYYY-MM-DD')}`} />
       <CanvasDraw

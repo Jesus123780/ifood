@@ -1,7 +1,7 @@
 import { INTEGER, TINYINT, literal } from 'sequelize'
 import connect from '../../db'
 const sequelize = connect()
-import { enCode, validationID } from '../../utils'
+import { enCode, validationID } from '../../utils/util'
 import UserModulesModel from '../modules/UserModulesModel'
 import SubModulesModel from './SubModulesModel'
 

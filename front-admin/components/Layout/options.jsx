@@ -6,7 +6,6 @@ import { useApolloClient } from '@apollo/client'
 import { ButtonOption, FloatingBoxTwo, Overline } from './styled'
 import { IconLogout, IconMessageMain, IconShopping, IconUser } from '../../public/icons'
 import { useRouter } from 'next/router'
-import { URL_BASE } from '../../apollo/urls'
 import { Context } from 'context/Context'
 import { LoadingClosed } from 'components/Loading'
 
@@ -22,7 +21,7 @@ export const Options = () => {
   const onClickLogout = useCallback(async () => {
     setLoading(true)
     await window
-      .fetch(`${URL_BASE}auth/logout/`, {})
+      .fetch(`${process.env.URL_BASE}auth/logout/`, {})
       .then(res => {
         if (res) {
           client?.clearStore()

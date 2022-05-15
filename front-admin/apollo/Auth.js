@@ -1,9 +1,11 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useEffect, Fragment } from 'react'
 import { gql, useQuery, useMutation } from '@apollo/client'
 import { isLoggedVar } from './cache'
 import { UPDATE_TOKEN } from './queries'
 import { useRouter } from 'next/router'
-import { getDeviceId } from './apolloClient'
+// import { getDeviceId } from './apolloClient'
 
 export default function Auth({ children }) {
   const [updateToken, { data, called }] = useMutation(UPDATE_TOKEN)
@@ -49,8 +51,10 @@ export default function Auth({ children }) {
 
   useEffect(() => {
     updateToken().catch(() => {})
-    const dataDevice = getDeviceId()
-    window.localStorage.setItem('deviceid', dataDevice)
+    // const dataDevice = getDeviceId()
+    // if (typeof window !== 'undefined') {
+    //   window.localStorage.setItem('deviceid', dataDevice)
+    // }    
   }, [location.pathname, updateToken])
   return (
     <Fragment>

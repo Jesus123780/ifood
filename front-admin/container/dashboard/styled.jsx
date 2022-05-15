@@ -1,5 +1,5 @@
 import styled, { css, keyframes } from 'styled-components'
-import { StyleSheet } from '@react-pdf/renderer'
+// import { StyleSheet } from '@react-pdf/renderer'
 import { BColor, BGColor, PColor, SECColor, PVColor, TBGSColor, PLVColor, TBGAColor, TBGVColor, TBGBColor, TBGEColor, TBGRColor, TBGDColor } from '../../public/colors'
 import { fadeIn, fadeOut } from '../../components/AlertBox/styled'
 import { BG_ANIMATION_, SideIn, SlideInLeft } from '../../components/animations'
@@ -1115,8 +1115,7 @@ export const Text = styled.span`
     font-family: ${({ font }) => { return font || 'PFont-Light' }};
     word-break: break-word;
 `
-// Create styles
-export const styles = StyleSheet.create({
+/* export const styles = StyleSheet.create({
   page: {
     flexDirection: 'row',
     padding: '30px'
@@ -1133,7 +1132,7 @@ export const styles = StyleSheet.create({
     gridTemplateColumns: '25% repeat(auto-fill, 24%)'
 
   }
-})
+}) */
 
 export const ButtonTheme = styled.div`
     width: 65px;

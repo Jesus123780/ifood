@@ -9,7 +9,7 @@ import { RippleButton } from '../../components/Ripple'
 import { BColor, BGColor, EColor, PVColor } from '../../public/colors'
 import { Card2, ContentCardInfo, Text } from './styled'
 import { GET_ONE_STORE } from './queries'
-import { generatePdfDocumentInvoice } from './PdfStore'
+// import { generatePdfDocumentInvoice } from './PdfStore'
 import { useRouter } from 'next/router'
 import useLocalStorage from '../../components/hooks/useLocalSorage'
 import Context from '../../context/Context'
@@ -94,7 +94,7 @@ const CheckYourData = props => {
           type='submit'
           widthButton='100%'
         >{step !== 1 ? 'Continuar' : 'Finalizar'}</RippleButton>
-        <RippleButton
+        {/* <RippleButton
           bgColor={PVColor}
           color={BGColor}
           onClick={() => {return generatePdfDocumentInvoice({ dataInvoice: { ...data } })}}
@@ -102,7 +102,7 @@ const CheckYourData = props => {
           widthButton='150px'
         >
                     Download
-        </RippleButton>
+        </RippleButton> */}
       </ContentCardInfo>
     </div>
   )

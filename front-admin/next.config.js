@@ -48,7 +48,8 @@ module.exports = (phase) => {
     URL_ADMIN_SERVER: (() => {
       if (isDev) return 'http://localhost:4000/'
       // if (isDev) return 'https://server-image-food.herokuapp.com/'
-      if (isProd) return 'https://server-image-food.herokuapp.com/'
+      // if (isProd) return 'https://server-image-food.herokuapp.com/'
+      if (isProd) return 'http://localhost:4000/'
     })(),
     // BANCOLOMBIA
     BANCOLOMBIA_CLIENT_KEY: '55929729-85fe-4ffe-928d-0bd317817be4',

@@ -3,7 +3,7 @@ import { getMainDefinition } from '@apollo/client/utilities'
 import { onError } from '@apollo/client/link/error'
 import { ApolloClient, ApolloLink, split } from '@apollo/client'
 import { createUploadLink } from 'apollo-upload-client'
-import FingerprintJS from '@fingerprintjs/fingerprintjs'
+// import FingerprintJS from '@fingerprintjs/fingerprintjs'
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
 import { URL_ADMIN, URL_BASE, URL_BASE_ADMIN_MASTER } from './urls'
@@ -14,10 +14,10 @@ export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
 let apolloClient
 let userAgent
 export const getDeviceId = async () => {
-  const fp = await FingerprintJS.load()
-  const result = await fp.get()
-  userAgent = 'window.navigator.userAgent'
-  return result.visitorId
+  // const fp = await FingerprintJS.load()
+  // const result = await fp.get()
+  // userAgent = 'window.navigator.userAgent'
+  return '73.8459648'
 }
 // eslint-disable-next-line
 const errorHandler = onError(({ graphQLErrors }) => {
@@ -64,15 +64,16 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 //     }
 // })
 const authLink = async () => {
-  const device = await getDeviceId()
+  // const device = await getDeviceId()
   // window.localStorage.setItem('deviceid', device)
-  const token = localStorage.getItem('session')
-  const restaurant = localStorage.getItem('restaurant')
+  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoianV2aW5hb2plc3VzZEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6Imp1dmluYW9qZXN1c2RAZ21haWwuY29tIiwicmVzdGF1cmFudCI6eyJpZFN0b3JlIjoiTWpjeU1EZzRPREUwT0RVeE5URTJORFV3IiwiaWQiOiJNamN5TURnNE9ERTBPRFV4TlRFMk5EVXcifSwiaWQiOiJNamN5TURnNE9ERTBPRFV4TlRFMk5EVXciLCJpYXQiOjE2NTI1OTY1OTMsImV4cCI6MTY1MjkyOTg5M30.yQAxjiYrF79-wwn3TkzEfe0Rv-qOVHd9qcsJimX5WBo'
+  // const restaurant = localStorage.getItem('restaurant')
+  const restaurant = 'MjcyMDg4ODE0ODUxNTE2NDUw'
   return {
     authorization: `Bearer ${token}` && `Bearer ${token}`,
     userAgent: userAgent ? userAgent : '',
     restaurant: restaurant ?? restaurant,
-    deviceid: await getDeviceId() || ''
+    deviceid: '' || ''
   }
 }
 // eslint-disable-next-line
@@ -81,7 +82,7 @@ const httpLink = createUploadLink({
   credentials: 'same-origin' // Additional fetch() options like `credentials` or `headers`
 })
 // Create Second Link
-const wsLink = process.browser ? new WebSocketLink({
+const wsLink = typeof window !== 'undefined' ? new WebSocketLink({
   uri: process.env.NODE_ENV === 'development' ? 'ws://server-image-food.herokuapp.com/graphql' : 'ws://server-image-food.herokuapp.com/graphql',
   options: {
     reconnect: true,
@@ -113,12 +114,13 @@ function createApolloClient() {
     if (service === 'admin-store') uri = `${URL_ADMIN}graphql`
     if (service === 'admin') uri = `${URL_BASE_ADMIN_MASTER}graphql`
     if (service === 'admin-server') uri = `${process.env.URL_ADMIN_SERVER}graphql`
-    const token = localStorage.getItem('session')
+    // const token = localStorage.getItem('session')
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoianV2aW5hb2plc3VzZEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6Imp1dmluYW9qZXN1c2RAZ21haWwuY29tIiwicmVzdGF1cmFudCI6eyJpZFN0b3JlIjoiTWpjeU1EZzRPREUwT0RVeE5URTJORFV3IiwiaWQiOiJNamN5TURnNE9ERTBPRFV4TlRFMk5EVXcifSwiaWQiOiJNamN5TURnNE9ERTBPRFV4TlRFMk5EVXciLCJpYXQiOjE2NTI1OTY1OTMsImV4cCI6MTY1MjkyOTg5M30.yQAxjiYrF79-wwn3TkzEfe0Rv-qOVHd9qcsJimX5WBo'
     operation.setContext({
       headers: {
         ...headers,
-        authorization: service === 'admin-server' || service === 'subscriptions' ? `Bearer ${token}` : localStorage.getItem('restaurant'),
-        deviceid: await getDeviceId() || '',
+        authorization: service === 'admin-server' || service === 'subscriptions' ? `Bearer ${token}` : 'MjcyMDg4ODE0ODUxNTE2NDUw',
+        deviceid: 'await getDeviceId()' || '',
         client: 'front-admin'
       }
     })
