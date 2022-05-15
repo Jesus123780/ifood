@@ -1,4 +1,4 @@
-import { Document, Page, Text, View, StyleSheet, pdf, Image } from '@react-pdf/renderer'
+import { Document, Page, Text, View, StyleSheet, pdf } from '@react-pdf/renderer'
 import { saveAs } from 'file-saver'
 import React from 'react'
 // import currencyFormatter from 'currency-formatter'
@@ -108,7 +108,7 @@ const InvoicePdfGenerate = ({ pdfDocumentData }) => {
           <Text style={styles.subtitle}>{moment().format('LL')} Generated document</Text>
         </View>
         <View style={{ width: 250, height: 100, marginBottom: 8 }}>
-          <Image src='/images/Spice-Logo.jpg' style={[styles.image, { width: '100%', height: '100%' }]} />
+          {/* <Image src='/images/Spice-Logo.jpg' style={[styles.image, { width: '100%', height: '100%' }]} /> */}
         </View>
         <View style={styles.sectionHeader}>
           <Text style={[styles.headerText, { fontSize: 12, fontWeight: 100, color: '#ccc' }]}>#  12312312</Text>

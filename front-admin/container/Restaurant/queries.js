@@ -28,6 +28,7 @@ storePhone
 socialRaz
 Image
 banner
+  
 documentIdentifier
 uPhoNum
 storeName
@@ -36,7 +37,9 @@ upLat
 upLon
 uState
 siteWeb
+  
 description
+createdAt
 secVia
 NitStore
 typeRegiments
@@ -75,7 +78,6 @@ pais {
       schHoEnd
       schState
   }
-createAt
   cateStore {
     catStore
     cName

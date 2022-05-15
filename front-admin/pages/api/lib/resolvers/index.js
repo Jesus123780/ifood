@@ -7,12 +7,14 @@ import categoriesResolver from '../resolvers/Category'
 import informationResolver from './informations'
 import Providers from './Providers'
 import recommendedCategorieStoreResolver from './recommended'
+import paymentCardResolver from './paymentCard'
 export default {
   ...UserResolvers.TYPES,
   ...storeResolver.TYPES,
   ...informationResolver.TYPES,
   ...Providers.TYPES,
   ...products.TYPES,
+  ...paymentCardResolver.TYPES,
   ...deviceResolver.TYPES,
   ...recommendedCategorieStoreResolver.TYPES,
   ...categoriesResolver.TYPES,
@@ -25,6 +27,7 @@ export default {
     ...recommendedCategorieStoreResolver.QUERIES,
     ...informationResolver.QUERIES,
     ...storeResolver.QUERIES,
+    ...paymentCardResolver.QUERIES,
     ...products.QUERIES,
     ...deviceResolver.QUERIES
   },
@@ -35,6 +38,7 @@ export default {
     ...storeResolver.MUTATIONS,
     ...informationResolver.MUTATIONS,
     ...products.MUTATIONS,
+    ...paymentCardResolver.MUTATIONS,
     ...recommendedCategorieStoreResolver.MUTATIONS,
     ...deviceResolver.MUTATIONS
   }

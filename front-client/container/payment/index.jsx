@@ -2,9 +2,9 @@ import { FlipCard } from 'components/FlipCard';
 import InputHooks from 'components/InputHooks/InputHooks';
 import React, { useState } from 'react'
 import { getCardType } from 'utils';
-import { Container/* , Card  */, Card, CreditCard, Line, Number } from './styled';
+import { Container, Card, CreditCard, Line, Number } from './styled';
 
-export const PaymentCard = ({ dataFav }) => {
+export const PaymentCard = () => {
     const [flipped, setFlipped] = useState(false)
     const [values, setValues] = useState({})
     const [errors, setErrors] = useState({})
@@ -86,7 +86,7 @@ export const PaymentCard = ({ dataFav }) => {
         } else if (cardType != "AMEX" && value.length <= 19) {
             let num;
             if (value.length <= 4) {
-                num = value + numOnCard.slice(value.length); //oncard
+                num = value + numOnCard.slice(value.length);
             } else if (value.length >= 6 && value.length <= 15) {
                 num =
                     numOnCard.slice(0, value.length - 1) +

@@ -1,14 +1,14 @@
 /* eslint-disable no-unsafe-optional-chaining */
 import React, { useContext, useEffect, useReducer, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Box, Button, CateItem, ContainerGrid, ContentCalcules, CtnSwiper, FlipTop, Warper, Input, ScrollbarProduct, Wrapper } from './styled'
+import { Box, CateItem, ContainerGrid, CtnSwiper, Warper, Input, ScrollbarProduct, Wrapper, Button } from './styled'
 import { useMutation, useQuery } from '@apollo/client'
 import { GET_ULTIMATE_CATEGORY_PRODUCTS } from 'container/dashboard/queries'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Virtual, Navigation, Pagination, A11y, Parallax } from 'swiper'
 import { GET_ALL_PRODUCT_STORE, GET_MIN_PEDIDO } from 'container/dashboard/queriesStore'
-import { IconPrint, IconDelete, IconSales } from 'public/icons'
-import { BGColor, PColor } from 'public/colors'
+import { IconDelete, IconSales } from 'public/icons'
+import { PColor } from 'public/colors'
 import { numberFormat, RandomCode } from 'utils'
 import { RippleButton } from 'components/Ripple'
 import { AwesomeModal } from 'components/AwesomeModal'
@@ -19,12 +19,13 @@ import { Prints } from './Printsale'
 import { CREATE_MULTIPLE_ORDER_PRODUCTS } from './queries'
 import { Context } from 'context/Context'
 import { Range } from 'components/InputRange'
-import { TextH2Main } from 'components/common/h2'
 import { useCheckboxState } from 'components/hooks/useCheckbox'
 import { Checkbox } from 'components/Checkbox'
 import { Skeleton } from 'components/Skeleton'
 import { LoadingBabel } from 'components/Loading/LoadingBabel'
 import { InputHook } from 'components/Update/Products/Input'
+import { useStore } from 'components/hooks/useStore'
+import FooterCalcules from './FooterCalcules'
 const GenerateSales = () => {
   // STATES
   const arr = []
@@ -40,9 +41,16 @@ const GenerateSales = () => {
   const [print, setPrint] = useState(false)
   const [values, setValues] = useState({})
   const handleChange = e => { return setValues({ ...values, [e.target.name]: e.target.value }) }
-  const [valuesDates, setValuesDates] = useState({ fromDate: moment().format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD') })
   const onChangeInput = (e) => { return setValuesDates({ ...valuesDates, [e.target.name]: e.target.value }) }
   // QUERIES
+  const [dataStore] = useStore()
+  const { createdAt } = dataStore || {}
+  // eslint-disable-next-line consistent-return
+  const [valuesDates, setValuesDates] = useState(() => {
+    if (createdAt) return {
+      fromDate: moment(createdAt).format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD')
+    }
+  })
   const { data: dataProduct, loading, fetchMore } = useQuery(GET_ALL_PRODUCT_STORE, {
     fetchPolicy: 'network-only',
     variables:
@@ -68,6 +76,8 @@ const GenerateSales = () => {
     totalPrice: 0,
     sortBy: null,
     itemsInCart: 0,
+    animateType: '',
+    startAnimateUp: '',
     priceRange: max || 0,
     counter: 0,
     totalAmount: 0
@@ -116,6 +126,7 @@ const GenerateSales = () => {
       ...state,
       counter: state.counter + 1,
       totalAmount: state.totalAmount + action.payload.ProPrice,
+      startAnimateUp: 'start-animate-up',
       PRODUCT: !productExist
         ? [
           ...state.PRODUCT,
@@ -177,7 +188,7 @@ const GenerateSales = () => {
         }
       case 'REMOVE_PRODUCT':
         return removeFunc(state, action)
-      case 'REMOVE_PRODUCT_':
+      case 'REMOVE_PRODUCT_TO_CART':
         return {
           ...state,
           PRODUCT: state?.PRODUCT?.filter((t, idx) => { return idx !== action?.idx })
@@ -186,15 +197,15 @@ const GenerateSales = () => {
         return {
           PRODUCT_WALLET: state?.PRODUCT_WALLET?.filter((t, idx) => { return idx !== action?.idx })
         }
-      case 'REMOVE_ALL':
+      case 'REMOVE_ALL_PRODUCTS':
         return {
           ...state,
-          PRODUCT: []
+          ...initialStateInvoice
         }
       case 'TOGGLE_FREE_PRODUCT':
         return {
           ...state,
-          PRODUCT: state?.PRODUCT.map((t, idx) => {
+          PRODUCT: state?.PRODUCT?.map((t, idx) => {
             return idx === action.idx ? {
               ...t,
               free: !t.free
@@ -248,7 +259,7 @@ const GenerateSales = () => {
   }
 
   // FILTER PRODUCT DATA
-  const PriceRangeFunc = (products, price) => { return products.filter((items) => { return items.ProPrice >= price }) }
+  const PriceRangeFunc = (products, price) => { return products?.length > 0 && products?.filter((items) => { return items?.ProPrice >= price }) }
   const [data, dispatch] = useReducer(PRODUCT, initialStateInvoice)
   // eslint-disable-next-line
   const [_, setFilteredList] = useState([])
@@ -312,7 +323,6 @@ const GenerateSales = () => {
     })
 
   }
-
   return (
     <Wrapper>
       <AwesomeModal
@@ -394,7 +404,6 @@ const GenerateSales = () => {
               const val = arr?.find(x => { return slideContent.carProId == x })
               return (
                 <SwiperSlide
-                  // effect='fade'
                   key={slideContent.carProId}
                   virtualIndex={index}
                 >
@@ -406,9 +415,6 @@ const GenerateSales = () => {
                       id={slideContent.carProId}
                       onChange={handleChangeCheck}
                     />
-                    <div className='icon'>
-                      <IconSales size={30} />
-                    </div>
                     <div>
                       {slideContent?.pName?.slice(0, 15)}
                     </div>
@@ -452,19 +458,18 @@ const GenerateSales = () => {
           <ContainerGrid>
             {(loading && loading && dataProduct?.productFoodsAll?.length <= 0) ? <Skeleton height={400} numberObject={50} /> : dataProduct?.productFoodsAll?.map((producto) => {
               return (
-                <div key={producto.pId}>
-                  <CardProducts
-                    ProDescription={producto.ProDescription}
-                    ProDescuento={producto.ProDescuento}
-                    ProImage={producto.ProImage}
-                    ProPrice={producto.ProPrice}
-                    ProQuantity={producto.ProQuantity}
-                    ValueDelivery={producto.ValueDelivery}
-                    onClick={() => { return dispatch({ type: 'ADD_TO_CART', payload: producto }) }}
-                    pName={producto.pName}
-                    render={<IconSales size='20px' />}
-                  />
-                </div>
+                <CardProducts
+                  ProDescription={producto.ProDescription}
+                  ProDescuento={producto.ProDescuento}
+                  ProImage={producto.ProImage}
+                  ProPrice={producto.ProPrice}
+                  ProQuantity={producto.ProQuantity}
+                  ValueDelivery={producto.ValueDelivery}
+                  key={producto.pId}
+                  onClick={() => { return dispatch({ type: 'ADD_TO_CART', payload: producto }) }}
+                  pName={producto.pName}
+                  render={<IconSales size='20px' />}
+                />
               )
             })}
           </ContainerGrid>
@@ -490,46 +495,47 @@ const GenerateSales = () => {
       <Box width='40%'>
         <ScrollbarProduct margin={'0'}>
           <h2>Productos a vender</h2>
-          <Warper>
-            <label>
-              <input
+          {data.PRODUCT.length > 0 &&
+            <Warper>
+              <Button onClick={() => { return dispatch({ type: 'REMOVE_ALL_PRODUCTS' }) }}><IconDelete color={PColor} size={'30px'} /></Button>
+              <Checkbox
                 checked={data.sortBy && data.sortBy === 'PRICE_HIGH_TO_LOW'}
+                disabled={false}
+                id={'PRICE_HIGH_TO_LOW'}
                 name='sort'
                 onChange={() => { return dispatch({ type: 'SORT', payload: 'PRICE_HIGH_TO_LOW' }) }}
-                type='checkbox'
               />
-            </label>
-            <label>
-              <input
+              <Checkbox
                 checked={data.sortBy && data.sortBy === 'PRICE_LOW_TO_HIGH'}
+                disabled={false}
+                id={'PRICE_LOW_TO_HIGH'}
                 name='sort'
                 onChange={() => { return dispatch({ type: 'SORT', payload: 'PRICE_LOW_TO_HIGH' }) }}
-                type='checkbox'
               />
-            </label>
-            <Range
-              label='Rango de precio'
-              max={max || 0}
-              min={dataMinPedido?.getMinPrice || 0}
-              onChange={(e) => {
-                return dispatch({
-                  type: 'PRICE_RANGE',
-                  payload: e.target.value
-                })
-              }
-              }
-              value={data.priceRange}
-            />
-          </Warper>
-          <InputHook
-            id='myInput'
-            name='myInput'
-            onChange={(e) => {return handleChangeFilterProduct(e) }}
-            placeholder='Search for the data..'
-            required={true}
-            type='text'
-            value={inputValue}
-          />
+              <Range
+                label='Precio'
+                max={max || 0}
+                min={dataMinPedido?.getMinPrice || 0}
+                onChange={(e) => {
+                  return dispatch({
+                    type: 'PRICE_RANGE',
+                    payload: e.target.value
+                  })
+                }
+                }
+                value={data.priceRange}
+                width={'100%'}
+              />
+              <InputHook
+                id='myInput'
+                name='myInput'
+                onChange={(e) => { return handleChangeFilterProduct(e) }}
+                placeholder='Search for the data..'
+                required={true}
+                type='text'
+                value={inputValue}
+              />
+            </Warper>}
           <ContainerGrid>
             {data?.PRODUCT?.length > 0 ? finalFilter.map((producto, idx) => {
               return (
@@ -540,9 +546,11 @@ const GenerateSales = () => {
                   ProPrice={producto.ProPrice}
                   ProQuantity={producto.ProQuantity}
                   ValueDelivery={producto.ValueDelivery}
+                  del={true}
                   free={producto.free}
-                  handleDecrement={() => { return dispatch({ id: producto.pId, type: 'DECREMENT' }) }}
-                  handleFree={true}
+                  handleDecrement={() => { return dispatch({ type: 'REMOVE_PRODUCT', payload: producto }) }}
+                  handleDelete={() => { return dispatch({ type: 'REMOVE_PRODUCT_TO_CART', idx }) }}
+                  handleFree={false}
                   handleFreeProducts={() => { return dispatch({ type: 'TOGGLE_FREE_PRODUCT', idx }) }}
                   handleIncrement={() => { return dispatch({ id: producto.pId, type: 'INCREMENT' }) }}
                   key={idx + 1}
@@ -552,28 +560,14 @@ const GenerateSales = () => {
                   sum={true}
                 />
               )
-            }) : <div><IconSales size={100} /></div>}
+            }) : <Skeleton height={400} numberObject={50} />}
           </ContainerGrid>
         </ScrollbarProduct>
-        <ContentCalcules>
-          <Box display='flex' width='40%'>
-            <TextH2Main
-              color={BGColor}
-              size='15px'
-              text={`$ ${numberFormat(totalProductPrice)}`}
-            />
-          </Box>
-          <Box display='flex' width='40%'>
-            <TextH2Main
-              color={BGColor}
-              size='15px'
-              text={`$ ${numberFormat(totalProductPrice)}`}
-            />
-            <FlipTop>
-              <Button onClick={() => { return setPrint(!print) }} radius='50%'><IconPrint color={BGColor} size={30} /></Button>
-            </FlipTop>
-          </Box>
-        </ContentCalcules>
+        <FooterCalcules
+          print={print}
+          setPrint={setPrint}
+          totalProductPrice={totalProductPrice}
+        />
       </Box>
 
     </Wrapper >

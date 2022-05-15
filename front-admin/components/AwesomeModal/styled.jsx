@@ -13,16 +13,6 @@ const fadeIn = keyframes`
     }
 `
 
-const fadeout = keyframes`
-    from {
-        from: 1;
-    }
-
-    to {
-        opacity: 0;
-    }
-`
-
 const fadeInTop = keyframes`
     from {
       top: -10%;

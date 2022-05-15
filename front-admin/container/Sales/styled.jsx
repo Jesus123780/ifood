@@ -1,6 +1,5 @@
-import { fadeIn, fadeOut } from 'components/AlertBox/styled'
-import { APColor, BGColor, PColor, PLColor } from 'public/colors'
-import styled, { css } from 'styled-components'
+import { BGColor, PColor } from 'public/colors'
+import styled from 'styled-components'
 import { animationTop } from '../../components/animations'
 
 export const Input = styled.input`
@@ -13,9 +12,10 @@ export const ContentCalcules = styled.div`
     position: fixed;
     right: 0;
     bottom: -1px;
-    padding: 10px;
+    padding: 8.6px;
     display: flex;
     width: 40.7%;
+    border-radius: 4px;
     justify-content: space-between;
     background-color: ${PColor};
 `

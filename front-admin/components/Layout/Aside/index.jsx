@@ -149,6 +149,9 @@ const Aside = () => {
             <ActiveLink activeClassName='active' href='/contactos'>
               <AnchorRouter><IconShopping size='15px' />Contactos</AnchorRouter>
             </ActiveLink>
+            <ActiveLink activeClassName='active' href='/formas-de-pago'>
+              <AnchorRouter><IconShopping size='15px' />formas-de-pago</AnchorRouter>
+            </ActiveLink>
             <ActiveLink activeClassName='active' href='/informes'>
               <AnchorRouter><IconShopping size='15px' />Informes</AnchorRouter>
             </ActiveLink>

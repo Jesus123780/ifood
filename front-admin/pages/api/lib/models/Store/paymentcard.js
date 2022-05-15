@@ -1,13 +1,12 @@
-import { INTEGER, STRING, literal, TEXT } from 'sequelize'
+import { INTEGER, STRING, literal, ENUM } from 'sequelize'
 import connect from '../../db'
 const sequelize = connect()
 import { enCode } from '../../utils/util'
 import Users from '../Users'
 import Store from '../Store/Store'
 
-sequelize.sync()
-const Contract = sequelize.define('contract', {
-  ctrId: {
+const PaymentCard = sequelize.define('paymentcard', {
+  paymentCardId: {
     type: INTEGER,
     primaryKey: true,
     autoIncrement: true,
@@ -15,7 +14,6 @@ const Contract = sequelize.define('contract', {
   },
   id: {
     type: INTEGER,
-    unique: true,
     allowNull: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -26,7 +24,6 @@ const Contract = sequelize.define('contract', {
     get(x) { return enCode(this.getDataValue(x)) }
   },
   idStore: {
-    unique: true,
     type: INTEGER,
     allowNull: false,
     onUpdate: 'CASCADE',
@@ -37,11 +34,24 @@ const Contract = sequelize.define('contract', {
     },
     get(x) { return enCode(this.getDataValue(x)) }
   },
-  ctCode: {
-    type: TEXT,
+  typeCardName: {
+    type: ENUM,
+    values: ['BANCOLOMBIA', 'BANCO_DE_BOGOTA', 'NEQUI'],
     allowNull: false
   },
-  catDescription: {
+  CVV: {
+    type: INTEGER,
+    allowNull: true
+  },
+  numberCard: {
+    type: INTEGER,
+    allowNull: true
+  },
+  dueDate: {
+    type: STRING,
+    allowNull: true
+  },
+  clientName: {
     type: STRING,
     allowNull: true
   },
@@ -59,4 +69,4 @@ const Contract = sequelize.define('contract', {
   timestamps: false
 })
 
-export default Contract
+export default PaymentCard

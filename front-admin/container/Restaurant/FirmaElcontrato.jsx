@@ -1,17 +1,15 @@
-import PropTypes from 'prop-types'
 import { useFormTools } from '../../components/BaseForm'
-import InputHooks from '../../components/InputHooks/InputHooks'
 import { useQuery, useMutation } from '@apollo/client'
-import { Card2, Cards, ContentCardInfo, ContentCards, Text } from './styled'
+import { Card2, ContentCardInfo, ContentCards, Text } from './styled'
 import CanvasDraw from 'react-canvas-draw'
 import { BColor, PColor } from '../../public/colors'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useUser } from '../../components/hooks/useUser'
 import { useRouter } from 'next/router'
 import { GET_ONE_STORE } from './queries'
 import { RippleButton } from '../../components/Ripple'
 import { REGISTER_CONTRACT_STORE } from '../dashboard/queriesStore'
-const ContractSignature = props => {
+const ContractSignature = () => {
   // STATES
   const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
   const ref = useRef(null)
@@ -22,12 +20,21 @@ const ContractSignature = props => {
   // HANDLES
   const handleClick = () => {
     const data = ref.current.getSaveData()
-    setCode(data)
+    // const points = JSON.parse(data)
     secondCanvas.current.loadSaveData(data)
+    return createOneContract({
+      variables: {
+        input: {
+          ctCode: data,
+          catDescription: 'Description'
+        }
+      }
+    })
+    // console.log(JSON.parse(points.lines))
+    // eslint-disable-next-line no-unreachable
   }
   const handleClean = () => {
-    const data = ref.current.clear()
-
+    ref.current.clear()
   }
   const handleUndo = () => {
     ref.current.eraseAll()
@@ -40,20 +47,13 @@ const ContractSignature = props => {
   //       }, 6000)
   // }, [color]);
   const [createOneContract, { loading, error }] = useMutation(REGISTER_CONTRACT_STORE)
-  const handleForm = (e) =>
-  {return handleSubmit({
-    event: e,
-    action: () => {
-      return createOneContract({
-        variables: {
-          input: {
-            ctCode: code,
-            catDescription: 'Description'
-          }
-        }
-      })
-    }
-  })}
+  // const handleForm = (e) =>
+  // {return handleSubmit({
+  //   event: e,
+  //   action: () => {
+  
+  //   }
+  // })}
   
   const [dataUser] = useUser()
   const router = useRouter()
@@ -61,9 +61,9 @@ const ContractSignature = props => {
   const store = data?.getStore || {}
   return (
     <ContentCards>
-      <form onSubmit={(e) => {return handleForm(e)}}>
-        <button onClick={() => {return handleClick()}} type='submit'>Click</button>
-      </form>
+      <div>
+        <button onClick={(e) => {return handleClick(e)}} type='submit'>Click</button>
+      </div>
       <button onClick={() => {return handleClean()}}>Limpiar</button>
       <button onClick={() => {return handleUndo()}}>Volver</button>
       <CanvasDraw
@@ -145,7 +145,7 @@ const ContractSignature = props => {
         </Card2>
         <RippleButton
           margin='20px auto'
-          onClick={() => {return handleRedirect()}}
+          onClick={() => {return router.push('/dashboard')}}
           type='submit'
           widthButton='100%'
         >Finalizar</RippleButton>

@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { useMemo } from 'react'
 import { getMainDefinition } from '@apollo/client/utilities'
 import { onError } from '@apollo/client/link/error'
@@ -17,7 +16,7 @@ let userAgent
 export const getDeviceId = async () => {
   const fp = await FingerprintJS.load()
   const result = await fp.get()
-  userAgent = window.navigator.userAgent
+  userAgent = 'window.navigator.userAgent'
   return result.visitorId
 }
 // eslint-disable-next-line
@@ -66,7 +65,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 // })
 const authLink = async () => {
   const device = await getDeviceId()
-  window.localStorage.setItem('deviceid', device)
+  // window.localStorage.setItem('deviceid', device)
   const token = localStorage.getItem('session')
   const restaurant = localStorage.getItem('restaurant')
   return {
@@ -104,7 +103,7 @@ const wsLink = process.browser ? new WebSocketLink({
   }
 }) : null
 function createApolloClient() {
-  const ssrMode = typeof window === 'undefined'
+  const ssrMode = true
   const getLink = async (operation) => {
     // await splitLink({ query: operation.query })
     const headers = await authLink()
@@ -134,7 +133,6 @@ function createApolloClient() {
       credentials: 'same-origin',
       authorization: '',
       headers: {
-        ...headers
       }
     })
     return link.request(operation)

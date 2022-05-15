@@ -1,0 +1,69 @@
+# PaymentCard Type
+type PaymentCard {
+    paymentCardId: ID
+    id: ID
+    idStore: ID
+    typeCardName: enumTpeCardName
+    CVV: Int
+    numberCard: Int
+    dueDate: String
+    clientName: String
+    createAt: DateTime
+    updateAt: DateTime
+}
+
+type PaymentCardType {
+    cardtypeId: ID
+    typeCardName: ID
+    createAt: DateTime
+    updateAt: DateTime
+}
+
+enum enumTpeCardName {
+  BANCOLOMBIA,
+  BANCO_DE_BOGOTA,
+  NEQUI
+}
+
+# IPaymentCard Input
+input IPaymentCardType {
+    cardtypeId: ID
+    typeCardName: ID
+    createAt: DateTime
+    updateAt: DateTime
+}
+input IPaymentCard {
+  paymentCardId: ID
+    id: ID
+    idStore: ID
+    typeCardName: String
+    CVV: Int
+    numberCard: Int
+    dueDate: String
+    clientName: String
+    createAt: DateTime
+    updateAt: DateTime
+}
+
+# Query
+type Query {
+# card user store
+  getAllPaymentCard(idStore: ID): [PaymentCard]
+  getOnePaymentCard: PaymentCard
+# card types
+  getAllPaymentCardType: [PaymentCardType]
+  getOnePaymentCardType(idStore: ID): PaymentCardType
+}
+
+# Mutations
+type Mutation {
+    # card user store
+  registerPaymentCard(input: IPaymentCard): PaymentCard
+  EditPaymentCard(input: IPaymentCard): PaymentCard
+  DeleteOnePaymentCard(id: ID): Response
+    # types
+  registerPaymentCardType(input: IPaymentCardType): PaymentCardType
+  editPaymentCardType(input: IPaymentCardType): PaymentCardType
+  deletePaymentCardType(cardtypeId: ID): Response
+  
+}
