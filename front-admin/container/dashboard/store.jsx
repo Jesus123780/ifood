@@ -186,9 +186,9 @@ const DashboardStore = () => {
           title='Buscar en el menu'
           value={dataForm?.search}
         />
-        <StickyViewport as='main' style={containerStyle}>
-          {/* {stickySectionElements} */}
-        </StickyViewport>
+        {/* <StickyViewport as='main' style={containerStyle}>
+          {stickySectionElements}
+        </StickyViewport> */}
       </Container>
       {/* MODALS */}
       <AwesomeModal
@@ -368,7 +368,6 @@ export const CardProducts = ({ food, onClick, setAlertBox }) => {
         </TooltipCardProduct>
         <CardProductsContent onClick={onClick} >
           <CtnBox>
-
             {isVisible === true && <h3 className='card__description'>{food.pName}</h3>}
             {isVisible === true && <h3 className='card__description'>{food.ProDescription}</h3>}
             {isVisible === true && <div className='footer'>

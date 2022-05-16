@@ -146,7 +146,7 @@ export const validationForm = (inputs, error) => {
         errorForm = true
       }
     } else
-      if (error[inputs[i].name]) { errorForm = true }
+    if (error[inputs[i].name]) { errorForm = true }
   }
   return errorForm
 }
@@ -814,7 +814,7 @@ export const NumeroALetras = (value, format = false) => {
       if (data.pennies === 1) return `${Millones(data.pennies)} ${data.letterCoinPennieSingular}`
       return `${Millones(data.pennies)} ${data.letterCoinPenniesPlural}`
     })()
-      }`
+    }`
   }
 
   if (data.integers === 0) return `CERO ${data.letterCoinPlural} ${data.letterPennies}`
@@ -1138,4 +1138,43 @@ export const toKebabCase = (string) => {
     .replace(/([a-z])([A-Z])/g, '$1-$2')
     .replace(/[\s_]+/g, '-')
     .toLowerCase()
+}
+
+export const getCardType = (cardNum) => {
+  let payCardType = ''
+  let regexMap = [
+    { regEx: /^4[0-9]{5}/gi, cardType: 'VISA' },
+    { regEx: /^5[1-5][0-9]{4}/gi, cardType: 'MASTERCARD' },
+    { regEx: /^3[47][0-9]{3}/gi, cardType: 'AMEX' },
+    { regEx: /^6[0-9]{5}/gi, cardType: 'DISCOVER' },
+    { regEx: /^(5[06-8]\d{4}|6\d{5})/gi, cardType: 'MAESTRO' }
+  ]
+
+  for (let j = 0; j < regexMap.length; j++) {
+    if (cardNum.match(regexMap[j].regEx)) {
+      payCardType = regexMap[j].cardType
+      break
+    }
+  }
+  if (
+    cardNum.indexOf('50') === 0 ||
+      cardNum.indexOf('60') === 0 ||
+      cardNum.indexOf('65') === 0
+  ) {
+    let g = '508500-508999|606985-607984|608001-608500|652150-653149'
+    let i = g.split('|')
+    for (let d = 0; d < i.length; d++) {
+      let c = parseInt(i[d].split('-')[0], 10)
+      let f = parseInt(i[d].split('-')[1], 10)
+      if (
+        cardNum.substr(0, 6) >= c &&
+              cardNum.substr(0, 6) <= f &&
+              cardNum.length >= 6
+      ) {
+        payCardType = 'RUPAY'
+        break
+      }
+    }
+  }
+  return payCardType
 }

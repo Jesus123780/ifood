@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 export const FlipCard = ({ frontChild, backChild, flipped, setFlipped, onClick }) => {
   return (
-    <CardContainer onClick={()=> {return onClick()}}>
+    <CardContainer onClick={() => { return onClick() }}>
       <div className={`flip-card ${flipped ? 'flipped' : ''}`}>
         <div className='flip-card-inner'>
           <div className='flip-card-front'>
@@ -30,7 +30,7 @@ export const FlipCard = ({ frontChild, backChild, flipped, setFlipped, onClick }
           <div className='flip-card-back'>
             {backChild}
             <div className='flip-icon icon-back' onClick={() => { setFlipped(!flipped) }} >
-                            Click
+
             </div>
           </div>
         </div>

@@ -9,6 +9,7 @@ function useSentinelOffsets(topSentinelRef) {
   // Move the sentinel up by the top margin of the sticky component
   useEffect(() => {
     const stickyNode = stickyRefs.get(topSentinelRef.current)
+    console.log(stickyNode)
     const topStyle = window.getComputedStyle(stickyNode)
     const getProp = name => {return topStyle.getPropertyValue(name)}
     const paddingtop = getProp('padding-top')

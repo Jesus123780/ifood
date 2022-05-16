@@ -150,7 +150,7 @@ const Aside = () => {
               <AnchorRouter><IconShopping size='15px' />Contactos</AnchorRouter>
             </ActiveLink>
             <ActiveLink activeClassName='active' href='/formas-de-pago'>
-              <AnchorRouter><IconShopping size='15px' />formas-de-pago</AnchorRouter>
+              <AnchorRouter><IconShopping size='15px' />Formas de pago</AnchorRouter>
             </ActiveLink>
             <ActiveLink activeClassName='active' href='/informes'>
               <AnchorRouter><IconShopping size='15px' />Informes</AnchorRouter>

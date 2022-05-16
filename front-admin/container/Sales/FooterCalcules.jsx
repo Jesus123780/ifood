@@ -6,14 +6,14 @@ import { numberFormat } from 'utils'
 import { Box, Button, ContentCalcules, FlipTop } from './styled'
 // import PropTypes from 'prop-types'
 
-const FooterCalcules = ({ setPrint, print, totalProductPrice }) => {
+const FooterCalcules = ({ setPrint, print, totalProductPrice,counter }) => {
   return (
     <ContentCalcules>
       <Box display='flex' width='40%'>
         <TextH2Main
           color={BGColor}
           size='15px'
-          text={`$ ${numberFormat(totalProductPrice)}`}
+          text={`${counter}`}
         />
       </Box>
       <Box display='flex' width='40%'>

@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
+import PaymentCard from '../../models/Store/paymentcard'
 import PaymentCardType from '../../models/userMaster/paymentcardTypes'
+import { deCode } from '../../utils'
 import { getAttributes } from '../../utils/util'
 
 /**
@@ -36,6 +38,24 @@ export const getAllPaymentCardType = async (_root, args, context, info) => {
 
 }
 
+
+// USER STORE
+export const registerPaymentCard = async (_root, { input }, context) => {
+  const { id, idStore } = input || {}
+  try {
+    const data = await PaymentCard.create({
+      id: deCode(context.User.id || id),
+      idStore: idStore ? deCode(idStore): deCode(context.restaurant),
+      ...input
+    })
+    return data
+  } catch (e) {
+    const error = new Error('No pudimos guardar la tarjeta', e, 400)
+    return error
+  }
+
+}
+
 export default {
   TYPES: {
   },
@@ -43,6 +63,7 @@ export default {
     getAllPaymentCardType
   },
   MUTATIONS: {
-    registerPaymentCardType
+    registerPaymentCardType,
+    registerPaymentCard
   }
 }

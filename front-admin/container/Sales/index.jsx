@@ -26,6 +26,7 @@ import { LoadingBabel } from 'components/Loading/LoadingBabel'
 import { InputHook } from 'components/Update/Products/Input'
 import { useStore } from 'components/hooks/useStore'
 import FooterCalcules from './FooterCalcules'
+import { Draggable } from 'components/hooks/useDrag'
 const GenerateSales = () => {
   // STATES
   const arr = []
@@ -563,11 +564,16 @@ const GenerateSales = () => {
             }) : <Skeleton height={400} numberObject={50} />}
           </ContainerGrid>
         </ScrollbarProduct>
+        {/* <Draggable minX={300} moveX> */}
+        {/* <div style={{ width: 100, height: 100, backgroundColor: 'grey' }}> */}
         <FooterCalcules
           print={print}
           setPrint={setPrint}
           totalProductPrice={totalProductPrice}
         />
+
+        {/* </div> */}
+        {/* </Draggable> */}
       </Box>
 
     </Wrapper >
