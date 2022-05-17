@@ -34,7 +34,7 @@ query getAllStoreActiveChat($idStore: ID, $id: ID, $search: String,  $min: Int, 
     typeContribute
     secVia
     addressStore
-    createAt
+    createdAt
     pais{
       	cId
         cName

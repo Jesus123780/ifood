@@ -34,7 +34,7 @@ export const Checkbox = ({
   const disabledStyles = { color: 'red', width: 'min-content' }
 
   return (
-    <span
+    <Span
       className={className || ''}
       id={id}
       {...restProps}
@@ -49,7 +49,7 @@ export const Checkbox = ({
         type='checkbox'
       />
       {<CheckboxLabel checked={checked === true} htmlFor={`checkbox-${id}`}>{label}</CheckboxLabel>}
-    </span>
+    </Span>
   )
 }
 
@@ -81,6 +81,11 @@ const checkboxCheck = keyframes`
     border-color: #fff;
     transform: translate3d(0, -0.5em, 0) rotate(45deg);
   }
+`
+const Span = styled.span`
+      align-items: center;
+    display: grid;
+
 `
 const CheckboxLabel = styled.label`
   position: relative;

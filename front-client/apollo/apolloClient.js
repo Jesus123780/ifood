@@ -85,7 +85,7 @@ const getLink = async (operation) => {
     const definition = getMainDefinition(operation.query);
     const service = operation.getContext().clientName
     let uri = `${process.env.URL_BASE}api/graphql`
-    if (service === 'main') uri = `${process.env.URL_BASE}api/graphql`
+    if (service === 'main') uri = `${process.env.MAIN_URL_BASE}api/graphql`
     if (service === 'admin') uri = `${URL_BASE_ADMIN_MASTER}graphql`
     if (service === 'admin-server') uri = `${process.env.URL_ADMIN_SERVER}graphql`
     const link = new HttpLink({

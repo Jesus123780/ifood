@@ -55,5 +55,8 @@ type Query {
 # Mutations
 type Mutation {
   registerShoppingCard(input: IShoppingCard, idSubArray: IID_SUB_ITEMS): ShoppingCard
+  # sales store
+  registerSalesStore(input: [IShoppingCard], id: ID, idStore: ID, pCodeRef: String, change: String, payMethodPState: Int, pickUp: Int, totalProductsPrice: Float, idSubArray: IID_SUB_ITEMS): ShoppingCard
+
   deleteOneItem(cState: Int,ShoppingCard: ID): Response
 }

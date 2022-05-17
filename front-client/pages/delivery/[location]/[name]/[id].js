@@ -124,6 +124,7 @@ export default function HomeView() {
     setSearchFilter({ ...filter })
   }
   const handleAddProducts = food => {
+    console.log('first')
     const val = state_product_card.PRODUCT?.find(x => x.pId === food.pId)
     handleMenu(1)
     if (val) {

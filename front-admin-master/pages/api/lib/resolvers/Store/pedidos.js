@@ -61,15 +61,17 @@ const createMultipleOrderStore = async (_, { input }, ctx) => {
     let res = {}
     try {
         await StatusPedidosModel.create({ id: deCode(ctx.User.id), locationUser, idStore: deCode(setInput[0].idStore), pSState: 0, pCodeRef: pCodeRef, change: change, payMethodPState: payMethodPState, pickUp, totalProductsPrice })
-        for (let i = 0; i < setInput.length; i++) {
-            const { ShoppingCard, idStore } = setInput[i]
-            if (ShoppingCard) {
-                await deleteOneItem(null, { ShoppingCard, cState: 1 })
+        if (setInput) {
+            for (let i = 0; i < setInput.length; i++) {
+                const { ShoppingCard, idStore } = setInput[i]
+                if (ShoppingCard) {
+                    await deleteOneItem(null, { ShoppingCard, cState: 1 })
+                }
+                await createOnePedidoStore(null, { input: { id: ctx.User.id, idStore, ShoppingCard, change, pickUp, pCodeRef, payMethodPState, pPRecoger } })
+                // console.log(ShoppingCard, idStore)
             }
-            await createOnePedidoStore(null, { input: { id: ctx.User.id, idStore, ShoppingCard, change, pickUp, pCodeRef, payMethodPState, pPRecoger } })
-            // console.log(ShoppingCard, idStore)
+            return { success: true, message: 'Update' }
         }
-        return { success: true, message: 'Update' }
     } catch (error) {
         console.log(error)
         return { success: false, message: error }

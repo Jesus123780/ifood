@@ -65,3 +65,49 @@ query getOneClients($cliId: ID) {
   }
 }
 `
+
+export const CREATE_SHOPPING_CARD = gql`
+mutation  registerShoppingCard($input: IShoppingCard, $idSubArray: IID_SUB_ITEMS){
+    registerShoppingCard(input: $input, idSubArray: $idSubArray){
+      ShoppingCard
+      id
+      pId
+      subProductsId
+      ShoppingCardRefCode
+      uuid
+      discountCardProduct
+      idUser
+      cName
+      idStore
+      cState
+      cDatCre
+      cDatMod
+      csDescription
+      cantProducts
+      comments
+      # idSubArray
+  }
+}
+`
+export const CREATE_SHOPPING_CARD_TO_USER_STORE = gql`
+mutation  registerSalesStore($input: [IShoppingCard], $id: ID, $idStore: ID, $pCodeRef: String, $change: String, $payMethodPState: Int, $pickUp: Int, $totalProductsPrice: Float, $idSubArray: IID_SUB_ITEMS){
+    registerSalesStore(input: $input, id: $id, idStore: $idStore, pCodeRef: $pCodeRef,  change: $change, payMethodPState: $payMethodPState, pickUp: $pickUp, totalProductsPrice: $totalProductsPrice,  idSubArray: $idSubArray){
+      ShoppingCard
+      id
+      pId
+      subProductsId
+      ShoppingCardRefCode
+      uuid
+      discountCardProduct
+      idUser
+      cName
+      idStore
+      cState
+      cDatCre
+      cDatMod
+      csDescription
+      cantProducts
+      comments
+  }
+}
+`

@@ -13,6 +13,7 @@ import { deCode, getAttributes } from '../../utils/util'
 import ratingStoreStart from '../../models/Store/ratingStoreStart'
 import ScheduleStore from '../../models/Store/scheduleStore'
 import { Op } from 'sequelize'
+import StatusPedidosModel from '../../models/Store/statusPedidoFinal'
 
 // eslint-disable-next-line
 export const newRegisterStore = async (_, { input }, ctx) => {
@@ -91,13 +92,38 @@ export const deleteOneItem = async (root, args, context, _info) => {
   }
 }
 // eslint-disable-next-line
+export const registerSalesStore = async (root, { input, totalProductsPrice, pickUp, id, idStore, change, pCodeRef, payMethodPState }, context, _info) => {
+  try {
+    for (let i = 0; i < input.length; i++) {
+      const { id, pId, cantProducts } = input[i]
+      await ShoppingCard.create({
+        pId: deCode(pId),
+        id: deCode(id),
+        comments: null,
+        cState: 1,
+        cantProducts: cantProducts,
+        idStore: deCode(context.restaurant)
+      })  
+    }
+    await StatusPedidosModel.create({ id: deCode(id), locationUser: null, idStore: idStore ? deCode(idStore) : deCode(context.restaurant), pSState: 4, pCodeRef: pCodeRef, change: change, payMethodPState: payMethodPState, pickUp, totalProductsPrice })
+  } catch (e) {
+    const error = new Error('Lo sentimos, ha ocurrido un error interno')
+    return error
+  }
+}
 export const registerShoppingCard = async (root, input, context, _info) => {
   const { idSubArray } = input || {}
   const { id } = context.User
   const { cantProducts, pId, comments, idStore } = input.input || {}
   const { setID } = idSubArray || {}
   try {
-    const data = await ShoppingCard.create({ pId: deCode(pId), id: deCode(id), comments, cantProducts, idStore: deCode(idStore) })
+    const data = await ShoppingCard.create({
+      pId: deCode(pId),
+      id: deCode(id),
+      comments,
+      cantProducts,
+      idStore: deCode(idStore)
+    })
     for (let i = 0; i < setID.length; i++) {
       const { _id } = setID[i]
       await updateExtraProduct({ input: { _id, id, pId } })
@@ -595,6 +621,7 @@ export default {
     deleteOneItem,
     setEditNameStore,
     setRating,
+    registerSalesStore,
     registerShoppingCard
   }
 }

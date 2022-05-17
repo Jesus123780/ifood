@@ -83,7 +83,7 @@ query productFoodsOne($pId: ID){
         typeContribute
         secVia
         addressStore
-        createAt
+        createdAt
       pais {
         cId
         cName
@@ -144,7 +144,7 @@ query getOneStore($StoreName: String, $idStore: ID){
     typeContribute
     secVia
     addressStore
-    createAt
+    createdAt
     pais{
       	cId
         cName
@@ -351,7 +351,7 @@ query productFoodsOne($pId: ID){
         typeContribute
         secVia
         addressStore
-        createAt
+        createdAt
       pais {
         cId
         cName

@@ -36,7 +36,7 @@ query getAllStoreInStore($search: String, $min: Int, $max: Int){
     typeContribute
     secVia
     addressStore
-    createAt
+    createdAt
     pais{
       	cId
         cName
@@ -145,7 +145,7 @@ query getAllShoppingCard{
     typeContribute
     secVia
     addressStore
-    createAt
+    createdAt
       pais {
       cId
       cName

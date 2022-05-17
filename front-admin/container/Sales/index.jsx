@@ -1,32 +1,27 @@
 /* eslint-disable no-unsafe-optional-chaining */
 import React, { useContext, useEffect, useReducer, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Box, CateItem, ContainerGrid, CtnSwiper, Warper, Input, ScrollbarProduct, Wrapper, Button } from './styled'
 import { useMutation, useQuery } from '@apollo/client'
 import { GET_ULTIMATE_CATEGORY_PRODUCTS } from 'container/dashboard/queries'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Virtual, Navigation, Pagination, A11y, Parallax } from 'swiper'
 import { GET_ALL_PRODUCT_STORE, GET_MIN_PEDIDO } from 'container/dashboard/queriesStore'
-import { IconDelete, IconSales } from 'public/icons'
-import { PColor } from 'public/colors'
-import { numberFormat, RandomCode } from 'utils'
+import { IconSales } from 'public/icons'
 import { RippleButton } from 'components/Ripple'
-import { AwesomeModal } from 'components/AwesomeModal'
-import InputHooks from 'components/InputHooks/InputHooks'
 import moment from 'moment'
 import { CardProducts } from 'components/CartProduct'
-import { Prints } from './Printsale'
 import { CREATE_MULTIPLE_ORDER_PRODUCTS } from './queries'
 import { Context } from 'context/Context'
-import { Range } from 'components/InputRange'
 import { useCheckboxState } from 'components/hooks/useCheckbox'
-import { Checkbox } from 'components/Checkbox'
 import { Skeleton } from 'components/Skeleton'
 import { LoadingBabel } from 'components/Loading/LoadingBabel'
-import { InputHook } from 'components/Update/Products/Input'
 import { useStore } from 'components/hooks/useStore'
-import FooterCalcules from './FooterCalcules'
-import { Draggable } from 'components/hooks/useDrag'
+import { ModalSales } from './ModalSales'
+import { RandomCode } from 'utils'
+import { SwiperSliderCategory } from './SlideCategories'
+import { Box, ContainerGrid, ScrollbarProduct, Wrapper } from './styled'
+import { FormFilterSales } from './formFilterSales'
+import { BoxProductSales } from './BoxProductSales'
+import { CREATE_SHOPPING_CARD_TO_USER_STORE } from 'container/clients/queries'
+
 const GenerateSales = () => {
   // STATES
   const arr = []
@@ -34,7 +29,6 @@ const GenerateSales = () => {
   let total = 0
   const { setAlertBox } = useContext(Context)
   const [totalProductPrice, setTotalProductPrice] = useState(0)
-  const code = RandomCode(5)
   const [search, setSearch] = useState('')
   const [showMore, setShowMore] = useState(50)
   const [inputValue, setInputValue] = useState('')
@@ -45,6 +39,8 @@ const GenerateSales = () => {
   const onChangeInput = (e) => { return setValuesDates({ ...valuesDates, [e.target.name]: e.target.value }) }
   // QUERIES
   const [dataStore] = useStore()
+  const [registerSalesStore] = useMutation(CREATE_SHOPPING_CARD_TO_USER_STORE)
+
   const { createdAt } = dataStore || {}
   // eslint-disable-next-line consistent-return
   const [valuesDates, setValuesDates] = useState(() => {
@@ -201,7 +197,8 @@ const GenerateSales = () => {
       case 'REMOVE_ALL_PRODUCTS':
         return {
           ...state,
-          ...initialStateInvoice
+          // eslint-disable-next-line
+          PRODUCT: []
         }
       case 'TOGGLE_FREE_PRODUCT':
         return {
@@ -307,154 +304,71 @@ const GenerateSales = () => {
       setTotalProductPrice(0)
     }
   }, [totalProductPrice, suma, total, data])
-  const newArray = data?.PRODUCT?.map(x => { return x })
   const handleSales = async () => {
     await createMultipleOrderStore({
       variables: {
         input: {
-          setInput: newArray || [],
+          setInput: [],
           change: parseInt(values?.change?.replace(/\./g, '')),
           pickUp: 1,
           totalProductsPrice: totalProductPrice,
-          pCodeRef: code,
+          pCodeRef: 1,
           payMethodPState: 1,
           pPRecoger: 1
         }
       }
+    }).catch(() => {
+      // setAlertBox({ message: '' })
     })
 
   }
+  const restPropsSalesModal = {
+    handleSales,
+    setPrint,
+    totalProductPrice,
+    values,
+    code: 1,
+    data,
+    print,
+    setDelivery,
+    delivery,
+    handleChange
+
+  }
+  const restPropsSliderCategory = {
+    datCat, checkedItems, disabledItems, handleChangeCheck
+  }
+  const restPropsFormFilter = {
+    onChangeInput, valuesDates, handleChangeFilter, search
+  }
+  const restPropsProductSales = {
+    totalProductPrice, data, dispatch, dataMinPedido, max, inputValue, handleChangeFilterProduct, setPrint, finalFilter, print, handleChange, values
+  }
+
+  const newArrayProducts = data?.PRODUCT?.map(x => { return { pId: x.pId, id: values?.cliId, cantProducts: x.ProQuantity, comments: 'Comentarios' } })
+  console.log(newArrayProducts)
+  const handleSubmit = () => {
+    const code = RandomCode(5)
+    registerSalesStore({
+      variables: {
+        input: newArrayProducts || [],
+        id: values?.cliId,
+        pCodeRef: code,
+        change: values.change,
+        payMethodPState: 1,
+        pickUp: 1,
+        totalProductsPrice: data?.totalAmount || 0
+      }
+    })
+  }
   return (
     <Wrapper>
-      <AwesomeModal
-        borderRadius='5px'
-        btnCancel={true}
-        btnConfirm={true}
-        cancel='Guardar'
-        confirm='Guardar y salir'
-        footer={true}
-        header={true}
-        height='90vh'
-        onConfirm={() => { return handleSales() }}
-        onHide={() => { return setPrint(!print) }}
-        padding='25px'
-        show={print}
-        size='medium'
-        zIndex='999999'
-      >
-        <Prints
-          change={values.change}
-          code={code}
-          data={data?.PRODUCT || []}
-          total={`$ ${numberFormat(totalProductPrice)}`}
-        />
-      </AwesomeModal>
-      <AwesomeModal
-        borderRadius='5px'
-        btnCancel={true}
-        btnConfirm={false}
-        footer={false}
-        header={true}
-        onCancel={() => { return false }}
-        onHide={() => { return setDelivery(!delivery) }}
-        padding='25px'
-        show={delivery}
-        size='small'
-        title='Añade el costo del envio'
-      >
-        <Input
-          autoComplete='off'
-          name='ValueDelivery'
-          onChange={handleChange}
-          onKeyPress={(e) => {
-            if (e.key === 'Enter') {
-              e.stateventDefault()
-              e.target.blur()
-              setDelivery(!delivery)
-            }
-          }}
-          placeholder='costo de envio'
-          value={values?.ValueDelivery}
-        />
-        <Input
-          autoComplete='off'
-          name='change'
-          onChange={handleChange}
-          onKeyPress={(e) => {
-            if (e.key === 'Enter') {
-              e.preventDefault()
-              e.target.blur()
-              setDelivery(!delivery)
-            }
-          }}
-          placeholder='Cambio'
-          value={values?.change}
-        />
-      </AwesomeModal>
+      {/* <button onClick={() => { return handleSales() }}>Subit</button> */}
+      <button onClick={() => { return handleSubmit() }}>Subir</button>
+      <ModalSales {...restPropsSalesModal} />
       <Box>
-        <CtnSwiper>
-          <Swiper
-            autoplay={true}
-            modules={[Virtual, Navigation, Pagination, A11y, Parallax]}
-            navigation
-            slidesPerView={5}
-            spaceBetween={10}
-            virtual
-          >
-            {datCat && datCat?.catProductsAll?.map((slideContent, index) => {
-              const val = arr?.find(x => { return slideContent.carProId == x })
-              return (
-                <SwiperSlide
-                  key={slideContent.carProId}
-                  virtualIndex={index}
-                >
-
-                  <CateItem border={val}>
-                    <Checkbox
-                      checked={checkedItems.has(slideContent.carProId)}
-                      disabled={disabledItems.has(slideContent.carProId)}
-                      id={slideContent.carProId}
-                      onChange={handleChangeCheck}
-                    />
-                    <div>
-                      {slideContent?.pName?.slice(0, 15)}
-                    </div>
-                  </CateItem>
-                </SwiperSlide>
-              )
-            })}
-          </Swiper>
-          <Warper>
-            <InputHooks
-              name='fromDate'
-              onChange={onChangeInput}
-              required
-              title='Desde'
-              type='date'
-              value={valuesDates?.fromDate}
-              width={'20%'}
-            />
-            <InputHooks
-              name='toDate'
-              onChange={onChangeInput}
-              required
-              title='Hasta'
-              type='date'
-              value={valuesDates?.toDate}
-              width='20%'
-            />
-            <InputHooks
-              name='search'
-              onChange={handleChangeFilter}
-              range={{ min: 0, max: 20 }}
-              title='Busca tus productos'
-              type='text'
-              value={search}
-
-              width='30%'
-            />
-          </Warper>
-        </CtnSwiper>
+        <SwiperSliderCategory {...restPropsSliderCategory} />
+        <FormFilterSales {...restPropsFormFilter} />
         <ScrollbarProduct>
           <ContainerGrid>
             {(loading && loading && dataProduct?.productFoodsAll?.length <= 0) ? <Skeleton height={400} numberObject={50} /> : dataProduct?.productFoodsAll?.map((producto) => {
@@ -493,89 +407,7 @@ const GenerateSales = () => {
           widthButton='100%'
         >{loading ? <LoadingBabel /> : 'CARGAR MÁS'}</RippleButton>
       </Box>
-      <Box width='40%'>
-        <ScrollbarProduct margin={'0'}>
-          <h2>Productos a vender</h2>
-          {data.PRODUCT.length > 0 &&
-            <Warper>
-              <Button onClick={() => { return dispatch({ type: 'REMOVE_ALL_PRODUCTS' }) }}><IconDelete color={PColor} size={'30px'} /></Button>
-              <Checkbox
-                checked={data.sortBy && data.sortBy === 'PRICE_HIGH_TO_LOW'}
-                disabled={false}
-                id={'PRICE_HIGH_TO_LOW'}
-                name='sort'
-                onChange={() => { return dispatch({ type: 'SORT', payload: 'PRICE_HIGH_TO_LOW' }) }}
-              />
-              <Checkbox
-                checked={data.sortBy && data.sortBy === 'PRICE_LOW_TO_HIGH'}
-                disabled={false}
-                id={'PRICE_LOW_TO_HIGH'}
-                name='sort'
-                onChange={() => { return dispatch({ type: 'SORT', payload: 'PRICE_LOW_TO_HIGH' }) }}
-              />
-              <Range
-                label='Precio'
-                max={max || 0}
-                min={dataMinPedido?.getMinPrice || 0}
-                onChange={(e) => {
-                  return dispatch({
-                    type: 'PRICE_RANGE',
-                    payload: e.target.value
-                  })
-                }
-                }
-                value={data.priceRange}
-                width={'100%'}
-              />
-              <InputHook
-                id='myInput'
-                name='myInput'
-                onChange={(e) => { return handleChangeFilterProduct(e) }}
-                placeholder='Search for the data..'
-                required={true}
-                type='text'
-                value={inputValue}
-              />
-            </Warper>}
-          <ContainerGrid>
-            {data?.PRODUCT?.length > 0 ? finalFilter.map((producto, idx) => {
-              return (
-                <CardProducts
-                  ProDescription={producto.ProDescription}
-                  ProDescuento={producto.ProDescuento}
-                  ProImage={producto.ProImage}
-                  ProPrice={producto.ProPrice}
-                  ProQuantity={producto.ProQuantity}
-                  ValueDelivery={producto.ValueDelivery}
-                  del={true}
-                  free={producto.free}
-                  handleDecrement={() => { return dispatch({ type: 'REMOVE_PRODUCT', payload: producto }) }}
-                  handleDelete={() => { return dispatch({ type: 'REMOVE_PRODUCT_TO_CART', idx }) }}
-                  handleFree={false}
-                  handleFreeProducts={() => { return dispatch({ type: 'TOGGLE_FREE_PRODUCT', idx }) }}
-                  handleIncrement={() => { return dispatch({ id: producto.pId, type: 'INCREMENT' }) }}
-                  key={idx + 1}
-                  onClick={() => { return dispatch({ type: 'REMOVE_PRODUCT', payload: producto }) }}
-                  pName={producto.pName}
-                  render={<IconDelete color={PColor} size='20px' />}
-                  sum={true}
-                />
-              )
-            }) : <Skeleton height={400} numberObject={50} />}
-          </ContainerGrid>
-        </ScrollbarProduct>
-        {/* <Draggable minX={300} moveX> */}
-        {/* <div style={{ width: 100, height: 100, backgroundColor: 'grey' }}> */}
-        <FooterCalcules
-          print={print}
-          setPrint={setPrint}
-          totalProductPrice={totalProductPrice}
-        />
-
-        {/* </div> */}
-        {/* </Draggable> */}
-      </Box>
-
+      <BoxProductSales {...restPropsProductSales} />
     </Wrapper >
   )
 }

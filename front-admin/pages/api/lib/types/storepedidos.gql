@@ -46,6 +46,7 @@ input INPUT_SHOPPING_PRODUCTS {
   ShoppingCard: ID
   idStore: ID
 }
+# input sales store web
 input SET_INPUT_SHOPPING_PRODUCTS_ITEMS {
   setInput: [INPUT_SHOPPING_PRODUCTS]
   change: Int
@@ -56,6 +57,16 @@ input SET_INPUT_SHOPPING_PRODUCTS_ITEMS {
   pPRecoger: Int
   totalProductsPrice: Int
   locationUser: String
+}
+# input sales store 
+input InputSaleStore {
+  change: Int
+  pickUp: Int
+  pCodeRef: String
+  pPStateP: Int # 5 estados - confirmado - proceso - preparacion - salida - cancelado  
+  payMethodPState: Int  
+  pPRecoger: Int
+  totalProductsPrice: Int
 }
 type Query {
 """Response for find one Store"""
@@ -71,7 +82,12 @@ type Query {
 type Mutation {
   """"Store data Order"""
   createOnePedidoStore(input: InputStorePedidos): AuthPayload
+  # create a sale in store web
   createMultipleOrderStore(input: SET_INPUT_SHOPPING_PRODUCTS_ITEMS): Response
+  # create a sale in store
+  createSalesStore(input: InputSaleStore): Response
+  createShoppingCardStoreToUser(input: InputSaleStore): Response
+
   changePPStatePPedido(pPStateP: Int, pCodeRef: String): Response
 }
 

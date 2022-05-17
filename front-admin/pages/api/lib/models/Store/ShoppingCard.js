@@ -15,7 +15,7 @@ const ShoppingCard = sequelize.define('shoppingcards', {
   },
   id: {
     type: INTEGER,
-    allowNull: false,
+    allowNull: true,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
     references: {

@@ -41,7 +41,7 @@ const StatusPedidosModel = sequelize.define('statuspedidos', {
   },
   locationUser: {
     type: STRING,
-    allowNull: false
+    allowNull: true
   },
   pCodeRef: {
     type: STRING(100),
