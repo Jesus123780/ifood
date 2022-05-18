@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { useStickyState } from '../../context/contextsticky'
 
 function useSentinelOffsets() {
-
   return { bottomSentinelHeight: 100, topSentinelMarginTop: 10 }
 }
 

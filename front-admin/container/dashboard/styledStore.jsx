@@ -250,6 +250,7 @@ export const ContentSearch = styled.div`
   place-content: space-between;
   align-items: center;
   font-family: PFont-Light;
+  background: ${BGColor};
   button {
     background-color: transparent;
   }

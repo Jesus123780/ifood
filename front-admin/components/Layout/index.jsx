@@ -100,7 +100,6 @@ const Main = styled.main`
     height: 100vh;
     grid-template-rows: 75px 2fr;
     grid-template-columns: 180px 1fr;
-    grid-template-columns: 180px 1fr;
     grid-template-areas:
     'aside head head head'
     'aside main main right'

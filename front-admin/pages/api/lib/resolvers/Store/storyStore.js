@@ -5,10 +5,10 @@ import storyStore from '../../models/Store/StoryModel'
 import { deCode, getAttributes } from '../../utils/util'
 import { Op } from 'sequelize'
 
-export const registerStoryItemPhotoStore = async (_root, { input }) => {
+export const registerStoryItemPhotoStore = async (_root, { input }, context) => {
   try {
     const { stoId, itemImage } = input || {}
-    const data = await ItemStory.create({ isState: 1, stoId: deCode(stoId), itemImage, idStore: deCode('MjcyMDg4ODE0ODUxNTE2NDUw') /* deCode(context.restaurant) */ })
+    const data = await ItemStory.create({ isState: 1, stoId: deCode(stoId), itemImage, idStore: deCode(context.restaurant) /* deCode(context.restaurant) */ })
     return data
   } catch (e) {
     const error = new ApolloError(e || 'Lo sentimos, ha ocurrido un error interno')
@@ -17,7 +17,7 @@ export const registerStoryItemPhotoStore = async (_root, { input }) => {
 }
 export const registerStoryStore = async (_root, { input }, context) => {
   try {
-    const data = await storyStore.create({ ...input, sState: 1, idStore: deCode(input.idStore || context.restaurant), id: deCode('MjcyMDg4ODE0ODUxNTE2NDUw') })
+    const data = await storyStore.create({ ...input, sState: 1, idStore: deCode(input.idStore || context.restaurant), id: deCode(context.restaurant) })
     return data
   } catch (e) {
     const error = new ApolloError(e || 'Lo sentimos, ha ocurrido un error interno')
