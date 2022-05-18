@@ -187,11 +187,7 @@ const GenerateSales = () => {
         return {
           ...state,
           PRODUCT: state?.PRODUCT?.filter(t => { return t.pId !== action?.payload.pId }),
-          counter: action.payload.ProQuantity - state.counter
-        }
-      case 'REMOVE_PRODUCT_WALLET':
-        return {
-          PRODUCT_WALLET: state?.PRODUCT_WALLET?.filter((t, idx) => { return idx !== action?.idx })
+          counter:  state.counter - action.payload.ProQuantity
         }
       case 'REMOVE_ALL_PRODUCTS':
         return {
@@ -389,6 +385,7 @@ const GenerateSales = () => {
     handleChange
 
   }
+  console.log(data)
   return (
     <Wrapper>
       <ModalSales {...restPropsSalesModal} />

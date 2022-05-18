@@ -65,7 +65,7 @@ const Aside = () => {
         <Card>
           <Info>
             <ButtonGlobalCreate onClick={() => { return setShow(!show) }}>
-              Add new
+              Agregar Nuevo
             </ButtonGlobalCreate>
             <LeftNav show={show}>
               <Info>

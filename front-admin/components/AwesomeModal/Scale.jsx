@@ -74,6 +74,8 @@ const Modal = styled.div`
     z-index: 999;
     overflow: hidden;
     transform:scale(0);
+    flex: 1 1 auto;
+    overflow-y: auto;
     position: relative;
     border-radius: 5px;
      ${({ show }) => {return show ? css`

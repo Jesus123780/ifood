@@ -143,7 +143,8 @@ export const BoxProductSales = ({ totalProductPrice, data, dispatch, dataMinPedi
       {/* <Draggable minX={300} moveX> */}
       {/* <div style={{ width: 100, height: 100, backgroundColor: 'grey' }}> */}
       <FooterCalcules
-        counter={Math.abs(data.counter)}
+        // counter={Math.abs(data.counter)}
+        counter={data.counter}
         dispatch={dispatch}
         print={print}
         setPrint={setPrint}
