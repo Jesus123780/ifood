@@ -1,6 +1,5 @@
-import { BGColor, PColor } from 'public/colors'
-import styled from 'styled-components'
-import { animationTop } from '../../components/animations'
+import { BGColor, PColor, APColor } from 'public/colors'
+import styled, { css } from 'styled-components'
 
 export const Input = styled.input`
     outline: none;
@@ -12,7 +11,7 @@ export const ContentCalcules = styled.div`
     position: fixed;
     right: 0;
     bottom: -1px;
-    padding: 8.6px;
+    padding: 15.8px;
     display: flex;
     width: 40.7%;
     border-radius: 4px;
@@ -23,7 +22,7 @@ export const ScrollbarProduct = styled.div`
     overflow: hidden auto;
     height: 100%;
     border-left: 1px solid #e9ecef;
-    margin: ${({ margin }) => {return margin || '100px 0'}};
+    margin: ${({ margin }) => { return margin || '100px 0' }};
     h2 {
     text-rendering: optimizeLegibility;
     font-family: PFont-Light;
@@ -37,17 +36,11 @@ export const ScrollbarProduct = styled.div`
     justify-content: center;
     }
 `
-export const Button = styled.button`
-    background-color: transparent;
-    outline: none;
-`
-
 export const FlipTop = styled.div`
     position: relative;
     width: max-content;
-    &&:hover > ${Button} {
-        animation: ${animationTop} .1s linear;
-    } 
+
+
 `
 export const Warper = styled.div`
     flex-wrap: wrap;
@@ -60,10 +53,10 @@ export const CtnSwiper = styled.div`
 
 `
 export const Box = styled.div`
-    width: ${({ width }) => {return width || '60%'}};
+    width: ${({ width }) => { return width || '60%' }};
     place-content: center;
     place-items: center;
-    display: ${({ display }) => {return display}};
+    display: ${({ display }) => { return display }};
     position: relative;
 `
 export const Wrapper = styled.div`
@@ -142,7 +135,7 @@ export const SliderCategoryProducts = styled.div`
     display: flex;
 `
 export const Text = styled.span`
-    font-weight: ${ ({ fontWeight }) => {return fontWeight ? fontWeight : '700'}};
+    font-weight: ${({ fontWeight }) => { return fontWeight ? fontWeight : '700' }};
 `
 export const Item = styled.div`
     display: flex;
@@ -217,3 +210,17 @@ img{
         width: 100%;
     }
 `
+export const Button = styled.button`
+    background-color: transparent;
+    outline: none;
+    cursor: pointer;
+    color: ${({ color }) => {return color ? color : BGColor}};
+    border: 1px solid transparent;
+
+    ${({ active }) => {
+    return active && css`
+        border: 1px solid ${APColor};
+        border-radius: 10px;
+    `}}}
+`
+

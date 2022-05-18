@@ -83,6 +83,7 @@ export const Draggable = ({ children, moveY = false, moveX = false, minX, minY, 
   const stopDragging = useCallback(() => {
     window.removeEventListener('mousemove', startDragging, false)
     window.removeEventListener('mouseup', stopDragging, false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const handleChange = ({ touches }) => {
     const { clientX, clientY } = touches[0]
@@ -92,12 +93,14 @@ export const Draggable = ({ children, moveY = false, moveX = false, minX, minY, 
     const valueX = dragProps.current.dragStartLeft + clientX - dragProps.current.dragStartX
     const valueY = dragProps.current.dragStartTop + clientY - dragProps.current.dragStartY
     handleValidation({ valueX, valueY })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   useEffect(() => {
     return () => {
       window.removeEventListener('mousemove', startDragging, false)
       window.removeEventListener('mouseup', stopDragging, false)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const handleValidation = useCallback(({ valueX, valueY }) => {
     if (moveX) {

@@ -31,7 +31,6 @@ export const FormFilterSales = ({ onChangeInput, valuesDates, handleChangeFilter
         title='Busca tus productos'
         type='text'
         value={search}
-
         width='30%'
       />
     </Warper>

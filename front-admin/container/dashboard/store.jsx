@@ -15,7 +15,7 @@ import { GET_ALL_CATEGORIES_WITH_PRODUCT, GET_ALL_EXTRA_PRODUCT } from './querie
 import { ContainerFilter, ItemFilter } from '../../components/Update/Products/styled'
 import { ButtonAction, WrapperOptions, ContentSearch, Title, ContainerCarrusel } from './styledStore'
 import InputHooks from '../../components/InputHooks/InputHooks'
-import { GET_ONE_PRODUCTS_FOOD, SET_EDIT_STORE_NAME } from '../producto/queries'
+import { GET_ONE_PRODUCTS_FOOD } from '../producto/queries'
 import { ExtrasProductsItems } from '../producto/extras'
 import { ExtraProducts } from '../Extraproducts'
 import { GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, UPDATE_PRODUCT_FOOD } from '../update/Products/queries'
@@ -30,7 +30,6 @@ import { Sticky, StickyBoundary, StickyViewport } from './stickyheader'
 import { IconDelete, IconEdit } from 'public/icons'
 import { numberFormat } from 'utils'
 import { useOnScreen } from 'components/hooks/useIntersection'
-import { Skeleton } from 'components/Skeleton/index'
 
 const DashboardStore = () => {
   // STATE
@@ -186,9 +185,9 @@ const DashboardStore = () => {
           title='Buscar en el menu'
           value={dataForm?.search}
         />
-        {/* <StickyViewport as='main' style={containerStyle}>
+        <StickyViewport as='main' style={containerStyle}>
           {stickySectionElements}
-        </StickyViewport> */}
+        </StickyViewport>
       </Container>
       {/* MODALS */}
       <AwesomeModal
@@ -274,12 +273,11 @@ const DashboardStore = () => {
         btnConfirm={false}
         footer={false}
         header={true}
-        height='50vh'
+        height='96.5vh'
         onCancel={() => { return false }}
         onHide={() => { SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state) }}
         show={SHOW_MODAL_UPDATE_PRODUCTS.state}
         size='large'
-        zIndex='888888889'
       >
         {SHOW_MODAL_UPDATE_PRODUCTS.state && <Food />}
       </AwesomeModal>
@@ -289,7 +287,7 @@ const DashboardStore = () => {
         btnConfirm={false}
         footer={false}
         header={true}
-        height='60vh'
+        height='96.5vh'
         onCancel={() => { return false }}
         onHide={() => { return openTable(!table) }}
         padding='20px'
@@ -305,12 +303,12 @@ const DashboardStore = () => {
         btnConfirm={false}
         footer={false}
         header={true}
-        height='60vh'
+        height='96.5vh'
         onCancel={() => { return false }}
         onHide={() => { SHOW_MANAGE_CATEGORIES.setState(!SHOW_MANAGE_CATEGORIES.state) }}
         padding='25px'
         show={SHOW_MANAGE_CATEGORIES.state}
-        size='medium'
+        size='100%'
         zIndex='9990'
       >
         {SHOW_MANAGE_CATEGORIES.state && <ManageCategories SHOW_MODAL_UPDATE_PRODUCTS={SHOW_MODAL_UPDATE_PRODUCTS} />}

@@ -22,6 +22,10 @@ type ShoppingCard {
     getStore: Store
     productFood: ProductFood
 }
+type ResponseSalesStore {
+  ShoppingCard: ShoppingCard
+  Response: Response
+}
 # ShoppingCard Input
 input IID_SUB {
   _id: ID
@@ -56,7 +60,7 @@ type Query {
 type Mutation {
   registerShoppingCard(input: IShoppingCard, idSubArray: IID_SUB_ITEMS): ShoppingCard
   # sales store
-  registerSalesStore(input: [IShoppingCard], id: ID, idStore: ID, pCodeRef: String, change: String, payMethodPState: Int, pickUp: Int, totalProductsPrice: Float, idSubArray: IID_SUB_ITEMS): ShoppingCard
+  registerSalesStore(input: [IShoppingCard], id: ID, idStore: ID, pCodeRef: String, change: String, payMethodPState: Int, pickUp: Int, totalProductsPrice: Float, valueDelivery: Float, idSubArray: IID_SUB_ITEMS): ResponseSalesStore
 
   deleteOneItem(cState: Int,ShoppingCard: ID): Response
 }

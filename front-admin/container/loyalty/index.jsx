@@ -146,7 +146,6 @@ export const LoyaltyC = () => {
             <span> DELIVERY-APP </span>
           </Item>
           <Item>
-            {/* <span> {x.payMethodPState ? 'EFECTIVO' : 'TRANSFERENCIA'}</span> */}
           </Item>
           <Item>
             {/* <span> $ {numberFormat(x.totalProductsPrice)}</span> */}

@@ -24,25 +24,7 @@ export const BG_ANIMATION_ = keyframes`
  *  animation: 4s linear 0s infinite normal none running BG_ANIMATION_;
     background: linear-gradient(90deg, rgb(36, 36, 36) 0%, rgb(36, 36, 36) 20%, rgb(41, 41, 41) 50%, rgb(36, 36, 36) 80%, rgb(36, 36, 36) 100%) 0% 0% / 200% 200%;
  */
-export const animationTop = keyframes`
-    0% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-    opacity: 1;
-  }
 
-  20% {
-    -webkit-transform: translateY(0px) scale(0.7);
-    transform: translateY(0px) scale(0.7);
-    opacity: 0.7;
-  }
-
-  100% {
-    -webkit-transform: translateY(-700px) scale(0.7);
-    transform: translateY(-700px) scale(0.7);
-    opacity: 0.7;
-  }
-`
 export const animationSlide = keyframes`
 0% {
     -webkit-transform: translateX(0);

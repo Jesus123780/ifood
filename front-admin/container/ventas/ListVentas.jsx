@@ -7,7 +7,7 @@ import { useLazyQuery, useQuery } from '@apollo/client'
 import { BGColor, PColor, PLColor, SFColor } from 'public/colors'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { numberFormat } from 'utils'
+import { MONTHS, months, numberFormat } from 'utils'
 import { GET_ALL_SALES, GET_ONE_SALES } from './queries'
 import moment from 'moment'
 import { GetOneSales } from './getOneSales'
@@ -126,7 +126,7 @@ export const ListVentas = () => {
                 <span> DELIVERY-APP </span>
               </Item>
               <Item>
-                <span> {x.payMethodPState ? 'EFECTIVO' : 'TRANSFERENCIA'}</span>
+                <span> {x.payMethodPState ===  1 ? 'EFECTIVO' : 'TRANSFERENCIA'}</span>
               </Item>
               <Item>
                 <span> $ {numberFormat(x.totalProductsPrice)}</span>
@@ -233,11 +233,16 @@ export const ChatStatistic = () => {
   const dataChat = {
     labels: resultado.map(x => { return x.Mes === 0 ? 'Enero' : x.Mes === 1 ? 'Febrero' : x.Mes === 2 ? 'Marzo' : x.Mes === 3 ? 'Abril' : x.Mes === 4 ? 'Mayo' : x.Mes === 5 ? 'Junio' : x.Mes === 6 ? 'Julio' : x.Mes === 7 ? 'Agosto' : x.Mes === 8 ? 'Septiembre' : x.Mes === 9 ? 'Octubre' : x.Mes === 10 ? 'Noviembre' : 'Diciembre' }),
     // labels: moment()._locale._months,
+    // labels: MONTHS,
+    // labels: months({ count: DATA_COUNT }),
+
     datasets: [
       {
 
         label: 'Ventas',
         data: resultado.map(x => { return x.totalProductsPrice }),
+        // data: resultado.map(x => { return x.Mes === 0 ? x.totalProductsPrice : x.Mes === 1 ? x.totalProductsPrice : x.Mes === 2 ? x.totalProductsPrice : x.Mes === 3 ? x.totalProductsPrice : x.Mes === 4 ? x.totalProductsPrice : x.Mes === 5 ? x.totalProductsPrice : x.Mes === 6 ? x.totalProductsPrice : x.Mes === 7 ? x.totalProductsPrice : x.Mes === 8 ? x.totalProductsPrice : x.Mes === 9 ? x.totalProductsPrice : x.totalProductsPrice }),
+
         // data: resultado.map(x => x.Mes === 0 ? x.totalProductsPrice : x.Mes === 1 ? x.totalProductsPrice : x.Mes === 2 ? x.totalProductsPrice : x.Mes === 3 ? x.totalProductsPrice : x.Mes === 4 ? x.totalProductsPrice : x.Mes === 5 ? x.totalProductsPrice : x.Mes === 6 ? x.totalProductsPrice : x.Mes === 7 ? x.totalProductsPrice : x.Mes === 8 ? x.totalProductsPrice : x.Mes === 9 ? x.totalProductsPrice: x.Mes === 10 ? x.totalProductsPrice : 'Diciembre'),
 
         backgroundColor: [
@@ -266,8 +271,8 @@ export const ChatStatistic = () => {
         <ContainChart>
           <BarChat data={dataChat || []} />
           <DoughnutChar data={dataChat || []} />
-          <Circle data={dataChat || []} />
-          <HorizontalBarChart data={dataChat || []} />
+          {/* <Circle data={dataChat || []} /> */}
+          {/* <HorizontalBarChart data={dataChat || []} /> */}
         </ContainChart>
       </MainCard>}
       {/* {loading ? <Skeleton height={300} margin={'10px 0'} /> :} */}

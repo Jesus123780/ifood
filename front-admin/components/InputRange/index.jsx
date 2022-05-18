@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
-import { ContainerRange, Input } from './styled'
+import React, { useEffect, useState } from 'react'
+import { Circle, ContainerRange, Input, Progress, Svg } from './styled'
 
 export const Range = ({ min = 0, max = 100, value = 0, label, onChange, width }) => {
   const [currentValue, setCurrentValue] = useState(value)
@@ -12,11 +12,20 @@ export const Range = ({ min = 0, max = 100, value = 0, label, onChange, width })
     setCurrentValue(event.target.value)
     onChange(event)
   }
+  const [percentage, setPercentValue] = useState(0)
+  useEffect(() => {
+    setPercentValue((value / max) * 88)
+  }, [max, value])
   return (
     <ContainerRange>
+      {0 === 1 && <Progress>
+        <Svg>
+          <Circle dashValue={percentage} />
+        </Svg>
+      </Progress>}
       <div className='range__ballon' style={{ left: widthInput * percent + offset || 0 }}>
-        <span className='range__ballon__label'>{label}</span>
-        <span className='range__ballon__value'>{`$ ${currentValue}`}</span>
+        <span className='range__ballon__label'>{label} {' '}</span>
+        <span className='range__ballon__value'>{`$  ${currentValue}`}</span>
       </div>
       <Input
         max={max}

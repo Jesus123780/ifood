@@ -5,7 +5,7 @@ import { numberFormat } from 'utils'
 import { Input } from '../styled'
 import { Prints } from '../Printsale'
 
-export const ModalSales = ({ handleSales, print, setPrint, totalProductPrice, values, code, data, setDelivery, delivery, handleChange }) => {
+export const ModalSales = ({ handleSubmit, print, setPrint, totalProductPrice, values, code, data, setDelivery, delivery, handleChange }) => {
   return (
     <div>
       <AwesomeModal
@@ -17,7 +17,7 @@ export const ModalSales = ({ handleSales, print, setPrint, totalProductPrice, va
         footer={true}
         header={true}
         height='90vh'
-        onConfirm={() => { return handleSales() }}
+        onConfirm={() => { return handleSubmit() }}
         onHide={() => { return setPrint(!print) }}
         padding='25px'
         show={print}
@@ -84,7 +84,7 @@ ModalSales.propTypes = {
   }),
   delivery: PropTypes.any,
   handleChange: PropTypes.any,
-  handleSales: PropTypes.func,
+  handleSubmit: PropTypes.func,
   setDelivery: PropTypes.func,
   setPrint: PropTypes.func,
   totalProductPrice: PropTypes.any,

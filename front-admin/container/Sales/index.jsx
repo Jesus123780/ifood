@@ -8,19 +8,19 @@ import { IconSales } from 'public/icons'
 import { RippleButton } from 'components/Ripple'
 import moment from 'moment'
 import { CardProducts } from 'components/CartProduct'
-import { CREATE_MULTIPLE_ORDER_PRODUCTS } from './queries'
 import { Context } from 'context/Context'
 import { useCheckboxState } from 'components/hooks/useCheckbox'
 import { Skeleton } from 'components/Skeleton'
 import { LoadingBabel } from 'components/Loading/LoadingBabel'
 import { useStore } from 'components/hooks/useStore'
 import { ModalSales } from './ModalSales'
-import { RandomCode } from 'utils'
+import { RandomCode, updateCacheMod } from 'utils'
 import { SwiperSliderCategory } from './SlideCategories'
 import { Box, ContainerGrid, ScrollbarProduct, Wrapper } from './styled'
 import { FormFilterSales } from './formFilterSales'
 import { BoxProductSales } from './BoxProductSales'
 import { CREATE_SHOPPING_CARD_TO_USER_STORE } from 'container/clients/queries'
+import { GET_ALL_SALES, GET_ALL_SALES_STATISTICS } from 'container/ventas/queries'
 
 const GenerateSales = () => {
   // STATES
@@ -77,16 +77,9 @@ const GenerateSales = () => {
     startAnimateUp: '',
     priceRange: max || 0,
     counter: 0,
-    totalAmount: 0
+    totalAmount: 0,
+    payMethodPState: 0
   }
-  const [createMultipleOrderStore] = useMutation(CREATE_MULTIPLE_ORDER_PRODUCTS, {
-    onCompleted: data => {
-      if (data.createMultipleOrderStore.success === true) {
-        setAlertBox({ message: 'success' })
-      }
-    }
-  })
-
 
   // EFFECTS 
   for (let categories of checkedItems.keys()) {
@@ -137,7 +130,12 @@ const GenerateSales = () => {
         ]
         : state.PRODUCT.map((items) => {
           return items.pId === action.payload.pId
-            ? { ...items, ProQuantity: items.ProQuantity + 1 }
+            ? {
+              ...items,
+              ProQuantity: items.ProQuantity + 1,
+              ProPrice: items.ProQuantity * items.ProPrice
+
+            }
             : items
         }
         )
@@ -188,7 +186,8 @@ const GenerateSales = () => {
       case 'REMOVE_PRODUCT_TO_CART':
         return {
           ...state,
-          PRODUCT: state?.PRODUCT?.filter((t, idx) => { return idx !== action?.idx })
+          PRODUCT: state?.PRODUCT?.filter(t => { return t.pId !== action?.payload.pId }),
+          counter: action.payload.ProQuantity - state.counter
         }
       case 'REMOVE_PRODUCT_WALLET':
         return {
@@ -197,8 +196,8 @@ const GenerateSales = () => {
       case 'REMOVE_ALL_PRODUCTS':
         return {
           ...state,
-          // eslint-disable-next-line
-          PRODUCT: []
+          PRODUCT: [],
+          counter: 0
         }
       case 'TOGGLE_FREE_PRODUCT':
         return {
@@ -213,12 +212,15 @@ const GenerateSales = () => {
       case 'INCREMENT':
         return {
           ...state,
+          counter: state.counter + 1,
           PRODUCT: state?.PRODUCT.map((item) => {
             if (item.pId === action.id) {
               return {
                 ...item,
                 ProQuantity: item.ProQuantity + 1,
                 ProPrice: item.ProQuantity * item.ProPrice
+                // counter: state.counter + 1,
+
               }
             }
             return {
@@ -250,6 +252,16 @@ const GenerateSales = () => {
             }
 
           })
+        }
+      case 'PAYMENT_METHOD_TRANSACTION':
+        return {
+          ...state,
+          payMethodPState: 1
+        }
+      case 'PAYMENT_METHOD_MONEY':
+        return {
+          ...state,
+          payMethodPState: 0
         }
       default:
         return state
@@ -304,37 +316,7 @@ const GenerateSales = () => {
       setTotalProductPrice(0)
     }
   }, [totalProductPrice, suma, total, data])
-  const handleSales = async () => {
-    await createMultipleOrderStore({
-      variables: {
-        input: {
-          setInput: [],
-          change: parseInt(values?.change?.replace(/\./g, '')),
-          pickUp: 1,
-          totalProductsPrice: totalProductPrice,
-          pCodeRef: 1,
-          payMethodPState: 1,
-          pPRecoger: 1
-        }
-      }
-    }).catch(() => {
-      // setAlertBox({ message: '' })
-    })
 
-  }
-  const restPropsSalesModal = {
-    handleSales,
-    setPrint,
-    totalProductPrice,
-    values,
-    code: 1,
-    data,
-    print,
-    setDelivery,
-    delivery,
-    handleChange
-
-  }
   const restPropsSliderCategory = {
     datCat, checkedItems, disabledItems, handleChangeCheck
   }
@@ -346,8 +328,10 @@ const GenerateSales = () => {
   }
 
   const newArrayProducts = data?.PRODUCT?.map(x => { return { pId: x.pId, id: values?.cliId, cantProducts: x.ProQuantity, comments: 'Comentarios' } })
-  console.log(newArrayProducts)
+  // eslint-disable-next-line
   const handleSubmit = () => {
+    if (!values?.cliId) return setAlertBox({ message: 'Elige un cliente' })
+    if (newArrayProducts.length <= 0) return setAlertBox({ message: 'Debes agregar un producto al carro' })
     const code = RandomCode(5)
     registerSalesStore({
       variables: {
@@ -355,16 +339,58 @@ const GenerateSales = () => {
         id: values?.cliId,
         pCodeRef: code,
         change: values.change,
-        payMethodPState: 1,
+        valueDelivery: parseInt(values.valueDelivery),
+        payMethodPState: data.payMethodPState,
         pickUp: 1,
         totalProductsPrice: data?.totalAmount || 0
+      }, update: (cache, { data: { getAllSalesStoreStatistic } }) => {
+        return updateCacheMod({
+          cache,
+          query: GET_ALL_SALES_STATISTICS,
+          nameFun: 'getAllSalesStoreStatistic',
+          dataNew: getAllSalesStoreStatistic,
+          type: 2
+        },
+        cache.modify({
+          fields: {
+            getAllSalesStore(dataOld = []) {
+              return cache.writeQuery({ query: GET_ALL_SALES, data: dataOld })
+            }
+          }
+        })
+        )
       }
-    })
+    }
+    )
+      .then((res) => {
+        const { data } = res || {}
+        const { registerSalesStore } = data || {}
+        const { Response } = registerSalesStore || {}
+        if (Response.success === true) {
+          setAlertBox({ message: `${Response.message}`, color: 'success' })
+          dispatch({ type: 'REMOVE_ALL_PRODUCTS' })
+          setValues({})
+        }
+      })
+      .catch(() => {
+        setAlertBox({ message: 'Lo sentimos no pudimos generar la venta', color: 'success' })
+      })
+  }
+  const restPropsSalesModal = {
+    setPrint,
+    handleSubmit,
+    totalProductPrice,
+    values,
+    code: 1,
+    data,
+    print,
+    setDelivery,
+    delivery,
+    handleChange
+
   }
   return (
     <Wrapper>
-      {/* <button onClick={() => { return handleSales() }}>Subit</button> */}
-      <button onClick={() => { return handleSubmit() }}>Subir</button>
       <ModalSales {...restPropsSalesModal} />
       <Box>
         <SwiperSliderCategory {...restPropsSliderCategory} />

@@ -169,7 +169,7 @@ export const IconPay = ({ style = {}, size, color }) => {return <svg
     x2='54'
     y1='185.32'
     y2='186.32'
-  /><line
+/><line
     fill='none'
     stroke={ color || '#000'}
     strokeLinecap='round'
@@ -187,7 +187,7 @@ export const IconPay = ({ style = {}, size, color }) => {return <svg
     x2='147'
     y1='185.32'
     y2='186.32'
-  /><line
+/><line
     fill='none'
     stroke={ color || '#000'}
     strokeLinecap='round'
@@ -205,7 +205,7 @@ export const IconPay = ({ style = {}, size, color }) => {return <svg
     x2='208'
     y1='92.32'
     y2='42.32'
-  /><line
+/><line
     fill='none'
     stroke={ color || '#000'}
     strokeLinecap='round'
@@ -1068,7 +1068,7 @@ export const IconInvoice = ({ style = {}, size }) => {return <svg
     x2='138.26'
     y1='193.62'
     y2='111.98'
-  /><path
+/><path
     d='M257.11,251.47c4-9.66,7.55-12.06,10.24-12.13,5.87-.17,7.79,10.72,15.26,11.54,6.72.73,9.49-7.63,17.61-8.61,6.79-.82,13.17,4,18.06,9.2'
     fill='none'
     stroke='#000'
@@ -1133,7 +1133,7 @@ export const IconDate = ({ style = {}, size }) => {return <svg
     x2='150.83'
     y1='91.42'
     y2='91.42'
-  /><line
+/><line
     fill='none'
     stroke='#000'
     strokeLinecap='round'
@@ -1151,7 +1151,7 @@ export const IconDate = ({ style = {}, size }) => {return <svg
     x2='85.05'
     y1='141.71'
     y2='141.71'
-  /><line
+/><line
     fill='none'
     stroke='#000'
     strokeLinecap='round'
@@ -1169,7 +1169,7 @@ export const IconDate = ({ style = {}, size }) => {return <svg
     x2='114.07'
     y1='45.32'
     y2='4.5'
-  /><line
+/><line
     fill='none'
     stroke='#000'
     strokeLinecap='round'
@@ -1208,21 +1208,21 @@ export const IconPDF = ({ style = {}, size }) => {return <svg
     width='133.43'
     x='39'
     y='167.48'
-  /><rect
-    fill='#d7d7d7'
-    height='9.59'
-    rx='4.79'
-    width='133.43'
-    x='39'
-    y='185.09'
 /><rect
     fill='#d7d7d7'
     height='9.59'
     rx='4.79'
     width='133.43'
     x='39'
-    y='202.7'
+    y='185.09'
   /><rect
+    fill='#d7d7d7'
+    height='9.59'
+    rx='4.79'
+    width='133.43'
+    x='39'
+    y='202.7'
+/><rect
     fill='#d7d7d7'
     height='9.59'
     rx='4.79'
@@ -1234,7 +1234,7 @@ export const IconPDF = ({ style = {}, size }) => {return <svg
     cy='219.02'
     fill='#d7d7d7'
     r='59.96'
-  /><circle
+/><circle
     cx='183.21'
     cy='222.54'
     fill='#fff'
@@ -1246,7 +1246,7 @@ export const IconPDF = ({ style = {}, size }) => {return <svg
     width='16.7'
     x='174.99'
     y='190.3'
-  /><polygon fill='#389fcb' points='165.34 226.44 201.08 226.96 183.21 250.3 165.34 226.44' /></svg>}
+/><polygon fill='#389fcb' points='165.34 226.44 201.08 226.96 183.21 250.3 165.34 226.44' /></svg>}
 export const IconImg = ({ style = {}, size, color }) => {return <svg
   height={size}
   style={style}
@@ -1351,34 +1351,34 @@ export const IconExcel = ({ style = {}, size }) => {return <svg
       fillOpacity='.094118'
       height={size}
       width={size}
-  /><g
+/><g
       fillOpacity='.2'
       height={size}
       width={size}
-    ><path d='m277.709 145h-52.709v130.625h52.709c5.022-.014 9.152-4.144 9.166-9.166v-112.293c-.014-5.022-4.144-9.152-9.166-9.166z' /><path
+  ><path d='m277.709 145h-52.709v130.625h52.709c5.022-.014 9.152-4.144 9.166-9.166v-112.293c-.014-5.022-4.144-9.152-9.166-9.166z' /><path
         d='m277.709 145h-52.709v116.875h52.709c5.022-.014 9.152-4.144 9.166-9.166v-98.543c-.014-5.022-4.144-9.152-9.166-9.166z'
         height={size}
         width={size}
-  /><path
+/><path
         d='m270.834 145h-45.834v116.875h45.834c5.022-.014 9.152-4.144 9.166-9.166v-98.543c-.014-5.022-4.144-9.152-9.166-9.166z'
         height={size}
         width={size}
-    /></g><path
+  /></g><path
       d='m179.166 145h91.668c5.027 0 9.166 4.139 9.166 9.166v91.668c0 5.027-4.138 9.166-9.166 9.166h-91.668c-5.027 0-9.166-4.139-9.166-9.166v-91.668c0-5.027 4.139-9.166 9.166-9.166z'
       fill='#107c41'
       height={size}
       width={size}
-  /><path
+/><path
       d='m194.292 234.375 22.246-34.471-20.376-34.279h16.397l11.123 21.909c1.022 2.079 1.725 3.63 2.109 4.652h.144c.734-1.661 1.502-3.276 2.302-4.843l11.889-21.718h15.055l-20.904 34.087 21.431 34.663h-16.014l-12.849-24.067c-.605-1.023-1.118-2.099-1.534-3.212h-.191c-.376 1.091-.874 2.136-1.487 3.115l-13.232 24.164z'
       fill='#fff'
       height={size}
       width={size}
-      /></g><path
+  /></g><path
     d='m170 90h220v220h-220z'
     fill='none'
     height={size}
     width={size}
-  /></svg>}
+/></svg>}
 export const IconSvg = ({ style = {}, size }) => {return <svg
   height={size}
   role='img'
@@ -1483,17 +1483,17 @@ export const IconZIP = ({ style = {}, size }) => {return <svg
     d='M423.45-190.09s16.14-19.64,34.38,0Z'
     fill='#f9a855'
     transform='translate(-375.93 205.61)'
-  /><path
+/><path
     d='M457.78-169.9v29.16H444.1V-153s-3.51-5.58-7.2.54v11.7H423.31V-169.9s-4.23-.54-4.32,3l-.9,29.43s2.07,5.13,6.48,6.75h34.29s3.51-.54,4.68-7.65l-.72-30.06S462.15-171.36,457.78-169.9Z'
     fill='#fff'
     transform='translate(-375.93 205.61)'
-/><rect
+  /><rect
     fill='#f6c92e'
     height='27.6'
     width='6.84'
     x='9.36'
     y='4.56'
-  /><rect
+/><rect
     fill='#f6c92e'
     height='27.6'
     width='6.84'

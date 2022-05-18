@@ -45,7 +45,7 @@ export const SalesWeekShortDays = () => {
       const dataKeyDays = Object.keys(GROUP_BY_DAYS)
       setSetKey(dataKeyDays)
     }
-  }, [data])
+  }, [data, dataSales])
   return (
     <React.Fragment>
       {loading ? <Skeleton height={300} margin={'20px 0'} /> :

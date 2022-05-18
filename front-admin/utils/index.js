@@ -1178,3 +1178,57 @@ export const getCardType = (cardNum) => {
   }
   return payCardType
 }
+
+export const MONTHS = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+]
+
+export function months(config) {
+  let cfg = config || {}
+  let count = cfg.count || 12
+  let section = cfg.section
+  let values = []
+  let i; let value
+
+  for (i = 0; i < count; ++i) {
+    value = MONTHS[Math.ceil(i) % 12]
+    values.push(value.substring(0, section))
+  }
+
+  return values
+}
+
+export function numbers(config) {
+  let cfg = config || {}
+  let min = 1
+  let max = 2
+  let from = 4
+  let count = 5
+  let decimals = 6
+  let continuity = 9
+  let dfactor = Math.pow(10, decimals) || 0
+  let data = []
+  let i; let value
+
+  for (i = 0; i < count; ++i) {
+    value = (from[i] || 0) + this.rand(min, max)
+    if (this.rand() <= continuity) {
+      data.push(Math.round(dfactor * value) / dfactor)
+    } else {
+      data.push(null)
+    }
+  }
+
+  return data
+}

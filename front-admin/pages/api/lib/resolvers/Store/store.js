@@ -92,7 +92,7 @@ export const deleteOneItem = async (root, args, context, _info) => {
   }
 }
 // eslint-disable-next-line
-export const registerSalesStore = async (root, { input, totalProductsPrice, pickUp, id, idStore, change, pCodeRef, payMethodPState }, context, _info) => {
+const registerSalesStore = async (root, { input, totalProductsPrice, pickUp, id, idStore, change, pCodeRef, payMethodPState, valueDelivery }, context, _info) => {
   try {
     for (let i = 0; i < input.length; i++) {
       const { id, pId, cantProducts } = input[i]
@@ -100,18 +100,36 @@ export const registerSalesStore = async (root, { input, totalProductsPrice, pick
         pId: deCode(pId),
         id: deCode(id),
         comments: null,
-        cState: 1,
+        cState: 0,
         cantProducts: cantProducts,
         idStore: deCode(context.restaurant)
-      })  
+      })
     }
-    await StatusPedidosModel.create({ id: deCode(id), locationUser: null, idStore: idStore ? deCode(idStore) : deCode(context.restaurant), pSState: 4, pCodeRef: pCodeRef, change: change, payMethodPState: payMethodPState, pickUp, totalProductsPrice })
+    // status sales success
+    await StatusPedidosModel.create({ 
+      id: deCode(id), 
+      locationUser: null, 
+      idStore: idStore ? deCode(idStore) : deCode(context.restaurant), 
+      pSState: 4, 
+      pCodeRef: pCodeRef, 
+      valueDelivery: valueDelivery, 
+      change: change, 
+      payMethodPState: payMethodPState, 
+      pickUp, 
+      totalProductsPrice 
+    })
+    return {
+      Response: {
+        success: true,
+        message: 'Venta exitosa'
+      }
+    }
   } catch (e) {
     const error = new Error('Lo sentimos, ha ocurrido un error interno')
     return error
   }
 }
-export const registerShoppingCard = async (root, input, context, _info) => {
+export const registerShoppingCard = async (root, input, context) => {
   const { idSubArray } = input || {}
   const { id } = context.User
   const { cantProducts, pId, comments, idStore } = input.input || {}

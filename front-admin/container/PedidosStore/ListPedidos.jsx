@@ -135,7 +135,7 @@ export const ListPedidos = ({ data, fetchMore, setMore, more }) => {
             <span> DELIVERY-APP </span>
           </Item>
           <Item>
-            <span> {x.payMethodPState ? 'EFECTIVO' : 'TRANSFERENCIA'}</span>
+            <span> {x.payMethodPState === 1 ? 'EFECTIVO' : 'TRANSFERENCIA'}</span>
           </Item>
           <Item>
             <span> $ {numberFormat(x.totalProductsPrice)} </span>

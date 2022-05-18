@@ -93,7 +93,7 @@ query productFoodsOne($pId: ID){
         typeContribute
         secVia
         addressStore
-        createAt
+        createdAt
       department {
         dId
         cId
