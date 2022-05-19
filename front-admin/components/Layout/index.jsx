@@ -15,6 +15,7 @@ import { BtnClose } from 'components/AwesomeModal/styled'
 import { IconCancel } from 'public/icons'
 import GenerateSales from 'container/Sales'
 import { AwesomeModal } from 'components/AwesomeModal'
+import ScaleModal from 'components/AwesomeModal/Scale'
 // import { Messages } from 'container/messages'
 
 export const Layout = ({ children, watch, settings }) => {
@@ -55,7 +56,7 @@ export const Layout = ({ children, watch, settings }) => {
         <Aside />
         <div style={{ gridArea: 'main', overflowY: 'auto' }}>
           {children}
-          <AwesomeModal
+          <ScaleModal
             backdrop='static'
             borderRadius='10px'
             btnCancel={true}
@@ -72,7 +73,7 @@ export const Layout = ({ children, watch, settings }) => {
             zIndex='9999'
           >
             <GenerateSales />
-          </AwesomeModal>
+          </ScaleModal>
           {/* <Messages /> */}
         </div>
         {/* {!['/login', '/register', '/varify-email', '/restaurante', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => {return x === location.pathname}) && <Footer />} */}
