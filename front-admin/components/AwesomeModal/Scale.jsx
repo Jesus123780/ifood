@@ -17,13 +17,13 @@ const ScaleModal = ({ show, children, size, title, height }) => {
     <Container show={show} size={size}>
       <Modal
         height={height}
-        onClick={(e) => {return e.preventDefault()}}
+        onClick={(e) => { return e.preventDefault() }}
         show={show}
         size={size}
       >
         <ModalHeader>
           <ModalTitle>{title}</ModalTitle>
-          <BtnClose onClick={() => {return onBackdropHide()}}><IconCancel size='20px' /></BtnClose>
+          <BtnClose onClick={() => { return onBackdropHide() }}><IconCancel size='20px' /></BtnClose>
         </ModalHeader>
         {children}
       </Modal>
@@ -68,8 +68,8 @@ const Modal = styled.div`
     return size
   }};
     min-width: 340px;
-    height: ${({ height }) => {return height || 'auto'}};
-    border-radius: ${({ borderRadius }) => {return borderRadius}};
+    height: ${({ height }) => { return height || 'auto' }};
+    border-radius: ${({ borderRadius }) => { return borderRadius }};
     border: 1px solid rgba(0,0,0,.2);
     z-index: 999;
     overflow: hidden;
@@ -78,10 +78,11 @@ const Modal = styled.div`
     overflow-y: auto;
     position: relative;
     border-radius: 5px;
-     ${({ show }) => {return show ? css`
+     ${({ show }) => {
+    return show ? css`
      animation: ${zoomIn} .5s .1s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
      ` :
-    css`
+      css`
     animation:  ${zoomOut}  .2s .1s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
     `}} 
 `
@@ -92,11 +93,12 @@ const Container = styled.div`
     bottom: 0;
     right: 0;
     display: flex;
-    ${({ show }) => {return show ? css`
+    ${({ show }) => {
+    return show ? css`
         z-index: 1000;
         opacity: 1;
         ` :
-    css`
+      css`
     z-index: -1000;
     opacity: 0;
 

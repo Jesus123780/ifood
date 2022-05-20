@@ -1,15 +1,8 @@
-import withSession from 'apollo/session'
-import { ProvidersC } from 'container/providers'
+import { TestProviders } from 'components/providers/index2'
+// import { ProvidersC } from 'container/providers'
+// import { ProvidersC } from 'container/providers'
 
 export default function providers() {
-  return <ProvidersC />
+  return <TestProviders />
+  // return <ProvidersC1 />
 }
-
-export const getServerSideProps = withSession(async function ({ req }) {
-  // eslint-disable-next-line no-undef
-  if (!req.cookies[process.env.SESSION_NAME]) return { redirect: { destination: '/entrar' } }
-  return {
-    props: {}
-  }
-}
-)

@@ -1202,7 +1202,7 @@ export function months(config) {
   let i; let value
 
   for (i = 0; i < count; ++i) {
-    value = MONTHS[Math.ceil(i) % 12]
+    value = MONTHS[Math.ceil(i) % MONTHS.length || 12]
     values.push(value.substring(0, section))
   }
 

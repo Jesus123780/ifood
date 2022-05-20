@@ -19,7 +19,8 @@ export const ShoppingC = () => {
   const OPEN_MODAL = useSetState()
   const [newShopping] = useMutation(CREATE_SHOPPING)
   const { data } = useQuery(GET_ALL_SHOPPING)
-  const [handleChange, handleSubmit, { dataForm, errorForm }] = useFormTools()
+  const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
+
   const handleForm = (e) =>
   {return handleSubmit({
     event: e,
@@ -81,7 +82,7 @@ export const ShoppingC = () => {
             onChange={handleChange}
             required
             title='Comentario'
-            value={dataForm.shoComments}
+            value={dataForm?.shoComments}
             width={'100%'}
           />
           <RippleButton type='submit' widthButton='100%' >Crear</RippleButton>

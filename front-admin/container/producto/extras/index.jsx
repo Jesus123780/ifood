@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { RippleButton } from '../../../components/Ripple'
-import { BGColor, EColor, PColor, PLColor, PVColor, BColor } from '../../../public/colors'
+import { BGColor, EColor, PColor } from '../../../public/colors'
 import { IconDelete, IconMiniCheck, IconPlus } from '../../../public/icons'
 import { numberFormat, RandomCode, updateCache } from '../../../utils'
 import { GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, GET_EXTRAS_PRODUCT_FOOD_SUB_OPTIONAL, UPDATE_EXTRAS_PRODUCT_FOOD_OPTIONAL, UPDATE_MULTI_EXTRAS_PRODUCT_FOOD } from '../../update/Products/queries'
@@ -103,7 +103,6 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
       }).then((e) => {return console.log(e)})
       // setModal(false)
     } catch (error) {
-      console.log(error)
       setAlertBox({ message: `${ error }` , duration: 7000 })
     }
   }
@@ -667,7 +666,7 @@ export const List = ({ list, index, setData, data }) => {
   )
 }
 
-export const Card = ({ card, index, list, setData, data, id }) => {
+export const Card = ({ card, index, data, id }) => {
   const handleRemoveItemCard = async elem => {
     const list = data.lists[id]
     const Lines = list?.cards.filter((x, index) => {return index !== elem})

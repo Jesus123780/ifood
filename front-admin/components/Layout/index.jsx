@@ -62,10 +62,11 @@ export const Layout = ({ children, watch, settings }) => {
             btnConfirm={false}
             footer={false}
             header={true}
-            height='95vh'
+            height='100vh'
             onCancel={() => { return false }}
             onHide={() => { return setSalesOpen(!salesOpen) }}
             padding={0}
+            // show={salesOpen}
             show={salesOpen}
             size='large'
             title='Crea una venta'

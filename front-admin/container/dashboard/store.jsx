@@ -273,7 +273,7 @@ const DashboardStore = () => {
         btnConfirm={false}
         footer={false}
         header={true}
-        height='96.5vh'
+        height='100vh'
         onCancel={() => { return false }}
         onHide={() => { SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state) }}
         show={SHOW_MODAL_UPDATE_PRODUCTS.state}
@@ -287,7 +287,7 @@ const DashboardStore = () => {
         btnConfirm={false}
         footer={false}
         header={true}
-        height='96.5vh'
+        height='100vh'
         onCancel={() => { return false }}
         onHide={() => { return openTable(!table) }}
         padding='20px'
@@ -303,7 +303,7 @@ const DashboardStore = () => {
         btnConfirm={false}
         footer={false}
         header={true}
-        height='96.5vh'
+        height='100vh'
         onCancel={() => { return false }}
         onHide={() => { SHOW_MANAGE_CATEGORIES.setState(!SHOW_MANAGE_CATEGORIES.state) }}
         padding='25px'

@@ -9,6 +9,7 @@ const nextConfig = {
   reactStrictMode: true
 }
 module.exports = (phase) => {
+
   // npm run dev or next dev
   const isDev = phase === PHASE_DEVELOPMENT_SERVER
   // npm run build or next build
@@ -115,6 +116,7 @@ module.exports = (phase) => {
     env,
     images, 
     headers,
+    optimizeFonts: false,
     nextConfig,
     basePath,
     rewrites,

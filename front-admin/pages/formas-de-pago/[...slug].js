@@ -9,6 +9,7 @@ import { useUser } from 'components/hooks/useUser'
 import { RippleButton } from 'components/Ripple'
 
 export default function PaymentMethods() {
+
   const router = useRouter()
   const { query } = router || {}
   const { slug } = query || {}
@@ -180,3 +181,5 @@ export default function PaymentMethods() {
     <RippleButton onClick={() => { return handleSubmit() }} widthButton={'100%'}>button</RippleButton>
   </React.Fragment>)
 }
+
+export const nombre = 'nomnbre'
