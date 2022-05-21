@@ -18,21 +18,10 @@ export const FormProducts = styled.form`
 `
 
 export const Container = styled.div`
-    display: flex;
-    border-radius: 4px;
-    background-color: ${({ theme }) => {return theme.InvColor}};
-    transition:  6s ease;
-    padding-bottom: 30px;
-    border-bottom: 1px solid rgba(0,0,0,.1);
-    max-width: 1366px !important;
-    margin: auto;
-    margin: 50px auto;
-    place-content: center;
-    gap: 5px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(400px,1fr));
+    grid-gap: 20px;
 
-    .filter{
-        display: none !important;
-    }
 `
 export const Card = styled.div` 
     position: relative;

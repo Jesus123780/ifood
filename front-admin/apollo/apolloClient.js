@@ -66,7 +66,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 const authLink = async () => {
   // const device = await getDeviceId()
   // window.localStorage.setItem('deviceid', device)
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoianV2aW5hb2plc3VzZEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6Imp1dmluYW9qZXN1c2RAZ21haWwuY29tIiwicmVzdGF1cmFudCI6eyJpZFN0b3JlIjoiTWpjeU1EZzRPREUwT0RVeE5URTJORFV3IiwiaWQiOiJNamN5TURnNE9ERTBPRFV4TlRFMk5EVXcifSwiaWQiOiJNamN5TURnNE9ERTBPRFV4TlRFMk5EVXciLCJpYXQiOjE2NTI1OTY1OTMsImV4cCI6MTY1MjkyOTg5M30.yQAxjiYrF79-wwn3TkzEfe0Rv-qOVHd9qcsJimX5WBo'
+  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoianV2aW5hb2plc3VzZEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6Imp1dmluYW9qZXN1c2RAZ21haWwuY29tIiwicmVzdGF1cmFudCI6eyJpZFN0b3JlIjoiTWpjeU1EZzRPREUwT0RVeE5URTJORFV3IiwiaWQiOiJNamN5TURnNE9ERTBPRFV4TlRFMk5EVXcifSwiaWQiOiJNamN5TURnNE9ERTBPRFV4TlRFMk5EVXciLCJpYXQiOjE2NTI5NDk1MjgsImV4cCI6MTY1MzI4MjgyOH0.Kaqw7oKgl9XCU08XMN6AO2mqlUls22DPrn_LB-EVBmc'
   // const restaurant = localStorage.getItem('restaurant')
   const restaurant = 'MjcyMDg4ODE0ODUxNTE2NDUw'
   return {
@@ -115,7 +115,8 @@ function createApolloClient() {
     if (service === 'admin') uri = `${URL_BASE_ADMIN_MASTER}graphql`
     if (service === 'admin-server') uri = `${process.env.URL_ADMIN_SERVER}graphql`
     // const token = localStorage.getItem('session')
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoianV2aW5hb2plc3VzZEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6Imp1dmluYW9qZXN1c2RAZ21haWwuY29tIiwicmVzdGF1cmFudCI6eyJpZFN0b3JlIjoiTWpjeU1EZzRPREUwT0RVeE5URTJORFV3IiwiaWQiOiJNamN5TURnNE9ERTBPRFV4TlRFMk5EVXcifSwiaWQiOiJNamN5TURnNE9ERTBPRFV4TlRFMk5EVXciLCJpYXQiOjE2NTI1OTY1OTMsImV4cCI6MTY1MjkyOTg5M30.yQAxjiYrF79-wwn3TkzEfe0Rv-qOVHd9qcsJimX5WBo'
+  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoianV2aW5hb2plc3VzZEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6Imp1dmluYW9qZXN1c2RAZ21haWwuY29tIiwicmVzdGF1cmFudCI6eyJpZFN0b3JlIjoiTWpjeU1EZzRPREUwT0RVeE5URTJORFV3IiwiaWQiOiJNamN5TURnNE9ERTBPRFV4TlRFMk5EVXcifSwiaWQiOiJNamN5TURnNE9ERTBPRFV4TlRFMk5EVXciLCJpYXQiOjE2NTI5NDk1MjgsImV4cCI6MTY1MzI4MjgyOH0.Kaqw7oKgl9XCU08XMN6AO2mqlUls22DPrn_LB-EVBmc'
+  
     operation.setContext({
       headers: {
         ...headers,
