@@ -6,15 +6,6 @@ export const Button = styled.button`
     z-index: 9999;
 `
 export const FormProducts = styled.form`
-    height: 100%;
-    min-height: 100vh;
-    max-height: 100vh;
-    overflow-y: auto;
-    &::-webkit-scrollbar {
-    width: 3px;
-    background-color: #dcdcdc;
-    border-radius: 5px;
-    }
 `
 
 export const Container = styled.div`
@@ -186,8 +177,6 @@ export const CardInput = styled.div`
 export const CardCheckBox = styled.input`
     height: 20px;
     width: 20px;
-    zoom: normal !important;
-    transform: none !important;
     &#cat {
         opacity: 1;
     }
@@ -197,14 +186,14 @@ export const CardRadioLabel = styled.label`
     color: ${({ theme }) => {return theme.SFSColor}};
 `
 export const Footer = styled.div`
-    position: fixed;
+    /* position: fixed;
     left: 0;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     bottom: 0;
     z-index: 99900;
     display: flex;
     justify-content: space-between;
-    background-color: ${BGColor};
+    background-color: ${BGColor}; */
     @media (max-width: 960px){
         /* bottom: 0px; */
         

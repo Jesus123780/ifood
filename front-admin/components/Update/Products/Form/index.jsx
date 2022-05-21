@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { InputHook } from '../Input'
 import { numberFormat } from 'utils'
-import { CardCheckBox, CardInput, CardRadioLabel, Footer } from '../styled'
+import { CardCheckBox, CardInput, CardRadioLabel, Footer, FormProducts } from '../styled'
 import { RippleButton } from 'components/Ripple'
 import { useRouter } from 'next/router'
 import NewSelect from 'components/NewSelectHooks/NewSelect'
@@ -11,7 +11,7 @@ const FormProduct = ({ handleRegister, names, handleChange, values, setName, dat
   const router = useRouter()
   return (
     <div>
-      <form className='form-horizontal' onSubmit={handleRegister}>
+      <FormProducts className='form-horizontal' onSubmit={handleRegister}>
         <InputHook
           label='Nombre del producto'
           name='name'
@@ -70,25 +70,20 @@ const FormProduct = ({ handleRegister, names, handleChange, values, setName, dat
           />
           <CardRadioLabel htmlFor='checkboxF'>Envío gratis</CardRadioLabel>
         </CardInput>
-        {/* <Footer>
+        <Footer>
           <RippleButton
-            padding='10px'
+            padding='10px'  
             type='submit'
-            widthButton='20%'
+            widthButton='100%'
           >Subir</RippleButton>
-          <RippleButton
+          {/* <RippleButton
             onClick={() => { return router.push('/update/products/disabled') }}
             padding='10px'
             type='button'
-            widthButton='20%'
-          >Ir a productos deshabilitados</RippleButton>
-          <RippleButton
-            padding='10px'
-            type='submit'
-            widthButton='20%'
-          >Subir</RippleButton>
-        </Footer> */}
-      </form>
+            widthButton='100%'
+          >Ir a productos deshabilitados</RippleButton> */}
+        </Footer> 
+      </FormProducts>
     </div>
   )
 }
