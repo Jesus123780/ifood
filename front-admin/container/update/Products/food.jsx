@@ -14,7 +14,7 @@ import { GET_ONE_STORE } from '../../Restaurant/queries'
 import { convertBase64, getFileSizeByUnit, RandomCode } from '../../../utils'
 import { GET_ALL_PRODUCT_STORE } from '../../dashboard/queriesStore'
 import { Context } from 'context/Context'
-import { URL_ADMIN_SERVER } from 'apollo/urls'
+import { useCategoriesProduct } from 'components/hooks/useCategoriesProducts'
 export const Food = () => {
   const [errors, setErrors] = useState({})
   const [values, setValues] = useState({})
@@ -304,7 +304,8 @@ export const Food = () => {
     }
     Years(min)
   }, [YearArray, dataProduct, years])
-
+  const [dataCategoriesProducts, { loading: loadingAreaas }] = useCategoriesProduct()
+  console.log(dataCategoriesProducts)
   return (
     <FoodComponent
       alt={alt}
@@ -315,6 +316,7 @@ export const Food = () => {
       currentYear={currentYear}
       data={dataProducto}
       dataCategories={finalDataCategories?.CategoryproductFoodsAll}
+      dataCategoriesProducts={dataCategoriesProducts || []}
       dataFree={productFree}
       datafatures={datafatures?.features}
       departments={dataDepartments?.departments || []}

@@ -179,6 +179,7 @@ export const updateProductFoods = async (_root, { input }, context) => {
     await productModelFood.update({ pState: pState === 1 ? 0 : 1 }, { where: { pId: deCode(pId) } })
         
   } catch (e) {
+    console.log(e)
     throw new ApolloError('No ha sido posible procesar su solicitud.', 500, e)
   }
 }

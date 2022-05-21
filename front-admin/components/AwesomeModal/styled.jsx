@@ -27,6 +27,7 @@ const fadeInTop = keyframes`
     }
 
 `
+
 export const Pulse = keyframes`
   from {
     -webkit-transform: scale3d(1, 1, 1);

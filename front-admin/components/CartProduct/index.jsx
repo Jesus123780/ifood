@@ -9,7 +9,7 @@ import { ActionName, Button, ButtonCard, Card, ContainerActions, InputCounter, I
 import { useState } from 'react'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-export const CardProducts = ({ pName, del, edit, pId, sum, free, index, handleFree, ProDescription, handleFreeProducts = () => { }, dispatch = () => { }, handleIncrement, ProQuantity, handleDecrement, ValueDelivery, ProPrice, render = null, onClick = () => { }, handleDelete = () => { }, ProDescuento, ProImage, widthButton }) => {
+export const CardProducts = ({ pName, del, edit, pId, src, onTargetClick, sum, free, index, handleFree, ProDescription, handleFreeProducts = () => { }, dispatch = () => { }, handleIncrement, ProQuantity, handleDecrement, ValueDelivery, ProPrice, render = null, onClick = () => { }, handleDelete = () => { }, ProDescuento = 0, ProImage, widthButton }) => {
   const router = useRouter()
   const [startAnimateUp, setStartAnimateUp] = useState('')
   const [show, setShow] = useState(false)
@@ -120,7 +120,7 @@ export const CardProducts = ({ pName, del, edit, pId, sum, free, index, handleFr
 
           <div className='flex-wrap'>
             <span className='price'>$ {ProPrice ? numberFormat(ProPrice) || free === 1 : 'Gratis'}</span>
-            {ProDescuento !== 0 && <span className='price discount'>{`$ ${numberFormat(ProDescuento)}`}</span>}
+            {ProDescuento.length > 0 && <span className='price discount'>{` $ ${numberFormat(ProDescuento)}`}</span>}
           </div>
         </div>
         <div className='info-price'>
@@ -138,14 +138,15 @@ export const CardProducts = ({ pName, del, edit, pId, sum, free, index, handleFr
             >{render}</RippleButton>}
           </ContainerActions>
         </div>
-        <div className='dish-card__container-image'>
+        <div className='dish-card__container-image' onClick={() => { return onTargetClick() }}>
           <Image
             alt={pName}
             blurDataURL='/images/DEFAULTBANNER.png'
             className='store_image'
             layout='fill'
             objectFit='cover'
-            src={ProImage || '/images/dish-image-placeholder.png'}
+           
+            src={ProImage || src ||'/app/images/DEFAULTBANNER.png'}
           />
         </div>
       </Card>

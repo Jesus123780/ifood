@@ -103,11 +103,11 @@ export const AwesomeModal = ({
         </ModalHeader>}
         <ModalBody
           display={display}
-          // height={height}
+          height={height}
           padding={padding}
         >
           {children}
-          {footer && <ModalFooter>
+          {!footer && <ModalFooter>
             {btnCancel ? <RippleButton
               border
               disabled={disabled}

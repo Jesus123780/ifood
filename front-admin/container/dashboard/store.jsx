@@ -278,6 +278,7 @@ const DashboardStore = () => {
         onHide={() => { SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state) }}
         show={SHOW_MODAL_UPDATE_PRODUCTS.state}
         size='large'
+        zIndex='99999999'
       >
         {SHOW_MODAL_UPDATE_PRODUCTS.state && <Food />}
       </AwesomeModal>
