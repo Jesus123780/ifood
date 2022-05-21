@@ -155,15 +155,10 @@ const Aside = () => {
             <ActiveLink activeClassName='active' href='/informes'>
               <AnchorRouter><IconShopping size='15px' />Informes</AnchorRouter>
             </ActiveLink>
-            <ActiveLink activeClassName='active' href='/fidelizacion'>
-              <AnchorRouter><IconShopping size='15px' />Lealtad</AnchorRouter>
-            </ActiveLink>
             <ActiveLink activeClassName='active' href='/'>
               <AnchorRouter><IconShopping size='15px' />Recomendaciones</AnchorRouter>
             </ActiveLink>
-            <ActiveLink activeClassName='active' href='/fidelizacion'>
-              <AnchorRouter><IconShopping size='15px' />Lealtad</AnchorRouter>
-            </ActiveLink>
+           
             <ActiveLink activeClassName='active' href='/clientes'>
               <AnchorRouter>  <IconUser size='20px' />Clientes</AnchorRouter>
             </ActiveLink>
@@ -205,9 +200,7 @@ const Aside = () => {
     </>
   )
 }
-export default React.memo(Aside, (prevProps, props) => {
-  props.active !== prevProps.active
-})
+export default Aside
 
 Aside.propTypes = {
   handleClickMenu: PropTypes.func,

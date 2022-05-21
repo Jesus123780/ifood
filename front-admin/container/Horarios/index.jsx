@@ -30,7 +30,7 @@ export const Horarios = () => {
         variables: {
           input: {
             cntName: dataForm.cntName,
-            cntComments: dataForm.cntComments
+            cntComments: dataForm?.cntComments
           }
         }, update: (cache, { data: { getAllContacts } }) => {return updateCache({
           cache,
@@ -74,7 +74,7 @@ export const Horarios = () => {
             onChange={handleChange}
             required
             title='Comentario'
-            value={dataForm.cntComments}
+            value={dataForm?.cntComments}
             width={'100%'}
           />
           <RippleButton type='submit' widthButton='100%' >Crear</RippleButton>

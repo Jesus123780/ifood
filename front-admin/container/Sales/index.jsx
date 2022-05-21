@@ -1,5 +1,4 @@
-/* eslint-disable no-unsafe-optional-chaining */
-import React, { useContext, useEffect, useReducer, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useReducer, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useMutation, useQuery } from '@apollo/client'
 import { GET_ULTIMATE_CATEGORY_PRODUCTS } from 'container/dashboard/queries'
@@ -112,6 +111,9 @@ const GenerateSales = () => {
     const productExist = state.PRODUCT.find(
       (items) => { return items.pId === action.payload.pId }
     )
+    const OurProduct = dataProduct?.productFoodsAll.find(
+      (items) => { return items.pId === action.payload.pId }
+    )
     return {
       ...state,
       counter: state.counter + 1,
@@ -125,6 +127,7 @@ const GenerateSales = () => {
             ProQuantity: 1,
             ProPrice: action.payload.ProPrice,
             pName: action.payload.pName,
+            ProDescription: action.payload.ProDescription,
             ProImage: action.payload.ProImage
           }
         ]
@@ -132,8 +135,8 @@ const GenerateSales = () => {
           return items.pId === action.payload.pId
             ? {
               ...items,
-              ProQuantity: items.ProQuantity + 1,
-              ProPrice: items.ProQuantity * items.ProPrice
+              ProPrice: (items.ProQuantity * OurProduct?.ProPrice),
+              ProQuantity: items.ProQuantity + 1
 
             }
             : items
@@ -170,7 +173,41 @@ const GenerateSales = () => {
     }
     return data
   }
+  // TOGGLE_FREE_PRODUCT
+  const toggleFreeProducts = (state, action) => {
+    const productExist = dataProduct?.productFoodsAll.find(
+      (items) => { return items.pId === action.payload.pId }
+    )
+    return {
+      ...state,
 
+      PRODUCT: state?.PRODUCT?.map((items) => {
+        return items.pId === action.payload.pId ? {
+          ...items,
+          free: !items.free,
+          ProPrice: items.ProPrice ? 0 : (items.ProQuantity * productExist?.ProPrice)
+        } : items
+      })
+    }
+  }
+  const handleChangeNumber = useCallback((state, action) => {
+    const event = action.payload
+    const { value, index, id } = event || {}
+    // const productExist = dataProduct?.productFoodsAll?.find(
+    //   (items) => { return items.pId === id }
+    // )
+    // console.log(productExist, 'HOLAAAAAAAAAAAA')
+    return {
+      ...state,
+      PRODUCT: state?.PRODUCT?.map((items, i) => {
+        return i === index ? {
+          ...items,
+          ProQuantity:  state.PRODUCT['ProQuantity'] = value || 0
+          // ProPrice:  value * productExist?.ProPrice
+        } : items
+      })
+    }
+  }, [])
   const PRODUCT = (state, action) => {
     switch (action.type) {
       case 'ADD_TO_CART':
@@ -187,24 +224,22 @@ const GenerateSales = () => {
         return {
           ...state,
           PRODUCT: state?.PRODUCT?.filter(t => { return t.pId !== action?.payload.pId }),
-          counter:  state.counter - action.payload.ProQuantity
+          counter: state.counter - action.payload.ProQuantity
         }
+
+
+      case 'ON_CHANGE': {
+        return handleChangeNumber(state, action)
+      }
       case 'REMOVE_ALL_PRODUCTS':
         return {
           ...state,
           PRODUCT: [],
           counter: 0
         }
+
       case 'TOGGLE_FREE_PRODUCT':
-        return {
-          ...state,
-          PRODUCT: state?.PRODUCT?.map((t, idx) => {
-            return idx === action.idx ? {
-              ...t,
-              free: !t.free
-            } : t
-          })
-        }
+        return toggleFreeProducts(state, action)
       case 'INCREMENT':
         return {
           ...state,

@@ -61,11 +61,27 @@ const fadeOutTop = keyframes`
   
 
 `
+export const ModalHeader = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .1rem;
+    border-bottom: 1px solid #e9ecef;
+    border-top-left-radius: .3rem;
+    border-top-right-radius: .3rem;
+    /* position: fixed;
+    top: 0;
+    left: 0;
+    width: 98.9%;
+    left: 0;
+    z-index: 99; */
+    background-color: ${BGColor};
+`
 
 export const Container = styled.div`
     display: ${({ show, state }) => {
-    if (show && state) return 'block'
-    else if (show && !state) return 'block'
+    if (show && state) return 'flex'
+    else if (show && !state) return 'flex'
     else if (!show && !state) return 'none'
   }};
     position: fixed;
@@ -76,6 +92,8 @@ export const Container = styled.div`
     right: 0;
     width: 100%;
     height: 100%;
+    justify-content: center;
+    align-items: center;
     z-index: ${({ zIndex }) => { return zIndex || '100' }};
     opacity: 1;
     ${({ show, state }) => {
@@ -83,21 +101,6 @@ export const Container = styled.div`
       css`animation: ${fadeIn} .1s linear;`
     } else if (show && !state) css`animation: ${fadeIn} .1s linear;`
   }}
-`
-
-export const Wrapper = styled.div`
-    position: relative;
-    background: transparent;
-    width: 100%;
-    height: 100%;
-    z-index: 888;
-    display: flex;
-    align-items: center;
-    ${props => {
-    return props.backdropA && css`
-        animation: ${Pulse} .2s forwards;
-    `}}
-    justify-content: center;
 `
 
 export const Modal = styled.div`
@@ -112,22 +115,16 @@ export const Modal = styled.div`
     return props.backdropA && css`
         animation: ${Pulse} .2s forwards;
     `}}
-    // min-width: 340px;
     border-radius: ${({ borderRadius }) => { return borderRadius }};
     border: 1px solid rgba(0,0,0,.2);
     z-index: 999;
+    
     ${({ state }) => { return state ? css`animation: ${fadeInTop} .2s forwards;` : css`animation: ${fadeOutTop} .2s forwards;` }}
+    /* height: 100vh; */
+    height: ${({ height }) => { return height || 'auto' }};
+
 `
 
-export const ModalHeader = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: .1rem;
-    border-bottom: 1px solid #e9ecef;
-    border-top-left-radius: .3rem;
-    border-top-right-radius: .3rem;
-`
 
 export const ModalTitle = styled.h4`
     margin: 0;
@@ -160,12 +157,14 @@ export const ModalBody = styled.div`
     position: relative;
     flex: 1 1 auto;
     overflow-y: auto;
+    
     display: ${({ display }) => { return display || 'block' }};
     height: ${({ height }) => { return height || 'auto' }};
     min-height: ${({ height }) => { return height || 'auto' }};
-    min-height: ${({ height }) => { return height || 'auto' }};
-    padding: ${({ padding }) => { return padding || '0' }};
+    /* padding: ${({ padding }) => { return padding || '0' }}; */
     background-color: ${BGColor};
+    /* padding-top: 30px; */
+
 `
 
 export const ModalFooter = styled.div`

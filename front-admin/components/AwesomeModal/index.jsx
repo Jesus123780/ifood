@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { useState, useEffect, useCallback } from 'react'
-import { Container, Wrapper, Modal, ModalHeader, ModalTitle, BtnClose, ModalBody, ModalFooter } from './styled'
+import { Container, Modal, ModalHeader, ModalTitle, BtnClose, ModalBody, ModalFooter } from './styled'
 import { MODAL_SIZES, BUTTONS_TEXT } from './constanst'
 import { IconCancel } from '../../public/icons'
 import { RippleButton } from '../Ripple'
@@ -31,9 +31,9 @@ export const AwesomeModal = ({
   header = true,
   closeIcon = false,
   borderRadius = '.3rem',
-  onHide = () => {return undefined},
-  onCancel = () => {return undefined},
-  onConfirm = () => {return undefined}
+  onHide = () => { return undefined },
+  onCancel = () => { return undefined },
+  onConfirm = () => { return undefined }
 }) => {
   const [state, setState] = useState(show)
   const [backdropA, setAnimationBackdrop] = useState(false)
@@ -45,9 +45,9 @@ export const AwesomeModal = ({
   // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (backdrop !== 'static') {
-      if (keyboard && show) window.addEventListener('keyup', e => {return e.code === 'Escape' && hide()})
+      if (keyboard && show) window.addEventListener('keyup', e => { return e.code === 'Escape' && hide() })
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      return () => {return keyboard && window.removeEventListener('keyup', () => { })}
+      return () => { return keyboard && window.removeEventListener('keyup', () => { }) }
     }
   }, [keyboard, hide, show, backdrop])
   useEffect(() => {
@@ -86,44 +86,42 @@ export const AwesomeModal = ({
       state={state}
       zIndex={zIndex}
     >
-      <Wrapper backdropA={backdropA} onMouseDown={onBackdropHide}>
-        <Modal
-          backdropA={backdropA}
-          borderRadius={borderRadius}
-          height={height}
-          onMouseDown={e => {return e.stopPropagation()}}
-          show={show}
-          showLateral={show}
-          size={size}
-          state={state}
-        >
-          {header && <ModalHeader>
-            <ModalTitle>{title}</ModalTitle>
-            <BtnClose onClick={hide}><IconCancel size='20px' /></BtnClose>
-          </ModalHeader>}
+      <Modal
+        backdropA={backdropA}
+        borderRadius={borderRadius}
+        height={height}
+        onMouseDown={e => { return e.stopPropagation() }}
+        show={show}
+        showLateral={show}
+        size={size}
+        state={state}
+      >
+        {header && <ModalHeader>
+          <ModalTitle>{title}</ModalTitle>
+          <BtnClose onClick={hide}><IconCancel size='20px' /></BtnClose>
           {(closeIcon && !header) && <BtnClose fixed onClick={hide}></BtnClose>}
-          <ModalBody
-            display={display}
-            height={height}
-            padding={padding}
-          >
-            {children}
-            {footer && <ModalFooter>
-              {btnCancel ? <RippleButton
-                border
-                disabled={disabled}
-                onClick={clickCancel}
-                type='button'
-              >{cancel || BUTTONS_TEXT.cancel}</RippleButton> : <div>as </div>}
-              {btnConfirm && <RippleButton
-                border
-                onClick={clickConfirm}
-                type={submit ? 'submit' : 'button'}
-              >{confirm || BUTTONS_TEXT.confirm}</RippleButton>}
-            </ModalFooter>}
-          </ModalBody>
-        </Modal>
-      </Wrapper>
+        </ModalHeader>}
+        <ModalBody
+          display={display}
+          // height={height}
+          padding={padding}
+        >
+          {children}
+          {footer && <ModalFooter>
+            {btnCancel ? <RippleButton
+              border
+              disabled={disabled}
+              onClick={clickCancel}
+              type='button'
+            >{cancel || BUTTONS_TEXT.cancel}</RippleButton> : <div>as </div>}
+            {btnConfirm && <RippleButton
+              border
+              onClick={clickConfirm}
+              type={submit ? 'submit' : 'button'}
+            >{confirm || BUTTONS_TEXT.confirm}</RippleButton>}
+          </ModalFooter>}
+        </ModalBody>
+      </Modal>
     </Container>
   )
 }

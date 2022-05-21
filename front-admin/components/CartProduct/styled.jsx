@@ -1,4 +1,4 @@
-import { APColor, BColor, BGColor, PColor } from 'public/colors'
+import { APColor, BColor, BGColor, PColor, PVColor } from 'public/colors'
 import styled, { css } from 'styled-components'
 
 export const ContentImage = styled.div`
@@ -41,15 +41,36 @@ export const WrapperButton = styled.div`
         padding: 10px;
     }
 `
+export const InputCounter = styled.input`
+    text-align: center;
+    position: absolute;
+    border-radius: 0.375em;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 25%);
+    font-size: 20px;
+    min-height: 48px;
+    width: 60px;
+    min-width: 40px;
+    outline: none;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 10px;
+    border: none;
+    &&:focus {
+      box-shadow: 0 0 0 1px ${PVColor};
+    }
+`
 export const ItemProQuantity = styled.button`
-background-color: transparent;
-
+  background-color: transparent;
+  position: relative;
+    display: flex;
+    justify-content: space-between;
 .counts--container {
   border-radius: 5px;
 
   .count {
     font-size: 20px;
-    width: 100%;
+    width: 70px;
     height: 50px;
     color: ${BColor};
     display: flex;
@@ -121,12 +142,37 @@ background-color: transparent;
 }
 
 `
+export const OverlineFree = styled.button`
+    width: 90%;
+    height: 100px;
+    position: absolute;
+    top: ${({ free }) => { return free ? '40px' : '0px' }};
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    transition: .2s ease;
+    & > span {
+      color: ${PColor};
+      position: absolute;
+      top: 10px;
+      left: 0;
+      right: 0;
+    }
+`
 export const Button = styled.button`
   background-color: ${PColor};
   color: ${BGColor};
   padding: 10px;
   border-radius: 5px;
 
+`
+export const WrapperCard = styled.div`
+    position: relative;
+    &&:hover ${OverlineFree} {
+      top: -30px;
+    }
 `
 export const ButtonCard = styled.button` 
     font-size: 12px;
@@ -175,16 +221,16 @@ export const Card = styled.div`
      "image" 157px 
      "info-price"  1fr
      "info"  1fr;
-    grid-gap: 28px;
+    grid-gap: 10px;
     height: 400px;
     align-items: flex-end;
     top: 0;
-    /* border: ${({ free }) => { return free && `${APColor}` }}; */
-    box-shadow: ${({ free }) => { return free && `0 1px 4px ${APColor}` }};
+    box-shadow: ${({ free }) => { return free && `0 1px 4px ${PColor}` }};
 
     &:hover  ${ButtonCard} {
         right: 15px;
     }
+  
     &#space {
         padding: 30px;
         justify-content: space-between;
@@ -301,6 +347,7 @@ export const Card = styled.div`
         display: flex;
         padding: 0 20px;
     }
+
 `
 export const ContainerActions = styled.div`
     position: absolute;

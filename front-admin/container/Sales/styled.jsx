@@ -9,11 +9,11 @@ export const Input = styled.input`
 `
 export const ContentCalcules = styled.div`
     position: fixed;
-    right: 0;
+    right: 16px;
     bottom: -1px;
     padding: 15.8px;
     display: flex;
-    width: 40.7%;
+    width: 39.5%;
     border-radius: 4px;
     justify-content: space-between;
     background-color: ${PColor};

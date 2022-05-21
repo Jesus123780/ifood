@@ -1,9 +1,9 @@
+import PropTypes from 'prop-types'
 import { TextH2Main } from 'components/common/h2'
 import { BGColor } from 'public/colors'
 import React from 'react'
 import { numberFormat } from 'utils'
 import { Box, Button, ContentCalcules, FlipTop } from './styled'
-// import PropTypes from 'prop-types'
 
 const FooterCalcules = ({ setPrint, print, totalProductPrice, counter, dispatch }) => {
   return (
@@ -15,7 +15,7 @@ const FooterCalcules = ({ setPrint, print, totalProductPrice, counter, dispatch 
           text={`${counter}`}
         />
       </Box>
-      <Box display='flex' width='40%'>
+      <Box display='flex' width='100%'>
         <TextH2Main
           color={BGColor}
           size='15px'
@@ -30,6 +30,12 @@ const FooterCalcules = ({ setPrint, print, totalProductPrice, counter, dispatch 
   )
 }
 
-FooterCalcules.propTypes = {}
+FooterCalcules.propTypes = {
+  counter: PropTypes.number,
+  dispatch: PropTypes.func,
+  print: PropTypes.bool,
+  setPrint: PropTypes.func,
+  totalProductPrice: PropTypes.number
+}
 
 export default FooterCalcules

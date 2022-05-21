@@ -124,17 +124,21 @@ export const BoxProductSales = ({ totalProductPrice, data, dispatch, dataMinPedi
                 ProQuantity={producto.ProQuantity}
                 ValueDelivery={producto.ValueDelivery}
                 del={true}
+                dispatch={dispatch}
                 free={producto.free}
                 handleDecrement={() => { return dispatch({ type: 'REMOVE_PRODUCT', payload: producto }) }}
                 handleDelete={() => { return dispatch({ type: 'REMOVE_PRODUCT_TO_CART', payload: producto }) }}
-                handleFree={false}
-                handleFreeProducts={() => { return dispatch({ type: 'TOGGLE_FREE_PRODUCT', idx }) }}
+                handleFree={true}
+                handleFreeProducts={() => { return dispatch({ type: 'TOGGLE_FREE_PRODUCT', payload: producto }) }}
                 handleIncrement={() => { return dispatch({ id: producto.pId, type: 'INCREMENT' }) }}
+                index={idx}
                 key={idx + 1}
                 onClick={() => { return dispatch({ type: 'REMOVE_PRODUCT', payload: producto }) }}
+                pId={producto.pId}
                 pName={producto.pName}
                 render={<IconDelete color={PColor} size='20px' />}
                 sum={true}
+                {...producto}
               />
             )
           }) : <Skeleton height={400} numberObject={50} />}
@@ -143,8 +147,7 @@ export const BoxProductSales = ({ totalProductPrice, data, dispatch, dataMinPedi
       {/* <Draggable minX={300} moveX> */}
       {/* <div style={{ width: 100, height: 100, backgroundColor: 'grey' }}> */}
       <FooterCalcules
-        // counter={Math.abs(data.counter)}
-        counter={data.counter}
+        counter={Math.abs(data.counter)}
         dispatch={dispatch}
         print={print}
         setPrint={setPrint}

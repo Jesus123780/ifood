@@ -122,9 +122,12 @@ export const ContentCheckbox = styled.div`
 `
 export const Input = styled.input`
     width: 100%;
+    border-radius: 0.375em;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 25%);
+
     ${props => {return props.margin && css`margin: ${props.margin};`}}
     ${props => {return props.card && css`
-    padding: 15px;
+    padding: 25px;
     border: 2px solid ${PColor};
     `}}
     ${props => {return props.inputText && css`
@@ -135,7 +138,7 @@ export const Input = styled.input`
         margin: 0 0 0 5px;
         color: ${({ color }) => {return color}};
         outline: none;
-        padding: 5px;
+        /* padding: 5px; */
         border: 2px solid transparent;
     `}}
     ${props => {return props.inputText && css`
