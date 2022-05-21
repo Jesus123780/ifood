@@ -192,7 +192,7 @@ const GenerateSales = () => {
   }
   const handleChangeNumber = useCallback((state, action) => {
     const event = action.payload
-    const { value, index } = event || {}
+    const { value, index, id } = event || {}
     // const productExist = dataProduct?.productFoodsAll?.find(
     //   (items) => { return items.pId === id }
     // )
