@@ -71,7 +71,7 @@ export const BoxProductSales = ({ totalProductPrice, data, dispatch, dataMinPedi
                 <Range
                   label='Precio'
                   max={max || 0}
-                  min={dataMinPedido?.getMinPrice || 0}
+                  min={0}
                   onChange={(e) => {
                     return dispatch({
                       type: 'PRICE_RANGE',

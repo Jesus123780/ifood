@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { useState, useEffect, useCallback } from 'react'
-import { Container, Modal, ModalHeader, ModalTitle, BtnClose, ModalBody, ModalFooter } from './styled'
+import { Container, Wrapper, Modal, ModalHeader, ModalTitle, BtnClose, ModalBody, ModalFooter } from './styled'
 import { MODAL_SIZES, BUTTONS_TEXT } from './constanst'
 import { IconCancel } from '../../public/icons'
 import { RippleButton } from '../Ripple'
@@ -86,42 +86,44 @@ export const AwesomeModal = ({
       state={state}
       zIndex={zIndex}
     >
-      <Modal
-        backdropA={backdropA}
-        borderRadius={borderRadius}
-        height={height}
-        onMouseDown={e => { return e.stopPropagation() }}
-        show={show}
-        showLateral={show}
-        size={size}
-        state={state}
-      >
-        {header && <ModalHeader>
-          <ModalTitle>{title}</ModalTitle>
-          <BtnClose onClick={hide}><IconCancel size='20px' /></BtnClose>
-          {(closeIcon && !header) && <BtnClose fixed onClick={hide}></BtnClose>}
-        </ModalHeader>}
-        <ModalBody
-          display={display}
-          // height={height}
-          padding={padding}
+      <Wrapper backdropA={backdropA} onMouseDown={onBackdropHide}>
+        <Modal
+          backdropA={backdropA}
+          borderRadius={borderRadius}
+          height={height}
+          onMouseDown={e => { return e.stopPropagation() }}
+          show={show}
+          showLateral={show}
+          size={size}
+          state={state}
         >
-          {children}
-          {footer && <ModalFooter>
-            {btnCancel ? <RippleButton
-              border
-              disabled={disabled}
-              onClick={clickCancel}
-              type='button'
-            >{cancel || BUTTONS_TEXT.cancel}</RippleButton> : <div>as </div>}
-            {btnConfirm && <RippleButton
-              border
-              onClick={clickConfirm}
-              type={submit ? 'submit' : 'button'}
-            >{confirm || BUTTONS_TEXT.confirm}</RippleButton>}
-          </ModalFooter>}
-        </ModalBody>
-      </Modal>
+          <ModalBody
+            display={display}
+            height={height}
+            padding={padding}
+          >
+            {header && <ModalHeader>
+              <ModalTitle>{title}</ModalTitle>
+              <BtnClose onClick={hide}><IconCancel size='20px' /></BtnClose>
+            </ModalHeader>}
+            {(closeIcon && !header) && <BtnClose fixed onClick={hide}></BtnClose>}
+            {children}
+            {footer && <ModalFooter>
+              {btnCancel ? <RippleButton
+                border
+                disabled={disabled}
+                onClick={clickCancel}
+                type='button'
+              >{cancel || BUTTONS_TEXT.cancel}</RippleButton> : <div>as </div>}
+              {btnConfirm && <RippleButton
+                border
+                onClick={clickConfirm}
+                type={submit ? 'submit' : 'button'}
+              >{confirm || BUTTONS_TEXT.confirm}</RippleButton>}
+            </ModalFooter>}
+          </ModalBody>
+        </Modal>
+      </Wrapper>
     </Container>
   )
 }
