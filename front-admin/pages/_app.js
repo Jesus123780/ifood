@@ -16,6 +16,7 @@ import 'swiper/css/scrollbar'
 import Script from 'next/script'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps)
   const Layout = Component.Layout ? Component.Layout : MainLayout
@@ -27,18 +28,19 @@ export default function App({ Component, pageProps }) {
     }
     const handleStop = () => {
       setIsAnimating(false)
+      // setStepNumber(0)
+
     }
     router.events.on('routeChangeStart', handleStart)
-    router.events.on('routeChangeComplete', handleStop)
-    router.events.on('routeChangeError', handleStop)
-
+    // router.events.on('routeChangeComplete', handleStop)
+    // router.events.on('routeChangeError', handleStop)
+    
     return () => {
       router.events.off('routeChangeStart', handleStart)
       router.events.off('routeChangeComplete', handleStop)
       router.events.off('routeChangeError', handleStop)
     }
   }, [router])
-  console.log(animating)
   return (
     <Context>
       <Script
@@ -56,7 +58,7 @@ export default function App({ Component, pageProps }) {
       <ApolloProvider client={apolloClient}>
         <Auth>
           <GlobalStyle />
-          <ProgressBar final={100} progress={99}/>
+          <ProgressBar progress={animating}/>
           <Layout>
             <Component {...pageProps} />
           </Layout>
