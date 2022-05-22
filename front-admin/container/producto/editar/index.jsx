@@ -89,7 +89,7 @@ export const ProductEdit = ({ id }) => {
             pId: id,
             pName,
             ProPrice: parseFloat(ProPrice),
-            ProDescuento,
+            ProDescuento: parseFloat(ProDescuento),
             ValueDelivery: parseFloat(ValueDelivery),
             ProUniDisponibles,
             ProDescription,
