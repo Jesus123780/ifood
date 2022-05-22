@@ -30,6 +30,7 @@ import { Sticky, StickyBoundary, StickyViewport } from './stickyheader'
 import { IconDelete, IconEdit } from 'public/icons'
 import { numberFormat } from 'utils'
 import { useOnScreen } from 'components/hooks/useIntersection'
+import { Skeleton } from 'components/Skeleton'
 
 const DashboardStore = () => {
   // STATE
@@ -158,7 +159,7 @@ const DashboardStore = () => {
                   setAlertBox={setAlertBox}
                 />
               )
-            }) : <Text size='15px'>No hay productos En la categoría {x.pName}</Text>}
+            }) : <Skeleton height={200} numberObject={2} /> }
           </ContainerCarrusel>
         </StickyBoundary>
       </div>)

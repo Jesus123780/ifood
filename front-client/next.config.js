@@ -22,8 +22,8 @@ module.exports = (phase) => {
             if (isProd) return '9F27g24N1A'
         })(),
         USERDB: (() => {
-            // if (isDev) return 'root'
-            if (isDev) return '9F27g24N1A'
+            if (isDev) return 'root'
+            // if (isDev) return '9F27g24N1A'
             if (isProd) return '9F27g24N1A'
         })(),
         PASSDB: (() => {

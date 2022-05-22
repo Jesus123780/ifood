@@ -7,7 +7,7 @@ export const Checkbox = ({
   id,
   label,
   checked,
-  onChange,
+  onChange = () => { return },
   indeterminate = false,
   disabled = false,
   className = '',

@@ -403,7 +403,8 @@ const GenerateSales = () => {
           setValues({})
         }
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e)
         setAlertBox({ message: 'Lo sentimos no pudimos generar la venta', color: 'success' })
       })
   }

@@ -147,6 +147,10 @@ const productModelFood = sequelize.define('productmodelfood', {
   //         }
   //     }
   // },
+  valueDelivery: {
+    type: INTEGER,
+    defaultValue: 0
+  },
   pName: {
     type: STRING,
     allowNull: false

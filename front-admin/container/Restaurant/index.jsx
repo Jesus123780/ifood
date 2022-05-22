@@ -14,17 +14,18 @@ import NewSelect from '../../components/NewSelectHooks/NewSelect'
 import { GET_ALL_CITIES, GET_ALL_COUNTRIES, GET_ALL_DEPARTMENTS, GET_ALL_ROAD } from '../../gql/Location'
 import { useUser } from '../../components/hooks/useUser'
 import { GET_ALL_CAT_STORE } from '../../gql/catStore'
-import { CardCheckBox, CardInput, CardRadioLabel } from '../../components/Update/Products/styled'
+import { CardInput } from '../../components/Update/Products/styled'
 import { AwesomeModal } from '../../components/AwesomeModal'
 import { Context } from '../../context/Context'
 import useLocalStorage from '../../components/hooks/useLocalSorage'
 import { Loading } from 'components/Loading'
+import { Checkbox } from 'components/Checkbox'
 
 export const Restaurant = () => {
   const [step] = useState(0)
   const { setAlertBox } = useContext(Context)
-
   const [modalConfirm, setModalConfirm] = useState(false)
+
   const router = useRouter()
   // eslint-disable-next-line
   const [_, setName] = useLocalStorage('restaurant', '');
@@ -36,6 +37,7 @@ export const Restaurant = () => {
     }
   })
   const [dataUser] = useUser()
+  // eslint-disable-next-line
   const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
 
   const handleForm = (e) => {
@@ -73,11 +75,10 @@ export const Restaurant = () => {
               createAt: dataForm.storePhone
             }
           }
-        }).then((x) => {
-          console.log(x)
-        }).catch((x) => {
-          console.log(x)
-
+        }).then(() => {
+          setAlertBox({ message: '' })
+        }).catch(() => {
+          setAlertBox({ message: 'Lo sentimos ocurrió un error, vuelve a intentarlo' })
         })
       }
       // actionAfterSuccess: () => {
@@ -156,7 +157,7 @@ export const Restaurant = () => {
         <StepsComponent
           current={nextStep}
           status='progress'
-          titles={['', '', '', '']}
+          titles={['Dato inicial', '2', '3', '4']}
         />
         <Form onSubmit={e => { return handleForm(e, 1) }}>
           <GoBack onClick={() => { return validateRouter() }}>
@@ -229,6 +230,7 @@ export const Restaurant = () => {
                 <InputHooks
                   error={errorForm?.NitStore}
                   name='NitStore'
+                  nit={true}
                   onChange={handleChange}
                   required
                   title='Nit de la tienda'
@@ -272,19 +274,17 @@ export const Restaurant = () => {
                   onChange={handleChange}
                   onFocus={handleBlur}
                   required
-                  title='# Direccion de la tiendassssss'
+                  title='# Dirección de la tiendas'
                   value={dataForm?.addressStore}
                   width='100%'
                 />
                 <CardInput onChange={handleBlur}>
-                  <CardCheckBox
+                  <Checkbox
+                    checked={showLocation}
                     id='checkboxF'
-                    name='gender'
-                    style={{ flex: 'initial' }}
-                    type='checkbox'
-                    value='1'
+                    label='Agregar Ubicación'
+                    value={showLocation}
                   />
-                  <CardRadioLabel htmlFor='checkboxF'>Agregar Ubicacion</CardRadioLabel>
                 </CardInput>
                 <WrapDirection showLocation={showLocation}>
                   <NewSelect

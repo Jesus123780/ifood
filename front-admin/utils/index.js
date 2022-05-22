@@ -38,6 +38,18 @@ export const isPassword = dato => {
   } return true
 }
 
+export const valNit = (nit) => {
+  let nd; let add = 0
+  if (nd = /^[0-9]+-[0-9kK]{1}$/i.exec(nit)) {
+    nd[2] = (nd[2].toLowerCase() == 'k') ? 10 : parseInt(nd[2])
+    for (let i = 0; i < nd[1].length; i++) {
+      add += ((((i - nd[1].length) * -1) + 1) * nd[1][i])
+    }
+    return ((11 - (add % 11)) % 11) == nd[2]
+  }
+  return false
+
+}
 export const onlyLetters = dato => {
   const validar = /^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/g
   if (validar.test(dato) === false && dato !== '' && dato !== undefined && dato !== null) {
@@ -1158,8 +1170,8 @@ export const getCardType = (cardNum) => {
   }
   if (
     cardNum.indexOf('50') === 0 ||
-      cardNum.indexOf('60') === 0 ||
-      cardNum.indexOf('65') === 0
+    cardNum.indexOf('60') === 0 ||
+    cardNum.indexOf('65') === 0
   ) {
     let g = '508500-508999|606985-607984|608001-608500|652150-653149'
     let i = g.split('|')
@@ -1168,8 +1180,8 @@ export const getCardType = (cardNum) => {
       let f = parseInt(i[d].split('-')[1], 10)
       if (
         cardNum.substr(0, 6) >= c &&
-              cardNum.substr(0, 6) <= f &&
-              cardNum.length >= 6
+        cardNum.substr(0, 6) <= f &&
+        cardNum.length >= 6
       ) {
         payCardType = 'RUPAY'
         break

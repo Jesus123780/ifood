@@ -20,6 +20,7 @@ import QRCode from 'react-qr-code';
 import { FetchMoreInteractions } from 'components/hooks';
 import { Loading } from 'components/Loading';
 import { GET_STATE_ORDER } from 'container/checkout/queries';
+import { Skeleton } from 'components/Skeleton';
 export const RestaurantProfile = ({ src, more, setMore, id, dataProductAndCategory, errorForm, path, fetchMore, handlerShare, share, setShare, dataMinPedido, stars, rGoodTemperature, rTasty, appearance, setRatingState, setRatingStar, dataRating, rating, rGoodCondition, handleGetRating, setGoodCondition, setTasty, setGoodTemperature, SetAppearance, RemoveFav, like, setLike, dataForm, handleChange, handleRating, addFav, dataOneFav, data, dataCatProducts, refs, refInterSection, SET_OPEN_PRODUCT, setState, getOneProduct, dataOneProduct, dataOptional, handleCountProducts, handleAddProducts, state, increase, decrease, handleChangeClickOnTable }) => {
     const { pName, getStore, ProImage, ProPrice, ProDescription, ProDescuento, ExtProductFoodsAll } = dataOneProduct || {}
     const { fState } = dataOneFav
@@ -58,11 +59,11 @@ export const RestaurantProfile = ({ src, more, setMore, id, dataProductAndCatego
                         </ContentSearch>
                     </Sticky>
                     <ContainerCarrusel  >
-                        {x.productFoodsAll ? x.productFoodsAll.map(food => {
+                        {x.productFoodsAll?.length ? x.productFoodsAll.map(food => {
                             return (
                                 <CardProduct food={food} key={food.pId} onClick={() => getOneProduct(food)} />
                             )
-                        }) : <div>No products</div>}
+                        }) : <Skeleton height={200} numberObject={2} />}
                     </ContainerCarrusel>
                 </StickyBoundary>
                 {/* {key === dataCatProducts.length - 1 && <FetchMoreInteractions fetchMore={key === dataCatProducts.length - 1} callback={() => {

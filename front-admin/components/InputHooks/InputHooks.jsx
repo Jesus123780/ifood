@@ -4,7 +4,7 @@ import { BoxInput, InputV, LabelInput, ShowPass, Tooltip, TextAreaInput, Listbox
 import { IconNoShow, IconShowEye } from '../../public/icons'
 import { SFVColor } from '../../public/colors'
 import { useKeyPress } from '../hooks/useKeypress'
-import { isEmail, isNull, isPassword, onlyLetters, passwordConfirm, rangeLength } from '../../utils'
+import { isEmail, isNull, isPassword, onlyLetters, passwordConfirm, rangeLength, valNit } from '../../utils'
 
 const InputHooks = ({
   reference,
@@ -31,6 +31,7 @@ const InputHooks = ({
   name,
   required,
   numeric,
+  nit,
   border,
   checked,
   letters,
@@ -203,6 +204,9 @@ const InputHooks = ({
     }
     if (pass) {
       if (isPassword(e.target.value)) { return errorFunc(e, true, 'La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula. Puede tener otros símbolos.') } errorFunc(e, false, '')
+    }
+    if (nit) {
+      if (valNit(e.target.value)) { return errorFunc(e, true, 'El nit no es correcto') } errorFunc(e, false, '')
     }
     // Valida que las contraseñas coincidan
     if (passConfirm?.validate) {

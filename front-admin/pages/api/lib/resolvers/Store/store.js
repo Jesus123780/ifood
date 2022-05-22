@@ -125,6 +125,7 @@ const registerSalesStore = async (root, { input, totalProductsPrice, pickUp, id,
       }
     }
   } catch (e) {
+    console.log(e)
     const error = new Error('Lo sentimos, ha ocurrido un error interno')
     return error
   }
