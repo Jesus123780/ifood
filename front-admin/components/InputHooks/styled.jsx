@@ -94,7 +94,9 @@ export const TextAreaInput = styled.textarea`
     &:disabled { cursor: no-drop; }
     &:hover ~ ${Tooltip} { display: block; }
     ${({ error }) => {return error && css`border: .5px solid ${EColor};`}}
-`
+    ${({ height }) => {return !!height && css`max-height: ${height};`}}
+    ${({ height }) => {return !!height && css`min-height: ${height};`}}
+    `
 export const InputV = styled.input`
     color: ${props => {return (props.type === 'date' && !props.value) ? '#0f0e0e' : '#272323'}};
     padding: ${props => {return (props.type === 'date') ? '12px' : props.paddingInput ? props.paddingInput : '15px 10px'}};

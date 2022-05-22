@@ -276,6 +276,7 @@ const DashboardStore = () => {
         height='100vh'
         onCancel={() => { return false }}
         onHide={() => { SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state) }}
+        question
         show={SHOW_MODAL_UPDATE_PRODUCTS.state}
         size='large'
         zIndex='99999999'

@@ -34,6 +34,7 @@ const InputHooks = ({
   border,
   checked,
   letters,
+  height,
   autoComplete,
   range,
   email,
@@ -302,6 +303,7 @@ const InputHooks = ({
           border={border}
           disabled={disabled}
           error={errors}
+          height={height}
           maxWidth={maxWidth}
           minWidth={minWidth}
           name={name}

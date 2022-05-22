@@ -420,7 +420,6 @@ const GenerateSales = () => {
     handleChange
 
   }
-  console.log(data)
   return (
     <Wrapper>
       <ModalSales {...restPropsSalesModal} />
@@ -429,7 +428,7 @@ const GenerateSales = () => {
         <FormFilterSales {...restPropsFormFilter} />
         <ScrollbarProduct>
           <ContainerGrid>
-            {(loading && loading && dataProduct?.productFoodsAll?.length <= 0) ? <Skeleton height={400} numberObject={50} /> : dataProduct?.productFoodsAll?.map((producto) => {
+            {(loading || dataProduct?.productFoodsAll?.length <= 0) ? <Skeleton height={400} numberObject={50} /> : dataProduct?.productFoodsAll?.map((producto) => {
               return (
                 <CardProducts
                   ProDescription={producto.ProDescription}

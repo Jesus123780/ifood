@@ -1,14 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { InputHook } from '../Input'
 import { numberFormat } from 'utils'
-import { CardCheckBox, CardInput, CardRadioLabel, Footer, FormProducts } from '../styled'
+import { CardInput, Footer, FormProducts } from '../styled'
 import { RippleButton } from 'components/Ripple'
-import { useRouter } from 'next/router'
 import NewSelect from 'components/NewSelectHooks/NewSelect'
+import { Checkbox } from 'components/Checkbox'
+import InputHooks from 'components/InputHooks/InputHooks'
 
-const FormProduct = ({ handleRegister, names, handleChange, values, setName, dataCategoriesProducts, handleCheckEnvioGratis }) => {
-  const router = useRouter()
+const FormProduct = ({ handleRegister, names, handleChange, values, setName, dataCategoriesProducts, handleCheckEnvioGratis, check }) => {
   return (
     <div>
       <FormProducts className='form-horizontal' onSubmit={handleRegister}>
@@ -53,22 +52,24 @@ const FormProduct = ({ handleRegister, names, handleChange, values, setName, dat
           title='Categoría'
           value={values?.carProId}
         />
-        <InputHook
+        <InputHooks
           TypeTextarea={true}
-          label='Description'
+          height='200px'
           name='ProDescription'
           onChange={handleChange}
           range={{ min: 0, max: 180 }}
+          title='Description'
           value={values.ProDescription}
         />
         <CardInput onChange={handleCheckEnvioGratis}>
-          <CardCheckBox
+          <Checkbox
+            checked={check}
             id='checkboxF'
-            name='gender'
-            type='checkbox'
-            value='1'
+            label='Envío gratis'
+            name='desc'
+            onChange={handleCheckEnvioGratis}
+            value={check}
           />
-          <CardRadioLabel htmlFor='checkboxF'>Envío gratis</CardRadioLabel>
         </CardInput>
         <Footer>
           <RippleButton
@@ -76,12 +77,6 @@ const FormProduct = ({ handleRegister, names, handleChange, values, setName, dat
             type='submit'
             widthButton='100%'
           >Subir</RippleButton>
-          {/* <RippleButton
-            onClick={() => { return router.push('/update/products/disabled') }}
-            padding='10px'
-            type='button'
-            widthButton='100%'
-          >Ir a productos deshabilitados</RippleButton> */}
         </Footer> 
       </FormProducts>
     </div>

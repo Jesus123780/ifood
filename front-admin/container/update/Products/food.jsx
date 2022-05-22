@@ -49,12 +49,12 @@ export const Food = () => {
   const [productFoodsAll, { data: dataProduct, fetchMore }] = useLazyQuery(GET_ALL_PRODUCT_STORE, {
     fetchPolicy: 'network-only',
     variables:
-        {
-          search: search,
-          gender: searchFilter?.gender,
-          desc: searchFilter?.desc,
-          categories: searchFilter?.speciality
-        }
+    {
+      search: search,
+      gender: searchFilter?.gender,
+      desc: searchFilter?.desc,
+      categories: searchFilter?.speciality
+    }
   })
   // ------------ HANDLES ------------
   const handleChange = (e, error) => {
@@ -68,7 +68,7 @@ export const Food = () => {
   }
   // Añade mas de una característica por id
   const handleAddFeature = fId => {
-    const value = datafatures?.features?.filter(x => {return (x.fId === fId)})
+    const value = datafatures?.features?.filter(x => { return (x.fId === fId) })
     setFeatures(value)
     // setFeatures(value[0]?.fId)
     if (value.length) {
@@ -96,15 +96,17 @@ export const Food = () => {
   const [check, setCheck] = useState(false)
   const handleCheckEnvioGratis = e => {
     setCheck(e.target.checked)
-    values.ValueDelivery = ''
+    values.ValueDelivery = 0
+    values.ProPrice = 0
+    values.ProDescuento = 0
   }
   const { data: dataStore } = useQuery(GET_ONE_STORE)
   const fileInputRef = useRef(null)
   const initialState = { alt: '/app/ images/DEFAULTBANNER.png', src: '/app/images/DEFAULTBANNER.png' }
   const [{ alt, src }, setPreviewImg] = useState(initialState)
   // eslint-disable-next-line
-    const [imageBase64, setImageBase64] = useState(null)
-  const [image, setImage] = useState({})
+  const [imageBase64, setImageBase64] = useState(null)
+  const [image, setImage] = useState(null)
   const onFileInputChange = async event => {
     const { files } = event.target
 
@@ -112,7 +114,7 @@ export const Food = () => {
     setImage(file)
     const base64 = await convertBase64(file)
     // eslint-disable-next-line
-        const [size, { unit }] = await getFileSizeByUnit(file, "B");
+    const [size, { unit }] = await getFileSizeByUnit(file, "B");
     setImageBase64(base64)
     setPreviewImg(
       files.length
@@ -131,7 +133,6 @@ export const Food = () => {
   const handleRegister = async e => {
     e.preventDefault()
     const { ProPrice, ProDescuento, ProDescription, ProWeight, ProHeight, ValueDelivery } = values
-    // const ProImage = 'https://http2.mlstatic.com/D_NQ_NP_621798-MLA45543191295_042021-W.webp'
     const ProImage = `${process.env.URL_ADMIN_SERVER}static/platos/${image?.name}`
     const pCode = RandomCode(9)
     try {
@@ -139,9 +140,9 @@ export const Food = () => {
         variables: {
           input: {
             idStore: dataStore?.getStore?.idStore || '',
-            ProPrice: parseFloat(ProPrice.replace(/\./g, '')),
-            ProDescuento: ProDescuento,
-            ValueDelivery: parseFloat(ValueDelivery),
+            ProPrice: check ? 0 : ProPrice ? parseFloat(ProPrice.replace(/\./g, '')) : 0,
+            ProDescuento: check ? 0 : ProDescuento,
+            ValueDelivery: check ? 0 : parseFloat(ValueDelivery),
             ProDescription: ProDescription,
             pName: names,
             pCode,
@@ -165,15 +166,17 @@ export const Food = () => {
           })
           setAlertBox({ message: `El producto ${names} subido con éxito`, color: 'success', duration: 7000 })
         }
-      }).catch(err => {return setAlertBox({ message: `${err}`, duration: 7000 })})
-      setImageProducts({
-        variables: {
-          input: {
-            file: image,
-            pCode
+      }).catch(err => { return setAlertBox({ message: `${err}`, duration: 7000 }) })
+      if (image !== null) {
+        setImageProducts({
+          variables: {
+            input: {
+              file: image,
+              pCode
+            }
           }
-        }
-      })
+        })
+      }
     }
     catch (error) {
       setAlertBox({ message: `${error.message}`, duration: 7000 })
@@ -190,7 +193,7 @@ export const Food = () => {
   }
   const handleChangeClick = e => {
     const { name, value, checked } = e.target
-    !checked ? setFilter(s => {return { ...s, [name]: s[name].filter(f => {return f !== value}) }}) : setFilter({ ...filter, [name]: [...filter[name], value] })
+    !checked ? setFilter(s => { return { ...s, [name]: s[name].filter(f => { return f !== value }) } }) : setFilter({ ...filter, [name]: [...filter[name], value] })
     setSearchFilter({ ...filter })
   }
 
@@ -226,7 +229,7 @@ export const Food = () => {
         })
         setAlertBox({ message: `El producto ${pName} ha sido eliminado`, color: 'error', duration: 7000 })
       }
-    }).catch(err => {return setAlertBox({ message: `${err}`, duration: 7000 })})
+    }).catch(err => { return setAlertBox({ message: `${err}`, duration: 7000 }) })
   }
   const des = values.ProDescuento
   const pri = values.ProPrice
@@ -257,11 +260,11 @@ export const Food = () => {
         }
       case 'REMOVE_EFFECTIVE':
         return {
-          PRODUCT_EFFECTIVE: state?.PRODUCT_EFFECTIVE?.filter((t, idx) => {return idx !== action?.idx})
+          PRODUCT_EFFECTIVE: state?.PRODUCT_EFFECTIVE?.filter((t, idx) => { return idx !== action?.idx })
         }
       case 'REMOVE_PRODUCT':
         return {
-          PRODUCT_RECOGER: state?.PRODUCT_RECOGER?.filter((t, idx) => {return idx !== action?.idx})
+          PRODUCT_RECOGER: state?.PRODUCT_RECOGER?.filter((t, idx) => { return idx !== action?.idx })
         }
       case 'REMOVE_ALL':
         return {
@@ -269,7 +272,7 @@ export const Food = () => {
         }
       case 'TOGGLE_INVOICE':
         return {
-          PRODUCT_RECOGER: state?.PRODUCT_RECOGER.map((t, idx) => {return idx === action.idx ? { ...t, isPaid: !t.isPaid } : t})
+          PRODUCT_RECOGER: state?.PRODUCT_RECOGER.map((t, idx) => { return idx === action.idx ? { ...t, isPaid: !t.isPaid } : t })
         }
       default:
         return state
@@ -304,12 +307,12 @@ export const Food = () => {
     }
     Years(min)
   }, [YearArray, dataProduct, years])
-  const [dataCategoriesProducts, { loading: loadingAreaas }] = useCategoriesProduct()
-  console.log(dataCategoriesProducts)
+  const [dataCategoriesProducts] = useCategoriesProduct()
   return (
     <FoodComponent
       alt={alt}
       changeState={changeState}
+      check={check}
       cities={dataCities?.cities || []}
       color={data?.getAllColor}
       countries={dataCountries?.countries || []}

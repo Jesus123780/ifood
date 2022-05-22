@@ -79,11 +79,11 @@ export const Container = styled.div`
     height: 100%;
     z-index: ${({ zIndex }) => { return zIndex || '100' }};
     opacity: 1;
-    ${({ show, state }) => {
-    if (show && state) {
-      css`animation: ${fadeIn} .1s linear;`
-    } else if (show && !state) css`animation: ${fadeIn} .1s linear;`
+  ${({ show, state }) => {
+    if (show && state) return css`animation: ${fadeIn} .1s linear;`
+    else if (show && !state) return css`animation: ${fadeIn} .s linear;`
   }}
+
 `
 
 export const Wrapper = styled.div`
@@ -113,7 +113,7 @@ export const Modal = styled.div`
     return props.backdropA && css`
         animation: ${Pulse} .2s forwards;
     `}}
-    // min-width: 340px;
+    min-width: 340px;
     border-radius: ${({ borderRadius }) => { return borderRadius }};
     border: 1px solid rgba(0,0,0,.2);
     z-index: 999;
@@ -122,10 +122,14 @@ export const Modal = styled.div`
 
 export const ModalHeader = styled.div`
     display: flex;
+    /* position: fixed;
+    left: 0; */
+    z-index: 9999;
     align-items: center;
     justify-content: space-between;
     padding: .1rem;
     border-bottom: 1px solid #e9ecef;
+    background-color: ${BGColor};
     border-top-left-radius: .3rem;
     border-top-right-radius: .3rem;
 `
@@ -167,6 +171,62 @@ export const ModalBody = styled.div`
     min-height: ${({ height }) => { return height || 'auto' }};
     padding: ${({ padding }) => { return padding || '0' }};
     background-color: ${BGColor};
+    scrollbar-color: rgba(0, 0, 0, .5) rgba(0, 0, 0, 0);
+    scrollbar-width: thin;
+    &::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+&::-webkit-scrollbar:vertical {
+    width:10px;
+}
+
+&::-webkit-scrollbar-button:increment,&::-webkit-scrollbar-button {
+    display: none;
+} 
+
+&::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
+&::-webkit-scrollbar-thumb {
+    background-color: #797979;
+    border-radius: 20px;
+    border: 2px solid #f1f2f3;
+}
+    &::-webkit-scrollbar-track {
+    border-radius: 10px;  
+}
+.modal-wrapper {
+    width: 300px;
+    min-width: 300px;
+    background-color: #FFFFFF;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    height: 140px;
+    box-shadow: -1px -1px 15px -6px rgba(0,0,0,0.75);
+    border-radius: 5px;
+    padding: 20px;
+    h2 {
+        font-size: 18px;
+        margin-bottom: 20px;
+        font-family: PFont-Regular;
+        font-weight: 300;
+    }
+
+}
+.modal-confirm {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-content: center;
+    gap: 10px;
+
+}
 `
 
 export const ModalFooter = styled.div`

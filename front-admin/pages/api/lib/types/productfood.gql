@@ -70,7 +70,7 @@ input InputProductFood {
     pName: String
     pCode: String
     ProPrice: Float
-    ProDescuento: String
+    ProDescuento: Float
     ProUniDisponibles: String
     ProDescription: String
     ProProtegido: String

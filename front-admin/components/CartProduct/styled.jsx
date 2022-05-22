@@ -13,7 +13,7 @@ export const ContentImage = styled.div`
     }
 `
 export const InputFile = styled.input`
-    /* display: none;    */
+    display: none;   
 `
 export const ActionName = styled.span`
     position: absolute;
@@ -224,8 +224,12 @@ export const Card = styled.div`
     grid-gap: 10px;
     height: 400px;
     align-items: flex-end;
+    align-items: baseline;
     top: 0;
     box-shadow: ${({ free }) => { return free && `0 1px 4px ${PColor}` }};
+    ${({ height }) => { return css`
+    height: ${height}
+    `} }};
 
     &:hover  ${ButtonCard} {
         right: 15px;

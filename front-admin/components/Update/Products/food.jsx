@@ -1,23 +1,18 @@
 import PropTypes from 'prop-types'
-import { InputHook } from './Input'
 import { numberFormat } from '../../../utils'
-import { RippleButton } from '../../Ripple'
 import { Skeleton } from '../../Skeleton/SkeletonCard'
 import { Discount } from './ViewProducts/styled'
-import { LoadingBabel } from '../../Loading/LoadingBabel'
 import { PColor, PVColor, TFSColor } from '../../../public/colors'
-import { FoodCardPreview } from './FoodPreview'
-import { Container, Card, ContainerCardProduct, CardProduct, Img, ContentImg, Title, Text, ContentInfo, ButtonCard, ActionName, ContentProducts, CardInput, CardCheckBox, CardRadioLabel, ContainerFilter, ItemFilter, Footer, WrapperProducts, Grid } from './styled'
+import { Container, Card, CardProduct, Img, ContentImg, Title, Text, ContentInfo, ButtonCard, ActionName, Grid } from './styled'
 import { useSetState } from '../../hooks/useState'
-import { AwesomeModal } from '../../AwesomeModal'; import React from 'react'
-import { Loading } from 'components/Loading'
+import { AwesomeModal } from '../../AwesomeModal'
 import { IconDelete, IconDollar, IconEdit, IconLove } from 'public/icons'
 // import { CardProducts } from 'container/producto/editar'
 import FormProduct from './Form'
 import { CardProducts } from 'components/CartProduct'
+import { ListProducts } from './ListProducts'
 
 export const FoodComponent = ({
-  features,
   search,
   handleChangeFilter,
   data,
@@ -28,9 +23,6 @@ export const FoodComponent = ({
   dataCategoriesProducts,
   dispatch,
   handleChange,
-  countries,
-  setRating,
-  rating,
   names,
   loading,
   onTargetClick,
@@ -44,112 +36,42 @@ export const FoodComponent = ({
   onClickClear,
   handleCheckEnvioGratis,
   state: grid,
-  intPorcentaje,
-  dataFree
+  dataFree,
+  check,
+  ...props
 }) => {
   const OPEN_MODAL_ORGANICE = useSetState(0)
   const propsForm = {
-    handleRegister,
-    setName,
-    names,
-    handleChange,
-    values,
-    dataCategoriesProducts, handleCheckEnvioGratis
+    handleRegister, setName, names, check, handleChange, values, dataCategoriesProducts, handleCheckEnvioGratis, ...props
+  }
+  const propsListProducts = {
+    onClickClear, data, OPEN_MODAL_ORGANICE, dataFree, handleChangeFilter, grid, search, showMore, fetchMore, loading, setShowMore, ...props
   }
   return (<>
     <Container>
-
+      {/* FORM */}
       <Card>
         <FormProduct {...propsForm} />
       </Card>
-
+      {/* PREVIEW CARD PRODUCT */}
       <Card>
-        <CardProducts 
+        <CardProducts
           ProDescription={values?.ProDescription}
           ProDescuento={values?.ProDescuento}
           ProPrice={values?.ProPrice}
+          ValueDelivery={values.ValueDelivery}
           alt={alt}
+          fileInputRef={fileInputRef}
+          height={'500px'}
+          onFileInputChange={onFileInputChange}
           onTargetClick={onTargetClick}
           pName={names}
           src={src}
         />
-
-        {/* <FoodCardPreview
-          Country={countries}
-          PCant={values?.ProUniDisponibles}
-          PDescription={values?.ProDescription}
-          alt={alt}
-          desc={values?.ProDescuento}
-          features={features}
-          fileInputRef={fileInputRef}
-          intPorcentaje={intPorcentaje}
-          onFileInputChange={onFileInputChange}
-          onTargetClick={onTargetClick}
-          setRating={setRating}
-          src={src}
-          start={rating}
-          valuesP={names}
-        /> */}
       </Card>
 
     </Container>
-
-    <ContentProducts>
-      <Text size='30px'>Lista de productos registrados</Text>
-      <ContainerFilter>
-        <ItemFilter onClick={() => { return OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state) }}>Ordenar</ItemFilter>
-        <ItemFilter onClick={() => { return onClickClear() }}>Limpio</ItemFilter>
-        <ItemFilter>{data.length ? `${data.length} Productos` : 'No hay productos'}</ItemFilter>
-        <ItemFilter>{dataFree.length ? `${dataFree.length} Productos con envio gratis` : 'No hay productos con envio gratis'}</ItemFilter>
-      </ContainerFilter>
-      <Text size='30px'>Filtrar productos</Text>
-      <InputHook
-        label='Busca tus productos'
-        name='search'
-        onChange={handleChangeFilter}
-        range={{ min: 0, max: 20 }}
-        type='text'
-        value={search}
-      />
-      <WrapperProducts className='filter'>
-        <ContainerCardProduct grid={grid}>
-          {!data?.length === 0 ? <SkeletonP /> : data?.map(producto => {
-            return (
-              <CardProducts
-                ProDescription={producto.ProDescription}
-                ProDescuento={producto.ProDescuento}
-                ProImage={producto.ProImage}
-                ProPrice={producto.ProPrice}
-                ValueDelivery={producto.ValueDelivery}
-                del={true}
-                edit={true}
-                key={producto.pId}
-                pId={producto.pId}
-                pName={producto.pName}
-              />
-            )
-          })}
-        </ContainerCardProduct>
-      </WrapperProducts>
-      <RippleButton
-        margin='20px auto'
-        onClick={() => {
-          setShowMore(s => { return s + 5 })
-          fetchMore({
-            variables: { max: showMore, min: 0 },
-            updateQuery: (prevResult, { fetchMoreResult }) => {
-              if (!fetchMoreResult) return prevResult
-              return {
-                productFoodsAll: [...fetchMoreResult.productFoodsAll]
-
-              }
-            }
-          })
-        }}
-        widthButton='100%'
-      >{loading ? <Loading /> : 'CARGAR MÁS'}</RippleButton>
-    </ContentProducts>
-
+    <ListProducts {...propsListProducts} />
     <AwesomeModal
       backdrop='static'
       borderRadius='10px'
@@ -209,51 +131,39 @@ export const FoodComponent = ({
 FoodComponent.propTypes = {
   alt: PropTypes.any,
   countries: PropTypes.any,
-  data: PropTypes.shape({
-    length: PropTypes.any,
-    map: PropTypes.func
-  }),
-  dataFree: PropTypes.shape({
-    length: PropTypes.any
-  }),
+  data: PropTypes.any,
+  dataCategoriesProducts: PropTypes.any,
+  dataFree: PropTypes.any,
   dispatch: PropTypes.any,
-  features: PropTypes.any,
-  fetchMore: PropTypes.func,
+  fetchMore: PropTypes.any,
   fileInputRef: PropTypes.any,
   handleChange: PropTypes.any,
   handleChangeFilter: PropTypes.any,
   handleCheckEnvioGratis: PropTypes.any,
-  handleDelete: PropTypes.any,
   handleRegister: PropTypes.any,
   intPorcentaje: PropTypes.any,
   loading: PropTypes.any,
   names: PropTypes.any,
-  onClickClear: PropTypes.func,
+  onClickClear: PropTypes.any,
   onFileInputChange: PropTypes.any,
   onTargetClick: PropTypes.any,
-  product_state: PropTypes.shape({
-    PRODUCT_EFFECTIVE: PropTypes.any,
-    PRODUCT_RECOGER: PropTypes.any
-  }),
+  product_state: PropTypes.any,
   rating: PropTypes.any,
   search: PropTypes.any,
-  setName: PropTypes.func,
-  setRating: PropTypes.func,
-  setShowMore: PropTypes.func,
+  setName: PropTypes.any,
+  setRating: PropTypes.any,
+  setShowMore: PropTypes.any,
   showMore: PropTypes.any,
   src: PropTypes.any,
   state: PropTypes.any,
   values: PropTypes.shape({
     ProDescription: PropTypes.any,
     ProDescuento: PropTypes.any,
-    ProLength: PropTypes.any,
     ProPrice: PropTypes.any,
-    ProUniDisponibles: PropTypes.any,
-    ProWeight: PropTypes.any,
-    ValueDelivery: PropTypes.any,
-    rating: PropTypes.any
+    ValueDelivery: PropTypes.any
   })
 }
+
 
 const ComponentCardProduct = ({ data, dispatch, ADD_TO_EFFECTIVE, REMOVE, ADD_PRODUCT }) => {
   return <div>

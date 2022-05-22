@@ -8,13 +8,13 @@ import { IconCancel } from 'public/icons'
 
 const ScaleModal = ({ show, children, size, title, height }) => {
   const { setSalesOpen } = useContext(Context)
-
+  console.log(size)
   const onBackdropHide = () => {
     setSalesOpen(false)
 
   }
   return (
-    <Container show={show} size={size}>
+    <Container show={show}>
       <Modal
         height={height}
         onClick={(e) => { return e.preventDefault() }}
@@ -68,6 +68,7 @@ const Modal = styled.div`
     return size
   }};
     min-width: 340px;
+    max-width: 340px;
     height: ${({ height }) => { return height || 'auto' }};
     border-radius: ${({ borderRadius }) => { return borderRadius }};
     border: 1px solid rgba(0,0,0,.2);

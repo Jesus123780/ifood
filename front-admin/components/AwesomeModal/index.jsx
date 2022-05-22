@@ -4,7 +4,6 @@ import { Container, Wrapper, Modal, ModalHeader, ModalTitle, BtnClose, ModalBody
 import { MODAL_SIZES, BUTTONS_TEXT } from './constanst'
 import { IconCancel } from '../../public/icons'
 import { RippleButton } from '../Ripple'
-
 export const AwesomeModal = ({
   title,
   size = MODAL_SIZES.medium,
@@ -27,29 +26,43 @@ export const AwesomeModal = ({
   timeOut = 200,
   height,
   bgColor,
+  question,
   submit = false,
   header = true,
-  closeIcon = false,
   borderRadius = '.3rem',
   onHide = () => { return undefined },
   onCancel = () => { return undefined },
   onConfirm = () => { return undefined }
 }) => {
   const [state, setState] = useState(show)
+  const [modal, setSModal] = useState(false)
   const [backdropA, setAnimationBackdrop] = useState(false)
   const hide = useCallback(() => {
-    setState(false)
-    onCancel()
-    setTimeout(onHide, timeOut)
-  }, [onCancel, onHide, timeOut])
+    if (question) {
+      setState(false)
+      onCancel()
+      setSModal(false)
+      setTimeout(onHide, timeOut)
+    } else {
+      setState(false)
+      onCancel()
+      setSModal(false)
+      setTimeout(onHide, timeOut)
+    }
+  }, [onCancel, onHide, question, timeOut])
+  const onShowQuestion = () => { return setSModal(!modal) }
   // eslint-disable-next-line consistent-return
   useEffect(() => {
+    if (question && backdrop === 'static' && state === true && show === true) {
+      window.addEventListener('keyup', e => { return e.code === 'Escape' && setSModal(true) })
+      return () => { return keyboard && window.removeEventListener('keyup', () => { return setSModal(false) }) }
+    }
     if (backdrop !== 'static') {
       if (keyboard && show) window.addEventListener('keyup', e => { return e.code === 'Escape' && hide() })
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       return () => { return keyboard && window.removeEventListener('keyup', () => { }) }
     }
-  }, [keyboard, hide, show, backdrop])
+  }, [keyboard, hide, show, backdrop, question, modal, state])
   useEffect(() => {
     setState(show)
   }, [show])
@@ -69,11 +82,17 @@ export const AwesomeModal = ({
     }
   }, [show, useScroll])
   const clickCancel = () => {
-    hide()
+    setState(false)
+    onCancel()
+    setSModal(false)
+    setTimeout(onHide, timeOut)
     onCancel()
   }
   const clickConfirm = () => {
-    if (hideOnConfirm) hide()
+    if (hideOnConfirm) setState(false)
+    onCancel()
+    setSModal(false)
+    setTimeout(onHide, timeOut)
     onConfirm()
   }
   return (
@@ -104,9 +123,26 @@ export const AwesomeModal = ({
           >
             {header && <ModalHeader>
               <ModalTitle>{title}</ModalTitle>
-              <BtnClose onClick={hide}><IconCancel size='20px' /></BtnClose>
+              <BtnClose onClick={() => { return question ? onShowQuestion() : hide() }}><IconCancel size='20px' /></BtnClose>
             </ModalHeader>}
-            {(closeIcon && !header) && <BtnClose fixed onClick={hide}></BtnClose>}
+            {modal &&
+              <div className='modal-wrapper'>
+                <h2>{'¿Seguro que quieres cerrar?'}</h2>
+                <div className='modal-confirm'>
+                  <RippleButton
+                    border
+                    disabled={disabled}
+                    onClick={() => {return setSModal(false)}}
+                    type='button'
+                  >{cancel || BUTTONS_TEXT.cancel}</RippleButton>
+                  <RippleButton
+                    border
+                    onClick={() => { hide() }}
+                    type={submit ? 'submit' : 'button'}
+                  >{confirm || BUTTONS_TEXT.confirm}</RippleButton>
+                </div>
+              </div>
+            }
             {children}
             {footer && <ModalFooter>
               {btnCancel ? <RippleButton
@@ -114,7 +150,7 @@ export const AwesomeModal = ({
                 disabled={disabled}
                 onClick={clickCancel}
                 type='button'
-              >{cancel || BUTTONS_TEXT.cancel}</RippleButton> : <div>as </div>}
+              >{cancel || BUTTONS_TEXT.cancel}</RippleButton> : <div></div>}
               {btnConfirm && <RippleButton
                 border
                 onClick={clickConfirm}
