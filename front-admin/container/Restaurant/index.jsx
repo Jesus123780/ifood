@@ -20,6 +20,7 @@ import { Context } from '../../context/Context'
 import useLocalStorage from '../../components/hooks/useLocalSorage'
 import { Loading } from 'components/Loading'
 import { Checkbox } from 'components/Checkbox'
+import { CalcularDigitoVerificacion } from 'utils'
 
 export const Restaurant = () => {
   const [step] = useState(0)
@@ -223,20 +224,31 @@ export const Restaurant = () => {
                   name='documentIdentifier'
                   onChange={handleChange}
                   required
-                  title='Documento de identificacion'
+                  title='Documento de identificación'
                   value={dataForm?.documentIdentifier}
                   width='100%'
                 />
-                <InputHooks
-                  error={errorForm?.NitStore}
-                  name='NitStore'
-                  nit={true}
-                  onChange={handleChange}
-                  required
-                  title='Nit de la tienda'
-                  value={dataForm?.NitStore}
-                  width='100%'
-                />
+                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                  <InputHooks
+                    error={errorForm?.NitStore}
+                    name='NitStore'
+                    nit={true}
+                    onChange={handleChange}
+                    required
+                    title='Nit de la tienda'
+                    value={dataForm?.NitStore}
+                    width='90%'
+                  />
+                  <InputHooks
+                    error={errorForm?.NitStore}
+                    name='NitStore'
+                    nit={true}
+                    onChange={handleChange}
+                    required
+                    value={CalcularDigitoVerificacion(dataForm?.NitStore)}
+                    width='10%'
+                  />
+                </div>
                 <NewSelect
                   error={errorForm?.catStore}
                   id='catStore'

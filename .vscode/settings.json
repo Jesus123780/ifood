@@ -18,6 +18,7 @@
         "Delibery",
         "deviceid",
         "DIALECTDB",
+        "Digito",
         "duracion",
         "envio",
         "fingerprintjs",
@@ -58,7 +59,9 @@
         "uuid",
         "UUIDV",
         "varify",
+        "Verificacion",
         "Viaprincipal",
+        "vpri",
         "Walletdebt",
         "walletdebtproducts",
         "xlsb"
