@@ -25,3 +25,32 @@ const HookMouse = () => {
 }
 
 export default HookMouse
+
+export function useFakeSvgDrag() {
+  const [coordinates, setCoordinates] = useState({ x: 0, y: 0 })
+  const [dragging, setDragging] = useState(false)
+
+  return {
+    coordinates,
+    startDrag: coordinates => {
+      setDragging(true)
+    },
+    drag: coordinates => {
+      if (dragging) {
+        setCoordinates(coordinates)
+      }
+    },
+    stopDrag: _ => {
+      setDragging(false)
+    }
+  }
+}
+
+export function getCoordinates(event) {
+  const { top, left } = event.target.getBoundingClientRect()
+
+  return {
+    x: event.clientX - left,
+    y: event.clientX - parseInt(top, 10)
+  }
+}

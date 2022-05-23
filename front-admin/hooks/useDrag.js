@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 export function useDrag2(ref) {
   useEffect(() => {
@@ -34,7 +34,6 @@ export function useDrag2(ref) {
     }
   }, [ref])
 }
-import { useState } from 'react'
 
 export const useDrag = (x, y) => {
   const [move, setMove] = useState(false)
