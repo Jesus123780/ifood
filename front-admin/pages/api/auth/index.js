@@ -98,14 +98,13 @@ export default withIronSessionApiRoute(
     const resultOs = detector.parseOs(useragent)
     const resultClient = detector.parseClient(useragent)
     const resultDeviceType = detector.parseDeviceType(useragent, resultOs, resultClient, {})
+    console.log(token)
     req.session.user = {
       isLoggedIn: true,
       roles,
       token,
       deviceid,
-      locationFormat,
-      storeUserId,
-      resultDeviceType
+      storeUserId
     }
     await req.session.save()
     res.send({ ok: true })

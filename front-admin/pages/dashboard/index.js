@@ -1,4 +1,3 @@
-import withSession from 'apollo/session'
 import Dashboard from '../../container/dashboard'
 
 export default function DASHBOARD() {

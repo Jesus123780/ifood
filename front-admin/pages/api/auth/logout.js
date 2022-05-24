@@ -8,8 +8,6 @@ const cookie = {
   }
 }
 
-
-// eslint-disable-next-line consistent-return
 export default withIronSessionApiRoute(
   function signOut(req, res) {
     req.session.destroy()
@@ -17,5 +15,3 @@ export default withIronSessionApiRoute(
   },
   cookie
 )
-
-// https://graphcms.com/blog/nextjs-authentication

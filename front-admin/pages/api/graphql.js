@@ -18,7 +18,7 @@ const apolloServer = new ApolloServer({
   typeDefs,
   introspection: true,
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground(), httpHeadersPlugin],
-  context: withSession(async ({ req, next, connection }) => {
+  context: (async ({ req, next, connection }) => {
     let tokenClient
     let User = {}
     // const DeviceDetector = require('node-device-detector');
@@ -35,13 +35,16 @@ const apolloServer = new ApolloServer({
     const setCookies = []
     const setHeaders = []
     //  Initialize PubSub
-    const { token } = req.session.get('user') || {}
+    // const { token } = req.session.get('user') || {}
+    let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoianV2aW5hb2plc3VzZEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6Imp1dmluYW9qZXN1c2RAZ21haWwuY29tIiwicmVzdGF1cmFudCI6eyJpZFN0b3JlIjoiTWpjeU1EZzRPREUwT0RVeE5URTJORFV3IiwiaWQiOiJNamN5TURnNE9ERTBPRFV4TlRFMk5EVXcifSwiaWQiOiJNamN5TURnNE9ERTBPRFV4TlRFMk5EVXciLCJpYXQiOjE2NTMxOTgwOTIsImV4cCI6MTY1MzUzMTM5Mn0.PE4x0OngTinrKdztA0O-NBW9Ka7Rn0omWYwaBAg75cA'
+    token = req.headers.usuario
+    console.log(token)
     tokenClient = req.headers.authorization?.split(' ')[1]
     const restaurant = req.headers.restaurant || {}
     const excluded = ['/login', '/forgotpassword', '/register', '/teams/invite/[id]', '/teams/manage/[id]']
     if (excluded.indexOf(req.session) > -1) return next()
     const { error } = await getUserFromToken(token)
-    if (error) req.session.destroy()
+    // if (error) req.session.destroy()
     if (token) {
       User = await jwt.verify(token, process.env.AUTHO_USER_KEY)
       return { req, setCookies: setCookies || [], setHeaders: setHeaders || [], User: User || {}, restaurant: restaurant || {} }

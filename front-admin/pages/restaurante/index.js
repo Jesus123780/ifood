@@ -59,12 +59,14 @@ export const getServerSideProps = withIronSessionSsr(
       // }
       return {
         props: {
-          user
+          user: null
         }
       }
     }
+    // eslint-disable-next-line no-unreachable
     catch (error) {
-      return defaultReturnObject
+      console.log(error)
+      return {}
     }
   },
   cookie
