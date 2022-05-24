@@ -258,8 +258,6 @@ export const Food = () => {
     Years(min)
   }, [YearArray, dataProduct, years])
   const [dataCategoriesProducts] = useCategoriesProduct()
-  console.log("🚀 ~ file: food.jsx ~ line 261 ~ Food ~ dataCategoriesProducts", dataCategoriesProducts)
-  
   return (
     <FoodComponent
       alt={alt}
