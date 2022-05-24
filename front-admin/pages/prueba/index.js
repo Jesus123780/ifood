@@ -1,4 +1,3 @@
-import { Draggable } from 'hooks/useDrag'
 import { getCoordinates, useFakeSvgDrag } from 'hooks/useMouseposition'
 import { EmptyLayout } from 'pages/_app'
 import { BGColor } from 'public/colors'
@@ -9,10 +8,22 @@ const DragNDrop = () => {
   // https://codesandbox.io/s/react-drag-and-drop-hook-o67yn?file=/src/components/DragNDrop.tsx
   // https://codesandbox.io/s/fake-svg-drag-hook-5q5t5?file=/src/useFakeSvgDrag.js
   const data = [
-    { title: 'group 1', items: ['1', '2', '3'] },
-    { title: 'group 2', items: ['5', '6', '7'] },
-    { title: 'group 3', items: ['88', '99'] },
-    { title: 'group 4', items: ['0'] }
+    {
+      title: 'group 1',
+      items: ['1', '2', '3']
+    },
+    {
+      title: 'group 2',
+      items: ['5', '6', '7']
+    },
+    {
+      title: 'group 3',
+      items: ['88', '99']
+    },
+    {
+      title: 'group 4',
+      items: ['0']
+    }
   ]
 
   const [list, setList] = useState(data)
@@ -94,7 +105,7 @@ const DragNDrop = () => {
         }}
       >
 
-        <ContainerMenu offset={position ? 0 : coordinates.x} openedSize={ openedSize}>
+        <ContainerMenu offset={position ? 0 : coordinates.x} openedSize={openedSize}>
           <li>
             About
           </li>
@@ -104,36 +115,40 @@ const DragNDrop = () => {
         </ContainerMenu>
       </DraggableMenu>
       <div className='box-container'>
-        {list.map((grp, grpIdx) => {return (
-          <div
-            className='box-group'
-            key={grp.title}
-            onDragEnter={
-              dragging && !grp.items.length
-                ? (e) => {
-                  handleDragEnter(e, grpIdx, 0)
-                }
-                : undefined
-            }
-          >
-            <div className='group-title'>{grp.title}</div>
-            {grp.items.map((item, itemIdx) => {return (
-              <div
-                className={dragging ? getStyles(grpIdx, itemIdx) : 'box-items'}
-                draggable
-                key={item}
-                onDragEnter={
-                  dragging
-                    ? (e) => {return handleDragEnter(e, grpIdx, itemIdx)}
-                    : undefined
-                }
-                onDragStart={(e) => {return handleDragStart(e, grpIdx, itemIdx)}}
-              >
-                {item}
-              </div>
-            )})}
-          </div>
-        )})}
+        {list.map((grp, grpIdx) => {
+          return (
+            <div
+              className='box-group'
+              key={grp.title}
+              onDragEnter={
+                dragging && !grp.items.length
+                  ? (e) => {
+                    handleDragEnter(e, grpIdx, 0)
+                  }
+                  : undefined
+              }
+            >
+              <div className='group-title'>{grp.title}</div>
+              {grp.items.map((item, itemIdx) => {
+                return (
+                  <div
+                    className={dragging ? getStyles(grpIdx, itemIdx) : 'box-items'}
+                    draggable
+                    key={item}
+                    onDragEnter={
+                      dragging
+                        ? (e) => { return handleDragEnter(e, grpIdx, itemIdx) }
+                        : undefined
+                    }
+                    onDragStart={(e) => { return handleDragStart(e, grpIdx, itemIdx) }}
+                  >
+                    {item}
+                  </div>
+                )
+              })}
+            </div>
+          )
+        })}
       </div>
     </div>
   )

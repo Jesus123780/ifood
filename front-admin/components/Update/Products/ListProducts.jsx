@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { ContainerCardProduct, ContainerFilter, ContentProducts, ItemFilter, Text, WrapperProducts } from './styled'
 import { CardProducts } from 'components/CartProduct'
 import { Skeleton } from 'components/Skeleton'

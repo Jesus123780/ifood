@@ -1,4 +1,4 @@
-import { BGColor, EColor, PColor } from 'public/colors'
+import { EColor, PColor } from 'public/colors'
 import styled, { css, keyframes } from 'styled-components'
 
 export const width = keyframes`

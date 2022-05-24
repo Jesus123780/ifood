@@ -1,6 +1,6 @@
 .sticky {
   position: sticky;
-  top: 0;
+  top: -7px;
   padding: 2px;
   color: #000000;
   z-index: 988;

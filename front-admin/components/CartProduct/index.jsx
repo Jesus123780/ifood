@@ -9,7 +9,7 @@ import { ActionName, Button, ButtonCard, Card, ContainerActions, InputCounter, I
 import { useState } from 'react'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-export const CardProducts = ({ pName, del, edit, pId, src, onTargetClick= () => { }, sum, free, alt, height, index, fileInputRef, onFileInputChange, handleFree, ProDescription, handleFreeProducts = () => { }, dispatch = () => { }, handleIncrement, ProQuantity, handleDecrement, ValueDelivery, ProPrice, render = null, onClick = () => { }, handleDelete = () => { }, ProDescuento = 0, ProImage, widthButton }) => {
+export const CardProducts = ({ pName, del, edit, pId, src, onTargetClick= () => { }, sum, free, height, index, fileInputRef, onFileInputChange, handleFree, ProDescription, handleFreeProducts = () => { }, dispatch = () => { }, handleIncrement, ProQuantity, handleDecrement, ValueDelivery, ProPrice, render = null, onClick = () => { }, handleDelete = () => { }, ProDescuento = 0, ProImage, widthButton }) => {
   const router = useRouter()
   const [startAnimateUp, setStartAnimateUp] = useState('')
   const [show, setShow] = useState(false)

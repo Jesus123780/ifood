@@ -8,7 +8,6 @@ import { IconCancel } from 'public/icons'
 
 const ScaleModal = ({ show, children, size, title, height }) => {
   const { setSalesOpen } = useContext(Context)
-  console.log(size)
   const onBackdropHide = () => {
     setSalesOpen(false)
 

@@ -15,7 +15,6 @@ import { BtnClose } from 'components/AwesomeModal/styled'
 import { IconCancel } from 'public/icons'
 import GenerateSales from 'container/Sales'
 import { AwesomeModal } from 'components/AwesomeModal'
-import ScaleModal from 'components/AwesomeModal/Scale'
 // import { Messages } from 'container/messages'
 
 export const Layout = ({ children, watch, settings }) => {

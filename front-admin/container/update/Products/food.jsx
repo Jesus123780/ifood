@@ -1,13 +1,7 @@
-import PropTypes from 'prop-types'
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import React, { useContext, useEffect, useReducer, useRef, useState } from 'react'
-import { GET_ALL_CITIES, GET_ALL_COUNTRIES, GET_ALL_DEPARTMENTS, GET_ALL_ROAD } from '../../../gql/Location'
-import { GET_ALL_FOOD_PRODUCTS, GET_ONE_COLOR, UPDATE_IMAGE_PRODUCT_FOOD, UPDATE_PRODUCT_FOOD } from './queries'
-import { GET_ALL_SIZE } from '../../../gql/information/Size/size'
+import { GET_ALL_FOOD_PRODUCTS, UPDATE_IMAGE_PRODUCT_FOOD, UPDATE_PRODUCT_FOOD } from './queries'
 import useLocalStorage from '../../../components/hooks/useLocalSorage'
-import { GET_ALL_FEATURES_ON_PARENT } from '../../../components/Update/Products/FeaturesProduct/queries'
-import { useGetAreas } from '../../../components/hooks/useGetArea'
-import { useCategories } from '../../../components/hooks/useCategories'
 import { useSetState } from '../../../components/hooks/useState'
 import { FoodComponent } from '../../../components/Update/Products/food'
 import { GET_ONE_STORE } from '../../Restaurant/queries'
@@ -18,13 +12,9 @@ import { useCategoriesProduct } from 'components/hooks/useCategoriesProducts'
 export const Food = () => {
   const [errors, setErrors] = useState({})
   const [values, setValues] = useState({})
-  const [features, setFeatures] = useState({})
   const { state, changeState } = useSetState(null)
   const [names, setName] = useLocalStorage('namefood', '')
-  // Estado para las estrellas del producto
-  const [rating, setRating] = useState(0)
   const { setAlertBox } = useContext(Context)
-  // Filtrar product
   const [dataProducto, setData] = useState([])
   const [showMore, setShowMore] = useState(50)
   const [search, setSearch] = useState('')
@@ -32,20 +22,7 @@ export const Food = () => {
   const [searchFilter, setSearchFilter] = useState({ gender: [], desc: [], speciality: [] })
   const [filter, setFilter] = useState({ gender: [], desc: [], speciality: [] })
   //-----------QUERIES ------------
-  // LLama a todas las areas
-  const { data: datafatures } = useQuery(GET_ALL_FEATURES_ON_PARENT)
-  const { data } = useQuery(GET_ONE_COLOR)
-  const { data: size } = useQuery(GET_ALL_SIZE)
-  const [finalDataAreas, { loading: loadingAreas }] = useGetAreas()
   // Lógica para registrar productos a una categoría
-  const [finalDataCategories] = useCategories()
-  // Get all info Ubicación
-  const { data: dataCountries, loading: loadCountries } = useQuery(GET_ALL_COUNTRIES)
-  const { data: dataRoad, loading: loadRoad } = useQuery(GET_ALL_ROAD)
-  const [getDepartments, { data: dataDepartments }] = useLazyQuery(GET_ALL_DEPARTMENTS)
-  // Subir producto
-  const [getCities, { data: dataCities }] = useLazyQuery(GET_ALL_CITIES)
-  // llama a los productos y espera una acción
   const [productFoodsAll, { data: dataProduct, fetchMore }] = useLazyQuery(GET_ALL_PRODUCT_STORE, {
     fetchPolicy: 'network-only',
     variables:
@@ -60,33 +37,6 @@ export const Food = () => {
   const handleChange = (e, error) => {
     setValues({ ...values, [e.target.name]: e.target.value })
     setErrors({ ...errors, [e.target.name]: error })
-  }
-  const handleChangeSearch = e => {
-    if (e.target.name === 'countryId') getDepartments({ variables: { cId: e.target.value } })
-    else if (e.target.name === 'dId') getCities({ variables: { dId: e.target.value } })
-    handleChange(e)
-  }
-  // Añade mas de una característica por id
-  const handleAddFeature = fId => {
-    const value = datafatures?.features?.filter(x => { return (x.fId === fId) })
-    setFeatures(value)
-    // setFeatures(value[0]?.fId)
-    if (value.length) {
-      try {
-        setAlertBox({ message: `${`${value[0]?.typeFeature?.thpName} ${value[0]?.hpqrQuestion}`}`, color: 'success', duration: 7000 })
-      } catch (err) {
-        setAlertBox({ message: `${err}`, color: 'error', duration: 7000 })
-      }
-    }
-  }
-  const setLocalStorage = grid => {
-    try {
-      window.localStorage.setItem('grid', grid)
-      changeState()
-    }
-    catch (err) {
-      setAlertBox({ message: `${err}`, color: 'error', duration: 7000 })
-    }
   }
   const [updateProductFoods] = useMutation(UPDATE_PRODUCT_FOOD, {
   })
@@ -148,7 +98,7 @@ export const Food = () => {
             pCode,
             pState: 1,
             sTateLogistic: 1,
-            ProStar: rating,
+            ProStar: 0,
             ProImage: ProImage,
             ProHeight: parseFloat(ProHeight),
             ProWeight: ProWeight,
@@ -308,28 +258,20 @@ export const Food = () => {
     Years(min)
   }, [YearArray, dataProduct, years])
   const [dataCategoriesProducts] = useCategoriesProduct()
+  console.log("🚀 ~ file: food.jsx ~ line 261 ~ Food ~ dataCategoriesProducts", dataCategoriesProducts)
+  
   return (
     <FoodComponent
       alt={alt}
       changeState={changeState}
       check={check}
-      cities={dataCities?.cities || []}
-      color={data?.getAllColor}
-      countries={dataCountries?.countries || []}
-      currentYear={currentYear}
       data={dataProducto}
-      dataCategories={finalDataCategories?.CategoryproductFoodsAll}
       dataCategoriesProducts={dataCategoriesProducts || []}
       dataFree={productFree}
-      datafatures={datafatures?.features}
-      departments={dataDepartments?.departments || []}
       dispatch={dispatch}
       errors={errors}
-      features={features}
       fetchMore={fetchMore}
       fileInputRef={fileInputRef}
-      finalDataAreas={finalDataAreas?.getAreas}
-      handleAddFeature={handleAddFeature}
       handleAddProductR={handleAddProductR}
       handleChange={handleChange}
       handleChangeClick={handleChangeClick}
@@ -338,39 +280,21 @@ export const Food = () => {
       handleDelete={handleDelete}
       handleRegister={handleRegister}
       intPorcentaje={intPorcentaje}
-      loading={loadCountries || loadRoad}
-      loadingAreas={loadingAreas}
       names={names}
       onChangeRange={onChangeRange}
-      onChangeSearch={handleChangeSearch}
       onClickClear={onClickClear}
       onClickSearch={onClickSearch}
       onFileInputChange={onFileInputChange}
       onTargetClick={onTargetClick}
-      // Datos de filtro
       product_state={product_state || []}
-      rating={rating}
-      road={dataRoad?.road || []}
-      // Datos del areas
       search={search}
-      setLocalStorage={setLocalStorage}
-      //   Filtro de check
       setName={setName}
-      setRating={setRating}
       setShowMore={setShowMore}
       showMore={showMore}
-      // Limpiar
-      size={size?.getSizes}
       src={src}
       state={state}
       values={values}
       valuesForm={values}
-
     />
   )
-}
-Food.propTypes = {
-  handleChangeClick: PropTypes.func,
-  filterState: PropTypes.object,
-  handleChange: PropTypes.func
 }
