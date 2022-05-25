@@ -91,7 +91,7 @@ export const Food = () => {
           input: {
             idStore: dataStore?.getStore?.idStore || '',
             ProPrice: check ? 0 : ProPrice ? parseFloat(ProPrice.replace(/\./g, '')) : 0,
-            ProDescuento: check ? 0 : ProDescuento,
+            ProDescuento: check ? 0 : parseInt(ProDescuento),
             ValueDelivery: check ? 0 : parseFloat(ValueDelivery),
             ProDescription: ProDescription,
             pName: names,
@@ -155,7 +155,7 @@ export const Food = () => {
   }, [dataProduct, searchFilter, search])
   useEffect(() => {
     productFoodsAll({ variables: { max: showMore, search: search } })
-  }, [searchFilter, showMore, search])
+  }, [searchFilter, showMore, search, productFoodsAll])
   const onChangeRange = () => {
     // const { value } = e.target
     // setFilterPrice(s => ({ ...s, [name]: s[name].filter(f => f !== value) }))

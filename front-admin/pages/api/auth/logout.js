@@ -10,8 +10,12 @@ const cookie = {
 
 export default withIronSessionApiRoute(
   function signOut(req, res) {
-    req.session.destroy()
-    res.status(200).json({ ok: true })
+    try {
+      req.session.destroy()
+      res.status(200).json({ ok: true })
+    } catch (error) {
+      throw new Error('Lo sentimos, ha ocurrido un error interno al cerrar session')
+    }
   },
   cookie
 )

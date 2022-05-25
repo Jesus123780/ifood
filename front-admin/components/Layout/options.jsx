@@ -21,7 +21,7 @@ export const Options = () => {
   const onClickLogout = useCallback(async () => {
     setLoading(true)
     await window
-      .fetch(`${process.env.URL_BASE}auth/logout/`, {})
+      .fetch(`${process.env.URL_BASE}api/auth/logout/`, {})
       .then(res => {
         if (res) {
           client?.clearStore()

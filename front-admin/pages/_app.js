@@ -25,14 +25,14 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     const handleStop = () => {
       setIsAnimating(false)
-      
+
     }
     router.events.on('routeChangeStart', () => {
-      setIsAnimating(true)     
+      setIsAnimating(true)
     })
     router.events.on('routeChangeComplete', handleStop)
     router.events.on('routeChangeError', handleStop)
-    
+
     return () => {
       router.events.off('routeChangeStart', () => {
         setIsAnimating(true)
@@ -58,7 +58,7 @@ export default function App({ Component, pageProps }) {
       <ApolloProvider client={apolloClient}>
         <Auth>
           <GlobalStyle />
-          { <ProgressBar progress={animating}/>}
+          {<ProgressBar progress={animating} />}
           <Layout>
             <Component {...pageProps} />
           </Layout>

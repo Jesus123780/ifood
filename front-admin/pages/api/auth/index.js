@@ -8,7 +8,6 @@ import { sendEmail } from '../lib/utils'
 import { getTokenState } from 'utils'
 import { deCode } from '../lib/utils/util'
 import { withIronSessionApiRoute } from 'iron-session/next'
-// aDateConf: moment().valueOf()
 /**
  * @description Función que guarda el device
  * @param {string} input Args
@@ -63,51 +62,38 @@ export const getDevice = async ({ input }) => {
 }
 
 // eslint-disable-next-line consistent-return
-// export default withSession(async (req, res) => {
-//   const { name, username, lastName, email, password, useragent, deviceid, locationFormat } = req.body
-//   try {
-//     const { token, message, success, roles, storeUserId, userId } = await newRegisterUser(null, { name, username, lastName, email, password })
-//     const detector = new DeviceDetector
-//     const resultOs = detector.parseOs(useragent)
-//     const resultClient = detector.parseClient(useragent)
-//     const resultDeviceType = detector.parseDeviceType(useragent, resultOs, resultClient, {})
-//     const result = Object.assign({ os: resultOs }, { client: resultClient }, { device: resultDeviceType }, { useragent: useragent, deviceid: deviceid, email: email, userId: userId, locationFormat })
-//     // eslint-disable-next-line
-//         const { error, data } = await getDevice({ input: result })
-//     // console.log(error, data)
-//     // console.log(os);
-//     if (success) {
-//       const user = { isLoggedIn: true, roles, token, storeUserId }
-//       req.session.set('user', user)
-//       await req.session.save()
-//       return res.json({ success, message: message, storeUserId, token })
-//     } res.json({ success: 0, message: message, storeUserId, token }) 
-//   } catch (error) {
-//     const { response: fetchResponse } = error
-//     res.status(fetchResponse?.status || 500).json(error.data)
-//   }
-// })
-
-// eslint-disable-next-line consistent-return
 export default withIronSessionApiRoute(
   async function loginRoute(req, res) {
     // get user from database then:
-    const { name, username, lastName, email, password, useragent, deviceid, locationFormat } = req.body
-    const { token, message, success, roles, storeUserId, userId } = await newRegisterUser(null, { name, username, lastName, email, password })
-    const detector = new DeviceDetector
-    const resultOs = detector.parseOs(useragent)
-    const resultClient = detector.parseClient(useragent)
-    const resultDeviceType = detector.parseDeviceType(useragent, resultOs, resultClient, {})
-    console.log(token)
-    req.session.user = {
-      isLoggedIn: true,
-      roles,
-      token,
-      deviceid,
-      storeUserId
+    try {
+      const { name, username, lastName, email, password, deviceid, locationFormat } = req.body
+      // console.log(req.headers['user-agent'])
+      // console.log(req.headers['user-agent'])
+      const useragent = req.headers['user-agent']
+      const { token, message, success, roles, storeUserId, userId } = await newRegisterUser(null, { name, username, lastName, email, password })
+      if (success) {
+        const detector = new DeviceDetector
+        const resultOs = detector.parseOs(useragent)
+        const resultClient = detector.parseClient(useragent)
+        const resultDeviceType = detector.parseDeviceType(useragent, resultOs, resultClient, {})
+        const result = Object.assign({ os: resultOs }, { client: resultClient }, { device: resultDeviceType }, { useragent: useragent, deviceid: deviceid, email: email, userId: userId, locationFormat })
+        const { error, data } = await getDevice({ input: result })
+        // eslint-disable-next-line
+        console.log(error, data)
+        req.session.user = {
+          isLoggedIn: true,
+          roles,
+          token,
+          deviceid,
+          storeUserId
+        }
+        await req.session.save()
+        res.send({ ok: true, success, message: message, storeUserId, token })
+      }
+    } catch (error) {
+      const { response: fetchResponse } = error
+      res.status(fetchResponse?.status || 500).json(error.data)
     }
-    await req.session.save()
-    res.send({ ok: true })
   },
   {
     password: process.env.SESSION_KEY,

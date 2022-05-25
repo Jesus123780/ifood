@@ -42,11 +42,10 @@ export const getServerSideProps = withIronSessionSsr(
 
     const defaultReturnObject = {
       redirect: {
-        destination: '/',
+        destination: '/entrar',
         permanent: false
       }
     }
-    console.log(req.cookies[process.env.SESSION_NAME])
     try {
       if (!req.cookies[process.env.SESSION_NAME]) return defaultReturnObject
       // let userSession = req.session.user
@@ -59,13 +58,12 @@ export const getServerSideProps = withIronSessionSsr(
       // }
       return {
         props: {
-          user: null
+          user: {}
         }
       }
     }
     // eslint-disable-next-line no-unreachable
     catch (error) {
-      console.log(error)
       return {}
     }
   },

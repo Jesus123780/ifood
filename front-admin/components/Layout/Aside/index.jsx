@@ -7,7 +7,6 @@ import { IconHome, IconHorario, IconLogo, IconLogout, IconShopping, IconUser, Ic
 import ActiveLink from '../../common/Link'
 import { Anchor, AnchorRouter, ButtonGlobalCreate, Card, ContainerAside, ContentAction, DynamicNav, Info, LeftNav, OptionButton, Router } from './styled'
 import { useRouter } from 'next/router'
-import { URL_BASE } from 'apollo/urls'
 import { ButtonOption } from '../styled'
 import { useStore } from 'components/hooks/useStore'
 import { Context } from 'context/Context'
@@ -23,7 +22,7 @@ const Aside = () => {
   const [show, setShow] = useState(false)
   const onClickLogout = useCallback(async () => {
     await window
-      .fetch(`${URL_BASE}auth/logout/`, {})
+      .fetch(`${process.env.URL_BASE}api/auth/logout/`, {})
       .then(res => {
         if (res) {
           client?.clearStore()

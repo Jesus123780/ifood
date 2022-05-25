@@ -164,9 +164,10 @@ export const updateProductFoods = async (_root, { input }, context) => {
       const data = await productModelFood.create({
         ...input,
         pState: 1,
+        ValueDelivery: 0,
         idStore: deCode(context.restaurant),
         id: deCode(context.User.id),
-        sTateLogistic: 1,
+        // sTateLogistic: 1,
         sizeId: sizeId ? deCode(sizeId) : null,
         colorId: colorId ? deCode(colorId) : null,
         cId: cId ? deCode(cId) : null,

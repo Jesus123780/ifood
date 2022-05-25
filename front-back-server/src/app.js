@@ -50,6 +50,7 @@ import indexRoutes from './api/lib/router'
         context: async ({ req, res }) => {
             // check from req
             const token = (req.headers.authorization?.split(' ')[1])
+            console.log(req)
             const restaurant = req.headers.restaurant || {}
             if (token !== 'null') {
                 try {

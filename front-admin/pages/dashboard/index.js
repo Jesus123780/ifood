@@ -1,6 +1,8 @@
 import Dashboard from '../../container/dashboard'
 
+
 export default function DASHBOARD() {
+
   return <Dashboard />
 }
 

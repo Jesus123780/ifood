@@ -112,6 +112,8 @@ const Provider = ({ children }) => {
   },
   [selectedStore, hidden]
   )
+
+  
   const value = useMemo(
     () => {return {
       error,
