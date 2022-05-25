@@ -37,7 +37,7 @@ module.exports = (phase) => {
             if (isProd) return 'remotemysql.com'
         })(),
         DIALECTDB: 'mysql',
-        SESSION_NAME: 'vp.sv1',
+        SESSION_NAME: 'vp.sv2',
         SESSION_KEY: '12ba105efUaGjihGrh0LfJHTGIBGu6jXa',
         URL_BASE: (() => {
             if (isDev) return 'http://localhost:3001/app/'

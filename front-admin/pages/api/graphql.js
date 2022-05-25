@@ -11,23 +11,29 @@ import resolvers from '../api/lib/resolvers/index'
 import { getUserFromToken } from './auth'
 import { getIronSession } from 'iron-session'
 
-const cors = Cors()
-function parseCookies(request) {
-  const list = {}
-  const cookieHeader = request.headers?.cookie
-  if (!cookieHeader) return list
+const corsMultipleAllowOrigin = (options = {}) => {
+  const { origin: optionsOrigin } = options || {}
+  const multiple = Array.isArray(optionsOrigin)
+  if (multiple && optionsOrigin.length === 0) {
+    throw new Error('`options.origin` must not be empty')
+  }
+  return handler => {
+    return (req, res, ...restArgs) => {
+      if (multiple) {
+        const { origin } = req.headers || {}
+        if (optionsOrigin.includes(origin)) {
+          options.origin = origin
+        } else {
+          options.origin = ' '
+        }
+      }
 
-  cookieHeader.split(';').forEach(function (cookie) {
-    let [name, ...rest] = cookie.split('=')
-    name = name?.trim()
-    if (!name) return
-    const value = rest.join('=').trim()
-    if (!value) return
-    list[name] = decodeURIComponent(value)
-  })
-
-  return list
+      return Cors(options)(handler)(req, res, ...restArgs)
+    }
+  }
 }
+const cors = corsMultipleAllowOrigin({ origin: ['http://localhost:3000', 'http://localhost:3000'] })
+
 
 const apolloServer = new ApolloServer({
   resolvers,

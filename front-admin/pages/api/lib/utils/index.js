@@ -150,3 +150,20 @@ export function strToDate(dtStr) {
   return dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0], timeParts[0], timeParts[1])
 }
 
+
+export function parseCookies(request) {
+  const list = {}
+  const cookieHeader = request.headers?.cookie
+  if (!cookieHeader) return list
+
+  cookieHeader.split(';').forEach(function (cookie) {
+    let [name, ...rest] = cookie.split('=')
+    name = name?.trim()
+    if (!name) return
+    const value = rest.join('=').trim()
+    if (!value) return
+    list[name] = decodeURIComponent(value)
+  })
+
+  return list
+}

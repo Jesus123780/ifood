@@ -11,7 +11,10 @@ import { typeDefs } from './schema'
 import { cache, isLoggedVar } from './cache'
 import { WebSocketLink } from '@apollo/client/link/ws'
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
-
+// import { createHttpLink } from 'apollo-link-http'
+// import { createHttpLink } from 'apollo-link-http'
+// https://stackoverflow.com/questions/57229164/how-to-get-the-uri-in-callback-of-onerror-from-apollo-link-error
+// https://stackoverflow.com/questions/53062839/handling-errors-for-apollo-client-when-using-apollolink-split
 let apolloClient
 
 export const getDeviceId = async () => {
@@ -90,6 +93,14 @@ const wsLink = typeof window !== 'undefined' ? new WebSocketLink({
   }
 }) : null
 function createApolloClient() {
+  const errorLink = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors)
+      graphQLErrors.map(({ message, location, path }) =>
+      {return console.log(`[GraphQL error]: Message: ${message}, Location: ${location}, Path: ${path}`)}
+      )
+  
+    if (networkError) console.log(`[Network error]: ${networkError}`)
+  })
   const ssrMode = true
   const getLink = async (operation) => {
     // await splitLink({ query: operation.query })
@@ -129,11 +140,8 @@ function createApolloClient() {
     return link.request(operation)
   }
   // eslint-disable-next-line
-  const defaultOptions = {
-    watchQuery: {
-      fetchPolicy: 'cache-first',
-      returnPartialData: true,
-      notifyOnNetworkStatusChange: true,
+  const defaultOptions = { 
+    query: {
       errorPolicy: 'all'
     },
     mutate: {
@@ -171,11 +179,13 @@ function createApolloClient() {
     : ApolloLink.split(() => { return true }, operation => { return getLink(operation) },
       errorLink
     )
+    
+    
   return new ApolloClient({
     connectToDevTools: true,
     ssrMode,
-    link: link,
-    // defaultOptions,
+    link:  link,
+    defaultOptions,
     typeDefs,
     cache
   })

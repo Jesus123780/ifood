@@ -67,6 +67,7 @@ export default withIronSessionApiRoute(
     // get user from database then:
     try {
       const { name, username, lastName, email, password, deviceid, locationFormat } = req.body
+      console.log(name, username)
       // console.log(req.headers['user-agent'])
       // console.log(req.headers['user-agent'])
       const useragent = req.headers['user-agent']
