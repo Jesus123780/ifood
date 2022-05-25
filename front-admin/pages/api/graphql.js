@@ -12,12 +12,38 @@ import { getUserFromToken } from './auth'
 import { getIronSession } from 'iron-session'
 
 const cors = Cors()
+function parseCookies(request) {
+  const list = {}
+  const cookieHeader = request.headers?.cookie
+  if (!cookieHeader) return list
+
+  cookieHeader.split(';').forEach(function (cookie) {
+    let [name, ...rest] = cookie.split('=')
+    name = name?.trim()
+    if (!name) return
+    const value = rest.join('=').trim()
+    if (!value) return
+    list[name] = decodeURIComponent(value)
+  })
+
+  return list
+}
+
 const apolloServer = new ApolloServer({
   resolvers,
   typeDefs,
   introspection: true,
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground(), httpHeadersPlugin],
   context: (async ({ req, res, next, connection }) => {
+    // const cookies = parseCookies(req)
+    // console.log(cookies)
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET')
+    res.setHeader('Access-Control-Max-Age', 2592000) // 30 days
+    // res.setHeader(200, {
+    //   'Set-Cookie': `mycookie=test`,
+    //   'Content-Type': `text/plain`
+    // })
     const session = await getIronSession(req, res,
       {
         password: process.env.SESSION_KEY,
@@ -39,7 +65,8 @@ const apolloServer = new ApolloServer({
     const setHeaders = []
     tokenClient = req.headers.authorization?.split(' ')[1]
     const restaurant = req.headers.restaurant || {}
-    console.log(req)
+    // console.log(req.cookies)
+
     const excluded = ['/login', '/forgotpassword', '/register', '/teams/invite/[id]', '/teams/manage/[id]']
     if (excluded.indexOf(req.session) > -1) return next()
     const { error } = await getUserFromToken(token)
