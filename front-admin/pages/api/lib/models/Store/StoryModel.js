@@ -5,7 +5,6 @@ import Users from '../Users'
 import { enCode } from '../../utils/util'
 
 const conn = connect()
-conn.sync()
 export default conn.define('storyStore', {
   stoId: {
     type: Sequelize.INTEGER,

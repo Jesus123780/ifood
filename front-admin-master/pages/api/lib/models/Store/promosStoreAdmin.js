@@ -6,7 +6,7 @@ import { enCode } from '../../utils/util'
 import StoryModel from './StoryModel'
 
 const conn = connect()
-conn.sync()
+()
 export default conn.define('promoDashboardStoreAdmins', {
     pSoId: {
         type: Sequelize.INTEGER,

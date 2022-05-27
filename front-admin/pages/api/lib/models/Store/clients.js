@@ -5,7 +5,6 @@ import Users from '../Users'
 import { enCode } from '../../utils/util'
 
 const conn = connect()
-conn.sync()
 
 export default conn.define('clients', {
   cliId: {
@@ -47,22 +46,22 @@ export default conn.define('clients', {
     defaultValue: 1
   },
   ClientAddress: {
-    type: Sequelize.SMALLINT(100)
+    type: Sequelize.SMALLINT
   },
   clientNumber: {
-    type: Sequelize.STRING(100),
+    type: Sequelize.STRING,
     allowNull: true
   },
   clientName: {
-    type: Sequelize.STRING(100),
+    type: Sequelize.STRING,
     allowNull: true
   },
   clientLastName: {
-    type: Sequelize.STRING(100),
+    type: Sequelize.STRING,
     allowNull: true
   },
   ccClient: {
-    type: Sequelize.STRING(100),
+    type: Sequelize.STRING,
     unique: true,
     allowNull: true
   },

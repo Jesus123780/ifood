@@ -72,8 +72,8 @@ export const Restaurant = () => {
               NitStore: dataForm.storePhone,
               typeRegiments: dataForm.storePhone,
               typeContribute: dataForm.storePhone,
-              addressStore: dataForm.storePhone,
-              createAt: dataForm.storePhone
+              addressStore: dataForm.storePhone
+              // createAt: dataForm.storePhone
             }
           }
         }).then(() => {

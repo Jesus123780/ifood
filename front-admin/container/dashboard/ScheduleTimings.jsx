@@ -30,7 +30,7 @@ export const ScheduleTimings = () => {
   const handleChange = e => {
     setValues({ ...values, [e.target.name]: e.target.value })
   }
-  const [setStoreSchedule] = useMutation(CREATE_STORE_CALENDAR)
+  const [setStoreSchedule, { loading }] = useMutation(CREATE_STORE_CALENDAR)
   const handleForm = (e) => {
     e.preventDefault()
     if (moment(starTime).isAfter(endTime)) {
@@ -92,7 +92,7 @@ export const ScheduleTimings = () => {
       padding='25px'
       show={SHOW_TIMING.state}
       size='small'
-      title={showTiming === 1 ? 'Lunes' : showTiming === 2 ? 'Martes ' : showTiming === 3 ? 'Miercoles' : showTiming === 4 ? 'Jueves ' : showTiming === 5 ? 'Viernes' : showTiming === 6 ? 'Sabado' : showTiming === 7 ? 'Domingo' : null}
+      title={showTiming === 1 ? 'Lunes' : showTiming === 2 ? 'Martes ' : showTiming === 3 ? 'Miércoles' : showTiming === 4 ? 'Jueves ' : showTiming === 5 ? 'Viernes' : showTiming === 6 ? 'Sábado' : showTiming === 7 ? 'Domingo' : null}
       zIndex='9990'
     >
       <Form onSubmit={(e) => {return handleForm(e)}}>
@@ -114,7 +114,12 @@ export const ScheduleTimings = () => {
             value={values.schHoEnd}
           />
         </AModalRow>})}
-        <RippleButton label='Guardar' type={'submit'} />
+        <RippleButton
+          disabled={loading}
+          type={'submit'}
+        >
+          {loading ? 'Cargando...' : 'Guardar'}
+        </RippleButton>
       </Form>
     </AwesomeModal>
   )

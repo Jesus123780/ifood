@@ -3,7 +3,6 @@ import connect from '../../db'
 import { enCode } from '../../utils/util'
 
 const conn = connect()
-conn.sync()
 export default conn.define('bannerspromo', {
     bpId: {
         type: Sequelize.INTEGER,

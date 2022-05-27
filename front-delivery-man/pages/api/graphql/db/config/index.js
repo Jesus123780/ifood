@@ -14,7 +14,7 @@ export default function connect() {
                 }
             )
         }
-        // conn.sync()
+        // ()
         return conn
     } catch (error) {
         console.log('/**** No ha sido posible conectarse a la base de datos. ****/')

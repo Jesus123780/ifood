@@ -55,7 +55,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 const authLink = async () => {
   if (typeof window !== 'undefined') {
-
     const token = window.localStorage.getItem('session')
     const restaurant = window.localStorage.getItem('restaurant')
     return {

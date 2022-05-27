@@ -19,23 +19,19 @@ module.exports = (phase) => {
   const env = {
     NAMEDB: (() => {
       if (isDev) return 'app'
-      // if (isDev) return '9F27g24N1A'
-      if (isProd) return '9F27g24N1A'
+      if (isProd) return 'railway'
     })(),
     USERDB: (() => {
       if (isDev) return 'root'
-      // if (isDev) return '9F27g24N1A'
-      if (isProd) return '9F27g24N1A'
+      if (isProd) return 'root'
     })(),
     PASSDB: (() => {
       if (isDev) return ''
-      // if (isDev) return 'yGDyGrHvYa'
-      if (isProd) return 'yGDyGrHvYa'
+      if (isProd) return '8jpgm70bhVjWIxEFbsrt'
     })(),
     HOSTDB: (() => {
       if (isDev) return 'localhost'
-      // if (isDev) return 'remotemysql.com'
-      if (isProd) return 'remotemysql.com'
+      if (isProd) return 'containers-us-west-65.railway.app'
     })(),
     DIALECTDB: 'mysql',
     SESSION_NAME: 'vp.sv1',
