@@ -1,2 +1,2 @@
-let vehiculo: "automovil"
-vehiculo = "asdkjalkjsdalsk"
+let vehiculo: 'automovil'
+vehiculo = 'asdkjalkjsdalsk'

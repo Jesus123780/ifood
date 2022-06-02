@@ -1,34 +1,27 @@
-import styled, { css } from 'styled-components';
-import { BGColor, PColor } from '../../../public/colors';
+import styled, { css } from 'styled-components'
+import { BColor, BGColor, PColor, PLColor } from '../../../public/colors'
 
 export const Button = styled.button` 
     position: absolute;
     z-index: 9999;
 `
 export const FormProducts = styled.form`
-    height: 100%;
-    min-height: 100vh;
-    max-height: 100vh;
-    overflow-y: auto;
-    &::-webkit-scrollbar {
-    width: 3px;
-    background-color: #dcdcdc;
-    border-radius: 5px;
-    }
 `
 
 export const Container = styled.div`
-    display: flex;
-    border-radius: 4px;
-    background-color: ${({ theme }) => theme.InvColor};
-    transition:  6s ease;
-    padding-bottom: 30px;
-    border-bottom: 1px solid rgba(0,0,0,.1);
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(400px, 30%));
+    grid-gap: 20px;
+    place-content: center;
+    place-items: stretch;
+    /* grid-template-columns: 25% 25% 50%; */
+
+
 `
 export const Card = styled.div` 
     position: relative;
-    width: ${props => props.state ? '100%' : '70%'};
-    background-color: ${({ theme }) => theme.InvColor};
+    width: ${props => {return props.state ? '100%' : '70%'}};
+    background-color: ${({ theme }) => {return theme.InvColor}};
 
 `
 export const ContainerButton = styled.div` 
@@ -47,13 +40,28 @@ export const Label = styled.span`
     font-family: PFont-Light;
 `
 // Styled Product
-export const ContainerCardProduct = styled.div` 
+export const WrapperProducts = styled.div`
     display: flex;
+`
+export const Item = styled.div`
+    padding: 15px 1px;
+    margin: auto;
+    display: grid;
+    font-family: PFont-Light;
+    place-content: center;
+    .btn {
+        background-color: transparent;
+    }
+    & span {
+        color: ${({ color }) => {return color || PLColor}};
+    }
+`
+export const ContainerCardProduct = styled.div` 
     max-width: 1366px !important;
     margin: auto;
     margin: 50px 0px;
+    place-content: center;
     display: grid;
-    overflow: hidden;
     gap: 5px;
     grid-template-columns: 24% repeat(auto-fill, 24%) 24%;
     @media only screen and (max-width: 960px){
@@ -62,20 +70,37 @@ export const ContainerCardProduct = styled.div`
     @media only screen and (max-width: 760px){
         grid-template-columns: 50% repeat(auto-fill, 50%) 50%;
     }
-    ${props => props.grid && css`
+    ${props => {return props.grid && css`
     width: 100%;
     grid-template-columns: 100% repeat(auto-fill, 100%) 100%; 
       @media only screen and (max-width: 760px){
         grid-template-columns: 50% repeat(auto-fill, 50%) 50%;
     }
-    ` }
+    `} }
 
 `
 export const ContentProducts = styled.div` 
     max-width: 1366px !important;
     margin: auto;
-    margin-top: 50px;
+    margin-top: 100px;
+    margin-bottom: 100px;
     @media only screen and (max-width: 960px){
+    }
+   
+`
+export const Grid = styled.div`
+    display: grid;
+    width: ${({ width }) => {return width ? width : '100%'}};
+    height: ${({ height }) => {return height ? height : 'auto'}};
+    grid-template-columns: repeat(${({ gridColumns }) => {return gridColumns ? gridColumns : 1}}, 1fr);
+    grid-template-rows: repeat(${({ gridRows }) => {return gridRows ? gridRows : 1}}, 1fr);
+    grid-column-gap: ${({ gridColGap }) => {return gridColGap ? gridColGap : '5px'}};
+    grid-row-gap: ${({ gridRowsGap }) => {return gridRowsGap ? gridRowsGap : '5px'}};
+    padding: 10px;
+
+    @media (max-width: 600px) {
+        grid-template-columns: repeat(${({ gridColsMd }) => {return gridColsMd ? gridColsMd : 1}}, 1fr);
+        padding: 6px;
     }
 `
 export const ActionName = styled.span`
@@ -83,6 +108,7 @@ export const ActionName = styled.span`
     height: 20px;
     width: 100px;
     right: 35px;
+    color: ${BColor};
     opacity: 0;
     font-family: PFont-Light;
     transition: .1s ease-in-out;
@@ -99,8 +125,9 @@ export const ButtonCard = styled.button`
     transition: .4s ease;
     width: 50px;
     height: 50px;
-    top: ${({ top }) => top ? top : '20px'};
-    transition-delay: ${({ delay }) => delay ? delay : 'auto'};
+    z-index: 999; 
+    top: ${({ top }) => {return top ? top : '20px'}};
+    transition-delay: ${({ delay }) => {return delay ? delay : 'auto'}};
     max-height: 50px;
     max-width: 50px;
     border-radius: 50%;
@@ -112,16 +139,21 @@ export const ButtonCard = styled.button`
         opacity: 1;
         z-index: 900;
     }
-    ${props => props.grid && css`
-        top: ${({ top }) => top ? top : '80px'};
-        `
-    }
+    ${props => {return props.grid && css`
+        top: ${({ top }) => {return top ? top : '80px'}};
+        `}
+}
+`
+export const DragulaContainer = styled.div`
+    min-height: 100%;
+    border: 1px solid rgba(0,0,0,.1);
+    margin: 20px 0;
 `
 export const CardProduct = styled.div` 
     flex: 0 1 auto;
     display: flex;
     position: relative;
-    width: 100%;
+    width: ${({ width }) => {return width ? width : '100%'}};
     overflow: hidden;
     flex-direction: column;
     margin: 10px;
@@ -136,11 +168,10 @@ export const CardProduct = styled.div`
         padding: 30px;
         justify-content: space-between;
     }
-    ${props => props.grid && css`
-    height: min-content;
+    ${props => {return props.grid && css`
     flex-direction: row;
 
-` }
+`} }
 `
 export const CardInput = styled.div`
     margin-bottom: 10px;
@@ -150,25 +181,27 @@ export const CardInput = styled.div`
 export const CardCheckBox = styled.input`
     height: 20px;
     width: 20px;
-    zoom: normal !important;
-    transform: none !important;
     &#cat {
         opacity: 1;
     }
 `
 export const CardRadioLabel = styled.label`
     margin-left: 8px;
-    color: ${({ theme }) => theme.SFSColor};
+    color: ${({ theme }) => {return theme.SFSColor}};
 `
 export const Footer = styled.div`
-    position: fixed;
+    /* position: fixed;
     left: 0;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     bottom: 0;
-    z-index: 10;
+    z-index: 99900;
     display: flex;
     justify-content: space-between;
-    background-color: ${BGColor};
+    background-color: ${BGColor}; */
+    @media (max-width: 960px){
+        /* bottom: 0px; */
+        
+    }
 `
 export const ContentImg = styled.div` 
     width: 100%;
@@ -177,21 +210,22 @@ export const ContentImg = styled.div`
     max-height: 70%;
     object-fit: cover;
     cursor: pointer;
+    position: relative;
     border-radius: 8px 8px 0px 0px;
     /* background-color: #ededed; */
     border-bottom: 1px solid #eaeaea;
-    ${props => props.grid && css`
+    ${props => {return props.grid && css`
     border-bottom: none;
-    width: max-content;
+    /* width: max-content; */
 
-` }
+
+
+`} }
 `
 export const Img = styled.img` 
-    height: 100%;
-    min-height: 150px;
-    max-height: 150px;
     width: 100%;
-    object-fit: contain;
+    object-fit: scale-down;
+    height: 100%;
     display: block;
 `
 export const ContentInfo = styled.div` 
@@ -199,12 +233,12 @@ export const ContentInfo = styled.div`
     flex-direction: column;
     padding: 24px 16px;
     position: relative;
-    ${props => props.direction && css`
+   /*  ${props => {return props.direction && css`
     padding: 0;
     flex-direction: row;
     display: flex;
 
-    ` }
+    `} } */
 `
 export const Title = styled.h2` 
     font-size: 14px;
@@ -212,12 +246,14 @@ export const Title = styled.h2`
     line-height: 1.18;
     word-break: break-word;
 `
-export const ContentIconFav = styled.div` 
+export const ContentIconFav = styled.button` 
     position: absolute;
     cursor: pointer;
+    z-index: 9999;
     top: -30px;
+    /* 20px */
     box-shadow: 0px 0px 6px 0px #16101028;
-    right: 20px;
+    right: ${({ right }) => {return right ? right : '20px'}};
     width: 50px;;
     height: 50px;
     max-height: 50px;
@@ -227,14 +263,15 @@ export const ContentIconFav = styled.div`
     display: grid;
     justify-content: center;
     background-color: ${BGColor};
-    ${props => props.grid && css`
+    ${props => {return props.grid && css`
         top: 20px;
 
-` }
+`} }
 
 `
 export const Text = styled.h3` 
-    font-size: ${({ size }) => size ? size : '15px'};
+    font-size: ${({ size }) => {return size ? size : '15px'}};
+    color: ${({ color }) => {return color || BColor}};
     width: 100%;
     margin: 5px 0px;
     font-weight: 400;
@@ -263,21 +300,14 @@ export const ItemFilter = styled.button`
     font-family: PFont-Light;
 `
 export const ContainerBurger = styled.div`
-   margin: 0 10px 0 auto;
-    width: min-content; 
     .BurgerMenu__container {
     display: flex;
-    margin: 0 10px 0 auto;
-    width: min-content;
     align-items: center;
- 
     flex-direction: column;    
     span {
       background-color: ${PColor};
       width: 30px;
-      height: 1px;
-      min-height: 1px;
-      max-height: 1px;
+      height: 2px;
       margin: 4px;
       border-radius: 1px;
       transition: all .3s ease-out;
@@ -292,26 +322,11 @@ export const ContainerBurger = styled.div`
     .open:nth-child(3) {
       transform: rotate(-45deg) translateY(-7px) translateX(9px);
     }
-}
-`
-export const ContainerActions = styled.div`
-    display: flex;
-    align-items: center;
-    width: 30%;
-    
-`
-export const OnlyMovil = styled.div`
-    display: flex;
-    margin: auto;
-    width: min-content;
-    @media only screen and (min-width: 768px){
-        display: none;
-    }
-`
+}`
 export const ReadMore = styled.button`
     align-items: center;
     cursor: pointer;
-    color: ${({ theme }) => theme.BGAColor};
+    color: ${({ theme }) => {return theme.BGAColor}};
     justify-content: center;
     align-self: center;
     display: flex;
@@ -328,7 +343,26 @@ export const ReadMore = styled.button`
     width: 200px;
 `
 
+export const LateralModal = styled.div`
+    width: 400px;
+    height: 100vh;
+    background-color: ${`${BGColor}`};
+    position: fixed;
+    top: 0;
+    color: ${BGColor};
+    right: 0;
+    padding: 30px;
+    z-index: 9999;
+    box-shadow: 0px 1px 4px rgb(0 0 0 / 5%), 0px 4px 16px rgb(0 0 0 / 6%);
+    transition: 300ms ease;
+    ${({ open }) => {return open && css`
+    right: -100%;
+
+    `}}
+
+
+`
 export const CardOne = styled(Card)` 
-    ${props => props.state ? css`width: 0%` : css`width: 30%;`}
+    ${props => {return props.state ? css`width: 0%` : css`width: 30%;`}}
     transition:  .6s ease;
 `

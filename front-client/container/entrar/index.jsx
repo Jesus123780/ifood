@@ -39,20 +39,20 @@ const Login = ({ watch, settings }) => {
         return locationFormat ?? locationFormat[0].formatted_address
     }
     const responseGoogle = async (response) => {
-        // response.preventDefault()
+        response.preventDefault()
         // const dataLocation = await fetchData()
-        window.localStorage.setItem('sessionGoogle', JSON.stringify(response.profileObj))
-        const { name, googleId, email, imageUrl } = response?.profileObj
-        const body = {
-            name: name,
-            username: name,
-            lastName: name,
-            email: email,
-            password: googleId,
-            locationFormat: locationFormat[0]?.formatted_address,
-            useragent: window.navigator.userAgent,
-            deviceid: await getDeviceId() || '',
-        }
+        // window.localStorage.setItem('sessionGoogle', JSON.stringify(response.profileObj))
+        // const { name, googleId, email, imageUrl } = response?.profileObj
+        // const body = {
+        //     name: name,
+        //     username: name,
+        //     lastName: name,
+        //     email: email,
+        //     password: googleId,
+        //     locationFormat: locationFormat[0]?.formatted_address,
+        //     useragent: window.navigator.userAgent,
+        //     deviceid: await getDeviceId() || '',
+        // }
         const bodyfalse = {
             name: 'juvinaojesusd@gmail.com',
             username: 'juvinaojesusd@gmail.com',
@@ -66,7 +66,7 @@ const Login = ({ watch, settings }) => {
         await fetchJson(`${OUR_URL_BASE}auth`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
+            body: JSON.stringify(bodyfalse)
         }).then(res => {
             const { userId, token } = res || {}
             window.localStorage.setItem('session', token)

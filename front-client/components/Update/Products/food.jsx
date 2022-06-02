@@ -1,7 +1,6 @@
 import ReactDOM from 'react-dom'
 import { useState } from 'react';
 import { InputHook } from './Input';
-import { ViewProducts } from './ViewProducts';
 import { Rate } from '../../Rate';
 import NewSelect from '../../NewSelectHooks/NewSelect'
 import { numberFormat } from '../../../utils';
@@ -9,7 +8,6 @@ import { RippleButton } from '../../Ripple';
 import { Container, FormProducts, Card, Button, CardOne, Label, ContainerCardProduct, CardProduct, Img, ContentImg, Title, Text, ContentInfo, ContentIconFav, ButtonCard, ActionName, ReadMore, ContentProducts, CardInput, CardCheckBox, CardRadioLabel, ContainerFilter, ItemFilter, ContainerBurger, Footer } from './styled';
 import { Skeleton } from '../../Skeleton/SkeletonCard';
 import { SliderAreas } from './SliderAreas';
-import { Discount } from './ViewProducts/styled';
 import { SliderCategory } from './SliderCategories';
 import { LoadingBabel } from '../../Loading/LoadingBabel';
 import { Range } from '../../InputRange';
@@ -200,8 +198,8 @@ export const FoodComponent = ({ datafatures,
             <SliderAreas autoPlayTime={4000} duration={'500ms'} finalDataAreas={finalDataAreas} />
             <ContainerCardProduct grid={grid}>
                 <div>
-                    <ItemFilter>{data.length ? `${data.length} Productos` : 'No hay productos'}</ItemFilter>
-                    <ItemFilter>{dataFree.length ? `${dataFree.length} Productos con envio gratis` : 'No hay productos con envio gratis'}</ItemFilter>
+                    <ItemFilter>{data?.length ? `${data?.length} Productos` : 'No hay productos'}</ItemFilter>
+                    <ItemFilter>{dataFree?.length ? `${dataFree?.length} Productos con envio gratis` : 'No hay productos con envio gratis'}</ItemFilter>
                 </div>
                 {!data?.length ? <SkeletonP /> : data?.map(product => (
                     <CardProduct grid={grid} key={product.pId} >

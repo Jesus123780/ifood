@@ -6,7 +6,7 @@ import moment from 'moment'
 import jwtDecode from 'jwt-decode'
 import { useEffect } from 'react'
 import jwt, { decode } from 'jsonwebtoken'
-
+import { CLIENT_PUBLIC_FILES_PATH } from 'next/constants'
 moment.locale('es')
 
 export const isNull = dato => {
@@ -1207,6 +1207,5 @@ export const COOKIE_OPTIONS = {
     httpOnly: true,
     path: '/',
     sameSite: true,
-    // secure: !!process.env.BASE_URL.includes('https')
-    secure: false
+    secure: BASE_URL.includes('https')
 }

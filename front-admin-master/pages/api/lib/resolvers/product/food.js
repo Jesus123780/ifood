@@ -102,7 +102,7 @@ const expensesCredits = async (parent, { i_id, fromDate, toDate, state, order, l
             ...(limit ? { limit } : {})
         })
 
-        if (!data.length && !parent?.i_id) throw new ApolloError('No se ha encontrado ningún resultado.', 404)
+        if (!data?.length && !parent?.i_id) throw new ApolloError('No se ha encontrado ningún resultado.', 404)
         return data
     } catch (error) {
         if (parent?.i_id) return []

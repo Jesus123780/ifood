@@ -1,5 +1,5 @@
 // INIT
-let vehiculo: string = "";
+let vehiculo: string = '';
 // let any: arr = [];
 let cantidad: number = 0;
 let esAutorizado: boolean;

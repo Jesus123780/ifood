@@ -1,7 +1,6 @@
 import ReactDOM from 'react-dom'
 import { useState } from 'react';
 import { InputHook } from './Input';
-import { ViewProducts } from './ViewProducts';
 import { Rate } from '../../Rate';
 import NewSelect from '../../NewSelectHooks/NewSelect'
 import { numberFormat } from '../../../utils';
@@ -38,7 +37,6 @@ import { Skeleton } from '../../Skeleton/SkeletonCard';
 import { CustomSlider } from './CustomSlider';
 // import { ReactTable } from '../../common/ReactTable';
 import { SliderAreas } from './SliderAreas';
-import { Discount } from './ViewProducts/styled';
 import { SliderCategory } from './SliderCategories';
 import { LoadingBabel } from '../../Loading/LoadingBabel';
 import { Range } from '../../InputRange';
@@ -268,19 +266,6 @@ export const Products = ({ datafatures,
             <i style={{ position: 'relative' }}>
                 <Button onClick={handleClick}><IconArrowRight color='blue' size='20px' /></Button>
             </i>
-            <Card state={stateCard} bgColor='#ededed'>
-                <ViewProducts
-                    features={features}
-                    valuesP={'name'}
-                    Country={countries}
-                    price={values?.ProPrice}
-                    desc={values?.ProDescuento}
-                    PCant={values?.ProUniDisponibles}
-                    PDescription={values?.ProDescription}
-                    start={rating}
-                    intPorcentaje={intPorcentaje}
-                    setRating={setRating} />
-            </Card>
         </Container>
         <ContentProducts>
             <Text size='30px'>Filtrar productos</Text>
@@ -348,8 +333,8 @@ export const Products = ({ datafatures,
             <SliderAreas autoPlayTime={4000} duration={'500ms'} finalDataAreas={finalDataAreas} />
             <ContainerCardProduct grid={grid}>
                 <div>
-                    <ItemFilter>{data.length ? `${data.length} Productos` : 'No hay productos'}</ItemFilter>
-                    <ItemFilter>{dataFree.length ? `${dataFree.length} Productos con envio gratis` : 'No hay productos con envio gratis'}</ItemFilter>
+                    <ItemFilter>{data?.length ? `${data?.length} Productos` : 'No hay productos'}</ItemFilter>
+                    <ItemFilter>{dataFree?.length ? `${dataFree?.length} Productos con envio gratis` : 'No hay productos con envio gratis'}</ItemFilter>
                 </div>
                 {!data?.length ? <SkeletonP /> : data?.map(product => (
                     <CardProduct grid={grid} key={product.pId} >
