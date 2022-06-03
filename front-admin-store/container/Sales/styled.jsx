@@ -79,6 +79,7 @@ export const ContainerGrid = styled.div`
 @media only screen and (min-width: 768px) {
     grid-template-columns: repeat(auto-fill,minmax(172px,1fr));
     grid-gap: 20px;
+    grid-auto-rows: max-content;
 }
 
 

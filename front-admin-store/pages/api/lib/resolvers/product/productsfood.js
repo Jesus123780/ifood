@@ -158,7 +158,7 @@ export const editProductFoods = async (_root, { input }, context) => {
 
 }
 export const updateProductFoods = async (_root, { input }, context) => {
-  const { sizeId, colorId, cId, dId, ctId, pId, pState } = input
+  const { sizeId, colorId, cId, dId, ctId, pId, pState, carProId } = input
   try {
     if (!pId) {
       const data = await productModelFood.create({
@@ -166,6 +166,7 @@ export const updateProductFoods = async (_root, { input }, context) => {
         pState: 1,
         ValueDelivery: 0,
         idStore: deCode(context.restaurant),
+        carProId: deCode(carProId),
         id: deCode(context.User.id),
         // sTateLogistic: 1,
         sizeId: sizeId ? deCode(sizeId) : null,

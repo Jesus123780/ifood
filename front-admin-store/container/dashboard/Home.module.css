@@ -1,9 +1,10 @@
 .sticky {
   position: sticky;
-  top: -7px;
+  top: 0px;
+  border-bottom: 1px solid #bdbdbd;
   padding: 2px;
-  color: #000000;
   z-index: 988;
+  background-color: #FFFFFF;
 }
 
 .sticky__sentinel_top {
@@ -12,7 +13,9 @@
   right: 0;
   top: 0;
   z-index: -1;
-  display: flex; align-items: center; justify-content: center;
+  display: flex; 
+  align-items: center;
+  justify-content: center;
   visibility: hidden;
 }
 

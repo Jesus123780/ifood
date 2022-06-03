@@ -26,7 +26,7 @@ import { IconDelete, IconEdit } from 'public/icons'
 import { numberFormat } from 'utils'
 import { Skeleton } from 'components/Skeleton'
 import { useOnScreen } from 'hooks/useIntersection'
-import { ModalProduct } from './ModalProduct'
+import { Product } from './Product'
 import { ItemFilter } from 'components/Update/Kit/styled'
 
 const DashboardStore = () => {
@@ -51,6 +51,7 @@ const DashboardStore = () => {
   // eslint-disable-next-line
   const [showMore, setShowMore] = useState(5)
   const [modal, setModal] = useState(false)
+  const [modalStore, setModalStore] = useState(false)
   // eslint-disable-next-line no-unused-vars
   // eslint-disable-next-line
   const [hour, setHour] = useState(null)
@@ -83,8 +84,9 @@ const DashboardStore = () => {
   const { name, plato } = router.query
   // HANDLE
   const handleGetOneProduct = (food) => {
-    router.replace(`/dashboard/${name[0]}/${name[1]}/?plato=${food.pId}`)
     try {
+      router.replace(`/dashboard/${name[0]}/${name[1]}/?plato=${food.pId}`)
+      setModalStore(!modalStore)
       SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state)
       productFoodsOne({ variables: { pId: food.pId || plato } })
       ExtProductFoodsOptionalAll({ variables: { pId: food.pId || plato } })
@@ -158,7 +160,7 @@ const DashboardStore = () => {
                   type='text'
                 // value={'' || x.pName}
                 /> :
-                <Title size='.9em'>{x.pName}</Title>
+                <Title size='.9em'>{x.pName} ({x.productFoodsAll?.length || 0})</Title>
               }
             </ContentSearch>
 
@@ -182,16 +184,17 @@ const DashboardStore = () => {
 
   const handleHidden = () => {
     router.replace(`/dashboard/${name[0]}/${name[1]}`)
+    setModalStore(!modalStore)
   }
   const handleOpenModal = (option) => {
     if (option) {
       router.replace(`/dashboard/${name[0]}/${name[1]}/update/${option}`)
-
+      setModalStore(!modalStore)
     }
   }
   useEffect(() => {
     if (plato) {
-      SET_OPEN_PRODUCT.setState(true)
+      setModalStore(true)
       productFoodsOne({ variables: { pId: plato } })
       try {
         productFoodsOne({ variables: { pId: plato } })
@@ -255,20 +258,20 @@ const DashboardStore = () => {
           {stickySectionElements}
         </StickyViewport>
       </Container>
-      <AwesomeModal
+      {(modalStore || name[3]) && <AwesomeModal
         backdrop='static'
         btnCancel={true}
         btnConfirm={false}
         footer={false}
         header={true}
         height='100vh'
-        onCancel={() => { return false }}
+        onCancel={() => { return handleHidden() }}
         onHide={() => { handleHidden() }}
-        show={SHOW_MODAL.state}
+        show={(name[3] || modalStore) ? true : false}
         size='large'
         zIndex='999'
       >
-        {plato ? <ModalProduct
+        {(plato && modalStore) ? <Product
           ProDescription={ProDescription}
           ProDescuento={ProDescuento}
           ProImage={ProImage}
@@ -284,7 +287,7 @@ const DashboardStore = () => {
           storeName={storeName}
 
         /> : component[name[3]]}
-      </AwesomeModal>
+      </AwesomeModal>}
     </Wrapper>
   </>
   )

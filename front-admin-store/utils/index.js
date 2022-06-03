@@ -1263,3 +1263,24 @@ export const cookie = {
     secure: process.env.NODE_ENV === 'production'
   }
 }
+export const formatDate = ({ date, local = 'ES' }) => {
+  const dateToFormat = new Date(date)
+  const fullDate = dateToFormat.toLocaleDateString(local, { year: 'numeric', month: '2-digit', day: '2-digit' })
+  const day = fullDate.split('/')[0]
+  const month = fullDate.split('/')[1]
+  const year = fullDate.split('/')[2]
+  const shortDayName = dateToFormat.toLocaleDateString(local, { weekday: 'short' })
+  const longDayName = dateToFormat.toLocaleDateString(local, { weekday: 'long' })
+  const hourMinutes12 = dateToFormat.toLocaleTimeString('ES-CO', { hour: '2-digit', minute: '2-digit' })
+  const hourMinutes24 = dateToFormat.toLocaleTimeString('ES-CO', { hour: '2-digit', minute: '2-digit', hour12: false })
+  return {
+    day,
+    fullDate,
+    hourMinutes12,
+    hourMinutes24,
+    longDayName,
+    shortDayName,
+    month,
+    year
+  }
+}

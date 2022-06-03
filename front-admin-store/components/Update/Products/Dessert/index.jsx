@@ -1,25 +1,26 @@
-import { getCoordinates, useFakeSvgDrag } from 'hooks/useMouseposition'
 import { EmptyLayout } from 'pages/_app'
-import { BGColor } from 'public/colors'
 import React, { useRef, useState } from 'react'
-import styled from 'styled-components'
-const DragNDrop = () => {
-  // https://codesandbox.io/s/k355wo7jk3?file=/index.js
-  // https://codesandbox.io/s/react-drag-and-drop-hook-o67yn?file=/src/components/DragNDrop.tsx
-  // https://codesandbox.io/s/fake-svg-drag-hook-5q5t5?file=/src/useFakeSvgDrag.js
+import { RandomCode } from 'utils'
+const Dessert = () => {
   const data = [
     {
-      title: 'group 1',
-      items: ['1', '2', '3']
+      title: null,
+      items: [
+        {
+          id: 0,
+          title: 'Dulce de Leche'
+
+        }
+      ]
     }
   ]
   const [list, setList] = useState(data)
   const [dragging, setDragging] = useState(false)
-  const initialCoOrdiate = {
+  const initialCoOrdinate = {
     groupIndex: 0,
     itemIndex: 0
   }
-  const dragItem = useRef(initialCoOrdiate)
+  const dragItem = useRef(initialCoOrdinate)
   const dragNode = useRef()
   const handleDragStart = (e, groupIndex, itemIndex) => {
     const params = {
@@ -38,7 +39,7 @@ const DragNDrop = () => {
     let _a
     setDragging(false);
     (_a = dragNode.current) === null || _a === void 0 ? void 0 : _a.removeEventListener('dragend', handleDragEnd)
-    dragItem.current = initialCoOrdiate
+    dragItem.current = initialCoOrdinate
     dragNode.current = undefined
 
   }
@@ -67,42 +68,55 @@ const DragNDrop = () => {
     }
     return 'box-items'
   }
-  // menu
-  const openedSize = 150
-
-  const { coordinates, startDrag, drag, stopDrag } = useFakeSvgDrag()
-  const [position, setCoordPosition] = useState(false)
+  const addCard = (groupIndex, itemIndex) => {
+    const id = RandomCode(9)
+    setList((oldList) => {
+      let newList = JSON.parse(JSON.stringify(oldList))
+      newList[groupIndex].items.splice(itemIndex, 0, id)
+      return newList
+    })
+  }
+  const removeCard = (groupIndex, itemIndex) => {
+    setList((oldList) => {
+      let newList = JSON.parse(JSON.stringify(oldList))
+      newList[groupIndex].items.splice(itemIndex, 1)
+      return newList
+    })
+  }
+  const duplicateCard = (groupIndex, itemIndex) => {
+    const duplicate = list[groupIndex].items[itemIndex]
+    setList((oldList) => {
+      let newList = JSON.parse(JSON.stringify(oldList))
+      newList[groupIndex].items.splice(itemIndex, 0, duplicate)
+      return newList
+    })
+  }
+  const removeRow = (groupIndex) => {
+    setList((oldList) => {
+      let newList = JSON.parse(JSON.stringify(oldList))
+      newList.splice(groupIndex, 1)
+      return newList
+    })
+  }
+  const addNewRow = () => {
+    const id = RandomCode(9)
+    setList((oldList) => {
+      let newList = JSON.parse(JSON.stringify(oldList))
+      newList.push({
+        title: id, id: id, items: [
+          {
+            title: 'Elige tu salsa favorita'
+          }
+        ]
+      })
+      return newList
+    })
+  }
   return (
     <div className='box-container'>
-      <DraggableMenu
-        height='400'
-        onMouseDown={e => {
-          startDrag(getCoordinates(e))
-        }}
-        onMouseMove={e => {
-          drag(getCoordinates(e))
-        }}
-        onMouseOut={() => {
-          stopDrag()
-        }}
-        onMouseUp={() => {
-          stopDrag()
-          setCoordPosition(!position)
-
-        }}
-      >
-
-        <ContainerMenu offset={position ? 0 : coordinates.x} openedSize={openedSize}>
-          <li>
-            About
-          </li>
-          <li>
-            ContainerSearch
-          </li>
-        </ContainerMenu>
-      </DraggableMenu>
+      <button onClick={() => { addNewRow() }}>ADD</button>
       <div className='box-container'>
-        {list.map((grp, grpIdx) => {
+        {list?.length > 0 && list.map((grp, grpIdx) => {
           return (
             <div
               className='box-group'
@@ -115,6 +129,7 @@ const DragNDrop = () => {
                   : undefined
               }
             >
+              <button onClick={() => { return removeRow(grp, grpIdx) }}>X    </button>
               <div className='group-title'>{grp.title}</div>
               {grp.items.map((item, itemIdx) => {
                 return (
@@ -129,7 +144,10 @@ const DragNDrop = () => {
                     }
                     onDragStart={(e) => { return handleDragStart(e, grpIdx, itemIdx) }}
                   >
-                    {item}
+                    {item.id}
+                    <button onClick={() => { addCard(grpIdx, itemIdx) }}>add</button>
+                    <button onClick={() => { removeCard(grpIdx, itemIdx) }}>remove</button>
+                    <button onClick={() => { duplicateCard(grpIdx, itemIdx) }}>duplicate</button>
                   </div>
                 )
               })}
@@ -140,34 +158,6 @@ const DragNDrop = () => {
     </div>
   )
 }
-const DraggableMenu = styled.div`
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    background-color: red;
 
-`
-const ContainerMenu = styled.div`
-    position: absolute;
-    pointer-events: none;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
-    border: 1px solid blue;
-    color: ${BGColor};
-    transition: 250ms;
-    width: ${({ openedSize }) => { return openedSize && `${openedSize}px` }};
-    transform: ${({ openedSize, offset }) => {
-    if (offset < 20) {
-      return false
-    }
-    else if (offset > 20 && offset < 50) {
-      return (openedSize, offset) && `translateX(${offset - openedSize}px)`
-    }
-    return `translateX(${-openedSize}px)`
-  }};
-`
-export default DragNDrop
-DragNDrop.Layout = EmptyLayout
+export default Dessert
+Dessert.Layout = EmptyLayout

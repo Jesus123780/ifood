@@ -1,14 +1,13 @@
 import React, { useState, Fragment } from 'react'
-import PropTypes from 'prop-types'
 import { ArrowsLabel, ButtonAction, ButtonCode, ButtonNext, ButtonPagination, ButtonPrev, ButtonStatus, CardsComponent, CheckBox, CheckBoxLabel, CheckBoxWrapper, CicleStatus, ContentItems, ContentList, ContentTable, ContentTitles, Image, Input, ListActions, Pagination, SectionTitles, Text, Title, WrapperTable } from './styled'
-import { BColor, BGColor, SECColor, SEGColor } from '../../public/colors'
+import { BColor, SECColor } from '../../public/colors'
 import { IconArrowLeft, IconArrowRight, IconDost } from '../../public/icons'
 import { MockData } from '../../components/common/mockData'
 import { RandomCode } from '../../utils'
 import { RippleButton } from '../../components/Ripple'
 import moment from 'moment'
 
-export const CustomTable = props => {
+export const CustomTable = () => {
   const [data, setData] = useState(MockData)
   const [title, setTitle] = useState('')
   const [valuesDates, setValuesDates] = useState({ fromDate: moment().format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD') })

@@ -71,6 +71,7 @@ mutation updateProductFoods($input: InputProductFood){
     pName
     pCode
     ProPrice
+    carProId
     ProDescuento
 	  ProUniDisponibles
 	  ValueDelivery

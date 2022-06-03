@@ -82,7 +82,7 @@ export const Food = () => {
   // Contexto de las notificaciones
   const handleRegister = async e => {
     e.preventDefault()
-    const { ProPrice, ProDescuento, ProDescription, ProWeight, ProHeight, ValueDelivery } = values
+    const { ProPrice, ProDescuento, ProDescription, ProWeight, ProHeight, ValueDelivery, carProId } = values
     const ProImage = `${process.env.URL_ADMIN_SERVER}static/platos/${image?.name}`
     const pCode = RandomCode(9)
     try {
@@ -96,6 +96,7 @@ export const Food = () => {
             ProDescription: ProDescription,
             pName: names,
             pCode,
+            carProId,
             pState: 1,
             sTateLogistic: 1,
             ProStar: 0,
@@ -116,7 +117,11 @@ export const Food = () => {
           })
           setAlertBox({ message: `El producto ${names} subido con éxito`, color: 'success', duration: 7000 })
         }
-      }).catch(err => { return setAlertBox({ message: `${err}`, duration: 7000 }) })
+      })
+        .then(() => {
+          setValues({})
+        })
+        .catch(err => { return setAlertBox({ message: `${err}`, duration: 7000 }) })
       if (image !== null) {
         setImageProducts({
           variables: {

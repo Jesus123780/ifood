@@ -11,7 +11,6 @@ import { ButtonOption } from '../styled'
 import { useStore } from 'components/hooks/useStore'
 import { Context } from 'context/Context'
 import Link from 'next/link'
-import Options from 'components/Acordion/Options'
 import { Skeleton } from 'components/Skeleton'
 
 const Aside = () => {

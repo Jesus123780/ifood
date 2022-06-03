@@ -109,6 +109,7 @@ export const HeaderC = styled.header`
     padding: 0 1.2em;
     display: flex;
     height: 80px;
+    z-index: 990;
     justify-content: space-between;
     box-shadow: inset 0 -1px 0 #dcdcdc;
     @media (min-width: 992px) {

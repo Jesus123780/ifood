@@ -210,7 +210,6 @@ export const DisRestaurant = styled.div`
     }
 `
 export const Wrapper = styled.div`
-    padding: 30px;
     width: 100%;
     max-width: 1366px;
     /* animation: 2s linear 0s infinite normal none ${BG_ANIMATION_};

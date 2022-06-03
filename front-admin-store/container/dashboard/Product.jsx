@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { CLIENT_URL_BASE } from 'apollo/urls'
 import { ContainerFilter, ItemFilter } from 'components/Update/Products/styled'
 import { OptionalExtraProducts } from 'container/producto/extras'
@@ -8,9 +9,9 @@ import { APColor } from 'public/colors'
 import React from 'react'
 import { CardProductsModal, ContentImage, ContentInfo, DisRestaurant, Flex, HeadSticky, Text } from './styled'
 
-export const ModalProduct = ({ store,setModal, modal, ProDescription, ProImage, pName, ProPrice, dataExtra, storeName, ProDescuento, nameStore, dataOptional, pId }) => {
+export const Product = ({ store,setModal, modal, ProDescription, ProImage, pName, ProPrice, dataExtra, storeName, ProDescuento, nameStore, dataOptional, pId, ...props }) => {
   return (
-    <div>
+    <div {...props}>
       <ContainerFilter>
         <ItemFilter onClick={() => { return setModal(!modal) }}>Añadir Adicionales</ItemFilter>
       </ContainerFilter>
@@ -77,4 +78,38 @@ export const ModalProduct = ({ store,setModal, modal, ProDescription, ProImage, 
       />
     </div>
   )
+}
+
+Product.propTypes = {
+  ProDescription: PropTypes.string,
+  ProDescuento: PropTypes.any,
+  ProImage: PropTypes.string,
+  ProPrice: PropTypes.any,
+  dataExtra: PropTypes.shape({
+    ExtProductFoodsAll: PropTypes.array
+  }),
+  dataOptional: PropTypes.shape({
+    ExtProductFoodsOptionalAll: PropTypes.array
+  }),
+  modal: PropTypes.any,
+  nameStore: PropTypes.shape({
+    replace: PropTypes.func
+  }),
+  pId: PropTypes.any,
+  pName: PropTypes.any,
+  setModal: PropTypes.func,
+  store: PropTypes.shape({
+    city: PropTypes.shape({
+      cName: PropTypes.shape({
+        toLocaleLowerCase: PropTypes.func
+      })
+    }),
+    department: PropTypes.shape({
+      dName: PropTypes.shape({
+        toLocaleLowerCase: PropTypes.func
+      })
+    }),
+    idStore: PropTypes.any
+  }),
+  storeName: PropTypes.any
 }
