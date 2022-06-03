@@ -1,4 +1,4 @@
-import { BGColor, PColor, APColor } from 'public/colors'
+import { BGColor, PColor, APColor, SECBGColor } from 'public/colors'
 import styled, { css } from 'styled-components'
 
 export const Input = styled.input`
@@ -105,7 +105,7 @@ export const CateItem = styled.div`
     padding: 8px 12px;
     border-radius: 200px;
     transition: background-color .3s ease-in-out;
-    background-color: #f7f7f7;
+    background-color: ${SECBGColor};
     text-rendering: optimizeLegibility;
     cursor: pointer;
     color: #717171;

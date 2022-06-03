@@ -148,7 +148,7 @@ export const Box = styled.div`
     font-family: SulSans,Helvetica,sans-serif;
     font-size: 16px;
     background-color: ${BGColor};
-    border: 1px solid #f7f7f7;
+    border: 1px solid ${SECBGColor};
     box-shadow: 0 4px 8px rgba(0,0,0,.1);
     border-radius: 4px;
     padding: 20px;

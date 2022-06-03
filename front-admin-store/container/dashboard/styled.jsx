@@ -160,10 +160,11 @@ export const CardProductsModal = styled(CardProductsContent)`
 `
 export const ContentImage = styled.div`
     width: 100%;
-    justify-content: flex-start;
-    align-content: flex-start;
-    height: 500px;
-    width: 500px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    height: 100%;
+    width: 100%;
     img {
       object-fit:contain;
       width: 100%;
@@ -212,8 +213,8 @@ export const Wrapper = styled.div`
     padding: 30px;
     width: 100%;
     max-width: 1366px;
-    /* animation: 2s linear 0s infinite normal none ${BG_ANIMATION_}; */
-    /* background: linear-gradient(90deg, rgb(255, 254, 254) 0%, rgb(194, 190, 190) 20%, rgba(255, 255, 255, 0.904) 50%, rgba(255, 255, 255, 0.219) 80%, rgba(250, 250, 250, 0.911) 100%) 0% 0% / 200% 200%; */
+    /* animation: 2s linear 0s infinite normal none ${BG_ANIMATION_};
+    background: linear-gradient(90deg, rgb(255, 254, 254) 0%, rgb(194, 190, 190) 20%, rgba(255, 255, 255, 0.904) 50%, rgba(255, 255, 255, 0.219) 80%, rgba(250, 250, 250, 0.911) 100%) 0% 0% / 200% 200%; */
     margin: auto;
     position: relative;
     ${props => {
@@ -532,13 +533,6 @@ export const Clip = styled.div`
     height: 30px;
     align-items: center;
     border-radius: 16px;
-    /* ${props => {
-    return props.activebg ? css`
-      background-color: rgba(15, 183, 107,0.12) !important;
-      ` : css`
-      background-color: rgba(242, 17, 54,0.12) !important;
-    
-    `}} */
     vertical-align: middle;
     text-decoration: none;
     justify-content: center;

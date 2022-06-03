@@ -169,7 +169,7 @@ const Aside = () => {
                 <IconLogout color={PColor} size='20px' />
               </ButtonOption>
             </OptionButton>
-            {data?.map((m, i) => {
+            {/* {data?.map((m, i) => {
               return (
                 <Options
                   active={menu === i}
@@ -192,7 +192,7 @@ const Aside = () => {
                 </Options>
 
               )
-            })}
+            })} */}
           </Router>
         </Card>
       </ContainerAside>

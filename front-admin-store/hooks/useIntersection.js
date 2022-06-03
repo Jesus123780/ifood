@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-export const useOnScreen = (threshold = 0.6) => {
+export const useOnScreen = (threshold = 0.1) => {
   const [isVisible, setIsVisible] = useState(false)
   const [ref, setRef] = useState(null)
 
@@ -13,7 +13,7 @@ export const useOnScreen = (threshold = 0.6) => {
             setIsVisible(entry.isIntersecting)
           },
           {
-            // rootMargin,
+            rootMargin: '250px',
             threshold
           }
         )

@@ -1,57 +1,60 @@
-import PropTypes from 'prop-types'
 import React, { useContext, useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import Image from 'next/image'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { PColor, APColor } from '../../public/colors'
 import { Loading } from '../../components/Loading'
-import Link from 'next/link'
-import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { Container, Text, Wrapper, CardProductsContent, CardProductsModal, Flex, DisRestaurant, ContentInfo, HeadSticky, ContentImage, TooltipCardProduct, WrapperCard, CtnBox } from './styled'
+import { Container, Wrapper, CardProductsContent, TooltipCardProduct, WrapperCard, CtnBox } from './styled'
 import { useFormTools } from '../../components/BaseForm'
 import { Food } from '../update/Products/food'
 import { useSetState } from '../../components/hooks/useState'
 import { AwesomeModal } from '../../components/AwesomeModal'
 import { GET_ALL_CATEGORIES_WITH_PRODUCT, GET_ALL_EXTRA_PRODUCT } from './queries'
-import { ContainerFilter, ItemFilter } from '../../components/Update/Products/styled'
-import { ButtonAction, WrapperOptions, ContentSearch, Title, ContainerCarrusel } from './styledStore'
+import { WrapperOptions, ContentSearch, Title, ContainerCarrusel } from './styledStore'
 import InputHooks from '../../components/InputHooks/InputHooks'
 import { GET_ONE_PRODUCTS_FOOD } from '../producto/queries'
-import { ExtrasProductsItems } from '../producto/extras/ExtrasProductsItems'
-import { OptionalExtraProducts } from '../producto/extras'
-import { ExtraProducts } from '../Extraproducts'
 import { GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, UPDATE_PRODUCT_FOOD } from '../update/Products/queries'
 import { Context } from 'context/Context'
 import moment from 'moment'
 import { GET_ALL_PRODUCT_STORE } from './queriesStore'
 import { useStore } from 'components/hooks/useStore'
-import { CLIENT_URL_BASE } from 'apollo/urls'
 import { ManageCategories } from './ManageCategories'
 import { Managebanner } from './profile/Managebanner'
 import { Sticky, StickyBoundary, StickyViewport } from './stickyheader'
 import { IconDelete, IconEdit } from 'public/icons'
 import { numberFormat } from 'utils'
-import { useOnScreen } from 'components/hooks/useIntersection'
 import { Skeleton } from 'components/Skeleton'
+import { useOnScreen } from 'hooks/useIntersection'
+import { ModalProduct } from './ModalProduct'
+import { ItemFilter } from 'components/Update/Kit/styled'
 
 const DashboardStore = () => {
   // STATE
   const { openSchedule, setOpenSchedule, setAlertBox } = useContext(Context)
   // const StoreId = location.query?.name[1]
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line
   const [handleChange, _handleSubmit, _setDataValue, { dataForm, errorForm }] = useFormTools()
-  const SHOW_MODAL_UPDATE_PRODUCTS = useSetState(false)
-  const SHOW_MANAGE_CATEGORIES = useSetState(false)
+  const SHOW_MODAL = useSetState(false)
   // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line
   const [searchFilter, setSearchFilter] = useState({ gender: [], desc: [], speciality: [] })
   // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line
   const [search, setSearch] = useState('')
+  // eslint-disable-next-line
+  const [catProduct, setValueCatPorducts] = useState({})
+  const [OptionCatProduct, setOpenOptionCatProducts] = useState(false)
   const [table, openTable] = useState(false)
   const [dataProCat, setData] = useState([])
   // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line
   const [showMore, setShowMore] = useState(5)
   const [modal, setModal] = useState(false)
   // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line
   const [hour, setHour] = useState(null)
+  // eslint-disable-next-line
   const [day, setDay] = useState()
   const SET_OPEN_PRODUCT = useSetState(false)
 
@@ -77,15 +80,15 @@ const DashboardStore = () => {
   const [ExtProductFoodsOptionalAll, { data: dataOptional }] = useLazyQuery(GET_EXTRAS_PRODUCT_FOOD_OPTIONAL)
   const [ExtProductFoodsAll, { data: dataExtra }] = useLazyQuery(GET_ALL_EXTRA_PRODUCT)
   const router = useRouter()
-  const { name } = router.query
+  const { name, plato } = router.query
   // HANDLE
   const handleGetOneProduct = (food) => {
-    router.replace(`/dashboard/${name[0]}/${name[1]}/?modal=true`)
+    router.replace(`/dashboard/${name[0]}/${name[1]}/?plato=${food.pId}`)
     try {
       SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state)
-      productFoodsOne({ variables: { pId: food.pId } })
-      ExtProductFoodsOptionalAll({ variables: { pId: food.pId } })
-      ExtProductFoodsAll({ variables: { pId: food.pId } }).then(() => { return setAlertBox({ message: 'success' }) }).catch(() => { return setAlertBox({ message: 'Lo sentimo no pudimos traer Los sub platos' }) })
+      productFoodsOne({ variables: { pId: food.pId || plato } })
+      ExtProductFoodsOptionalAll({ variables: { pId: food.pId || plato } })
+      ExtProductFoodsAll({ variables: { pId: food.pId || plato } }).then(() => { return setAlertBox({ message: '' }) }).catch(() => { return setAlertBox({ message: 'Lo sentimo no pudimos traer Los sub platos' }) })
     } catch (error) {
       setAlertBox({ message: 'Lo sentimos, ocurrió un error' })
     }
@@ -102,18 +105,18 @@ const DashboardStore = () => {
     target.style.boxShadow = '0 6px 10px 0 rgba(0, 0, 0, 0.14)'
   }
 
-  const handleUnstuck = () => {
-    // target.style.backgroundColor = BGColor
-    // target?.style?.boxShadow = ''
+  const handleUnstuck = (target) => {
+    target.style.backgroundColor = ''
+    // target.style.boxShadow = 'blue'
   }
-  const handleChangeLol = ({ type }) => {
-    if (type === 'stuck') {
-
-      // target.style.backgroundColor = PColor;
-      // target.style.BorderBottom = '1px solid'
+  const handleChangeLol = (elem) => {
+    const { type, target } = elem
+    if (type === 'unstuck') {
+      // target.style.backgroundColor = 'red'
+      target.style.BorderBottom = '1px solid'
     } else {
-      // target?.style?.backgroundColor = BGColor
-      // target?.style?.BorderBottom = '1px solid'
+      target.style.backgroundColor = 'blue'
+
     }
   }
   // EFFECTS
@@ -130,9 +133,8 @@ const DashboardStore = () => {
     setDay(dateDay)
     setHour(moment(date).format('hh:mm'))
   }, [])
-  // COMPONENTS
-  // eslint-disable-next-line
-  const stickySectionElements = Array.from(dataProCat)?.map((x, key) => {
+
+  const stickySectionElements = dataProCat?.map((x, key) => {
     return (
       <div key={x.carProId}>
         <StickyBoundary
@@ -145,10 +147,22 @@ const DashboardStore = () => {
             as='h1'
             id={key}
             name={x.pName}
+            onClick={() => { return setOpenOptionCatProducts(x.carProId) }}
           >
+
             <ContentSearch>
-              <Title size='.9em'>{x.pName}</Title>
+              {OptionCatProduct === x.carProId ?
+                <input
+                  autoFocus={true}
+                  placeholder={x.pName}
+                  type='text'
+                // value={'' || x.pName}
+                /> :
+                <Title size='.9em'>{x.pName}</Title>
+              }
             </ContentSearch>
+
+
           </Sticky>
           <ContainerCarrusel>
             {x.productFoodsAll?.length > 0 ? x.productFoodsAll?.map(food => {
@@ -160,25 +174,75 @@ const DashboardStore = () => {
                   setAlertBox={setAlertBox}
                 />
               )
-            }) : <Skeleton height={200} numberObject={2} /> }
+            }) : <Skeleton height={200} numberObject={2} />}
           </ContainerCarrusel>
         </StickyBoundary>
       </div>)
   })
 
+  const handleHidden = () => {
+    router.replace(`/dashboard/${name[0]}/${name[1]}`)
+  }
+  const handleOpenModal = (option) => {
+    if (option) {
+      router.replace(`/dashboard/${name[0]}/${name[1]}/update/${option}`)
+
+    }
+  }
+  useEffect(() => {
+    if (plato) {
+      SET_OPEN_PRODUCT.setState(true)
+      productFoodsOne({ variables: { pId: plato } })
+      try {
+        productFoodsOne({ variables: { pId: plato } })
+        ExtProductFoodsOptionalAll({ variables: { pId: plato } })
+        ExtProductFoodsAll({ variables: { pId: plato } }).then(() => { return setAlertBox({ message: '' }) }).catch(() => { return setAlertBox({ message: 'Lo sentimo no pudimos traer Los sub platos' }) })
+      } catch (error) {
+        setAlertBox({ message: 'Lo sentimos, ocurrió un error' })
+      }
+    }
+    if (name[3]) {
+      SHOW_MODAL.setState(true)
+    }
+    // eslint-disable-next-line
+  }, [plato])
+  const component = {
+    food: name[3] === 'food' && <Food />,
+    categories: name[3] === 'categories' && <ManageCategories />,
+    plato: plato && <h1>Hola</h1>
+  }
+  const buttons = () => {
+    return (
+      <WrapperOptions>
+        <ItemFilter
+          onClick={() => { return handleOpenModal('food') }}
+          padding={'10px'}
+        > Subir productos</ItemFilter >
+        <ItemFilter
+          onClick={() => { return setOpenSchedule(!openSchedule) }}
+          padding={'10px'}
+          radius={'19px'}
+        > Editar agenda </ItemFilter>
+        <ItemFilter
+          onClick={() => { return handleOpenModal('categories') }}
+          padding={'10px'}
+          radius={'19px'}
+        > Administrar Categorías</ItemFilter>
+        <ItemFilter
+          onClick={() => { return openTable(!table) }}
+          padding={'10px'}
+          radius={'19px'}
+        > Ver sobre mesa</ItemFilter>
+      </WrapperOptions>
+    )
+  }
   return (<>
     <Wrapper>
       {(loadCatPro || loading) && <Loading />}
       <Container>
         <Managebanner />
-        <WrapperOptions>
-          <div>
-            <ButtonAction onClick={() => { return SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state) }}> Subir productos</ButtonAction >
-            <ButtonAction onClick={() => { return setOpenSchedule(!openSchedule) }}> Editar agenda </ButtonAction>
-            <ButtonAction onClick={() => { return SHOW_MANAGE_CATEGORIES.setState(!SHOW_MANAGE_CATEGORIES.state) }}> Administrar Categorías</ButtonAction>
-            <ButtonAction onClick={() => { return openTable(!table) }}> Ver sobre mesa</ButtonAction>
-          </div>
-        </WrapperOptions>
+        {buttons()}
+
         <InputHooks
           errors={errorForm?.search}
           name='search'
@@ -191,7 +255,6 @@ const DashboardStore = () => {
           {stickySectionElements}
         </StickyViewport>
       </Container>
-      {/* MODALS */}
       <AwesomeModal
         backdrop='static'
         btnCancel={true}
@@ -200,122 +263,27 @@ const DashboardStore = () => {
         header={true}
         height='100vh'
         onCancel={() => { return false }}
-        onHide={() => { SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state) }}
-        show={SET_OPEN_PRODUCT.state}
+        onHide={() => { handleHidden() }}
+        show={SHOW_MODAL.state}
         size='large'
         zIndex='999'
       >
-        <CardProductsModal>
-          <ContentImage>
-            <Image
-              alt={ProDescription || 'img'}
-              blurDataURL='data:...'
-              className='store_image'
-              height={450}
-              objectFit='contain'
-              placeholder='blur'
-              src={ProImage || '/images/b70f2f6c-8afc-4d75-bdeb-c515ab4b7bdd_BRITS_GER85.jpg'}
-              width={450} // Optional blur-up while loading
-            />
-          </ContentImage>
-          <ContentInfo>
-            <HeadSticky>
-              <Text size='1.1em'>{pName}</Text>
-            </HeadSticky>
-            <Text
-              color='#676464'
-              margin='20px 0'
-              size='14px'
-            >{ProDescription}</Text>
-            <Flex>
-              <Text
-                color={APColor}
-                margin='12px 0'
-                size='.875rem'
-              >$ {ProPrice}</Text>
-              <Text margin='12px 0 0 5px' size='14px'>$ {ProDescuento}</Text>
-            </Flex>
-            <DisRestaurant>
-              {store && !!nameStore && <Link
-                href={!!store && {
-                  pathname: `${CLIENT_URL_BASE}delivery/${store?.city?.cName?.toLocaleLowerCase()}-${store?.department?.dName?.toLocaleLowerCase()}/${nameStore?.replace(/\s/g, '-')?.toLocaleLowerCase()}/${store.idStore}`,
-                  query: { shared: '' }
-                }}
-                passHref
-                replace
-                shallow
-              >
-                <a target='_blank'>
-                  <Text margin='12px 0 0 5px' size='19px'>$ {storeName}</Text>
-                </a>
-              </Link>}
-              <div className='dish-restaurant__divisor'></div>
-              <label className='dish-observation-form__label' tabIndex='0' >¿Algún comentario?</label>
-            </DisRestaurant>
-            <ExtrasProductsItems
-              dataExtra={dataExtra?.ExtProductFoodsAll || []}
-              dataOptional={dataOptional?.ExtProductFoodsOptionalAll || []}
-              modal={modal}
-              pId={pId}
-              setModal={setModal}
-            />
-          </ContentInfo>
-        </CardProductsModal>
-        <ContainerFilter>
-          <ItemFilter onClick={() => { return setModal(!modal) }}>Añadir Adicionales</ItemFilter>
-        </ContainerFilter>
-        <OptionalExtraProducts
-          dataOptional={dataOptional?.ExtProductFoodsOptionalAll || []}
+        {plato ? <ModalProduct
+          ProDescription={ProDescription}
+          ProDescuento={ProDescuento}
+          ProImage={ProImage}
+          ProPrice={ProPrice}
+          dataExtra={dataExtra}
+          dataOptional={dataOptional}
+          modal={modal}
+          nameStore={nameStore}
           pId={pId}
-        />
-      </AwesomeModal>
-      <AwesomeModal
-        backdrop='static'
-        btnCancel={true}
-        btnConfirm={false}
-        footer={false}
-        header={true}
-        height='100vh'
-        onCancel={() => { return false }}
-        onHide={() => { SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state) }}
-        question
-        show={SHOW_MODAL_UPDATE_PRODUCTS.state}
-        size='large'
-        zIndex='99999999'
-      >
-        {SHOW_MODAL_UPDATE_PRODUCTS.state && <Food />}
-      </AwesomeModal>
-      <AwesomeModal
-        backdrop='static'
-        btnCancel={true}
-        btnConfirm={false}
-        footer={false}
-        header={true}
-        height='100vh'
-        onCancel={() => { return false }}
-        onHide={() => { return openTable(!table) }}
-        padding='20px'
-        show={table}
-        size='large'
-        zIndex='99390'
-      >
-        {table && <ExtraProducts />}
-      </AwesomeModal>
-      <AwesomeModal
-        backdrop='static'
-        btnCancel={true}
-        btnConfirm={false}
-        footer={false}
-        header={true}
-        height='100vh'
-        onCancel={() => { return false }}
-        onHide={() => { SHOW_MANAGE_CATEGORIES.setState(!SHOW_MANAGE_CATEGORIES.state) }}
-        padding='25px'
-        show={SHOW_MANAGE_CATEGORIES.state}
-        size='100%'
-        zIndex='9990'
-      >
-        {SHOW_MANAGE_CATEGORIES.state && <ManageCategories SHOW_MODAL_UPDATE_PRODUCTS={SHOW_MODAL_UPDATE_PRODUCTS} />}
+          pName={pName}
+          setModal={setModal}
+          store={store}
+          storeName={storeName}
+
+        /> : component[name[3]]}
       </AwesomeModal>
     </Wrapper>
   </>
@@ -353,13 +321,12 @@ export const CardProducts = ({ food, onClick, setAlertBox }) => {
       }
     }).catch(err => { return setAlertBox({ message: `${err}`, duration: 7000 }) })
   }
-  // const da = HookMouse()
   return (
     <div ref={setRef}>
       {<WrapperCard>
         {/* {da}     */}
         <TooltipCardProduct>
-          <button onClick={() => { return router.push(`/producto/editar/${food.pId}`) }}>
+          <button onClick={() => { return router.push(`/update/products/editar/${food.pId}`) }}>
             <IconEdit color={PColor} size={20} />
           </button>
         </TooltipCardProduct>

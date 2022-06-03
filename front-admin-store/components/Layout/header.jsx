@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { IconLogo, IconSales } from '../../public/icons'
-import { PColor } from '../../public/colors'
+import { PColor, SECBGColor } from '../../public/colors'
 import styled from 'styled-components'
 import useScrollHook, { useScrollColor } from '../hooks/useScroll'
 // import useWindowSize from '../hooks/useWindowSize'
@@ -80,10 +80,10 @@ export const HeaderWrapperButton = styled.div`
     transition: background-color .3s ease-in-out;
     border: 0;
     cursor: pointer;
-    background-color: #f7f7f7;
+    background-color: ${SECBGColor};
     margin-left: 30px;
     &:hover {
-      background-color: #f7f7f7;
+      background-color: ${SECBGColor};
     }
     .info-sales {
     margin: 0 0 0 6px;

@@ -31,8 +31,6 @@ export const RippleButton = props => {
 
   return (
     <Button
-      widthButton={widthButton}
-      {...props}
       active={active}
       bgColor={ props.bgColor}
       className='ripple-button'
@@ -46,6 +44,8 @@ export const RippleButton = props => {
       standard={standard}
       style={style}
       type={type}
+      widthButton={widthButton}
+      {...props}
     >
       <span id='ripple-button-label'>{label}</span>
       {props.children}

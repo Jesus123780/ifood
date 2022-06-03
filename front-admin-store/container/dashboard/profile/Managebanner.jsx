@@ -296,7 +296,7 @@ const Banner = () => {
           </ActionName>
         </ButtonCard>
         <MerchantInfo >
-          <ButtonOption>
+          {/* <button>
             {dataStore?.Image && <button
               onClick={() => {
                 return deleteALogoStore({
@@ -307,7 +307,7 @@ const Banner = () => {
               }}
             >Eliminar Logo <IconDelete color={PColor} size={20} /> </button>}
             <button onClick={(e) => { return onTargetClickLogo(e) }}>Subir Logo</button>
-          </ButtonOption>
+          </button> */}
           {dataStore?.Image ?
             <Image
               alt={altLogo || 'logo'}

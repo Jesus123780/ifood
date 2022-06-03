@@ -13,7 +13,7 @@ export const Anchor = styled.div`
         border-left: 2px solid ${PColor};
         color: ${PColor};
         padding-left: 10px;
-        background: #f7f7f7;
+        background: ${SECBGColor};
     }
     & > svg {
         padding-right: 10px;

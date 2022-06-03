@@ -17,6 +17,7 @@ export const PLAColor = '#edf2f9'
 /** Colores de fondo */
 export const BColor = '#000000'
 export const SECColor = '#393a3d'
+export const SECBGColor = '#f7f7f7'
 export const BGColor = '#FFFFFF'
 export const BGAColor = '#f6f6f9'
 export const BGVColor = '#000000'
