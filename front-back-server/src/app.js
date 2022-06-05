@@ -9,12 +9,14 @@ import { makeExecutableSchema } from '@graphql-tools/schema'
 import { graphqlUploadExpress } from 'graphql-upload'
 import jwt from 'jsonwebtoken'
 // @ts-ignore
+
 import typeDefs from './api/lib/typeDefs'
 import resolvers from './api/lib/resolvers'
 import express from 'express'
 import morgan from 'morgan'
 import indexRoutes from './api/lib/router'
 var cookieParser = require('cookie-parser')
+// const webpush = require('web-push')
 function parseCookies(request) {
     const list = {}
     const cookieHeader = request.headers?.cookie
@@ -42,19 +44,33 @@ function parseCookies(request) {
     const app = express()
     const cors = require('cors')
     app.use(cookieParser())
-    const whitelist = ['http://localhost:3001', 'http://localhost:4000']
+    // const whitelist = ['http://localhost:3001', 'http://localhost:4000']
+    const CORS_ORIGIN = 'http://localhost:3001'
+
     // eslint-disable-next-line
     const corsOptions = {
         credentials: true, // This is important.
         origin: (origin, callback) => {
+            const whitelist = CORS_ORIGIN ? CORS_ORIGIN.split(',') : []
             if (whitelist.includes(origin))
-                return callback(null, true)
+            // return callback(null, true)
+
+                callback(null, whitelist.includes(origin))
 
             callback(new Error('Not allowed by CORS'))
         },
         optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
     }
-    app.use(cors())
+    // app.use(cors())
+    app.use(
+        cors({
+            origin(origin, cb) {
+                const whitelist = CORS_ORIGIN ? CORS_ORIGIN.split(',') : []
+                cb(null, whitelist.includes(origin))
+            },
+            credentials: true
+        })
+    )
     app.set('port', process.env.GRAPHQL_PORT || 4000)
 
     app.post('/image', (req, res) => { res.json('/image api') })

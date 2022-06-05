@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-undef */
-const graphqlFields = require('graphql-fields')
 const { Base64 } = require('js-base64')
 
 // eslint-disable-next-line consistent-return
@@ -15,7 +14,7 @@ const codeRed = async model => {
   }
   /** busca si ya existe */
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const dataUP = await model.findOne({ attributes: ['up_id'], where: { up_code: result } }).catch(() => {})
+  const dataUP = await model.findOne({ attributes: ['up_id'], where: { up_code: result } }).catch(() => { })
   /** verifica si existe */
   if (dataUP) { await codeRed() }
   else { return result }
@@ -23,7 +22,7 @@ const codeRed = async model => {
 
 const enCode = value => {
   const v = ((((value * 998161) * 793927) * 562841) * 288413) / 472793
-  return Base64.encode(`${ v }`)
+  return Base64.encode(`${v}`)
 }
 
 const deCode = value => {
@@ -47,9 +46,9 @@ const linkHasMany = (modelOne, modelTwo, target, foreign) => {
 
 const consecutive = value => {
   let consecutive = parseInt(value) + 1
-  consecutive = `${ consecutive }`
-  if (consecutive.length === 4) { consecutive = `00${ consecutive }` }
-  else if (consecutive.length === 5) { consecutive = `0${ consecutive }` }
+  consecutive = `${consecutive}`
+  if (consecutive.length === 4) { consecutive = `00${consecutive}` }
+  else if (consecutive.length === 5) { consecutive = `0${consecutive}` }
   return consecutive
 }
 
@@ -58,8 +57,8 @@ const UpCrNotFind = async (model, newItem, where, condition, updateFind = false)
   if (condition) {
     const data = await model.update(newItem, { where: where ? where : { [condition.id]: deCode(condition.value) } })
     if (!!data[0] && !!updateFind) { return await model.findOne({ where: where ? where : { [condition.id]: deCode(condition.value) } }) }
-    return where ? where : { [condition.id]: condition.value } 
-  } return await model.create(newItem) 
+    return where ? where : { [condition.id]: condition.value }
+  } return await model.create(newItem)
 }
 
 const UpCrFind = async (model, newItem, where, condition) => {
@@ -68,7 +67,7 @@ const UpCrFind = async (model, newItem, where, condition) => {
   if (res) {
     await model.update(newItem, { where: where ? where : { [condition.id]: deCode(condition.value) } })
     return res
-  } return await model.create(newItem) 
+  } return await model.create(newItem)
 }
 
 const updateOrCreate = async (model, newItem, where) => {
@@ -78,15 +77,18 @@ const updateOrCreate = async (model, newItem, where) => {
   if (result) {
     const data = await model.update(newItem, { where })
     if (data[0] !== 0) { return await model.findOne({ where }) }
-    return result 
-  } return await model.create(newItem) 
+    return result
+  } return await model.create(newItem)
 }
 
 // Busca los campos que coinciden con la base de datos y la query de graphql
-const getAttributes = (model, attributes) => {
-  const rows = model.rawAttributes
-  const columns = graphqlFields(attributes)
-  return (Object.keys(columns?.data ? columns.data : columns)?.filter(x => {return rows[x]}) || [])
+const getAttributes = (model, { fieldNodes }) => {
+  // get the fields of the Model (columns of the table)
+  const columns = new Set(Object.keys(model.rawAttributes))
+  const requested_attributes = fieldNodes[0].selectionSet.selections
+    .map(({ name: { value } }) => {return value})
+  // filter the attributes against the columns
+  return requested_attributes.filter(attribute => {return columns.has(attribute)})
 }
 /**
  * Verifica que contenga un valor
@@ -183,7 +185,7 @@ const isEmail = value => {
  * @return {boolean} true o false
  */
 const rangeLength = (data, min, max) => {
-  const value = `${ data }`
+  const value = `${data}`
   if (((value.length >= min) && (value.length <= max)) || value.length === 0) return false
   return true
 }
@@ -204,7 +206,7 @@ const validations = (data, typeNull, typeRange, minRange, maxRange, typeLetters,
     if (isEmail(value)) throw new Error('No es un formato de email valido.')
   }
   if (typeRange) {
-    if (rangeLength(value, minRange, maxRange)) throw new Error(`El rango de caracteres es de ${ minRange } a ${ maxRange }.`)
+    if (rangeLength(value, minRange, maxRange)) throw new Error(`El rango de caracteres es de ${minRange} a ${maxRange}.`)
   }
   return false
 }
