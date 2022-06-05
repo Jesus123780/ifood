@@ -100,7 +100,7 @@ function createApolloClient() {
   
     if (networkError) console.log(`[Network error]: ${networkError}`)
   })
-  const ssrMode = true
+  const ssrMode = typeof window === 'undefined' // Disables forceFetch on the server (so queries are only run once)
   const getLink = async (operation) => {
     // await splitLink({ query: operation.query })
     const headers = await authLink()

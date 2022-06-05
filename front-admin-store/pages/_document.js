@@ -1,6 +1,7 @@
 import React from 'react'
 import { ServerStyleSheet } from 'styled-components'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
+import Noscript from 'components/Noscript'
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -32,6 +33,7 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <meta charSet='utf-8' />
+          {/* <title>Delivery</title> */}
           <link
             href='https://fonts.googleapis.com/css2?family=Inter&display=optional'
             rel='stylesheet'
@@ -49,6 +51,14 @@ class MyDocument extends Document {
           ></link>
         </Head>
         <body>
+        <Noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=GTM-59SFH7N`}
+              height="0"
+              width="0"
+              style={{ display: 'none', visibility: 'hidden' }}
+            />
+          </Noscript>
           <Main />
           <NextScript />
           <div id='portal'></div>

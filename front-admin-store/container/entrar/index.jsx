@@ -15,6 +15,7 @@ import { Facebook, IconGoogleFullColor } from '../../public/icons'
 import { useCountLetters } from 'components/hooks/useCountLetters'
 import { usePosition } from 'components/hooks/usePosition'
 import { Context } from 'context/Context'
+import Portal from 'components/portal'
 
 export const Login = () => {
   const router = useRouter()
@@ -84,14 +85,15 @@ export const Login = () => {
     })
   }
   return (
-    <Content>
-      <Card>
-      </Card>
-      <Form>
-        <Text size='30px'>¡Falta poco para saciar tu hambre!</Text>
-        <Text size='15px'>¿Cómo deseas continuar?</Text>
-        <button onClick={responseGoogle}>Login falso</button>
-        {/* <GoogleLogin
+    <Portal selector={'#portal'}>
+      <Content>
+        <Card>
+        </Card>
+        <Form>
+          <Text size='30px'>¡Falta poco para saciar tu hambre!</Text>
+          <Text size='15px'>¿Cómo deseas continuar?</Text>
+          <button onClick={responseGoogle}>Login falso</button>
+          {/* <GoogleLogin
           autoLoad={false}
           clientId='58758655786-u323tp1dpi6broro865rrm488gh4mnpu.apps.googleusercontent.com'
           cookiePolicy={'single_host_origin'}
@@ -113,7 +115,7 @@ export const Login = () => {
             )
           }}
         /> */}
-        {/* <FacebookLogin
+          {/* <FacebookLogin
           appId='467885964900974'
           autoLoad={false}
           callback={responseFacebook}
@@ -131,27 +133,29 @@ export const Login = () => {
             )
           }}
         /> */}
-        <ActiveLink activeClassName='active' href='/entrar/email'>
-          <a>
-            <RippleButton
-              bgColor={EColor}
-              margin='20px auto'
-              type='button'
-              widthButton='100%'
-            >Correo</RippleButton>
-          </a>
-        </ActiveLink>
-        <ActiveLink activeClassName='active' href='/register'>
-          <a>
-            <RippleButton
-              bgColor={EColor}
-              margin='20px auto'
-              type='button'
-              widthButton='100%'
-            >Register</RippleButton>
-          </a>
-        </ActiveLink>
-      </Form>
-    </Content>
+          <ActiveLink activeClassName='active' href='/entrar/email'>
+            <a>
+              <RippleButton
+                bgColor={EColor}
+                margin='20px auto'
+                type='button'
+                widthButton='100%'
+              >Correo</RippleButton>
+            </a>
+          </ActiveLink>
+          <ActiveLink activeClassName='active' href='/register'>
+            <a>
+              <RippleButton
+                bgColor={EColor}
+                margin='20px auto'
+                type='button'
+                widthButton='100%'
+              >Register</RippleButton>
+            </a>
+          </ActiveLink>
+        </Form>
+      </Content>
+
+    </Portal>
   )
 }
