@@ -29,13 +29,6 @@ export const Header = () => {
     // displayMessage = `Good Night`;
     customColor.color = '#090c10'
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [time, changeTime] = useState(new Date().toLocaleTimeString())
-  useEffect(function () {
-    setInterval(() => {
-      changeTime(new Date().toLocaleTimeString())
-    }, 1000)
-  }, [])
   // const size = useWindowSize();
   return (
     <HeaderC scrollNav={scrollNav} style={style} >

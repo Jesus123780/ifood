@@ -1,9 +1,8 @@
 const host = process.env.NODE_ENV === "production" ?  "http://localhost:4000" : "http://localhost:4000";
 
 function post(path, body) {
+  console.log(host + path)
   return fetch(`${host}${path}`, {
-    credentials: "omit",
-    headers: { "content-type": "application/json;charset=UTF-8", "sec-fetch-mode": "cors" },
     body: JSON.stringify(body),
     method: "POST",
     mode: "cors"
@@ -18,8 +17,6 @@ function post(path, body) {
 
 function get(path) {
   return fetch(`${host}${path}`, {
-    credentials: "omit",
-    headers: { "content-type": "application/json;charset=UTF-8", "sec-fetch-mode": "cors" },
     method: "GET",
     mode: "cors"
   })

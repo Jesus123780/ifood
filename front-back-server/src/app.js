@@ -7,7 +7,9 @@ import { PubSub } from 'graphql-subscriptions'
 import { SubscriptionServer } from 'subscriptions-transport-ws'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { graphqlUploadExpress } from 'graphql-upload'
+import subscriptionHandler from '../src/api/lib/router/subscriptionHandler'
 import jwt from 'jsonwebtoken'
+import cors from 'cors'
 // @ts-ignore
 
 import typeDefs from './api/lib/typeDefs'
@@ -42,7 +44,6 @@ function parseCookies(request) {
 
     // Initialization apps
     const app = express()
-    const cors = require('cors')
     app.use(cookieParser())
     // const whitelist = ['http://localhost:3001', 'http://localhost:4000']
     const CORS_ORIGIN = 'http://localhost:3001'
@@ -61,16 +62,16 @@ function parseCookies(request) {
         },
         optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
     }
-    // app.use(cors())
-    app.use(
-        cors({
-            origin(origin, cb) {
-                const whitelist = CORS_ORIGIN ? CORS_ORIGIN.split(',') : []
-                cb(null, whitelist.includes(origin))
-            },
-            credentials: true
-        })
-    )
+    app.use(cors())
+    // app.use(
+    //     cors({
+    //         origin(origin, cb) {
+    //             const whitelist = CORS_ORIGIN ? CORS_ORIGIN.split(',') : []
+    //             cb(null, whitelist.includes(origin))
+    //         },
+    //         credentials: true
+    //     })
+    // )
     app.set('port', process.env.GRAPHQL_PORT || 4000)
 
     app.post('/image', (req, res) => { res.json('/image api') })
@@ -88,6 +89,9 @@ function parseCookies(request) {
     app.use('/uploads', express.static('uploads'))
 
     app.use('/api', indexRoutes)
+
+    app.post('/subscription2', subscriptionHandler.handlePushNotificationSubscription)
+    app.get('/subscription2/:id', subscriptionHandler.sendPushNotification)
     // Middleware
     app.use(morgan('dev'))
     app.use(express.json({ limit: '50mb' }))

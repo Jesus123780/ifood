@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import http from "../utils/http";
 //the function to call the push server: https://github.com/Spyna/push-notification-demo/blob/master/front-end-react/src/utils/http.js
-
 import {
   isPushNotificationSupported,
   askUserPermission,
@@ -70,8 +69,8 @@ export default function usePushNotifications() {
       setSuserConsent(consent);
       if (consent !== "granted") {
         setError({
-          name: "Consent denied",
-          message: "You denied the consent to receive notifications",
+          name: "consentimiento denegado",
+          message: "Negaste el consentimiento para recibir notificaciones",
           code: 0
         });
       }
@@ -106,8 +105,7 @@ export default function usePushNotifications() {
   const onClickSendSubscriptionToPushServer = () => {
     setLoading(true);
     setError(false);
-    http
-      .post("/subscription", userSubscription)
+    http.post("/subscription2", userSubscription)
       .then(function(response) {
         setPushServerSubscriptionId(response.id);
         setLoading(false);
@@ -124,7 +122,8 @@ export default function usePushNotifications() {
   const onClickSendNotification = async () => {
     setLoading(true);
     setError(false);
-    await http.get(`/subscription/${pushServerSubscriptionId}`).catch(err => {
+    console.log(pushServerSubscriptionId)
+    await http.get(`/subscription2/${pushServerSubscriptionId}`).catch(err => {
       setLoading(false);
       setError(err);
     });

@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 
-const Portal = ({ children, selector }) => {
+const Portal = ({ children, selector= 'portal' }) => {
     const [dom, setDom] = useState(undefined)
     useEffect(() => {
-        setDom(window.document.querySelector(selector))
-        console.log(document)
-    }, [])
+        setDom(window.document.getElementById(selector))
+    }, [dom])
     if (dom) {
         if (selector === undefined) {
             return null
         }
-        return ReactDOM.createPortal(children, dom)
-    } else if (!selector) {
-        return children
-    }
+        return ReactDOM.createPortal(children, dom || 'portal')
+    } 
 }
 
 Portal.propTypes = {}
 
-export default React.memo(Portal)
+export default Portal

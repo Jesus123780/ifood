@@ -1,4 +1,4 @@
-import { TextH2Main } from 'components/common/h2'
+import Text from 'components/common/Text'
 import InputHooks from 'components/InputHooks/InputHooks'
 import { FlipCard } from 'components/PaymentCard/cards'
 import { CreditCard, Line, Number } from 'container/PaymentCard/styled'
@@ -8,7 +8,7 @@ import { Card, ContentCard } from './styled'
 export const Bancolombia = ({ NAME_CARD, handleFocus, flipped, cardNum, numOnCard, setFlipped, handleOnblur, errors, handleChange, handleNumChange, values }) => {
   return (
     <React.Fragment>
-      <TextH2Main
+      <Text
         align={'center'}
         text={NAME_CARD}
       />
