@@ -14,7 +14,7 @@ export const AwesomeModal = ({
   cancel,
   confirm,
   padding,
-  backdrop = true,
+  backdrop = '',
   useScroll = false,
   keyboard = true,
   footer = true,
@@ -165,7 +165,7 @@ export const AwesomeModal = ({
 }
 
 AwesomeModal.propTypes = {
-  backdrop: PropTypes.bool,
+  backdrop: PropTypes.string,
   bgColor: PropTypes.any,
   borderRadius: PropTypes.string,
   btnCancel: PropTypes.bool,

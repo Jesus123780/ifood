@@ -161,20 +161,10 @@ export const BoxProductSales = ({ totalProductPrice, data, dispatch, dataMinPedi
 }
 
 BoxProductSales.propTypes = {
-  data: PropTypes.shape({
-    PRODUCT: PropTypes.shape({
-      length: PropTypes.number
-    }),
-    priceRange: PropTypes.any,
-    sortBy: PropTypes.string
-  }),
   dataMinPedido: PropTypes.shape({
     getMinPrice: PropTypes.number
   }),
   dispatch: PropTypes.func,
-  finalFilter: PropTypes.shape({
-    map: PropTypes.func
-  }),
   handleChangeFilterProduct: PropTypes.func,
   inputValue: PropTypes.any,
   max: PropTypes.number,
