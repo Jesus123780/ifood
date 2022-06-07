@@ -5,7 +5,7 @@ import { concatPagination, getMainDefinition } from '@apollo/client/utilities'
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
 import { URL_ADMIN, URL_ADMIN_SERVER, URL_BASE } from './urls'
-import FingerprintJS from "@fingerprintjs/fingerprintjs"
+// import FingerprintJS from "@fingerprintjs/fingerprintjs"
 import { onError } from '@apollo/client/link/error'
 import { WebSocketLink } from '@apollo/client/link/ws'
 import { createUploadLink } from 'apollo-upload-client'
@@ -16,10 +16,10 @@ export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
 let apolloClient
 let userAgent
 export const getDeviceId = async () => {
-    const fp = await FingerprintJS.load()
-    const result = await fp.get()
-    userAgent = window.navigator.userAgent
-    return result.visitorId
+    // const fp = await FingerprintJS.load()
+    // const result = await fp.get()
+    // userAgent = window.navigator.userAgent
+    return 10
 }
 const authLink = async (_) => {
     if (typeof window !== "undefined") {

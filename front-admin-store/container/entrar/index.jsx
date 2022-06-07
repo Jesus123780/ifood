@@ -85,7 +85,7 @@ export const Login = () => {
     })
   }
   return (
-    <Portal selector={'#portal'}>
+    <Portal selector={'portal'}>
       <Content>
         <Card>
         </Card>

@@ -7,7 +7,7 @@ import { PubSub } from 'graphql-subscriptions'
 import { SubscriptionServer } from 'subscriptions-transport-ws'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { graphqlUploadExpress } from 'graphql-upload'
-import subscriptionHandler from '../src/api/lib/router/subscriptionHandler'
+// import subscriptionHandler from '../src/api/lib/router/subscriptionHandler'
 import jwt from 'jsonwebtoken'
 import cors from 'cors'
 // @ts-ignore
@@ -90,8 +90,8 @@ function parseCookies(request) {
 
     app.use('/api', indexRoutes)
 
-    app.post('/subscription2', subscriptionHandler.handlePushNotificationSubscription)
-    app.get('/subscription2/:id', subscriptionHandler.sendPushNotification)
+    // app.post('/subscription2', subscriptionHandler.handlePushNotificationSubscription)
+    // app.get('/subscription2/:id', subscriptionHandler.sendPushNotification)
     // Middleware
     app.use(morgan('dev'))
     app.use(express.json({ limit: '50mb' }))
