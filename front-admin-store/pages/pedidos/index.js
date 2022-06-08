@@ -23,7 +23,7 @@ export const getServerSideProps = withIronSessionSsr(
       return {
         props: {
           user: user,
-          idStore
+          idStore: null
         }
       }
     } catch (error) {
