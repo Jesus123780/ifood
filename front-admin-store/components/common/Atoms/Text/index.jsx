@@ -66,6 +66,7 @@ const TextView = styled.span`
     ${({ gridTemplateColumns }) => {return gridTemplateColumns && css`grid-template-columns: ${gridTemplateColumns};`}}
     ${({ gridGap }) => {return gridGap && css`gap: ${gridGap};`}}
     ${({ Border }) => {return Border && css`border: ${Border};`}}
+    ${({ textOverflow }) => {return textOverflow && css`text-overflow: ${textOverflow};`}}
     ${({ BorderRadius }) => {return BorderRadius && css`border-radius: ${Border};`}}
     ${({ background }) => {return background && css`background: ${background};`}}
     ${({ backgroundColor }) => {return backgroundColor && css`background-color: ${backgroundColor};`}}

@@ -10,8 +10,10 @@ import { useRouter } from 'next/router'
 import { ButtonOption } from '../styled'
 import { useStore } from 'components/hooks/useStore'
 import { Context } from 'context/Context'
+import { gql } from '@apollo/client'
 import Link from 'next/link'
 import { Skeleton } from 'components/Skeleton'
+import { useQuery, useSubscription } from '@apollo/client';
 
 const Aside = () => {
   const { client } = useApolloClient()
@@ -56,7 +58,18 @@ const Aside = () => {
     }
   ]
   const [menu, setMenu] = useState(false)
+  const GET_STATE_ORDER = gql`
+subscription {
+  numberIncremented
+}
+`
   const handleClick = index => { return setMenu(index === menu ? false : index) }
+  const { data: dataWS } = useSubscription(GET_STATE_ORDER, {
+    // context: { clientName: "admin-server" },
+    onSubscriptionData: ({ subscriptionData }) => {
+      // console.log(subscriptionData.data.numberIncremented)
+    }
+  })
   return (
     <>
       <ContainerAside>
@@ -109,10 +122,11 @@ const Aside = () => {
                 </ActiveLink>
               </Info>
             </LeftNav>
-
-            {loading ? <Skeleton height={50} margin={'10px 0'} /> : <Link href={`/dashboard/${storeName?.replace(/\s/g, '-').toLowerCase()}/${idStore}`}>
+            {loading ?   <Skeleton height={50} margin={'10px 0'} /> : <Link href={`/dashboard/${storeName?.replace(/\s/g, '-').toLowerCase()}/${idStore}`}>
               <a>
                 <h1 className='title_store'>{storeName}</h1>
+                {dataWS?.numberIncremented}
+
               </a>
             </Link>}
             {uState == 1 && <div className='program_state'>
@@ -156,7 +170,7 @@ const Aside = () => {
             <ActiveLink activeClassName='active' href='/'>
               <AnchorRouter><IconShopping size='15px' />Recomendaciones</AnchorRouter>
             </ActiveLink>
-           
+
             <ActiveLink activeClassName='active' href='/clientes'>
               <AnchorRouter>  <IconUser size='20px' />Clientes</AnchorRouter>
             </ActiveLink>

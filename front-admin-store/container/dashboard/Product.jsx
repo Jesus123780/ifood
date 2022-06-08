@@ -8,12 +8,17 @@ import Link from 'next/link'
 import { APColor } from 'public/colors'
 import React from 'react'
 import { CardProductsModal, ContentImage, ContentInfo, DisRestaurant, Flex, HeadSticky, Text } from './styled'
+import { useRouter } from 'next/router'
 
-export const Product = ({ store,setModal, modal, ProDescription, ProImage, pName, ProPrice, dataExtra, storeName, ProDescuento, nameStore, dataOptional, pId, ...props }) => {
+export const Product = ({ store,setModal, modal, ProDescription, ProImage, pName, ProPrice, dataExtra, storeName, ProDescuento, nameStore, dataOptional, handleDelete, pId, ...props }) => {
+console.log("🚀 ~ file: Product.jsx ~ line 13 ~ Product ~ pId", pId)
+const router = useRouter()
   return (
     <div {...props}>
       <ContainerFilter>
         <ItemFilter onClick={() => { return setModal(!modal) }}>Añadir Adicionales</ItemFilter>
+        <ItemFilter onClick={() => { return router.push(`/update/products/editar/${pId}`) }} >Editar</ItemFilter>
+        <ItemFilter onClick={() => { return handleDelete() }} >Eliminar</ItemFilter>
       </ContainerFilter>
       <CardProductsModal>
         <ContentImage>

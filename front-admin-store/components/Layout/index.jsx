@@ -67,7 +67,7 @@ export const Layout = ({ children, watch, settings }) => {
             onHide={() => { return setSalesOpen(!salesOpen) }}
             padding={0}
             question={true}
-            // show={salesOpen}
+            show={true}
             show={salesOpen}
             size='large'
             title='Crea una venta'

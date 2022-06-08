@@ -38,7 +38,7 @@ export const FoodComponent = ({ search, handleChangeFilter, data, setShowMore, v
         />
       </Card>
     </Container>
-    <Dessert />
+    {/* <Dessert /> */}
     <ListProducts {...propsListProducts} />
     {false && <AwesomeModal
       backdrop='static'

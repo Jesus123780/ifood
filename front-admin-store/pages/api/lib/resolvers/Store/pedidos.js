@@ -9,7 +9,8 @@ import { deleteOneItem, getOneStore } from './store'
 import { Op } from 'sequelize'
 
 export const createOnePedidoStore = async (_, { input }) => {
-  const { id, idStore, ShoppingCard, pCodeRef, payMethodPState, pPRecoger } = input || {}
+  const { id, idStore, ShoppingCard, pCodeRef, payMethodPState, pPRecoger } =
+    input || {}
   try {
     await pedidosModel.create({
       ...input,
@@ -31,16 +32,24 @@ export const createOnePedidoStore = async (_, { input }) => {
 }
 // eslint-disable-next-line
 const changePPStatePPedido = async (_, { pPStateP, pCodeRef }, ctx) => {
+  console.log(pPStateP, pCodeRef)
   try {
-    await StatusPedidosModel.update({ pSState: pPStateP }, { where: { pCodeRef: pCodeRef } })
+    await StatusPedidosModel.update(
+      { pSState: pPStateP },
+      { where: { pCodeRef: pCodeRef } }
+    )
     return {
       success: true,
-      message: pPStateP === 1
-        ? 'El pedido fue marcado como aprobado'
-        : pPStateP === 2 ? 'El pedido fue marcado como en proceso'
-          : pPStateP === 3 ? 'El pedido Esta listo para salir'
-            : pPStateP === 4 ? 'Pedido fue pagado con éxito por el cliente (Concluido)'
-              : 'Pedido rechazado'
+      message:
+        pPStateP === 1
+          ? 'El pedido fue marcado como aprobado'
+          : pPStateP === 2
+          ? 'El pedido fue marcado como en proceso'
+          : pPStateP === 3
+          ? 'El pedido Esta listo para salir'
+          : pPStateP === 4
+          ? 'Pedido fue pagado con éxito por el cliente (Concluido)'
+          : 'Pedido rechazado'
     }
   } catch (error) {
     return {
@@ -50,13 +59,43 @@ const changePPStatePPedido = async (_, { pPStateP, pCodeRef }, ctx) => {
   }
 }
 const createMultipleOrderStore = async (_, { input }, ctx) => {
-  const { setInput, change, pickUp, pCodeRef, payMethodPState, pPRecoger, totalProductsPrice, locationUser } = input || {}
+  const {
+    setInput,
+    change,
+    pickUp,
+    pCodeRef,
+    payMethodPState,
+    pPRecoger,
+    totalProductsPrice,
+    locationUser
+  } = input || {}
   try {
-    await StatusPedidosModel.create({ id: deCode(ctx.User.id), locationUser, idStore: deCode(setInput[0].idStore), pSState: 0, pCodeRef: pCodeRef, change: change, payMethodPState: payMethodPState, pickUp, totalProductsPrice })
+    await StatusPedidosModel.create({
+      id: deCode(ctx.User.id),
+      locationUser,
+      idStore: deCode(setInput[0].idStore),
+      pSState: 0,
+      pCodeRef: pCodeRef,
+      change: change,
+      payMethodPState: payMethodPState,
+      pickUp,
+      totalProductsPrice
+    })
     for (let i = 0; i < setInput.length; i++) {
       const { ShoppingCard, idStore } = setInput[i]
       await deleteOneItem(null, { ShoppingCard, cState: 1 })
-      await createOnePedidoStore(null, { input: { id: ctx.User.id, idStore, ShoppingCard, change, pickUp, pCodeRef, payMethodPState, pPRecoger } })
+      await createOnePedidoStore(null, {
+        input: {
+          id: ctx.User.id,
+          idStore,
+          ShoppingCard,
+          change,
+          pickUp,
+          pCodeRef,
+          payMethodPState,
+          pPRecoger
+        }
+      })
       // console.log(ShoppingCard, idStore)
     }
     return { success: true, message: 'Update' }
@@ -89,7 +128,8 @@ export const getAllPedidoStore = async (_, args, ctx, info) => {
 }
 // store
 export const getAllPedidoStoreFinal = async (_, args, ctx, info) => {
-  const { idStore } = args || {}
+  const { idStore, statusOrder } = args || {}
+  console.log(statusOrder)
   try {
     const attributes = getAttributes(StatusPedidosModel, info)
     const data = await StatusPedidosModel.findAll({
@@ -98,6 +138,7 @@ export const getAllPedidoStoreFinal = async (_, args, ctx, info) => {
         [Op.or]: [
           {
             // ID STORE
+            pSState: statusOrder && statusOrder,
             idStore: idStore ? deCode(idStore) : deCode(ctx.restaurant)
           }
         ]
@@ -121,7 +162,8 @@ export const getAllPedidoUserFinal = async (_, args, ctx, info) => {
             id: id ? deCode(id) : deCode(ctx.User.id)
           }
         ]
-      }, order: [['pDatCre', 'DESC']]
+      },
+      order: [['pDatCre', 'DESC']]
     })
     return data
   } catch (error) {

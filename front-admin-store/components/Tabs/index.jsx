@@ -58,8 +58,7 @@ class Tabs extends Component {
         </TabList>
 
         <Content>
-          {React.Children.map(children, (comp, index) => {return selectedTab === index ? comp : undefined}
-          )}
+          {React.Children.map(children, (comp, index) => {return selectedTab === index ? comp : undefined} )}
         </Content>
       </TabsWrapper>
     )
@@ -78,7 +77,7 @@ const TabButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 12px;
   cursor: default;
   background: transparent;
 

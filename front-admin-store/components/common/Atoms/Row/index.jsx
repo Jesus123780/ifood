@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 
-const Row = ({ children, ...props }) => {
+const Row = ({ children, as='div', ...props }) => {
     return (
-        <View {...props}>
+        <View as={as} {...props}>
             {children}
         </View>
     )
@@ -33,8 +33,8 @@ export const View = styled.div`
     ${({ textDecoration }) => { return textDecoration && css`text-decoration: ${textDecoration};` }}
     ${({ textTransform }) => { return textTransform && css`text-transform: ${textTransform};` }}
     ${({ justifyContent }) => { return justifyContent && css`justify-content: ${justifyContent};` }}
-    ${({ display }) => { return display && css`display: ${display};` }}
     display: flex;
+    ${({ display }) => { return display && css`display: ${display};` }}
     ${({ flexDirection }) => { return flexDirection && css`flex-direction: ${flexDirection};` }}
     ${({ flexWrap }) => { return flexWrap && css`flex-wrap: ${flexWrap};` }}
     ${({ flexBasis }) => { return flexBasis && css`flex-basis: ${flexBasis};` }}

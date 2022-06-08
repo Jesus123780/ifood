@@ -14,24 +14,22 @@ import NewSelect from 'components/NewSelectHooks/NewSelect'
 import InputHooks from 'components/InputHooks/InputHooks'
 import { Flex } from 'container/dashboard/styled'
 
-export const BoxProductSales = ({ totalProductPrice, data, dispatch, dataMinPedido, max, setPrint, finalFilter, print, handleChange, values }) => {
-  const { data: clients } = useQuery(GET_ALL_CLIENTS)
+export const BoxProductSales = ({ totalProductPrice, data, dispatch, dataMinPedido, max, setPrint, finalFilter, print, handleChange, values, dataClientes }) => {
   return (
     <Box width='40%'>
       <ScrollbarProduct margin={'0'}>
-        {/* <h2>Productos a vender</h2> */}
         {data.PRODUCT.length > 0 &&
           <Warper>
-            {clients?.getAllClients?.length > 0 ? <NewSelect
+            {dataClientes?.length > 0 ? <NewSelect
               id='cliId'
               name='cliId'
               onChange={handleChange}
               optionName='clientName'
-              options={clients?.getAllClients}
+              options={dataClientes}
               search={true}
               title='Mis clientes'
               value={values?.cliId}
-            /> : <span>Aun no tienes clientes</span>}
+            /> : <span>{loadingClients ? 'Cargando...' : 'Aun no tienes clientes'}</span>}
             <InputHooks
               name='change'
               numeric={true}
@@ -150,6 +148,7 @@ export const BoxProductSales = ({ totalProductPrice, data, dispatch, dataMinPedi
         counter={Math.abs(data.counter)}
         dispatch={dispatch}
         print={print}
+        disabled={!values?.cliId}
         setPrint={setPrint}
         totalProductPrice={totalProductPrice}
       />

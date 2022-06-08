@@ -13,9 +13,9 @@
     "url": ""
   },
   "scripts": {
-    "run-client": "cd ./front-client && npm run dev",
-    "run-admin-store": "cd ./front-admin-store && npm run dev",
-    "back-server": "cd ./front-back-server && npm run dev",
+    "client": "cd ./front-client && npm run dev",
+    "store": "cd ./front-admin-store && npm run dev",
+    "server": "cd ./front-back-server && npm run dev",
     "build": "next build front-client && next build front-admin",
     "start": "next start front-client & next start front-admin -p 3001",
     "test": "echo \"Error: no test specified\" && exit 1"

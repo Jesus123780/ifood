@@ -60,7 +60,7 @@ const authLink = async () => {
     return {
       authorization: `Bearer ${token}` && `Bearer ${token}`,
       restaurant: restaurant ?? restaurant,
-      deviceid: '' || ''
+      deviceid: ''
     }
   }
 }
@@ -71,7 +71,7 @@ const httpLink = createUploadLink({
 })
 // Create Second Link
 const wsLink = typeof window !== 'undefined' ? new WebSocketLink({
-  uri: process.env.NODE_ENV === 'development' ? 'ws://server-image-food.herokuapp.com/graphql' : 'ws://server-image-food.herokuapp.com/graphql',
+  uri: process.env.NODE_ENV === 'development' ? 'ws://localhost:4000/graphql' : 'ws://server-image-food.herokuapp.com/graphql',
   options: {
     reconnect: true,
     lazy: true,
@@ -129,7 +129,7 @@ function createApolloClient() {
     }
     const link = createUploadLink({
       uri,
-      credentials: 'same-origin',
+      credentials: 'include',
       authorization: service === 'admin-server' || service === 'subscriptions' ? `Bearer ${token}` : `${restaurant}`,
 
       headers: {

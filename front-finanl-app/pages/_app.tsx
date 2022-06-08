@@ -16,7 +16,7 @@ const MyApp = ({ Component, pageProps }: AppProps): React.ReactElement => {
         `,
       }}
       strategy="afterInteractive"
-    /> */}
+    /> */} 
       <Component {...pageProps} />
     </>
   );

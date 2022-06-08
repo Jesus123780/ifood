@@ -22,7 +22,8 @@ export const useCheckboxState = (elem, selectedIds = [], disabledIds = []) => {
 
   const handleChangeCheck = useCallback((event, id) => {
     const target = event.target
-    setCheckedItems(prevState => {
+    setCheckedItems(prevState => { 
+
       const newState = new Set(prevState)
       if (target.checked) {
         newState.add(id)

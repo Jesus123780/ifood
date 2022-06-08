@@ -42,11 +42,24 @@ export const View = styled.div`
     ${({ gridTemplateRows }) => {return gridTemplateRows && css`grid-template-rows: ${gridTemplateRows};`}}
     ${({ gridTemplateAreas }) => {return gridTemplateAreas && css`grid-template-areas: ${gridTemplateAreas};`}}
     ${({ gridTemplateColumns }) => {return gridTemplateColumns && css`grid-template-columns: ${gridTemplateColumns};`}}
+    ${({ gridTemplate }) => {return gridTemplate && css`grid-template: ${gridTemplate};`}}
     ${({ gridGap }) => {return gridGap && css`gap: ${gridGap};`}}
-    ${({ Border }) => {return Border && css`border: ${Border};`}}
-    ${({ BorderRadius }) => {return BorderRadius && css`border-radius: ${Border};`}}
+    ${({ border }) => {return border && css`border: ${border};`}}
+    ${({ textOverflow }) => {return textOverflow && css`text-overflow: ${textOverflow};`}}
+    ${({ borderRadius }) => {return borderRadius && css`border-radius: ${borderRadius};`}}
     ${({ background }) => {return background && css`background: ${background};`}}
     ${({ backgroundColor }) => {return backgroundColor && css`background-color: ${backgroundColor};`}}
     ${({ backgroundImage }) => {return backgroundImage && css`background-image: ${backgroundImage};`}}
     ${({ position }) => {return position && css`position: ${position};`}}
+    ${({ left }) => {return left && css`left: ${left};`}}
+    ${({ top }) => {return top && css`top: ${top};`}}
+    ${({ right }) => {return right && css`right: ${right};`}}
+    ${({ bottom }) => {return bottom && css`bottom: ${bottom};`}}
+    ${({ placeContent }) => {return placeContent && css`place-content: ${placeContent};`}}
+    ${({ transition }) => {return transition && css`transition: ${transition};`}}
+    ${({ gridArea }) => {return gridArea && css`grid-area: ${gridArea};`}}
+    ${({ overflow }) => {return overflow && css`overflow: ${overflow};`}}
+    ${({ maxHeight }) => {return maxHeight && css`max-height: ${maxHeight};`}}
+    ${({ userSelect }) => {return userSelect && css`user-select: ${userSelect};`}}
+    
 `

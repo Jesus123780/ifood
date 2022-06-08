@@ -13,6 +13,7 @@ export const getAllPedidoStoreFinal = async (_, args, ctx, info) => {
         [Op.or]: [
           {
             // ID STORE
+            pSState: { [Op.between]: [0, `${4}`] },
             idStore: idStore ? deCode(idStore) : deCode(ctx.restaurant)
           }
         ]

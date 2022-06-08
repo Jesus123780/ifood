@@ -111,12 +111,12 @@ export const Options = () => {
               {(pushNotificationSupported && !isConsentGranted) && <Text color={SECColor} textAlign='start' fontSize='.775rem' margin='0 0 6px 0'>Habilita las notificaciones</Text>}
               {(isConsentGranted) && <Text textAlign='start'>Las notificaciones están activas</Text>}
               {!pushNotificationSupported && <Text>Las notificaciones {!pushNotificationSupported && "No"} son compatibles con este dispositivo.</Text>}
-              <Text textAlign='start' color={SECColor} fontSize='.60rem' margin={'0 0 9px 0'}> Consentimiento del usuario para recibir notificaciones <strong>{userConsent}</strong>.</Text>
+              <Text textAlign='start' color={SECColor} fontSize='.60rem' margin={'0 0 9px 0'}> Consentimiento del usuario para recibir notificaciones {userConsent}.</Text>
               <Error error={errorPush} />
               <Button padding='0' fontSize='.875rem' width='fit-content' color={PColor} background='transparent' disabled={!pushNotificationSupported || isConsentGranted} onClick={() => onClickAskUserPermission()}>
                 {!isConsentGranted && "Activar"}
               </Button>
-              <button disabled={!pushNotificationSupported || !isConsentGranted || userSubscription} onClick={onClickSusbribeToPushNotification}>
+              {/* <button disabled={!pushNotificationSupported || !isConsentGranted || userSubscription} onClick={onClickSusbribeToPushNotification}>
               {userSubscription ? "Push subscription created" : "Create Notification subscription"}
             </button>
               <button disabled={!userSubscription || pushServerSubscriptionId} onClick={onClickSendSubscriptionToPushServer}>
@@ -127,13 +127,13 @@ export const Options = () => {
                 <p>The server accepted the push subscrption!</p>
                 <button onClick={onClickSendNotification}>Send a notification</button>
               </div>
-            )}
-              <section>
+            )} */}
+              {/* <section>
               <h4>Your notification subscription details</h4>
               <pre>
                 <code>{JSON.stringify(userSubscription, null, " ")}</code>
               </pre>
-            </section>
+            </section> */}
             </Column>
 
           </Row>

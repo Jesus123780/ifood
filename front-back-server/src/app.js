@@ -40,56 +40,39 @@ function parseCookies(request) {
     // config ports
     const GRAPHQL_PORT = 4000
     const API_REST_PORT = 5000
+    // config PubSub
     const pubsub = new PubSub()
-
     // Initialization apps
     const app = express()
     app.use(cookieParser())
-    // const whitelist = ['http://localhost:3001', 'http://localhost:4000']
-    const CORS_ORIGIN = 'http://localhost:3001'
-
-    // eslint-disable-next-line
-    const corsOptions = {
-        credentials: true, // This is important.
-        origin: (origin, callback) => {
-            const whitelist = CORS_ORIGIN ? CORS_ORIGIN.split(',') : []
-            if (whitelist.includes(origin))
-            // return callback(null, true)
-
-                callback(null, whitelist.includes(origin))
-
-            callback(new Error('Not allowed by CORS'))
-        },
-        optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-    }
-    app.use(cors())
-    // app.use(
-    //     cors({
-    //         origin(origin, cb) {
-    //             const whitelist = CORS_ORIGIN ? CORS_ORIGIN.split(',') : []
-    //             cb(null, whitelist.includes(origin))
-    //         },
-    //         credentials: true
-    //     })
-    // )
+    const CORS_ORIGIN =  ['http://localhost:3001', 'http://localhost:4000', 'http://localhost:3000']
+    // cors config
+    app.use(
+        cors({
+            origin(origin, cb) {
+                const whitelist = CORS_ORIGIN ? CORS_ORIGIN : []
+                cb(null, whitelist.includes(origin))
+            },
+            credentials: true
+        })
+    )
+    // Routes
     app.set('port', process.env.GRAPHQL_PORT || 4000)
-
-    app.post('/image', (req, res) => { res.json('/image api') })
-
     app.use('/image', (req, res) => {
         res.send('ONLINE PORT IMAGES!')
     })
+    app.post('/image', (req, res) => { res.json('/image api') })
     // Listen App
     app.listen(API_REST_PORT, () => {
         console.log('API SERVER LISTENING ON PORT', API_REST_PORT)
     })
-    // Routes
-    app.use('/static', express.static('public'))
     // this folder for this application will be used to store public files
+    app.use('/static', express.static('public'))
     app.use('/uploads', express.static('uploads'))
 
     app.use('/api', indexRoutes)
 
+    // web-push-notifications
     app.post('/subscription2', subscriptionHandler.handlePushNotificationSubscription)
     app.get('/subscription2/:id', subscriptionHandler.sendPushNotification)
     // Middleware
@@ -97,7 +80,6 @@ function parseCookies(request) {
     app.use(express.json({ limit: '50mb' }))
     app.use(graphqlUploadExpress({ maxFileSize: 1000000000, maxFiles: 10 }))
     const httpServer = createServer(app)
-
     const schema = makeExecutableSchema({ typeDefs, resolvers })
     const server = new ApolloServer({
         // schema,
@@ -111,7 +93,7 @@ function parseCookies(request) {
                 // const cookies = req
                 // res.setCookie('my-new-cookie', 'Hi There')
                 const cookies = parseCookies(req)
-                console.log(cookies, 0)
+                console.log(req)
 
                 const restaurant = req.headers.restaurant || {}
                 if (token !== 'null') {

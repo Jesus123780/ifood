@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 /* eslint-disable no-undef */
 import { ApolloServer } from 'apollo-server-micro'
-import httpHeadersPlugin from 'apollo-server-plugin-http-headers'
+import httpHeadersPlugin from './lib/hooks/apollo-plugin-http-header'
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import Cors from 'micro-cors'
 import typeDefs from '../api/lib/typeDefs'
@@ -10,6 +10,7 @@ import jwt from 'jsonwebtoken'
 import resolvers from '../api/lib/resolvers/index'
 import { getUserFromToken } from './auth'
 import { getIronSession } from 'iron-session'
+// import Cors from './lib/hooks/micro-cors'
 
 const corsMultipleAllowOrigin = (options = {}) => {
   const { origin: optionsOrigin } = options || {}
@@ -33,7 +34,6 @@ const corsMultipleAllowOrigin = (options = {}) => {
   }
 }
 const cors = corsMultipleAllowOrigin({ origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:4000'] })
-
 
 const apolloServer = new ApolloServer({
   resolvers,

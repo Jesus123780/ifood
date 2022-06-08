@@ -20,6 +20,8 @@ import { FormFilterSales } from './formFilterSales'
 import { BoxProductSales } from './BoxProductSales'
 import { CREATE_SHOPPING_CARD_TO_USER_STORE } from 'container/clients/queries'
 import { GET_ALL_SALES, GET_ALL_SALES_STATISTICS } from 'container/ventas/queries'
+import { useGetClients } from 'hooks/useClients'
+import { useGetProductsFood } from 'hooks/useProductsFood'
 
 const GenerateSales = () => {
   // STATES
@@ -47,24 +49,20 @@ const GenerateSales = () => {
       fromDate: moment(createdAt).format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD')
     }
   })
-  const { data: dataProduct, loading, fetchMore } = useQuery(GET_ALL_PRODUCT_STORE, {
-    fetchPolicy: 'network-only',
-    variables:
-    {
-      search: search,
-      toDate: valuesDates?.toDate,
-      fromDate: valuesDates?.fromDate,
-      min: 0,
-      max: showMore,
-      gender: [],
-      desc: [],
-      categories: arr || []
-    }
+  const [productsFood, { loading, fetchMore }] = useGetProductsFood({
+    search: search,
+    gender: [],
+    desc: [],
+    categories: arr || [],
+    toDate: valuesDates?.toDate,
+    fromDate: valuesDates?.fromDate,
+    max: showMore,
+    min: 0
   })
   const { data: datCat } = useQuery(GET_ULTIMATE_CATEGORY_PRODUCTS)
   const { checkedItems, disabledItems, handleChangeCheck } = useCheckboxState(datCat?.catProductsAll)
   const { data: dataMinPedido } = useQuery(GET_MIN_PEDIDO)
-  const max = dataProduct?.productFoodsAll?.reduce(function (a, b) {
+  const max = productsFood?.reduce(function (a, b) {
     return Math.max(a, b?.ProPrice || 0)
   }, 0)
   const initialStateInvoice = {
@@ -111,7 +109,7 @@ const GenerateSales = () => {
     const productExist = state.PRODUCT.find(
       (items) => { return items.pId === action.payload.pId }
     )
-    const OurProduct = dataProduct?.productFoodsAll.find(
+    const OurProduct = productsFood.find(
       (items) => { return items.pId === action.payload.pId }
     )
     return {
@@ -175,7 +173,7 @@ const GenerateSales = () => {
   }
   // TOGGLE_FREE_PRODUCT
   const toggleFreeProducts = (state, action) => {
-    const productExist = dataProduct?.productFoodsAll.find(
+    const productExist = productsFood.find(
       (items) => { return items.pId === action.payload.pId }
     )
     return {
@@ -193,7 +191,7 @@ const GenerateSales = () => {
   const handleChangeNumber = useCallback((state, action) => {
     const event = action.payload
     const { value, index } = event || {}
-    // const productExist = dataProduct?.productFoodsAll?.find(
+    // const productExist = productsFood?.find(
     //   (items) => { return items.pId === id }
     // )
     // console.log(productExist, 'HOLAAAAAAAAAAAA')
@@ -202,7 +200,7 @@ const GenerateSales = () => {
       PRODUCT: state?.PRODUCT?.map((items, i) => {
         return i === index ? {
           ...items,
-          ProQuantity:  state.PRODUCT['ProQuantity'] = value || 0
+          ProQuantity: state.PRODUCT['ProQuantity'] = value || 0
           // ProPrice:  value * productExist?.ProPrice
         } : items
       })
@@ -241,6 +239,9 @@ const GenerateSales = () => {
       case 'TOGGLE_FREE_PRODUCT':
         return toggleFreeProducts(state, action)
       case 'INCREMENT':
+        const product = productsFood?.find(
+          (items) => { return items.pId === action.id }
+        )
         return {
           ...state,
           counter: state.counter + 1,
@@ -249,13 +250,8 @@ const GenerateSales = () => {
               return {
                 ...item,
                 ProQuantity: item.ProQuantity + 1,
-                ProPrice: item.ProQuantity * item.ProPrice
-                // counter: state.counter + 1,
-
+                ProPrice: (item.ProQuantity == 1) ? 2 * product.ProPrice : item.ProQuantity * product.ProPrice
               }
-            }
-            return {
-              ...item
             }
 
           })
@@ -354,9 +350,8 @@ const GenerateSales = () => {
   const restPropsFormFilter = {
     onChangeInput, valuesDates, handleChangeFilter, search
   }
-  const restPropsProductSales = {
-    totalProductPrice, data, dispatch, dataMinPedido, max, inputValue, handleChangeFilterProduct, setPrint, finalFilter, print, handleChange, values
-  }
+  const [dataClientes, { loading: loadingClients }] = useGetClients()
+  const restPropsProductSales = { totalProductPrice, data, dispatch, dataMinPedido, max, inputValue, handleChangeFilterProduct, setPrint, finalFilter, print, handleChange, values, dataClientes, loadingClients }
 
   const newArrayProducts = data?.PRODUCT?.map(x => { return { pId: x.pId, id: values?.cliId, cantProducts: x.ProQuantity, comments: 'Comentarios' } })
   // eslint-disable-next-line
@@ -382,13 +377,13 @@ const GenerateSales = () => {
           dataNew: getAllSalesStoreStatistic,
           type: 2
         },
-        cache.modify({
-          fields: {
-            getAllSalesStore(dataOld = []) {
-              return cache.writeQuery({ query: GET_ALL_SALES, data: dataOld })
+          cache.modify({
+            fields: {
+              getAllSalesStore(dataOld = []) {
+                return cache.writeQuery({ query: GET_ALL_SALES, data: dataOld })
+              }
             }
-          }
-        })
+          })
         )
       }
     }
@@ -429,7 +424,7 @@ const GenerateSales = () => {
         <FormFilterSales {...restPropsFormFilter} />
         <ScrollbarProduct>
           <ContainerGrid>
-            {(loading || dataProduct?.productFoodsAll?.length <= 0) ? <Skeleton height={400} numberObject={50} /> : dataProduct?.productFoodsAll?.map((producto) => {
+            {(loading || productsFood?.length <= 0) ? <Skeleton height={400} numberObject={50} /> : productsFood?.map((producto) => {
               return (
                 <CardProducts
                   ProDescription={producto.ProDescription}

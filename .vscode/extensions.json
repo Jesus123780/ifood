@@ -2,6 +2,7 @@
     "recommendations": [
         "tabnine.tabnine-vscode",
         "github.copilot",
-        "blanu.vscode-styled-jsx"
+        "blanu.vscode-styled-jsx",
+        "evolution-gaming.evolution-gaming--vscode-eslint"
     ]
 }

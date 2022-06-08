@@ -61,7 +61,6 @@ export default function App({ Component, pageProps }) {
           );
       });
     }
-    // HIDRATACIÓN ERROR FIX
     setShowChild(true);
   }, []);
   if (!showChild) {
@@ -91,7 +90,6 @@ export default function App({ Component, pageProps }) {
             <Noscript>
             </Noscript>
             <Layout>
-
               <Component {...pageProps} />
             </Layout>
           </Auth>

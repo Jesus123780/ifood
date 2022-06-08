@@ -14,6 +14,7 @@ import { GetOneSales } from './getOneSales'
 import { BarChat, Circle, DoughnutChar, HorizontalBarChart } from 'components/Chart'
 import { Skeleton } from 'components/Skeleton'
 import { MainCard } from 'components/common/Reusable/ShadowCard'
+import Column from 'components/common/Atoms/Column'
 moment.locale('es')
 export const ListVentas = () => {
   let total = 0
@@ -269,8 +270,10 @@ export const ChatStatistic = () => {
     <div>
       {loading ? <Skeleton height={300} margin={'20px 0'} /> : <MainCard title={`Ventas por meses del año`} weight={'200'}>
         <ContainChart>
+          <Column width='50%'>
           <BarChat data={dataChat || []} />
-          <DoughnutChar data={dataChat || []} />
+          </Column>
+          {/* <DoughnutChar data={dataChat || []} /> */}
           {/* <Circle data={dataChat || []} /> */}
           {/* <HorizontalBarChart data={dataChat || []} /> */}
         </ContainChart>

@@ -14,7 +14,7 @@ import { CREATE_SHOPPING, GET_ALL_SHOPPING } from './queries'
 import { Button, Item, Container } from './styled'
 import { numberFormat, updateCache } from 'utils'
 
-export const ShoppingC = () => {
+export const ShoppingC = () => { 
   const HandleGetOne = () => {}
   const OPEN_MODAL = useSetState()
   const [newShopping] = useMutation(CREATE_SHOPPING)

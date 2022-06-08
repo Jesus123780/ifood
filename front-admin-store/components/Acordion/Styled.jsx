@@ -3,7 +3,7 @@ import { PColor, SEGColor } from 'public/colors'
 import Link from 'next/link'
 
 export const Span = styled.span`
-    color: ${ props => {return props.active ? '#a6b0cf' : '#a6b0cf'} };
+    color: ${ props => {return props.active ? '#a6b0cf' : 'red'} };
     font-weight: 500;
     display: block;
     margin-left: 1em;
@@ -74,7 +74,7 @@ export const MenuLeft = styled.button`
     top: 0;
     z-index: auto;
     & a {
-        color: ${ props => {return props.active ? '#a6b0cf' : '#a6b0cf'} };
+        color: ${ props => {return props.active ? '#a6b0cf' : 'red'} };
     }
 `
 export const Row = styled.div`

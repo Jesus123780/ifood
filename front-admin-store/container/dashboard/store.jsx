@@ -63,6 +63,9 @@ const DashboardStore = () => {
     height: '100vh'
     // overflowY: 'auto',
   }
+  const router = useRouter()
+  const { name, plato } = router.query
+  const formatRouter = `/dashboard/${name[0]}/${name[1]}`
   // QUERY
   const [getCatProductsWithProduct, { data: dataProductAndCategory, loading: loadCatPro }] = useLazyQuery(GET_ALL_CATEGORIES_WITH_PRODUCT, {
     fetchPolicy: 'network-only',
@@ -80,8 +83,10 @@ const DashboardStore = () => {
   const [productFoodsOne, { data: dataProduct, loading }] = useLazyQuery(GET_ONE_PRODUCTS_FOOD)
   const [ExtProductFoodsOptionalAll, { data: dataOptional }] = useLazyQuery(GET_EXTRAS_PRODUCT_FOOD_OPTIONAL)
   const [ExtProductFoodsAll, { data: dataExtra }] = useLazyQuery(GET_ALL_EXTRA_PRODUCT)
-  const router = useRouter()
-  const { name, plato } = router.query
+  const [updateProductFoods] = useMutation(UPDATE_PRODUCT_FOOD)
+
+
+
   // HANDLE
   const handleGetOneProduct = (food) => {
     try {
@@ -183,12 +188,12 @@ const DashboardStore = () => {
   })
 
   const handleHidden = () => {
-    router.replace(`/dashboard/${name[0]}/${name[1]}`)
+    router.replace(formatRouter)
     setModalStore(!modalStore)
   }
   const handleOpenModal = (option) => {
     if (option) {
-      router.replace(`/dashboard/${name[0]}/${name[1]}/update/${option}`)
+      router.replace(`${formatRouter}/update/${option}`)
       setModalStore(!modalStore)
     }
   }
@@ -214,6 +219,33 @@ const DashboardStore = () => {
     categories: name[3] === 'categories' && <ManageCategories />,
     plato: plato && <h1>Hola</h1>
   }
+  const handleDelete = product => {
+    const { pId, pState, pName } = product || dataProduct?.productFoodsOne
+    updateProductFoods({
+      variables: {
+        input: {
+          pId,
+          pState
+        }
+      }, update(cache) {
+        cache.modify({
+          fields: {
+            productFoodsAll(dataOld = []) {
+              return cache.writeQuery({ query: GET_ALL_PRODUCT_STORE, data: dataOld })
+            }
+          }
+        })
+        cache.modify({
+          fields: {
+            getCatProductsWithProduct(dataOld = []) {
+              return cache.writeQuery({ query: GET_ALL_CATEGORIES_WITH_PRODUCT, data: dataOld })
+            }
+          }
+        })
+        setAlertBox({ message: `El producto ${pName} ha sido eliminado`, color: 'error', duration: 7000 })
+      }
+    }).catch(err => { return setAlertBox({ message: `${err}`, duration: 7000 }) })
+  }
   const buttons = () => {
     return (
       <WrapperOptions>
@@ -231,11 +263,11 @@ const DashboardStore = () => {
           padding={'10px'}
           radius={'19px'}
         > Administrar Categorías</ItemFilter>
-        <ItemFilter
+        {/* <ItemFilter
           onClick={() => { return openTable(!table) }}
           padding={'10px'}
           radius={'19px'}
-        > Ver sobre mesa</ItemFilter>
+        > Ver sobre mesa</ItemFilter> */}
       </WrapperOptions>
     )
   }
@@ -267,7 +299,7 @@ const DashboardStore = () => {
         height='100vh'
         onCancel={() => { return handleHidden() }}
         onHide={() => { handleHidden() }}
-        show={(name[3] || modalStore) ? true : false}
+        show={modalStore}
         size='large'
         zIndex='999'
       >
@@ -276,6 +308,7 @@ const DashboardStore = () => {
           ProDescuento={ProDescuento}
           ProImage={ProImage}
           ProPrice={ProPrice}
+          handleDelete={handleDelete}
           dataExtra={dataExtra}
           dataOptional={dataOptional}
           modal={modal}

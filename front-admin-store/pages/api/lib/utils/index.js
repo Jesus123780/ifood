@@ -9,6 +9,7 @@ import jwt from 'jsonwebtoken'
 import { google } from 'googleapis'
 import { Base64 } from 'js-base64'
 
+
 export const enCode = value => {
   const v = ((((value * 998161) * 793927) * 562841) * 288413) / 472793
   return Base64.encode(`${ v }`)

@@ -19,100 +19,18 @@ import { Context } from 'context/Context'
 import { IconLocationMap } from 'public/icons'
 import { useStore } from '../../components/hooks/useStore'
 import { CLIENT_URL_BASE } from 'apollo/urls'
-moment.locale('SG')
 
-export const ListPedidos = ({ data, fetchMore, setMore, more }) => {
-  const moment = require('moment')
-  const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
+export const ListPedidos = ({ data, fetchMore, setMore, more, errorForm, handleChange, dataForm }) => {
   const [modal, setModal] = useState(false)
   const [dataModal, setDataModal] = useState(null)
-
-  const m1 = moment(new Date('2019/06/01 3:04:03'))
   const handleOpenModal = elem => {
     setModal(!modal)
     setDataModal(elem)
+    console.log(elem)
   }
-  // console.log(data)
   return (
     <div>
-      <Card>
-        <form>
-          <InputHooks
-            error={errorForm?.Desde}
-            name='Desde'
-            onChange={handleChange}
-            required
-            title='Desde'
-            type='date'
-            value={dataForm?.Desde}
-            width={'20%'}
-          />
-          <InputHooks
-            error={errorForm?.ProDescuento}
-            name='ProDescuento'
-            onChange={handleChange}
-            required
-            title='Hasta'
-            type='date'
-            value={dataForm?.ProDescuento}
-            width='20%'
-          />
-          <InputHooks
-            error={errorForm?.ProPrice}
-            name='ProPrice'
-            onChange={handleChange}
-            required
-            title='Numero'
-            value={dataForm?.ProPrice}
-            width='30%'
-          />
-          <InputHooks
-            error={errorForm?.ProPrice}
-            name='ProPrice'
-            numeric
-            onChange={handleChange}
-            required
-            title='Nombre'
-            value={dataForm?.ProPrice}
-            width='30%'
-          />
-          <NewSelect
-            id='colorId'
-            name='colorId'
-            onChange={handleChange}
-            optionName='colorName'
-            options={[1, 2]}
-            title='Restaurante'
-            value={dataForm?.Color}
-            width='33.33%'
-          />
-          <NewSelect
-            id='colorId'
-            name='colorId'
-            onChange={handleChange}
-            optionName='colorName'
-            options={[1, 2]}
-            title='Método de pago'
-            value={dataForm?.Color}
-            width='33.33%'
-          />
-          <NewSelect
-            id='colorId'
-            name='colorId'
-            onChange={handleChange}
-            optionName='colorName'
-            options={[1, 2]}
-            title='STATUS'
-            value={dataForm?.Color}
-            width='33.33%'
-          />
-          <Button type='submit'>
-                        Mas opciones
-          </Button>
-          <RippleButton margin='30px' padding='10px'>Consultar</RippleButton>
-          <RippleButton margin='30px' padding='10px'>Consultar y exportar</RippleButton>
-        </form>
-      </Card>
+
       <Table
         data={data}
         labelBtn='Product'
@@ -144,9 +62,6 @@ export const ListPedidos = ({ data, fetchMore, setMore, more }) => {
             {x.pSState === 1 ? 'Aceptado' : x.pSState === 2 ? 'Pedido en proceso' : x.pSState === 3 ? 'listo para entrega' : x.pSState === 4 ? 'Pedido pagado (Concluido)' : 'Rechazado'}
           </Item>
           <Item>
-            <span> {i + 1}</span>
-          </Item>
-          <Item>
             <Button onClick={() => {return handleOpenModal(x)}}>
                             Ver detalles
             </Button>
@@ -160,7 +75,6 @@ export const ListPedidos = ({ data, fetchMore, setMore, more }) => {
           { name: 'Método de pago', justify: 'flex-center', width: '1fr' },
           { name: 'Costo total', justify: 'flex-center', width: '1fr' },
           { name: 'Numero de Entrega', justify: 'flex-center', width: '1fr' },
-          { name: 'Numero', justify: 'flex-center', width: '1fr' },
           { name: '', justify: 'flex-center', width: '1fr' }
         ]}
       />

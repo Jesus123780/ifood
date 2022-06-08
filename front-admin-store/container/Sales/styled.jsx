@@ -214,6 +214,9 @@ img{
 export const Button = styled.button`
     background-color: transparent;
     outline: none;
+    &:disabled{
+        background-color: blue;
+    }
     cursor: pointer;
     color: ${({ color }) => {return color ? color : BGColor}};
     border: 1px solid transparent;
