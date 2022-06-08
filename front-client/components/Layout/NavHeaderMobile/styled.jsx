@@ -1,4 +1,4 @@
-import { BGColor, PColor } from 'public/colors'
+import { BGColor, PColor, SECBGColor } from 'public/colors'
 import styled, { css } from 'styled-components'
 
 export const flexCenter = css`

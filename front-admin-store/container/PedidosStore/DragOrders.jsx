@@ -5,7 +5,7 @@ import { Context } from 'context/Context'
 import { EmptyLayout } from 'pages/_app'
 import { BGColor, PVColor, SEGColor } from 'public/colors'
 import { IconDost } from 'public/icons'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { RandomCode, updateCache } from 'utils'
 import { useQuery, useMutation } from '@apollo/client'
 import { CHANGE_STATE_STORE_PEDIDO, GET_ALL_PEDIDOS } from './queries'
@@ -78,38 +78,38 @@ const DragOrders = ({ dataReadyOrder, dataRechazados, dataConcludes, dataProgres
         dragNode.current = undefined
         pushPosition()
     }
-    // handleDragEnter =  useCallback(
-    //   (e, groupIndex, itemIndex, item) => {
-    //     first
-    //   },
-    //   [],
-    // )
-    
-    const handleDragEnter = (e, groupIndex, itemIndex, item) => {
-        try {
-            const { pSState } = item || {}
-            const params = {
-                groupIndex: groupIndex,
-                itemIndex: itemIndex
-            }
-            const currentItem = dragItem.current
-            if (e.target !== dragNode.current) {
-                setPosition(groupIndex + 1)
-                setList((oldList) => {
-                    let newList = JSON.parse(JSON.stringify(oldList))
-                    newList[params.groupIndex].items.splice(params.itemIndex, 0, newList[currentItem.groupIndex].items.splice(currentItem.itemIndex, 1)[0])
-                    dragItem.current = params
-                    return newList
-                })
-                if ((pSState !== currentItem.groupIndex + 1) && (position && elem)) {
-
+    const handleDragEnter = useCallback(
+        (e, groupIndex, itemIndex, item) => {
+            try {
+                const { pSState } = item || {}
+                const params = {
+                    groupIndex: groupIndex,
+                    itemIndex: itemIndex
                 }
+                const currentItem = dragItem.current
+                if (e.target !== dragNode.current) {
+                    setPosition(groupIndex + 1)
+                    setList((oldList) => {
+                        let newList = JSON.parse(JSON.stringify(oldList))
+                        newList[params.groupIndex].items.splice(params.itemIndex, 0, newList[currentItem.groupIndex].items.splice(currentItem.itemIndex, 1)[0])
+                        dragItem.current = params
+                        return newList
+                    })
+                    if ((pSState !== currentItem.groupIndex + 1) && (position && elem)) {
+    
+                    }
+                }
+    
+            } catch (error) {
+                console.log(error)
             }
+        },
+        [position, data, dragItem.current],
+    )
 
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    // const handleDragEnter = (e, groupIndex, itemIndex, item) => {
+  
+    // }
     const getStyles = (groupIndex, itemIndex) => {
         const currentItem = dragItem.current
         if (currentItem.groupIndex === groupIndex &&
@@ -120,16 +120,23 @@ const DragOrders = ({ dataReadyOrder, dataRechazados, dataConcludes, dataProgres
     }
     console.log(elem)
     useEffect(() => {
+        setPosition(position)
+        setElem(elem)
+    }, [position, elem])
 
-    }, [position])
-    
-    function pushPosition()  {
-            changePPStatePPedido({
-                variables: {
-                    pPStateP: position,
-                    pCodeRef: elem
-                }
-            });
+    function pushPosition() {
+        changePPStatePPedido({
+            variables: {
+                pPStateP: position,
+                pCodeRef: elem
+            }, update: (cache, { data: { getAllPedidoStoreFinal } }) => {return updateCache({
+              cache,
+              query: GET_ALL_PEDIDOS,
+              nameFun: 'getAllPedidoStoreFinal',
+              dataNew: getAllPedidoStoreFinal
+            })}
+      
+          })
     }
     return (
         <Column height='100%' with='fit-content' padding='0 0 40px 34px' alignItems='stretch' justifyContent='flex-start' backgroundColor={BGColor} userSelect='none'>
@@ -137,14 +144,14 @@ const DragOrders = ({ dataReadyOrder, dataRechazados, dataConcludes, dataProgres
                 {list?.length > 0 && list.map((grp, grpIdx) => {
                     return (
                         <Column margin={'0 15px 0 0 '} transition='1s ease' borderRadius='10px' maxWidth='260px' width='260px' background='#f4f5f7' key={grp.title}
-                        onDragEnter={
-                            dragging && !grp.items.length
-                                ? (e) => {
-                                    handleDragEnter(e, grpIdx, 0)
-                                }
-                                : undefined
-                        }
-                            
+                            onDragEnter={
+                                dragging && !grp.items.length
+                                    ? (e) => {
+                                        handleDragEnter(e, grpIdx, 0)
+                                    }
+                                    : undefined
+                            }
+
                         >
                             <Column height={'45px'} overflow={'hidden'} textOverflow='ellipsis' maxHeight='calc(100%  - 45px)'>
                                 <Text as='h2' fontSize='10px' margin='15px 0 0 10px' textAlign={'start'} color='#5e6c84' textTransform='uppercase' textOverflow='ellipsis' className='group-title'>{grp.title}</Text>

@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { FadeDown } from "../../components/animations";
-import { BColor, BGColor, EColor, PColor } from "../../public/colors";
+import { BColor, BGColor, EColor, PColor, SECBGColor } from "../../public/colors";
 import Link from 'next/link'
 
 export const Body = styled.div`
