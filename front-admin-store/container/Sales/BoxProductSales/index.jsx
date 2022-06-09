@@ -122,6 +122,7 @@ export const BoxProductSales = ({ totalProductPrice, data, dispatch, dataMinPedi
                 ProQuantity={producto.ProQuantity}
                 ValueDelivery={producto.ValueDelivery}
                 del={true}
+                edit={true}
                 dispatch={dispatch}
                 free={producto.free}
                 handleDecrement={() => { return dispatch({ type: 'REMOVE_PRODUCT', payload: producto }) }}

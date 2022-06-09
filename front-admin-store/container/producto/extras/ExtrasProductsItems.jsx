@@ -14,6 +14,9 @@ import { numberFormat, updateCache } from 'utils'
 import { InputHookProducts } from '.'
 import { Action, CardsComponent, Container, ContentCheckbox, ContentLinesItems, ContentModal, GarnishChoicesHeader, Input } from './styled'
 import { useFormTools } from 'components/BaseForm'
+import Column from 'components/common/Atoms/Column'
+import { Checkbox } from 'components/Checkbox'
+import Row from 'components/common/Atoms/Row'
 
 export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, modal }) => {
   // eslint-disable-next-line
@@ -169,7 +172,7 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
     handleForcedData({ ...elem })
   }
   return (
-    <Container>
+    <Column>
       {dataExtra?.length > 0 && <form onSubmit={(e) => { return onSubmitUpdate(e) }} >
         <GarnishChoicesHeader onClick={() => { return setModal(!modal) }}>
           <div>
@@ -256,31 +259,33 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
           {LineItems && LineItems?.Lines?.map((salesLine, i) => {
             return (
               <ContentLinesItems key={salesLine._id}>
-                <div style={{ width: '100%', height: 'auto', display: 'block' }}>
-                  <ContentLinesItems noBorder >
+                  <Row noBorder >
                     <InputHookProducts
-                      margin='10px 0'
+                      margin='0'
+                      padding='10px'
+                      height={'100px'}
+                      outline='none'
                       onChange={value => { return handleLineChange(i, 'extraName', value) }}
                       placeholder='Nombre'
                       value={salesLine.extraName}
+                      name={salesLine.extraName}
                     />
                     <InputHookProducts
-                      color={EColor}
-                      margin='10px 0'
+                      margin='0'
+                      height={'100px'}
                       onChange={value => { return handleLineChange(i, 'extraPrice', value) }}
                       placeholder='Precio'
+                      name={salesLine.extraPrice}
                       value={numberFormat(salesLine.extraPrice)}
                     />
-                  </ContentLinesItems>
-                </div>
-                <ContentCheckbox>
-                  <Input
-                    checkbox
+                  </Row>
+                  <Checkbox
+                    checked={salesLine.exState}
                     margin='10px 0'
                     onChange={value => { return handleLineChange(i, 'exState', value) }}
-                    type='checkbox'
+                    name={salesLine.exState}
+                    id={i}
                   />
-                </ContentCheckbox>
                 <RippleButton
                   bgColor={'transparent'}
                   margin='0px'
@@ -363,5 +368,5 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
 
         </ContentModal>
       </AwesomeModal>
-    </Container >)
+    </Column >)
 }

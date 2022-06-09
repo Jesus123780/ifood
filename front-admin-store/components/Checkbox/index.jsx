@@ -6,6 +6,7 @@ import styled, { css, keyframes } from 'styled-components'
 export const Checkbox = ({
   id,
   label,
+  name,
   checked,
   onChange = () => { return },
   indeterminate = false,
@@ -42,6 +43,7 @@ export const Checkbox = ({
     >
       <CheckboxAtom
         checked={checked}
+        name={name}
         disabled={disabled}
         id={`checkbox-${id}`}
         onChange={handleChange}

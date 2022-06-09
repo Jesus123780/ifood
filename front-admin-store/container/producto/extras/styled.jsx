@@ -27,7 +27,7 @@ export const GarnishChoicesHeader = styled.div`
     justify-content: space-between;
     background: #f2f2f2;
     position: sticky;
-    top: 60px;
+    top: 0px;
     border-bottom: 1px solid #ccc;
     z-index: 99;
     margin-bottom: 80px;
@@ -105,7 +105,7 @@ export const CardsComponent = styled.div`
     }
 `
 export const ContentModal = styled.form`
-    height: ${({ height }) => {return height ? height : '600px'}};
+    height: ${({ height }) => { return height ? height : '600px' }};
 `
 export const ContentLinesItems = styled.div`
     display: flex;
@@ -113,7 +113,7 @@ export const ContentLinesItems = styled.div`
     justify-content: center;
     height: min-content;
     border-bottom: 1px solid #ccc;
-    ${props => {return props.noBorder && `border-bottom: none`}}
+    ${props => { return props.noBorder && `border-bottom: none` }}
 `
 export const ContentCheckbox = styled.div`
     transition: all .1s;
@@ -127,33 +127,39 @@ export const Input = styled.input`
     width: 100%;
     border-radius: 0.375em;
     box-shadow: 0 0 0 1px rgb(0 0 0 / 25%);
-
-    ${props => {return props.margin && css`margin: ${props.margin};`}}
-    ${props => {return props.card && css`
+    outline: none;
+    border:none;
+    ${props => { return props.margin && css`margin: ${props.margin};` }}
+    ${props => { return props.padding && css`padding: ${props.padding};` }}
+    ${props => {
+        return props.card && css`
     padding: 25px;
     border: 2px solid ${PColor};
     `}}
-    ${props => {return props.inputText && css`
+    ${props => {
+        return props.inputText && css`
         font-weight: 500;
         margin: 0.625rem 0 0;
         overflow: visible;
         border: none;
         margin: 0 0 0 5px;
-        color: ${({ color }) => {return color}};
+        color: ${({ color }) => { return color }};
         outline: none;
         /* padding: 5px; */
         border: 2px solid transparent;
     `}}
-    ${props => {return props.inputText && css`
+    ${props => {
+        return props.inputText && css`
         overflow: visible;
         border: none;
         margin: 0 0 0 5px;
-        color: ${({ color }) => {return color}};
+        color: ${({ color }) => { return color }};
         outline: none;
         padding: 5px;
         border: 2px solid transparent;
     `}}
-    ${props => {return props.checkbox && css`
+    ${props => {
+        return props.checkbox && css`
         cursor: inherit;
         zoom: inherit;
         margin: 0;
@@ -174,9 +180,6 @@ export const Input = styled.input`
         visibility: hidden;
         background: transparent;
         z-index: 1;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
         content: "";
         width: 24px;
         height: 24px;

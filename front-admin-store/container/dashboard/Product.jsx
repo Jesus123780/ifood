@@ -11,7 +11,6 @@ import { CardProductsModal, ContentImage, ContentInfo, DisRestaurant, Flex, Head
 import { useRouter } from 'next/router'
 
 export const Product = ({ store,setModal, modal, ProDescription, ProImage, pName, ProPrice, dataExtra, storeName, ProDescuento, nameStore, dataOptional, handleDelete, pId, ...props }) => {
-console.log("🚀 ~ file: Product.jsx ~ line 13 ~ Product ~ pId", pId)
 const router = useRouter()
   return (
     <div {...props}>

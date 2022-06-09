@@ -427,10 +427,12 @@ const GenerateSales = () => {
             {(loading || productsFood?.length <= 0) ? <Skeleton height={400} numberObject={50} /> : productsFood?.map((producto) => {
               return (
                 <CardProducts
+                  {...producto}
                   ProDescription={producto.ProDescription}
                   ProDescuento={producto.ProDescuento}
                   ProImage={producto.ProImage}
                   ProPrice={producto.ProPrice}
+                  edit={true}
                   ProQuantity={producto.ProQuantity}
                   ValueDelivery={producto.ValueDelivery}
                   key={producto.pId}

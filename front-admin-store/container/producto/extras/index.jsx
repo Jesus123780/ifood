@@ -7,6 +7,9 @@ import { RandomCode, updateCache } from '../../../utils'
 import { MockData } from '../../../components/common/mockData'
 import { GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, GET_EXTRAS_PRODUCT_FOOD_SUB_OPTIONAL, UPDATE_EXTRAS_PRODUCT_FOOD_OPTIONAL } from '../../update/Products/queries'
 import { CardsComponent, ContainerListOptions, ContentCheckbox, Div, GarnishChoicesHeader, Input, WrapperList } from './styled'
+import { Checkbox } from 'components/Checkbox'
+import Column from 'components/common/Atoms/Column'
+import Row from 'components/common/Atoms/Row'
 
 
 export const OptionalExtraProducts = ({ pId }) => {
@@ -21,7 +24,7 @@ export const OptionalExtraProducts = ({ pId }) => {
   // HANDLES
   const handleCheck = (e) => {
     const { name, checked } = e.target
-    setChecker({ ...setCheck, [name]: checked ? 1 : 0 })
+    setChecker({ ...setCheck, [name]: checked ? true : false })
   }
   const addCard = async (title, listId) => {
     const id = await RandomCode(9)
@@ -29,7 +32,7 @@ export const OptionalExtraProducts = ({ pId }) => {
       id: id,
       title: title,
       numberLimit: 5,
-      required: setCheck.exState
+      required: setCheck.exState ? 1 : 0,
     }
     const list = data.lists[listId]
     list.cards = [...list.cards, newCard]
@@ -85,7 +88,7 @@ export const OptionalExtraProducts = ({ pId }) => {
           [newListId]: {
             id: newListId,
             title: title,
-            required: setCheck.exState,
+            required: setCheck.exState ? 1 : 0,
             numberLimit: numberLimit,
             cards: []
           }
@@ -97,7 +100,7 @@ export const OptionalExtraProducts = ({ pId }) => {
             pId,
             code: newListId,
             OptionalProName: title,
-            required: setCheck.exState,
+            required: setCheck.exState ? 1 : 0,
             numbersOptionalOnly: numberLimit
           }
         },
@@ -113,17 +116,19 @@ export const OptionalExtraProducts = ({ pId }) => {
       setTitle('')
     }
   }
-  return <ContainerListOptions>
-    {data?.listIds?.map((listID, index) => {
+
+  const filterData = data?.listIds?.filter(x => x !== '01list')
+  return <Row width='100%' margin='102px 0' flexWrap='wrap'>
+    {filterData && filterData?.map((listID, index) => {
       const list = data.lists[listID]
       return (
-        <Div key={index} role='list'>
+        <Column width='30%' key={index} role='list'>
           <GarnishChoicesHeader>
             <div>
               <p className='garnish-choices__title'>{list?.title}</p>
               <p className='garnish-choices__title-desc'>Escoge hasta {list?.numberLimit} opciones.</p>
               <div className='garnish-choices'>
-                {list.required === 1 && <span className='marmita-minitag'>OBLIGATORIO</span>}
+                {list?.required === 1 && <span className='marmita-minitag'>OBLIGATORIO</span>}
               </div>
             </div>
             <IconMiniCheck color={'#009b3a'} size={'15px'} />
@@ -163,9 +168,9 @@ export const OptionalExtraProducts = ({ pId }) => {
               }
             }}
             widthButton='100%'
-          >Add list</RippleButton>
+          >Adicionar sobremesa</RippleButton>
           z
-        </Div>
+        </Column>
       )
     })}
     <div className='wrapper-list'>
@@ -175,7 +180,7 @@ export const OptionalExtraProducts = ({ pId }) => {
           <p className='garnish-choices__title-desc'>Escoge hasta {numberLimit} opciones.</p>
         </div>
         <div className='garnish-choices'>
-          {setCheck.exState === 1 && <span className='marmita-minitag'>OBLIGATORIO</span>}
+          {setCheck.exState === true && <span className='marmita-minitag'>OBLIGATORIO</span>}
         </div>
         <div>
           <div>
@@ -201,10 +206,12 @@ export const OptionalExtraProducts = ({ pId }) => {
       />
       <GarnishChoicesHeader>
         <ContentCheckbox>
-          <Input
+          <Checkbox
             checkbox
             margin='10px 0'
             name={'exState'}
+            checked={setCheck.exState}
+            id={setCheck.exState}
             onChange={e => { return handleCheck(e) }}
             type='checkbox'
           />
@@ -215,7 +222,7 @@ export const OptionalExtraProducts = ({ pId }) => {
           padding='0'
           type='button'
           widthButton='100%'
-        >Add list</RippleButton>
+        >Adicionar Categoría de sobremesa</RippleButton>
         <div style={{ display: 'block' }}>
           <RippleButton
             bgColor={'transparent'}
@@ -226,30 +233,29 @@ export const OptionalExtraProducts = ({ pId }) => {
             type='button'
             widthButton='100%'
           ><IconPlus color={PColor} size='16px' /></RippleButton>
-          {/* <RippleButton
+          <RippleButton
             bgColor={'transparent'}
             border='1px solid'
             color='#000'
             margin='0'
-            onClick={() => {return setNumberLimit(numberLimit = 0 && numberLimit - 1)}}
+            onClick={() => { return setNumberLimit(numberLimit = 0 && numberLimit - 1) }}
             padding='0'
             type='button'
             widthButton='100%'
-          >--</RippleButton> */}
+          >--</RippleButton>
         </div>
       </GarnishChoicesHeader>
     </div>
-  </ContainerListOptions>
+  </Row>
 
 }
 
 export const List = ({ list, setData, data }) => {
   return (
-    <WrapperList>
-      <div>
+    <Column>
         {list?.cards?.map((card, index) => {
           return (
-            <div key={card?.id}>
+            <Column key={card?.id}>
               <Card
                 card={card}
                 data={data}
@@ -260,11 +266,10 @@ export const List = ({ list, setData, data }) => {
                 setData={setData}
               />
               s
-            </div>
+            </Column>
           )
         })}
-      </div>
-    </WrapperList>
+    </Column>
   )
 }
 
@@ -273,12 +278,12 @@ export const Card = ({ card, index }) => {
   const handleRemoveItemCard = async () => {
   }
   return (
-    <div>
+    <Column>
       <CardsComponent>
-        <div>
+        <Column>
           <h3 className='title_card'>{card?.title}</h3>
           <h3 className='title_card'>Item: {index + 1}</h3>
-        </div>
+        </Column>
         <RippleButton
           bgColor={'transparent'}
           margin='0px'
@@ -289,14 +294,15 @@ export const Card = ({ card, index }) => {
           <IconDelete color={EColor} size='25px' />
         </RippleButton>
       </CardsComponent>
-    </div>
+    </Column>
   )
 }
 
-export const InputHookProducts = ({ placeholder, value, onChange, inputText, type, color }) => {
+export const InputHookProducts = ({ placeholder, value, onChange, inputText, type, color, ...props }) => {
   return (
     <>
       <Input
+        {...props}
         color={color}
         inputText={inputText}
         onChange={onChange ? e => { return onChange(e.target.value) } : undefined}
