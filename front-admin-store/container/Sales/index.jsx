@@ -353,7 +353,7 @@ const GenerateSales = () => {
   const [dataClientes, { loading: loadingClients }] = useGetClients()
   const restPropsProductSales = { totalProductPrice, data, dispatch, dataMinPedido, max, inputValue, handleChangeFilterProduct, setPrint, finalFilter, print, handleChange, values, dataClientes, loadingClients }
 
-  const newArrayProducts = data?.PRODUCT?.map(x => { return { pId: x.pId, id: values?.cliId, cantProducts: x.ProQuantity, comments: 'Comentarios' } })
+  const newArrayProducts = data?.PRODUCT?.length > 0 && data?.PRODUCT?.map(x => { return { pId: x?.pId, id: values?.cliId, cantProducts: x.ProQuantity, comments: 'Comentarios' } })
   // eslint-disable-next-line
   const handleSubmit = () => {
     if (!values?.cliId) return setAlertBox({ message: 'Elige un cliente' })

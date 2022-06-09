@@ -1,6 +1,3 @@
-import { useFormTools } from 'components/BaseForm'
-import InputHooks from 'components/InputHooks/InputHooks'
-import NewSelect from 'components/NewSelectHooks/NewSelect'
 import { RippleButton } from 'components/Ripple'
 import { Table } from 'components/Table'
 import { Section } from 'components/Table/styled'
@@ -8,10 +5,10 @@ import { APColor, BColor, BGColor, BGVColor, PColor, PLColor, SCColor, SECColor,
 import React, { useContext, useState } from 'react'
 import styled, { css, keyframes } from 'styled-components'
 import moment from 'moment'
-import { useQuery, useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import Link from 'next/link'
 import { numberFormat, updateCache } from 'utils'
-import { FadeOup, onPulses } from 'components/animations'
+import { FadeOup } from 'components/animations'
 import { AwesomeModal } from 'components/AwesomeModal'
 import Image from 'next/image'
 import { CHANGE_STATE_STORE_PEDIDO, GET_ALL_PEDIDOS } from './queries'
@@ -26,8 +23,8 @@ export const ListPedidos = ({ data, fetchMore, setMore, more, errorForm, handleC
   const handleOpenModal = elem => {
     setModal(!modal)
     setDataModal(elem)
-    console.log(elem)
   }
+
   return (
     <div>
 
@@ -108,6 +105,7 @@ export const ListPedidos = ({ data, fetchMore, setMore, more, errorForm, handleC
 }
 
 export const CheckStatus = ({ setModal, modal, dataModal }) => {
+console.log("🚀 ~ file: ListPedidos.jsx ~ line 111 ~ CheckStatus ~ dataModal", dataModal)
   // STATES
   const { setAlertBox } = useContext(Context)
   const { pCodeRef, getAllPedidoStore, totalProductsPrice, pDatCre, locationUser } = dataModal || {}
