@@ -6,7 +6,6 @@ import { enCode } from '../../utils/util'
 import StoryModel from './StoryModel'
 
 const conn = connect()
-()
 export default conn.define('storycomment', {
     cStoId: {
         type: Sequelize.INTEGER,

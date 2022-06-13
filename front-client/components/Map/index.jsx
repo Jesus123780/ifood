@@ -1,14 +1,13 @@
 import React, { useCallback, useState, useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
-import { GoogleMap, Marker, LoadScript } from '@react-google-maps/api'
+// import { GoogleMap, Marker, LoadScript } from '@react-google-maps/api'
 import mapStyle from './mapStyles'
 import { IconArrowLeft, IconDelete, IconDost, IconEdit, IconLocationMap } from '../../public/icons'
 import { BColor, BGColor, PColor } from '../../public/colors'
 import { Span } from './styled'
 import { useMutation, useQuery, useLazyQuery } from '@apollo/client'
 import { DELETE_ONE_LOCATIONS, GET_ALL_LOCATIONS, SAVE_LOCATION_USER } from './queries'
-// import { Context } from '../../../../context'
 import InputHooks from '../InputHooks/InputHooks'
 import { RippleButton } from '../Ripple'
 import { useFormTools } from '../BaseForm'
@@ -267,13 +266,13 @@ export const Map = ({ showModal, setShowModal }) => {
           </div>
         </Container>}
         <ContainerMap modal={modal === 2}>
-          <MapHeader>
+          {/* <MapHeader>
             <button style={{ backgroundColor: 'transparent' }} onClick={() => setModal(1)} >
               <IconArrowLeft size={20} color={PColor} />
             </button>
             <Span>{dataCountry && dataCountry?.getOneCountry?.cName} {dataDepartment && dataDepartment?.getOneDepartment?.dName} {dataGetOneCity && dataGetOneCity?.getOneCities?.cName}</Span><div></div>
-          </MapHeader>
-          <LoadScript
+          </MapHeader> */}
+          {/* <LoadScript
             // region="ES"
             // language="es"
             libraries={["places"]}
@@ -292,7 +291,7 @@ export const Map = ({ showModal, setShowModal }) => {
             {modal === 2 && <ContentButton>
               <RippleButton style={{ width: '40%' }} onClick={handleSave}>Confirmar</RippleButton>
             </ContentButton>}
-          </LoadScript>
+          </LoadScript> */}
         </ContainerMap>
       </AwesomeModal>
     </ContainerModal>

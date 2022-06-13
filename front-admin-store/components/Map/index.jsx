@@ -2,19 +2,23 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint no-console: "error" */
-import React, { useCallback, useState } from 'react'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import PropTypes from 'prop-types'
+import React, { useCallback, useState } from 'react'
 import styled, { css } from 'styled-components'
-import mapStyle from './mapStyles'
-import { IconArrowLeft } from '../../public/icons'
-import { BGColor, PColor } from '../../public/colors'
-import { Span } from './styled'
-import { useMutation, useQuery, useLazyQuery } from '@apollo/client'
-import { SAVE_LOCATION_USER } from './queries'
-import { RippleButton } from '../Ripple'
-import { useFormTools } from '../BaseForm'
 import { GET_ALL_CITIES, GET_ALL_COUNTRIES, GET_ALL_DEPARTMENTS, GET_ALL_ROAD } from '../../gql/Location'
+import { BGColor, PColor } from '../../public/colors'
+import { IconArrowLeft } from '../../public/icons'
+import { useFormTools } from '../BaseForm'
+
+
+
+
 import NewSelect from '../NewSelectHooks/NewSelect'
+import { RippleButton } from '../Ripple'
+import mapStyle from './mapStyles'
+import { SAVE_LOCATION_USER } from './queries'
+import { Span } from './styled'
 
 export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
   // const [animationTrans, setAnimationTrans] = useState(false)

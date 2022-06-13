@@ -106,17 +106,17 @@ const registerSalesStore = async (root, { input, totalProductsPrice, pickUp, id,
       })
     }
     // status sales success
-    await StatusPedidosModel.create({ 
-      id: deCode(id), 
-      locationUser: null, 
-      idStore: idStore ? deCode(idStore) : deCode(context.restaurant), 
-      pSState: 4, 
-      pCodeRef: pCodeRef, 
-      valueDelivery: valueDelivery, 
-      change: change, 
-      payMethodPState: payMethodPState, 
-      pickUp, 
-      totalProductsPrice 
+    await StatusPedidosModel.create({
+      id: deCode(id),
+      locationUser: null,
+      idStore: idStore ? deCode(idStore) : deCode(context.restaurant),
+      pSState: 4,
+      pCodeRef: pCodeRef,
+      valueDelivery: valueDelivery,
+      change: change,
+      payMethodPState: payMethodPState,
+      pickUp,
+      totalProductsPrice
     })
     return {
       Response: {
@@ -291,11 +291,15 @@ export const getAllStoreInStore = async (root, args, context, _info) => {
 //     }
 // }
 export const getOneStore = async (parent, args, context, info) => {
-  const { idStore } = args
+  const { idStore } = args || {}
   try {
-    const attributes = getAttributes(Store, info)
-    const data = Store.findOne({ attributes, where: { idStore: idStore ? deCode(idStore) : deCode(parent.idStore) } })
-    return data
+    if (idStore) {
+      const attributes = getAttributes(Store, info)
+      const data = Store.findOne({ attributes, where: { idStore: idStore ? deCode(idStore) : deCode(parent.idStore) } })
+      return data
+    } else {
+      return {}
+    }
   } catch (e) {
     const error = new Error('Lo sentimos, ha ocurrido un error interno')
     return error

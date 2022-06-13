@@ -2,6 +2,7 @@
 import { Op } from 'sequelize'
 import productModelFood from '../../models/product/productFood'
 import catProducts from '../../models/Store/cat'
+import { linkHasMany } from '../../utils'
 import { deCode, getAttributes, linkBelongsTo } from '../../utils/util'
 
 export const updatedProducts = async (_, { input }, ctx) => {
@@ -182,27 +183,30 @@ export const getCatProductsWithProduct = async (root, args, context, info) => {
   return data
 }
 export const getCatProductsWithProductClient = async (root, args, context, info) => {
-  const { min, max, idStore } = args
-  linkBelongsTo(catProducts, productModelFood, 'pId', 'carProId')
+  const { search, min, max, carProId, gender, desc, categories, idStore } = args
+  linkHasMany(catProducts, productModelFood, 'carProId', 'carProId')  // busca por muchos 
+  let whereSearch = {}
   const attributes = getAttributes(catProducts, info)
   const data = await catProducts.findAll({
-    attributes,
-    include: [
-      {
-        attributes: ['pId', 'carProId'],
-        model: productModelFood
-      }
-    ],
-    where: {
-      [Op.or]: [
-        {
-          // get restaurant
-          idStore: deCode(idStore),
-          // Productos state
-          pState: { [Op.gt]: 0 }
-        }
-      ]
-    }, limit: [min || 0, max || 100], order: [['pName', 'DESC']]
+      attributes,
+      include: [
+          {
+              attributes: ['pId', 'carProId'],
+              model: productModelFood,
+              required: false,
+              where: { pState: 1 }
+          }
+      ],
+      where: {
+          [Op.or]: [
+              {
+                  // get restaurant
+                  idStore: deCode(idStore),
+                  // Productos state
+                  pState: { [Op.gt]: 0 },
+              }
+          ]
+      }, limit: [min || 0, max || 2], order: [['pName', 'DESC']]
   })
   return data
 }
@@ -210,27 +214,26 @@ export default {
   TYPES: {
     catProductsWithProduct: {
       productFoodsAll: async (parent, _args, _context, info) => {
-        try {
-          const attributes = getAttributes(productModelFood, info)
-          const data = await productModelFood.findAll({
-            attributes,
-            where: {
-              [Op.or]: [
-                {
-                  pState: { [Op.gt]: 0 },
-                  carProId: deCode(parent.carProId)
-                }
-              ]
+          try {
+              const attributes = getAttributes(productModelFood, info)
+              const data = await productModelFood.findAll({
+                  attributes,
+                  where: {
+                      [Op.or]: [
+                          {
+                              pState: { [Op.gt]: 0 },
+                              carProId: deCode(parent.carProId)
+                          }
+                      ],
 
-            }
-          })
-          return data
-        } catch {
-          return null
-        }
-      }
-    }
-
+                  }
+              })
+              return data
+          } catch {
+              return null
+          }
+      },
+  }
   },
   QUERIES: {
     catProductsAll,

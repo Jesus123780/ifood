@@ -84,7 +84,7 @@ getOneCatStore(catStore: $catStore){
       typeContribute
       secVia
       addressStore
-      createAt
+      createdAt
       pais {
         cId
         cName

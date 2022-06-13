@@ -14,7 +14,7 @@ import Options from 'components/Acordion/Options'
 const Aside = () => {
   const { client } = useApolloClient()
   const location = useRouter()
-  const { error, isSession, setAlertBox, openSchedule, setOpenSchedule, countPedido } = useContext(Context)
+  const { error, isSession, setAlertBox, openSchedule, setOpenSchedule, countPedido, listRoutes } = useContext(Context)
 
   const [show, setShow] = useState(false)
   const onClickLogout = useCallback(async () => {
@@ -44,11 +44,6 @@ const Aside = () => {
       mName: 'update',
       mPath: 'update',
       subModules: [
-        {
-          smId: 1,
-          smName: 'Location',
-          smPath: 'location',
-        },
         {
           smId: 2,
           smName: 'categoria-de-tienda',
@@ -117,16 +112,13 @@ const Aside = () => {
             </LeftNav>
           </Info>
           <Router>
-            <ActiveLink activeClassName="active" href="/dashboard">
-              <AnchorRouter><IconHome size='15px' />Home</AnchorRouter>
-            </ActiveLink>
-            <ActiveLink activeClassName="active" href="/banners">
-              <AnchorRouter><IconPromo size='15px' />Banners promo</AnchorRouter>
-            </ActiveLink>
-            <ActiveLink activeClassName="active" href="/stores">
-              <AnchorRouter><IconShopping size='15px' />Store</AnchorRouter>
-            </ActiveLink>
-            {data?.map((m, i) => (
+            {listRoutes ? listRoutes.map((route, i) => (
+              <ActiveLink key={i + 1} activeClassName="active" href={`/update/${route.name}` || '/'}>
+                <AnchorRouter><IconHome size='15px' />{route.name} </AnchorRouter>
+              </ActiveLink>
+            )) : <div></div>}
+
+            {!data?.map((m, i) => (
               <Options
                 key={m.mId}
                 index={i}

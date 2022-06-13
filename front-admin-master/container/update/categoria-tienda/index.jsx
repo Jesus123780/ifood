@@ -3,6 +3,7 @@ import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import React, { useContext, useEffect, useState } from 'react'
 import { CategoriesStoreComponent } from '../../../components/Update/CategoriesStore';
 import moment from 'moment';
+import { CREATE_CAT_STORE, GET_ALL_CAT_STORE, SET_DES_CAT } from 'gql/catStore';
 
 export const CategoriesStore = ({ setAlertBox }) => {
     // ------------ ESTADOS ------------

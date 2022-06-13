@@ -6,13 +6,13 @@ import NewSelect from '../../../NewSelectHooks/NewSelect'
 import { LoadEllipsis } from '../../../LoadingButton'
 import { RippleButton } from '../../../Ripple'
 import { validationSubmitHooks } from '../../../../utils'
-import { Context } from '../../../../Context'
 import { GET_MUNICIPALITIES, UPDATE_MUNICIPALITIES } from './queries'
 import { GET_DEPARTMENT } from '../Departments/queries'
 import { EditForm } from './EditForm'
 import { Container, Form, Card, ContainerTask, OptionsFunction, Button, ListTask } from './styled'
 import { PColor } from '../../../../public/colors'
 import { IconEdit, IconDost, IconDelete } from '../../../../public/icons'
+import { Context } from 'context'
 
 export const Municipalities = () => {
     const [createCity, { loading }] = useMutation(UPDATE_MUNICIPALITIES)

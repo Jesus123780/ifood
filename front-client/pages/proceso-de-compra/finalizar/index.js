@@ -17,19 +17,19 @@ export default function procesoFinalView() {
   )
 }
 
-export const getServerSideProps = withSession(async function ({ req, res }) {
-  const user = req?.session?.get('user')
-  if (!user) {
-    res.setHeader('location', '/entrar')
-    res.statusCode = 302
-    res.end()
-    return { props: {} }
-  }
-  if (!req.cookies[process.env.SESSION_NAME]) return { redirect: { destination: '/entrar' } }
+// export const getServerSideProps = withSession(async function ({ req, res }) {
+//   const user = req?.session?.get('user')
+//   if (!user) {
+//     res.setHeader('location', '/entrar')
+//     res.statusCode = 302
+//     res.end()
+//     return { props: {} }
+//   }
+//   if (!req.cookies[process.env.SESSION_NAME]) return { redirect: { destination: '/entrar' } }
 
-  return {
-    props: {
-    }
-  }
-}
-)
+//   return {
+//     props: {
+//     }
+//   }
+// }
+// )

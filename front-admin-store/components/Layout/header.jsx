@@ -1,13 +1,12 @@
 /* eslint-disable no-unused-vars */
-import React, { useContext, useEffect, useState } from 'react'
-import Link from 'next/link'
-import { IconLogo, IconSales } from '../../public/icons'
-import { PColor, SECBGColor } from '../../public/colors'
-import styled from 'styled-components'
-import useScrollHook, { useScrollColor } from '../hooks/useScroll'
-// import useWindowSize from '../hooks/useWindowSize'
-import { Options } from './options'
 import { Context } from 'context/Context'
+import Link from 'next/link'
+import React, { useContext } from 'react'
+import styled from 'styled-components'
+import { PColor, SECBGColor } from '../../public/colors'
+import { IconLogo, IconSales } from '../../public/icons'
+import useScrollHook, { useScrollColor } from '../hooks/useScroll'
+import { Options } from './options'
 
 export const Header = () => {
   const style = useScrollHook()

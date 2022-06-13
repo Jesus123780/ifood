@@ -1,12 +1,9 @@
 import Sequelize from 'sequelize'
 import connect from '../../db'
-import Store from './Store'
-import Users from '../Users'
 import { enCode } from '../../utils/util'
-import StoryModel from './StoryModel'
 
 const conn = connect()
-()
+
 export default conn.define('promoDashboardStoreAdmins', {
     pSoId: {
         type: Sequelize.INTEGER,

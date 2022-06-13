@@ -1209,3 +1209,16 @@ export const COOKIE_OPTIONS = {
     sameSite: true,
     secure: BASE_URL.includes('https')
 }
+export const cookie = {
+    password: process.env.SESSION_KEY,
+    cookieName: process.env.SESSION_NAME,
+    cookieOptions: {
+        secure: process.env.NODE_ENV === 'production'
+    }
+}
+export const defaultReturnObject = {
+    redirect: {
+        destination: '/',
+        permanent: false
+    }
+}

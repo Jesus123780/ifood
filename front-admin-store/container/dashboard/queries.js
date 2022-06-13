@@ -9,8 +9,8 @@ export const CREATE_FOOD_PRODUCT = gql`
   }
 `
 export const GET_BANNER_PROMO_DASHBOARD = gql`
-query getPromoStoreAdmin{
-getPromoStoreAdmin{
+query getPromoStoreAdmin($min: Int, $max: Int){
+getPromoStoreAdmin(min: $min, max: $max){
     pSoId
     comments
     mainName

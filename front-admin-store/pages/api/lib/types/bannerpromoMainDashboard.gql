@@ -20,7 +20,7 @@ input IPromoStoreAdmin {
   updateAt: DateTime
 }
 type Query {
-  getPromoStoreAdmin: [PromoStoreAdmin]
+  getPromoStoreAdmin(min: Int, max: Int): [PromoStoreAdmin]
   getOnePromoStoreAdmin: PromoStoreAdmin
 }
 # Mutations

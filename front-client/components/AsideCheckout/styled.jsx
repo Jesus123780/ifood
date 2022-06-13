@@ -75,6 +75,31 @@ export const Content = styled.div`
     overflow-y: auto;
     padding: 30px;
     padding-bottom: 250px;
+    &::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+&::-webkit-scrollbar:vertical {
+    width: 9px;
+}
+
+&::-webkit-scrollbar-button:increment,&::-webkit-scrollbar-button {
+    display: none;
+} 
+
+&::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
+&::-webkit-scrollbar-thumb {
+    background-color: #7979792f;
+    border-radius: 20px;
+    border: 1px solid #f1f2f3;
+}
+    &::-webkit-scrollbar-track {
+    border-radius: 10px;  
+
+}
 
     .restaurant-cart-header {
         color: #717171;

@@ -4,7 +4,7 @@ import { MessageComp } from 'components/Messages'
 import { ContainerContextMessage } from 'components/Messages/styled'
 import { GET_USER } from 'container/profile/queries'
 // import { Context } from 'Context'
-import { GET_MESSAGES, NEW_MESSAGE, SEND_MESSAGES } from 'gql/Messages'
+import { GET_MESSAGES, NEW_MESSAGE, NEW_STORE, SEND_MESSAGES } from 'gql/Messages'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { validationSubmitHooks } from 'utils'
 import { Context } from '../../context/index'
@@ -66,7 +66,24 @@ export const Messages = () => {
             // })
         }
     })
-    console.log(messageDataNew)
+    // const { data: LOL } = useSubscription(NEW_STORE, {
+    //     pollInterval: 10,
+    //     onSubscriptionComplete: () => {
+    //         // const dataMessage = client.readQuery({ query: GET_MESSAGES })
+    //     },
+    //     onSubscriptionData: ({ subscriptionData }) => {
+    //         // client.writeQuery({
+    //         //     query: GET_MESSAGES,
+    //         //     // data: {
+    //         //     //     ...messageData?.getMessages,
+    //         //     //     getMessages: [
+    //         //     //         ...messageData?.getMessages,
+    //         //     //         newMessage,
+    //         //     //     ]
+    //         //     // }
+    //         // })
+    //     }
+    // })
     const [dataMessage, setDataMessage] = useState([])
     useEffect(() => {
         if (messageError) console.log(messageError)
@@ -106,8 +123,8 @@ export const Messages = () => {
 
     const handleSendMessage = async e => {
         e.preventDefault()
-        // input.current.focus()
-        console.log(content, id)
+        input.current.focus()
+        input.current.value = ''
         try {
             if (selectedStore && id && !!content) {
                 sendMessage({

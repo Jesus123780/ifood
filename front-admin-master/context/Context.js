@@ -117,7 +117,35 @@ const Provider = ({ children }) => {
     }
     const [state_product_card, dispatch] = useReducer(product, initialState)
     const [openSchedule, setOpenSchedule] = useState(true)
-
+    const listRoutes = [
+        {
+          name: 'promos-dashboard'
+        },
+        {
+          name: 'banners'
+        },
+        {
+          name: 'notification'
+        },
+        {
+          name: 'promos'
+        },
+        {
+          name: 'stores'
+        },
+        {
+          name: 'Pqr'
+        },
+        {
+          name: 'categories'
+        },
+        {
+          name: 'offers'
+        },
+        {
+          name: 'kit'
+        },
+      ]
     const value = {
         error,
         setOpenSchedule,
@@ -129,6 +157,7 @@ const Provider = ({ children }) => {
         setCountPedido,
         countPedido,
         isLocation,
+        listRoutes,
         handleMenu,
         // Menu Ctx
         menu,

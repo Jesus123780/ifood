@@ -1,5 +1,5 @@
 import { ApolloServer } from 'apollo-server-micro'
-import httpHeadersPlugin from 'apollo-server-plugin-http-headers'
+import httpHeadersPlugin from './lib/hooks/apollo-plugin-http-header'
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core"
 import withSession from '../../apollo/session'
 import Cors from 'micro-cors'

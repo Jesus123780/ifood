@@ -13,8 +13,8 @@ import { PColor } from 'public/colors';
 import { useRouter } from 'next/router'
 
 export const Banner = () => {
-    const location = useRouter()
-    // STATES
+  const location = useRouter()
+  // STATES
   const { dispatch, setAlertBox, state_product_card, handleMenu } = useContext(Context)
   const [color, setActiveColor] = useState(null)
   // HANDLES
@@ -33,39 +33,21 @@ export const Banner = () => {
       dispatch({ type: 'ADD_PRODUCT', payload: elem })
     }
   }
-
   return (
     <Content>
-      <Slider
-        dots={true}
-        slidesToShow={1}
-        slidesToScroll={2}
-        prevArrow={<CustomArrow icon={<IconArrowLeft size='20px' color={PColor} />} next />}
-        nextArrow={<CustomArrow icon={<IconArrowRight size='20px' color={PColor} />} />}
-        autoplay={true}
-        arrows={true}
-        focusOnSelect={() => location.push('/') }
-        autoplaySpeed={3000}
-      >
-        {data && data?.getAllMasterBanners?.map(banner => (
-          // <Link
-          //   key={banner.BannerId}
-          //   prefetch={true}
-          //   href={`/restaurantes/promos/${banner.name.replace(/\s/g, '-')}/${banner.BannerId}`}>
-            <a>
-              <BannerPromo color={color} onMouseOut={() => setActiveColor('red')} onMouseOver={() => setActiveColor('blue')} key={banner.pId}>
-                <Img
-                  width={550}
-                  alt='Picture'
-                  height={550}
-                  objectFit='contain'
-                  src={'/images/D_NQ_722381-MLA49471657715_032022-OO.jpg'}
-                  />
-              </BannerPromo>
-            </a>
-          // </Link>
-        ))}
-      </Slider>
+      {data && data?.getAllMasterBanners?.map(banner => (
+        <Link
+          key={banner.BannerId}
+          prefetch={true}
+          href={`/restaurantes/promos/${banner.name.replace(/\s/g, '-')}/${banner.BannerId}`}>
+          <a>
+            <BannerPromo color={color} onMouseOut={() => setActiveColor('red')} onMouseOver={() => setActiveColor('blue')} key={banner.pId}>
+              <Img src={banner.path} alt={banner.description} />
+
+            </BannerPromo>
+          </a>
+        </Link>
+      ))}
       {/* <ContainerCardProduct>
         <CustomSlider 
         spaceBetween={35} centeredSlides infinite={false} autoplay={false} slidesToShow={4} direction='horizontal' >

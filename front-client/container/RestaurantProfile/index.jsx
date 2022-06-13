@@ -16,7 +16,7 @@ import { MerchantBannerWrapperInfo, Container, ContainerCarrusel, ContentCategor
 import { Story } from '../story';
 import { Rate } from '../../components/Rate';
 import { copyToClipboard, numberFormat } from 'utils';
-import QRCode from 'react-qr-code';
+// import QRCode from 'react-qr-code';
 import { FetchMoreInteractions } from 'components/hooks';
 import { Loading } from 'components/Loading';
 import { GET_STATE_ORDER } from 'container/checkout/queries';
@@ -117,7 +117,6 @@ export const RestaurantProfile = ({ src, more, setMore, id, dataProductAndCatego
         <Container>
             <div>
                 {dataWS?.numberIncremented}
-
             </div>
             {/* <button onClick={() => au.current.play()}>Click</button>
             <button onClick={() => au.current.pause()}>Pause</button> */}
@@ -312,7 +311,7 @@ export const RestaurantProfile = ({ src, more, setMore, id, dataProductAndCatego
                         ))}
                     </ContentInfo>
                     <div>
-                        <QRCode value={share || ''} />
+                        {/* <QRCode value={share || ''} /> */}
                         <ContentShare>
                             compartir
                             <ContainerShare>

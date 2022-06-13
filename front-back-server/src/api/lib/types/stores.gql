@@ -80,5 +80,5 @@ type Mutation {
 }
 
 type Subscription {
-    newStore: Store
+    newStore: [Store]
 }

@@ -15,7 +15,7 @@ import { BtnClose } from 'components/AwesomeModal/styled'
 import { IconCancel } from 'public/icons'
 import GenerateSales from 'container/Sales'
 import { AwesomeModal } from 'components/AwesomeModal'
-// import { Messages } from 'container/messages'
+import { Messages } from 'container/messages'
 
 export const Layout = ({ children, watch, settings }) => {
   const location = useRouter()
@@ -75,7 +75,7 @@ export const Layout = ({ children, watch, settings }) => {
           >
             <GenerateSales />
           </AwesomeModal>
-          {/* <Messages /> */}
+          <Messages />
         </div>
         {/* {!['/login', '/register', '/varify-email', '/restaurante', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => {return x === location.pathname}) && <Footer />} */}
         <div style={{ gridArea: 'right' }}>

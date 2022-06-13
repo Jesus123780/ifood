@@ -1,10 +1,10 @@
-import React, { useEffect, useReducer, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import { BoxInput, InputV, LabelInput, ShowPass, Tooltip, TextAreaInput, Listbox, List } from './styled'
-import { IconNoShow, IconShowEye } from '../../public/icons'
+import React, { useEffect, useReducer, useRef, useState } from 'react'
 import { SFVColor } from '../../public/colors'
-import { useKeyPress } from '../hooks/useKeypress'
+import { IconNoShow, IconShowEye } from '../../public/icons'
 import { isEmail, isNull, isPassword, onlyLetters, passwordConfirm, rangeLength, valNit } from '../../utils'
+import { useKeyPress } from '../hooks/useKeypress'
+import { BoxInput, InputV, LabelInput, List, Listbox, ShowPass, TextAreaInput, Tooltip } from './styled'
 
 const InputHooks = ({
   reference,

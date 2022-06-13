@@ -32,3 +32,11 @@ export const NEW_MESSAGE = gql`
     }
   }
 `
+export const NEW_STORE = gql`
+  subscription newStore {
+    newStore {
+      storeName,
+      idStore,
+    }
+  }
+`

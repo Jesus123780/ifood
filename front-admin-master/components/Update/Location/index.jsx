@@ -9,7 +9,7 @@ import { RippleButton } from '../../Ripple';
 import styled, { css, keyframes } from 'styled-components';
 import { TypeRoad } from './Road';
 
-export const Location = ({ setAlertBox  }) => {
+export const Location = () => {
     const [active, setActive] = useState(1)
     const handleClick = index => {
         setActive(index === active ? true : index)

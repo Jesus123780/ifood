@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
+import { GET_ALL_CATEGORIES } from 'container/update/Categories/queries'
 import { useContext, useEffect, useState } from 'react'
-import { GET_ALL_CATEGORIES } from '../../container/Update/Categories/queries'
 import { Context } from '../../Context'
 
 export const useCategories = () => {

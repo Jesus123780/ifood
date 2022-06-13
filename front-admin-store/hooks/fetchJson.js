@@ -7,7 +7,9 @@ export default async function fetchJson (...args) {
     const data = await response.json()
 
     if (response.ok) {
-      return data
+
+
+      return  data
     }
 
     const error = new Error(response.statusText)

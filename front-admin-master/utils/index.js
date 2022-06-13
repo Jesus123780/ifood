@@ -995,8 +995,7 @@ export const hiddenEmail = email => {
     const sliceDomain = domain.slice(domain.indexOf('.'), domain.length)
     const sliceUsername = username.slice(0, 3)
     const lastChar = username.charAt(username.length - 1)
-    const usernameLengthToHide =
-        username.length - (sliceUsername.length + lastChar.length)
+    const usernameLengthToHide = username.length - (sliceUsername.length + lastChar.length)
     const hideUsername = '*'.repeat(usernameLengthToHide)
     const domainLengthToHide = domain.length - sliceDomain.length
     const hideDomain = '*'.repeat(domainLengthToHide)

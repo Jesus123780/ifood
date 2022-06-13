@@ -1,5 +1,5 @@
 import withSession from 'apollo/session';
-import { Stores } from 'container/Stores';
+import { Stores } from 'container/update/Stores';
 import Head from 'next/head'
 export default function Home() {
   return (

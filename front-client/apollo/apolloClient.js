@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 import { ApolloClient, from, HttpLink, InMemoryCache, ApolloLink, split, createHttpLink } from '@apollo/client'
-import { setContext } from '@apollo/client/link/context'
 import { concatPagination, getMainDefinition } from '@apollo/client/utilities'
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
@@ -19,7 +18,7 @@ export const getDeviceId = async () => {
     // const fp = await FingerprintJS.load()
     // const result = await fp.get()
     // userAgent = window.navigator.userAgent
-    return 10
+    return 32432
 }
 const authLink = async (_) => {
     if (typeof window !== "undefined") {
@@ -63,16 +62,12 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 // Create Second Link
 const wsLink = process.browser ? new WebSocketLink({
-    // uri: process.env.NODE_ENV === 'development' ? 'ws://localhost:4000/graphql' : 'ws://localhost:4000/graphql',
-    uri: process.env.NODE_ENV === 'development' ? 'ws://server-image-food.herokuapp.com/graphql' : 'ws://server-image-food.herokuapp.com/graphql',
+    uri: process.env.NODE_ENV === 'development' ? 'ws://localhost:4000/graphql' : 'ws://localhost:4000/graphql',
     options: {
         reconnect: true,
         lazy: true,
-        connectionParams: async () => {
-            const headers = await authLink()
-            return {
-                ...headers,
-            }
+        connectionParams: () => {
+            return { headers: { Authorization: 'Bearer TOKEN' } }
         }
     }
 }) : null;
@@ -84,10 +79,11 @@ const getLink = async (operation) => {
     const headers = await authLink()
     const definition = getMainDefinition(operation.query);
     const service = operation.getContext().clientName
-    let uri = `${process.env.URL_BASE}api/graphql`
-    if (service === 'main') uri = `${process.env.MAIN_URL_BASE}api/graphql`
-    if (service === 'admin') uri = `${URL_BASE_ADMIN_MASTER}graphql`
-    if (service === 'admin-server') uri = `${process.env.URL_ADMIN_SERVER}graphql`
+    let uri = `${URL_BASE}graphql`
+    if (service === 'subscriptions') uri = 'http://localhost:4000/graphql'
+    if (service === 'main') uri = 'http://localhost:3000/api/graphql'
+    if (service === 'admin') uri = `${URL_ADMIN}graphql`
+    if (service === 'admin-server') uri = `${URL_ADMIN_SERVER}graphql`
     const link = new HttpLink({
         uri,
         credentials: 'same-origin',
@@ -101,9 +97,13 @@ const httpLink = createUploadLink({
     authorization: 'pija',
     credentials: 'same-origin'
 })
+
 // split based on operation type 
-const _Link = typeof window !== "undefined" ? split(
+const Link = typeof window !== "undefined" ? split(
     (operation) => {
+        const url = `${URL_BASE}graphql`
+        const service = operation.getContext().clientName
+        console.log(service)
         const definition = getMainDefinition(operation.query);
         return (definition.kind === 'OperationDefinition' && definition.operation === 'subscription');
     },
@@ -112,7 +112,7 @@ const _Link = typeof window !== "undefined" ? split(
 ) : httpLink;
 
 
-// const [createPerson] = useMutation(CREATE PERSON, (
+// const [ createPerson ] = useMutation(CREATE PERSON, (
 //     onError: (error) » {
 //       notifyError(error.graphQLErrors[0].message)
 //     },
@@ -142,42 +142,21 @@ const defaultOptions = {
 }
 function createApolloClient() {
     const ssrMode = typeof window === 'undefined'
-    const link = ssrMode ? ApolloLink.split(() => true, operation => getLink(operation),
-        onError(({
-            graphQLErrors,
-            networkError
-        }) => {
-            if (graphQLErrors) {
-                graphQLErrors.map(({ message, locations, path
-                }) =>
-                    console.log(
-                        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-                    )
-                );
-            }
-            if (networkError) {
-                console.log(`[Network error]: ${networkError}`);
-            }
-        }),
-    ) : typeof window !== "undefined"
+    const link = ssrMode ? ApolloLink.split(() => true, operation => getLink(operation)) : typeof window !== "undefined"
         ? split((operation) => {
             const definition = getMainDefinition(operation.query)
             return definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
         },
             wsLink,
-            ApolloLink.split(() => true, operation => getLink(operation),
-                errorLink,
-            ),
+            ApolloLink.split(() => true, operation => getLink(operation)),
+            // errorLink,
 
         )
-        : ApolloLink.split(() => true, operation => getLink(operation),
-            errorLink
-        )
+        : ApolloLink.split(() => true, operation => getLink(operation))
     return new ApolloClient({
         // defaultOptions,
         connectToDevTools: true,
         ssrMode: typeof window === 'undefined',
-
         link,
         // link: ApolloLink.from([
         //     onError(({

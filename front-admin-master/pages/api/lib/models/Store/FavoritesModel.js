@@ -5,7 +5,6 @@ import Users from '../Users'
 import { enCode } from '../../utils/util'
 
 const conn = connect()
-()
 export default conn.define('storefavoritesUser', {
     fIStoreId: {
         type: Sequelize.INTEGER,

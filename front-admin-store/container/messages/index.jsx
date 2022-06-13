@@ -75,7 +75,6 @@ export const Messages = () => {
     context: { clientName: 'admin-server' }
     // fetchPolicy: 'cache-and-network',
   })
-  console.log(data)
   //EFECTOS
   useEffect(() => {
     if (selectedStore) {

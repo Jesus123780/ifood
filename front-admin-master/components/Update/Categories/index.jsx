@@ -75,15 +75,10 @@ export const Categories = ({
                             <CardProduct key={product.caId} >
                                 <ButtonCard onClick={() => handleDelete(product?.caId)}>
                                     <IconDelete size={20} color={PColor} />
-                                    <ActionName >
-                                Eliminarais
-                                    </ActionName>
+                                    <ActionName > Eliminarais</ActionName>
                                 </ButtonCard>
                                 <ButtonCard delay='.1s' top={'80px'}>
-                                    <IconEdit size={20} color={PColor} />
-                                    <ActionName>
-                                Editar
-                                    </ActionName>
+                                    <IconEdit size={20} color={PColor} /> <ActionName> Editar</ActionName>
                                 </ButtonCard>
                                 <ContentImg>
                                     {!product.ProImage ? <i>Cargando</i> : <Img src={product.ProImage} alt={product.ProImage} />}

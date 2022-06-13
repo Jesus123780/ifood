@@ -7,18 +7,15 @@ import { PubSub } from 'graphql-subscriptions'
 import { SubscriptionServer } from 'subscriptions-transport-ws'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { graphqlUploadExpress } from 'graphql-upload'
-// import subscriptionHandler from '../src/api/lib/router/subscriptionHandler'
 import jwt from 'jsonwebtoken'
 import cors from 'cors'
-// @ts-ignore
-
 import typeDefs from './api/lib/typeDefs'
 import resolvers from './api/lib/resolvers'
 import express from 'express'
 import morgan from 'morgan'
 import indexRoutes from './api/lib/router'
 var cookieParser = require('cookie-parser')
-// const webpush = require('web-push')
+const webpush = require('web-push')
 function parseCookies(request) {
     const list = {}
     const cookieHeader = request.headers?.cookie
@@ -45,7 +42,7 @@ function parseCookies(request) {
     // Initialization apps
     const app = express()
     app.use(cookieParser())
-    const CORS_ORIGIN =  ['http://localhost:3001', 'http://localhost:4000', 'http://localhost:3000']
+    const CORS_ORIGIN = ['http://localhost:3001', 'http://localhost:4000', 'http://localhost:3000', 'http://localhost:3003']
     // cors config
     app.use(
         cors({
@@ -59,8 +56,133 @@ function parseCookies(request) {
     // Routes
     app.set('port', process.env.GRAPHQL_PORT || 4000)
     app.use('/image', (req, res) => {
-        res.send('ONLINE PORT IMAGES!')
-    })
+        const url = `http://localhost:3001/app/api/graphql`
+        const query = `
+        query productFoodsOne($pId: ID){
+            productFoodsOne(pId: $pId ){
+                pId
+                carProId
+                pCode
+                sizeId
+                colorId
+                idStore
+                cId
+                caId
+                dId
+                ctId
+                tpId
+            
+                fId
+                pName
+                ProPrice
+                ProDescuento
+                ValueDelivery
+                ProUniDisponibles
+                ProDescription
+                ProProtegido
+                ProAssurance
+                ProImage
+                ProStar
+                ProWidth
+                ProHeight
+                ProLength
+                ProWeight
+                ProQuantity
+                ProOutstanding
+                ProDelivery
+                ProVoltaje
+                pState
+                sTateLogistic
+                pDatCre
+                pDatMod
+                ExtProductFoodsAll {
+                  pId
+                  exPid
+                  exState
+                  extraName
+                  extraPrice
+                  state
+                  pDatCre
+                  pDatMod
+                }
+            getStore {
+                idStore
+                cId
+                id
+                dId
+                ctId
+                catStore
+                neighborhoodStore
+                Viaprincipal
+                storeOwner
+                storeName
+                emailStore
+                storePhone
+                socialRaz
+                Image
+                banner
+                documentIdentifier
+                uPhoNum
+                ULocation
+                upLat
+                upLon
+                uState
+                siteWeb
+                description
+                NitStore
+                typeRegiments
+                typeContribute
+                secVia
+                addressStore
+                createdAt
+              department {
+                dId
+                cId
+                dName
+                dDatCre
+                dDatMod
+                dState
+              }
+              pais {
+                cId
+                cName
+                cCalCod
+                cState
+                
+              }
+              city {
+                ctId
+                dId
+                cName
+                cState
+                cDatCre
+                cDatMod
+              }
+            }
+            
+            }
+        }
+        `
+        const variables = {
+            pId: 'NTk4NTk1MzkyNjczMzM2MjAwMA=='
+        }
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ query, variables }),
+
+        }
+        )
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                res.json(data.data)
+            })
+
+    }
+    )
     app.post('/image', (req, res) => { res.json('/image api') })
     // Listen App
     app.listen(API_REST_PORT, () => {
@@ -84,28 +206,33 @@ function parseCookies(request) {
         // schema,
         typeDefs, resolvers,
         introspection: true,
+        persistedQueries: true,
         plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
         context: async ({ req, res }) => {
+            const url = `http://localhost:3001/app/api/graphql`
+
             try {
                 // check from req
                 const token = (req.headers.authorization?.split(' ')[1])
                 // const cookies = req
                 // res.setCookie('my-new-cookie', 'Hi There')
                 const cookies = parseCookies(req)
-                console.log(req)
-
+                const { body } = req || {}
+                const { variables } = body || {}
+                const store = variables.to || ''
+                // console.log("🚀 ~ file: app.js ~ line 220 ~ context: ~ cookies", req)
                 const restaurant = req.headers.restaurant || {}
                 if (token !== 'null') {
                     try {
                         //validate user in client.
                         const User = await jwt.verify(token, '12ba105efUaGjihGrh0LfJHTGIBGu6jXV')
                         // let User = null
-                        return { User, res, pubsub, restaurant: restaurant || {} }
+                        return { User, res, pubsub, restaurant: restaurant || {}, ADMIN_STORE: url, store: store }
                     } catch (err) {
                         console.log(err)
                         console.log('Hola esto es un error del contexto')
                     }
-                } else { return { restaurant: restaurant || {} } }
+                } else { return { restaurant: restaurant || {}, ADMIN_STORE: url } }
 
             } catch (error) {
                 console.log(error, 'finalERROR')
@@ -121,9 +248,9 @@ function parseCookies(request) {
         { server: httpServer, path: server.graphqlPath }
     )
 
-    httpServer.listen(process.env.PORT || 4000, () => {
+    httpServer.listen(GRAPHQL_PORT || 4000, () => {
         console.log(
-            `🚀 Query endpoint ready at http://localhost:${process.env.PORT}`
+            `🚀 Query endpoint ready at http://localhost:${GRAPHQL_PORT}`
         )
         console.log(
             `🚀 Subscription endpoint ready at ws://localhost:${GRAPHQL_PORT}${server.graphqlPath}`

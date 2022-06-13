@@ -46,7 +46,7 @@ export const BannerPromo = styled.div`
 
 `
 export const ContainerCardProduct = styled.div`
-    /* display: flex; */
+    display: flex;
     /* margin: 0 40px ; */
     /* grid-template-columns: repeat(100, 100px); */
     /* padding: 5px; */

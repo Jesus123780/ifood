@@ -9,7 +9,6 @@ import { IconDelete, IconDollar, IconEdit, IconLove } from 'public/icons'
 import FormProduct from './Form'
 import { CardProducts } from 'components/CartProduct'
 import { ListProducts } from './ListProducts'
-import Dessert from './Dessert'
 
 export const FoodComponent = ({ search, handleChangeFilter, data, setShowMore, values, handleRegister, fetchMore, dataCategoriesProducts, dispatch, handleChange, names, loading, onTargetClick, onFileInputChange, fileInputRef, showMore, alt, product_state, src, setName, onClickClear, handleCheckEnvioGratis, state: grid, dataFree, check, ...props }) => {
   const OPEN_MODAL_ORGANICE = useSetState(0)

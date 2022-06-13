@@ -69,7 +69,7 @@ export const HeaderMain = ({ menu, handleMenu }) => {
           <Options menu={menu} handleMenu={handleMenu} />
         </HeaderMainC>
       </ContentHeader>
-      {modalLocation && <Map setShowModal={setModalLocation} showModal={modalLocation} />}
+      {/* {modalLocation && <Map setShowModal={setModalLocation} showModal={modalLocation} />} */}
     </div>
   )
 }

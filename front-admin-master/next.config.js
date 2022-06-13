@@ -37,7 +37,7 @@ module.exports = (phase) => {
           if (isProd) return 'remotemysql.com'
       })(),
       DIALECTDB: 'mysql',
-      SESSION_NAME: 'vp.sv2',
+      SESSION_NAME: 'vp.master',
       SESSION_KEY: '12ba105efUaGjihGrh0LfJHTGIBGu6jXa',
       URL_BASE: (() => {
           if (isDev) return 'http://localhost:3001/app/'
@@ -45,6 +45,11 @@ module.exports = (phase) => {
           if (isStaging) return 'Title Stg'
       })(),
       MAIN_URL_BASE: (() => {
+          if (isDev) return 'http://localhost:3000/'
+          if (isProd) return 'http://localhost:3000/'
+          if (isStaging) return 'Title Stg'
+      })(),
+      CLIENT_URL_BASE: (() => {
           if (isDev) return 'http://localhost:3000/'
           if (isProd) return 'http://localhost:3000/'
           if (isStaging) return 'Title Stg'
@@ -69,7 +74,8 @@ module.exports = (phase) => {
       //   COOKIE
       PRODUCT_NAME_COOKIE: 'PRODUCT_NAME_COOKIE',
       RECOMMENDATION_COOKIE: 'RECOMMENDATION_COOKIE',
-      ACEPTE_COOKIE: 'ACEPTE_COOKIE'
+      ACEPTE_COOKIE: 'ACEPTE_COOKIE',
+      NEXT_NAME_APP: 'delivery'
 
   }
 

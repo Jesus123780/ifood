@@ -21,36 +21,6 @@ export const getDeviceId = async () => {
     return result.visitorId
 }
 
-const errorHandler = onError(({ graphQLErrors }) => {
-    if (graphQLErrors) {
-        graphQLErrors?.length && graphQLErrors.forEach(err => {
-            const { code } = err.extensions
-            if (code === 'UNAUTHENTICATED' || code === 'FORBIDDEN') console.log('')
-            else if (code === 403) {
-                console.log('')
-            }
-        })
-    }
-})
-
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-    if (graphQLErrors)
-        graphQLErrors.map(({ message, locations, path }) => {
-            console.log(
-                `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-            )
-        })
-    //   
-    graphQLErrors?.length && graphQLErrors.forEach(err => {
-        const { code } = err.extensions
-        if (code === 'UNAUTHENTICATED' || code === 'FORBIDDEN') console.log('Papuuuuuuuu')
-        else if (code === 403) {
-            console.log('Papuuuuuuuu')
-        }
-    })
-    if (networkError) console.log(`[Network error]: ${networkError}`)
-})
-
 const authLink = async (_) => {
     const token = window.localStorage.getItem('session')
     const lol = await getDeviceId()
@@ -76,13 +46,6 @@ const authLinks = setContext(async (_, { headers }) => {
             deviceid: await getDeviceId() || '',
         }
     }
-})
-
-
-
-const httpLink = createUploadLink({
-    uri: `${URL_BASE}graphql`, // Server URL (must be absolute)
-    credentials: 'same-origin' // Additional fetch() options like `credentials` or `headers`
 })
 
 const getLink = async (operation) => {

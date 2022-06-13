@@ -3,7 +3,7 @@ import { ServerStyleSheet } from 'styled-components'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 
 class MyDocument extends Document {
-    static async getInitialProps (ctx) {
+    static async getInitialProps(ctx) {
         const sheet = new ServerStyleSheet()
         const originalRenderPage = ctx.renderPage
         try {
@@ -25,11 +25,14 @@ class MyDocument extends Document {
         }
     }
 
-    render () {
+    render() {
         return (
             <Html>
                 <Head>
                     <meta charSet="utf-8" />
+                    <link rel='preconnect' href='https://fonts.googleapis.com'></link>
+                    <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='anonymous'></link>
+                    <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap' crossOrigin='anonymous'></link>
                 </Head>
                 <body>
                     <Main />

@@ -6,14 +6,17 @@ import { Op } from 'sequelize'
 export const setVisitorStore = async (_root, { input }) => {
     try {
         const { id, idStore } = input || {}
-        const [rating, _created] = await visitUserStore.findOrCreate({
-            where: { id: deCode(id) },
-            defaults: {
-                id: deCode(id),
-                idStore: deCode(idStore),
-            }
-        })
-        return { success: true, message: '' }
+        if ((!id, !idStore)) return;
+        if (id, idStore) {
+            const [rating, _created] = await visitUserStore.findOrCreate({
+                where: { id: deCode(id) },
+                defaults: {
+                    id: deCode(id),
+                    idStore: deCode(idStore),
+                }
+            })
+            return { success: true, message: '' }
+        }
     } catch (e) {
         console.log(e)
         const error = new Error('Lo sentimos, ha ocurrido un error interno2')

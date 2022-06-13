@@ -1,6 +1,7 @@
 import { Op, fn } from 'sequelize'
 import productModelFood from '../../models/product/productFood'
 import Store from '../../models/Store/Store'
+import { linkBelongsTo, linkHasMany } from '../../utils'
 import { deCode, getAttributes } from '../../utils/util'
 
 export const getAllMatchesStoreRecommended = async (root, args, context, info) => {
@@ -46,30 +47,39 @@ export const productFoodsAllRecommended = async (root, args, context, info) => {
       whereSearch = {
         ...whereSearch,
         ProDelivery: {
-          [Op.in]: gender.map(x => {return x})
+          [Op.in]: gender.map(x => { return x })
         }
       }
     }
     if (desc?.length) {
       whereSearch = {
         ...whereSearch,
-        ProDescuento: { [Op.in]: desc.map(x => {return x}) }
+        ProDescuento: { [Op.in]: desc.map(x => { return x }) }
       }
     }
     //validad que  venga una categoría para hacer el filtro por categorías
     if (categories?.length) {
       whereSearch = {
         ...whereSearch,
-        caId: { [Op.in]: categories.map(x => {return deCode(x)}) }
+        caId: { [Op.in]: categories.map(x => { return deCode(x) }) }
       }
     }
+    linkBelongsTo(productModelFood, Store, 'idStore', 'idStore')
     const attributes = getAttributes(productModelFood, info)
     const data = await productModelFood.findAll({
-      attributes,
+      attributes: attributes,
+      include: [
+        {
+          attributes: ['ctId'],
+          model: Store,
+          required: true,
+          where: { uState: '2' }
+        }
+      ],
       where: {
         [Op.or]: [
           {
-            ...whereSearch,
+            // ...whereSearch,
             // get restaurant
             pState: { [Op.gt]: 0 }
           }

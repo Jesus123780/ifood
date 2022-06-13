@@ -1,0 +1,42 @@
+
+
+type AccountType {
+    _id: ID
+    idUser: ID
+    idComp: ID
+    idAccount: String
+    aName: String
+    aBalance: Float
+    aDescription: String
+    aType: typeAccount
+}
+# Account Type
+
+# Account Input
+input IAccount {
+    _id: ID
+    idUser: ID
+    idComp: ID
+    idAccount: String
+    aName: String
+    aBalance: Float
+    aType: typeAccount
+    aDescription: String
+}
+enum typeAccount {
+  ASSETS,
+  EXPENSE,
+  LIABILITY,
+  INCOME,
+}
+# Query
+type Query {
+  getAllAccount(idComp: ID): [AccountType]
+  sayHello: String
+}
+# Mutations
+type Mutation {
+  registerAccount(input: IAccount): AccountType
+  EditAccounts(input: IAccount): AccountType
+  DeleteOneAccounts(id: ID): Boolean,
+}

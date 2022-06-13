@@ -5,11 +5,11 @@ import { Op } from 'sequelize'
 import { URL_BASE } from '../../utils'
 
 export const saveImagesProducts = async ({ filename, fileStream }) => {
-    const res = await fetch('https://nodejs.org/api/documentation.json')
-    if (res.ok) {
-        const data = await res.json()
-        console.log(data, 999999999999)
-    }
+    // const res = await fetch('https://nodejs.org/api/documentation.json')
+    // if (res.ok) {
+    //     const data = await res.json()
+    //     console.log(data, 999999999999)
+    // }
     const path = `public/platos/${filename}`
     await fileStream.pipe(fs.createWriteStream(path))
     return path

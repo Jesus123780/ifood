@@ -171,7 +171,7 @@ export const ModalProduct = () => {
                                 <IconMiniCheck size={'15px'} color={'#009b3a'} />
                             </GarnishChoicesHeader>}
                             {ExtProductFoodsAll?.length > 0 && ExtProductFoodsAll?.map(extra => (
-                                <CardsComponent key={1}>
+                                <CardsComponent key={extra.exPid}>
                                     <div>
                                         <h3 className='title_card'>{extra.extraName}</h3>
                                         <h3 className='price'> $ {extra.extraPrice}</h3>
@@ -190,11 +190,11 @@ export const ModalProduct = () => {
                                         <IconMiniCheck size={'15px'} color={'#009b3a'} />
                                     </GarnishChoicesHeader>
                                     {itemOptional?.ExtProductFoodsSubOptionalAll?.map(x => (
-                                        <CardsComponent key={1}>
+                                        <CardsComponent key={x.opSubExPid}>
                                             <div>
                                                 <h3 className='title_card'>{x.OptionalSubProName}</h3>
                                             </div>
-                                            <input name='subOptional' value={x?.opSubExPid} type='checkbox' id='cat' onChange={handleChangeClickOnTable} />
+                                            <input name='subOptional' value={x?.opSubExPid}  type='checkbox' id='cat' onChange={handleChangeClickOnTable} />
                                             <RippleButton bgColor={'transparent'} margin='0px' widthButton='min-content' type='button' onClick={() => console.log(x)} >
                                             </RippleButton>
                                         </CardsComponent>

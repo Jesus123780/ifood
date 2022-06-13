@@ -6,14 +6,12 @@ import NewSelect from '../../../NewSelectHooks/NewSelect'
 import { LoadEllipsis } from '../../../LoadingButton'
 import { RippleButton } from '../../../Ripple'
 import { validationSubmitHooks } from '../../../../utils'
-import { Context } from '../../../../Context'
 import { GET_DEPARTMENT_ALL, UPDATE_DEPARTMENT } from './queries'
 import { GET_COUNTRY } from '../Countries/queries'
 import { EditForm } from './EditForm'
-// import { PColor } from '../../../../assets/colors'
-// import { IconEdit, IconDost, IconDelete } from '../../../../assets/icons/icons'
 import { Container, Form, Card, ContainerTask, OptionsFunction, Button, ListTask } from './styled'
 import { IconDelete, IconDost, IconEdit } from '../../../../public/icons'
+import { Context } from 'context'
 
 export const Departments = () => {
     const [createDepartments, { loading }] = useMutation(UPDATE_DEPARTMENT)

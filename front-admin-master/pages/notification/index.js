@@ -1,6 +1,5 @@
 import withSession from 'apollo/session';
-import { Notification } from 'container/Notifications';
-import { Stores } from 'container/Stores';
+import { Notification } from 'container/update/Notifications';
 import Head from 'next/head'
 export default function Home() {
   return (

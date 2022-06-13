@@ -12,7 +12,6 @@ export const getRoles = async (_root, _args, context, info) => {
     console.log('first')
 }
 export const getMessage = async (_root, _args, context, info) => {
-    console.log(context.pubsub)
     return 'Prueba 1'
 }
 export const currentNumber = async (_root, _args, context, info) => {

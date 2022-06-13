@@ -10,7 +10,7 @@ export const Content = styled.div`
     height: 340px;
     position: relative;
     margin-bottom: 70px;
-    height: 340px;
+    height: min-content;
 `
 export const CardProduct = styled.div`
     height: 300px;
@@ -21,7 +21,7 @@ export const CardProduct = styled.div`
 export const Img = styled.img`
 width: 100%;
 object-fit: contain;
-height: 340px;
+height: min-content;
     max-width: 1800px;
     /* background-color: rgb(255 251 251 / 70%);
     background-blend-mode: overlay;

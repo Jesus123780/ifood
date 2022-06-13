@@ -3,6 +3,7 @@ import productModelFood from '../../models/product/productFood'
 import catProducts from '../../models/Store/cat'
 import { deCode, filterKeyObject, getAttributes, linkBelongsTo } from '../../utils/util'
 import { Op } from 'sequelize'
+import { linkHasMany } from '../../utils'
 
 export const updatedProducts = async (_, { input }, ctx) => {
     const id = ctx.User.id || ''
@@ -176,7 +177,9 @@ export const getCatProductsWithProduct = async (root, args, context, info) => {
 export const getCatProductsWithProductClient = async (root, args, context, info) => {
     const { search, min, max, carProId, gender, desc, categories, idStore } = args
     console.log(search, min, max, carProId, gender, desc, categories)
-    linkBelongsTo(catProducts, productModelFood, 'pId', 'carProId')
+    // linkBelongsTo(catProducts, productModelFood, 'pId', 'carProId')
+    linkHasMany(catProducts, productModelFood, 'pId', 'pId')
+
     let whereSearch = {}
     const attributes = getAttributes(catProducts, info)
     const data = await catProducts.findAll({
@@ -185,7 +188,10 @@ export const getCatProductsWithProductClient = async (root, args, context, info)
             {
                 attributes: ['pId', 'carProId'],
                 model: productModelFood,
-                // required: true,
+                required: true,
+                where: {
+                    pName: '',
+                }
             }
         ],
         where: {
@@ -234,7 +240,7 @@ export default {
                         attributes,
                         where: { carProId: deCode(parent.carProId) }
                     })
-                    return data
+                    return []
                 } catch {
                     return null
                 }

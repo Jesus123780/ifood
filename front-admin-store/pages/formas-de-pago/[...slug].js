@@ -8,8 +8,7 @@ import { getCardType } from 'utils'
 import { useUser } from 'components/hooks/useUser'
 import { RippleButton } from 'components/Ripple'
 
-export default function PaymentMethods() {
-
+export default function PaymentMethods () {
   const router = useRouter()
   const { query } = router || {}
   const { slug } = query || {}
@@ -38,7 +37,7 @@ export default function PaymentMethods() {
     MASTERCARD: 'master',
     DISCOVER: 'discover'
   }
-  const handleNumChange = (e) => {
+  const handleNumChange = e => {
     let value = e.target.value
     const userRemovingNum = value.length < cardNum.length
 
@@ -132,54 +131,50 @@ export default function PaymentMethods() {
           clientName: data?.email || ''
         }
       }
-    }).then(() => {
-      setAlertBox({ message: '' })
-    }).catch(() => {
-      setAlertBox({ message: '' })
     })
+      .then(() => {
+        setAlertBox({ message: '' })
+      })
+      .catch(() => {
+        setAlertBox({ message: '' })
+      })
+  }
+  const propsPaymentCard = {
+    NAME_CARD: slug[0],
+    cardLogo: cardLogo,
+    cardType: cardType,
+    errors: errors,
+    flipped: flipped,
+    handleChange: handleChange,
+    handleFocus: handleFocus,
+    handleNumChange: handleNumChange,
+    handleOnblur: handleOnblur,
+    handleSubmit: handleSubmit,
+    numOnCard: numOnCard,
+    setCardNum: setCardNum,
+    setErrors: setErrors,
+    setFlipped: setFlipped,
+    setNumOnCard: setNumOnCard,
+    values: values
   }
   const rutes = {
-    BANCOLOMBIA: <Bancolombia
-      NAME_CARD={slug && slug[0]}
-      cardLogo={cardLogo}
-      cardType={cardType}
-      errors={errors}
-      flipped={flipped}
-      handleChange={handleChange}
-      handleFocus={handleFocus}
-      handleNumChange={handleNumChange}
-      handleOnblur={handleOnblur}
-      handleSubmit={handleSubmit}
-      numOnCard={numOnCard}
-      setCardNum={setCardNum}
-      setErrors={setErrors}
-      setFlipped={setFlipped}
-      setNumOnCard={setNumOnCard}
-      values={values}
-    />,
-    NEQUI: <Nequi
-      NAME_CARD={slug && slug[0]}
-      cardLogo={cardLogo}
-      handleChange={handleChange}
-      handleFocus={handleFocus}
-      handleNumChange={handleNumChange}
-      handleOnblur={handleOnblur}
-      handleSubmit={handleSubmit}
-    />,
-    BANCO_DE_BOGOTA: <BancoDeBogota
-      NAME_CARD={slug && slug[0]}
-      cardLogo={cardLogo}
-      handleChange={handleChange}
-      handleFocus={handleFocus}
-      handleNumChange={handleNumChange}
-      handleOnblur={handleOnblur}
-      handleSubmit={handleSubmit}
-    />
+    BANCOLOMBIA: <Bancolombia {...propsPaymentCard} />,
+    NEQUI: <Nequi {...propsPaymentCard} />,
+    BANCO_DE_BOGOTA: <BancoDeBogota {...propsPaymentCard} />
   }
-  return (<React.Fragment>
-    {rutes[slug]}
-    <RippleButton onClick={() => { return handleSubmit() }} widthButton={'100%'}>button</RippleButton>
-  </React.Fragment>)
+  return (
+    <React.Fragment>
+      {rutes[slug]}
+      <RippleButton
+        onClick={() => {
+          return handleSubmit()
+        }}
+        widthButton={'100%'}
+      >
+        button
+      </RippleButton>
+    </React.Fragment>
+  )
 }
 
 export const nombre = 'nomnbre'

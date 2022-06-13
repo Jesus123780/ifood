@@ -1,4 +1,3 @@
-const graphqlFields = require('graphql-fields')
 const { Base64 } = require('js-base64')
 
 const codeRed = async model => {
@@ -79,11 +78,14 @@ const updateOrCreate = async (model, newItem, where) => {
 }
 
 // Busca los campos que coinciden con la base de datos y la query de graphql
-const getAttributes = (model, attributes) => {
-    const rows = model.rawAttributes
-    const columns = graphqlFields(attributes)
-    return (Object.keys(columns?.data ? columns.data : columns)?.filter(x => rows[x]) || [])
-}
+const getAttributes = (model, { fieldNodes }) => {
+    // get the fields of the Model (columns of the table)
+    const columns = new Set(Object.keys(model.rawAttributes))
+    const requested_attributes = fieldNodes[0].selectionSet.selections
+      .map(({ name: { value } }) => {return value})
+    // filter the attributes against the columns
+    return requested_attributes.filter(attribute => {return columns.has(attribute)})
+  }
 /**
  * Verifica que contenga un valor
  * @version 0.0.1
