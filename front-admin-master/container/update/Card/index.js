@@ -70,26 +70,9 @@ export const Card = () => {
 
     }
   }
-  var nombre = 'Jesus y odalis se aman mucho'
-  nombre = 'Tienen sueñito'
-
-  let nombre2 = 'Casita'
-  nombre2 = 'Home'
-  const nombre3 = 'pronto'
-  
-  // const nombre3 = ''
-  function hamDeBlock(hola) {
-    const nombre3 = 'Papa'
-  }
-
-  console.log(data?.getAllPaymentCardType)
   return (
     <Column padding='10px' margin='auto'>
-      <div>{nombre}</div>
-      <div>{nombre2}</div>
-      <div>{nombre3}</div>
       <Row>
-        {hamDeBlock()}
         {data?.getAllPaymentCardType?.map((type) => (
           <Column
             borderRadius={'10px'}

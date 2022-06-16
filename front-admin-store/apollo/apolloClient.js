@@ -58,7 +58,7 @@ const authLink = async () => {
     const token = window.localStorage.getItem('session')
     const restaurant = window.localStorage.getItem('restaurant')
     return {
-      authorization: `Bearer ${token}` && `Bearer ${token}`,
+      authorization: token && `Bearer ${token}`,
       restaurant: restaurant ?? restaurant,
       deviceid: ''
     }

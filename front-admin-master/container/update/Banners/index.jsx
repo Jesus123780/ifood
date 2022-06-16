@@ -28,7 +28,7 @@ export const Banners = () => {
   const { data, loading } = useQuery(GET_ALL_BANNERS, {
     context: { clientName: "admin-server" }
   })
-  const  { data: dataListStore, fetchMore } = useQuery(GET_ALL_RESTAURANT, {
+  const { data: dataListStore, fetchMore } = useQuery(GET_ALL_RESTAURANT, {
     fetchPolicy: 'cache-and-network',
     notifyOnNetworkStatusChange: true,
     nextFetchPolicy: 'cache-first',
@@ -93,11 +93,19 @@ export const Banners = () => {
       setReset(true)
     }
   })
+  const handleReset = () => {
+    setOpen(!open)
+    setReset(true)
+  }
+  const handleResetPromo = () => {
+    setOpenModalPromo(!openModalPromo)
+    setReset(true) 
+  }
   return (
     <Container>
       <PromosBanner />
-      <RippleButton onClick={() => { setOpen(!open), setReset(true) }}>Adicionar Item</RippleButton>
-      <AwesomeModal zIndex='99390' padding='20px' show={open} onHide={() => { setOpen(!open), setReset(true) }} onCancel={() => false} size='medium' btnCancel={true} btnConfirm={false} header={true} footer={false} >
+      <RippleButton onClick={() => handleReset()}>Adicionar Item</RippleButton>
+      <AwesomeModal zIndex='99390' padding='20px' show={open} onHide={() => handleReset} onCancel={() => false} size='medium' btnCancel={true} btnConfirm={false} header={true} footer={false} >
         Banners
         <form onSubmit={(e) => handleForm(e)}>
           {/* <InputFiles Disable={false} onChange={handleFileChange} reset={reset} /> */}
@@ -123,7 +131,7 @@ export const Banners = () => {
       <PromoBannerStores />
       <RippleButton onClick={() => { setReset(false), setOpenModalPromo(!openModalPromo) }}>Adicionar promo</RippleButton>
       {/* Adicionar promos */}
-      <AwesomeModal zIndex='99390' padding='20px' show={openModalPromo} onHide={() => { setOpenModalPromo(!openModalPromo), setReset(true) }} onCancel={() => false} size='medium' btnCancel={true} btnConfirm={false} header={true} footer={false} >
+      <AwesomeModal zIndex='99390' padding='20px' show={openModalPromo} onHide={() => handleResetPromo()} onCancel={() => false} size='medium' btnCancel={true} btnConfirm={false} header={true} footer={false} >
         Banner PROMO
         <form onSubmit={(e) => handleForm(e, 1)}>
           <InputFiles Disable={false} onChange={handleFileChange2} reset={reset} />

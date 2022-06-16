@@ -79,7 +79,7 @@ export const Departments = () => {
     return (<>
         <Container>
             <Form onSubmit={handleRegister}>
-                <NewSelect search disabled={!dataCountries?.countries[0]?.cId} options={dataCountries?.countries.filter(x => x?.c_name === x?.c_name) || []} id='cId' name='cId' value={values?.cId || ''} optionName='cName' title='Ingresa el País' onChange={handleChange} margin='10px' />
+                <NewSelect search disabled={!dataCountries?.countries[0]?.cId} options={dataCountries?.countries || []} id='cId' name='cId' value={values?.cId || ''} optionName='cName' title='Ingresa el País' onChange={handleChange} margin='10px' />
                 <InputHooks
                     title='Ingresa un departamento'
                     required
