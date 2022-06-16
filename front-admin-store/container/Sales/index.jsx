@@ -271,7 +271,7 @@ const GenerateSales = () => {
               return {
                 ...item,
                 ProQuantity: item.ProQuantity - 1,
-                ProPrice: item.ProPrice - item.ProPrice
+                // ProPrice: item.ProPrice - item.ProPrice
               }
             }
             return {

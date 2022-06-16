@@ -75,9 +75,6 @@ export const Departments = () => {
     if (edit.id) {
         return <EditForm edit={edit} onSubmit={submitUpdate} />;
     }
-    const handleDelete = department => {
-        // eslint-disable-next-line
-    }
     return (<>
         <Container>
             <Form onSubmit={handleRegister}>
@@ -98,7 +95,6 @@ export const Departments = () => {
                 {data?.department ? data?.department.map(index => (
                     <ContainerTask show={show === index} key={index.dId}>
                         <OptionsFunction show={show === index}>
-                            <Button onClick={ () => handleDelete({ ...index, dState: 0 }, 'DELETE') }><IconDelete size={30} /></Button>
                             <Button onClick={() => setEdit({ id: index.dId, value: index.dName })} ><IconEdit size={30} /></Button>
                         </OptionsFunction>
                         <ListTask show={show === index}>

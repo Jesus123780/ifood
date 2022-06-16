@@ -156,7 +156,6 @@ export const MerchantInfo = styled.div`
             opacity: 1;
         }
     }
-    }
     && > span {
       position: relative;
       @media only screen and (min-width: 960px) {
@@ -198,7 +197,7 @@ export const MerchantBannerWrapperInfo = styled.div`
     padding-left: 30px;
     background-color: rgb(0 0 0 / 6%);
     background-blend-mode: overlay;
-    background-image: ${({ bannerImage }) => { return bannerImage && (bannerImage) }};
+    background-image: ${({ bannerImage }) => { return bannerImage ? (bannerImage) : '' }};
     .merchant-banner__status-description {
       line-height: 1.15;
       font-size: 16px;

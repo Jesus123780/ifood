@@ -257,7 +257,7 @@ export const CustomTable2 = () => {
               </ContentItems>
               <ContentItems paddingLeft='45px'>
                 <ButtonStatus status={'Active'}>
-                  {!currentItems.status === 'Active' ? 'Active' : currentItems?.status === 'Danger' ? 'Active' : 'Pending'}
+                  {!currentItems.status == 'Active' ? 'Active' : currentItems?.status === 'Danger' ? 'Active' : 'Pending'}
                 </ButtonStatus>
               </ContentItems>
               <ContentItems>

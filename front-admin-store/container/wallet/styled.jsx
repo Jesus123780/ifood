@@ -168,10 +168,10 @@ export const AnimationLeft = keyframes`
 }
 `
 export const ContainerAnimation = styled.div`
-${ props=> {return props.active === 1 ? css`animation: ${ AnimationRight } 200ms;` : css`animation: ${ AnimationRight } 200ms;`} }
+${ props=> {return props.active === 1 && css`animation: ${ AnimationRight } 200ms;`} }
 `
 export const ContainerAnimationTow = styled.div`
-${ props=> {return props.active === 2 ? css`animation: ${ AnimationLeft } 200ms;` : css`animation: ${ AnimationLeft } 200ms;`} }
+${ props=> {return props.active === 2 && css`animation: ${ AnimationLeft } 200ms;`} }
 
 `
 export const WrapperClient = styled.div`

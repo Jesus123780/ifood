@@ -99,7 +99,11 @@ export const Banners = () => {
   }
   const handleResetPromo = () => {
     setOpenModalPromo(!openModalPromo)
-    setReset(true) 
+    setReset(true)
+  }
+  const handleSetOpenModalPromo = () => {
+    setReset(false)
+    setOpenModalPromo(!openModalPromo)
   }
   return (
     <Container>
@@ -129,7 +133,7 @@ export const Banners = () => {
         </form>
       </AwesomeModal>
       <PromoBannerStores />
-      <RippleButton onClick={() => { setReset(false), setOpenModalPromo(!openModalPromo) }}>Adicionar promo</RippleButton>
+      <RippleButton onClick={() => handleSetOpenModalPromo()}>Adicionar promo</RippleButton>
       {/* Adicionar promos */}
       <AwesomeModal zIndex='99390' padding='20px' show={openModalPromo} onHide={() => handleResetPromo()} onCancel={() => false} size='medium' btnCancel={true} btnConfirm={false} header={true} footer={false} >
         Banner PROMO

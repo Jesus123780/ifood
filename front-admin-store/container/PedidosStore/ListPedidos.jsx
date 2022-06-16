@@ -219,13 +219,13 @@ console.log("🚀 ~ file: ListPedidos.jsx ~ line 111 ~ CheckStatus ~ dataModal",
                       <DisRestaurant>
                         <Text size='1.4'>{p?.getAllShoppingCard.comments}</Text>
                       </DisRestaurant>
-                      {0 > 0 && <GarnishChoicesHeader>
+                      <GarnishChoicesHeader>
                         <div>
                           <p className='garnish-choices__title'>Adicionales</p>
                           <p className='garnish-choices__title-desc'>Escoge hasta opciones.</p>
                         </div>
                         {/* <IconMiniCheck size={'15px'} color={'#009b3a'} /> */}
-                      </GarnishChoicesHeader>}
+                      </GarnishChoicesHeader>
                       {/* {ExtProductFoodsAll?.map(extra => (
                                             <CardsComponent key={extra.exPid}>
                                                 <div>

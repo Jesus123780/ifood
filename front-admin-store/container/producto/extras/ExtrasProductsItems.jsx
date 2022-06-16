@@ -173,7 +173,7 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
   }
   return (
     <Column>
-      {dataExtra?.length > 0 && <form onSubmit={(e) => { return onSubmitUpdate(e) }} >
+      {dataExtra?.length > 0 && <form onSubmit={(e) => { return onSubmitUpdate() }} >
         <GarnishChoicesHeader onClick={() => { return setModal(!modal) }}>
           <div>
             <p className='garnish-choices__title'>Adicionales</p>

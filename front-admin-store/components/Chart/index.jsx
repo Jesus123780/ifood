@@ -134,7 +134,7 @@ export const BarChat = ({ data }) => {return (
     <div className='header'>
       <div className='links'>
       </div>
-      <Bar data={data || data} />
+      <Bar data={data} />
     </div>
   </>
 )}

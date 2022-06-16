@@ -129,7 +129,7 @@ const Dessert = () => {
                   : undefined
               }
             >
-              <button onClick={() => { return removeRow(grp, grpIdx) }}>X    </button>
+              <button onClick={() => { return removeRow(grp) }}>X    </button>
               <div className='group-title'>{grp.title}</div>
               {grp.items.map((item, itemIdx) => {
                 return (

@@ -114,7 +114,7 @@ export const ExtraProducts = () => {
           >Eliminar</RippleButton>
           <RippleButton
             margin='20px auto'
-            onClick={() => {return handledExtProductFoods(dataForm)}}
+            onClick={() => {return handledExtProductFoods()}}
             widthButton='100%'
           >Editar</RippleButton>
         </Flex>
