@@ -4,9 +4,9 @@ export const Container = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    padding-top: 60px;
     white-space: nowrap;
     height: 100vh;
+
 `
 export const ContentImage = styled.div`
     width: 40vw;
@@ -20,6 +20,10 @@ export const Form = styled.form`
     display: flex;
     flex-direction: column;
     padding: 16px;
+    height: min-content;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
     @media (max-width: 1024px) {
         width: 60vw;
     }

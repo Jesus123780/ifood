@@ -73,7 +73,7 @@ export const Login = (props) => {
     })
     return (
         <div>
-            <form ref={formRef}>
+            {/* <form ref={formRef}>
                 <button type="button" onClick={onClickHandler}>
                     {props.label}
                 </button>
@@ -86,7 +86,7 @@ export const Login = (props) => {
                     style={{ display: 'none' }}
                     type="file"
                 />
-            </form>
+            </form> */}
             <Container>
                 <ContainerLeft>
                     <ContentImage>

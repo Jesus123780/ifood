@@ -16,6 +16,7 @@ Button.propTypes = {
 
 const View = styled.button`
     ${({ lineHeight }) => {return lineHeight && css`line-height: ${lineHeight};`}}
+    ${({ cursor }) => {return cursor && css`cursor: ${cursor};`}}
     ${({ height }) => {return height && css`height: ${height};`}}
     ${({ zIndex }) => {return zIndex && css`z-index: ${zIndex};`}}
     ${({ minHeight }) => {return minHeight && css`min-height: ${minHeight};`}}

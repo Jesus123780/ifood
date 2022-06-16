@@ -2,12 +2,12 @@ import { AwesomeModal } from 'components/AwesomeModal'
 import { useFormTools } from 'components/BaseForm'
 import { Container } from 'components/common/Reusable'
 import { InputFiles } from 'components/InputFilesPrev'
-import { useLazyQuery, useQuery, useMutation } from '@apollo/client'
+import { useQuery, useMutation } from '@apollo/client'
 import InputHooks from 'components/InputHooks/InputHooks'
 import { RippleButton } from 'components/Ripple'
 import { CREATE_BANNER_MAIN, CREATE_BANNER_PROMO } from 'container/dashboard/queries'
 import React, { useState } from 'react'
-import { GET_ALL_BANNERS } from './queries'
+import { GET_ALL_BANNERS, GET_ALL_RESTAURANT } from './queries'
 import { PromoBannerStores, PromosBanner } from 'container/update/PromosBanner'
 import { GET_ALL_BANNERS_PROMO } from 'gql/getBanners'
 import { updateCache } from 'utils'
@@ -27,6 +27,14 @@ export const Banners = () => {
   })
   const { data, loading } = useQuery(GET_ALL_BANNERS, {
     context: { clientName: "admin-server" }
+  })
+  const  { data: dataListStore, fetchMore } = useQuery(GET_ALL_RESTAURANT, {
+    fetchPolicy: 'cache-and-network',
+    notifyOnNetworkStatusChange: true,
+    nextFetchPolicy: 'cache-first',
+    refetchWritePolicy: 'merge',
+    context: { clientName: "admin-store" }
+
   })
   const handleFileChange = async (param) => {
     setImage(param[0])

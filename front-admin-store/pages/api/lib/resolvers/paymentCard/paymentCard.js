@@ -45,13 +45,40 @@ export const registerPaymentCard = async (_root, { input }, context) => {
   try {
     const data = await PaymentCard.create({
       id: deCode(context.User.id || id),
-      idStore: idStore ? deCode(idStore): deCode(context.restaurant),
+      idStore: idStore ? deCode(idStore) : deCode(context.restaurant),
       ...input
     })
     return data
   } catch (e) {
     const error = new Error('No pudimos guardar la tarjeta', e, 400)
     return error
+  }
+
+}
+export const deletePaymentCardType = async (_root, { cardtypeId }, context) => {
+  try {
+    const isExist = await PaymentCardType.findOne({
+      attributes: ['cardtypeId'],
+      where: { cardtypeId: deCode(cardtypeId) }
+    })
+    console.log(isExist)
+    if (isExist === null) {
+      return {
+        success: false,
+        message: 'La tarjeta no existe'
+      }
+    } else {
+      PaymentCardType.destroy({ where: { cardtypeId: deCode(cardtypeId) } })
+      return {
+        success: true,
+        message: 'Tarjeta eliminada con éxito'
+      }
+    }
+  } catch (e) {
+    return {
+      success: false,
+      message:  `No pudimos eliminar la tarjeta', ${e}, ${400}`
+    }
   }
 
 }
@@ -63,7 +90,8 @@ export default {
     getAllPaymentCardType
   },
   MUTATIONS: {
+    deletePaymentCardType,
+    registerPaymentCard,
     registerPaymentCardType,
-    registerPaymentCard
   }
 }

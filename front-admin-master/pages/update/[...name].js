@@ -8,7 +8,8 @@ import {
   PromoBannerDashboard,
   CategoriesStore,
   Offers,
-  Kit
+  Kit,
+  Card
 } from 'container'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -29,6 +30,7 @@ export default function Login ({ ...args }) {
     categories: <CategoriesStore {...props} />,
     offers: <Offers {...props} />,
     kit: <Kit {...props} />,
+    card: <Card {...props} />,
     'promos-dashboard': <PromoBannerDashboard {...props} />
   }
   return (

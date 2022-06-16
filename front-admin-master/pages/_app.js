@@ -1,5 +1,5 @@
 import { ApolloProvider } from '@apollo/client'
-import { Layout } from 'components/layout'
+import { Layout as MainLayout } from 'components/layout'
 import Context from 'context/Context'
 import { GlobalStyle } from 'public/styles/GlobalStyle'
 import { useApollo } from '../apollo/apolloClient'
@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 function MyApp({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps)
+  const Layout = Component.Layout ? Component.Layout : MainLayout
 
   return (
     <Context>
@@ -21,4 +22,7 @@ function MyApp({ Component, pageProps }) {
   )
 }
 
+
 export default MyApp
+export const EmptyLayout = ({ children }) => { return <div>{children}</div> }
+

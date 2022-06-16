@@ -23,11 +23,18 @@ type Admin {
     # Roles
     role: [Roles]
 }
+type StoreReport {
+  store:  [Store]
+  count: Int
+}
   type Query {
     bucketExistsQuery(idUser: ID, BucketName: String!): AuthPayload
     getAlUserLocation(country: String): [User]
+    getAllStoreAdminReport(country: String): StoreReport
     getAllRoles: [Roles]
   }
+
+
 
 # Mutations
 type Mutation {

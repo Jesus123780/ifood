@@ -140,7 +140,7 @@ export default function PaymentMethods () {
       })
   }
   const propsPaymentCard = {
-    NAME_CARD: slug[0],
+    NAME_CARD: slug && slug[0],
     cardLogo: cardLogo,
     cardType: cardType,
     errors: errors,

@@ -1,4 +1,5 @@
-import Text from 'components/common/Text'
+// import Text from 'components/common/Text'
+import Text from 'components/common/Atoms/Text'
 import InputHooks from 'components/InputHooks/InputHooks'
 import { FlipCard } from 'components/PaymentCard/cards'
 import { CreditCard, Line, Number } from 'container/PaymentCard/styled'

@@ -8,6 +8,7 @@ import { useApolloClient } from '@apollo/client'
 import { Context } from 'context/Context';
 import { useMutation, useQuery, useLazyQuery } from '@apollo/client'
 import { GET_ALL_CITIES, GET_ALL_COUNTRIES, GET_ALL_DEPARTMENTS, GET_ONE_COUNTRY } from 'gql/Location';
+import { GET_ALL_STORE_REPORT } from 'gql/Admin';
 import NewSelect from 'components/NewSelectHooks/NewSelect';
 
 export const Header = () => {
@@ -33,6 +34,11 @@ export const Header = () => {
             })
     }, [client])
     const [values, setValues] = useState({})
+    const { data: dataStoreReport } = useQuery(GET_ALL_STORE_REPORT, {
+        context: { clientName: "admin-store" }
+
+    })
+    console.log("🚀 ~ file: index.jsx ~ line 38 ~ Header ~ dataStoreReport", dataStoreReport)
     const { data: dataCountries, loading: loadCountries } = useQuery(GET_ALL_COUNTRIES)
     const [getDepartments, { data: dataDepartments }] = useLazyQuery(GET_ALL_DEPARTMENTS)
     const [getCities, { data: dataCities }] = useLazyQuery(GET_ALL_CITIES)
@@ -77,6 +83,7 @@ export const Header = () => {
                         </>}
                     </SwitchOption>}
                 </CtnSwitch>
+                <ActionContent style={{ margin: '10px', fontSize: '20px' }}>{dataStoreReport?.getAllStoreAdminReport?.count || 0}</ActionContent>
                 <IconLogo color={PColor} size="50px" />
                 <ActionContent></ActionContent>
                 <ActionContent>

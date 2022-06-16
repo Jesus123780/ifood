@@ -1,7 +1,7 @@
 import { Login } from 'container/login';
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
 import axios from 'axios';
+import { EmptyLayout } from './_app';
 export default function Home() {
 
   const onChange = async (formData) => {
@@ -29,3 +29,5 @@ export default function Home() {
     </div>
   )
 }
+
+Home.Layout = EmptyLayout

@@ -8,6 +8,7 @@ import informationResolver from './informations'
 import Providers from './Providers'
 import recommendedCategorieStoreResolver from './recommended'
 import paymentCardResolver from './paymentCard'
+import adminResolver from './admin'
 export default {
   ...UserResolvers.TYPES,
   ...storeResolver.TYPES,
@@ -18,11 +19,13 @@ export default {
   ...deviceResolver.TYPES,
   ...recommendedCategorieStoreResolver.TYPES,
   ...categoriesResolver.TYPES,
+  ...adminResolver.TYPES,
   DateTime: dateTimeScalar,
   // Upload: GraphQLUpload,
   Query: {
     ...UserResolvers.QUERIES,
     ...categoriesResolver.QUERIES,
+    ...adminResolver.QUERIES,
     ...Providers.QUERIES,
     ...recommendedCategorieStoreResolver.QUERIES,
     ...informationResolver.QUERIES,
@@ -35,6 +38,7 @@ export default {
     ...UserResolvers.MUTATIONS,
     ...Providers.MUTATIONS,
     ...categoriesResolver.MUTATIONS,
+    ...adminResolver.MUTATIONS,
     ...storeResolver.MUTATIONS,
     ...informationResolver.MUTATIONS,
     ...products.MUTATIONS,
