@@ -119,31 +119,34 @@ const Provider = ({ children }) => {
     const [openSchedule, setOpenSchedule] = useState(true)
     const listRoutes = [
         {
-          name: 'promos-dashboard'
+          name: 'update/promos-dashboard'
         },
         {
-          name: 'banners'
+          name: 'update/banners'
         },
         {
-          name: 'notification'
+          name: 'update/notification'
         },
         {
-          name: 'promos'
+          name: 'update/promos'
         },
         {
-          name: 'stores'
+          name: 'update/stores'
         },
         {
-          name: 'Pqr'
+          name: 'update/Pqr'
         },
         {
-          name: 'categories'
+          name: 'update/categories'
         },
         {
-          name: 'offers'
+          name: 'update/offers'
         },
         {
-          name: 'kit'
+          name: 'update/kit'
+        },
+        {
+          name: 'actividad'
         },
       ]
     const value = {

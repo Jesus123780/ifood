@@ -7,7 +7,7 @@ import { EDIT_PRODUCT, GET_ONE_PRODUCTS_FOOD } from '../queries'
 import { GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, UPDATE_IMAGE_PRODUCT_FOOD, UPDATE_PRODUCT_FOOD } from 'container/update/Products/queries'
 import { GET_ALL_CATEGORIES_WITH_PRODUCT, GET_ALL_EXTRA_PRODUCT } from 'container/dashboard/queries'
 import { useLazyQuery, useMutation } from '@apollo/client'
-import { numberFormat, updateCache } from 'utils'
+import { numberFormat, updateCache, validationImg } from 'utils'
 import { RippleButton } from 'components/Ripple'
 import { APColor, BColor, BGColor, PColor } from 'public/colors'
 import { IconDelete, IconPay } from 'public/icons'
@@ -67,57 +67,66 @@ export const ProductEdit = ({ id }) => {
 
   }
   const handleForm = (e) => {
-    return handleSubmit({
-      event: e,
-      action: () => {
-        setImageProducts({
-          variables: {
-            input: {
-              file: image,
-              pCode: pCode,
-              pId: id
+    e.preventDefault()
+    const isImage = validationImg(image)
+    if (isImage) {
+      return handleSubmit({
+        event: e,
+        action: () => {
+          setImageProducts({
+            variables: {
+              input: {
+                file: image,
+                pCode: pCode,
+                pId: id
+              }
             }
-          }
-        }).then(() => {
-          // setDataValue({})
-        })
-        const { pName, ProPrice, ProDescuento, ValueDelivery, ProUniDisponibles, ProDescription, ProProtegido, ProAssurance, ProWidth, ProHeight, ProLength, ProWeight, ProQuantity, ProOutstanding, ProDelivery, ProVoltaje, pState, sTateLogistic } = dataForm || {}
-        return editProductFoods({
-          variables: {
-            input: {
-              pId: id,
-              pName,
-              ProPrice: parseFloat(ProPrice),
-              ProDescuento: parseFloat(ProDescuento),
-              ValueDelivery: parseFloat(ValueDelivery),
-              ProUniDisponibles,
-              ProDescription,
-              ProProtegido,
-              ProAssurance,
-              ProWidth,
-              ProHeight,
-              ProLength,
-              ProWeight,
-              ProQuantity,
-              ProOutstanding,
-              ProDelivery,
-              ProVoltaje,
-              pState,
-              sTateLogistic
+          }).then((x) => {
+            const { data } = x
+            const { setImageProducts } = data
+            setAlertBox({ message: `${setImageProducts?.message || ''}`, color: 'success', duration: 7000 })
+          }).catch((x) => {
+            setAlertBox({ message: 'Lo sentimos ha ocurrido un error al cargar la imagen', color: 'error', duration: 7000 })
+          })
+          const { pName, ProPrice, ProDescuento, ValueDelivery, ProUniDisponibles, ProDescription, ProProtegido, ProAssurance, ProWidth, ProHeight, ProLength, ProWeight, ProQuantity, ProOutstanding, ProDelivery, ProVoltaje, pState, sTateLogistic } = dataForm || {}
+          return editProductFoods({
+            variables: {
+              input: {
+                pId: id,
+                pName,
+                ProPrice: parseFloat(ProPrice),
+                ProDescuento: parseFloat(ProDescuento),
+                ValueDelivery: parseFloat(ValueDelivery),
+                ProUniDisponibles,
+                ProDescription,
+                ProProtegido,
+                ProAssurance,
+                ProWidth,
+                ProHeight,
+                ProLength,
+                ProWeight,
+                ProQuantity,
+                ProOutstanding,
+                ProDelivery,
+                ProVoltaje,
+                pState,
+                sTateLogistic
+              }
+            }, update: (cache, { data: { productFoodsOne } }) => {
+              return updateCache({
+                cache,
+                query: GET_ONE_PRODUCTS_FOOD,
+                nameFun: 'productFoodsOne',
+                dataNew: productFoodsOne
+              })
             }
-          }, update: (cache, { data: { productFoodsOne } }) => {
-            return updateCache({
-              cache,
-              query: GET_ONE_PRODUCTS_FOOD,
-              nameFun: 'productFoodsOne',
-              dataNew: productFoodsOne
-            })
-          }
-
-        })
-
-      }
-    })
+  
+          })
+        }
+      })
+    } else {
+      setAlertBox({ message: `Es necesario una imagen para el product ${dataForm?.pName || null}` })
+    }
   }
   const fileInputRef = useRef(null)
   const onTargetClick = e => {
@@ -335,7 +344,7 @@ export const ButtonCard = styled.button`
     return props.grid && css`
         top: ${({ top }) => { return top ? top : '80px' }};
         `}
-}
+  }
 `
 const Card = styled.div`
     position: relative;

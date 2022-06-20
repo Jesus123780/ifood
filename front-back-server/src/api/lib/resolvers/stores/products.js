@@ -42,7 +42,7 @@ export const setImageProducts = async (_root, { input }) => {
                     }
                 })
         }
-        if (!data || file) {
+        if (!data || !file) {
             return {
                 success: false,
                 message: 'No pudimos cargar la imagen'

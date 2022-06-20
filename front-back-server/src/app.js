@@ -50,13 +50,13 @@ function parseCookies(request) {
                 const whitelist = CORS_ORIGIN ? CORS_ORIGIN : []
                 cb(null, whitelist.includes(origin))
             },
-            credentials: true
+            credentials: false
         })
     )
     // Routes
     app.set('port', process.env.GRAPHQL_PORT || 4000)
     app.use('/image', (req, res) => {
-        const url = `http://localhost:3001/app/api/graphql`
+        const url = 'http://localhost:3001/app/api/graphql'
         const query = `
         query productFoodsOne($pId: ID){
             productFoodsOne(pId: $pId ){
@@ -171,13 +171,12 @@ function parseCookies(request) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ query, variables }),
+            body: JSON.stringify({ query, variables })
 
         }
         )
             .then(response => response.json())
             .then(data => {
-                console.log(data)
                 res.json(data.data)
             })
 
@@ -209,7 +208,7 @@ function parseCookies(request) {
         persistedQueries: true,
         plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
         context: async ({ req, res }) => {
-            const url = `http://localhost:3001/app/api/graphql`
+            const url = 'http://localhost:3001/app/api/graphql'
 
             try {
                 // check from req

@@ -86,7 +86,7 @@ export const passwordConfirm = (value, valueConfirm) => { return !(value === val
 // var options = { style: 'currency', currency: 'GBP' };
 // export const numberFormat = value => value && parseFloat(value) && new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(value)
 // export const numberFormat = value => value ? (parseInt(value) ? new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(parseFloat(`${value}`.replace(/\./g, ''))) : '') : (value === 0 ? 0 : '')
-export const numberFormat = value => { return value ? (parseInt(value) ? new Intl.NumberFormat('de-DE').format(parseFloat(`${value}`.replace(/\./g, ''))) : '') : (value === 0 ? 0 : '') }
+export const numberFormat = value => { return value ? (parseInt(value) ? new Intl.NumberFormat('de-DE').format(parseFloat(`${value}`.replace(/\./g, ''))) : value) : (value) }
 
 // valida los inputs
 export const dateFormat = value => { return moment(value).format('DD-MM-YYYY') }
@@ -562,7 +562,7 @@ export const calculateCheckDigit = value => {
   const z = nit.length
 
   for (i; i < z; i++) {
-    y = nit.substr(i, 1)
+    y = nit.substring(i, 1)
 
     x += (y * vpri[z - i])
   }

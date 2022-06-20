@@ -129,7 +129,7 @@ function createApolloClient() {
     }
     const link = createUploadLink({
       uri,
-      credentials: 'include',
+      credentials: 'same-origin',
       authorization: service === 'admin-server' || service === 'subscriptions' ? `Bearer ${token}` : `${restaurant}`,
 
       headers: {

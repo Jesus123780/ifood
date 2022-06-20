@@ -27,11 +27,10 @@ export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => 
             window.localStorage.setItem('latitude', latitude)
             window.localStorage.setItem('longitude', longitude)
             window.localStorage.setItem('location', JSON.stringify(dataLocation));
-            if (_err) setAlertBox({ message: `Lo sentimo ocurrió un error${_err}`, color: '' })
+            if (_err) setAlertBox({ message: `Lo sentimo ocurrió un error en tu ubicación${_err}`, color: '' })
         }
     }, [latitude, longitude, timestamp, accuracy, speed])
     const val = !['/delivery/[location]/[name]/[id]'].find(x => x === location.pathname)
-    const message = ['/proceso-de-compra/finalizar', '/restaurantes'].find(x => x === location.pathname)
     return (
         <div>
             <AlertBox err={error} />
@@ -46,7 +45,7 @@ export const Layout = ({ keyTheme, handleTheme, children, watch, settings }) => 
                 </div>
                 {!['/login', '/register', '/varify-email', '/restaurante', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => x === location.pathname) && <Footer />}
                 <div style={{ gridArea: 'right' }}>
-                    {(message || !val) && <Messages />}
+                    {(!val) && <Messages />}
                 </div>
             </Main>
         </div>

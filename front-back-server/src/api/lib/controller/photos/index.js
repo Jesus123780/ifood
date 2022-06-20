@@ -1,6 +1,5 @@
 // import CatStore from '../../models/'
 
-import { ApolloError } from 'apollo-server-express'
 import CatStore from '../../models/information/CategorieStore'
 import { URL_BASE } from '../../utils'
 

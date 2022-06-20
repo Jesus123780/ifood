@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-expressions */
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { useApolloClient } from '@apollo/client'
 import PropTypes from 'prop-types'
 import { PColor } from '../../../public/colors'
-import { IconHome, IconLogout, IconPromo, IconShopping } from '../../../public/icons'
+import { IconLogout, IconShopping } from '../../../public/icons'
 import ActiveLink from '../../common/Link'
 import { Anchor, AnchorRouter, ButtonActionLink, ButtonGlobalCreate, ButtonOption, Card, ContainerAside, CtnAnchor, Info, LeftNav, OptionButton, Router, SubMenuModules } from './styled'
 import { useRouter } from 'next/router'
@@ -35,8 +34,9 @@ const Aside = () => {
         })
       })
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [client])
-  const [menu, setMenu] = useState(false)
+  const [menu, setMenu] = useState(null)
   const handleClick = index => setMenu(index === menu ? false : index)
   const data = [
     {
@@ -46,14 +46,101 @@ const Aside = () => {
       subModules: [
         {
           smId: 2,
-          smName: 'categoria-de-tienda',
-          smPath: 'categoria-de-tienda',
+          smName: 'promos-dashboard',
+          smPath: 'promos-dashboard',
         },
         {
           smId: 3,
-          smName: 'PromoBannerDashboard',
-          smPath: 'PromoBannerDashboard',
-        }
+          smName: 'kit',
+          smPath: 'kit',
+        },
+        {
+          smId: 4,
+          smName: 'offers',
+          smPath: 'offers',
+        },
+        {
+          smId: 5,
+          smName: 'categories',
+          smPath: 'categories',
+        },
+        {
+          smId: 6,
+          smName: 'Pqr',
+          smPath: 'Pqr',
+        },
+        {
+          smId: 7,
+          smName: 'stores',
+          smPath: 'stores',
+        },
+        {
+          smId: 8,
+          smName: 'promos',
+          smPath: 'promos',
+        },
+        {
+          smId: 9,
+          smName: 'notification',
+          smPath: 'notification',
+        },
+        {
+          smId: 10,
+          smName: 'banners',
+          smPath: 'banners',
+        },
+      ]
+    },
+    {
+      mId: 1,
+      mName: 'statistic',
+      mPath: 'statistic',
+      subModules: [
+        {
+          smId: 2,
+          smName: 'statistic-dashboard',
+          smPath: 'statisticdashboard',
+        },
+        {
+          smId: 3,
+          smName: 'statistic',
+          smPath: 'statistic',
+        },
+        {
+          smId: 4,
+          smName: 'statistic',
+          smPath: 'statistic',
+        },
+        {
+          smId: 5,
+          smName: 'statistic',
+          smPath: 'statisticies',
+        },
+        {
+          smId: 6,
+          smName: 'statistic',
+          smPath: 'statistic',
+        },
+        {
+          smId: 7,
+          smName: 'statistic',
+          smPath: 'statistic',
+        },
+        {
+          smId: 8,
+          smName: 'statistic',
+          smPath: 'statistic',
+        },
+        {
+          smId: 9,
+          smName: 'statistic',
+          smPath: 'statistication',
+        },
+        {
+          smId: 10,
+          smName: 'statistic',
+          smPath: 'statistic',
+        },
       ]
     },
 
@@ -112,22 +199,15 @@ const Aside = () => {
             </LeftNav>
           </Info>
           <Router>
-            {listRoutes ? listRoutes.map((route, i) => (
-              <ActiveLink key={i + 1} activeClassName="active" href={`/update/${route.name}` || '/'}>
-                <AnchorRouter><IconHome size='15px' />{route.name} </AnchorRouter>
-              </ActiveLink>
-            )) : <div></div>}
-
-            {!data?.map((m, i) => (
+           
+            {data?.map((m, i) => (
               <Options
                 key={m.mId}
                 index={i}
                 active={menu === i}
                 path={m.mPath}
                 label={m.mName}
-                handleClick={() => handleClick(i)}
-              // icon={<FontAwesomeIcon icon={iconModules[x.mIcon]} color={active === i ? '#a6b0cf' : '#a6b0cf'} size='lg' />}
-              >
+                handleClick={() => handleClick(i)} >
                 {!!m.subModules && m.subModules.map(sm => <ActiveLink
                   key={sm.smId}
                   onClick={e => e.stopPropagation()}

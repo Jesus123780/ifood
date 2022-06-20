@@ -7,7 +7,7 @@ import NewSelect from 'components/NewSelectHooks/NewSelect'
 import { Checkbox } from 'components/Checkbox'
 import InputHooks from 'components/InputHooks/InputHooks'
 
-const FormProduct = ({ handleRegister, names, handleChange, values, setName, dataCategoriesProducts, handleCheckEnvioGratis, check }) => {
+const FormProduct = ({ handleRegister, names, handleChange, values, setName, dataCategoriesProducts, handleCheckEnvioGratis, check, image, errors }) => {
   return (
     <div>
       <FormProducts className='form-horizontal' onSubmit={handleRegister}>
@@ -18,6 +18,8 @@ const FormProduct = ({ handleRegister, names, handleChange, values, setName, dat
           placeholder='Nombre del producto'
           range={{ min: 0, max: 180 }}
           type='text'
+          required={true}
+          error={errors.names}
           value={names}
         />
         <InputHook
@@ -33,12 +35,14 @@ const FormProduct = ({ handleRegister, names, handleChange, values, setName, dat
           name='ValueDelivery'
           onChange={handleChange}
           range={{ min: 0, max: 180 }}
+          error={errors.ValueDelivery}
           required
           value={numberFormat(values.ValueDelivery)}
         />
         <InputHook
           label='Descuento'
           name='ProDescuento'
+          error={errors.ProDescuento}
           onChange={handleChange}
           range={{ min: 0, max: 180 }}
           value={numberFormat(values.ProDescuento)}
@@ -46,6 +50,7 @@ const FormProduct = ({ handleRegister, names, handleChange, values, setName, dat
         <NewSelect
           id='carProId'
           name='carProId'
+          error={errors.carProId}
           onChange={handleChange}
           optionName='pName'
           options={dataCategoriesProducts || []}
@@ -74,6 +79,7 @@ const FormProduct = ({ handleRegister, names, handleChange, values, setName, dat
         <Footer>
           <RippleButton
             padding='10px'  
+            disabled={!image || !names}
             type='submit'
             widthButton='100%'
           >Subir</RippleButton>

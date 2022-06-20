@@ -40,7 +40,8 @@ export const newRegisterUser = async (root, input) => {
         name,
         password,
         email,
-        username
+        username,
+        uState: 1
       }
     })
     const StoreInfo = await Store.findOne({ attributes: ['idStore', 'id'], where: { id: deCode(user.id) } })

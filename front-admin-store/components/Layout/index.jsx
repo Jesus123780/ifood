@@ -67,13 +67,13 @@ export const Layout = ({ children, watch, settings }) => {
             onHide={() => { return setSalesOpen(!salesOpen) }}
             padding={0}
             question={true}
-            show={true}
-            show={salesOpen}
+            show={false}
+            // show={salesOpen}
             size='large'
             title='Crea una venta'
             zIndex='9999'
           >
-            <GenerateSales />
+            {/* <GenerateSales /> */}
           </AwesomeModal>
           <Messages />
         </div>

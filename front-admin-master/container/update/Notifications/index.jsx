@@ -10,7 +10,6 @@ import { Column, Row, Text } from 'components/common/Atoms'
 
 export const Notification = () => {
   const { Location, setAlertBox } = useContext(Context)
-  console.log("🚀 ~ file: index.jsx ~ line 12 ~ Notification ~ Location", Location)
   const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
   const [createOneNotification, { data }] = useMutation(CREATE_NOTIFICATION, {
     context: { clientName: 'admin-server' },

@@ -25,6 +25,5 @@ const useAnimatedText = textMessage => {
 
 export default function TextHook() {
     const text = useAnimatedText(fullText);
-
     return <span>{text} </span>;
 }

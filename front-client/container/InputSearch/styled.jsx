@@ -96,7 +96,7 @@ export const Input = styled.input`
     font-size: 1rem;
     background-color: ${SECBGColor};
     height: 48px;
-    padding-left: 50px;
+    padding-left: 20px;
     padding-right: 0;
     line-height: 1.25em;
     font-weight: 300;

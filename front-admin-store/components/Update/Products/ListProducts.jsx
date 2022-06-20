@@ -6,10 +6,11 @@ import { InputHook } from './Input'
 import { RippleButton } from 'components/Ripple'
 
 export const ListProducts = ({ onClickClear, data, organice, pState, filter, OPEN_MODAL_ORGANICE, dataFree, handleDelete, handleChangeFilter, grid, search, showMore, fetchMore, loading, setShowMore }) => {
+  const isData = data?.length > 0
   return (
     <div>
       <ContentProducts>
-        <Text size='30px'>Lista de productos registrados {pState === 1 ? 'Activos' : 'Desactivados'}</Text>
+        {isData && <Text size='30px'>Lista de productos registrados {pState === 1 ? 'Activos' : 'Desactivados'}</Text>}
         {organice && <ContainerFilter>
           <ItemFilter onClick={() => { return OPEN_MODAL_ORGANICE.setState(!OPEN_MODAL_ORGANICE.state) }}>Ordenar</ItemFilter>
           <ItemFilter onClick={() => { return onClickClear() }}>Limpio</ItemFilter>
@@ -28,8 +29,8 @@ export const ListProducts = ({ onClickClear, data, organice, pState, filter, OPE
           />
         </>}
         <WrapperProducts className='filter'>
-          <ContainerCardProduct grid={grid}>
-            {!data?.length === 0 ? <Skeleton numberObject={50} /> : data?.map(producto => {
+          <ContainerCardProduct>
+            {!isData ? <Skeleton height='400' numberObject={8} /> : data?.map(producto => {
               return (
                 <CardProducts
                   ProDescription={producto.ProDescription}
@@ -39,7 +40,7 @@ export const ListProducts = ({ onClickClear, data, organice, pState, filter, OPE
                   ValueDelivery={producto.ValueDelivery}
                   del={true}
                   edit={true}
-                  handleDelete={handleDelete}
+                  handleDelete={() => handleDelete(producto)}
                   key={producto.pId}
                   pId={producto.pId}
                   pName={producto.pName}
@@ -48,7 +49,7 @@ export const ListProducts = ({ onClickClear, data, organice, pState, filter, OPE
             })}
           </ContainerCardProduct>
         </WrapperProducts>
-        <RippleButton
+        {isData && <RippleButton
           margin='20px auto'
           onClick={() => {
             setShowMore(s => { return s + 5 })
@@ -64,7 +65,7 @@ export const ListProducts = ({ onClickClear, data, organice, pState, filter, OPE
             })
           }}
           widthButton='100%'
-        >{loading ? 'Cargando...' : 'CARGAR MÁS'}</RippleButton>
+        >{loading ? 'Cargando...' : 'CARGAR MÁS'}</RippleButton>}
       </ContentProducts>
     </div>
   )

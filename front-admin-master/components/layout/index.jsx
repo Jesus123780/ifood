@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import { AlertBox } from 'components/AlertBox'
 import { Context } from 'context/Context'
 import { useRouter } from 'next/router'
@@ -8,9 +9,7 @@ import { Header } from './header'
 
 export const Layout = ({ children }) => {
     const location = useRouter()
-
     const { error, isSession, setAlertBox } = useContext(Context)
-
     return (
         <>
             <Header />
@@ -26,6 +25,10 @@ export const Layout = ({ children }) => {
             </Main>
         </>
     )
+}
+
+Layout.propTypes = {
+  children: PropTypes.node.isRequired
 }
 
 const Main = styled.main`

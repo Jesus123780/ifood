@@ -5,7 +5,7 @@ import useLocalStorage from '../../../components/hooks/useLocalSorage'
 import { useSetState } from '../../../components/hooks/useState'
 import { FoodComponent } from '../../../components/Update/Products/food'
 import { GET_ONE_STORE } from '../../Restaurant/queries'
-import { convertBase64, getFileSizeByUnit, RandomCode } from '../../../utils'
+import { convertBase64, getFileSizeByUnit, RandomCode, validationImg } from '../../../utils'
 import { GET_ALL_PRODUCT_STORE } from '../../dashboard/queriesStore'
 import { Context } from 'context/Context'
 import { useCategoriesProduct } from 'components/hooks/useCategoriesProducts'
@@ -79,62 +79,67 @@ export const Food = () => {
     // e.preventDefault()
     fileInputRef.current.click()
   }
-  // Contexto de las notificaciones
   const handleRegister = async e => {
     e.preventDefault()
-    const { ProPrice, ProDescuento, ProDescription, ProWeight, ProHeight, ValueDelivery, carProId } = values
-    const ProImage = `${process.env.URL_ADMIN_SERVER}static/platos/${image?.name}`
-    const pCode = RandomCode(9)
-    try {
-      updateProductFoods({
-        variables: {
-          input: {
-            idStore: dataStore?.getStore?.idStore || '',
-            ProPrice: check ? 0 : ProPrice ? parseFloat(ProPrice.replace(/\./g, '')) : 0,
-            ProDescuento: check ? 0 : parseInt(ProDescuento),
-            ValueDelivery: check ? 0 : parseFloat(ValueDelivery),
-            ProDescription: ProDescription,
-            pName: names,
-            pCode,
-            carProId,
-            pState: 1,
-            sTateLogistic: 1,
-            ProStar: 0,
-            ProImage: ProImage,
-            ProHeight: parseFloat(ProHeight),
-            ProWeight: ProWeight,
-            ProOutstanding: check ? 1 : 0,
-            ProDelivery: check ? 1 : 0
-
+    const isImage = validationImg(image)
+    if (!values.carProId && !names) return setErrors({ ...errors, carProId: true })
+    if (!image) {
+      setAlertBox({ message: `Es necesario una imagen para el producto ${names}` })
+    } else if (isImage === false) {
+      setAlertBox({ message: `El formato de la imagen no es correcto` })
+    }
+    else {
+      const { ProPrice, ProDescuento, ProDescription, ProWeight, ProHeight, ValueDelivery, carProId } = values
+      const ProImage = `${process.env.URL_ADMIN_SERVER}static/platos/${image?.name}`
+      const pCode = RandomCode(9)
+      try {
+        updateProductFoods({
+          variables: {
+            input: {
+              idStore: dataStore?.getStore?.idStore || '',
+              ProPrice: check ? 0 : ProPrice ? parseFloat(ProPrice.replace(/\./g, '')) : 0,
+              ProDescuento: check ? 0 : parseInt(ProDescuento),
+              ValueDelivery: check ? 0 : parseFloat(ValueDelivery),
+              ProDescription: ProDescription,
+              pName: names,
+              pCode,
+              carProId,
+              pState: 1,
+              sTateLogistic: 1,
+              ProStar: 0,
+              ProImage: ProImage,
+              ProHeight: parseFloat(ProHeight),
+              ProWeight: ProWeight,
+              ProOutstanding: check ? 1 : 0,
+              ProDelivery: check ? 1 : 0
+            }
+          }, update(cache) {
+            cache.modify({
+              fields: {
+                productFoodsAll(dataOld = []) {
+                  return cache.writeQuery({ query: GET_ALL_FOOD_PRODUCTS, data: dataOld })
+                }
+              }
+            })
+            setAlertBox({ message: `El producto ${names} subido con éxito`, color: 'success', duration: 7000 })
           }
-        }, update(cache) {
-          cache.modify({
-            fields: {
-              productFoodsAll(dataOld = []) {
-                return cache.writeQuery({ query: GET_ALL_FOOD_PRODUCTS, data: dataOld })
+        }).then(() => {
+          // setValues({})
+        }).catch(err => { return setAlertBox({ message: `${err}`, duration: 7000 }) })
+        if (image !== null) {
+          setImageProducts({
+            variables: {
+              input: {
+                file: image,
+                pCode
               }
             }
           })
-          setAlertBox({ message: `El producto ${names} subido con éxito`, color: 'success', duration: 7000 })
         }
-      })
-        .then(() => {
-          setValues({})
-        })
-        .catch(err => { return setAlertBox({ message: `${err}`, duration: 7000 }) })
-      if (image !== null) {
-        setImageProducts({
-          variables: {
-            input: {
-              file: image,
-              pCode
-            }
-          }
-        })
       }
-    }
-    catch (error) {
-      setAlertBox({ message: `${error.message}`, duration: 7000 })
+      catch (error) {
+        setAlertBox({ message: `${error.message}`, duration: 7000 })
+      }
     }
   }
   const handleChangeFilter = e => {
@@ -282,6 +287,7 @@ export const Food = () => {
       handleCheckEnvioGratis={handleCheckEnvioGratis}
       handleDelete={handleDelete}
       handleRegister={handleRegister}
+      image={image}
       intPorcentaje={intPorcentaje}
       names={names}
       onChangeRange={onChangeRange}

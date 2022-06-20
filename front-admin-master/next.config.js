@@ -3,7 +3,6 @@
 const {
   PHASE_DEVELOPMENT_SERVER,
   PHASE_PRODUCTION_BUILD
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
 } = require('next/constants')
 const nextConfig = {
   reactStrictMode: true
@@ -75,7 +74,7 @@ module.exports = (phase) => {
       PRODUCT_NAME_COOKIE: 'PRODUCT_NAME_COOKIE',
       RECOMMENDATION_COOKIE: 'RECOMMENDATION_COOKIE',
       ACEPTE_COOKIE: 'ACEPTE_COOKIE',
-      NEXT_NAME_APP: 'delivery'
+      NEXT_NAME_APP: 'Delivery'
 
   }
 

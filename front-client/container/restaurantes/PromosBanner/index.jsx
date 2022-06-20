@@ -2,8 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../../../context';
 import { BannerPromo, ContainerCardProduct, Content, Img, ContainerSliderPromo, CardPromo, ImageBannerPromo } from './styled';
 import Link from 'next/link'
-import CustomSlider from 'components/Slider';
-import { SwiperSlide } from 'swiper/react'
 import { GET_ALL_BANNERS, GET_ALL_BANNERS_PROMO } from 'gql/getBanners';
 import { useQuery } from '@apollo/client';
 
@@ -32,6 +30,7 @@ export const PromosBanner = () => {
       <ContainerCardProduct>
         {data && data?.getAllMasterBanners?.map(banner => (
           <Link
+            key={banner.BannerId}
             prefetch={true}
             href={`/restaurantes/promos/${banner.name.replace(/\s/g, '-')}/${banner.BannerId}`}>
             <a>
@@ -53,13 +52,13 @@ export const PromoBannerStores = () => {
   })
   const chartColor = ['rgba(1,25,71, 0.0001)', '#01194750', 'rgb(255 0 0 / 0%)']
   // const final =
-  const [colorGradient, setColorGradient] = useState(`0deg, ${chartColor[(Math.random() * (3 - 0) + 0).toFixed(0)]} 0%, ${chartColor[(Math.random() * (3 - 0) + 0).toFixed(0)]} 100%`) 
+  const [colorGradient, setColorGradient] = useState(`0deg, ${chartColor[(Math.random() * (3 - 0) + 0).toFixed(0)]} 0%, ${chartColor[(Math.random() * (3 - 0) + 0).toFixed(0)]} 100%`)
   const dataFinal = datapro?.getAllPromoBanners?.slice(0, 3)
   useEffect(() => {
     const final = `0deg, ${chartColor[(Math.random() * (3 - 0) + 0).toFixed(0)]} 0%, ${chartColor[(Math.random() * (3 - 0) + 0).toFixed(0)]} 100%`
     setColorGradient(final)
   }, [])
-  
+
   return (
     <ContainerSliderPromo>
       {datapro && dataFinal?.map(pb => (

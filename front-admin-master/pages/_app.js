@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import { ApolloProvider } from '@apollo/client'
 import { Layout as MainLayout } from 'components/layout'
 import Context from 'context/Context'
@@ -25,4 +26,8 @@ function MyApp({ Component, pageProps }) {
 
 export default MyApp
 export const EmptyLayout = ({ children }) => { return <div>{children}</div> }
+
+EmptyLayout.propTypes = {
+  children: PropTypes.node.isRequired
+}
 

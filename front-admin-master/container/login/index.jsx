@@ -1,6 +1,6 @@
 import { URL_BASE } from 'apollo/urls';
 import React from 'react'
-import fetchJson from '../../components/hooks/fetchJson'
+import fetchJson from 'hooks/fetchJson'
 import { useRouter } from 'next/router'
 import { Container, ContainerLeft, ContentImage, Form } from './styled';
 import Image from 'next/image'

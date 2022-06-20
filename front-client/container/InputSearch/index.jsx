@@ -44,43 +44,46 @@ export const InputSearch = () => {
     }
     const handleFavorite = (favorite) => {
         dispatch({
-            type: !!isCharacterInsearchHistory(favorite)
+            type: !!isCharacter(favorite)
                 ? "REMOVE_FROM_FAVORITE"
                 : "ADD_TO_FAVORITE",
             payload: favorite,
         });
     };
-    const [historySearch, setTodos] = useState([]);
+    const [search, setTodos] = useState([]);
     useEffect(() => {
-        const localTodos = localStorage.getItem("historySearch");
+        const localTodos = localStorage.getItem("search");
         if (localTodos) {
             setTodos(JSON.parse(localTodos));
         }
     }, [setTodos]);
     const addTodos = todo => {
-        if (historySearch.length > 4) {
-            historySearch.pop()
-            setTodos([...historySearch, todo]);
-            historySearch.unshift(todo)
+        if (search.length >= 4) {
+            search.pop()
+            setTodos([...search, todo]);
+            search.unshift(todo)
         } else {
-            setTodos([...historySearch, todo]);
+            setTodos([...search, todo]);
         }
     };
-    const markComplete = item =>  setTodos(historySearch.filter((_, i) => i !== item))
+    const markComplete = item => setTodos(search.filter((_, i) => i !== item))
     useEffect(() => {
-        localStorage.setItem("historySearch", JSON.stringify(historySearch));
-    }, [historySearch]);
-    const isCharacterInsearchHistory = (favorite) => searchHistory.searchHistory.find((character) => character === favorite);
+        localStorage.setItem("search", JSON.stringify(search));
+    }, [search]);
+    const isCharacter = (favorite) => searchHistory.searchHistory.find((character) => character === favorite);
     const handleSearch = (elem, type, selected) => {
+        const isCharacter = () => search.find((character) => character === values.search);
+        const exi = isCharacter()
         ref.current.focus()
         if (elem) return location.push(`/buscar/${elem}/${type}`)
         if (!values.search || values.search === ' ') return;
-        // handleFavorite(values.search)
-        addTodos(values.search)
+        if (!exi) {
+            addTodos(values.search)
+        }
         if (selected) {
             location.push(`/buscar/${values.search}/${type}`)
         }
-        
+
     }
     // INITIAL REDUCER
     const initializer = (initialValue = initialState) => JSON.parse(localStorage.getItem("localCart")) || initialValue
@@ -120,11 +123,11 @@ export const InputSearch = () => {
                         <span>{values.search} todo en Delivery</span>
                     </button>
                 </div>
-                :
+                : search.length >= 1 ? 
                 <>
-                    {historySearch.length > 0 && <div className='recent'>
+                    {<div className='recent'>
                         <span className='recent-span'>Búsquedas recientes</span>
-                        {historySearch?.map((todo, i) => (
+                        {search?.map((todo, i) => (
                             <div className='item-recent' key={i}>
                                 <span className='recent-span' key={i + 1} onClick={() => handleSearch(todo, 'TODO')}>{todo}</span>
                                 <Button onClick={() => markComplete(i)}><IconCancel size="15px" /></Button>
@@ -132,7 +135,7 @@ export const InputSearch = () => {
                         ))}
                     </div>}
                 </>
-            }
+            : null}
         </SearchTarget>
     </ContentInputSearch>);
 };

@@ -10,11 +10,40 @@ import FormProduct from './Form'
 import { CardProducts } from 'components/CartProduct'
 import { ListProducts } from './ListProducts'
 
-export const FoodComponent = ({ search, handleChangeFilter, data, setShowMore, values, handleRegister, fetchMore, dataCategoriesProducts, dispatch, handleChange, names, loading, onTargetClick, onFileInputChange, fileInputRef, showMore, alt, product_state, src, setName, onClickClear, handleCheckEnvioGratis, state: grid, dataFree, check, ...props }) => {
+export const FoodComponent = ({
+  alt,
+  check,
+  data,
+  dataCategoriesProducts,
+  dataFree,
+  dispatch,
+  fetchMore,
+  fileInputRef,
+  handleChange,
+  handleChangeFilter,
+  handleCheckEnvioGratis,
+  handleRegister,
+  handleDelete,
+  image,
+  loading,
+  names,
+  onClickClear,
+  onFileInputChange,
+  onTargetClick,
+  product_state,
+  search,
+  setName,
+  setShowMore,
+  showMore,
+  src,
+  state: grid,
+  values,
+  ...props
+}) => {
   const OPEN_MODAL_ORGANICE = useSetState(0)
-  const propsForm = { handleRegister, setName, names, check, handleChange, values, dataCategoriesProducts, handleCheckEnvioGratis, ...props }
-  const propsListProducts = { onClickClear, data, OPEN_MODAL_ORGANICE, dataFree, handleChangeFilter, grid, search, showMore, fetchMore, loading, setShowMore, pState: 1, ...props }
-  return (<>
+  const propsForm = { handleRegister, setName, names, check, handleChange, values, dataCategoriesProducts, handleCheckEnvioGratis, image, ...props }
+  const propsListProducts = { onClickClear, data, OPEN_MODAL_ORGANICE, dataFree, filter: true, organice: true, handleChangeFilter, grid, search, showMore, fetchMore, loading, setShowMore, pState: 1, handleDelete,  ...props }
+ return (<>
     <Container>
       {/* FORM */}
       <Card>

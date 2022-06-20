@@ -1,46 +1,56 @@
 # Account Type
 type Admin {
-    id: ID
+    # Get Company
     # idComp: ID 
-    idRoles: ID
-    lastCompany: String
+    # Roles
+    bill: [Bill]
+    company: [Company]
     firstName: String
-    lastName: String
-    userName:String
-    uEmail: String
-    uAvatar: String
-    uAddress: String
-    uPhone: Int
+    id: ID
+    idRoles: ID
+    iP: Int
     landLine: Int
-    uPassword: String
-    uBirthday: String
+    lastCompany: String
+    lastName: String
     lat: Int
     long: Int
-    iP: Int
-    # Get Company
-    company: [Company]
-    bill: [Bill]
-    # Roles
     role: [Roles]
+    uAddress: String
+    uAvatar: String
+    uBirthday: String
+    uEmail: String
+    uPassword: String
+    uPhone: Int
+    userName:String
 }
 type StoreReport {
-  store:  [Store]
   count: Int
+  store:  [Store]
+  inActiveStore:  [Store]
+  countInActive: Int
+
+}
+type UserReport {
+  count: Int
+  countInActive: Int
+  users:  [User]
+  usersInActives:  [User]
 }
   type Query {
     bucketExistsQuery(idUser: ID, BucketName: String!): AuthPayload
-    getAlUserLocation(country: String): [User]
-    getAllStoreAdminReport(country: String): StoreReport
     getAllRoles: [Roles]
+    getAllStoreAdminReport(country: String): StoreReport
+    getAllUserActives(country: String): UserReport
+    getAlUserLocation(country: String): [User]
   }
 
 
 
 # Mutations
 type Mutation {
-  createRoles: Roles
-  createRoleMutation(input: IRole!): Roles
   createOneBucket(BucketName: String!): Boolean
+  createRoleMutation(input: IRole!): Roles
+  createRoles: Roles
   removeBucketMinio(idUser: ID!, BucketName: String!): Roles
   removeOneRole(id: ID): Boolean
 }

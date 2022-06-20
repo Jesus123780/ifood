@@ -62,7 +62,6 @@ mutation setCookie($name: String, $value: String) {
       setAlertBox({ message: dataWS?.newNotification, duration: 30000  })
     }
   }, [dataWS])
-
   return (
     <div className={styles.container}>
       <Head>

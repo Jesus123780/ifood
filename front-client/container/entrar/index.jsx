@@ -79,8 +79,6 @@ const Login = ({ watch, settings }) => {
     }
     return (
         <Content>
-
-            {OUR_URL_BASE}
             <Card>
             </Card>
             <Form>

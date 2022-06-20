@@ -14,7 +14,8 @@ export const InputHook = props => {
     placeholder,
     TypeTextarea,
     type,
-    passConfirm } = props
+    passConfirm
+  } = props
   const [errors, setError] = useState(error)
   const [message, setMessage] = useState('El campo no debe estar vacío')
   // Función para activar el error

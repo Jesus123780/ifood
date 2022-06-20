@@ -90,10 +90,9 @@ export const AwesomeModal = ({
 }
 
 AwesomeModal.propTypes = {
-    children: PropTypes.object.isRequired,
+    children: PropTypes.node.isRequired,
     title: PropTypes.string,
     size: PropTypes.string,
-    show: PropTypes.bool.isRequired,
     disabled: PropTypes.bool,
     display: PropTypes.string || PropTypes.bool,
     zIndex: PropTypes.string,
@@ -104,7 +103,7 @@ AwesomeModal.propTypes = {
     footer: PropTypes.bool,
     btnCancel: PropTypes.bool,
     openLateral: PropTypes.bool || PropTypes.func,
-    btnConfirm: PropTypes.func,
+    btnConfirm: PropTypes.bool,
     hideOnConfirm: PropTypes.func,
     timeOut: PropTypes.func || PropTypes.number,
     height: PropTypes.string || PropTypes.number,

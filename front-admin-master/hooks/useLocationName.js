@@ -8,7 +8,7 @@ export const LocationName = () => {
     const location = useRouter();
     const name = location?.pathname
     const position = name.indexOf('/')
-    return (<Search Text={name.substr(position + 1 || name.length)}/>
+    return (<Search Text={name.substring(position + 1 || name.length)}/>
     )
 }
 

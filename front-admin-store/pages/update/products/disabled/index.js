@@ -4,7 +4,6 @@ import { useGetProductsFood } from 'hooks/useProductsFood'
 export default function ProductsDisabled() {
   let search = ''
   const [data, { loading, error, fetchMore, setShowMore, showMore }] = useGetProductsFood({ search })
-
   return (<ListProducts
     data={data}
     error={error}
