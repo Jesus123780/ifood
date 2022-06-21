@@ -33,7 +33,7 @@ const Container = styled.div`
   position: relative;
   border-radius: 2px;
   margin-bottom: 0;
-  height: ${({ height }) => { height || '150px' }};
+  height: ${({ height }) => { height ? height : '150px' }};
   overflow: hidden;
   &:after {
     content: '';

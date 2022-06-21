@@ -189,7 +189,7 @@ const ComponentCardProduct = ({ data, dispatch, ADD_TO_EFFECTIVE, REMOVE, ADD_PR
           <ButtonCard
             delay='.1s'
             grid={true}
-            onClick={() => { return dispatch({ type: ADD_PRODUCT && ADD_PRODUCT, payload: product }) }}
+            onClick={() => { return dispatch({ type: ADD_PRODUCT, payload: product }) }}
             top={'140px'}
           >
             <IconDollar color={TFSColor} size={30} />

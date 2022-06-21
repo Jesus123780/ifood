@@ -62,7 +62,7 @@ const ContractSignature = () => {
   return (
     <ContentCards>
       <div>
-        <button onClick={(e) => {return handleClick(e)}} type='submit'>Click</button>
+        <button onClick={() => {return handleClick()}} type='submit'>Click</button>
       </div>
       <button onClick={() => {return handleClean()}}>Limpiar</button>
       <button onClick={() => {return handleUndo()}}>Volver</button>

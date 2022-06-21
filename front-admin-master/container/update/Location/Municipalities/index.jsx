@@ -76,7 +76,7 @@ export const Municipalities = () => {
     return (<>
         <Container>
             <Form onSubmit={handleRegister}>
-                <NewSelect search disabled={!data?.department[0]?.cId} options={data?.department?.filter(x => x?.dName === x?.dName) || []} id='dId' name='dId' value={values?.dId || ''} optionName='dName' title='Selecciona un departamento' onChange={handleChange} margin='10px' />
+                <NewSelect search disabled={!data?.department[0]?.cId} options={data?.department || []} id='dId' name='dId' value={values?.dId || ''} optionName='dName' title='Selecciona un departamento' onChange={handleChange} margin='10px' />
                 <InputHooks
                     title='Ingresa una cuidad'
                     required

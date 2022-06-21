@@ -79,7 +79,7 @@ export const getOneSalesStore = async (_, args, ctx, info) => {
           {
             pSState: 4,
             // ID STORE
-            pCodeRef: pCodeRef && pCodeRef
+            pCodeRef: pCodeRef
           }
         ]
       }

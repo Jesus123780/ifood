@@ -4,7 +4,7 @@ import { BGColor } from '../../../../assets/colors'
 export const LabelInput = styled.span`
     position: absolute;
     text-align: left;
-    font-size: ${ ({ value }) => {return value ? '16px' : '16px'} };
+    font-size: ${ ({ value }) => {return value ? value : '16px'} };
     top: ${ ({ value }) => {return value ? '5px' : '10px'} };
     left: 15px;;
     left: ${ ({ left }) => {return left ? left : '17px'} };

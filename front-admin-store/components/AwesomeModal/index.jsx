@@ -38,17 +38,10 @@ export const AwesomeModal = ({
   const [modal, setSModal] = useState(false)
   const [backdropA, setAnimationBackdrop] = useState(false)
   const hide = useCallback(() => {
-    if (question) {
-      setState(false)
-      onCancel()
-      setSModal(false)
-      setTimeout(onHide, timeOut)
-    } else {
-      setState(false)
-      onCancel()
-      setSModal(false)
-      setTimeout(onHide, timeOut)
-    }
+    setState(false)
+    onCancel()
+    setSModal(false)
+    setTimeout(onHide, timeOut)
   }, [onCancel, onHide, question, timeOut])
   const onShowQuestion = () => { return setSModal(!modal) }
   // eslint-disable-next-line consistent-return
@@ -132,7 +125,7 @@ export const AwesomeModal = ({
                   <RippleButton
                     border
                     disabled={disabled}
-                    onClick={() => {return setSModal(false)}}
+                    onClick={() => { return setSModal(false) }}
                     type='button'
                   >{cancel || BUTTONS_TEXT.cancel}</RippleButton>
                   <RippleButton

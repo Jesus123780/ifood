@@ -282,7 +282,7 @@ const InputHooks = ({
                       key={index}
                       onClick={() => {
                         dispatch({ type: 'select', payload: index })
-                        handleSuggestionOnClick(suggestion)
+                        handleSuggestionOnClick()
                         setDataValue({ ...dataForm, [name]: suggestion })
                       }}
                       onKeyPress={(e) => {

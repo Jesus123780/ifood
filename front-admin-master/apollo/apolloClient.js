@@ -62,7 +62,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 // Create Second Link
 const wsLink = process.browser ? new WebSocketLink({
-    uri: process.env.NODE_ENV === 'development' ? 'ws://localhost:4000/graphql' : 'ws://localhost:4000/graphql',
+    uri: process.env.NODE_ENV === 'development' ? 'ws://localhost:4000/graphql' : 'ws://server-image-food.herokuapp.com/graphql',
     options: {
         reconnect: true,
         lazy: true,

@@ -76,15 +76,15 @@ export const AnimationLeft = keyframes`
 }
 `
 const ContainerAnimation = styled.div`
-${ props => {return props.active === 1 ? css`animation: ${ AnimationRight } 200ms;` : css`animation: ${ AnimationRight } 200ms;`} }
+${ props => {return props.active === 1 && css`animation: ${ AnimationRight } 200ms;`} }
 
 `
 const ContainerAnimationTow = styled.div`
-${ props => {return props.active === 2 ? css`animation: ${ AnimationLeft } 200ms;` : css`animation: ${ AnimationLeft } 200ms;`} }
+${ props => {return props.active === 2 && css`animation: ${ AnimationLeft } 200ms;`} }
 
 `
 const ContainerAnimationThree = styled.div`
-${ props => {return props.active === 3 ? css`animation: ${ AnimationLeft } 200ms;` : css`animation: ${ AnimationLeft } 200ms;`} }
+${ props => {return props.active === 3 && css`animation: ${ AnimationLeft } 200ms;`} }
 
 `
 const ContentButton = styled.div`

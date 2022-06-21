@@ -19,11 +19,10 @@ export const useCountLetters = () => {
 
     // Memoize computeLetterCount so it uses cached return value if input array ...
     // ... values are the same as last time the function was run.
-    const letterCount = useMemo(() => computeLetterCount(word), [word]);
+    const letterCount = useMemo(() => computeLetterCount(), [word]);
 
     // This would result in lag when incrementing the counter because ...
     // ... we'd have to wait for expensive function when re-rendering.
-    //const letterCount = computeLetterCount(word);
 
     return (
         <div style={{ padding: '15px' }}>

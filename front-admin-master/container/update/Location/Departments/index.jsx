@@ -72,13 +72,10 @@ export const Departments = () => {
     if (edit.id) {
         return <EditForm edit={edit} onSubmit={submitUpdate} />;
     }
-    const handleDelete = department => {
-        // eslint-disable-next-line
-    }
     return (<>
         <Container>
             <Form onSubmit={handleRegister}>
-                <NewSelect search disabled={!dataCountries?.countries[0]?.cId} options={dataCountries?.countries.filter(x => x?.c_name === x?.c_name) || []} id='cId' name='cId' value={values?.cId || ''} optionName='cName' title='Ingresa el País' onChange={handleChange} margin='10px' />
+                <NewSelect search disabled={!dataCountries?.countries[0]?.cId} options={dataCountries?.countries || []} id='cId' name='cId' value={values?.cId || ''} optionName='cName' title='Ingresa el País' onChange={handleChange} margin='10px' />
                 <InputHooks 
                     title='Ingresa un departamento'
                     required
@@ -95,7 +92,6 @@ export const Departments = () => {
                 {data?.department ? data?.department.map(index => (
                     <ContainerTask show={show === index} key={index.dId}>
                         <OptionsFunction show={show === index}>
-                            <Button onClick={ () => handleDelete({ ...index, dState: 0 }, 'DELETE') }><IconDelete size={30} /></Button>
                             <Button onClick={() => setEdit({ id: index.dId, value: index.dName })} ><IconEdit size={30} /></Button>
                         </OptionsFunction>
                         <ListTask show={show === index}>

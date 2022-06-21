@@ -76,7 +76,7 @@ export const SalesWeekShortDays = () => {
               let suma = 0
               let sumaNoOrder = 0
               const avg = GROUP_BY_DAYS[day]?.map((x, index) => { return (suma += x.pSState === 4) / (index + 1) })
-              !!avg && ((avg[avg.length - 1]))
+              avg && ((avg[avg.length - 1]))
               const noOrder = GROUP_BY_DAYS[day]?.map((x, index) => { return (sumaNoOrder += x.pSState === 5) / (index + 1) })
               !!noOrder && ((noOrder[noOrder.length - 1]))
               return (

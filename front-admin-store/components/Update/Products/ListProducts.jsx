@@ -29,8 +29,13 @@ export const ListProducts = ({ onClickClear, data, organice, pState, filter, OPE
           />
         </>}
         <WrapperProducts className='filter'>
+<<<<<<< HEAD
           <ContainerCardProduct>
             {!isData ? <Skeleton height='400' numberObject={8} /> : data?.map(producto => {
+=======
+          <ContainerCardProduct grid={grid}>
+            {data?.length <= 0 ? <Skeleton numberObject={50} /> : data?.map(producto => {
+>>>>>>> 2d9117e9b1bff24819556f5d378a84ba11cc5c42
               return (
                 <CardProducts
                   ProDescription={producto.ProDescription}

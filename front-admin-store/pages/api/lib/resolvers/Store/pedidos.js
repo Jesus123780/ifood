@@ -138,7 +138,7 @@ export const getAllPedidoStoreFinal = async (_, args, ctx, info) => {
         [Op.or]: [
           {
             // ID STORE
-            pSState: statusOrder && statusOrder,
+            pSState: statusOrder,
             idStore: idStore ? deCode(idStore) : deCode(ctx.restaurant)
           }
         ]

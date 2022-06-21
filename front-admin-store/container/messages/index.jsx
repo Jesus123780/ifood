@@ -68,9 +68,6 @@ export const Messages = () => {
     }
   }, [messageError, messageDataNew, messageData])
 
-  useEffect(() => {
-    refetch
-  }, [refetch])
   const [sendMessage, { data, loading }] = useMutation(SEND_MESSAGES, {
     context: { clientName: 'admin-server' }
     // fetchPolicy: 'cache-and-network',
