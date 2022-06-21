@@ -24,8 +24,8 @@ export const getServerSideProps = withIronSessionSsr(
       if (!req.cookies[process.env.SESSION_NAME]) return defaultReturnObject
       return {
         props: {
-          user: user,
-          idStore: idStore,
+          user: user  || null,
+          idStore: idStore || null,
         }
       }
     } catch (error) {

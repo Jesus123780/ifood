@@ -213,7 +213,8 @@ export const ModalBody = styled.div`
     border-radius: 5px;
     padding: 20px;
     h2 {
-        font-size: 18px;
+        text-align: center;
+        font-size: 15px;
         margin-bottom: 20px;
         font-family: PFont-Regular;
         font-weight: 300;

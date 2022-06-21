@@ -4,6 +4,8 @@ import { BannerPromo, ContainerCardProduct, Content, Img, ContainerSliderPromo, 
 import Link from 'next/link'
 import { GET_ALL_BANNERS, GET_ALL_BANNERS_PROMO } from 'gql/getBanners';
 import { useQuery } from '@apollo/client';
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Virtual, Navigation, Pagination, A11y, Parallax } from 'swiper'
 
 export const PromosBanner = () => {
   // STATES
@@ -28,19 +30,35 @@ export const PromosBanner = () => {
   return (
     <Content>
       <ContainerCardProduct>
-        {data && data?.getAllMasterBanners?.map(banner => (
-          <Link
-            key={banner.BannerId}
-            prefetch={true}
-            href={`/restaurantes/promos/${banner.name.replace(/\s/g, '-')}/${banner.BannerId}`}>
-            <a>
-              <BannerPromo color={color} onMouseOut={() => setActiveColor('red')} onMouseOver={() => setActiveColor('blue')} key={banner.pId}>
-                <Img src={banner.path} alt={banner.description} />
-              </BannerPromo>
-            </a>
-          </Link>
+        <Swiper
+          autoplay={true}
+          modules={[Virtual, Navigation, Pagination, A11y, Parallax]}
+          navigation
+          slidesPerView={3}
+          spaceBetween={10}
+          virtual
+        >
+          {data && data?.getAllMasterBanners?.map((banner, index) => {
+            return (
+              <SwiperSlide
+                key={banner.BannerId}
+                virtualIndex={index}
+              >
+                <Link
+                  // key={banner.BannerId}
+                  prefetch={true}
+                  href={`/restaurantes/promos/${banner.name.replace(/\s/g, '-')}/${banner.BannerId}`}>
+                  <a>
+                    <BannerPromo color={color} onMouseOut={() => setActiveColor('red')} onMouseOver={() => setActiveColor('blue')} key={banner.pId}>
+                      <Img src={banner.path} alt={banner.description} />
+                    </BannerPromo>
+                  </a>
+                </Link>
 
-        ))}
+              </SwiperSlide>
+            )
+          })}
+        </Swiper>
       </ContainerCardProduct>
     </Content >
   );

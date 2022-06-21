@@ -160,7 +160,7 @@ export const validationForm = (inputs, error) => {
         errorForm = true
       }
     } else
-    if (error[inputs[i].name]) { errorForm = true }
+      if (error[inputs[i].name]) { errorForm = true }
   }
   return errorForm
 }
@@ -831,7 +831,7 @@ export const NumeroALetras = (value, format = false) => {
       if (data.pennies === 1) return `${Millones(data.pennies)} ${data.letterCoinPennieSingular}`
       return `${Millones(data.pennies)} ${data.letterCoinPenniesPlural}`
     })()
-    }`
+      }`
   }
 
   if (data.integers === 0) return `CERO ${data.letterCoinPlural} ${data.letterPennies}`
@@ -1284,3 +1284,19 @@ export const formatDate = ({ date, local = 'ES' }) => {
     year
   }
 }
+
+
+export const initialState = {
+  PRODUCT: [],
+  totalPrice: 0,
+  sortBy: null,
+  itemsInCart: 0,
+  animateType: '',
+  startAnimateUp: '',
+  priceRange: 0,
+  counter: 0,
+  totalAmount: 0,
+  payMethodPState: 0
+}
+
+export const initializer = (initialValue = initialState) => JSON.parse(localStorage.getItem(process.env.LOCAL_SALES_STORE)) || initialValue;

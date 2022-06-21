@@ -127,7 +127,7 @@ export const AwesomeModal = ({
             </ModalHeader>}
             {modal &&
               <div className='modal-wrapper'>
-                <h2>{'¿Seguro que quieres cerrar?'}</h2>
+                <h2>{`¿Seguro que quieres cerrar ${title}?`}</h2>
                 <div className='modal-confirm'>
                   <RippleButton
                     border

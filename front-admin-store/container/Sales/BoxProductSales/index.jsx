@@ -9,16 +9,16 @@ import { IconDelete, IconPay } from 'public/icons'
 import { PColor } from 'public/colors'
 import { Skeleton } from 'components/Skeleton'
 import FooterCalcules from '../FooterCalcules'
-import { GET_ALL_CLIENTS } from 'container/clients/queries'
 import NewSelect from 'components/NewSelectHooks/NewSelect'
 import InputHooks from 'components/InputHooks/InputHooks'
 import { Flex } from 'container/dashboard/styled'
+import { numberFormat } from 'utils'
 
-export const BoxProductSales = ({ totalProductPrice, data, dispatch, dataMinPedido, max, setPrint, finalFilter, print, handleChange, values, dataClientes }) => {
+export const BoxProductSales = ({ totalProductPrice, data, dispatch, dataMinPedido, max, setPrint, finalFilter, print, handleChange, values, dataClientes, loadingClients = false }) => {
   return (
     <Box width='40%'>
       <ScrollbarProduct margin={'0'}>
-        {data.PRODUCT.length > 0 &&
+        {data?.PRODUCT?.length > 0 &&
           <Warper>
             {dataClientes?.length > 0 ? <NewSelect
               id='cliId'
@@ -36,7 +36,7 @@ export const BoxProductSales = ({ totalProductPrice, data, dispatch, dataMinPedi
               onChange={handleChange}
               required
               title='cambio'
-              value={values?.change}
+              value={numberFormat(values?.change)}
               width={'50%'}
             />
             <InputHooks
@@ -45,7 +45,7 @@ export const BoxProductSales = ({ totalProductPrice, data, dispatch, dataMinPedi
               onChange={handleChange}
               required
               title='Domicilio'
-              value={values?.valueDelivery}
+              value={numberFormat(values?.valueDelivery)}
               width={'50%'}
             />
             <Flex style={{ marginBottom: '40px' }}>
@@ -115,15 +115,9 @@ export const BoxProductSales = ({ totalProductPrice, data, dispatch, dataMinPedi
           {data?.PRODUCT?.length > 0 ? finalFilter.map((producto, idx) => {
             return (
               <CardProducts
-                ProDescription={producto.ProDescription}
-                ProDescuento={producto.ProDescuento}
-                ProImage={producto.ProImage}
-                ProPrice={producto.ProPrice}
-                ProQuantity={producto.ProQuantity}
-                ValueDelivery={producto.ValueDelivery}
                 del={true}
-                edit={true}
                 dispatch={dispatch}
+                edit={true}
                 free={producto.free}
                 handleDecrement={() => { return dispatch({ type: 'REMOVE_PRODUCT', payload: producto }) }}
                 handleDelete={() => { return dispatch({ type: 'REMOVE_PRODUCT_TO_CART', payload: producto }) }}
@@ -135,8 +129,14 @@ export const BoxProductSales = ({ totalProductPrice, data, dispatch, dataMinPedi
                 onClick={() => { return dispatch({ type: 'REMOVE_PRODUCT', payload: producto }) }}
                 pId={producto.pId}
                 pName={producto.pName}
+                ProDescription={producto.ProDescription}
+                ProDescuento={producto.ProDescuento}
+                ProImage={producto.ProImage}
+                ProPrice={producto.ProPrice}
+                ProQuantity={producto.ProQuantity}
                 render={<IconDelete color={PColor} size='20px' />}
                 sum={true}
+                ValueDelivery={producto.ValueDelivery}
                 {...producto}
               />
             )

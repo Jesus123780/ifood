@@ -13,7 +13,7 @@ import { Skeleton } from 'components/Skeleton'
 import { LoadingBabel } from 'components/Loading/LoadingBabel'
 import { useStore } from 'components/hooks/useStore'
 import { ModalSales } from './ModalSales'
-import { RandomCode, updateCacheMod } from 'utils'
+import { initializer, RandomCode, updateCacheMod } from 'utils'
 import { SwiperSliderCategory } from './SlideCategories'
 import { Box, ContainerGrid, ScrollbarProduct, Wrapper } from './styled'
 import { FormFilterSales } from './formFilterSales'
@@ -65,7 +65,7 @@ const GenerateSales = () => {
   const max = productsFood?.reduce(function (a, b) {
     return Math.max(a, b?.ProPrice || 0)
   }, 0)
-  const initialStateInvoice = {
+  const initialStateSales = {
     PRODUCT: [],
     totalPrice: 0,
     sortBy: null,
@@ -133,8 +133,8 @@ const GenerateSales = () => {
           return items.pId === action.payload.pId
             ? {
               ...items,
-              ProPrice: (items.ProQuantity * OurProduct?.ProPrice),
-              ProQuantity: items.ProQuantity + 1
+              ProPrice: ((productExist.ProQuantity + 1) * OurProduct?.ProPrice),
+              ProQuantity: productExist.ProQuantity + 1
 
             }
             : items
@@ -143,31 +143,35 @@ const GenerateSales = () => {
     }
   }
   const removeFunc = (state, action) => {
+    console.log("🚀 ~ file: index.jsx ~ line 146 ~ removeFunc ~ action", action)
+    // ProQuantity: items.ProQuantity - 1,
+    //   ProPrice: ((productExist.ProQuantity + 1) * OurProduct?.ProPrice),
+    // PENDIENTE
     return {
       ...state,
       counter: state.counter - 1,
       totalAmount: state.totalAmount - action.payload.ProPrice,
-      PRODUCT:
-        action.payload.ProQuantity > 1
-          ? state.PRODUCT.map((items) => {
-            return items.pId === action.payload.pId
-              ? {
-                ...items,
-                pId: action.payload.pId,
-                ProQuantity: items.ProQuantity - 1
-              }
-              : items
-          }
-          )
-          : state.PRODUCT.filter((items) => { return items.pId !== action.payload.pId })
+      PRODUCT: action.payload.ProQuantity > 1
+        ? state.PRODUCT.map((items) => {
+          return items.pId === action.payload.pId
+            ? {
+              ...items,
+              pId: action.payload.pId,
+              ProQuantity: items.ProQuantity - 1,
+              // ProPrice: ((productExist.ProQuantity - 1) - OurProduct?.ProPrice),
+            }
+            : items
+        }
+        )
+        : state.PRODUCT.filter((items) => { return items.pId !== action.payload.pId })
     }
   }
   const getSortedProduct = (data, sortBy) => {
     if (sortBy && sortBy === 'PRICE_HIGH_TO_LOW') {
-      return data.sort((a, b) => { return b['ProPrice'] - a['ProPrice'] })
+      return data ?? data.sort((a, b) => { return b['ProPrice'] - a['ProPrice'] })
     }
     if (sortBy && sortBy === 'PRICE_LOW_TO_HIGH') {
-      return data.sort((a, b) => { return a['ProPrice'] - b['ProPrice'] })
+      return data ?? data.sort((a, b) => { return a['ProPrice'] - b['ProPrice'] })
     }
     return data
   }
@@ -188,20 +192,20 @@ const GenerateSales = () => {
       })
     }
   }
+  // fix
   const handleChangeNumber = useCallback((state, action) => {
     const event = action.payload
-    const { value, index } = event || {}
-    // const productExist = productsFood?.find(
-    //   (items) => { return items.pId === id }
-    // )
-    // console.log(productExist, 'HOLAAAAAAAAAAAA')
+    const { value, index, id } = event || {}
+    const productExist = productsFood?.find(
+      (items) => { return items.pId === id }
+    )
     return {
       ...state,
       PRODUCT: state?.PRODUCT?.map((items, i) => {
         return i === index ? {
           ...items,
-          ProQuantity: state.PRODUCT['ProQuantity'] = value || 0
-          // ProPrice:  value * productExist?.ProPrice
+          ProQuantity: state.PRODUCT['ProQuantity'] = value || 0,
+          ProPrice: value * productExist?.ProPrice
         } : items
       })
     }
@@ -224,8 +228,6 @@ const GenerateSales = () => {
           PRODUCT: state?.PRODUCT?.filter(t => { return t.pId !== action?.payload.pId }),
           counter: state.counter - action.payload.ProQuantity
         }
-
-
       case 'ON_CHANGE': {
         return handleChangeNumber(state, action)
       }
@@ -242,18 +244,21 @@ const GenerateSales = () => {
         const product = productsFood?.find(
           (items) => { return items.pId === action.id }
         )
+        const productExist = state.PRODUCT.find(
+          (items) => { return items.pId === action.id }
+        )
+        const OurProduct = productsFood.find(
+          (items) => { return items.pId === action.id }
+        )
         return {
           ...state,
           counter: state.counter + 1,
-          PRODUCT: state?.PRODUCT.map((item) => {
-            if (item.pId === action.id) {
-              return {
-                ...item,
-                ProQuantity: item.ProQuantity + 1,
-                ProPrice: (item.ProQuantity == 1) ? 2 * product.ProPrice : item.ProQuantity * product.ProPrice
-              }
-            }
-
+          PRODUCT: state?.PRODUCT?.map((items) => {
+            return items.pId === action.id ? {
+              ...items,
+              ProQuantity: items.ProQuantity + 1,
+              ProPrice: ((productExist.ProQuantity + 1) * OurProduct?.ProPrice),
+            } : items
           })
         }
       case 'PRICE_RANGE':
@@ -264,22 +269,31 @@ const GenerateSales = () => {
       case 'SORT':
         return { ...state, sortBy: action.payload }
       case 'DECREMENT':
+        console.log('staave')
         return {
           ...state,
-          PRODUCT: state.PRODUCT.map((item) => {
-            if (item.pId === action.id && item.ProQuantity > 0) {
-              return {
-                ...item,
-                ProQuantity: item.ProQuantity - 1,
-                ProPrice: item.ProPrice - item.ProPrice
-              }
-            }
-            return {
-              ...item
-            }
-
-          })
+          // counter: state.counter - 1,
+          // PRODUCT: state?.PRODUCT?.map((items) => {
+          //   return items.pId === action.id ? {
+          //     ...items,
+          //     ProQuantity: items.ProQuantity - 1,
+          //     // ProPrice: ((productExist.ProQuantity + 1) * OurProduct?.ProPrice),
+          //   } : items
+          // })
         }
+      // return {
+      //   ...state,
+      //   PRODUCT: state.PRODUCT.map((item) => {
+      //     if (item.pId === action.id) {
+      //       return {
+      //         ...item,
+      //         ProQuantity: item.ProQuantity - 1,
+      //         ProPrice: item.ProPrice - item.ProPrice
+      //         // ProPrice: productExist.ProQuantity - item.ProPrice,
+      //       }
+      //     }
+      //   })
+      // }
       case 'PAYMENT_METHOD_TRANSACTION':
         return {
           ...state,
@@ -297,7 +311,8 @@ const GenerateSales = () => {
 
   // FILTER PRODUCT DATA
   const PriceRangeFunc = (products, price) => { return products?.length > 0 && products?.filter((items) => { return items?.ProPrice >= price }) }
-  const [data, dispatch] = useReducer(PRODUCT, initialStateInvoice)
+  // REDUCER PRODUCT DATA
+  const [data, dispatch] = useReducer(PRODUCT, initialStateSales, initializer)
   // eslint-disable-next-line
   const [_, setFilteredList] = useState([])
   const sortedProduct = getSortedProduct(data.PRODUCT, data.sortBy)
@@ -329,8 +344,10 @@ const GenerateSales = () => {
   }
   // FILTER PRODUCT DATA_DB
   const handleChangeFilter = e => { setSearch(e.target.value) }
-
-
+  useEffect(() => {
+    window.localStorage.setItem(process.env.LOCAL_SALES_STORE, JSON.stringify(data))
+    window.localStorage.getItem(process.env.LOCAL_SALES_STORE, JSON.stringify(data))
+  }, [data]);
   // EFFECTS
   useEffect(() => {
     data.PRODUCT.forEach((a) => {
@@ -353,8 +370,7 @@ const GenerateSales = () => {
   const [dataClientes, { loading: loadingClients }] = useGetClients()
   const restPropsProductSales = { totalProductPrice, data, dispatch, dataMinPedido, max, inputValue, handleChangeFilterProduct, setPrint, finalFilter, print, handleChange, values, dataClientes, loadingClients }
 
-  const newArrayProducts = data?.PRODUCT?.length > 0 && data?.PRODUCT?.map(x => { return { pId: x?.pId, id: values?.cliId, cantProducts: x.ProQuantity, comments: 'Comentarios' } })
-  // eslint-disable-next-line
+  const newArrayProducts = data?.PRODUCT?.length > 0 && data?.PRODUCT?.map(x => { return { pId: x?.pId, id: values?.cliId, cantProducts: x?.ProQuantity, comments: 'Comentarios' } })
   const handleSubmit = () => {
     if (!values?.cliId) return setAlertBox({ message: 'Elige un cliente' })
     if (newArrayProducts.length <= 0) return setAlertBox({ message: 'Debes agregar un producto al carro' })
@@ -399,7 +415,6 @@ const GenerateSales = () => {
         }
       })
       .catch((e) => {
-        console.log(e)
         setAlertBox({ message: 'Lo sentimos no pudimos generar la venta', color: 'success' })
       })
   }
@@ -432,7 +447,7 @@ const GenerateSales = () => {
                   ProDescuento={producto.ProDescuento}
                   ProImage={producto.ProImage}
                   ProPrice={producto.ProPrice}
-                  edit={true}
+                  edit={false}
                   ProQuantity={producto.ProQuantity}
                   ValueDelivery={producto.ValueDelivery}
                   key={producto.pId}

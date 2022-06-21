@@ -56,7 +56,6 @@ export const CardProducts = ({ pName, del, edit, pId, src, onTargetClick= () => 
 
         {handleFree && <OverlineFree free={free} onClick={() => { return handleFreeProducts() }}>
           <span>Gratis</span>
-
         </OverlineFree>}
         <Card
           d

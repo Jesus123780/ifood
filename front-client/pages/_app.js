@@ -7,6 +7,12 @@ import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '../apollo/apolloClient'
 import { GlobalStyle } from '../public/styles/GlobalStyle'
 import '../public/styles/App.css'
+import 'swiper/css'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import 'swiper/css/scrollbar'
+
 function MyApp({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps)
   const Layout = Component.Layout ? Component.Layout : MainLayout

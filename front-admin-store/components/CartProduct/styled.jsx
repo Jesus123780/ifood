@@ -146,7 +146,7 @@ export const OverlineFree = styled.button`
     width: 90%;
     height: 100px;
     position: absolute;
-    top: ${({ free }) => { return free ? '40px' : '0px' }};
+    top: ${({ free }) => { return free ? '-30px' : '0px' }};
     border-top-right-radius: 6px;
     border-top-left-radius: 6px;
     margin: 0 auto;

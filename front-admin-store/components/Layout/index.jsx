@@ -67,15 +67,15 @@ export const Layout = ({ children, watch, settings }) => {
             onHide={() => { return setSalesOpen(!salesOpen) }}
             padding={0}
             question={true}
-            show={false}
+            show={true}
             // show={salesOpen}
             size='large'
             title='Crea una venta'
             zIndex='9999'
           >
-            {/* <GenerateSales /> */}
+            <GenerateSales />
           </AwesomeModal>
-          <Messages />
+          {/* <Messages /> */}
         </div>
         {/* {!['/login', '/register', '/varify-email', '/restaurante', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => {return x === location.pathname}) && <Footer />} */}
         <div style={{ gridArea: 'right' }}>

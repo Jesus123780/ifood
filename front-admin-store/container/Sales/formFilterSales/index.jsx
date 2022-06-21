@@ -6,7 +6,7 @@ import InputHooks from 'components/InputHooks/InputHooks'
 export const FormFilterSales = ({ onChangeInput, valuesDates, handleChangeFilter, search }) => {
   return (
     <Warper>
-      <InputHooks
+      {/* <InputHooks
         name='fromDate'
         onChange={onChangeInput}
         required
@@ -23,7 +23,7 @@ export const FormFilterSales = ({ onChangeInput, valuesDates, handleChangeFilter
         type='date'
         value={valuesDates?.toDate}
         width='20%'
-      />
+      /> */}
       <InputHooks
         name='search'
         onChange={handleChangeFilter}
@@ -31,7 +31,7 @@ export const FormFilterSales = ({ onChangeInput, valuesDates, handleChangeFilter
         title='Busca tus productos'
         type='text'
         value={search}
-        width='30%'
+        width='100%'
       />
     </Warper>
   )
