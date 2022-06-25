@@ -9,7 +9,7 @@ import { ActionName, Button, ButtonCard, Card, ContainerActions, InputCounter, I
 import { useState } from 'react'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-export const CardProducts = ({ pName, del, edit, pId, src, onTargetClick= () => { }, sum, free, height, index, fileInputRef, onFileInputChange, handleFree, ProDescription, handleFreeProducts = () => { }, dispatch = () => { }, handleIncrement, ProQuantity, handleDecrement, ValueDelivery, ProPrice, render = null, onClick = () => { }, handleDelete = () => { }, ProDescuento = 0, ProImage, widthButton }) => {
+export const CardProducts = ({ pName, del, edit, pId, src, onTargetClick = () => { }, sum, free, height, index, fileInputRef, onFileInputChange, handleFree, ProDescription, handleFreeProducts = () => { }, dispatch = () => { }, handleIncrement, ProQuantity, handleDecrement, ValueDelivery, ProPrice, render = null, onClick = () => { }, handleDelete = () => { }, ProDescuento = 0, ProImage, widthButton }) => {
   const router = useRouter()
   const [startAnimateUp, setStartAnimateUp] = useState('')
   const [show, setShow] = useState(false)
@@ -44,7 +44,7 @@ export const CardProducts = ({ pName, del, edit, pId, src, onTargetClick= () => 
   }
   return (
     <>
-      <input 
+      <input
         accept='.jpg, .png .jpeg'
         id='iFile'
         onChange={onFileInputChange}
@@ -129,11 +129,11 @@ export const CardProducts = ({ pName, del, edit, pId, src, onTargetClick= () => 
             </Button>
           </WrapperButton>}
           <div className='dish-card__info'>
-            {ValueDelivery && <span className='description'>Domicilio $ {numberFormat(ValueDelivery || 0)}</span>}
+            {ValueDelivery > 0 && <span className='description'>Domicilio $ {ValueDelivery > 0 ? numberFormat(ValueDelivery) : 'Gratis'}</span>}
 
             <div className='flex-wrap'>
               <span className='price'>$ {ProPrice ? numberFormat(ProPrice) || free === 1 : 'Gratis'}</span>
-              {ProDescuento?.length > 0 && <span className='price discount'>{` $ ${numberFormat(ProDescuento)}`}</span>}
+              {ProDescuento > 0 && <span className='price discount'>{` $ ${numberFormat(ProDescuento)}`}</span>}
             </div>
           </div>
           <div className='info-price'>

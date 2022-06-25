@@ -13,6 +13,9 @@
       ],
       "@/util/*": [
         "util/*"
+      ],
+      "@/public/*": [
+        "public/*"
       ]
     },
     "allowJs": true,
