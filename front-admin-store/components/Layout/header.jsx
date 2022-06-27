@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import { Context } from 'context/Context'
-import useWindowSize from 'hooks/useWindowSize'
 import Link from 'next/link'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
@@ -10,6 +9,9 @@ import { IconLogo, IconSales } from '../../public/icons'
 import useScrollHook, { useScrollColor } from '../hooks/useScroll'
 import { Options } from './options'
 import { useRouter } from 'next/router'
+import { AwesomeModal } from 'components/AwesomeModal'
+import Text from 'components/common/Atoms/Text'
+import Column from 'components/common/Atoms/Column'
 
 export const Header = () => {
   const style = useScrollHook()
@@ -61,7 +63,7 @@ export const Header = () => {
   const [isOn, setIsOn] = useState(false)
   useEffect(() => {
     let interval
-    if (isOn) {
+    if (process.env.NODE_ENV !== 'production' && isOn) {
       interval = setInterval(() => setTimer(timer => timer + 1), 1000)
     }
     window.addEventListener('focus', () => {
@@ -78,15 +80,44 @@ export const Header = () => {
       window.removeEventListener('blur', () => { })
     }
   }, [isOn])
+  const [openAlerCloseSessions, setOpenAlerCloseSessions] = useState(false)
   useEffect(() => {
-    if (timer >= 5) {
+    if (timer >= 300) {
+      setOpenAlerCloseSessions(true)
+    }
+    if (timer >= 700) {
       onClickLogout().catch(() => console.log('logout cancelled'))
     }
   }, [timer])
-
+  console.log(timer)
 
   return (
     <HeaderC scrollNav={scrollNav} style={style} >
+      <AwesomeModal
+        backdrop='static'
+        borderRadius='10px'
+        btnCancel={false}
+        btnConfirm={false}
+        footer={false}
+        header={false}
+        onCancel={() => { return false }}
+        onHide={() => { return setOpenAlerCloseSessions(!openAlerCloseSessions) }}
+        padding={'30px'}
+        show={openAlerCloseSessions}
+        size='20%'
+        height={'200px'}
+        zIndex='9999'
+      >
+        <Column>
+        <Text size='20px'>Tu session terminara pronto</Text>
+        </Column>
+        <button onClick={() => setOpenAlerCloseSessions(!openAlerCloseSessions)}>
+          cancelar
+        </button>
+        <button onClick={() => onClickLogout()}>
+          cerrar session
+        </button>
+      </AwesomeModal>
       <Link href={'/dashboard'}>
         <a>
           <IconLogo color={PColor} size='80px' />

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled, { css, keyframes } from 'styled-components'
 import { MODAL_SIZES } from './constanst'
@@ -7,13 +7,13 @@ import { BtnClose, ModalHeader, ModalTitle } from './styled'
 import { IconCancel } from 'public/icons'
 
 const ScaleModal = ({ show, children, size, title, height }) => {
-  const { setSalesOpen } = useContext(Context)
+  const [state, setState] = useState(show)
   const onBackdropHide = () => {
-    setSalesOpen(false)
+    setState(false)
 
   }
   return (
-    <Container show={show}>
+    <Container show={state}>
       <Modal
         height={height}
         onClick={(e) => { return e.preventDefault() }}
