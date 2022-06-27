@@ -89,7 +89,6 @@ export const Header = () => {
       onClickLogout().catch(() => console.log('logout cancelled'))
     }
   }, [timer])
-  console.log(timer)
 
   return (
     <HeaderC scrollNav={scrollNav} style={style} >
