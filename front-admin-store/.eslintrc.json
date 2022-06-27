@@ -45,7 +45,7 @@
     "react-hooks/exhaustive-deps": "warn",
     "react-hooks/rules-of-hooks": "error",
     // suppress errors for missing "import React" in files
-    "react/react-in-jsx-scope": "off",
+    "react/react-in-jsx-scope": "on",
     // allow jsx syntax in js files (for next.js project)
     "react/jsx-filename-extension": [
       1,

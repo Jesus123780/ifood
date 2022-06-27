@@ -50,16 +50,17 @@ const apolloServer = new ApolloServer({
     //   'Set-Cookie': `mycookie=test`,
     //   'Content-Type': `text/plain`
     // })
-    const session = await getIronSession(req, res,
-      {
-        password: process.env.SESSION_KEY,
-        cookieName: process.env.SESSION_NAME,
-        cookieOptions: {
-          secure: process.env.NODE_ENV === 'production'
-        }
-      })
+    const session = await getIronSession(req, res, {
+      password: process.env.SESSION_KEY,
+      cookieName: process.env.SESSION_NAME,
+      cookieOptions: {
+        maxAge: 60 * 60 * 8, // 8 hours,
+        secure: process.env.NODE_ENV === 'production'
+      }
+    })
     const { user } = session || {}
     const { token } = user || {}
+    // console.log("🚀 ~ file: graphql.js ~ line 63 ~ context: ~ token", token)
     let tokenClient
     let User = {}
     if (connection) {
@@ -71,12 +72,13 @@ const apolloServer = new ApolloServer({
     const setHeaders = []
     tokenClient = req.headers.authorization?.split(' ')[1]
     const restaurant = req.headers.restaurant || {}
-    // console.log(req.cookies)
 
     const excluded = ['/login', '/forgotpassword', '/register', '/teams/invite/[id]', '/teams/manage/[id]']
     if (excluded.indexOf(req.session) > -1) return next()
-    const { error } = await getUserFromToken(token)
-    if (error) req.session.destroy()
+    const { error, userProfile } = await getUserFromToken(token)
+    console.log(error)
+    console.log(req.session)
+    // if (error) req.session.destroy()
     if (token) {
       User = await jwt.verify(token, process.env.AUTHO_USER_KEY)
       return { req, setCookies: setCookies || [], setHeaders: setHeaders || [], User: User || {}, restaurant: restaurant || {} }
@@ -85,7 +87,6 @@ const apolloServer = new ApolloServer({
       return { req, setCookies: setCookies || [], setHeaders: setHeaders || [], User: User || {}, restaurant: restaurant || {} }
     }
     return { req, setCookies: [], setHeaders: [], User: User || {}, restaurant: restaurant || {} }
-
   }),
   subscriptions: {
     path: '/api/graphqlSubscriptions',

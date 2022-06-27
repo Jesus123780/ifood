@@ -38,7 +38,11 @@ const DragOrders = ({ dataReadyOrder, dataRechazados, dataConcludes, dataProgres
     ]
     const [list, setList] = useState(data)
     // QUERIES
-    const [changePPStatePPedido, { loading, error }] = useMutation(CHANGE_STATE_STORE_PEDIDO)
+    const [changePPStatePPedido, { loading, error }] = useMutation(CHANGE_STATE_STORE_PEDIDO, {
+      onCompleted: (res) => {
+        setAlertBox({ message: res.changePPStatePPedido.message })
+      }
+    })
     // EFFECTS
     useEffect(() => {
         setList(data)
@@ -128,7 +132,8 @@ const DragOrders = ({ dataReadyOrder, dataRechazados, dataConcludes, dataProgres
         changePPStatePPedido({
             variables: {
                 pPStateP: position,
-                pCodeRef: elem
+                pCodeRef: elem,
+                pDatMod: new Date()
             }, update: (cache, { data: { getAllPedidoStoreFinal } }) => {return updateCache({
               cache,
               query: GET_ALL_PEDIDOS,

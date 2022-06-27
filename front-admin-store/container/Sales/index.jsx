@@ -1,54 +1,69 @@
-import React, { useCallback, useContext, useEffect, useReducer, useState } from 'react'
-import PropTypes from 'prop-types'
-import { useMutation, useQuery } from '@apollo/client'
-import { GET_ULTIMATE_CATEGORY_PRODUCTS } from 'container/dashboard/queries'
-import { GET_ALL_PRODUCT_STORE, GET_MIN_PEDIDO } from 'container/dashboard/queriesStore'
-import { IconSales } from 'public/icons'
-import { RippleButton } from 'components/Ripple'
-import moment from 'moment'
-import { CardProducts } from 'components/CartProduct'
-import { Context } from 'context/Context'
-import { useCheckboxState } from 'components/hooks/useCheckbox'
-import { Skeleton } from 'components/Skeleton'
-import { LoadingBabel } from 'components/Loading/LoadingBabel'
-import { useStore } from 'components/hooks/useStore'
-import { ModalSales } from './ModalSales'
-import { initializer, RandomCode, updateCacheMod } from 'utils'
-import { SwiperSliderCategory } from './SlideCategories'
-import { Box, ContainerGrid, ScrollbarProduct, Wrapper } from './styled'
-import { FormFilterSales } from './formFilterSales'
-import { BoxProductSales } from './BoxProductSales'
-import { CREATE_SHOPPING_CARD_TO_USER_STORE } from 'container/clients/queries'
-import { GET_ALL_SALES, GET_ALL_SALES_STATISTICS } from 'container/ventas/queries'
-import { useGetClients } from 'hooks/useClients'
-import { useGetProductsFood } from 'hooks/useProductsFood'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
+import PropTypes from "prop-types";
+import { useMutation, useQuery } from "@apollo/client";
+import { GET_ULTIMATE_CATEGORY_PRODUCTS } from "container/dashboard/queries";
+import { GET_MIN_PEDIDO } from "container/dashboard/queriesStore";
+import { IconSales } from "public/icons";
+import { RippleButton } from "components/Ripple";
+import moment from "moment";
+import { CardProducts } from "components/CartProduct";
+import { Context } from "context/Context";
+import { useCheckboxState } from "components/hooks/useCheckbox";
+import { Skeleton } from "components/Skeleton";
+import { LoadingBabel } from "components/Loading/LoadingBabel";
+import { useStore } from "components/hooks/useStore";
+import { ModalSales } from "./ModalSales";
+import { initializer, RandomCode, updateCacheMod } from "utils";
+import { SwiperSliderCategory } from "./SlideCategories";
+import { Box, ContainerGrid, ScrollbarProduct, Wrapper } from "./styled";
+import { FormFilterSales } from "./formFilterSales";
+import { BoxProductSales } from "./BoxProductSales";
+import { CREATE_SHOPPING_CARD_TO_USER_STORE } from "container/clients/queries";
+import {
+  GET_ALL_SALES,
+  GET_ALL_SALES_STATISTICS,
+} from "container/ventas/queries";
+import { useGetClients } from "hooks/useClients";
+import { useGetProductsFood } from "hooks/useProductsFood";
 
 const GenerateSales = () => {
   // STATES
-  const arr = []
-  let suma = 0
-  let total = 0
-  const { setAlertBox } = useContext(Context)
-  const [totalProductPrice, setTotalProductPrice] = useState(0)
-  const [search, setSearch] = useState('')
-  const [showMore, setShowMore] = useState(50)
-  const [inputValue, setInputValue] = useState('')
-  const [delivery, setDelivery] = useState(false)
-  const [print, setPrint] = useState(false)
-  const [values, setValues] = useState({})
-  const handleChange = e => { return setValues({ ...values, [e.target.name]: e.target.value }) }
-  const onChangeInput = (e) => { return setValuesDates({ ...valuesDates, [e.target.name]: e.target.value }) }
-  // QUERIES
-  const [dataStore] = useStore()
-  const [registerSalesStore] = useMutation(CREATE_SHOPPING_CARD_TO_USER_STORE)
+  const arr = [];
+  let suma = 0;
+  let total = 0;
+  const { setAlertBox } = useContext(Context);
+  const [totalProductPrice, setTotalProductPrice] = useState(0);
+  const [search, setSearch] = useState("");
+  const [showMore, setShowMore] = useState(50);
+  const [inputValue, setInputValue] = useState("");
+  const [delivery, setDelivery] = useState(false);
+  const [print, setPrint] = useState(false);
+  const [values, setValues] = useState({});
+  const handleChange = e => setValues({ ...values, [e.target.name]: e.target.value });
 
-  const { createdAt } = dataStore || {}
+
+  const onChangeInput = (e) => {
+    return setValuesDates({ ...valuesDates, [e.target.name]: e.target.value });
+  }
+  // QUERIES
+  const [dataStore] = useStore();
+  const [registerSalesStore] = useMutation(CREATE_SHOPPING_CARD_TO_USER_STORE);
+
+  const { createdAt } = dataStore || {};
   // eslint-disable-next-line consistent-return
   const [valuesDates, setValuesDates] = useState(() => {
-    if (createdAt) return {
-      fromDate: moment(createdAt).format('YYYY-MM-DD'), toDate: moment().format('YYYY-MM-DD')
-    }
-  })
+    if (createdAt)
+      return {
+        fromDate: moment(createdAt).format("YYYY-MM-DD"),
+        toDate: moment().format("YYYY-MM-DD"),
+      };
+  });
   const [productsFood, { loading, fetchMore }] = useGetProductsFood({
     search: search,
     gender: [],
@@ -57,93 +72,81 @@ const GenerateSales = () => {
     toDate: valuesDates?.toDate,
     fromDate: valuesDates?.fromDate,
     max: showMore,
-    min: 0
-  })
-  const { data: datCat } = useQuery(GET_ULTIMATE_CATEGORY_PRODUCTS)
-  const { checkedItems, disabledItems, handleChangeCheck } = useCheckboxState(datCat?.catProductsAll)
-  const { data: dataMinPedido } = useQuery(GET_MIN_PEDIDO)
+    min: 0,
+  });
+  const { data: datCat } = useQuery(GET_ULTIMATE_CATEGORY_PRODUCTS);
+  const { checkedItems, disabledItems, handleChangeCheck } = useCheckboxState(
+    datCat?.catProductsAll
+  );
+  const { data: dataMinPedido } = useQuery(GET_MIN_PEDIDO);
   const max = productsFood?.reduce(function (a, b) {
-    return Math.max(a, b?.ProPrice || 0)
-  }, 0)
+    return Math.max(a, b?.ProPrice || 0);
+  }, 0);
   const initialStateSales = {
     PRODUCT: [],
     totalPrice: 0,
     sortBy: null,
     itemsInCart: 0,
-    animateType: '',
-    startAnimateUp: '',
+    animateType: "",
+    startAnimateUp: "",
     priceRange: max || 0,
     counter: 0,
     totalAmount: 0,
-    payMethodPState: 0
-  }
+    payMethodPState: 0,
+  };
 
-  // EFFECTS 
-  for (let categories of checkedItems.keys()) {
-    arr.push(categories)
-  }
+  // EFFECTS
+  useEffect(() => {
+    for (const categories of checkedItems.keys()) {
+      arr.push(categories);
+    }
+  }, [checkedItems]);
+
   // HANDLES
 
   // eslint-disable-next-line
-  const download = (elementId, uniqueIframeId) => {
-    const content = document.getElementById(elementId)
-    let pri
-    if (document.getElementById(uniqueIframeId)) {
-      pri = document.getElementById(uniqueIframeId).contentWindow
-    } else {
-      const iframe = document.createElement('iframe')
-      iframe.setAttribute('title', uniqueIframeId)
-      iframe.setAttribute('id', uniqueIframeId)
-      // iframe.setAttribute('style', 'width: 155px; position: relative;')
-      document.body.appendChild(iframe)
-      pri = iframe.contentWindow
-    }
-    pri.document.open()
-    pri.document.write(content.innerHTML)
-    pri.document.close()
-    pri.focus()
-    pri.print()
-  }
 
   const addToCartFunc = (state, action) => {
-    const productExist = state.PRODUCT.find(
-      (items) => { return items.pId === action.payload.pId }
-    )
-    const OurProduct = productsFood.find(
-      (items) => { return items.pId === action.payload.pId }
-    )
+    const productExist = state.PRODUCT.find((items) => {
+      return items.pId === action.payload.pId;
+    });
+    const OurProduct = productsFood.find((items) => {
+      return items.pId === action.payload.pId;
+    });
     return {
       ...state,
       counter: state.counter + 1,
       totalAmount: state.totalAmount + action.payload.ProPrice,
-      startAnimateUp: 'start-animate-up',
+      startAnimateUp: "start-animate-up",
       PRODUCT: !productExist
         ? [
-          ...state.PRODUCT,
-          {
-            pId: action.payload.pId,
-            ProQuantity: 1,
-            ProPrice: action.payload.ProPrice,
-            pName: action.payload.pName,
-            ProDescription: action.payload.ProDescription,
-            ProImage: action.payload.ProImage
-          }
-        ]
+            ...state.PRODUCT,
+            {
+              pId: action.payload.pId,
+              pName: action.payload.pName,
+              ProDescription: action.payload.ProDescription,
+              ProImage: action.payload.ProImage,
+              ProPrice: action.payload.ProPrice,
+              ProQuantity: 1,
+            },
+          ]
         : state.PRODUCT.map((items) => {
-          return items.pId === action.payload.pId
-            ? {
-              ...items,
-              ProPrice: ((productExist.ProQuantity + 1) * OurProduct?.ProPrice),
-              ProQuantity: productExist.ProQuantity + 1
-
-            }
-            : items
-        }
-        )
-    }
-  }
+            return items.pId === action.payload.pId
+              ? {
+                  ...items,
+                  ProPrice:
+                    (productExist.ProQuantity + 1) * OurProduct?.ProPrice,
+                  ProQuantity: productExist.ProQuantity + 1,
+                }
+              : items;
+          }),
+    };
+  };
   const removeFunc = (state, action) => {
-    console.log("🚀 ~ file: index.jsx ~ line 146 ~ removeFunc ~ action", action)
+    console.log(
+      "🚀 ~ file: index.jsx ~ line 146 ~ removeFunc ~ action",
+      action
+    );
     // ProQuantity: items.ProQuantity - 1,
     //   ProPrice: ((productExist.ProQuantity + 1) * OurProduct?.ProPrice),
     // PENDIENTE
@@ -151,125 +154,145 @@ const GenerateSales = () => {
       ...state,
       counter: state.counter - 1,
       totalAmount: state.totalAmount - action.payload.ProPrice,
-      PRODUCT: action.payload.ProQuantity > 1
-        ? state.PRODUCT.map((items) => {
-          return items.pId === action.payload.pId
-            ? {
-              ...items,
-              pId: action.payload.pId,
-              ProQuantity: items.ProQuantity - 1,
-              // ProPrice: ((productExist.ProQuantity - 1) - OurProduct?.ProPrice),
-            }
-            : items
-        }
-        )
-        : state.PRODUCT.filter((items) => { return items.pId !== action.payload.pId })
-    }
-  }
+      PRODUCT:
+        action.payload.ProQuantity > 1
+          ? state.PRODUCT.map((items) => {
+              return items.pId === action.payload.pId
+                ? {
+                    ...items,
+                    pId: action.payload.pId,
+                    ProQuantity: items.ProQuantity - 1,
+                    // ProPrice: ((productExist.ProQuantity - 1) - OurProduct?.ProPrice),
+                  }
+                : items;
+            })
+          : state.PRODUCT.filter((items) => {
+              return items.pId !== action.payload.pId;
+            }),
+    };
+  };
   const getSortedProduct = (data, sortBy) => {
-    if (sortBy && sortBy === 'PRICE_HIGH_TO_LOW') {
-      return data ?? data.sort((a, b) => { return b['ProPrice'] - a['ProPrice'] })
+    if (sortBy && sortBy === "PRICE_HIGH_TO_LOW") {
+      return (
+        data ??
+        data.sort((a, b) => {
+          return b["ProPrice"] - a["ProPrice"];
+        })
+      );
     }
-    if (sortBy && sortBy === 'PRICE_LOW_TO_HIGH') {
-      return data ?? data.sort((a, b) => { return a['ProPrice'] - b['ProPrice'] })
+    if (sortBy && sortBy === "PRICE_LOW_TO_HIGH") {
+      return (
+        data ??
+        data.sort((a, b) => {
+          return a["ProPrice"] - b["ProPrice"];
+        })
+      );
     }
-    return data
-  }
+    return data;
+  };
   // TOGGLE_FREE_PRODUCT
   const toggleFreeProducts = (state, action) => {
-    const productExist = productsFood.find(
-      (items) => { return items.pId === action.payload.pId }
-    )
+    const productExist = productsFood.find((items) => {
+      return items.pId === action.payload.pId;
+    });
     return {
       ...state,
 
       PRODUCT: state?.PRODUCT?.map((items) => {
-        return items.pId === action.payload.pId ? {
-          ...items,
-          free: !items.free,
-          ProPrice: items.ProPrice ? 0 : (items.ProQuantity * productExist?.ProPrice)
-        } : items
-      })
-    }
-  }
+        return items.pId === action.payload.pId
+          ? {
+              ...items,
+              free: !items.free,
+              ProPrice: items.ProPrice
+                ? 0
+                : items.ProQuantity * productExist?.ProPrice,
+            }
+          : items;
+      }),
+    };
+  };
   // fix
   const handleChangeNumber = useCallback((state, action) => {
-    const event = action.payload
-    const { value, index, id } = event || {}
-    const productExist = productsFood?.find(
-      (items) => { return items.pId === id }
-    )
+    const event = action.payload;
+    const { value, index, id } = event || {};
+    const productExist = productsFood?.find((items) => {
+      return items.pId === id;
+    });
     return {
       ...state,
       PRODUCT: state?.PRODUCT?.map((items, i) => {
-        return i === index ? {
-          ...items,
-          ProQuantity: state.PRODUCT['ProQuantity'] = value || 0,
-          ProPrice: value * productExist?.ProPrice
-        } : items
-      })
-    }
-  }, [])
+        return i === index
+          ? {
+              ...items,
+              ProQuantity: (state.PRODUCT["ProQuantity"] = value || 0),
+              ProPrice: value * productExist?.ProPrice,
+            }
+          : items;
+      }),
+    };
+  }, []);
   const PRODUCT = (state, action) => {
     switch (action.type) {
-      case 'ADD_TO_CART':
-        return addToCartFunc(state, action)
-      case 'ADD_PRODUCT':
+      case "ADD_TO_CART":
+        return addToCartFunc(state, action);
+      case "ADD_PRODUCT":
         return {
           ...state,
           // eslint-disable-next-line
-          PRODUCT: [...state?.PRODUCT, action?.payload]
-        }
-      case 'REMOVE_PRODUCT':
-        return removeFunc(state, action)
-      case 'REMOVE_PRODUCT_TO_CART':
+          PRODUCT: [...state?.PRODUCT, action?.payload],
+        };
+      case "REMOVE_PRODUCT":
+        return removeFunc(state, action);
+      case "REMOVE_PRODUCT_TO_CART":
         return {
           ...state,
-          PRODUCT: state?.PRODUCT?.filter(t => { return t.pId !== action?.payload.pId }),
-          counter: state.counter - action.payload.ProQuantity
-        }
-      case 'ON_CHANGE': {
-        return handleChangeNumber(state, action)
+          PRODUCT: state?.PRODUCT?.filter((t) => {
+            return t.pId !== action?.payload.pId;
+          }),
+          counter: state.counter - action.payload.ProQuantity,
+        };
+      case "ON_CHANGE": {
+        return handleChangeNumber(state, action);
       }
-      case 'REMOVE_ALL_PRODUCTS':
+      case "REMOVE_ALL_PRODUCTS":
         return {
           ...state,
           PRODUCT: [],
-          counter: 0
-        }
+          counter: 0,
+        };
 
-      case 'TOGGLE_FREE_PRODUCT':
-        return toggleFreeProducts(state, action)
-      case 'INCREMENT':
-        const product = productsFood?.find(
-          (items) => { return items.pId === action.id }
-        )
-        const productExist = state.PRODUCT.find(
-          (items) => { return items.pId === action.id }
-        )
-        const OurProduct = productsFood.find(
-          (items) => { return items.pId === action.id }
-        )
+      case "TOGGLE_FREE_PRODUCT":
+        return toggleFreeProducts(state, action);
+      case "INCREMENT":
+        const productExist = state.PRODUCT.find((items) => {
+          return items.pId === action.id;
+        });
+        const OurProduct = productsFood.find((items) => {
+          return items.pId === action.id;
+        });
         return {
           ...state,
           counter: state.counter + 1,
           PRODUCT: state?.PRODUCT?.map((items) => {
-            return items.pId === action.id ? {
-              ...items,
-              ProQuantity: items.ProQuantity + 1,
-              ProPrice: ((productExist.ProQuantity + 1) * OurProduct?.ProPrice),
-            } : items
-          })
-        }
-      case 'PRICE_RANGE':
+            return items.pId === action.id
+              ? {
+                  ...items,
+                  ProQuantity: items.ProQuantity + 1,
+                  ProPrice:
+                    (productExist.ProQuantity + 1) * OurProduct?.ProPrice,
+                }
+              : items;
+          }),
+        };
+      case "PRICE_RANGE":
         return {
           ...state,
-          priceRange: action.payload
-        }
-      case 'SORT':
-        return { ...state, sortBy: action.payload }
-      case 'DECREMENT':
-        console.log('staave')
+          priceRange: action.payload,
+        };
+      case "SORT":
+        return { ...state, sortBy: action.payload };
+      case "DECREMENT":
+        console.log("staave");
         return {
           ...state,
           // counter: state.counter - 1,
@@ -280,7 +303,7 @@ const GenerateSales = () => {
           //     // ProPrice: ((productExist.ProQuantity + 1) * OurProduct?.ProPrice),
           //   } : items
           // })
-        }
+        };
       // return {
       //   ...state,
       //   PRODUCT: state.PRODUCT.map((item) => {
@@ -294,87 +317,136 @@ const GenerateSales = () => {
       //     }
       //   })
       // }
-      case 'PAYMENT_METHOD_TRANSACTION':
+      case "PAYMENT_METHOD_TRANSACTION":
         return {
           ...state,
-          payMethodPState: 1
-        }
-      case 'PAYMENT_METHOD_MONEY':
+          payMethodPState: 1,
+        };
+      case "PAYMENT_METHOD_MONEY":
         return {
           ...state,
-          payMethodPState: 0
-        }
+          payMethodPState: 0,
+        };
       default:
-        return state
+        return state;
     }
-  }
+  };
 
   // FILTER PRODUCT DATA
-  const PriceRangeFunc = (products, price) => { return products?.length > 0 && products?.filter((items) => { return items?.ProPrice >= price }) }
+  const PriceRangeFunc = (products, price) => {
+    return (
+      products?.length > 0 &&
+      products?.filter((items) => {
+        return items?.ProPrice >= price;
+      })
+    );
+  };
   // REDUCER PRODUCT DATA
-  const [data, dispatch] = useReducer(PRODUCT, initialStateSales, initializer)
+  const [data, dispatch] = useReducer(PRODUCT, initialStateSales, initializer);
   // eslint-disable-next-line
-  const [_, setFilteredList] = useState([])
-  const sortedProduct = getSortedProduct(data.PRODUCT, data.sortBy)
-  const finalFilter = PriceRangeFunc(sortedProduct, data.priceRange)
+  const [_, setFilteredList] = useState([]);
+  const sortedProduct = getSortedProduct(data.PRODUCT, data.sortBy);
+  const finalFilter = PriceRangeFunc(sortedProduct, data.priceRange);
 
   const handleList = (text) => {
-    let inputText = text.toLowerCase()
-    let dataList = []
-    dataList = finalFilter.filter((item) => { return item.pName.toLowerCase().includes(inputText) })
-    return dataList
-  }
+    let inputText = text.toLowerCase();
+    let dataList = [];
+    dataList = finalFilter.filter((item) => {
+      return item.pName.toLowerCase().includes(inputText);
+    });
+    return dataList;
+  };
   const searchedInput = (words) => {
-    setInputValue(words)
-    let n = words.split(' ')
+    setInputValue(words);
+    let n = words.split(" ");
     if (n.length !== 0) {
-      if (n[n.length - 1] === '') {
-        n.pop()
+      if (n[n.length - 1] === "") {
+        n.pop();
       }
-      return n[n.length - 1]
-    } return ''
-  }
-  const handleChangeFilterProduct = (e) => {
-    let text = searchedInput(e.target.value)
-    if (text === undefined || text === '') {
-      return
+      return n[n.length - 1];
     }
-    let filteredData = handleList(text)
-    setFilteredList(filteredData)
-  }
+    return "";
+  };
+  const handleChangeFilterProduct = (e) => {
+    let text = searchedInput(e.target.value);
+    if (text === undefined || text === "") {
+      return;
+    }
+    let filteredData = handleList(text);
+    setFilteredList(filteredData);
+  };
   // FILTER PRODUCT DATA_DB
-  const handleChangeFilter = e => { setSearch(e.target.value) }
+  const handleChangeFilter = (e) => {
+    setSearch(e.target.value);
+  };
   useEffect(() => {
-    window.localStorage.setItem(process.env.LOCAL_SALES_STORE, JSON.stringify(data))
-    window.localStorage.getItem(process.env.LOCAL_SALES_STORE, JSON.stringify(data))
+    window.localStorage.setItem(
+      process.env.LOCAL_SALES_STORE,
+      JSON.stringify(data)
+    );
+    window.localStorage.getItem(
+      process.env.LOCAL_SALES_STORE,
+      JSON.stringify(data)
+    );
   }, [data]);
   // EFFECTS
   useEffect(() => {
     data.PRODUCT.forEach((a) => {
-      const { ProPrice } = a || {}
+      const { ProPrice } = a || {};
       // eslint-disable-next-line
-      suma += ProPrice
-      setTotalProductPrice(Math.abs(suma))
-    })
+      suma += ProPrice;
+      setTotalProductPrice(Math.abs(suma));
+    });
     if (data.PRODUCT.length === 0) {
-      setTotalProductPrice(0)
+      setTotalProductPrice(0);
     }
-  }, [totalProductPrice, suma, total, data])
+  }, [totalProductPrice, suma, total, data]);
 
   const restPropsSliderCategory = {
-    datCat, checkedItems, disabledItems, handleChangeCheck
-  }
+    datCat,
+    checkedItems,
+    disabledItems,
+    handleChangeCheck,
+  };
   const restPropsFormFilter = {
-    onChangeInput, valuesDates, handleChangeFilter, search
-  }
-  const [dataClientes, { loading: loadingClients }] = useGetClients()
-  const restPropsProductSales = { totalProductPrice, data, dispatch, dataMinPedido, max, inputValue, handleChangeFilterProduct, setPrint, finalFilter, print, handleChange, values, dataClientes, loadingClients }
+    onChangeInput,
+    valuesDates,
+    handleChangeFilter,
+    search,
+  };
+  const [dataClientes, { loading: loadingClients }] = useGetClients();
+  const restPropsProductSales = {
+    totalProductPrice,
+    data,
+    dispatch,
+    dataMinPedido,
+    max,
+    inputValue,
+    handleChangeFilterProduct,
+    setPrint,
+    finalFilter,
+    print,
+    handleChange,
+    values,
+    dataClientes,
+    loadingClients,
+  };
 
-  const newArrayProducts = data?.PRODUCT?.length > 0 && data?.PRODUCT?.map(x => { return { pId: x?.pId, id: values?.cliId, cantProducts: x?.ProQuantity, comments: 'Comentarios' } })
+  const newArrayProducts =
+    data?.PRODUCT?.length > 0 &&
+    data?.PRODUCT?.map((x) => {
+      return {
+        pId: x?.pId,
+        id: values?.cliId,
+        cantProducts: x?.ProQuantity,
+        comments: "Comentarios",
+      };
+    });
   const handleSubmit = () => {
-    if (!values?.cliId) return setAlertBox({ message: 'Elige un cliente' })
-    if (newArrayProducts.length <= 0) return setAlertBox({ message: 'Debes agregar un producto al carro' })
-    const code = RandomCode(5)
+    if (!values?.cliId) return setAlertBox({ message: "Elige un cliente" });
+    if (newArrayProducts.length <= 0)
+      return setAlertBox({ message: "Debes agregar un producto al carro" });
+    const code = RandomCode(5);
     registerSalesStore({
       variables: {
         input: newArrayProducts || [],
@@ -384,40 +456,47 @@ const GenerateSales = () => {
         valueDelivery: parseInt(values.valueDelivery),
         payMethodPState: data.payMethodPState,
         pickUp: 1,
-        totalProductsPrice: data?.totalAmount || 0
-      }, update: (cache, { data: { getAllSalesStoreStatistic } }) => {
-        return updateCacheMod({
-          cache,
-          query: GET_ALL_SALES_STATISTICS,
-          nameFun: 'getAllSalesStoreStatistic',
-          dataNew: getAllSalesStoreStatistic,
-          type: 2
-        },
+        totalProductsPrice: data?.totalAmount || 0,
+      },
+      update: (cache, { data: { getAllSalesStoreStatistic } }) => {
+        return updateCacheMod(
+          {
+            cache,
+            query: GET_ALL_SALES_STATISTICS,
+            nameFun: "getAllSalesStoreStatistic",
+            dataNew: getAllSalesStoreStatistic,
+            type: 2,
+          },
           cache.modify({
             fields: {
               getAllSalesStore(dataOld = []) {
-                return cache.writeQuery({ query: GET_ALL_SALES, data: dataOld })
-              }
-            }
+                return cache.writeQuery({
+                  query: GET_ALL_SALES,
+                  data: dataOld,
+                });
+              },
+            },
           })
-        )
-      }
-    }
-    )
+        );
+      },
+    })
       .then((res) => {
-        const { data } = res || {}
-        const { registerSalesStore } = data || {}
-        const { Response } = registerSalesStore || {}
+        const { data } = res || {};
+        const { registerSalesStore } = data || {};
+        const { Response } = registerSalesStore || {};
         if (Response.success === true) {
-          setAlertBox({ message: `${Response.message}`, color: 'success' })
-          dispatch({ type: 'REMOVE_ALL_PRODUCTS' })
-          setValues({})
+          setAlertBox({ message: `${Response.message}`, color: "success" });
+          dispatch({ type: "REMOVE_ALL_PRODUCTS" });
+          setValues({});
         }
       })
-      .catch((e) => {
-        setAlertBox({ message: 'Lo sentimos no pudimos generar la venta', color: 'success' })
-      })
-  }
+      .catch(() => {
+        setAlertBox({
+          message: "Lo sentimos no pudimos generar la venta",
+          color: "success",
+        });
+      });
+  };
   const restPropsSalesModal = {
     setPrint,
     handleSubmit,
@@ -428,9 +507,8 @@ const GenerateSales = () => {
     print,
     setDelivery,
     delivery,
-    handleChange
-
-  }
+    handleChange,
+  };
   return (
     <Wrapper>
       <ModalSales {...restPropsSalesModal} />
@@ -439,51 +517,63 @@ const GenerateSales = () => {
         <FormFilterSales {...restPropsFormFilter} />
         <ScrollbarProduct>
           <ContainerGrid>
-            {(loading || productsFood?.length <= 0) ? <Skeleton height={400} numberObject={50} /> : productsFood?.map((producto) => {
-              return (
-                <CardProducts
-                  {...producto}
-                  ProDescription={producto.ProDescription}
-                  ProDescuento={producto.ProDescuento}
-                  ProImage={producto.ProImage}
-                  ProPrice={producto.ProPrice}
-                  edit={false}
-                  ProQuantity={producto.ProQuantity}
-                  ValueDelivery={producto.ValueDelivery}
-                  key={producto.pId}
-                  onClick={() => { return dispatch({ type: 'ADD_TO_CART', payload: producto }) }}
-                  pName={producto.pName}
-                  render={<IconSales size='20px' />}
-                />
-              )
-            })}
+            {loading || productsFood?.length <= 0 ? (
+              <Skeleton height={400} numberObject={50} />
+            ) : (
+              productsFood?.map((producto) => {
+                return (
+                  <CardProducts
+                    {...producto}
+                    ProDescription={producto.ProDescription}
+                    ProDescuento={producto.ProDescuento}
+                    ProImage={producto.ProImage}
+                    ProPrice={producto.ProPrice}
+                    edit={false}
+                    ProQuantity={producto.ProQuantity}
+                    ValueDelivery={producto.ValueDelivery}
+                    key={producto.pId}
+                    onClick={() => {
+                      return dispatch({
+                        type: "ADD_TO_CART",
+                        payload: producto,
+                      });
+                    }}
+                    pName={producto.pName}
+                    render={<IconSales size="20px" />}
+                  />
+                );
+              })
+            )}
           </ContainerGrid>
         </ScrollbarProduct>
         <RippleButton
-          margin='0px auto'
+          margin="0px auto"
           onClick={() => {
-            setShowMore(s => { return s + 5 })
+            setShowMore((s) => {
+              return s + 5;
+            });
             fetchMore({
               variables: { max: showMore, min: 0 },
               updateQuery: (prevResult, { fetchMoreResult }) => {
-                if (!fetchMoreResult) return prevResult
+                if (!fetchMoreResult) return prevResult;
                 return {
-                  productFoodsAll: [...fetchMoreResult.productFoodsAll]
-
-                }
-              }
-            })
+                  productFoodsAll: [...fetchMoreResult.productFoodsAll],
+                };
+              },
+            });
           }}
-          widthButton='100%'
-        >{loading ? <LoadingBabel /> : 'CARGAR MÁS'}</RippleButton>
+          widthButton="100%"
+        >
+          {loading ? <LoadingBabel /> : "CARGAR MÁS"}
+        </RippleButton>
       </Box>
       <BoxProductSales {...restPropsProductSales} />
-    </Wrapper >
-  )
-}
+    </Wrapper>
+  );
+};
 
 GenerateSales.propTypes = {
-  data: PropTypes.array
-}
+  data: PropTypes.array,
+};
 
-export default GenerateSales
+export default GenerateSales;

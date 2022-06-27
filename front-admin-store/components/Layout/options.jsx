@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useCallback, useContext } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import Link from '../common/Link'
 import styled from 'styled-components'
-import { BColor, BGColor, PColor, SECColor } from '../../public/colors'
+import { BGColor, PColor, SECColor } from '../../public/colors'
 import { useApolloClient } from '@apollo/client'
 import { ButtonOption, FloatingBoxTwo, Overline } from './styled'
-import { IconLogo, IconLogout, IconMessageMain, IconNotification, IconShopping, IconUser } from '../../public/icons'
+import { IconLogout, IconMessageMain, IconNotification, IconShopping, IconUser } from '../../public/icons'
 import { useRouter } from 'next/router'
 import { Context } from 'context/Context'
 import { LoadingClosed } from 'components/Loading'
@@ -15,32 +15,13 @@ import Portal from 'components/portal'
 import Button from 'components/common/Atoms/Button'
 import Row from 'components/common/Atoms/Row'
 
-export const Options = () => {
-  const { client } = useApolloClient()
+export const Options = ({ onClickLogout, loading, error }) => {
   const [show, setShow] = useState(false)
   const { setAlertBox } = useContext(Context)
   const location = useRouter()
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
 
-  // Cerrar sesión
-  const onClickLogout = useCallback(async () => {
-    setLoading(true)
-    await window
-      .fetch(`${process.env.URL_BASE}api/auth/logout/`, {})
-      .then(res => {
-        if (res) {
-          client?.clearStore()
-          location.replace('/entrar')
-          setLoading(false)
-        }
-      })
-      .catch(() => {
-        setError(true)
-        setAlertBox({ message: 'Ocurrió un error al cerrar session' })
-      })
-  }, [client, location, setAlertBox])
 
+  
   const handleClick = index => {
     setShow(index === show ? false : index)
   }

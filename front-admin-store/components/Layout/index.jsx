@@ -45,7 +45,6 @@ export const Layout = ({ children, watch, settings }) => {
     if (dataWS) {
       setAlertBox({ message: dataWS?.newNotification, duration: 30000 })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataWS])
   return (
     <>
@@ -67,13 +66,13 @@ export const Layout = ({ children, watch, settings }) => {
             onHide={() => { return setSalesOpen(!salesOpen) }}
             padding={0}
             question={true}
-            show={true}
+            // show={true}
             show={salesOpen}
             size='large'
             title='Crea una venta'
             zIndex='9999'
           >
-            <GenerateSales />
+            {salesOpen && <GenerateSales />}
           </AwesomeModal>
           {/* <Messages /> */}
         </div>

@@ -127,7 +127,7 @@ export const ListVentas = () => {
                 <span> DELIVERY-APP </span>
               </Item>
               <Item>
-                <span> {x.payMethodPState ===  1 ? 'EFECTIVO' : 'TRANSFERENCIA'}</span>
+                <span> {x.payMethodPState === 1 ? 'EFECTIVO' : 'TRANSFERENCIA'}</span>
               </Item>
               <Item>
                 <span> $ {numberFormat(x.totalProductsPrice)}</span>
@@ -206,7 +206,7 @@ export const ChatStatistic = () => {
   const { data, loading } = useQuery(GET_ALL_SALES)
   // const array = filterKeyObject(data?.getAllSalesStore, ['__typename'])
   // console.log(array)
-  let resultado = []
+  let result = []
   data?.getAllSalesStore?.length > 0 && data?.getAllSalesStore.reduce(function (res, value) {
     // Creamos la posición del array para cada mes
     let mes = new Date(value.pDatCre).getMonth()
@@ -219,7 +219,7 @@ export const ChatStatistic = () => {
         }
       })
 
-      resultado.push(res[mes])
+      result.push(res[mes])
     }
     // Sumamos el valor de cada clave dentro de un bucle
     Object.keys(value).forEach(function (key) {
@@ -230,22 +230,80 @@ export const ChatStatistic = () => {
     return res
   }, {})
 
+  const obj = [
+    {
+      months: result[0]?.Mes === 0 ? 'ENERO' : 'ENERO',
+      price: result[0]?.totalProductsPrice || 0,
+    },
+    {
+      months: result[1]?.Mes === 1 ? 'FEBRERO' : 'FEBRERO',
+      price: result[1]?.totalProductsPrice || 0,
+    },
+    {
+      price: result[2]?.totalProductsPrice || 0,
+      months: result[2]?.Mes === 2 ? 'MARZO' : 'MARZO',
+
+    },
+    {
+      price: result[3]?.totalProductsPrice || 0,
+      months: result[3]?.Mes === 3 ? 'MARZO' : 'MARZO',
+
+    },
+    {
+      price: result[4]?.totalProductsPrice || 0,
+      months: result[4]?.Mes === 4 ? 'ABRIL' : 'ABRIL',
+
+    },
+    {
+      price: result[5]?.totalProductsPrice || 0,
+      months: result[5]?.Mes === 5 ? 'MAYO' : 'MAYO',
+
+    },
+    {
+      price: result[6]?.totalProductsPrice || 0,
+      months: result[6]?.Mes === 6 ? 'JUNIO' : 'JUNIO',
+
+    },
+    {
+      price: result[7]?.totalProductsPrice || 0,
+      months: result[7]?.Mes === 7 ? 'JUNIO' : 'JUNIO',
+
+    },
+    {
+      price: result[8]?.totalProductsPrice || 0,
+      months: result[8]?.Mes === 8 ? 'AGOSTO' : 'AGOSTO',
+
+    },
+    {
+      price: result[9]?.totalProductsPrice || 0,
+      months: result[9]?.Mes === 9 ? 'SEPTIEMBRE' : 'SEPTIEMBRE',
+
+    },
+    {
+      price: result[10]?.totalProductsPrice || 0,
+      months: result[10]?.Mes === 10 ? 'NOVIEMBRE' : 'NOVIEMBRE',
+
+    },
+    {
+      price: result[11]?.totalProductsPrice || 0,
+      months: result[11]?.Mes === 11 ? 'DICIEMBRE' : 'DICIEMBRE',
+
+    }
+  ]
   // Resultado:
   const dataChat = {
-    labels: resultado.map(x => { return x.Mes === 0 ? 'Enero' : x.Mes === 1 ? 'Febrero' : x.Mes === 2 ? 'Marzo' : x.Mes === 3 ? 'Abril' : x.Mes === 4 ? 'Mayo' : x.Mes === 5 ? 'Junio' : x.Mes === 6 ? 'Julio' : x.Mes === 7 ? 'Agosto' : x.Mes === 8 ? 'Septiembre' : x.Mes === 9 ? 'Octubre' : x.Mes === 10 ? 'Noviembre' : 'Diciembre' }),
+    labels: result.map(x => { return x.Mes === 0 ? 'Enero' : x.Mes === 1 ? 'Febrero' : x.Mes === 2 ? 'Marzo' : x.Mes === 3 ? 'Abril' : x.Mes === 4 ? 'Mayo' : x.Mes === 5 ? 'Junio' : x.Mes === 6 ? 'Julio' : x.Mes === 7 ? 'Agosto' : x.Mes === 8 ? 'Septiembre' : x.Mes === 9 ? 'Octubre' : x.Mes === 10 ? 'Noviembre' : 'Diciembre' }),
     // labels: moment()._locale._months,
-    // labels: MONTHS,
+    // labels: obj.map(x => { return x.months }),
     // labels: months({ count: DATA_COUNT }),
 
     datasets: [
       {
 
         label: 'Ventas',
-        data: resultado.map(x => { return x.totalProductsPrice }),
-        // data: resultado.map(x => { return x.Mes === 0 ? x.totalProductsPrice : x.Mes === 1 ? x.totalProductsPrice : x.Mes === 2 ? x.totalProductsPrice : x.Mes === 3 ? x.totalProductsPrice : x.Mes === 4 ? x.totalProductsPrice : x.Mes === 5 ? x.totalProductsPrice : x.Mes === 6 ? x.totalProductsPrice : x.Mes === 7 ? x.totalProductsPrice : x.Mes === 8 ? x.totalProductsPrice : x.Mes === 9 ? x.totalProductsPrice : x.totalProductsPrice }),
-
-        // data: resultado.map(x => x.Mes === 0 ? x.totalProductsPrice : x.Mes === 1 ? x.totalProductsPrice : x.Mes === 2 ? x.totalProductsPrice : x.Mes === 3 ? x.totalProductsPrice : x.Mes === 4 ? x.totalProductsPrice : x.Mes === 5 ? x.totalProductsPrice : x.Mes === 6 ? x.totalProductsPrice : x.Mes === 7 ? x.totalProductsPrice : x.Mes === 8 ? x.totalProductsPrice : x.Mes === 9 ? x.totalProductsPrice: x.Mes === 10 ? x.totalProductsPrice : 'Diciembre'),
-
+        // data: obj.map(x => { return x.price }),
+        data: result.map(x => { return x.Mes === 0 ? x.totalProductsPrice : x.Mes === 1 ? x.totalProductsPrice : x.Mes === 2 ? x.totalProductsPrice : x.Mes === 3 ? x.totalProductsPrice : x.Mes === 4 ? x.totalProductsPrice : x.Mes === 5 ? x.totalProductsPrice : x.Mes === 6 ? x.totalProductsPrice : x.Mes === 7 ? x.totalProductsPrice : x.Mes === 8 ? x.totalProductsPrice : x.Mes === 9 ? x.totalProductsPrice : x.totalProductsPrice }),
+        // data: result.map(x => x.Mes === 0 ? x.totalProductsPrice : x.Mes === 1 ? x.totalProductsPrice : x.Mes === 2 ? x.totalProductsPrice : x.Mes === 3 ? x.totalProductsPrice : x.Mes === 4 ? x.totalProductsPrice : x.Mes === 5 ? x.totalProductsPrice : x.Mes === 6 ? x.totalProductsPrice : x.Mes === 7 ? x.totalProductsPrice : x.Mes === 8 ? x.totalProductsPrice : x.Mes === 9 ? x.totalProductsPrice: x.Mes === 10 ? x.totalProductsPrice : 'Diciembre'),
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -271,7 +329,7 @@ export const ChatStatistic = () => {
       {loading ? <Skeleton height={300} margin={'20px 0'} /> : <MainCard title={`Ventas por meses del año`} weight={'200'}>
         <ContainChart>
           <Column width='50%'>
-          <BarChat data={dataChat || []} />
+            <BarChat data={dataChat || []} />
           </Column>
           {/* <DoughnutChar data={dataChat || []} /> */}
           {/* <Circle data={dataChat || []} /> */}
@@ -283,12 +341,6 @@ export const ChatStatistic = () => {
   )
 }
 
-const Button = styled.button`
-    color: ${PColor};
-    text-decoration: underline;
-    background-color: transparent;
-    cursor: pointer;
-`
 const Action = styled.div`
     display: flex;
     justify-content: space-between;

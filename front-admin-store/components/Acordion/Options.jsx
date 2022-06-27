@@ -43,13 +43,13 @@ const Options = ({ index, active, children, label, path, handleClick, icon }) =>
 }
 
 Options.propTypes = {
-  index: PropTypes.number,
   active: PropTypes.bool,
   children: PropTypes.node,
-  label: PropTypes.string,
-  path: PropTypes.string,
   handleClick: PropTypes.func,
-  icon: PropTypes.any
+  icon: PropTypes.node,
+  index: PropTypes.number,
+  label: PropTypes.string,
+  path: PropTypes.string
 }
 
 export default Options

@@ -18,7 +18,7 @@ export const BannerDashboard = () => {
         <div className='wrapper' key={i + 1}>
           <Image
             alt={'Picture of the author'}
-            blurDataURL='/images/DEFAULTBANNER.png'
+            blurDataURL='/app/images/DEFAULTBANNER.png'
             height={100}
             layout='fixed'
             objectFit='cover'

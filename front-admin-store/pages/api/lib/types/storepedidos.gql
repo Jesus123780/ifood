@@ -88,7 +88,7 @@ type Mutation {
   createSalesStore(input: InputSaleStore): Response
   createShoppingCardStoreToUser(input: InputSaleStore): Response
 
-  changePPStatePPedido(pPStateP: Int, pCodeRef: String): Response
+  changePPStatePPedido(pPStateP: Int, pCodeRef: String, pDatMod: String): Response
 }
 
 type Subscription {

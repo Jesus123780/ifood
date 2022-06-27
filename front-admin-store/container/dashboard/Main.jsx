@@ -11,7 +11,7 @@ export const Main = () => {
   const { email } = dataUser || {}
   const [dataStore] = useStore()
   const { storeName, idStore } = dataStore || {}
- 
+  const nameStore = storeName?.replace(/\s/g, '-').toLowerCase()
   return (
     <Content margin='0 0 100px 0' width='20%'>
       <Card bgColor={BGColor}>
@@ -19,7 +19,7 @@ export const Main = () => {
           <Text size='15px' >{email}</Text>
         </CardPrimary>
         <CardPrimary padding='' >
-          {dataStore !== null && <Link activeClassName='active' href={`/dashboard/${storeName?.replace(/\s/g, '-').toLowerCase()}/${idStore}`}>
+          {dataStore !== null && <Link activeClassName='active' href={`/dashboard/${nameStore}/${idStore}`}>
             <a>
               <ButtonStore
                 margin='50px 0'

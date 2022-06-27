@@ -7,6 +7,8 @@ import { LoginEmail } from '../lib/templates/LoginEmail'
 import { sendEmail } from '../lib/utils'
 import { getTokenState } from 'utils'
 import { deCode } from '../lib/utils/util'
+const MAX_AGE = 60 * 60 * 8
+
 import { withIronSessionApiRoute } from 'iron-session/next'
 /**
  * @description Función que guarda el device
@@ -100,6 +102,8 @@ export default withIronSessionApiRoute(
     password: process.env.SESSION_KEY,
     cookieName: process.env.SESSION_NAME,
     cookieOptions: {
+      // expires: new Date(Date.now() + MAX_AGE * 1000),
+      // maxAge: MAX_AGE, // 8 hours,
       secure: process.env.NODE_ENV === 'production'
     }
   }
@@ -117,15 +121,14 @@ export const getUserFromToken = async token => {
   let error = false
   // if (!token) return null
   const tokenState = getTokenState(token)
+  const { needRefresh, valid } = tokenState || {}
   try {
-    if (tokenState?.needRefresh === true || !tokenState?.valid || !tokenState) {
-      return error = true
-    }
+    if (needRefresh === true) return { error: true, user: user, userProfile: userProfile }
+    if (!valid) return { error: true, message: 'El token no es valido' }
   } catch {
     user = null
     userProfile = null
-    error = true
-    throw new Error('La session ha expirado')
+    error = false
   }
   return { user, userProfile, error }
 }

@@ -1,7 +1,8 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-shadow */
 /* eslint-disable valid-jsdoc */
-
+// import { readFileSync } from 'fs'
+import { resolve } from 'path'
 // --- oda hola ficjfi jgri
 
 // import nodemailer from 'nodemailer'
@@ -1300,3 +1301,45 @@ export const initialState = {
 }
 
 export const initializer = (initialValue = initialState) => JSON.parse(localStorage.getItem(process.env.LOCAL_SALES_STORE)) || initialValue;
+
+
+/**
+ * Organiza dos array
+ * @version 0.0.1
+ * @param {array} arrayP primer array
+ * @param {array} arrayS segundo array
+ * @param {array} priorityP nombre de la prioridad primaria
+ * @param {array} priorityS nombre de la prioridad segundaria
+ * @return {array} Todos los valores combinados en orden
+ */
+ export const organizeArray = (arrayP, arrayS, priorityP, priorityS) => {
+  // retorna el nuevo orden de los productos y servicios
+  return [...arrayP, ...arrayS].sort((a, b) => {
+      // variables necesarias
+      const valueA = a[priorityP] || a[priorityS]
+      const valueB = b[priorityP] || b[priorityS]
+
+      // comparacion
+      if ((valueA) > valueB) return 1
+      if (valueA < valueB) return -1
+      return 0
+  })
+}
+// USE
+// const array = organizeArray(categoriesPro, categoriesSer, 'cp_priority', 'cs_priority')
+
+
+
+export const indexExport = async (req, res, url) => {
+  const filePath = resolve(__dirname, '../public', 'index.html')
+  let fileString = await readFileSync(filePath, 'utf8')
+  fileString = fileString.replace('<title>Winby</title>', '<title>Winby</title>')
+  fileString = fileString.replace('<meta property="og:title" content="Winby"/>', '<meta property="og:title" content="Winby"/>')
+  fileString = fileString.replace('<meta name="description" content="El Centro Comercial Virtual más Grande de Latinoamérica."/>', '<meta name="description" content="El Centro Comercial Virtual más Grande de Latinoamérica."/>')
+  fileString = fileString.replace('<meta property="og:description" content="El Centro Comercial Virtual más Grande de Latinoamérica."/>', '<meta property="og:description" content="El Centro Comercial Virtual más Grande de Latinoamérica."/>')
+  fileString = fileString.replace(/%M_IMAGE%/g, `${url}/logo512.png`)
+  fileString = fileString.replace(/%M_URL%/g, `${url}${req.originalUrl}`)
+  res.send(fileString)
+}
+
+

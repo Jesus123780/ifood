@@ -1,24 +1,27 @@
+
 try {
   const PRECACHE = "precache-v2";
   const RUNTIME = "runtime";
- 
+
   // A list of local resources we always want to be cached.
   const PRECACHE_URLS = [
-    `any url`, // Alias for index.html
-    `public`, // Alias for index.html
+    `offline.html`, // Alias for index.html
+    // `/app`, // Alias for index.html
+    // `/app/entrar`, // Alias for index.html
+    `/app/dashboard`, // Alias for index.html
   ];
- 
+
+
   // The install handler takes care of precaching the resources we always need.
   self.addEventListener("install", (event) => {
     console.log("installing sw");
     event.waitUntil(
-      caches
-        .open(PRECACHE)
+      caches.open(PRECACHE)
         .then((cache) => cache.addAll(PRECACHE_URLS))
         .then(self.skipWaiting())
     );
   });
-    // The activate handler takes care of cleaning up old caches.
+  // The activate handler takes care of cleaning up old caches.
   self.addEventListener("activate", (event) => {
     const currentCaches = [PRECACHE, RUNTIME];
     console.log("activate cache");
@@ -43,35 +46,52 @@ try {
   });
   self.addEventListener("notificationclick", function (event) {
     console.log("Notification clicked");
-    event.waitUntil( function () {
-        return self.clients.openWindow("https://www.google.com");
+    event.waitUntil(function () {
+      return self.clients.openWindow("https://www.google.com");
     }());
-})
-   // The fetch handler serves responses for same-      	origin resources from a cache.
+  })
+  // The fetch handler serves responses for same-      	origin resources from a cache.
   // If no response is found, it populates the runtime cache with the response
   // from the network before returning it to the page.
   self.addEventListener("fetch", (event) => {
     // Skip cross-origin requests, like those for Google Analytics.
-    if (event.request.url.startsWith(self.location.origin)) {
-      event.respondWith(
-        caches.match(event.request).then((cachedResponse) => {
-          if (cachedResponse) {
-            return cachedResponse;
-          }
- 
-          return caches.open(RUNTIME).then((cache) => {
-            return fetch(event.request, {
-              
-            }).then((response) => {
-              // Put a copy of the response in the runtime cache.
-              return cache.put(event.request, response.clone()).then(() => {
-                return response;
-              });
-            });
-          });
-        })
-      );
-    }
+    // const response = caches.match(event.request)
+    //   .then(match => {
+    //     if (match) {
+    //       return match || fetch(event.request);
+    //     }
+    //     return caches.open(RUNTIME).then((cache) => {
+    //       return fetch(event.request, {
+
+    //       }).then((response) => {
+    //         // Put a copy of the response in the runtime cache.
+    //         return cache.put(event.request, response.clone()).then(() => {
+    //           return response;
+    //         });
+    //       });
+    //     });
+    //   })
+    // event.respondWith(response)
+    // if (event.request.url.startsWith(self.location.origin)) {
+    //   event.respondWith(
+    //     caches.match(event.request).then((cachedResponse) => {
+    //       if (cachedResponse) {
+    //         return cachedResponse;
+    //       }
+
+    //       return caches.open(RUNTIME).then((cache) => {
+    //         return fetch(event.request, {
+
+    //         }).then((response) => {
+    //           // Put a copy of the response in the runtime cache.
+    //           return cache.put(event.request, response.clone()).then(() => {
+    //             return response;
+    //           });
+    //         });
+    //       });
+    //     })
+    //   );
+    // }
   });
 } catch (e) {
   console.log(e);

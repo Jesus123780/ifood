@@ -31,25 +31,22 @@ export const createOnePedidoStore = async (_, { input }) => {
   }
 }
 // eslint-disable-next-line
-const changePPStatePPedido = async (_, { pPStateP, pCodeRef }, ctx) => {
-  console.log(pPStateP, pCodeRef)
+const changePPStatePPedido = async (_, { pPStateP, pCodeRef, pDatMod }, ctx) => {
+  const state = {
+    1: 'El pedido fue marcado como aprobado',
+    2: 'El pedido fue marcado como en proceso',
+    3: 'El pedido Esta listo para salir',
+    4: 'Pedido fue pagado con éxito por el cliente (Concluido)',
+    5: 'Pedido rechazado'
+  }
   try {
     await StatusPedidosModel.update(
-      { pSState: pPStateP },
+      { pSState: pPStateP, pDatMod },
       { where: { pCodeRef: pCodeRef } }
     )
     return {
       success: true,
-      message:
-        pPStateP === 1
-          ? 'El pedido fue marcado como aprobado'
-          : pPStateP === 2
-          ? 'El pedido fue marcado como en proceso'
-          : pPStateP === 3
-          ? 'El pedido Esta listo para salir'
-          : pPStateP === 4
-          ? 'Pedido fue pagado con éxito por el cliente (Concluido)'
-          : 'Pedido rechazado'
+      message: state[pPStateP]
     }
   } catch (error) {
     return {
@@ -129,7 +126,6 @@ export const getAllPedidoStore = async (_, args, ctx, info) => {
 // store
 export const getAllPedidoStoreFinal = async (_, args, ctx, info) => {
   const { idStore, statusOrder } = args || {}
-  console.log(statusOrder)
   try {
     const attributes = getAttributes(StatusPedidosModel, info)
     const data = await StatusPedidosModel.findAll({
@@ -142,7 +138,9 @@ export const getAllPedidoStoreFinal = async (_, args, ctx, info) => {
             idStore: idStore ? deCode(idStore) : deCode(ctx.restaurant)
           }
         ]
-      }
+      },
+      order: [['pDatMod', 'DESC']]
+
     })
     return data
   } catch (error) {

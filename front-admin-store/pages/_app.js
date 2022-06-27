@@ -7,7 +7,6 @@ import Auth from '../apollo/Auth'
 import { GlobalStyle } from '../public/styles/GlobalStyle'
 import { ProgressBar } from '../components/common/Nprogres'
 import 'swiper/css'
-import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
@@ -16,7 +15,7 @@ import Script from 'next/script'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Noscript from 'components/Noscript'
-
+// where: { u_id: deCode(u_id), ua_date: { [Op.startsWith]: ua_date } }
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps)
   const Layout = Component.Layout ? Component.Layout : MainLayout
@@ -25,7 +24,6 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     const handleStop = () => {
       setIsAnimating(false)
-
     }
     router.events.on('routeChangeStart', () => {
       setIsAnimating(true)
@@ -45,20 +43,54 @@ export default function App({ Component, pageProps }) {
   const [showChild, setShowChild] = useState(false)
 
   useEffect(() => {
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", function () {
-        navigator.serviceWorker.register("/app/sw.js")
+    if ('serviceWorker' in navigator) {
+      // checkValidServiceWorker('http://localhost:3001/app/sw.js')
+      window.addEventListener('load', function (config) {
+        // checkValidServiceWorker()
+        navigator.serviceWorker.register('/app/sw.js')
           .then((registration) => {
-            console.log(
-              "Service Worker registration successful with scope: ",
-              registration.scope
-            );
+            console.log(registration)
+            console.log('Service Worker registration successful with scope: ', registration.scope)
+            registration.onupdatefound = () => {
+              const installingWorker = registration.installing
+              if (installingWorker === null) {
+                return
+              }
+              installingWorker.onstatechange = () => {
+                if (installingWorker.state === 'installed') {
+                  if (navigator.serviceWorker.controller) {
+                    // At this point, the updated precached content has been fetched,
+                    // but the previous service worker will still serve the older
+                    // content until all client tabs are closed.
+                    console.log(
+                      'New content is available and will be used when all ' +
+                      'tabs for this page are closed. See https://bit.ly/CRA-PWA.'
+                    )
+
+                    // Execute callback
+                    if (config && config.onUpdate) {
+                      config.onUpdate(registration)
+                    }
+                  } else {
+                    // At this point, everything has been precached.
+                    // It's the perfect time to display a
+                    // "Content is cached for offline use." message.
+                    console.log('Content is cached for offline use.')
+
+                    // Execute callback
+                    if (config && config.onSuccess) {
+                      config.onSuccess(registration)
+                    }
+                  }
+                }
+              }
+            }
           },
             function (err) {
-              console.log("Service Worker registration failed: ", err);
+              console.log('Service Worker registration failed: ', err);
             }
           );
-      });
+      })
     }
     setShowChild(true);
   }, []);

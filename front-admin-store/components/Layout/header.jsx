@@ -1,20 +1,47 @@
 /* eslint-disable no-unused-vars */
 import { Context } from 'context/Context'
+import useWindowSize from 'hooks/useWindowSize'
 import Link from 'next/link'
-import React, { useContext } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { PColor, SECBGColor } from '../../public/colors'
+import { useApolloClient } from '@apollo/client'
 import { IconLogo, IconSales } from '../../public/icons'
 import useScrollHook, { useScrollColor } from '../hooks/useScroll'
 import { Options } from './options'
+import { useRouter } from 'next/router'
 
 export const Header = () => {
   const style = useScrollHook()
-  const { setSalesOpen, salesOpen } = useContext(Context)
+  const { setSalesOpen, salesOpen, setAlertBox } = useContext(Context)
+  const { client } = useApolloClient()
   const { scrollNav } = useScrollColor()
   const customTime = new Date()
   const customHours = customTime.getHours()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
+  const location = useRouter()
   // let displayMessage;
+
+  // Cerrar sesión
+  const onClickLogout = useCallback(async () => {
+    setLoading(true)
+    await window
+      .fetch(`${process.env.URL_BASE}api/auth/logout/`, {})
+      .then(res => {
+        if (res) {
+          client?.clearStore()
+          location.replace('/entrar')
+          setLoading(false)
+        }
+      })
+      .catch(() => {
+        setError(true)
+        setAlertBox({ message: 'Ocurrió un error al cerrar session' })
+      })
+  }, [client, location, setAlertBox])
+
+
   const customColor = {
     color: ''
   }
@@ -28,7 +55,36 @@ export const Header = () => {
     // displayMessage = `Good Night`;
     customColor.color = '#090c10'
   }
-  // const size = useWindowSize();
+  // const { mobile, width, height } = useWindowSize();
+
+  const [timer, setTimer] = useState(0)
+  const [isOn, setIsOn] = useState(false)
+  useEffect(() => {
+    let interval
+    if (isOn) {
+      interval = setInterval(() => setTimer(timer => timer + 1), 1000)
+    }
+    window.addEventListener('focus', () => {
+      setIsOn(false)
+      clearInterval(interval)
+      setTimer(0)
+    })
+    window.addEventListener('blur', () => {
+      setIsOn(true)
+    })
+    return () => {
+      clearInterval(interval)
+      window.removeEventListener('focus', () => { })
+      window.removeEventListener('blur', () => { })
+    }
+  }, [isOn])
+  useEffect(() => {
+    if (timer >= 5) {
+      onClickLogout().catch(() => console.log('logout cancelled'))
+    }
+  }, [timer])
+
+
   return (
     <HeaderC scrollNav={scrollNav} style={style} >
       <Link href={'/dashboard'}>
@@ -37,7 +93,10 @@ export const Header = () => {
         </a>
       </Link>
       <CtnItemOps>
-        <Options />
+        <Options
+          error={error}
+          loading={loading}
+          onClickLogout={onClickLogout} />
         <HeaderWrapperButton onClick={() => { return setSalesOpen(!salesOpen) }} style={style}>
           <IconSales size={30} />
           <div className='info-sales'>

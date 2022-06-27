@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 export const CHANGE_STATE_STORE_PEDIDO = gql`
-mutation changePPStatePPedido($pPStateP: Int, $pCodeRef: String) {
-  changePPStatePPedido(pPStateP: $pPStateP, pCodeRef: $pCodeRef){
+mutation changePPStatePPedido($pPStateP: Int, $pCodeRef: String, $pDatMod: String) {
+  changePPStatePPedido(pPStateP: $pPStateP, pCodeRef: $pCodeRef,  pDatMod: $pDatMod){
     success
     message
   }

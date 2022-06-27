@@ -105,7 +105,6 @@ export const ListPedidos = ({ data, fetchMore, setMore, more, errorForm, handleC
 }
 
 export const CheckStatus = ({ setModal, modal, dataModal }) => {
-console.log("🚀 ~ file: ListPedidos.jsx ~ line 111 ~ CheckStatus ~ dataModal", dataModal)
   // STATES
   const { setAlertBox } = useContext(Context)
   const { pCodeRef, getAllPedidoStore, totalProductsPrice, pDatCre, locationUser } = dataModal || {}
