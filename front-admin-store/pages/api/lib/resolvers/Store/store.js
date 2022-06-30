@@ -297,9 +297,9 @@ export const getOneStore = async (parent, args, context, info) => {
       const attributes = getAttributes(Store, info)
       const data = Store.findOne({ attributes, where: { idStore: idStore ? deCode(idStore) : deCode(parent.idStore) } })
       return data
-    } else {
-      return {}
-    }
+    } 
+    return {}
+    
   } catch (e) {
     const error = new Error('Lo sentimos, ha ocurrido un error interno')
     return error
@@ -516,6 +516,7 @@ export const getAllMatchesStore = async (root, args, context, info) => {
     return error
   }
 }
+
 export default {
   TYPES: {
     FavoriteStore: {
@@ -645,5 +646,9 @@ export default {
     setRating,
     registerSalesStore,
     registerShoppingCard
+  },
+  SUBSCRIPTION: {
+    
   }
+  
 }

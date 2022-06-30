@@ -1,28 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react'
 // import { GoogleLogin } from 'react-google-login'
 // import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
-import { ButtonSubmit, Content, Form, Enlace, Card, Text } from './styled'
+import { Content, Form, Card, Text, ButtonSubmit } from './styled'
 import { RippleButton } from '../../components/Ripple'
-import { APColor, BGColor, EColor } from '../../public/colors'
-import { useMutation } from '@apollo/client'
+import { BGColor, EColor } from '../../public/colors'
 import ActiveLink from '../../components/common/Link'
-import { URL_BASE } from '../../apollo/urls'
-import { CREATE_CURRENT_SESSION } from './queries'
 import fetchJson from '../../components/hooks/fetchJson'
 import { useRouter } from 'next/router'
-import { Facebook, IconGoogleFullColor } from '../../public/icons'
 // import { getDeviceId } from 'apollo/apolloClient'
-import { useCountLetters } from 'components/hooks/useCountLetters'
-import { usePosition } from 'components/hooks/usePosition'
 import { Context } from 'context/Context'
 import Portal from 'components/portal'
+import { Facebook, IconGoogleFullColor } from '@/public/icons'
 
 export const Login = () => {
   const router = useRouter()
   const { setAlertBox } = useContext(Context)
   const [location, setLocation] = useState({})
   const [locationFormat, setLocationFormat] = useState('')
-  const [newRegisterUser, { loading }] = useMutation(CREATE_CURRENT_SESSION)
   useEffect(() => {
     const data = window.localStorage.getItem('location')
     setLocation(JSON.parse(data))
@@ -92,7 +86,22 @@ export const Login = () => {
         <Form>
           <Text size='30px'>¡Falta poco para saciar tu hambre!</Text>
           <Text size='15px'>¿Cómo deseas continuar?</Text>
-          <button onClick={responseGoogle}>Login falso</button>
+          <ButtonSubmit
+            color='1'
+            // disabled={renderProps.disabled}
+            height='40px'
+            onClick={responseGoogle}
+            size='14px'
+            type='button'
+          ><Facebook color={BGColor} size='30px' /> Login <div style={{ width: 'min-content' }} />    </ButtonSubmit>
+          <ButtonSubmit
+            color='2'
+            colorFont='#717171'
+            // disabled={renderProps.disabled}
+            height='40px'
+            onClick={responseGoogle}
+            size='14px'
+          ><IconGoogleFullColor size='30px' /> Continue with Google<div style={{ width: 'min-content' }} /> </ButtonSubmit>
           {/* <GoogleLogin
           autoLoad={false}
           clientId='58758655786-u323tp1dpi6broro865rrm488gh4mnpu.apps.googleusercontent.com'

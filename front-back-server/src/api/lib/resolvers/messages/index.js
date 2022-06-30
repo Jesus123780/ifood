@@ -5,11 +5,11 @@ import clientStoreResResolver from './messages_store_client'
 export default {
     TYPES: {
         ...messagesResolver.TYPES,
-        ...clientStoreResResolver.TYPES,
+        ...clientStoreResResolver.TYPES
     },
     QUERIES: {
         ...messagesResolver.QUERIES,
-        ...clientStoreResResolver.QUERIES,
+        ...clientStoreResResolver.QUERIES
     },
     MUTATIONS: {
         ...messagesResolver.MUTATIONS,

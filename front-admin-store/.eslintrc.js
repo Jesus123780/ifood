@@ -1,146 +1,143 @@
 module.exports = {
-  "env": {
-    "browser": true,
-    "es2021": true,
-    "node": true
+  'env': {
+    'browser': true,
+    'es2021': true,
+    'node': true
   },
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@javascript-eslint/recommended",
-    "eslint:recommended", "next"
+  'extends': [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'eslint:recommended', 'next'
 
   ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
+  'parser': '@typescript-eslint/parser',
+  'parserOptions': {
+    'ecmaFeatures': {
+      'jsx': true
     },
-    "ecmaVersion": 12,
-    "sourceType": "module"
+    'ecmaVersion': 12,
+    'sourceType': 'module'
   },
-  "plugins": [
-    "react",
-    "react-hooks",
-    "@typescript-eslint"
+  'plugins': [
+    'react',
+    'react-hooks',
+    '@typescript-eslint'
   ],
-  "settings": {
-    "react": {
-      "version": "detect"
+  'settings': {
+    'react': {
+      'version': 'detect'
     }
   },
 
-  "rules": {
-    "import/no-anonymous-default-export": ["error", {
-      "allowArray": false,
-      "allowArrowFunction": false,
-      "allowAnonymousClass": false,
-      "allowAnonymousFunction": false,
-      "allowCallExpression": true, // The true value here is for backward compatibility
-      "allowLiteral": false,
-      "allowObject": true // anonymous-default-export
+  'rules': {
+    'import/no-anonymous-default-export': ['error', {
+      'allowArray': false,
+      'allowArrowFunction': false,
+      'allowAnonymousClass': false,
+      'allowAnonymousFunction': false,
+      'allowCallExpression': true, // The true value here is for backward compatibility
+      'allowLiteral': false,
+      'allowObject': true // anonymous-default-export
     }],
     // react hooks validations
-    "react-hooks/exhaustive-deps": "warn",
-    "react-hooks/rules-of-hooks": "error",
-    // suppress errors for missing "import React" in files
-    "react/react-in-jsx-scope": "on",
+    'react-hooks/exhaustive-deps': 'warn',
+    'react-hooks/rules-of-hooks': 'error',
     // allow jsx syntax in js files (for next.js project)
-    "react/jsx-filename-extension": [
+    'react/jsx-filename-extension': [
       1,
       {
-        "extensions": [
-          ".js",
-          ".jsx",
-          ".ts",
-          ".tsx"
+        'extensions': [
+          '.js',
+          '.jsx',
+          '.ts',
+          '.tsx'
         ]
       }
     ],
-    "quotes": [
+    'quotes': [
       2,
-      "single",
+      'single',
       {
-        "avoidEscape": true,
-        "allowTemplateLiterals": true
+        'avoidEscape': true,
+        'allowTemplateLiterals': true
       }
     ],
-    "consistent-return": 2,
-    "indent": [
+    'consistent-return': 2,
+    'indent': [
       2,
       2,
       {
-        "SwitchCase": 1
+        'SwitchCase': 1
       }
     ],
-    "no-else-return": 1,
-    "semi": [
+    'no-else-return': 1,
+    'semi': [
       1,
-      "never"
+      'never'
     ],
-    "space-unary-ops": 2,
-    "comma-dangle": [
-      "error",
+    'space-unary-ops': 2,
+    'comma-dangle': [
+      'error',
       {
-        "arrays": "never",
-        "objects": "never",
-        "imports": "never",
-        "exports": "never",
-        "functions": "never"
+        'arrays': 'never',
+        'objects': 'never',
+        'imports': 'never',
+        'exports': 'never',
+        'functions': 'never'
       }
     ],
-    "one-var": [
+    'one-var': [
       2,
-      "never"
+      'never'
     ],
-    "no-var": "error",
-    "arrow-body-style": [
-      "error",
-      "always"
+    'no-var': 'error',
+    'arrow-body-style': [
+      'error',
+      'always'
     ],
-    "no-console": "error",
-    "no-multi-spaces": [
-      "error",
+    'no-console': 'error',
+    'no-multi-spaces': [
+      'error',
       {
-        "exceptions": {
-          "BinaryExpression": true
+        'exceptions': {
+          'BinaryExpression': true
         }
       }
     ],
-    "no-multiple-empty-lines": [
-      "error",
+    'no-multiple-empty-lines': [
+      'error',
       {
-        "max": 2,
-        "maxBOF": 2
+        'max': 2,
+        'maxBOF': 2
       }
     ],
-    "jsx-quotes": [
-      "error",
-      "prefer-single"
+    'jsx-quotes': [
+      'error',
+      'prefer-single'
     ],
-    "react/jsx-sort-props": [
-      "error",
+    'react/jsx-sort-props': [
+      'error',
       {
-        "noSortAlphabetically": false
+        'noSortAlphabetically': false
       }
     ],
-    "react/jsx-first-prop-new-line": [
-      "error",
-      "multiline"
+    'react/jsx-first-prop-new-line': [
+      'error',
+      'multiline'
     ],
-    "react/jsx-max-props-per-line": [
-      "error",
+    'react/jsx-max-props-per-line': [
+      'error',
       {
-        "maximum": {
-          "single": 2,
-          "multi": 1
+        'maximum': {
+          'single': 2,
+          'multi': 1
         }
       }
     ],
-    "react/jsx-closing-bracket-location": [
-      "error",
-      "line-aligned"
+    'react/jsx-closing-bracket-location': [
+      'error',
+      'line-aligned'
     ]
   }
 }

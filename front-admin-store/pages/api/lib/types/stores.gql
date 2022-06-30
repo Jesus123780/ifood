@@ -181,7 +181,7 @@ type Query {
     getAllVisitorStore(idStore: ID, search: String, min: Int, max: Int, fromDate: DateTime toDate: DateTime): [VisitorStoreType]
     getAllMatchesStore(id: ID, pfId: ID, FoodProductName: String, search: String, min: Int, max: Int,  gender: [String]  desc: [String], categories: [ID]): [Store]
     getAllMatchesStoreRecommended(catStore: ID min: Int, max: Int): [Store]
-
+    currentNumber: Int
 }
 
 input IFavorites {
@@ -199,9 +199,11 @@ type Mutation {
     setEditNameStore(StoreName: String): Response!
     setRating(input: InputRatingStore): Response!
     setRatingStar(input: IStar): Response!
+
     setVisitorStore(input: InputVisitorStoreType): Response
 }
 
 type Subscription {
     newStore: Store
+    numberIncremented: Int
 }

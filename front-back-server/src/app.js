@@ -15,7 +15,6 @@ import express from 'express'
 import morgan from 'morgan'
 import indexRoutes from './api/lib/router'
 var cookieParser = require('cookie-parser')
-const webpush = require('web-push')
 function parseCookies(request) {
     const list = {}
     const cookieHeader = request.headers?.cookie

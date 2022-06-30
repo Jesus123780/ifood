@@ -4,16 +4,16 @@ import styled, { css } from 'styled-components'
 
 const Text = ({ text, size, align, lineHeight, padding, margin, color, font, weight, textAlign, ...props }) => {
   return <TextView
-  align={align}
-  color={color}
-  font={font}
-  lineHeight={lineHeight}
-  margin={margin}
-  padding={padding}
-  size={size}
-  weight={weight}
-  textAlign={textAlign}
-  {...props}
+    align={align}
+    color={color}
+    font={font}
+    lineHeight={lineHeight}
+    margin={margin}
+    padding={padding}
+    size={size}
+    textAlign={textAlign}
+    weight={weight}
+    {...props}
   // style={{...props}}
   >
     {text}
@@ -46,7 +46,7 @@ const TextView = styled.span`
     ${({ padding }) => {return padding && css`padding: ${padding};`}}
     ${({ margin }) => {return margin && css`margin: ${margin};`}}
     ${({ align }) => {return align && css`text-align: ${align};`}}
-    ${({ size }) => {return size && css`font-size: ${size};`}}
+    ${({ fontSize }) => {return fontSize && css`font-size: ${fontSize};`}}
     ${({ fontFamily }) => {return fontFamily && css`font-family: ${fontFamily};`}}
     font-family: ${({ fontFamily }) => {return fontFamily ? fontFamily : 'PFont-Light'}};
     ${({ fontWeight }) => {return fontWeight && css`font-weight: ${fontWeight};`}}

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import { useLazyQuery } from '@apollo/client'
@@ -6,7 +5,6 @@ import styled, { css } from 'styled-components'
 import { Flex } from './styled'
 import moment from 'moment'
 import { MainCard } from 'components/common/Reusable/ShadowCard'
-// import { DoughnutChar } from 'components/Chart'
 import { GET_ALL_SALES_STATISTICS } from 'container/ventas/queries'
 import { numberFormat } from 'utils'
 import { Skeleton } from 'components/Skeleton'

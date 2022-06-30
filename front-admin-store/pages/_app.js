@@ -86,48 +86,49 @@ export default function App({ Component, pageProps }) {
               }
             }
           },
-            function (err) {
-              console.log('Service Worker registration failed: ', err);
-            }
-          );
+          function (err) {
+            console.log('Service Worker registration failed: ', err)
+          }
+          )
       })
     }
-    setShowChild(true);
-  }, []);
+    setShowChild(true)
+  }, [])
   if (!showChild) {
-    return null;
+    return null
   }
   if (typeof window === 'undefined') {
-    return <div>Loading...</div>;
-  } else {
-    return (
-      <Context>
-        <Script
-          dangerouslySetInnerHTML={{
-            __html: `
+    return <div>Loading...</div>
+  } 
+  return (
+    <Context>
+      <Script
+        dangerouslySetInnerHTML={{
+          __html: `
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
             })(window,document,'script','dataLayer', 'GTM-59SFH7N');
           `
-          }}
-          strategy='afterInteractive'
-        />
-        <ApolloProvider client={apolloClient}>
-          <Auth>
-            <GlobalStyle />
-            {<ProgressBar progress={animating} />}
-            <Noscript>
-            </Noscript>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </Auth>
-        </ApolloProvider >
-      </Context>
-    )
-  }
+        }}
+        id='afterInteractive'
+        strategy='afterInteractive'
+      />
+      <ApolloProvider client={apolloClient}>
+        <Auth>
+          <GlobalStyle />
+          {<ProgressBar progress={animating} />}
+          <Noscript>
+          </Noscript>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </Auth>
+      </ApolloProvider >
+    </Context>
+  )
+  
 
 }
 

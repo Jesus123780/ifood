@@ -3,15 +3,15 @@ import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 
 const Row = ({ children, as='div', ...props }) => {
-    return (
-        <View as={as} {...props}>
-            {children}
-        </View>
-    )
+  return (
+    <View as={as} {...props}>
+      {children}
+    </View>
+  )
 }
 
 Row.propTypes = {
-    children: PropTypes.node
+  children: PropTypes.node
 }
 
 export default Row

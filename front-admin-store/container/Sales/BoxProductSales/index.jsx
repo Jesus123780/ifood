@@ -4,7 +4,6 @@ import { Box, Button, ContainerGrid, ScrollbarProduct, Warper } from '../styled'
 import { Checkbox } from 'components/Checkbox'
 import { Range } from 'components/InputRange'
 import { CardProducts } from 'components/CartProduct'
-import { useQuery } from '@apollo/client'
 import { IconDelete, IconPay } from 'public/icons'
 import { PColor } from 'public/colors'
 import { Skeleton } from 'components/Skeleton'
@@ -14,7 +13,7 @@ import InputHooks from 'components/InputHooks/InputHooks'
 import { Flex } from 'container/dashboard/styled'
 import { numberFormat } from 'utils'
 
-export const BoxProductSales = ({ totalProductPrice, data, dispatch, dataMinPedido, max, setPrint, finalFilter, print, handleChange, values, dataClientes, loadingClients = false }) => {
+export const BoxProductSales = ({ totalProductPrice, data, dispatch, max, setPrint, finalFilter, print, handleChange, values, dataClientes, loadingClients = false }) => {
   return (
     <Box width='40%'>
       <ScrollbarProduct margin={'0'}>
@@ -115,9 +114,15 @@ export const BoxProductSales = ({ totalProductPrice, data, dispatch, dataMinPedi
           {data?.PRODUCT?.length > 0 ? finalFilter.map((producto, idx) => {
             return (
               <CardProducts
+                ProDescription={producto.ProDescription}
+                ProDescuento={producto.ProDescuento}
+                ProImage={producto.ProImage}
+                ProPrice={producto.ProPrice}
+                ProQuantity={producto.ProQuantity}
+                ValueDelivery={producto.ValueDelivery}
                 del={true}
                 dispatch={dispatch}
-                edit={true}
+                edit={false}
                 free={producto.free}
                 handleDecrement={() => { return dispatch({ type: 'REMOVE_PRODUCT', payload: producto }) }}
                 handleDelete={() => { return dispatch({ type: 'REMOVE_PRODUCT_TO_CART', payload: producto }) }}
@@ -129,14 +134,8 @@ export const BoxProductSales = ({ totalProductPrice, data, dispatch, dataMinPedi
                 onClick={() => { return dispatch({ type: 'REMOVE_PRODUCT', payload: producto }) }}
                 pId={producto.pId}
                 pName={producto.pName}
-                ProDescription={producto.ProDescription}
-                ProDescuento={producto.ProDescuento}
-                ProImage={producto.ProImage}
-                ProPrice={producto.ProPrice}
-                ProQuantity={producto.ProQuantity}
                 render={<IconDelete color={PColor} size='20px' />}
                 sum={true}
-                ValueDelivery={producto.ValueDelivery}
                 {...producto}
               />
             )
@@ -147,9 +146,9 @@ export const BoxProductSales = ({ totalProductPrice, data, dispatch, dataMinPedi
       {/* <div style={{ width: 100, height: 100, backgroundColor: 'grey' }}> */}
       <FooterCalcules
         counter={Math.abs(data.counter)}
+        disabled={!values?.cliId}
         dispatch={dispatch}
         print={print}
-        disabled={!values?.cliId}
         setPrint={setPrint}
         totalProductPrice={totalProductPrice}
       />

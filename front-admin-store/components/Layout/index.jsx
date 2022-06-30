@@ -15,7 +15,7 @@ import { BtnClose } from 'components/AwesomeModal/styled'
 import { IconCancel } from 'public/icons'
 import GenerateSales from 'container/Sales'
 import { AwesomeModal } from 'components/AwesomeModal'
-import { Messages } from 'container/messages'
+// import { Messages } from 'container/messages'
 
 export const Layout = ({ children, watch, settings }) => {
   const location = useRouter()
@@ -45,6 +45,7 @@ export const Layout = ({ children, watch, settings }) => {
     if (dataWS) {
       setAlertBox({ message: dataWS?.newNotification, duration: 30000 })
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataWS])
   return (
     <>

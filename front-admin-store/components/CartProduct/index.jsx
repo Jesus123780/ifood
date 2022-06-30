@@ -101,21 +101,26 @@ export const CardProducts = ({ pName, del, edit, pId, src, onTargetClick = () =>
                     payload: {
                       value: event.target.value,
                       name: 'name',
-                      index: index
+                      index: index,
+                      id: pId
                     }
                   })
                 }}
-                onFocus={() => {
+                onFocus={(event) => {
                   return dispatch({
                     type: 'ON_CHANGE',
                     payload: {
+                      value: event.target.value,
+                      name: 'name',
+                      index: index,
                       id: pId
                     }
                   })
                 }}
                 onKeyDown={(event) => { return (event.key === 'Enter' ? setShow(false) : null) }}
                 show={show}
-                value={numberFormat(ProQuantity)}
+                type='number'
+                value={ProQuantity}
               />}
             </ItemProQuantity>
 

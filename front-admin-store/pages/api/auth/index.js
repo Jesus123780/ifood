@@ -7,7 +7,6 @@ import { LoginEmail } from '../lib/templates/LoginEmail'
 import { sendEmail } from '../lib/utils'
 import { getTokenState } from 'utils'
 import { deCode } from '../lib/utils/util'
-const MAX_AGE = 60 * 60 * 8
 
 import { withIronSessionApiRoute } from 'iron-session/next'
 /**
@@ -17,7 +16,7 @@ import { withIronSessionApiRoute } from 'iron-session/next'
  */
 export const getDevice = async ({ input }) => {
   // eslint-disable-next-line
-  const { deviceid, userId, locationFormat, os, os: { name, short_name, version, family, platform } } = input || {}
+  const { deviceid, userId, locationFormat, os: { name, short_name, version, family, platform } } = input || {}
   let error = false
   let data = {}
   let res = {}
@@ -68,11 +67,10 @@ export default withIronSessionApiRoute(
   async function loginRoute(req, res) {
     // get user from database then:
     try {
-      const { name, username, lastName, email, password, deviceid, locationFormat } = req.body
+      const { name, username, lastName, email, password, deviceid } = req.body
       // console.log(req.headers['user-agent'])
       // console.log(req.headers['user-agent'])
-      const useragent = req.headers['user-agent']
-      const { token, message, success, roles, storeUserId, userId } = await newRegisterUser(null, { name, username, lastName, email, password })
+      const { token, message, success, roles, storeUserId } = await newRegisterUser(null, { name, username, lastName, email, password })
       if (success) {
         // const detector = new DeviceDetector
         // const resultOs = detector.parseOs(useragent)
@@ -93,7 +91,6 @@ export default withIronSessionApiRoute(
         res.send({ ok: true, success, message: message, storeUserId, token })
       }
     } catch (error) {
-      console.log(error)
       const { response: fetchResponse } = error
       res.status(fetchResponse?.status || 500).json(error.data)
     }

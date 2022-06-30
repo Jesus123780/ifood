@@ -43,7 +43,7 @@ export const getMessages = async (parent, { from }, ctx) => {
 export const sendMessage = async (parent, { to, content }, ctx) => {
     try {
         try {
-            const message = await MessagesModel.create({ from: ctx.User.id, to, content, })
+            const message = await MessagesModel.create({ from: ctx.User.id, to, content })
             pubsub.publish('NEW_MESSAGE', { newMessage: message, ctx })
             return message
         } catch (err) {
@@ -70,9 +70,9 @@ const SubscriptionSubscription = {
                 } else {
                     return false
                 }
-            }),
-        },
-    },
+            })
+        }
+    }
 }
 
 export default {

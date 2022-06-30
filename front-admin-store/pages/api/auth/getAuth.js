@@ -28,5 +28,5 @@ export default withIronSessionApiRoute(async function isAuth(req, res) {
     throw new Error('Lo sentimos, ha ocurrido un error interno al cerrar session')
   }
 },
-  cookie
+cookie
 )

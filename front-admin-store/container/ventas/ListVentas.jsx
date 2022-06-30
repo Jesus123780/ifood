@@ -4,17 +4,18 @@ import { RippleButton } from 'components/Ripple'
 import { Table } from 'components/Table'
 import { Section } from 'components/Table/styled'
 import { useLazyQuery, useQuery } from '@apollo/client'
-import { BGColor, PColor, PLColor, SFColor } from 'public/colors'
+import { BGColor, PLColor, SFColor } from 'public/colors'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { MONTHS, months, numberFormat } from 'utils'
+import { numberFormat } from 'utils'
 import { GET_ALL_SALES, GET_ONE_SALES } from './queries'
 import moment from 'moment'
 import { GetOneSales } from './getOneSales'
-import { BarChat, Circle, DoughnutChar, HorizontalBarChart } from 'components/Chart'
+import { BarChat } from 'components/Chart'
 import { Skeleton } from 'components/Skeleton'
 import { MainCard } from 'components/common/Reusable/ShadowCard'
 import Column from 'components/common/Atoms/Column'
+import Button from 'components/common/Atoms/Button'
 moment.locale('es')
 export const ListVentas = () => {
   let total = 0
@@ -229,67 +230,6 @@ export const ChatStatistic = () => {
     })
     return res
   }, {})
-
-  const obj = [
-    {
-      months: result[0]?.Mes === 0 ? 'ENERO' : 'ENERO',
-      price: result[0]?.totalProductsPrice || 0,
-    },
-    {
-      months: result[1]?.Mes === 1 ? 'FEBRERO' : 'FEBRERO',
-      price: result[1]?.totalProductsPrice || 0,
-    },
-    {
-      price: result[2]?.totalProductsPrice || 0,
-      months: result[2]?.Mes === 2 ? 'MARZO' : 'MARZO',
-
-    },
-    {
-      price: result[3]?.totalProductsPrice || 0,
-      months: result[3]?.Mes === 3 ? 'MARZO' : 'MARZO',
-
-    },
-    {
-      price: result[4]?.totalProductsPrice || 0,
-      months: result[4]?.Mes === 4 ? 'ABRIL' : 'ABRIL',
-
-    },
-    {
-      price: result[5]?.totalProductsPrice || 0,
-      months: result[5]?.Mes === 5 ? 'MAYO' : 'MAYO',
-
-    },
-    {
-      price: result[6]?.totalProductsPrice || 0,
-      months: result[6]?.Mes === 6 ? 'JUNIO' : 'JUNIO',
-
-    },
-    {
-      price: result[7]?.totalProductsPrice || 0,
-      months: result[7]?.Mes === 7 ? 'JUNIO' : 'JUNIO',
-
-    },
-    {
-      price: result[8]?.totalProductsPrice || 0,
-      months: result[8]?.Mes === 8 ? 'AGOSTO' : 'AGOSTO',
-
-    },
-    {
-      price: result[9]?.totalProductsPrice || 0,
-      months: result[9]?.Mes === 9 ? 'SEPTIEMBRE' : 'SEPTIEMBRE',
-
-    },
-    {
-      price: result[10]?.totalProductsPrice || 0,
-      months: result[10]?.Mes === 10 ? 'NOVIEMBRE' : 'NOVIEMBRE',
-
-    },
-    {
-      price: result[11]?.totalProductsPrice || 0,
-      months: result[11]?.Mes === 11 ? 'DICIEMBRE' : 'DICIEMBRE',
-
-    }
-  ]
   // Resultado:
   const dataChat = {
     labels: result.map(x => { return x.Mes === 0 ? 'Enero' : x.Mes === 1 ? 'Febrero' : x.Mes === 2 ? 'Marzo' : x.Mes === 3 ? 'Abril' : x.Mes === 4 ? 'Mayo' : x.Mes === 5 ? 'Junio' : x.Mes === 6 ? 'Julio' : x.Mes === 7 ? 'Agosto' : x.Mes === 8 ? 'Septiembre' : x.Mes === 9 ? 'Octubre' : x.Mes === 10 ? 'Noviembre' : 'Diciembre' }),

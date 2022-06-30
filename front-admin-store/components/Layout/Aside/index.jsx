@@ -13,7 +13,7 @@ import { Context } from 'context/Context'
 import { gql } from '@apollo/client'
 import Link from 'next/link'
 import { Skeleton } from 'components/Skeleton'
-import { useQuery, useSubscription } from '@apollo/client';
+import { useSubscription } from '@apollo/client'
 
 const Aside = () => {
   const { client } = useApolloClient()
@@ -122,7 +122,7 @@ subscription {
                 </ActiveLink>
               </Info>
             </LeftNav>
-            {loading ?   <Skeleton height={50} margin={'10px 0'} /> : <Link href={`/dashboard/${storeName?.replace(/\s/g, '-').toLowerCase()}/${idStore}`}>
+            {loading ? <Skeleton height={50} margin={'10px 0'} /> : <Link href={`/dashboard/${storeName?.replace(/\s/g, '-').toLowerCase()}/${idStore}`}>
               <a>
                 <h1 className='title_store'>{storeName}</h1>
                 {dataWS?.numberIncremented}
@@ -176,6 +176,12 @@ subscription {
             </ActiveLink>
             <ActiveLink activeClassName='active' href='/billetera'>
               <AnchorRouter>  <IconWallet size='20px' />Billetera</AnchorRouter>
+            </ActiveLink>
+            <ActiveLink activeClassName='active' href='/categorias'>
+              <AnchorRouter>  <IconWallet size='20px' />Categorías</AnchorRouter>
+            </ActiveLink>
+            <ActiveLink activeClassName='active' href='/employee'>
+              <AnchorRouter>  <IconWallet size='20px' />Empleados</AnchorRouter>
             </ActiveLink>
             <OptionButton>
               <ButtonOption onClick={onClickLogout} space>

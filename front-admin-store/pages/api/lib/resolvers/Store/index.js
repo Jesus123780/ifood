@@ -13,11 +13,13 @@ import walletDebtStore from './walletDebt'
 import ClientsStore from './Clients'
 import ChatStore from './storeChat'
 import bannerDashboardStore from './bannerMainDashboard'
+import emplooyeStore from './employee'
 
 export default {
   TYPES: {
     ...storeResolver.TYPES,
     ...bannerDashboardStore.TYPES,
+    ...emplooyeStore.TYPES,
     ...walletDebtStore.TYPES,
     ...ChatStore.TYPES,
     ...emplooyeResolver.TYPES,
@@ -40,6 +42,7 @@ export default {
     ...ScheduleStoreResolver.QUERIES,
     ...createCatOfProductsResolver.QUERIES,
     ...bannerDashboardStore.QUERIES,
+    ...emplooyeStore.QUERIES,
     ...pedidosResolver.QUERIES,
     ...setVisitorStore.QUERIES,
     ...shoppingStore.QUERIES,
@@ -53,6 +56,7 @@ export default {
     ...ChatStore.MUTATIONS,
     ...walletDebtStore.MUTATIONS,
     ...ContractResolver.MUTATIONS,
+    ...emplooyeStore.MUTATIONS,
     ...shoppingStore.MUTATIONS,
     ...bannerDashboardStore.MUTATIONS,
     ...setVisitorStore.MUTATIONS,

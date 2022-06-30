@@ -23,7 +23,7 @@ export const BannerDashboard = () => {
             layout='fixed'
             objectFit='cover'
             placeholder='blur'
-            src={'/images/bannerdashboard.jpg'}
+            src={'/app/images/bannerdashboard.jpg'}
             width={1000}
           />
         </div>

@@ -161,7 +161,7 @@ export const validationForm = (inputs, error) => {
         errorForm = true
       }
     } else
-      if (error[inputs[i].name]) { errorForm = true }
+    if (error[inputs[i].name]) { errorForm = true }
   }
   return errorForm
 }
@@ -832,7 +832,7 @@ export const NumeroALetras = (value, format = false) => {
       if (data.pennies === 1) return `${Millones(data.pennies)} ${data.letterCoinPennieSingular}`
       return `${Millones(data.pennies)} ${data.letterCoinPenniesPlural}`
     })()
-      }`
+    }`
   }
 
   if (data.integers === 0) return `CERO ${data.letterCoinPlural} ${data.letterPennies}`
@@ -1300,7 +1300,7 @@ export const initialState = {
   payMethodPState: 0
 }
 
-export const initializer = (initialValue = initialState) => JSON.parse(localStorage.getItem(process.env.LOCAL_SALES_STORE)) || initialValue;
+export const initializer = (initialValue = initialState) => {return JSON.parse(localStorage.getItem(process.env.LOCAL_SALES_STORE)) || initialValue}
 
 
 /**
@@ -1312,22 +1312,21 @@ export const initializer = (initialValue = initialState) => JSON.parse(localStor
  * @param {array} priorityS nombre de la prioridad segundaria
  * @return {array} Todos los valores combinados en orden
  */
- export const organizeArray = (arrayP, arrayS, priorityP, priorityS) => {
+export const organizeArray = (arrayP, arrayS, priorityP, priorityS) => {
   // retorna el nuevo orden de los productos y servicios
   return [...arrayP, ...arrayS].sort((a, b) => {
-      // variables necesarias
-      const valueA = a[priorityP] || a[priorityS]
-      const valueB = b[priorityP] || b[priorityS]
+    // variables necesarias
+    const valueA = a[priorityP] || a[priorityS]
+    const valueB = b[priorityP] || b[priorityS]
 
-      // comparacion
-      if ((valueA) > valueB) return 1
-      if (valueA < valueB) return -1
-      return 0
+    // comparacion
+    if ((valueA) > valueB) return 1
+    if (valueA < valueB) return -1
+    return 0
   })
 }
 // USE
 // const array = organizeArray(categoriesPro, categoriesSer, 'cp_priority', 'cs_priority')
-
 
 
 export const indexExport = async (req, res, url) => {

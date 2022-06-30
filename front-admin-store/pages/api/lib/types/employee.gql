@@ -37,7 +37,7 @@ input IEmployee {
     aId: ID!
     tpId: ID!
     eEnterprise: String
-    eSalary: String!
+    eSalary: Float!
     eCharge: String!
     typeContract: String
     termContract: String
@@ -78,7 +78,7 @@ type Query {
 # Mutation
 type Mutation {
     "Esto crea un nuevo empleado"
-    createEmployee(input: IEmployee!): Employee
+    createEmployee(input: IEmployee!): Response
     createOneEmployeeStore(input: IEmployeeStore): Response
     createOneEmployeeStoreAndUser(input: IEmployeeStore): Response
 

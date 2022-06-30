@@ -9,6 +9,7 @@ import Providers from './Providers'
 import recommendedCategorieStoreResolver from './recommended'
 import paymentCardResolver from './paymentCard'
 import adminResolver from './admin'
+import messagesResolver from './messages'
 export default {
   ...UserResolvers.TYPES,
   ...storeResolver.TYPES,
@@ -19,6 +20,7 @@ export default {
   ...deviceResolver.TYPES,
   ...recommendedCategorieStoreResolver.TYPES,
   ...categoriesResolver.TYPES,
+  ...messagesResolver.TYPES,
   ...adminResolver.TYPES,
   DateTime: dateTimeScalar,
   // Upload: GraphQLUpload,
@@ -32,6 +34,7 @@ export default {
     ...storeResolver.QUERIES,
     ...paymentCardResolver.QUERIES,
     ...products.QUERIES,
+    ...messagesResolver.QUERIES,
     ...deviceResolver.QUERIES
   },
   Mutation: {
@@ -44,6 +47,10 @@ export default {
     ...products.MUTATIONS,
     ...paymentCardResolver.MUTATIONS,
     ...recommendedCategorieStoreResolver.MUTATIONS,
+    ...messagesResolver.MUTATIONS,
     ...deviceResolver.MUTATIONS
+  },
+  Subscription: {
+    ...messagesResolver.SUBSCRIPTIONS
   }
 }

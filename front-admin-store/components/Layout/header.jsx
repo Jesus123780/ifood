@@ -32,6 +32,9 @@ export const Header = () => {
       .fetch(`${process.env.URL_BASE}api/auth/logout/`, {})
       .then(res => {
         if (res) {
+          localStorage.removeItem('session')
+          localStorage.removeItem('usuario')
+          localStorage.removeItem('restaurant')
           client?.clearStore()
           location.replace('/entrar')
           setLoading(false)
@@ -64,7 +67,7 @@ export const Header = () => {
   useEffect(() => {
     let interval
     if (process.env.NODE_ENV !== 'production' && isOn) {
-      interval = setInterval(() => setTimer(timer => timer + 1), 1000)
+      interval = setInterval(() => {return setTimer(timer => {return timer + 1})}, 1000)
     }
     window.addEventListener('focus', () => {
       setIsOn(false)
@@ -76,8 +79,8 @@ export const Header = () => {
     })
     return () => {
       clearInterval(interval)
-      window.removeEventListener('focus', () => { })
-      window.removeEventListener('blur', () => { })
+      window.removeEventListener('focus', () => { return })
+      window.removeEventListener('blur', () => { return })
     }
   }, [isOn])
   const [openAlerCloseSessions, setOpenAlerCloseSessions] = useState(false)
@@ -86,9 +89,10 @@ export const Header = () => {
       setOpenAlerCloseSessions(true)
     }
     if (timer >= 700) {
-      onClickLogout().catch(() => console.log('logout cancelled'))
+      // eslint-disable-next-line
+      onClickLogout().catch(() => {return console.log('logout cancelled')})
     }
-  }, [timer])
+  }, [onClickLogout, timer])
 
   return (
     <HeaderC scrollNav={scrollNav} style={style} >
@@ -99,21 +103,21 @@ export const Header = () => {
         btnConfirm={false}
         footer={false}
         header={false}
+        height={'200px'}
         onCancel={() => { return false }}
         onHide={() => { return setOpenAlerCloseSessions(!openAlerCloseSessions) }}
         padding={'30px'}
         show={openAlerCloseSessions}
         size='20%'
-        height={'200px'}
         zIndex='9999'
       >
         <Column>
-        <Text size='20px'>Tu session terminara pronto</Text>
+          <Text size='20px'>Tu session terminara pronto</Text>
         </Column>
-        <button onClick={() => setOpenAlerCloseSessions(!openAlerCloseSessions)}>
+        <button onClick={() => {return setOpenAlerCloseSessions(!openAlerCloseSessions)}}>
           cancelar
         </button>
-        <button onClick={() => onClickLogout()}>
+        <button onClick={() => {return onClickLogout()}}>
           cerrar session
         </button>
       </AwesomeModal>
@@ -126,7 +130,8 @@ export const Header = () => {
         <Options
           error={error}
           loading={loading}
-          onClickLogout={onClickLogout} />
+          onClickLogout={onClickLogout}
+        />
         <HeaderWrapperButton onClick={() => { return setSalesOpen(!salesOpen) }} style={style}>
           <IconSales size={30} />
           <div className='info-sales'>

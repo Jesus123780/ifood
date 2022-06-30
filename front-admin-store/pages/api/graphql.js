@@ -10,6 +10,7 @@ import jwt from 'jsonwebtoken'
 import resolvers from '../api/lib/resolvers/index'
 import { getUserFromToken } from './auth'
 import { getIronSession } from 'iron-session'
+import { requestDidStartPlugin } from './lib/hooks/apollo-plugin'
 // import Cors from './lib/hooks/micro-cors'
 
 const corsMultipleAllowOrigin = (options = {}) => {
@@ -34,12 +35,25 @@ const corsMultipleAllowOrigin = (options = {}) => {
   }
 }
 const cors = corsMultipleAllowOrigin({ origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:4000', 'http://localhost:3003'] })
+let serverCleanup = null
 
 const apolloServer = new ApolloServer({
   resolvers,
   typeDefs,
   introspection: true,
-  plugins: [ApolloServerPluginLandingPageGraphQLPlayground(), httpHeadersPlugin],
+  cache: 'bounded',
+  plugins: [ApolloServerPluginLandingPageGraphQLPlayground(),
+    httpHeadersPlugin,
+    {
+      async serverWillStart() {
+        return {
+          async drainServer() {
+            await serverCleanup?.dispose()
+          }
+        }
+      }
+    },
+    requestDidStartPlugin],
   context: (async ({ req, res, next, connection }) => {
     // const cookies = parseCookies(req)
     // console.log(cookies)
@@ -75,7 +89,7 @@ const apolloServer = new ApolloServer({
 
     const excluded = ['/login', '/forgotpassword', '/register', '/teams/invite/[id]', '/teams/manage/[id]']
     if (excluded.indexOf(req.session) > -1) return next()
-    const { error, userProfile } = await getUserFromToken(token)
+    const { error } = await getUserFromToken(token)
     console.log(error)
     console.log(req.session)
     // if (error) req.session.destroy()

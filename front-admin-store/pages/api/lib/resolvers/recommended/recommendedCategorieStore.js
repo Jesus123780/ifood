@@ -1,7 +1,7 @@
 import { Op, fn } from 'sequelize'
 import productModelFood from '../../models/product/productFood'
 import Store from '../../models/Store/Store'
-import { linkBelongsTo, linkHasMany } from '../../utils'
+import { linkBelongsTo } from '../../utils'
 import { deCode, getAttributes } from '../../utils/util'
 
 export const getAllMatchesStoreRecommended = async (root, args, context, info) => {
