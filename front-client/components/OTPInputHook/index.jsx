@@ -1,5 +1,5 @@
-import React, { memo, useState, useCallback } from "react";
-import SingleInput, { Content } from "./SingleInput";
+import React, { memo, useState, useCallback } from 'react';
+import SingleInput, { Content } from './SingleInput';
 
 export const OTPInputComponent = (props) => {
   const {
@@ -17,8 +17,8 @@ export const OTPInputComponent = (props) => {
   // Define state activeInput = 0
   const [activeInput, setActiveInput] = useState(0);
 
-  // Define state otpValues = array with <length> items with default value = ""
-  const [otpValues, setOTPValues] = useState(arrayCode || Array(length).fill(""));
+  // Define state otpValues = array with <length> items with default value = ''
+  const [otpValues, setOTPValues] = useState(arrayCode || Array(length).fill(''));
 
   // helpers
   // Define some helper functions
@@ -26,7 +26,7 @@ export const OTPInputComponent = (props) => {
   // Helper to return OTP from inputs
   const handleOtpChange = useCallback(
     (otp) => {
-      const otpValue = otp.join("");
+      const otpValue = otp.join('');
       onChangeOTP(otpValue);
     },
     [onChangeOTP]
@@ -39,7 +39,7 @@ export const OTPInputComponent = (props) => {
       if (!isNumberInput) {
         return changedValue;
       }
-      return !changedValue || /\d/.test(changedValue) ? changedValue : "";
+      return !changedValue || /\d/.test(changedValue) ? changedValue : '';
     },
     [isNumberInput]
   );
@@ -48,7 +48,7 @@ export const OTPInputComponent = (props) => {
   const changeCodeAtFocus = useCallback(
     (str) => {
       const updatedOTPValues = [...otpValues];
-      updatedOTPValues[activeInput] = str[0] || "";
+      updatedOTPValues[activeInput] = str[0] || '';
       setOTPValues(updatedOTPValues);
       handleOtpChange(updatedOTPValues);
     },
@@ -103,27 +103,27 @@ export const OTPInputComponent = (props) => {
   const handleOnKeyDown = useCallback(
     (e) => {
       switch (e.key) {
-        case "Backspace":
-        case "Delete": {
+        case 'Backspace':
+        case 'Delete': {
           e.preventDefault();
           if (otpValues[activeInput]) {
-            changeCodeAtFocus("");
+            changeCodeAtFocus('');
           } else {
             focusPrevInput();
           }
           break;
         }
-        case "ArrowLeft": {
+        case 'ArrowLeft': {
           e.preventDefault();
           focusPrevInput();
           break;
         }
-        case "ArrowRight": {
+        case 'ArrowRight': {
           e.preventDefault();
           focusNextInput();
           break;
         }
-        case " ": {
+        case ' ': {
           e.preventDefault();
           break;
         }
@@ -138,10 +138,10 @@ export const OTPInputComponent = (props) => {
     (e) => {
       e.preventDefault();
       const pastedData = e.clipboardData
-        .getData("text/plain")
+        .getData('text/plain')
         .trim()
         .slice(0, length - activeInput)
-        .split("");
+        .split('');
       if (pastedData) {
         let nextFocusIndex = 0;
         const updatedOTPValues = [...otpValues];
@@ -164,7 +164,7 @@ export const OTPInputComponent = (props) => {
   return (
     <Content {...rest}>
       {Array(length)
-        .fill("")
+        .fill('')
         .map((_, index) => (
           <SingleInput
             key={`SingleInput-${index}`}

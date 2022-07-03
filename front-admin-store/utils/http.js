@@ -1,4 +1,4 @@
-const host = process.env.NODE_ENV === 'production' ?  'http://localhost:4000' : 'ws://server-image-food.herokuapp.com/graphql';
+const host = process.env.NODE_ENV === 'production' ? 'http://localhost:4000' : 'ws://server-image-food.herokuapp.com/graphql'
 
 function post(path, body) {
   console.log(host + path)
@@ -8,11 +8,11 @@ function post(path, body) {
     mode: 'cors'
   })
     .then(function(response) {
-      return response.json();
+      return response.json()
     })
     .then(function(data) {
-      return data;
-    });
+      return data
+    })
 }
 
 function get(path) {
@@ -21,16 +21,16 @@ function get(path) {
     mode: 'cors'
   })
     .then(function(response) {
-      return response.json();
+      return response.json()
     })
     .then(function(data) {
-      return data;
-    });
+      return data
+    })
 }
 
 const http = {
   post: post,
   get: get
-};
+}
 
-export default http;
+export default http
