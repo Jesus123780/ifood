@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { TextH2Main } from 'components/common/h2'
 import { BGColor, PColor } from 'public/colors'
 import React from 'react'
-import { numberFormat } from 'utils'
+import { numberFormat } from '../../utils'
 import { Box, ContentCalcules, FlipTop } from './styled'
 import Button from 'components/common/Atoms/Button'
 

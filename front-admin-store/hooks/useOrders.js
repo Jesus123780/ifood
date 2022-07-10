@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { useContext, useEffect, useState } from 'react'
 import { GET_ALL_PEDIDOS } from 'container/PedidosStore/queries'
 import { Context } from 'context/Context'
-import { numberFormat } from 'utils'
+import { numberFormat } from '~/utils'
 
 export const useOrders = ({
   refetchWritePolicy = 'merge',

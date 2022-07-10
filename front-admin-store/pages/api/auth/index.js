@@ -7,8 +7,8 @@ import { LoginEmail } from '../lib/templates/LoginEmail'
 import { sendEmail } from '../lib/utils'
 import { getTokenState } from 'utils'
 import { deCode } from '../lib/utils/util'
-
 import { withIronSessionApiRoute } from 'iron-session/next'
+const MAX_AGE = 60 * 60 * 8
 /**
  * @description Función que guarda el device
  * @param {string} input Args
@@ -99,8 +99,8 @@ export default withIronSessionApiRoute(
     password: process.env.SESSION_KEY,
     cookieName: process.env.SESSION_NAME,
     cookieOptions: {
-      // expires: new Date(Date.now() + MAX_AGE * 1000),
-      // maxAge: MAX_AGE, // 8 hours,
+      expires: new Date(Date.now() + MAX_AGE * 1000),
+      maxAge: MAX_AGE, // 8 hours,
       secure: process.env.NODE_ENV === 'production'
     }
   }

@@ -42,8 +42,9 @@ export const FoodComponent = ({
 }) => {
   const OPEN_MODAL_ORGANICE = useSetState(0)
   const propsForm = { handleRegister, setName, names, check, handleChange, values, dataCategoriesProducts, handleCheckEnvioGratis, image, ...props }
-  const propsListProducts = { onClickClear, data, OPEN_MODAL_ORGANICE, dataFree, filter: true, organice: true, handleChangeFilter, grid, search, showMore, fetchMore, loading, setShowMore, pState: 1, handleDelete,  ...props }
- return (<>
+  const propsListProducts = { onClickClear, data, OPEN_MODAL_ORGANICE, dataFree, filter: true, organice: true, handleChangeFilter, grid, search, showMore, fetchMore, loading, setShowMore, pState: 1, handleDelete, ...props }
+
+  return (<>
     <Container>
       {/* FORM */}
       <Card>
@@ -239,9 +240,9 @@ ComponentCardProduct.propTypes = {
 export const SkeletonP = () => {
   return <>
     <>
-      {[1, 2, 3, 4].map((x, i) => {
+      {[1, 2, 3, 4].map((x) => {
         return (
-          <CardProduct key={i + 1}>
+          <CardProduct key={x + 1}>
             <Skeleton />
           </CardProduct>
         )

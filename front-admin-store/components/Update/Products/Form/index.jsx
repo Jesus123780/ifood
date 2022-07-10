@@ -12,14 +12,14 @@ const FormProduct = ({ handleRegister, names, handleChange, values, setName, dat
     <div>
       <FormProducts className='form-horizontal' onSubmit={handleRegister}>
         <InputHook
+          error={errors.names}
           label='Nombre del producto'
           name='name'
           onChange={e => { return setName(e.target.value) }}
           placeholder='Nombre del producto'
           range={{ min: 0, max: 180 }}
-          type='text'
           required={true}
-          error={errors.names}
+          type='text'
           value={names}
         />
         <InputHook
@@ -31,26 +31,26 @@ const FormProduct = ({ handleRegister, names, handleChange, values, setName, dat
           value={numberFormat(values.ProPrice)}
         />
         <InputHook
+          error={errors.ValueDelivery}
           label='Costo de envío'
           name='ValueDelivery'
           onChange={handleChange}
           range={{ min: 0, max: 180 }}
-          error={errors.ValueDelivery}
           required
           value={numberFormat(values.ValueDelivery)}
         />
         <InputHook
+          error={errors.ProDescuento}
           label='Descuento'
           name='ProDescuento'
-          error={errors.ProDescuento}
           onChange={handleChange}
           range={{ min: 0, max: 180 }}
           value={numberFormat(values.ProDescuento)}
         />
         <NewSelect
+          error={errors.carProId}
           id='carProId'
           name='carProId'
-          error={errors.carProId}
           onChange={handleChange}
           optionName='pName'
           options={dataCategoriesProducts || []}
@@ -78,8 +78,8 @@ const FormProduct = ({ handleRegister, names, handleChange, values, setName, dat
         </CardInput>
         <Footer>
           <RippleButton
-            padding='10px'  
             disabled={!image || !names}
+            padding='10px'  
             type='submit'
             widthButton='100%'
           >Subir</RippleButton>

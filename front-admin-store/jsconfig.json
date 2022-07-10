@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "watch": true,
     "lib": [
       "dom",
       "dom.iterable",
@@ -16,7 +17,11 @@
       ],
       "@/public/*": [
         "public/*"
-      ]
+      ],
+      "~/*": ["./*"],
+      "@/*": ["./*"],
+      "~~/*": ["./*"],
+      "@@/*": ["./*"]
     },
     "allowJs": true,
     "skipLibCheck": true,
@@ -36,7 +41,10 @@
     "**/*.js",
     "**/*.jsx"
   ],
-  "exclude": [
-    "node_modules"
+  "exclude": ["node_modules", ".next", "dist"],
+  "compileOnSave": true,
+  "files": [
+    "src/*.js",
+    "util/*.js",
   ]
 }

@@ -4,7 +4,7 @@ import { CLIENT_URL_BASE } from 'apollo/urls'
 import { Card, CardProductsModal, ContentInfo, DisRestaurant, Flex, HeadSticky, Text, GarnishChoicesHeader } from './styled'
 import Image from 'next/image'
 import { APColor, PLColor } from 'public/colors'
-import { numberFormat } from 'utils'
+import { numberFormat } from '../../utils'
 import { useStore } from 'components/hooks/useStore'
 import Link from 'next/link'
 

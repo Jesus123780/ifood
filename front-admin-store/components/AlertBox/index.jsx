@@ -1,7 +1,5 @@
-/* eslint-disable react/prop-types */
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
-// import { Container } from './styled'
 import { ContainerText, ContainerToast, ContentToast } from './styled'
 
 export const AlertBox = ({ err }) => {

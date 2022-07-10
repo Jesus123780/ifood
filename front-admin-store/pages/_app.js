@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import PropTypes from 'prop-types'
 import Context from '../context/Context'
 import { Layout as MainLayout } from '../components/Layout'
@@ -8,6 +9,7 @@ import { GlobalStyle } from '../public/styles/GlobalStyle'
 import { ProgressBar } from '../components/common/Nprogres'
 import 'swiper/css'
 import 'swiper/css/navigation'
+import Head from 'next/head'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import '../styles/globals.css'
@@ -21,6 +23,8 @@ export default function App({ Component, pageProps }) {
   const Layout = Component.Layout ? Component.Layout : MainLayout
   const router = useRouter()
   const [animating, setIsAnimating] = useState(false)
+  // Use the layout defined at the page level, if available
+  const getLayout = Component.getLayout || ((page) => { return page })
   useEffect(() => {
     const handleStop = () => {
       setIsAnimating(false)
@@ -86,9 +90,9 @@ export default function App({ Component, pageProps }) {
               }
             }
           },
-          function (err) {
-            console.log('Service Worker registration failed: ', err)
-          }
+            function (err) {
+              console.log('Service Worker registration failed: ', err)
+            }
           )
       })
     }
@@ -99,7 +103,8 @@ export default function App({ Component, pageProps }) {
   }
   if (typeof window === 'undefined') {
     return <div>Loading...</div>
-  } 
+  }
+
   return (
     <Context>
       <Script
@@ -122,13 +127,24 @@ export default function App({ Component, pageProps }) {
           <Noscript>
           </Noscript>
           <Layout>
-            <Component {...pageProps} />
+            <Head>
+              <link rel="manifest" href="/manifest.json" />
+              <meta name="mobile-web-app-capable" content="yes" />
+              <meta name="theme-color" content="#0b6580" />
+              <meta name="msapplication-starturl" content="/" />
+              <meta name="apple-mobile-web-app-capable" content="yes" />
+              <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+              <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+              <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+              <link rel="apple-touch-icon" sizes="192x192" href="logo-apple.png" />
+            </Head>
+            {getLayout(<Component {...pageProps} />)}
           </Layout>
         </Auth>
       </ApolloProvider >
     </Context>
   )
-  
+
 
 }
 

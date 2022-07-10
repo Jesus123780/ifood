@@ -118,7 +118,6 @@ export const AddEmployee = () => {
         <RippleButton
           bgColor={EColor}
           margin='20px auto'
-          onClick
           onClick={() => {return setStep(1)}}
           style={{ position: 'absolute', left: '0', bottom: '0' }}
           type='submit'
@@ -126,7 +125,6 @@ export const AddEmployee = () => {
         >{loading ? 'Loading...' : 'Buscar'}</RippleButton>
       </Form>
       <AwesomeModal
-        backdrop
         backdrop='static'
         bgColor={'transparent'}
         btnConfirm={false}
@@ -186,7 +184,6 @@ export const AddEmployee = () => {
         </Form >
       </AwesomeModal>
       <AwesomeModal
-        backdrop
         backdrop='static'
         bgColor={'transparent'}
         btnConfirm={false}

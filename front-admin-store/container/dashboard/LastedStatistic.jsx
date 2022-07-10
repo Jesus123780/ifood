@@ -8,7 +8,7 @@ import { GET_ALL_RATING_START_STORE, GET_ALL_VISITOR_STORE, GET_MIN_PEDIDO } fro
 import { GET_ALL_SALES, GET_ALL_SALES_STATISTICS } from 'container/ventas/queries'
 import moment from 'moment'
 import styled, { css } from 'styled-components'
-import { numberFormat } from 'utils'
+import { numberFormat } from '../../utils'
 
 export const LastedStatistic = ({ idStore }) => {
   let dt = new Date()

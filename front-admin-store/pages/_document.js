@@ -51,12 +51,12 @@ class MyDocument extends Document {
           ></link>
         </Head>
         <body>
-        <Noscript>
+          <Noscript>
             <iframe
+              height='0'
               src={`https://www.googletagmanager.com/ns.html?id=GTM-59SFH7N`}
-              height="0"
-              width="0"
               style={{ display: 'none', visibility: 'hidden' }}
+              width='0'
             />
           </Noscript>
           <Main />

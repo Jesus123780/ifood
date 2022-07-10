@@ -2,7 +2,6 @@ import ReactDOM from 'react-dom'
 import { useState } from 'react';
 import { InputHook } from './Input';
 import { Rate } from '../../Rate';
-import NewSelect from '../../NewSelectHooks/NewSelect'
 import { numberFormat } from '../../../utils';
 import { RippleButton } from '../../Ripple';
 import { Container, FormProducts, Card, Button, CardOne, Label, ContainerCardProduct, CardProduct, Img, ContentImg, Title, Text, ContentInfo, ContentIconFav, ButtonCard, ActionName, ReadMore, ContentProducts, CardInput, CardCheckBox, CardRadioLabel, ContainerFilter, ItemFilter, ContainerBurger, Footer } from './styled';
@@ -16,11 +15,10 @@ import { IconArrowRight, IconDelete, IconEdit, IconLove } from '../../../public/
 import { APColor, PColor, PVColor, SEGColor } from '../../../public/colors';
 import { FoodCardPreview } from './FoodPreview';
 
-export const FoodComponent = ({ datafatures,
+export const FoodComponent = ({
     finalDataAreas,
     features,
     search,
-    state,
     handleChangeFilter,
     data,
     setShowMore,
@@ -43,7 +41,6 @@ export const FoodComponent = ({ datafatures,
     onClickClear,
     handleCheckEnvioGratis,
     onClickSearch,
-    dataCategories,
     state: grid,
     setLocalStorage,
     intPorcentaje,
@@ -52,10 +49,6 @@ export const FoodComponent = ({ datafatures,
     const [stateCard, setState] = useState(false)
     const handleClick = () => {
         setState(!stateCard)
-    }
-    const [modal, setModal] = useState(0)
-    const handleClickModal = index => {
-        setModal(index === modal ? true : index)
     }
     return (<div>
         {loading && <LoadingBabel />}
@@ -241,8 +234,8 @@ export const FoodComponent = ({ datafatures,
 export const SkeletonP = () => {
     return <>
         <>
-            {[1, 2, 3, 4].map((x, i) => (
-                <CardProduct key={i +1}>
+            {[1, 2, 3, 4].map(x => (
+                <CardProduct key={x}>
                     <Skeleton />
                 </CardProduct>
             ))}

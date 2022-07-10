@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import styled, { css } from 'styled-components';
-import { BGColor, PColor } from '../../public/colors';
+import { BGColor } from '../../public/colors';
 
 export const RippleButton = props => {
     const { label, onClick, style, family, standard, active, type, widthButton, disabled } = props;

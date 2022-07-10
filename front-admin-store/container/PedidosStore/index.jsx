@@ -1,17 +1,11 @@
-import React, { useState } from "react";
-import { LocationName } from "components/hooks/useLocationName";
-import { Container } from "./styled";
-import { ListPedidos } from "./ListPedidos";
-import Tabs from "components/Tabs";
-import { useOrders } from "hooks/useOrders";
-import { useFormTools } from "components/BaseForm";
-import Column from "components/common/Atoms/Column";
-import { RippleButton } from "components/Ripple";
-import InputHooks from "components/InputHooks/InputHooks";
-import NewSelect from "components/NewSelectHooks/NewSelect";
-import Button from "components/common/Atoms/Button";
-import Row from "components/common/Atoms/Row";
-import DragOrders from "./DragOrders";
+import React, { useState } from 'react'
+import { LocationName } from 'components/hooks/useLocationName'
+import { Container } from './styled'
+import { ListPedidos } from './ListPedidos'
+import Tabs from 'components/Tabs'
+import { useOrders } from 'hooks/useOrders'
+import { useFormTools } from 'components/BaseForm'
+import DragOrders from './DragOrders'
 
 const PedidosStore = () => {
   // STATES
@@ -19,40 +13,40 @@ const PedidosStore = () => {
     handleChange,
     handleSubmit,
     setDataValue,
-    { dataForm, errorForm, setForcedError },
-  ] = useFormTools();
-  const [more, setMore] = useState(100);
-  const ACEPTA_STATUS_ORDER = 1;
-  const PROCESSING_STATUS_ORDER = 2;
-  const READY_STATUS_ORDER = 3;
-  const CONCLUDES_STATUS_ORDER = 4;
-  const RECHAZADOS_STATUS_ORDER = 5;
+    { dataForm, errorForm, setForcedError }
+  ] = useFormTools()
+  const [more, setMore] = useState(100)
+  const ACEPTA_STATUS_ORDER = 1
+  const PROCESSING_STATUS_ORDER = 2
+  const READY_STATUS_ORDER = 3
+  const CONCLUDES_STATUS_ORDER = 4
+  const RECHAZADOS_STATUS_ORDER = 5
 
   const [data, { loading: a, fetchMore }] = useOrders({
-    statusOrder: ACEPTA_STATUS_ORDER,
-  });
+    statusOrder: ACEPTA_STATUS_ORDER
+  })
   const [dataProgressOrder] = useOrders({
-    statusOrder: PROCESSING_STATUS_ORDER,
-  });
+    statusOrder: PROCESSING_STATUS_ORDER
+  })
   const [dataReadyOrder] = useOrders({
-    statusOrder: READY_STATUS_ORDER,
-  });
+    statusOrder: READY_STATUS_ORDER
+  })
   const [dataConcludes] = useOrders({
-    statusOrder: CONCLUDES_STATUS_ORDER,
-  });
+    statusOrder: CONCLUDES_STATUS_ORDER
+  })
   const [dataRechazados] = useOrders({
-    statusOrder: RECHAZADOS_STATUS_ORDER,
-  });
+    statusOrder: RECHAZADOS_STATUS_ORDER
+  })
   return (
     <div>
       <Container>
         <LocationName />
         <DragOrders
-          dataReadyOrder={dataReadyOrder}
-          dataRechazados={dataRechazados}
+          data={data}
           dataConcludes={dataConcludes}
           dataProgressOrder={dataProgressOrder}
-          data={data}
+          dataReadyOrder={dataReadyOrder}
+          dataRechazados={dataRechazados}
         />
         {/* <Column>
         <Row as='form' flexWrap={'wrap'} $draggable={'blue'} draggable={true}>
@@ -112,17 +106,17 @@ const PedidosStore = () => {
           </Column>
         </Row>
       </Column> */}
-        <Tabs width={["20%", "20%", "20%", "20%", "20%"]}>
+        <Tabs width={['20%', '20%', '20%', '20%', '20%']}>
           <Tabs.Panel label={`Pedidos entrantes (${data?.length || 0})`}>
             {data?.length > 0 ? (
               <ListPedidos
                 data={data}
+                dataForm={dataForm}
+                errorForm={errorForm}
                 fetchMore={fetchMore}
+                handleChange={handleChange}
                 more={more}
                 setMore={setMore}
-                errorForm={errorForm}
-                handleChange={handleChange}
-                dataForm={dataForm}
               />
             ) : (
               <span>No hay datos</span>
@@ -134,12 +128,12 @@ const PedidosStore = () => {
             {dataProgressOrder?.length > 0 ? (
               <ListPedidos
                 data={dataProgressOrder}
+                dataForm={dataForm}
+                errorForm={errorForm}
                 fetchMore={fetchMore}
+                handleChange={handleChange}
                 more={more}
                 setMore={setMore}
-                errorForm={errorForm}
-                handleChange={handleChange}
-                dataForm={dataForm}
               />
             ) : (
               <span>No hay datos</span>
@@ -153,12 +147,12 @@ const PedidosStore = () => {
             {dataReadyOrder?.length > 0 ? (
               <ListPedidos
                 data={dataReadyOrder}
+                dataForm={dataForm}
+                errorForm={errorForm}
                 fetchMore={fetchMore}
+                handleChange={handleChange}
                 more={more}
                 setMore={setMore}
-                errorForm={errorForm}
-                handleChange={handleChange}
-                dataForm={dataForm}
               />
             ) : (
               <span>No hay Datos</span>
@@ -168,12 +162,12 @@ const PedidosStore = () => {
             {dataConcludes?.length > 0 ? (
               <ListPedidos
                 data={dataConcludes}
+                dataForm={dataForm}
+                errorForm={errorForm}
                 fetchMore={fetchMore}
+                handleChange={handleChange}
                 more={more}
                 setMore={setMore}
-                errorForm={errorForm}
-                handleChange={handleChange}
-                dataForm={dataForm}
               />
             ) : (
               <span>No hay datos</span>
@@ -183,12 +177,12 @@ const PedidosStore = () => {
             {dataRechazados?.length > 0 ? (
               <ListPedidos
                 data={dataRechazados}
+                dataForm={dataForm}
+                errorForm={errorForm}
                 fetchMore={fetchMore}
+                handleChange={handleChange}
                 more={more}
                 setMore={setMore}
-                errorForm={errorForm}
-                handleChange={handleChange}
-                dataForm={dataForm}
               />
             ) : (
               <span>No hay datos</span>
@@ -197,9 +191,9 @@ const PedidosStore = () => {
         </Tabs>
       </Container>
     </div>
-  );
-};
+  )
+}
 
-PedidosStore.propTypes = {};
+PedidosStore.propTypes = {}
 
-export default PedidosStore;
+export default PedidosStore

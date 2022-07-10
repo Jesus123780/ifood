@@ -5,7 +5,7 @@ import { Skeleton } from 'components/Skeleton'
 import { InputHook } from './Input'
 import { RippleButton } from 'components/Ripple'
 
-export const ListProducts = ({ onClickClear, data, organice, pState, filter, OPEN_MODAL_ORGANICE, dataFree, handleDelete, handleChangeFilter, grid, search, showMore, fetchMore, loading, setShowMore }) => {
+export const ListProducts = ({ onClickClear, data, organice, pState, filter, OPEN_MODAL_ORGANICE, dataFree, handleDelete, handleChangeFilter, search, showMore, fetchMore, loading, setShowMore }) => {
   const isData = data?.length > 0
   return (
     <div>
@@ -40,7 +40,7 @@ export const ListProducts = ({ onClickClear, data, organice, pState, filter, OPE
                   ValueDelivery={producto.ValueDelivery}
                   del={true}
                   edit={true}
-                  handleDelete={() => handleDelete(producto)}
+                  handleDelete={() => {return handleDelete(producto)}}
                   key={producto.pId}
                   pId={producto.pId}
                   pName={producto.pName}

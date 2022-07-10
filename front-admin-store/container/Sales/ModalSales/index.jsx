@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { AwesomeModal } from 'components/AwesomeModal'
-import { numberFormat } from 'utils'
+import { numberFormat } from '../../../utils'
 import { Input } from '../styled'
 import { Prints } from '../Printsale'
 

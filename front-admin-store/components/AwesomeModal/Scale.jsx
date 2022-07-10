@@ -1,8 +1,7 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import styled, { css, keyframes } from 'styled-components'
 import { MODAL_SIZES } from './constanst'
-import { Context } from 'context/Context'
 import { BtnClose, ModalHeader, ModalTitle } from './styled'
 import { IconCancel } from 'public/icons'
 

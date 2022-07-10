@@ -42,7 +42,7 @@ export const AwesomeModal = ({
     onCancel()
     setSModal(false)
     setTimeout(onHide, timeOut)
-  }, [onCancel, onHide, question, timeOut])
+  }, [onCancel, onHide, timeOut])
   const onShowQuestion = () => { return setSModal(!modal) }
   // eslint-disable-next-line consistent-return
   useEffect(() => {
@@ -53,7 +53,7 @@ export const AwesomeModal = ({
     if (backdrop !== 'static') {
       if (keyboard && show) window.addEventListener('keyup', e => { return e.code === 'Escape' && hide() })
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      return () => { return keyboard && window.removeEventListener('keyup', () => { }) }
+      return () => { return keyboard && window.removeEventListener('keyup', () => { return }) }
     }
   }, [keyboard, hide, show, backdrop, question, modal, state])
   useEffect(() => {

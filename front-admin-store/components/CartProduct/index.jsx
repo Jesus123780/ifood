@@ -4,9 +4,9 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { BGColor, PColor } from 'public/colors'
 import { IconDelete, IconEdit } from 'public/icons'
-import { numberFormat } from 'utils'
 import { ActionName, Button, ButtonCard, Card, ContainerActions, InputCounter, ItemProQuantity, OverlineFree, WrapperButton, WrapperCard } from './styled'
 import { useState } from 'react'
+import { numberFormat } from '../../utils'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const CardProducts = ({ pName, del, edit, pId, src, onTargetClick = () => { }, sum, free, height, index, fileInputRef, onFileInputChange, handleFree, ProDescription, handleFreeProducts = () => { }, dispatch = () => { }, handleIncrement, ProQuantity, handleDecrement, ValueDelivery, ProPrice, render = null, onClick = () => { }, handleDelete = () => { }, ProDescuento = 0, ProImage, widthButton }) => {
