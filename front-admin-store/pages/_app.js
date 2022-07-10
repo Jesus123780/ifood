@@ -17,6 +17,7 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import '../styles/globals.css'
+import '../public/styles/tokens.css'
 // where: { u_id: deCode(u_id), ua_date: { [Op.startsWith]: ua_date } }
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps)
@@ -89,9 +90,9 @@ export default function App({ Component, pageProps }) {
               }
             }
           },
-            function (err) {
-              console.log('Service Worker registration failed: ', err)
-            }
+          function (err) {
+            console.log('Service Worker registration failed: ', err)
+          }
           )
       })
     }
@@ -106,10 +107,7 @@ export default function App({ Component, pageProps }) {
 
   return (
     <Context>
-      <Script
-        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY}&libraries=places`}
-        strategy='beforeInteractive'
-      />
+      
       <Script
         dangerouslySetInnerHTML={{
           __html: `
@@ -129,18 +127,30 @@ export default function App({ Component, pageProps }) {
           {<ProgressBar progress={animating} />}
           <Noscript>
           </Noscript>
-            <Head>
-              <link rel="manifest" href="/manifest.json" />
-              <meta name="mobile-web-app-capable" content="yes" />
-              <meta name="theme-color" content="#0b6580" />
-              <meta name="msapplication-starturl" content="/" />
-              <meta name="apple-mobile-web-app-capable" content="yes" />
-              <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-              <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-              <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-              <link rel="apple-touch-icon" sizes="192x192" href="logo-apple.png" />
-            </Head>
-            {getLayout(<Component {...{ ...pageProps, isMobile: false }} />)}
+          <Head>
+            <link href='/manifest.json' rel='manifest' />
+            <meta content='yes' name='mobile-web-app-capable' />
+            <meta content='#0b6580' name='theme-color' />
+            <meta content='/' name='msapplication-starturl' />
+            <meta content='yes' name='apple-mobile-web-app-capable' />
+            <meta content='black' name='apple-mobile-web-app-status-bar-style' />
+            <link
+              href='/favicon.ico'
+              rel='shortcut icon'
+              type='image/x-icon'
+            />
+            <link
+              href='/favicon.ico'
+              rel='icon'
+              type='image/x-icon'
+            />
+            <link
+              href='logo-apple.png'
+              rel='apple-touch-icon'
+              sizes='192x192'
+            />
+          </Head>
+          {getLayout(<Component {...{ ...pageProps, isMobile: false }} />)}
         </Auth>
       </ApolloProvider >
     </Context>

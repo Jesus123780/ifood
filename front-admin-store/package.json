@@ -10,7 +10,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "npm run lint -- --fix",
+    "build:css": "node scripts/update-export-atoms.js",
+    "build:globals": "node scripts/build-tokens.js"
+
   },
   "dependencies": {
     "@graphql-tools/load-files": "6.5.3",

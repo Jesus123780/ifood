@@ -2,6 +2,7 @@ import React from 'react'
 import { ServerStyleSheet } from 'styled-components'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import Noscript from 'components/Noscript'
+import Script from 'next/script'
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -32,6 +33,10 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          <Script
+            src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY}&libraries=places`}
+            strategy='beforeInteractive'
+          />
           <meta charSet='utf-8' />
           {/* <title>Delivery</title> */}
           <link
