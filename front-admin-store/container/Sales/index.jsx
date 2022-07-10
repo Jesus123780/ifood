@@ -383,12 +383,13 @@ const GenerateSales = () => {
     setSearch(e.target.value)
   }
   useEffect(() => {
+    const { LOCAL_SALES_STORE } = process.env
     window.localStorage.setItem(
-      process.env.LOCAL_SALES_STORE,
+      LOCAL_SALES_STORE,
       JSON.stringify(data)
     )
     window.localStorage.getItem(
-      process.env.LOCAL_SALES_STORE,
+      LOCAL_SALES_STORE,
       JSON.stringify(data)
     )
     if (data?.PRODUCT?.length <= 0) {

@@ -129,26 +129,27 @@ export const generateCode = async () => {
 // Generate a token
 export const generateToken = async dataUser => {
   // eslint-disable-next-line no-undef
-  const AccessToken = await jwt.sign(dataUser, process.env.AUTHO_USER_KEY, { expiresIn: parseInt(process.env.JWT_EXPIRY) })
+  // parseInt(process.env.JWT_EXPIRY)
+  const AccessToken = await jwt.sign(dataUser, process.env.AUTHO_USER_KEY, { expiresIn: process.env.JWT_EXPIRY })
   return AccessToken
 }
-export const createToken = function () {
+export const createToken = (data) => {
   const payload = {
-    iat: moment().unix(), // Guardamos la fecha en formato unix
-    exp: moment().add(30, 'days').unix// Damos 30 dias de duracion del token en formato unix para poder compara posteriormente
+    data,
+    iat: moment().unix(),
+    exp: moment().add(30, 'days').unix // Damos 30 dias de duracion del token en formato unix para poder compara posteriormente
   }
   return jwt.encode(payload, process.env.AUTHO_USER_KEY)
 }
 
 export function strToDate(dtStr) {
-  let dateObject = {}
   if (!dtStr) return null
   let dateParts = dtStr.split('/')
   let timeParts = dateParts[2].split(' ')[1].split(':')
   dateParts[2] = dateParts[2].split(' ')[0]
   // month is 0-based, that's why we need dataParts[1] - 1
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  return dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0], timeParts[0], timeParts[1])
+  return new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0], timeParts[0], timeParts[1])
 }
 
 

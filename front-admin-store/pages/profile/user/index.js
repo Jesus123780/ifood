@@ -1,6 +1,5 @@
 
 import { UserProfile } from 'container/profile/user'
-import getAuth from 'pages/api/auth/getAuth'
 
 export default function UserProfileView() {
   return (

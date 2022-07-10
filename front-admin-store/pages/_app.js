@@ -1,30 +1,29 @@
 /* eslint-disable no-console */
 import PropTypes from 'prop-types'
 import Context from '../context/Context'
+import Head from 'next/head'
 import { Layout as MainLayout } from '../components/Layout'
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '../apollo/apolloClient'
 import Auth from '../apollo/Auth'
 import { GlobalStyle } from '../public/styles/GlobalStyle'
 import { ProgressBar } from '../components/common/Nprogres'
-import 'swiper/css'
-import 'swiper/css/navigation'
-import Head from 'next/head'
-import 'swiper/css/pagination'
-import 'swiper/css/scrollbar'
-import '../styles/globals.css'
 import Script from 'next/script'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Noscript from 'components/Noscript'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import 'swiper/css/scrollbar'
+import '../styles/globals.css'
 // where: { u_id: deCode(u_id), ua_date: { [Op.startsWith]: ua_date } }
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps)
-  const Layout = Component.Layout ? Component.Layout : MainLayout
   const router = useRouter()
   const [animating, setIsAnimating] = useState(false)
   // Use the layout defined at the page level, if available
-  const getLayout = Component.getLayout || ((page) => { return page })
+  const getLayout = Component.getLayout ?? ((page) => {return <MainLayout>{page}</MainLayout>})
   useEffect(() => {
     const handleStop = () => {
       setIsAnimating(false)
@@ -108,6 +107,10 @@ export default function App({ Component, pageProps }) {
   return (
     <Context>
       <Script
+        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY}&libraries=places`}
+        strategy='beforeInteractive'
+      />
+      <Script
         dangerouslySetInnerHTML={{
           __html: `
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -126,7 +129,6 @@ export default function App({ Component, pageProps }) {
           {<ProgressBar progress={animating} />}
           <Noscript>
           </Noscript>
-          <Layout>
             <Head>
               <link rel="manifest" href="/manifest.json" />
               <meta name="mobile-web-app-capable" content="yes" />
@@ -138,8 +140,7 @@ export default function App({ Component, pageProps }) {
               <link rel="icon" href="/favicon.ico" type="image/x-icon" />
               <link rel="apple-touch-icon" sizes="192x192" href="logo-apple.png" />
             </Head>
-            {getLayout(<Component {...pageProps} />)}
-          </Layout>
+            {getLayout(<Component {...{ ...pageProps, isMobile: false }} />)}
         </Auth>
       </ApolloProvider >
     </Context>

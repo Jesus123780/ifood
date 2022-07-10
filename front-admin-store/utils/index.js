@@ -1342,3 +1342,22 @@ export const indexExport = async (req, res, url) => {
 }
 
 
+
+
+export const getUserFromToken = async token => {
+  let user = null
+  let userProfile = null
+  let error = false
+  if (!token) return { error: false, message: '' }
+  const tokenState = getTokenState(token)
+  const { needRefresh, valid } = tokenState || {}
+  try {
+    if (needRefresh === true) return { error: true, user: user, userProfile: userProfile }
+    if (!valid) return { error: true, message: 'El token no es valido' }
+  } catch {
+    user = ''
+    userProfile = ''
+    error = false
+  }
+  return { user, userProfile, error }
+}
