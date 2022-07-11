@@ -6,3 +6,10 @@ export default function RestaurantPlanesView() {
   )
 }
 
+RestaurantPlanesView.getLayout = function getLayout(page) {
+  return (
+    <>
+      {page}
+    </>
+  )
+}

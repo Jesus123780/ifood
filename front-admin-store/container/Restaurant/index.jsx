@@ -21,8 +21,10 @@ import useLocalStorage from '../../components/hooks/useLocalSorage'
 import { Loading } from 'components/Loading'
 import { Checkbox } from 'components/Checkbox'
 import { CalcularDigitoVerificacion } from 'utils'
+import { Row } from '~/components/Acordion/Styled'
 
-export const Restaurant = () => {
+export const Restaurant = ({ userToken }) => {
+  const { email } = userToken || {}
   const [step] = useState(0)
   const { setAlertBox } = useContext(Context)
   const [modalConfirm, setModalConfirm] = useState(false)
@@ -127,31 +129,34 @@ export const Restaurant = () => {
     <Content>
       {loading && <Loading />}
       <AwesomeModal
-        backdrop
+        backdrop='static'
         btnCancel={false}
         btnConfirm={false}
         footer={false}
         header={false}
+        height='200px'
         onHide={() => { return setModalConfirm(false) }}
         show={modalConfirm}
         size={'small'}
       >
-        <RippleButton
-          bgColor={EColor}
-          margin='20px auto'
-          onClick={() => { return setModalConfirm(false) }}
-          widthButton='100%'
-        >
-          cancelar
-        </RippleButton>
-        <RippleButton
-          bgColor={EColor}
-          margin='20px auto'
-          onClick={() => { return router.back() }}
-          widthButton='100%'
-        >
-          Abandonar
-        </RippleButton>
+        <Row margin='auto'>
+          <RippleButton
+            bgColor={EColor}
+            margin='20px auto'
+            onClick={() => { return setModalConfirm(false) }}
+            widthButton='80%'
+          >
+            cancelar
+          </RippleButton>
+          <RippleButton
+            bgColor={EColor}
+            margin='20px auto'
+            onClick={() => { return router.back() }}
+            widthButton='80%'
+          >
+            Abandonar
+          </RippleButton>
+        </Row>
       </AwesomeModal>
       <Card></Card>
       <div className='container-step'>
@@ -192,7 +197,7 @@ export const Restaurant = () => {
                   onChange={handleChange}
                   required
                   title='Correo.'
-                  value={dataUser?.email || ''}
+                  value={email || dataUser?.email}
                   width='100%'
                 />
                 <InputHooks

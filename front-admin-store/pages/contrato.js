@@ -1,10 +1,7 @@
 import Contract from 'container/contract'
-// import useSWR from 'swr'
 const NestedLayout = (props) => {
   <div>
-    Hola papu
     {props.children}
-    
   </div>
 }
 

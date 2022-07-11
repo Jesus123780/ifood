@@ -1,27 +1,36 @@
 /* eslint-disable no-undef */
-import { Restaurant } from '../../container/Restaurant'
 import { withIronSessionSsr } from 'iron-session/next'
-import { cookie, decodeToken, defaultReturnObject } from 'utils'
+import { cookie, defaultReturnObject } from 'utils'
+import { Loading } from '~/components/Loading'
 
-export default function RestaurantView({ user }) {
-  const { token } = user || {}
-  const userToken = decodeToken(token)
-  return <Restaurant userToken={userToken} />
+export default function RestaurantView() {
+
+  return <Loading />
 }
 
 export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req }) {
     const { user } = req.session || {}
     const { storeUserId } = user || {}
-    if (storeUserId) return { redirect: { destination: '/dashboard' } }
+    if (!req.cookies[process.env.SESSION_NAME]) return defaultReturnObject
     try {
-      if (!req.cookies[process.env.SESSION_NAME]) return defaultReturnObject
+      if (storeUserId) {
+        return {
+          redirect: { destination: '/dashboard' },
+          props: {
+            user: user,
+            idStore: null
+          }
+        }
+      } 
       return {
+        redirect: { destination: '/restaurante' },
         props: {
           user: user,
           idStore: null
         }
       }
+
     } catch (error) {
       return {}
     }

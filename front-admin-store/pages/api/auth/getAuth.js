@@ -1,5 +1,4 @@
 import { withIronSessionApiRoute } from 'iron-session/next'
-import { defaultReturnObject } from '~/utils'
 import { getUserFromToken } from '.'
 
 const cookie = {
@@ -11,52 +10,46 @@ const cookie = {
   }
 }
 
-export default async function isAuth(req, res) {
+export default withIronSessionApiRoute(async function isAuth(req, res) {
   try {
     const { token } = req.session.user || {}
     if (!req.cookies[process.env.SESSION_NAME]) {
-      return {
-        props: {}
-      }
+      return res.status(500).json({
+        isSession: false,
+        storeUserId: null
+      })
     }
     if (!token) {
-      // req.session.destroy()
-      // res.setHeader('location', '/app/entrar')
-      // res.statusCode = 302
-      // res.end()
-      return {
-        // defaultReturnObject,
-        props: {}
-      }
+      req.session.destroy()
+      res.setHeader('location', '/app/entrar')
+      res.statusCode = 302
+      res.end()
+      return res.status(500).json({
+        ok: false,
+        isSession: false
+      })
     }
     const { error } = await getUserFromToken(token)
-    console.log("🚀 ~ file: getAuth.js ~ line 34 ~ isAuth ~ error", error)
     if (error) {
       req.session.destroy()
       res.setHeader('location', '/app/entrar')
       res.statusCode = 302
       res.end()
-      return {
-        // defaultReturnObject,
-        props: {}
-      }
-    } else {
-      // res.status(500).json({
-      //   ok: req.session
-      // })
-      return {
-        props: {
-          ok: req.session
-        }
-      }
+      return res.status(500).json({
+        ok: req.session,
+        isSession: false
+      })
+
     }
+    return res.status(500).json({
+      ok: req.session,
+      isSession: true
+    })
+
   } catch (e) {
-    return {
-      redirect: {
-        destination: '/entrar',
-        permanent: false
-      },
-      props: {}
-    }
+    return res.status(500).json({
+      ok: req.session,
+      isSession: true
+    })
   }
-}
+}, cookie)

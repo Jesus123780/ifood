@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-// import { GoogleLogin } from 'react-google-login'
+import { GoogleLogin } from 'react-google-login'
 // import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import { Content, Form, Card, Text, ButtonSubmit } from './styled'
 import { RippleButton } from '../../components/Ripple'
@@ -7,7 +7,7 @@ import { BGColor, EColor } from '../../public/colors'
 import ActiveLink from '../../components/common/Link'
 import fetchJson from '../../components/hooks/fetchJson'
 import { useRouter } from 'next/router'
-// import { getDeviceId } from 'apollo/apolloClient'
+import { getDeviceId } from 'apollo/apolloClient'
 import { Context } from 'context/Context'
 import Portal from 'components/portal'
 import { Facebook, IconGoogleFullColor } from '@/public/icons'
@@ -32,35 +32,28 @@ export const Login = () => {
       .catch(() => { return })
     return locationFormat ?? locationFormat[0].formatted_address
   }
-  const responseGoogle = async (e) => {
-    e.preventDefault()
+
+  const responseGoogle = async (response) => {
+    // e.preventDefault()
     await fetchData()
-    // window.localStorage.setItem('sessionGoogle', JSON.stringify(response.profileObj))
-    // const { name, googleId, email, imageUrl } = response?.profileObj
-    // const body = {
-    //     name: name,
-    //     username: name,
-    //     lastName: name,
-    //     email: email,
-    //     password: googleId,
-    //     locationFormat: locationFormat[0]?.formatted_address,
-    //     useragent: window.navigator.userAgent,
-    //     deviceid: await getDeviceId() || '',
-    // }
-    const bodyfalse = {
-      name: 'juvinaojesusd2@gmail.com',
-      username: 'juvinaojesusd2@gmail.com',
-      lastName: 'juvinaojesusd2@gmail.com',
-      email: 'juvinaojesusd2@gmail.com',
-      password: '113561675852804771364',
+    const device = await getDeviceId()
+    window.localStorage.setItem('sessionGoogle', JSON.stringify(response.profileObj))
+    const { name, googleId, email, imageUrl } = response?.profileObj || {}
+    const body = {
+      name: name,
+      username: name,
+      lastName: name,
+      email: email,
+      password: googleId,
       locationFormat: locationFormat[0]?.formatted_address,
       useragent: window.navigator.userAgent,
-      deviceid: '234232342423423asdasd'
+      deviceid: device,
+      imageUrl: imageUrl
     }
     await fetchJson(`${process.env.URL_BASE}api/auth`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(bodyfalse)
+      body: JSON.stringify(body)
     }).then(res => {
       setAlertBox({ message: `${res.message}`, color: 'success' })
       const { storeUserId, token } = res
@@ -70,9 +63,9 @@ export const Login = () => {
         localStorage.setItem('usuario', id)
         localStorage.setItem('usuario', token)
         localStorage.setItem('session', token)
-        router.push('/dashboard')
+        router.push('/restaurante/getDataVerify')
       } else {
-        router.push('/restaurante')
+        router.push('/restaurante/getDataVerify')
       }
     }).catch(() => {
       setAlertBox({ message: 'Lo sentimos ha ocurrido un error', color: 'error' })
@@ -101,29 +94,29 @@ export const Login = () => {
             height='40px'
             onClick={responseGoogle}
             size='14px'
-          ><IconGoogleFullColor size='30px' /> Continue with Google<div style={{ width: 'min-content' }} /> </ButtonSubmit>
-          {/* <GoogleLogin
-          autoLoad={false}
-          clientId='58758655786-u323tp1dpi6broro865rrm488gh4mnpu.apps.googleusercontent.com'
-          cookiePolicy={'single_host_origin'}
-          onFailure={responseGoogle}
-          onSuccess={responseGoogle}
-          render={renderProps => {
-            return (
-              <div>
+          ><IconGoogleFullColor size='30px' /> Continue with Google false<div style={{ width: 'min-content' }} /> </ButtonSubmit>
+          <GoogleLogin
+            autoLoad={false}
+            clientId='58758655786-u323tp1dpi6broro865rrm488gh4mnpu.apps.googleusercontent.com'
+            cookiePolicy={'single_host_origin'}
+            onFailure={responseGoogle}
+            onSuccess={responseGoogle}
+            render={renderProps => {
+              return (
+                <div>
 
-                <ButtonSubmit
-                  color='2'
-                  colorFont='#717171'
-                  disabled={renderProps.disabled}
-                  height='40px'
-                  onClick={renderProps.onClick}
-                  size='14px'
-                ><IconGoogleFullColor size='30px' /> Continue with Google<div style={{ width: 'min-content' }} /> </ButtonSubmit>
-              </div>
-            )
-          }}
-        /> */}
+                  <ButtonSubmit
+                    color='2'
+                    colorFont='#717171'
+                    disabled={renderProps.disabled}
+                    height='40px'
+                    onClick={renderProps.onClick}
+                    size='14px'
+                  ><IconGoogleFullColor size='30px' /> Continue with Google<div style={{ width: 'min-content' }} /> </ButtonSubmit>
+                </div>
+              )
+            }}
+          />
           {/* <FacebookLogin
           appId='467885964900974'
           autoLoad={false}

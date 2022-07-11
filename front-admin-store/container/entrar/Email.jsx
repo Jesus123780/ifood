@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { RippleButton } from '../../components/Ripple'
-import { APColor, BColor, EColor, PLColor } from '../../public/colors'
+import { BColor, EColor, PLColor } from '../../public/colors'
 import InputHooks from '../../components/InputHooks/InputHooks'
 import { useFormTools } from '../../components/BaseForm'
 import OTPInput from '../../components/OTPInputHook'
 import { useMutation } from '@apollo/client'
 import { IconArrowLeft } from '../../public/icons'
-import { ButtonSubmit, Content, Form, Card, Text, GoBack } from './styled'
+import { Content, Form, Card, Text, GoBack } from './styled'
 import { useRouter } from 'next/router'
 import { EMAIL_SESSION } from './queries'
 import { URL_BASE } from '../../apollo/urls'
@@ -43,7 +43,7 @@ export const Email = () => {
             window.localStorage.setItem('restaurant', res?.idStore)
             // router.push('/dashboard')
           }
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        // eslint-disable-next-line
         }).catch(() => {
         })
       }

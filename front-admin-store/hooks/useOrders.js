@@ -24,8 +24,8 @@ export const useOrders = ({
     onError: onError
       ? onError
       : e => {
-          return console.log(e)
-        },
+        return console.log(e)
+      },
     variables: {
       statusOrder: statusOrder
     }
@@ -37,7 +37,7 @@ export const useOrders = ({
     if (data?.getAllPedidoStoreFinal?.length) {
       setOrders(orders)
       setCountPedido(numberFormat(data?.getAllPedidoStoreFinal?.length) || 0)
-    } 
+    }
   }, [orders, data])
   return [
     data?.getAllPedidoStoreFinal,
