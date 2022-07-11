@@ -24,7 +24,7 @@ export default function App({ Component, pageProps }) {
   const router = useRouter()
   const [animating, setIsAnimating] = useState(false)
   // Use the layout defined at the page level, if available
-  const getLayout = Component.getLayout ?? ((page) => {return <MainLayout>{page}</MainLayout>})
+  const getLayout = Component.getLayout ?? ((page) => { return <MainLayout>{page}</MainLayout> })
   useEffect(() => {
     const handleStop = () => {
       setIsAnimating(false)
@@ -47,6 +47,34 @@ export default function App({ Component, pageProps }) {
   const [showChild, setShowChild] = useState(false)
 
   useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/app/sw.js', {
+      }).then(function (registration) {
+        let serviceWorker
+        if (registration.installing) {
+          serviceWorker = registration.installing
+          document.querySelector('#kind').textContent = 'installing'
+        } else if (registration.waiting) {
+          serviceWorker = registration.waiting
+          document.querySelector('#kind').textContent = 'waiting'
+        } else if (registration.active) {
+          serviceWorker = registration.active
+          document.querySelector('#kind').textContent = 'active'
+        }
+        if (serviceWorker) {
+          // logState(serviceWorker.state);
+          serviceWorker.addEventListener('statechange', function (e) {
+            // logState(e.target.state);
+          })
+        }
+      }).catch(function (error) {
+        // Something went wrong during registration. The service-worker.js file
+        // might be unavailable or contain a syntax error.
+      })
+    } else {
+      // The current browser doesn't support service workers.
+      // Perhaps it is too old or we are not in a Secure Context.
+    }
     if ('serviceWorker' in navigator) {
       // checkValidServiceWorker('http://localhost:3001/app/sw.js')
       window.addEventListener('load', function (config) {
@@ -107,7 +135,7 @@ export default function App({ Component, pageProps }) {
 
   return (
     <Context>
-      
+
       <Script
         dangerouslySetInnerHTML={{
           __html: `

@@ -22,7 +22,7 @@ import { Loading } from 'components/Loading'
 import { Checkbox } from 'components/Checkbox'
 import { CalcularDigitoVerificacion } from 'utils'
 import { Row } from '~/components/Acordion/Styled'
-
+import Text from '~/components/common/Atoms/Text'
 export const Restaurant = ({ userToken }) => {
   const { email } = userToken || {}
   const [step] = useState(0)
@@ -139,6 +139,7 @@ export const Restaurant = ({ userToken }) => {
         show={modalConfirm}
         size={'small'}
       >
+        <Text>lkjdfl</Text>
         <Row margin='auto'>
           <RippleButton
             bgColor={EColor}
