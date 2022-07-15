@@ -8,12 +8,12 @@ import { getAttributes } from '../../utils/util'
  * 
  * @param {*} _root no usado 
  * @param {*} param1 _
- * @param {*} context context info global
- * @param {*} info _
+ * @param {*} _context context info global
+ * @param {*} _info _
  * @returns 
  */
 //  eslint-disable-next-line
-export const registerPaymentCardType = async (_root, { input }, context, info) => {
+export const registerPaymentCardType = async (_root, { input }, _context, _info) => {
   const { typeCardName } = input || {}
   try {
     const data = await PaymentCardType.create({
@@ -26,7 +26,7 @@ export const registerPaymentCardType = async (_root, { input }, context, info) =
   }
 
 }
-export const getAllPaymentCardType = async (_root, args, context, info) => {
+export const getAllPaymentCardType = async (_root, _args, _context, info) => {
   try {
     const attributes = getAttributes(PaymentCardType, info)
     const data = await PaymentCardType.findAll({ attributes })
@@ -43,37 +43,36 @@ export const getAllPaymentCardType = async (_root, args, context, info) => {
 export const registerPaymentCard = async (_root, { input }, context) => {
   const { id, idStore } = input || {}
   try {
-    const data = await PaymentCard.create({
+    return await PaymentCard.create({
       id: deCode(context.User.id || id),
       idStore: idStore ? deCode(idStore) : deCode(context.restaurant),
       ...input
     })
-    return data
   } catch (e) {
     const error = new Error('No pudimos guardar la tarjeta', e, 400)
     return error
   }
 
 }
-export const deletePaymentCardType = async (_root, { cardtypeId }, context) => {
+// eslint-disable-next-line
+export const deletePaymentCardType = async (_root, { cardtypeId }, _context) => {
   try {
     const isExist = await PaymentCardType.findOne({
       attributes: ['cardtypeId'],
       where: { cardtypeId: deCode(cardtypeId) }
     })
-    console.log(isExist)
     if (isExist === null) {
       return {
         success: false,
         message: 'La tarjeta no existe'
       }
-    } else {
-      PaymentCardType.destroy({ where: { cardtypeId: deCode(cardtypeId) } })
-      return {
-        success: true,
-        message: 'Tarjeta eliminada con éxito'
-      }
+    } 
+    PaymentCardType.destroy({ where: { cardtypeId: deCode(cardtypeId) } })
+    return {
+      success: true,
+      message: 'Tarjeta eliminada con éxito'
     }
+    
   } catch (e) {
     return {
       success: false,
@@ -92,6 +91,6 @@ export default {
   MUTATIONS: {
     deletePaymentCardType,
     registerPaymentCard,
-    registerPaymentCardType,
+    registerPaymentCardType
   }
 }

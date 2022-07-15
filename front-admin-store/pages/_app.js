@@ -1,26 +1,30 @@
+/* eslint-disable no-console */
 import PropTypes from 'prop-types'
 import Context from '../context/Context'
+import Head from 'next/head'
 import { Layout as MainLayout } from '../components/Layout'
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '../apollo/apolloClient'
 import Auth from '../apollo/Auth'
 import { GlobalStyle } from '../public/styles/GlobalStyle'
 import { ProgressBar } from '../components/common/Nprogres'
+import Script from 'next/script'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import Noscript from 'components/Noscript'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import '../styles/globals.css'
-import Script from 'next/script'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import Noscript from 'components/Noscript'
+import '../public/styles/tokens.css'
 // where: { u_id: deCode(u_id), ua_date: { [Op.startsWith]: ua_date } }
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps)
-  const Layout = Component.Layout ? Component.Layout : MainLayout
   const router = useRouter()
   const [animating, setIsAnimating] = useState(false)
+  // Use the layout defined at the page level, if available
+  const getLayout = Component.getLayout ?? ((page) => { return <MainLayout>{page}</MainLayout> })
   useEffect(() => {
     const handleStop = () => {
       setIsAnimating(false)
@@ -43,6 +47,34 @@ export default function App({ Component, pageProps }) {
   const [showChild, setShowChild] = useState(false)
 
   useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/app/sw.js', {
+      }).then(function (registration) {
+        let serviceWorker
+        if (registration.installing) {
+          serviceWorker = registration.installing
+          document.querySelector('#kind').textContent = 'installing'
+        } else if (registration.waiting) {
+          serviceWorker = registration.waiting
+          document.querySelector('#kind').textContent = 'waiting'
+        } else if (registration.active) {
+          serviceWorker = registration.active
+          document.querySelector('#kind').textContent = 'active'
+        }
+        if (serviceWorker) {
+          // logState(serviceWorker.state);
+          serviceWorker.addEventListener('statechange', function (e) {
+            // logState(e.target.state);
+          })
+        }
+      }).catch(function (error) {
+        // Something went wrong during registration. The service-worker.js file
+        // might be unavailable or contain a syntax error.
+      })
+    } else {
+      // The current browser doesn't support service workers.
+      // Perhaps it is too old or we are not in a Secure Context.
+    }
     if ('serviceWorker' in navigator) {
       // checkValidServiceWorker('http://localhost:3001/app/sw.js')
       window.addEventListener('load', function (config) {
@@ -99,9 +131,11 @@ export default function App({ Component, pageProps }) {
   }
   if (typeof window === 'undefined') {
     return <div>Loading...</div>
-  } 
+  }
+
   return (
     <Context>
+
       <Script
         dangerouslySetInnerHTML={{
           __html: `
@@ -121,14 +155,35 @@ export default function App({ Component, pageProps }) {
           {<ProgressBar progress={animating} />}
           <Noscript>
           </Noscript>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <Head>
+            <link href='/manifest.json' rel='manifest' />
+            <meta content='yes' name='mobile-web-app-capable' />
+            <meta content='#0b6580' name='theme-color' />
+            <meta content='/' name='msapplication-starturl' />
+            <meta content='yes' name='apple-mobile-web-app-capable' />
+            <meta content='black' name='apple-mobile-web-app-status-bar-style' />
+            <link
+              href='/favicon.ico'
+              rel='shortcut icon'
+              type='image/x-icon'
+            />
+            <link
+              href='/favicon.ico'
+              rel='icon'
+              type='image/x-icon'
+            />
+            <link
+              href='logo-apple.png'
+              rel='apple-touch-icon'
+              sizes='192x192'
+            />
+          </Head>
+          {getLayout(<Component {...{ ...pageProps, isMobile: false }} />)}
         </Auth>
       </ApolloProvider >
     </Context>
   )
-  
+
 
 }
 

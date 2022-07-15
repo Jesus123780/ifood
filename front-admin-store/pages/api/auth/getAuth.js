@@ -13,20 +13,43 @@ const cookie = {
 export default withIronSessionApiRoute(async function isAuth(req, res) {
   try {
     const { token } = req.session.user || {}
-    const { error } = await getUserFromToken(token)
-    if (error === true) {
-      req.session.destroy()
-      res.setHeader('location', '/')
-      res.statusCode = 302
-      res.end()
-    } else {
-      res.status(500).json({
-        ok: req.session
+    if (!req.cookies[process.env.SESSION_NAME]) {
+      return res.status(500).json({
+        isSession: false,
+        storeUserId: null
       })
     }
+    if (!token) {
+      req.session.destroy()
+      res.setHeader('location', '/app/entrar')
+      res.statusCode = 302
+      res.end()
+      return res.status(500).json({
+        ok: false,
+        isSession: false
+      })
+    }
+    const { error } = await getUserFromToken(token)
+    if (error) {
+      req.session.destroy()
+      res.setHeader('location', '/app/entrar')
+      res.statusCode = 302
+      res.end()
+      return res.status(500).json({
+        ok: req.session,
+        isSession: false
+      })
+
+    }
+    return res.status(500).json({
+      ok: req.session,
+      isSession: true
+    })
+
   } catch (e) {
-    throw new Error('Lo sentimos, ha ocurrido un error interno al cerrar session')
+    return res.status(500).json({
+      ok: req.session,
+      isSession: true
+    })
   }
-},
-cookie
-)
+}, cookie)

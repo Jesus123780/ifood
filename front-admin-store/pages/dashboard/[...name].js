@@ -5,14 +5,15 @@ import NotFountView from 'pages/404'
 import { cookie, defaultReturnObject } from 'utils'
 
 export default function dashboard ({ idStore }) {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter()
   const { name } = router.query
   const isValidate = idStore === name[1] 
   if (isValidate) {
     return <DashboardStore />
-  } else {
-    return <NotFountView />
-  }
+  } 
+  return <NotFountView />
+  
 }
 
 export const getServerSideProps = withIronSessionSsr(
@@ -24,8 +25,8 @@ export const getServerSideProps = withIronSessionSsr(
       if (!req.cookies[process.env.SESSION_NAME]) return defaultReturnObject
       return {
         props: {
-          user: user  || null,
-          idStore: idStore || null,
+          user: user || null,
+          idStore: idStore || null
         }
       }
     } catch (error) {

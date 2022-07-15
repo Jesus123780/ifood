@@ -1,4 +1,3 @@
-import { EmptyLayout } from 'pages/_app'
 import Bankdata from '../../container/Restaurant/Bankdata'
 
 export default function RestaurantPlanesView() {
@@ -7,4 +6,10 @@ export default function RestaurantPlanesView() {
   )
 }
 
-RestaurantPlanesView.Layout = EmptyLayout
+RestaurantPlanesView.getLayout = function getLayout(page) {
+  return (
+    <>
+      {page}
+    </>
+  )
+}

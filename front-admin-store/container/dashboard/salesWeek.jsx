@@ -6,7 +6,7 @@ import { Flex } from './styled'
 import moment from 'moment'
 import { MainCard } from 'components/common/Reusable/ShadowCard'
 import { GET_ALL_SALES_STATISTICS } from 'container/ventas/queries'
-import { numberFormat } from 'utils'
+import { numberFormat } from '../../utils'
 import { Skeleton } from 'components/Skeleton'
 
 export const SalesWeek = () => {

@@ -1,10 +1,16 @@
-import { EmptyLayout } from 'pages/_app'
 import ContractSignature from '../../container/Restaurant/FirmaElcontrato'
 
-export default function RestaurantPlanesView() {
+export default function RestaurantFirm() {
   return (
     <ContractSignature />
   )
 }
 
-RestaurantPlanesView.Layout = EmptyLayout
+
+RestaurantFirm.getLayout = function getLayout(page) {
+  return (
+    <>
+      {page}
+    </>
+  )
+}

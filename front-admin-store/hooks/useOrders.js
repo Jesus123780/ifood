@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { useContext, useEffect, useState } from 'react'
 import { GET_ALL_PEDIDOS } from 'container/PedidosStore/queries'
 import { Context } from 'context/Context'
-import { numberFormat } from 'utils'
+import { numberFormat } from '~/utils'
 
 export const useOrders = ({
   refetchWritePolicy = 'merge',
@@ -24,8 +24,8 @@ export const useOrders = ({
     onError: onError
       ? onError
       : e => {
-          return console.log(e)
-        },
+        return console.log(e)
+      },
     variables: {
       statusOrder: statusOrder
     }
@@ -37,7 +37,7 @@ export const useOrders = ({
     if (data?.getAllPedidoStoreFinal?.length) {
       setOrders(orders)
       setCountPedido(numberFormat(data?.getAllPedidoStoreFinal?.length) || 0)
-    } 
+    }
   }, [orders, data])
   return [
     data?.getAllPedidoStoreFinal,

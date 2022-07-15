@@ -1,21 +1,17 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import { newRegisterUser } from '../lib/resolvers/users/user'
-// import DeviceDetector from 'node-device-detector'
 import UserDeviceModel from '../lib/models/users/userDevice'
 import { LoginEmail } from '../lib/templates/LoginEmail'
 import { sendEmail } from '../lib/utils'
 import { getTokenState } from 'utils'
 import { deCode } from '../lib/utils/util'
-
 import { withIronSessionApiRoute } from 'iron-session/next'
+const MAX_AGE = 60 * 60 * 8
 /**
  * @description Función que guarda el device
  * @param {string} input Args
  * @returns {{ user: string, userProfile: object, error: boolean }} devolución del token y los datos
  */
 export const getDevice = async ({ input }) => {
-  // eslint-disable-next-line
   const { deviceid, userId, locationFormat, os: { name, short_name, version, family, platform } } = input || {}
   let error = false
   let data = {}
@@ -50,13 +46,13 @@ export const getDevice = async ({ input }) => {
           code: deviceId + name,
           or_JWT_Token: short_name
         })
-      }).then(res => { return (res, 'the res') }).catch(err => { return (err, 'the err') })
+      }).then(() => { return (res, 'the res') }).catch(err => { return (err, 'the err') })
       // send email
     }
     data = isExist
     return { res, error, data }
-  } catch (error) {
-    // eslint-disable-next-line no-ex-assign
+  } catch (e) {
+    // eslint-disable-next-line
     error = { message: error }
   }
   return { error, data }
@@ -99,8 +95,8 @@ export default withIronSessionApiRoute(
     password: process.env.SESSION_KEY,
     cookieName: process.env.SESSION_NAME,
     cookieOptions: {
-      // expires: new Date(Date.now() + MAX_AGE * 1000),
-      // maxAge: MAX_AGE, // 8 hours,
+      expires: new Date(Date.now() + MAX_AGE * 1000),
+      maxAge: MAX_AGE, // 8 hours,
       secure: process.env.NODE_ENV === 'production'
     }
   }
@@ -116,15 +112,15 @@ export const getUserFromToken = async token => {
   let user = null
   let userProfile = null
   let error = false
-  // if (!token) return null
+  if (!token) return { error: false, message: '' }
   const tokenState = getTokenState(token)
   const { needRefresh, valid } = tokenState || {}
   try {
     if (needRefresh === true) return { error: true, user: user, userProfile: userProfile }
     if (!valid) return { error: true, message: 'El token no es valido' }
   } catch {
-    user = null
-    userProfile = null
+    user = ''
+    userProfile = ''
     error = false
   }
   return { user, userProfile, error }

@@ -5,3 +5,11 @@ export default function RestaurantPlanesView() {
     <CodeValidation />
   )
 }
+
+RestaurantPlanesView.getLayout = function getLayout(page) {
+  return (
+    <>
+      {page}
+    </>
+  )
+}

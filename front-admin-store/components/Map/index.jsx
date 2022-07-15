@@ -12,8 +12,6 @@ import { IconArrowLeft } from '../../public/icons'
 import { useFormTools } from '../BaseForm'
 
 
-
-
 import NewSelect from '../NewSelectHooks/NewSelect'
 import { RippleButton } from '../Ripple'
 import mapStyle from './mapStyles'
@@ -21,9 +19,7 @@ import { SAVE_LOCATION_USER } from './queries'
 import { Span } from './styled'
 
 export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
-  // const [animationTrans, setAnimationTrans] = useState(false)
   const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
-  // const { console.log } = useContext(Context)
 
   const mapContainerStyle = {
     height: '70vh',
@@ -41,7 +37,7 @@ export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
     // const API = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}${city}${province}${country}&key=${process.env.REACT_APP_API_KEY}`;
     const API = `https://maps.googleapis.com/maps/api/geocode/json?address=${dataForm.address}${dataForm.city}${dataForm.province}&key=AIzaSyAy0SY1G3OFqesWSTQRHJvzyJzNgURPoN8`
     fetch(API)
-      .then(response => {return response.json()})
+      .then(response => { return response.json() })
       .then(response => {
         setMap(response?.results)
       })
@@ -67,10 +63,12 @@ export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
   }, [])
   const [markers, setMarkers] = React.useState([])
   const onMapClick = useCallback(e => {
-    setMarkers(() => {return [{
-      lat: e.latLng.lat(),
-      lng: e.latLng.lng()
-    }]})
+    setMarkers(() => {
+      return [{
+        lat: e.latLng.lat(),
+        lng: e.latLng.lng()
+      }]
+    })
   }, [])
   const [saveLocation] = useMutation(SAVE_LOCATION_USER)
   const handleSave = async () => {
@@ -80,7 +78,7 @@ export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
         lat: map ? map[0]?.geometry?.location?.lat : 10,
         long: map ? map[0]?.geometry?.location?.lng : 10
       }
-    }).catch(() => {})
+    }).catch(() => { })
   }
 
   const onUnmount = React.useCallback(function callback(map) {
@@ -88,7 +86,7 @@ export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
   }, [])
   const [values, setValues] = useState({})
   const [errors, setErrors] = useState({})
-  
+
   const { data: dataCountries, loading: loadCountries } = useQuery(GET_ALL_COUNTRIES)
   const [getDepartments, { data: dataDepartments }] = useLazyQuery(GET_ALL_DEPARTMENTS)
   const [getCities, { data: dataCities }] = useLazyQuery(GET_ALL_CITIES)
@@ -107,10 +105,10 @@ export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
   const countries = dataCountries?.countries || []
   const road = dataRoad?.road || []
   const cities = dataCities?.cities || []
-  
+
   return (
-    <ContainerModal onClick={() => {return setShowModal(!showModal)}} showModal={showModal}>
-      <AwesomeModal onClick={e => {return e.stopPropagation()}} showModal={showModal}>
+    <ContainerModal onClick={() => { return setShowModal(!showModal) }} showModal={showModal}>
+      <AwesomeModal onClick={e => { return e.stopPropagation() }} showModal={showModal}>
         {<Container modal={modal === 1}>
           <NewSelect
             error={errors?.countryId}
@@ -152,11 +150,11 @@ export const Map = ({ showModal, setShowModal, modal, handleClickMap }) => {
             title='Tipo de via'
             value={values?.rId}
           />
-          <RippleButton onClick={() => {return hableSearchLocation()}} widthButton={'100%'}><Text>Search Address</Text></RippleButton>
+          <RippleButton onClick={() => { return hableSearchLocation() }} widthButton={'100%'}><Text>Search Address</Text></RippleButton>
         </Container>}
         <ContainerMap modal={modal === 2}>
           <MapHeader>
-            <button onClick={() => {return handleClickMap(1)}} style={{ backgroundColor: 'transparent' }} >
+            <button onClick={() => { return handleClickMap(1) }} style={{ backgroundColor: 'transparent' }} >
               <IconArrowLeft color={PColor} size={20} />
             </button>
             <Span>{dataForm?.address}</Span><div></div>
@@ -197,14 +195,15 @@ background-color: ${BGColor};
 padding: 30px;
 position: absolute;
 transition: 200ms ease-in-out;
-${({ modal }) => {return modal
-    ? css`  
+${({ modal }) => {
+    return modal
+      ? css`  
     transform: translateY(95px);
     border-radius: 4px;
     height: 100%;
     top: -100px;
         `
-    : css`
+      : css`
       z-index: -10000;
       opacity: 0;
               `}}
@@ -224,14 +223,15 @@ const AwesomeModal = styled.div`
     /* position: absolute; */
     transition: 500ms ease;
     overflow-y: auto;
-  ${({ showModal }) => {return showModal
-    ? css`  
+  ${({ showModal }) => {
+    return showModal
+      ? css`  
             top: 80px;
             transform: translateY(95px);
             border-radius: 4px;
             /* opacity: 1; */
             `
-    : css`
+      : css`
             /* margin: 0; */
             /* opacity: 0; */
             z-index: -99999;
@@ -249,8 +249,9 @@ const ContainerModal = styled.div`
     align-items: center;
     position: fixed;
     transition: opacity 150ms ease-in-out;
-    ${({ showModal }) => {return showModal
-    ? css`  
+    ${({ showModal }) => {
+    return showModal
+      ? css`  
         top: 0;
         left: 0;
         right: 0;
@@ -259,7 +260,7 @@ const ContainerModal = styled.div`
         background-color:rgba(0, 0, 0, 0.322);
         
         `
-    : css`
+      : css`
           z-index: -10000;
           visibility: hidden;
           opacity: 0;
@@ -270,13 +271,14 @@ const ContainerMap = styled.div`
     transition: 500ms ease;
     top: 0;
     bottom: 0;
-    ${({ modal }) => {return modal
-    ? css`  
+    ${({ modal }) => {
+    return modal
+      ? css`  
             transform: translateY(0px);
             border-radius: 4px;
         
         `
-    : css`
+      : css`
           z-index: -10000;
           opacity: 0;
               `}}

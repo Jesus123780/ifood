@@ -43,30 +43,14 @@ const Aside = () => {
   }, [client, location])
   const [dataStore, { loading }] = useStore()
   const { storeName, idStore, uState } = dataStore || {}
-  const data = [
-    {
-      mId: 1,
-      mName: 'proveedores',
-      mPath: 'update',
-      subModules: [
-        {
-          smId: 1,
-          smName: 'proveedores',
-          smPath: 'proveedores'
-        }
-      ]
-    }
-  ]
-  const [menu, setMenu] = useState(false)
   const GET_STATE_ORDER = gql`
 subscription {
   numberIncremented
 }
 `
-  const handleClick = index => { return setMenu(index === menu ? false : index) }
   const { data: dataWS } = useSubscription(GET_STATE_ORDER, {
     // context: { clientName: "admin-server" },
-    onSubscriptionData: ({ subscriptionData }) => {
+    onSubscriptionData: () => {
       // console.log(subscriptionData.data.numberIncremented)
     }
   })

@@ -43,9 +43,9 @@ export const Checkbox = ({
     >
       <CheckboxAtom
         checked={checked}
-        name={name}
         disabled={disabled}
         id={`checkbox-${id}`}
+        name={name}
         onChange={handleChange}
         ref={inputEl}
         type='checkbox'

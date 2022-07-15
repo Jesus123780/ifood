@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
 import React, { useRef, useEffect } from 'react'
 import styled, { css } from 'styled-components'
-import { BGColor, PColor, PLColor } from '../../public/colors'
+import { BGColor, PColor } from '../../public/colors'
 
 export const RippleButton = props => {
-  const { label, onClick, style, family, standard, active, type, widthButton, disabled } = props
+  const { label, onClick, style, family, standard, active, type, widthButton } = props
   const button = useRef(null)
 
   useEffect(() => {

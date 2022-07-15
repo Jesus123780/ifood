@@ -3,7 +3,7 @@ import { getMainDefinition } from '@apollo/client/utilities'
 import { onError } from '@apollo/client/link/error'
 import { ApolloClient, ApolloLink, split } from '@apollo/client'
 import { createUploadLink } from 'apollo-upload-client'
-// import FingerprintJS from '@fingerprintjs/fingerprintjs'
+import FingerprintJS from '@fingerprintjs/fingerprintjs'
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
 import { URL_ADMIN, URL_BASE, URL_BASE_ADMIN_MASTER } from './urls'
@@ -18,10 +18,10 @@ export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
 let apolloClient
 
 export const getDeviceId = async () => {
-  // const fp = await FingerprintJS.load()
-  // const result = await fp.get()
-  // userAgent = 'window.navigator.userAgent'
-  return '73.8459648'
+  const fp = await FingerprintJS.load()
+  const result = await fp.get()
+  const { visitorId } = result || {}
+  return visitorId
 }
 // eslint-disable-next-line
 const errorHandler = onError(({ graphQLErrors }) => {
@@ -94,10 +94,9 @@ const wsLink = typeof window !== 'undefined' ? new WebSocketLink({
 function createApolloClient() {
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)
-      graphQLErrors.map(({ message, location, path }) =>
-      {return console.log(`[GraphQL error]: Message: ${message}, Location: ${location}, Path: ${path}`)}
+      graphQLErrors.map(({ message, location, path }) => { return console.log(`[GraphQL error]: Message: ${message}, Location: ${location}, Path: ${path}`) }
       )
-  
+
     if (networkError) console.log(`[Network error]: ${networkError}`)
   })
   const ssrMode = typeof window === 'undefined' // Disables forceFetch on the server (so queries are only run once)
@@ -139,7 +138,7 @@ function createApolloClient() {
     return link.request(operation)
   }
   // eslint-disable-next-line
-  const defaultOptions = { 
+  const defaultOptions = {
     query: {
       errorPolicy: 'all'
     },
@@ -170,20 +169,20 @@ function createApolloClient() {
       const definition = getMainDefinition(operation.query)
       return definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
     },
-    wsLink,
-    ApolloLink.split(() => { return true }, operation => { return getLink(operation) },
-      errorLink
-    )
+      wsLink,
+      ApolloLink.split(() => { return true }, operation => { return getLink(operation) },
+        errorLink
+      )
     )
     : ApolloLink.split(() => { return true }, operation => { return getLink(operation) },
       errorLink
     )
-    
-    
+
+
   return new ApolloClient({
     connectToDevTools: true,
     ssrMode,
-    link:  link,
+    link: link,
     defaultOptions,
     typeDefs,
     cache

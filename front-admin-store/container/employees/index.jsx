@@ -5,7 +5,9 @@ import ListEmployees from './ListEmployees'
 import Row from 'components/common/Atoms/Row'
 import { useFormTools } from 'components/BaseForm'
 import { useMutation } from '@apollo/client'
-import { CREATE_EMPLOYEE } from './queries'
+import { CREATE_EMPLOYEE, GET_EMPLOYEES } from './queries'
+import { useEmployee } from '~/hooks/useEmployee'
+import { updateCache } from '~/utils'
 
 const Employees = () => {
   // STATES
@@ -13,6 +15,7 @@ const Employees = () => {
 
   // QUERY
   const [createEmployee] = useMutation(CREATE_EMPLOYEE)
+  const [data, { loading, error, fetchMore, setMore, more }] = useEmployee()
   // useEffect
 
 
@@ -24,19 +27,21 @@ const Employees = () => {
         return createEmployee({
           variables: {
             input: {
-              ...dataForm
+              aId: '',
+              ...dataForm,
+              eSalary: parseFloat(dataForm?.eSalary)
             }
+          },
+          update: (cache, { data: { employees } }) => {
+            return updateCache({
+              cache,
+              query: GET_EMPLOYEES,
+              nameFun: 'employees',
+              dataNew: employees
+            })
           }
-          // update: (cache, { data: { getAllClients } }) => {
-          //   return updateCache({
-          //     cache,
-          //     query: GET_ALL_CLIENTS,
-          //     nameFun: 'getAllClients',
-          //     dataNew: getAllClients
-          //   })
-          // }
         }).then(() => {
-          setDataValue({})
+          // setDataValue({})
         })
       }
     })
@@ -48,7 +53,13 @@ const Employees = () => {
     handleSubmit,
     handleForm,
     setDataValue,
-    setForcedError
+    setForcedError,
+    data,
+    loading,
+    error,
+    fetchMore,
+    setMore,
+    more
   }
   return (
     <Column>
@@ -58,7 +69,6 @@ const Employees = () => {
         />
         <ListEmployees
           {...propsEmployeesForm}
-
         />
       </Row>
     </Column>

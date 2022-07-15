@@ -8,3 +8,19 @@ mutation createEmployee ($input: IEmployee!) {
   }
 }
 `
+export const GET_EMPLOYEES = gql`
+query employees {
+  employees {
+    eId
+    idStore
+    id
+    idEmployee
+    eSalary
+    typeContract
+    uEmail
+    termContract
+    eDatAdm
+    eState
+  }
+}
+`

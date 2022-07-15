@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "watch": true,
     "lib": [
       "dom",
       "dom.iterable",
@@ -16,15 +19,17 @@
       ],
       "@/public/*": [
         "public/*"
-      ]
+      ],
+      "~/*": ["./*"],
+      "@/*": ["./*"],
+      "~~/*": ["./*"],
+      "@@/*": ["./*"]
     },
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -36,7 +41,10 @@
     "**/*.js",
     "**/*.jsx"
   ],
-  "exclude": [
-    "node_modules"
+  "exclude": ["node_modules", ".next", "dist"],
+  "compileOnSave": true,
+  "files": [
+    "src/*.js",
+    "util/*.js",
   ]
 }

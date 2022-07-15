@@ -11,7 +11,7 @@ import FooterCalcules from '../FooterCalcules'
 import NewSelect from 'components/NewSelectHooks/NewSelect'
 import InputHooks from 'components/InputHooks/InputHooks'
 import { Flex } from 'container/dashboard/styled'
-import { numberFormat } from 'utils'
+import { numberFormat } from '../../../utils'
 
 export const BoxProductSales = ({ totalProductPrice, data, dispatch, max, setPrint, finalFilter, print, handleChange, values, dataClientes, loadingClients = false }) => {
   return (

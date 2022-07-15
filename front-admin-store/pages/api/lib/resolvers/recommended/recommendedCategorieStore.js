@@ -4,13 +4,14 @@ import Store from '../../models/Store/Store'
 import { linkBelongsTo } from '../../utils'
 import { deCode, getAttributes } from '../../utils/util'
 
-export const getAllMatchesStoreRecommended = async (root, args, context, info) => {
+// eslint-disable-next-line
+export const getAllMatchesStoreRecommended = async (_root, args, _context, info) => {
   try {
     const { min, max, catStore } = args
     let whereSearch = {}
     const attributes = getAttributes(Store, info)
     // console.log(attributes)
-    const data = await Store.findAll({
+    return await Store.findAll({
       attributes,
       where: {
         [Op.or]: [
@@ -22,51 +23,18 @@ export const getAllMatchesStoreRecommended = async (root, args, context, info) =
         ]
       }, limit: [min || 0, max || 5], order: fn('RAND')
     })
-    return data
   } catch (e) {
     const error = new Error('Lo sentimos, ha ocurrido un error interno en mach store')
     return error
   }
 }
 
-export const productFoodsAllRecommended = async (root, args, context, info) => {
+export const productFoodsAllRecommended = async (_root, args, _context, info) => {
   try {
-    const { search, min, max, gender, desc, categories } = args
-    let whereSearch = {}
-    if (search) {
-      whereSearch = {
-        [Op.or]: [
-          { pName: { [Op.substring]: search.replace(/\s+/g, ' ') } },
-          { ProPrice: { [Op.substring]: search.replace(/\s+/g, ' ') } },
-          { ProDescuento: { [Op.substring]: search.replace(/\s+/g, ' ') } },
-          { ProDelivery: { [Op.substring]: search.replace(/\s+/g, ' ') } }
-        ]
-      }
-    }
-    if (gender?.length) {
-      whereSearch = {
-        ...whereSearch,
-        ProDelivery: {
-          [Op.in]: gender.map(x => { return x })
-        }
-      }
-    }
-    if (desc?.length) {
-      whereSearch = {
-        ...whereSearch,
-        ProDescuento: { [Op.in]: desc.map(x => { return x }) }
-      }
-    }
-    //validad que  venga una categoría para hacer el filtro por categorías
-    if (categories?.length) {
-      whereSearch = {
-        ...whereSearch,
-        caId: { [Op.in]: categories.map(x => { return deCode(x) }) }
-      }
-    }
+    const { min, max } = args
     linkBelongsTo(productModelFood, Store, 'idStore', 'idStore')
     const attributes = getAttributes(productModelFood, info)
-    const data = await productModelFood.findAll({
+    return await productModelFood.findAll({
       attributes: attributes,
       include: [
         {
@@ -86,10 +54,8 @@ export const productFoodsAllRecommended = async (root, args, context, info) => {
         ]
       }, limit: [min || 0, max || 100], order: fn('RAND')
     })
-    return data
   } catch (e) {
-    const error = new Error('Lo sentimos, ha ocurrido un error interno en product recomendante')
-    return error
+    return new Error('Lo sentimos, ha ocurrido un error interno en product recomendante')
   }
 }
 

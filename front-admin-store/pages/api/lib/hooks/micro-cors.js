@@ -1,6 +1,5 @@
-import { RequestHandler } from "micro";
-
-export default function Cors(options) {
-    console.log(options)
-    return RequestHandler
+import { RequestHandler } from 'micro'
+// docker compose -f docker/development/docker-compose.yml up
+export default function Cors() {
+  return RequestHandler
 }

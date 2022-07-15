@@ -11,6 +11,8 @@ import resolvers from '../api/lib/resolvers/index'
 import { getUserFromToken } from './auth'
 import { getIronSession } from 'iron-session'
 import { requestDidStartPlugin } from './lib/hooks/apollo-plugin'
+import { parseCookies } from './lib/utils'
+// import { withIronSessionApiRoute } from 'iron-session/next'
 // import Cors from './lib/hooks/micro-cors'
 
 const corsMultipleAllowOrigin = (options = {}) => {
@@ -44,22 +46,22 @@ const apolloServer = new ApolloServer({
   cache: 'bounded',
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground(),
     httpHeadersPlugin,
-    {
-      async serverWillStart() {
-        return {
-          async drainServer() {
-            await serverCleanup?.dispose()
-          }
+  {
+    async serverWillStart() {
+      return {
+        async drainServer() {
+          await serverCleanup?.dispose()
         }
       }
-    },
+    }
+  },
     requestDidStartPlugin],
   context: (async ({ req, res, next, connection }) => {
-    // const cookies = parseCookies(req)
-    // console.log(cookies)
+    parseCookies(req)
+    res.setHeader("x-token-access", 'PAPAAAAAAAAAAAAAA');
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET')
-    res.setHeader('Access-Control-Max-Age', 2592000) // 30 days
+
     // res.setHeader(200, {
     //   'Set-Cookie': `mycookie=test`,
     //   'Content-Type': `text/plain`
@@ -86,13 +88,13 @@ const apolloServer = new ApolloServer({
     const setHeaders = []
     tokenClient = req.headers.authorization?.split(' ')[1]
     const restaurant = req.headers.restaurant || {}
+    const { error } = await getUserFromToken(token)
+    // console.log(error, 'HOLA MUNDO PAPUUUUUUUUUU')
+    // console.log(req, 'func')
+    // if (error === true) return req.session.destroy()
 
     const excluded = ['/login', '/forgotpassword', '/register', '/teams/invite/[id]', '/teams/manage/[id]']
     if (excluded.indexOf(req.session) > -1) return next()
-    const { error } = await getUserFromToken(token)
-    console.log(error)
-    console.log(req.session)
-    // if (error) req.session.destroy()
     if (token) {
       User = await jwt.verify(token, process.env.AUTHO_USER_KEY)
       return { req, setCookies: setCookies || [], setHeaders: setHeaders || [], User: User || {}, restaurant: restaurant || {} }
@@ -119,19 +121,19 @@ const apolloServer = new ApolloServer({
 const startServer = apolloServer.start()
 
 export default cors(async (req, res) => {
-  // res.setHeader("Access-Control-Allow-Credentials", "true");
-  // res.setHeader(
-  //     "Access-Control-Allow-Origin",
-  //     "http://localhost:3000"
-  // );
-  // res.setHeader(
-  //     "Access-Control-Allow-Headers",
-  //     "Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Methods, Access-Control-Allow-Origin, Access-Control-Allow-Credentials, Access-Control-Allow-Headers"
-  // );
-  // res.setHeader(
-  //     "Access-Control-Allow-Methods",
-  //     "POST, GET, PUT, PATCH, DELETE, OPTIONS, HEAD"
-  // );
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "http://localhost:3000"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Methods, Access-Control-Allow-Origin, Access-Control-Allow-Credentials, Access-Control-Allow-Headers"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "POST, GET, PUT, PATCH, DELETE, OPTIONS, HEAD"
+  );
   if (req.method === 'OPTIONS') {
     res.end()
     return false

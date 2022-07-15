@@ -1,25 +1,25 @@
 /* eslint-disable no-undef */
 import { Restaurant } from '../../container/Restaurant'
-import { EmptyLayout } from 'pages/_app'
 import { withIronSessionSsr } from 'iron-session/next'
 import { cookie, decodeToken, defaultReturnObject } from 'utils'
 
-export default function RestaurantView () {
-  return <Restaurant />
+export default function RestaurantView({ user }) {
+  const { token } = user || {}
+  const userToken = decodeToken(token)
+  return <Restaurant userToken={userToken} />
 }
-RestaurantView.Layout = EmptyLayout
 
 export const getServerSideProps = withIronSessionSsr(
-  async function getServerSideProps ({ req }) {
+  async function getServerSideProps({ req }) {
     const { user } = req.session || {}
-    const { storeUserId, token } = user || {}
+    const { storeUserId } = user || {}
     if (storeUserId) return { redirect: { destination: '/dashboard' } }
     try {
       if (!req.cookies[process.env.SESSION_NAME]) return defaultReturnObject
       return {
         props: {
           user: user,
-          idStore: null,
+          idStore: null
         }
       }
     } catch (error) {
@@ -28,3 +28,11 @@ export const getServerSideProps = withIronSessionSsr(
   },
   cookie
 )
+
+RestaurantView.getLayout = function getLayout(page) {
+  return (
+    <>
+      {page}
+    </>
+  )
+}

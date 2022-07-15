@@ -2,13 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 
-const Input = ({ children, ...props }) => {
-    return (
-        <InputView {...props}
-            placeholder={props.placeholder}
-            value={props.value}
-            onChange={props.onChange} />
-    )
+const Input = ({ ...props }) => {
+  return (
+    <InputView
+      {...props}
+      onChange={props.onChange}
+      placeholder={props.placeholder}
+      value={props.value}
+    />
+  )
 }
 
 Input.propTypes = {

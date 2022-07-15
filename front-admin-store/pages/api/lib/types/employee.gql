@@ -34,14 +34,14 @@ type EmployeeStore {
 # Input
 input IEmployee {
     eId: ID
-    aId: ID!
-    tpId: ID!
+    aId: ID
+    tpId: ID
     eEnterprise: String
-    eSalary: Float!
-    eCharge: String!
+    eSalary: Float
+    eCharge: String
     typeContract: String
     termContract: String
-    eDatAdm: DateTime!
+    eDatAdm: DateTime
     eDatRet: DateTime
     eArl: String
     eBoxComp: String

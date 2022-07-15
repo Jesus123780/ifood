@@ -1,4 +1,3 @@
-import { EmptyLayout } from 'pages/_app'
 import { Login } from '../../container/entrar'
 
 export default function LoginView() {
@@ -9,4 +8,10 @@ export default function LoginView() {
   )
 }
 
-LoginView.Layout = EmptyLayout
+LoginView.getLayout = (page) => {
+  return (
+    <>
+      {page}
+    </>
+  )
+}

@@ -1,4 +1,4 @@
-import { Op } from 'sequelize';
+import { Op } from 'sequelize'
 import Store from '../../models/Store/Store'
 import Users from '../../models/Users'
 
@@ -6,30 +6,32 @@ import Users from '../../models/Users'
  * 
  * @param {*} _root no usado 
  * @param {*} param1 _
- * @param {*} context context info global
- * @param {*} info _
+ * @param {*} _context context info global
+ * @param {*} _info _
  * @returns 
  */
-export const getAllStoreAdminReport = async (_root, _args, context, info) => {
+
+// eslint-disable-next-line
+export const getAllStoreAdminReport = async (_root, _args, _context, _info) => {
   try {
     const { count: countInActive, rows: RowInActive } = await Store.findAndCountAll({
       where: {
         uState: {
           [Op.like]: 1
         }
-      },
+      }
       // offset: 10,
       // limit: 2
-    });
+    })
     const { count, rows } = await Store.findAndCountAll({
       where: {
         uState: {
           [Op.like]: 2
         }
-      },
+      }
       // offset: 10,
       // limit: 2
-    });
+    })
     return {
       store: rows,
       inActiveStore: RowInActive,
@@ -42,7 +44,8 @@ export const getAllStoreAdminReport = async (_root, _args, context, info) => {
   }
 
 }
-export const getAllUserActives = async (_root, _args, context, info) => {
+// eslint-disable-next-line
+export const getAllUserActives = async (_root, _args, _context, _info) => {
   try {
     const { count, rows } = await Users.findAndCountAll({
       // where: {
@@ -52,22 +55,21 @@ export const getAllUserActives = async (_root, _args, context, info) => {
       // },
       // offset: 10,
       // limit: 2
-    });
+    })
     const { count: countInActive, rows: RowInActive } = await Users.findAndCountAll({
       where: {
         uState: {
           [Op.like]: 0
         }
-      },
+      }
       // offset: 10,
       // limit: 2
-    });
-    console.log("🚀 ~ file: admin.js ~ line 53 ~ getAllUserActives ~ countInActive", countInActive)
+    })
     return {
       count: count,
       countInActive: countInActive,
       users: rows,
-      usersInActives: RowInActive,
+      usersInActives: RowInActive
     }
   } catch (e) {
     const error = new Error('Lo sentimos, ha ocurrido un error interno', e, 400)
@@ -81,7 +83,7 @@ export default {
   },
   QUERIES: {
     getAllStoreAdminReport,
-    getAllUserActives,
+    getAllUserActives
   },
   MUTATIONS: {
   }

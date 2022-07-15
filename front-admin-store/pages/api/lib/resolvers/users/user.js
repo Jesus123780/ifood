@@ -47,6 +47,7 @@ export const newRegisterUser = async (root, input) => {
     const StoreInfo = await Store.findOne({ attributes: ['idStore', 'id'], where: { id: deCode(user.id) } })
     const tokenGoogle = {
       name: name,
+      email,
       username: username,
       restaurant: StoreInfo ? StoreInfo : null,
       id: user.id
