@@ -1227,7 +1227,7 @@ export function months(config) {
   return values
 }
 
-export function numbers(config) {
+export const numbers = (config) => {
   let cfg = config || {}
   let min = 1
   let max = 2

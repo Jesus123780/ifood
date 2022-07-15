@@ -1241,5 +1241,4 @@ export const getUserFromToken = token => {
         error = true
         throw new Error('La session ha expirado')
     }
-    return { user, userProfile, error }
 }

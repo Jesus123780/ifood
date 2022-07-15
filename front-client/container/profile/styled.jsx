@@ -18,8 +18,18 @@ font-size: 16px;
 height: 100%;
 scroll-behavior: auto;
 
-${ ({ bg }) => bg && css`background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 350 90"  height="200px"><text x="0" y="60%" font-size="3rem" font-weight="800" font-family="Roobert,Helvetica Neue,Helvetica,Arial,sans-serif" fill="red" opacity="0.1"> ${ bg } </text></svg>');` }
+${({ bg }) => bg && css`background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" x="10" y="30%"   height="200px"><text x="15" y="27%" font-size="4rem" font-weight="800" font-family="Roobert,Helvetica Neue,Helvetica,Arial,sans-serif" fill="red" opacity="0.1">${bg}</text> <text x="5" y="60%" font-size="4rem" font-weight="800" font-family="Roobert,Helvetica Neue,Helvetica,Arial,sans-serif" fill="red" opacity="0.1">${bg}</text> <text x="10" y="90%" font-size="4rem" font-weight="800" font-family="Roobert,Helvetica Neue,Helvetica,Arial,sans-serif" fill="red" opacity="0.1">${bg}</text>  </svg>');`}
+background-position: center 25px;
+/* transition: all .3s .3s; */
+/* transition-property: background-color,background-image; */
+/* background-position: center 25px; */
+    /* background-size: cover; */
+    /* background-repeat: no-repeat;
+    transition: all .3s .3s; */
 
+/* 
+${ ({ bg }) => bg && css`background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" x="15" y="27%"  viewBox="0 0 350 90"  height="200px"><text x="0" y="60%" font-size="4rem" font-weight="800" font-family="Roobert,Helvetica Neue,Helvetica,Arial,sans-serif" fill="red" opacity="0.1"> ${ bg } </text></svg>');` }
+  */
 `
 export const Content = styled.div`
     width: 100%;
