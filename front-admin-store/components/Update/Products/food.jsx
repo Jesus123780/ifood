@@ -44,6 +44,7 @@ export const FoodComponent = ({
   const propsForm = { handleRegister, setName, names, check, handleChange, values, dataCategoriesProducts, handleCheckEnvioGratis, image, ...props }
   const propsListProducts = { onClickClear, data, OPEN_MODAL_ORGANICE, dataFree, filter: true, organice: true, handleChangeFilter, grid, search, showMore, fetchMore, loading, setShowMore, pState: 1, handleDelete, ...props }
 
+  console.log('🚀 ~ file: food.jsx ~ line 47 ~ data', data)
   return (<>
     <Container>
       {/* FORM */}

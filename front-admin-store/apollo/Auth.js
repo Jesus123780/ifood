@@ -56,7 +56,7 @@ export default function Auth({ children }) {
             if (response) {
               client?.clearStore()
               // window.localStorage.clear()
-              location.replace('/entrar')
+              // location.replace('/entrar')
             }
           }).catch(() => {
             // eslint-disable-next-line no-console
@@ -68,7 +68,7 @@ export default function Auth({ children }) {
           })
       }
     }
-    fetchData()
+    // fetchData()
     const res = data?.refreshUserPayrollToken
     if (called && res) {
       if (res.restaurant) {
@@ -80,7 +80,7 @@ export default function Auth({ children }) {
         isLoggedVar({ state: false, expired: true, message: restaurant && 'La sesión ha expirado', code: 403 })
       }
     }
-  }, [data, called])
+  }, [data, called, client])
 
   useEffect(() => {
     const res = dataLogged?.isLogged

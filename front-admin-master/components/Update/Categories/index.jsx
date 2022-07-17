@@ -62,6 +62,7 @@ export const Categories = ({
                     />
                     <RippleButton widthButton='100%' margin='20px auto' type='submit' bgColor={APColor}>Subir</RippleButton>
                 </FormProducts>
+                
             </CardOne>
             <i style={{ position: 'relative' }}>
                 <Button onClick={handleClick}><IconArrowRight color='blue' size='20px' /></Button>

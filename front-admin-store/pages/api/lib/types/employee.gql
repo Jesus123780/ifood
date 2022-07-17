@@ -29,6 +29,8 @@ type EmployeeStore {
     termContract: String
     eDatAdm: DateTime
     eState: Int
+    tpEmail: String
+
 }
 
 # Input
@@ -61,6 +63,7 @@ input IEmployeeStore {
     eSalary: Float
     typeContract: String
     uEmail: String
+    tpEmail: String
     termContract: String
     eDatAdm: DateTime
     eState: Int
@@ -73,6 +76,7 @@ type Query {
     employeesFor(umId: ID, cId: ID, aId: ID, idStore: ID, max: Int, min: Int): [Employee]
     "Devuelve un empleado"
     employee(eId: ID, tpId: ID): Employee
+    employeeStore(eId: ID, tpId: ID, aId: ID, idStore: ID, max: Int, min: Int): EmployeeStore
 }
 
 # Mutation
@@ -81,5 +85,7 @@ type Mutation {
     createEmployee(input: IEmployee!): Response
     createOneEmployeeStore(input: IEmployeeStore): Response
     createOneEmployeeStoreAndUser(input: IEmployeeStore): Response
+    deleteEmployeeStore(eId: ID, tpId: ID, idStore: ID): Response
+    
 
 }

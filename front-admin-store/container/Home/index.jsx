@@ -53,7 +53,7 @@ const index = () => {
           />
           <RippleButton
             margin='20px auto'
-            onClick={(e) => handleRedirect(e)}
+            onClick={(e) => {return handleRedirect(e)}}
             widthButton='100%'
           >Login</RippleButton>
           {/* <RippleButton widthButton='100%' margin='20px auto' onClick={() => console.log()}>Login</RippleButton> */}
@@ -106,7 +106,7 @@ export const Home = () => {
         />
         <RippleButton
           margin='20px auto'
-          onClick={(e) => handleRedirect(e)}
+          onClick={(e) => {return handleRedirect(e)}}
           widthButton='100%'
         >Login</RippleButton>
         {/* <RippleButton widthButton='100%' margin='20px auto' onClick={() => console.log()}>Login</RippleButton> */}

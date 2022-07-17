@@ -73,7 +73,7 @@ export const Layout = ({ children, watch, settings }) => {
             title='Crea una venta'
             zIndex='9999'
           >
-            {salesOpen && <GenerateSales />}
+            {<GenerateSales />}
           </AwesomeModal>
           {/* <Messages /> */}
         </div>

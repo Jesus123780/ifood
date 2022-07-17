@@ -39,6 +39,12 @@ export const isPassword = dato => {
     return false
   } return true
 }
+export const isCC = dato => {
+  const validar = /^[0-9]{6,10}/g
+  if (validar.test(dato) === true) {
+    return false
+  } return true
+}
 
 export const valNit = (nit) => {
   let nd; let add = 0
@@ -1340,8 +1346,6 @@ export const indexExport = async (req, res, url) => {
   fileString = fileString.replace(/%M_URL%/g, `${url}${req.originalUrl}`)
   res.send(fileString)
 }
-
-
 
 
 export const getUserFromToken = async token => {

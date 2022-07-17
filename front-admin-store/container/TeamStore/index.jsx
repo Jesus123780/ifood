@@ -22,7 +22,7 @@ export const TeamStore = () => {
                   padding='5px'
                   size='10px'
                   widthButton='70px'
-                >{x.uEmail.slice(0, 2).toUpperCase()}</RippleButton>
+                >{x?.uEmail?.slice(0, 2).toUpperCase()}</RippleButton>
               </ItemInf>
             </a>
           </Link>

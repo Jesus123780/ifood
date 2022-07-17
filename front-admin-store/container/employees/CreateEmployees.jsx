@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import InputHooks from 'components/InputHooks/InputHooks'
 import Row from 'components/common/Atoms/Row'
 import { RippleButton } from 'components/Ripple'
+import InputHooks from '~/components/InputHooks/InputHooks'
 
 const CreateEmployees = ({
   dataForm,
@@ -14,23 +14,28 @@ const CreateEmployees = ({
     <Row
       as='form'
       flexWrap='wrap'
-      onSubmit={(e) => {return handleForm(e)}}
+      height='min-content'
+      onSubmit={(e) => { return handleForm(e) }}
       width='50%'
     >
       <InputHooks
+        dataForm={dataForm}
         email={true}
         error={errorForm?.tpEmail}
         name='tpEmail'
         onChange={handleChange}
+        required
         setDataValue={setDataValue}
         title='Ingresa Email'
         value={dataForm?.tpEmail}
       />
       <InputHooks
+        Cc={true}
         error={errorForm?.tpNumDoc}
         name='tpNumDoc'
         numeric
         onChange={handleChange}
+        required
         setDataValue={setDataValue}
         title='Ingresa Numero de Documento'
         value={dataForm?.tpNumDoc}
@@ -40,6 +45,7 @@ const CreateEmployees = ({
         name='eSalary'
         numeric={true}
         onChange={handleChange}
+        required
         title='Ingresa Salario'
         value={dataForm?.eSalary}
       />
@@ -47,7 +53,9 @@ const CreateEmployees = ({
         error={errorForm?.tpLasNam}
         name='tpLasNam'
         onChange={handleChange}
+        required={true}
         title='Ingresa Apellido'
+
         value={dataForm?.tpLasNam}
       />
       <InputHooks
@@ -55,7 +63,7 @@ const CreateEmployees = ({
         name='tpPhone'
         numeric={true}
         onChange={handleChange}
-        required={false}
+        required={true}
         title='Ingresa Numero de teléfono'
         value={dataForm?.tpPhone}
 

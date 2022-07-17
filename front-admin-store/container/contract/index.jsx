@@ -1,12 +1,10 @@
 import React, { useEffect, useRef } from 'react'
 import { useQuery } from '@apollo/client'
 import { GET_ONE_CONTRACT } from 'gql/information/contract'
-import { CanvasDrawn } from 'components/CanvasDrawn'
-import moment from 'moment'
 
 const Contract = () => {
   const { data, loading } = useQuery(GET_ONE_CONTRACT)
-  const { ctCode, createAt } = data?.getOneCOntractStore || {}
+  const { ctCode } = data?.getOneCOntractStore || {}
   const canvas = useRef(null)
   useEffect(() => {
     if (!loading && data && ctCode) {

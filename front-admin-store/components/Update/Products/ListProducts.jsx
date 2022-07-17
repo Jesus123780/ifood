@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import { ContainerCardProduct, ContainerFilter, ContentProducts, ItemFilter, Text, WrapperProducts } from './styled'
 import { CardProducts } from 'components/CartProduct'
@@ -6,6 +7,7 @@ import { InputHook } from './Input'
 import { RippleButton } from 'components/Ripple'
 
 export const ListProducts = ({ onClickClear, data, organice, pState, filter, OPEN_MODAL_ORGANICE, dataFree, handleDelete, handleChangeFilter, search, showMore, fetchMore, loading, setShowMore }) => {
+  console.log('🚀 ~ file: ListProducts.jsx ~ line 9 ~ ListProducts ~ data', data)
   const isData = data?.length > 0
   return (
     <div>
@@ -71,4 +73,27 @@ export const ListProducts = ({ onClickClear, data, organice, pState, filter, OPE
   )
 }
 
-ListProducts.propTypes = {}
+ListProducts.propTypes = {
+  OPEN_MODAL_ORGANICE: PropTypes.shape({
+    setState: PropTypes.func,
+    state: PropTypes.any
+  }),
+  data: PropTypes.shape({
+    length: PropTypes.number,
+    map: PropTypes.func
+  }),
+  dataFree: PropTypes.shape({
+    length: PropTypes.any
+  }),
+  fetchMore: PropTypes.func,
+  filter: PropTypes.any,
+  handleChangeFilter: PropTypes.any,
+  handleDelete: PropTypes.func,
+  loading: PropTypes.any,
+  onClickClear: PropTypes.func,
+  organice: PropTypes.any,
+  pState: PropTypes.number,
+  search: PropTypes.any,
+  setShowMore: PropTypes.func,
+  showMore: PropTypes.any
+}

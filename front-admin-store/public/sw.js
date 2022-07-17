@@ -19,7 +19,7 @@ try {
 
   // The install handler takes care of precaching the resources we always need.
   self.addEventListener('install', (event) => {
-    console.log('installing sw')
+    // console.log('installing sw')
     event.waitUntil(
       caches.open(PRECACHE)
         .then((cache) => {return cache.addAll(PRECACHE_URLS)})
@@ -29,7 +29,7 @@ try {
   // The activate handler takes care of cleaning up old caches.
   self.addEventListener('activate', (event) => {
     const currentCaches = [PRECACHE, RUNTIME]
-    console.log('activate cache')
+    // console.log('activate cache')
     event.waitUntil(
       caches
         .keys()
@@ -39,7 +39,7 @@ try {
           )
         })
         .then((cachesToDelete) => {
-          console.log('cache is deleting')
+          // console.log('cache is deleting')
           return Promise.all(
             cachesToDelete.map((cacheToDelete) => {
               return caches.delete(cacheToDelete)
@@ -50,7 +50,7 @@ try {
     )
   })
   self.addEventListener('notificationclick', function (event) {
-    console.log('Notification clicked')
+    // console.log('Notification clicked')
     event.waitUntil(function () {
       return self.clients.openWindow('https://www.google.com')
     }())
@@ -59,7 +59,7 @@ try {
   // If no response is found, it populates the runtime cache with the response
   // from the network before returning it to the page.
   self.addEventListener('fetch', function(event) {
-    console.log('Handling fetch event for', event.request.url)
+    // console.log('Handling fetch event for', event.request.url)
   
     event.respondWith(
       caches.open(CURRENT_CACHES.font).then(function(cache) {
@@ -67,22 +67,22 @@ try {
           if (response) {
             // If there is an entry in the cache for event.request, then response will be defined
             // and we can just return it. Note that in this example, only font resources are cached.
-            console.log(' Found response in cache:', response)
+            // console.log(' Found response in cache:', response)
   
             return response
           }
   
           // Otherwise, if there is no entry in the cache for event.request, response will be
           // undefined, and we need to fetch() the resource.
-          console.log(' No response for %s found in cache. About to fetch ' +
-            'from network...', event.request.url)
+          // console.log(' No response for %s found in cache. About to fetch ' +
+          //   'from network...', event.request.url)
   
           // We call .clone() on the request since we might use it in a call to cache.put() later on.
           // Both fetch() and cache.put() "consume" the request, so we need to make a copy.
           // (see https://developer.mozilla.org/en-US/docs/Web/API/Request/clone)
           return fetch(event.request.clone()).then(function(response) {
-            console.log('  Response for %s from network is: %O',
-              event.request.url, response)
+            // console.log('  Response for %s from network is: %O',
+            //   event.request.url, response)
   
             if (response.status < 400 &&
                 response.headers.has('content-type') &&
@@ -98,10 +98,10 @@ try {
               // We call .clone() on the response to save a copy of it to the cache. By doing so, we get to keep
               // the original response object which we will return back to the controlled page.
               // (see https://developer.mozilla.org/en-US/docs/Web/API/Request/clone)
-              console.log('  Caching the response to', event.request.url)
+              // console.log('  Caching the response to', event.request.url)
               cache.put(event.request, response.clone())
             } else {
-              console.log('  Not caching the response to', event.request.url)
+              // console.log('  Not caching the response to', event.request.url)
             }
   
             // Return the original response object, which will be used to fulfill the resource request.
@@ -111,7 +111,7 @@ try {
           // This catch() will handle exceptions that arise from the match() or fetch() operations.
           // Note that a HTTP error response (e.g. 404) will NOT trigger an exception.
           // It will return a normal response object that has the appropriate error code set.
-          console.error('  Error in fetch handler:', error)
+          // console.error('  Error in fetch handler:', error)
   
           throw error
         })
@@ -161,5 +161,5 @@ try {
   //   // }
   // })
 } catch (e) {
-  console.log(e)
+  // console.log(e)
 }

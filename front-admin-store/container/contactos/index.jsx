@@ -13,9 +13,10 @@ import React from 'react'
 import { CREATE_CONTACTS, GET_ALL_CONTACTS } from './queries'
 import { Button, Item, Container } from './styled'
 import { updateCache } from 'utils'
+import { Formulario } from './formulario'
 
 export const Contact = () => {
-  const HandleGetOne = () => { }
+  const HandleGetOne = () => { return }
   const OPEN_MODAL = useSetState()
   const [createContacts] = useMutation(CREATE_CONTACTS)
   const { data } = useQuery(GET_ALL_CONTACTS)
@@ -41,6 +42,7 @@ export const Contact = () => {
   })}
   return (
     <Container>
+      <Formulario />
       <RippleButton onClick={() => {return OPEN_MODAL.setState(!OPEN_MODAL.state)}}>Crear nuevo</RippleButton>
       <AwesomeModal
         borderRadius='10px'

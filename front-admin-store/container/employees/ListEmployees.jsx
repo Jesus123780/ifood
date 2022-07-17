@@ -3,10 +3,18 @@ import React from 'react'
 import { Section } from '~/components/Table/styled'
 import { Table } from '~/components/Table'
 import Button from '~/components/common/Atoms/Button'
-import Link from 'next/link'
 import { RippleButton } from '~/components/Ripple'
+import { PColor } from '@/public/colors'
 
-const ListEmployees = ({ data, setMore, loading, more, fetchMore }) => {
+const ListEmployees = ({
+  data,
+  setMore,
+  loading,
+  more,
+  fetchMore,
+  hamdleEmployee,
+  handleDeleteEmployee
+}) => {
   return (
     <div>
       <Table
@@ -15,7 +23,7 @@ const ListEmployees = ({ data, setMore, loading, more, fetchMore }) => {
         renderBody={(dataB, titles) => {
           return dataB?.map((x, i) => {
             const state = x.eState === 1 ? 'Activo' : 'Inativo'
-            const contentEmail = x.eEmail ? x.eEmail : 'No informado'
+            const contentEmail = x.tpEmail ? x.tpEmail : 'No informado'
             return <Section
               columnWidth={titles}
               key={i}
@@ -38,12 +46,11 @@ const ListEmployees = ({ data, setMore, loading, more, fetchMore }) => {
                 <span> {contentEmail} </span>
               </div>
               <div>
-                <Button>
-                  <Link href={'/'} >
-                    <a target={x.uState == 2 && '_blank'}>
-                      Ver detalles
-                    </a>
-                  </Link>
+                <Button onClick={() => { return hamdleEmployee({ employee: x }) }}>
+                  Ver detalles
+                </Button>
+                <Button color={PColor} onClick={() => { return handleDeleteEmployee({ employee: x }) }}>
+                  Eliminar
                 </Button>
               </div>
             </Section>

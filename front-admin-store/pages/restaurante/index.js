@@ -13,12 +13,12 @@ export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req }) {
     const { user } = req.session || {}
     const { storeUserId } = user || {}
-    if (storeUserId) return { redirect: { destination: '/dashboard' } }
+    // if (storeUserId) return { redirect: { destination: '/dashboard' } }
     try {
-      if (!req.cookies[process.env.SESSION_NAME]) return defaultReturnObject
+      // if (!req.cookies[process.env.SESSION_NAME]) return defaultReturnObject
       return {
         props: {
-          user: user,
+          user: user || {},
           idStore: null
         }
       }

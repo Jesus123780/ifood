@@ -2,27 +2,28 @@ import PropTypes from 'prop-types'
 import React, { useEffect, useReducer, useRef, useState } from 'react'
 import { SFVColor } from '../../public/colors'
 import { IconNoShow, IconShowEye } from '../../public/icons'
-import { isEmail, isNull, isPassword, onlyLetters, passwordConfirm, rangeLength, valNit } from '../../utils'
+import { isCC, isEmail, isNull, isPassword, onlyLetters, passwordConfirm, rangeLength, valNit } from '../../utils'
 import { useKeyPress } from '../hooks/useKeypress'
 import { BoxInput, InputV, LabelInput, List, Listbox, ShowPass, TextAreaInput, Tooltip } from './styled'
 
 const InputHooks = ({
   reference,
-  title,
+  title = '',
   disabled,
-  onBlur,
-  fontSize,
-  paddingInput,
-  setDataValue,
-  width,
+  onBlur = () => { return },
+  fontSize = '14px',
+  paddingInput = '',
+  setDataValue = () => { return },
+  width = '100%',
   dataForm,
-  minWidth,
-  display,
-  maxWidth,
-  TypeTextarea,
-  padding,
-  radius,
+  minWidth = '',
+  display = '',
+  maxWidth = '',
+  TypeTextarea = '',
+  padding = '',
+  radius = '',
   margin,
+  Cc,
   labelColor,
   placeholder,
   type,
@@ -87,24 +88,15 @@ const InputHooks = ({
     if (emailDomain !== undefined) {
       if (emailDomain === '') {
         suggestionList = topLevelEmailDomainList?.map(
-          domain => {return emailUsername + '@' + domain}
+          domain => { return emailUsername + '@' + domain }
         )
       } else {
-        suggestionList = otherLevelEmailDomainList.filter(domain => {return domain.startsWith(emailDomain)}).map(domain => {return emailUsername + '@' + domain})
+        suggestionList = otherLevelEmailDomainList.filter(domain => { return domain.startsWith(emailDomain) }).map(domain => { return emailUsername + '@' + domain })
       }
     }
     return suggestionList
   }
 
-  // useEffect(() => {
-  //   if (!data) return ''
-  //   if (Array.isArray(optionName)) {
-  //     let valueRender = ''
-  //     //eslint-disable-next-line
-  //     optionName.forEach(x => valueRender = `${valueRender} ${(accessor && data[accessor]) ? data[accessor][x] : data[x]}`)
-  //     return valueRender
-  //   } else return data[optionName]
-  // }, [])
   const autoCompleteEmail = (email) => {
     setShowSuggestions(false)
     // errorMessage: '',
@@ -137,10 +129,10 @@ const InputHooks = ({
           selectedIndex:
             state.selectedIndex !== topLevelEmailDomainList.length - 1 ? state.selectedIndex + 1 : 0
         }
-      // case 'Backspace':
-      //   return {
-      //     selectedIndex:
-      //   }
+      case 'Backspace':
+        return {
+          selectedIndex: 0
+        }
       case 'select':
         return { selectedIndex: action.payload }
       default: return null
@@ -208,6 +200,9 @@ const InputHooks = ({
     if (nit) {
       if (valNit(e.target.value)) { return errorFunc(e, true, 'El nit no es correcto') } errorFunc(e, false, '')
     }
+    if (Cc) {
+      if (isCC(e.target.value)) { return errorFunc(e, true, 'El numero de documento no es correcto') } errorFunc(e, false, '')
+    }
     // Valida que las contraseñas coincidan
     if (passConfirm?.validate) {
       if (passwordConfirm(e.target.value, passConfirm?.passValue)) { return errorFunc(e, true, 'Las contraseñas no coinciden.') } errorFunc(e, false, '')
@@ -246,7 +241,7 @@ const InputHooks = ({
       padding={padding}
       width={width}
     >
-      {pass && <ShowPass onClick={() => {return setIsPasswordShown(!isPasswordShown)}} type='button'>
+      {pass && <ShowPass onClick={() => { return setIsPasswordShown(!isPasswordShown) }} type='button'>
         {isPasswordShown ? <IconNoShow size='20px' /> : <IconShowEye size='20px' />}
       </ShowPass>}
       {!TypeTextarea
@@ -262,7 +257,7 @@ const InputHooks = ({
             margin={margin}
             name={name}
             onBlur={onBlur || handleBlur}
-            onChange={(e) => {return validations(e)}}
+            onChange={(e) => { return validations(e) }}
             onFocus={handleFocus}
             paddingInput={paddingInput}
             placeholder={placeholder}
@@ -372,7 +367,7 @@ InputHooks.propTypes = {
   reference: PropTypes.any,
   required: PropTypes.any,
   setDataValue: PropTypes.func,
-  title: PropTypes.any,
+  title: PropTypes.string,
   type: PropTypes.string,
   value: PropTypes.string,
   width: PropTypes.any

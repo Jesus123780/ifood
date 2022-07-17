@@ -62,12 +62,14 @@ export default function App({ Component, pageProps }) {
           document.querySelector('#kind').textContent = 'active'
         }
         if (serviceWorker) {
-          // logState(serviceWorker.state);
+          // logState(serviceWorker.state)
           serviceWorker.addEventListener('statechange', function (e) {
-            // logState(e.target.state);
+            // logState(e.target.state)
           })
+          // console.log('🚀 ~ file: _app.js ~ line 69 ~ e', e)
         }
       }).catch(function (error) {
+        // console.log('🚀 ~ file: _app.js ~ line 71 ~ useEffect ~ error', error)
         // Something went wrong during registration. The service-worker.js file
         // might be unavailable or contain a syntax error.
       })
@@ -81,8 +83,8 @@ export default function App({ Component, pageProps }) {
         // checkValidServiceWorker()
         navigator.serviceWorker.register('/app/sw.js')
           .then((registration) => {
-            console.log(registration)
-            console.log('Service Worker registration successful with scope: ', registration.scope)
+            // console.log(registration)
+            // console.log('Service Worker registration successful with scope: ', registration.scope)
             registration.onupdatefound = () => {
               const installingWorker = registration.installing
               if (installingWorker === null) {
@@ -94,10 +96,10 @@ export default function App({ Component, pageProps }) {
                     // At this point, the updated precached content has been fetched,
                     // but the previous service worker will still serve the older
                     // content until all client tabs are closed.
-                    console.log(
-                      'New content is available and will be used when all ' +
-                      'tabs for this page are closed. See https://bit.ly/CRA-PWA.'
-                    )
+                    // console.log(
+                    //   'New content is available and will be used when all ' +
+                    //   'tabs for this page are closed. See https://bit.ly/CRA-PWA.'
+                    // )
 
                     // Execute callback
                     if (config && config.onUpdate) {
@@ -107,7 +109,7 @@ export default function App({ Component, pageProps }) {
                     // At this point, everything has been precached.
                     // It's the perfect time to display a
                     // "Content is cached for offline use." message.
-                    console.log('Content is cached for offline use.')
+                    // console.log('Content is cached for offline use.')
 
                     // Execute callback
                     if (config && config.onSuccess) {
@@ -119,7 +121,7 @@ export default function App({ Component, pageProps }) {
             }
           },
           function (err) {
-            console.log('Service Worker registration failed: ', err)
+            // console.log('Service Worker registration failed: ', err)
           }
           )
       })
@@ -150,36 +152,38 @@ export default function App({ Component, pageProps }) {
         strategy='afterInteractive'
       />
       <ApolloProvider client={apolloClient}>
-        <Auth>
-          <GlobalStyle />
-          {<ProgressBar progress={animating} />}
-          <Noscript>
-          </Noscript>
-          <Head>
-            <link href='/manifest.json' rel='manifest' />
-            <meta content='yes' name='mobile-web-app-capable' />
-            <meta content='#0b6580' name='theme-color' />
-            <meta content='/' name='msapplication-starturl' />
-            <meta content='yes' name='apple-mobile-web-app-capable' />
-            <meta content='black' name='apple-mobile-web-app-status-bar-style' />
-            <link
-              href='/favicon.ico'
-              rel='shortcut icon'
-              type='image/x-icon'
-            />
-            <link
-              href='/favicon.ico'
-              rel='icon'
-              type='image/x-icon'
-            />
-            <link
-              href='logo-apple.png'
-              rel='apple-touch-icon'
-              sizes='192x192'
-            />
-          </Head>
-          {getLayout(<Component {...{ ...pageProps, isMobile: false }} />)}
-        </Auth>
+        <GlobalStyle />
+        {<ProgressBar progress={animating} />}
+        <Noscript>
+        </Noscript>
+        
+        <Head>
+          <link href='/manifest.json' rel='manifest' />
+          <meta content='yes' name='mobile-web-app-capable' />
+          <meta content='#0b6580' name='theme-color' />
+          <meta content='/' name='msapplication-starturl' />
+          <meta content='yes' name='apple-mobile-web-app-capable' />
+          <meta content='black' name='apple-mobile-web-app-status-bar-style' />
+          <link
+            href='/favicon.ico'
+            rel='shortcut icon'
+            type='image/x-icon'
+          />
+          <link
+            href='/favicon.ico'
+            rel='icon'
+            type='image/x-icon'
+          />
+          <link
+            href='logo-apple.png'
+            rel='apple-touch-icon'
+            sizes='192x192'
+          />
+        </Head>
+
+        {getLayout(<Auth>
+          <Component {...{ ...pageProps, isMobile: false }} />
+        </Auth>)}
       </ApolloProvider >
     </Context>
   )

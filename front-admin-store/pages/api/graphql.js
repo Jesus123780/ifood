@@ -46,26 +46,17 @@ const apolloServer = new ApolloServer({
   cache: 'bounded',
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground(),
     httpHeadersPlugin,
-  {
-    async serverWillStart() {
-      return {
-        async drainServer() {
-          await serverCleanup?.dispose()
+    {
+      async serverWillStart() {
+        return {
+          async drainServer() {
+            await serverCleanup?.dispose()
+          }
         }
       }
-    }
-  },
+    },
     requestDidStartPlugin],
   context: (async ({ req, res, next, connection }) => {
-    parseCookies(req)
-    res.setHeader("x-token-access", 'PAPAAAAAAAAAAAAAA');
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET')
-
-    // res.setHeader(200, {
-    //   'Set-Cookie': `mycookie=test`,
-    //   'Content-Type': `text/plain`
-    // })
     const session = await getIronSession(req, res, {
       password: process.env.SESSION_KEY,
       cookieName: process.env.SESSION_NAME,
@@ -76,7 +67,10 @@ const apolloServer = new ApolloServer({
     })
     const { user } = session || {}
     const { token } = user || {}
-    // console.log("🚀 ~ file: graphql.js ~ line 63 ~ context: ~ token", token)
+    parseCookies(req)
+    res.setHeader('x-token-access', `${token}`)
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'PATCH')
     let tokenClient
     let User = {}
     if (connection) {
@@ -121,19 +115,19 @@ const apolloServer = new ApolloServer({
 const startServer = apolloServer.start()
 
 export default cors(async (req, res) => {
-  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader('Access-Control-Allow-Credentials', 'true')
   res.setHeader(
-    "Access-Control-Allow-Origin",
-    "http://localhost:3000"
-  );
+    'Access-Control-Allow-Origin',
+    'http://localhost:3000'
+  )
   res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Methods, Access-Control-Allow-Origin, Access-Control-Allow-Credentials, Access-Control-Allow-Headers"
-  );
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Methods, Access-Control-Allow-Origin, Access-Control-Allow-Credentials, Access-Control-Allow-Headers'
+  )
   res.setHeader(
-    "Access-Control-Allow-Methods",
-    "POST, GET, PUT, PATCH, DELETE, OPTIONS, HEAD"
-  );
+    'Access-Control-Allow-Methods',
+    'POST, GET, PUT, PATCH, DELETE, OPTIONS, HEAD'
+  )
   if (req.method === 'OPTIONS') {
     res.end()
     return false

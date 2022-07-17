@@ -61,7 +61,7 @@ export const ManageWallet = ({ data, dataProducto, product, dispatch, loading, s
                 <Input
                   autoComplete={'off'}
                   autoFocus={true}
-                  label='Busca tus productos'
+                  label='Busca tus productos '
                   name='search'
                   onChange={handleChangeFilter}
                   type='text'

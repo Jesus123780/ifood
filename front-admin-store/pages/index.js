@@ -9,7 +9,6 @@ const HOME = dynamic(
 export default function HomeView({ isMobile }) {
   return (<HOME isMobile={isMobile} />)
 }
-HomeView.Layout = EmptyLayout
 
 
 export async function getServerSideProps(context) {
@@ -22,4 +21,11 @@ export async function getServerSideProps(context) {
       isMobile
     }
   }
+}
+HomeView.getLayout = function getLayout(page) {
+  return (
+    <>
+      {page}
+    </>
+  )
 }

@@ -1,7 +1,7 @@
 import { useFormTools } from '../../components/BaseForm'
 import { useQuery, useMutation } from '@apollo/client'
 import { Card2, ContentCardInfo, ContentCards, Text } from './styled'
-// import CanvasDraw from 'react-canvas-draw'
+import CanvasDraw from 'react-canvas-draw'
 import { BColor, PColor } from '../../public/colors'
 import { useRef, useState } from 'react'
 import { useUser } from '../../components/hooks/useUser'
@@ -66,7 +66,7 @@ const ContractSignature = () => {
       </div>
       <button onClick={() => {return handleClean()}}>Limpiar</button>
       <button onClick={() => {return handleUndo()}}>Volver</button>
-      {/* <CanvasDraw
+      <CanvasDraw
         brushColor={PColor}
         brushRadius={1}
         clampLinesToDocument
@@ -79,10 +79,9 @@ const ContractSignature = () => {
         brushRadius={1}
         clampLinesToDocument
         disabled={true}
-        disabled={false}
         gridColor={color}
         ref={secondCanvas}
-      /> */}
+      />
       <ContentCardInfo>
         <h1>Antes de terminar, revisa tus datos</h1>
         <Card2>
