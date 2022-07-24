@@ -124,7 +124,7 @@ export const Restaurant = ({ userToken }) => {
       setModalConfirm(true)
     }
   }
-
+  const stepOne = nextStep === 1
   return (
     <Content>
       {loading && <Loading />}
@@ -213,7 +213,7 @@ export const Restaurant = ({ userToken }) => {
                 />
               </div>
             </ContainerAnimation>
-          ) : nextStep === 1 ? (
+          ) : stepOne ? (
             <ContainerAnimationTow>
               <React.Fragment>
                 <InputHooks
@@ -418,7 +418,7 @@ export const Restaurant = ({ userToken }) => {
             </ContainerAnimationThree>
           ) : nextStep === 3 ? (
             <ContainerAnimationFour>Cargando....</ContainerAnimationFour>
-          ) : null}
+          ) : <></>}
 
           <RippleButton
             bgColor={EColor}

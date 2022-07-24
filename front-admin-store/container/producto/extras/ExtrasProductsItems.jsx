@@ -12,7 +12,7 @@ import { IconDelete, IconMiniCheck, IconPlus } from 'public/icons'
 import { useCallback, useContext, useMemo, useState } from 'react'
 import { numberFormat, updateCache } from 'utils'
 import { InputHookProducts } from '.'
-import { Action, CardsComponent, Container, ContentCheckbox, ContentLinesItems, ContentModal, GarnishChoicesHeader, Input } from './styled'
+import { Action, CardsComponent, ContentLinesItems, ContentModal, GarnishChoicesHeader } from './styled'
 import { useFormTools } from 'components/BaseForm'
 import Column from 'components/common/Atoms/Column'
 import { Checkbox } from 'components/Checkbox'
@@ -64,7 +64,6 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
 
   const [LineItems, setLine] = useState(initialLineItems)
   const handleAdd = () => {
-    // eslint-disable-next-line no-unsafe-optional-chaining
     const Lines = [...LineItems?.Lines, { ...initialLine }, { ...initialLine }]
     setLine({ ...LineItems, Lines })
   }
@@ -173,7 +172,7 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
   }
   return (
     <Column>
-      {dataExtra?.length > 0 && <form onSubmit={(e) => { return onSubmitUpdate() }} >
+      {dataExtra?.length > 0 && <form onSubmit={() => { return onSubmitUpdate() }} >
         <GarnishChoicesHeader onClick={() => { return setModal(!modal) }}>
           <div>
             <p className='garnish-choices__title'>Adicionales</p>
@@ -259,33 +258,33 @@ export const ExtrasProductsItems = ({ pId, dataOptional, dataExtra, setModal, mo
           {LineItems && LineItems?.Lines?.map((salesLine, i) => {
             return (
               <ContentLinesItems key={salesLine._id}>
-                  <Row noBorder >
-                    <InputHookProducts
-                      margin='0'
-                      padding='10px'
-                      height={'100px'}
-                      outline='none'
-                      onChange={value => { return handleLineChange(i, 'extraName', value) }}
-                      placeholder='Nombre'
-                      value={salesLine.extraName}
-                      name={salesLine.extraName}
-                    />
-                    <InputHookProducts
-                      margin='0'
-                      height={'100px'}
-                      onChange={value => { return handleLineChange(i, 'extraPrice', value) }}
-                      placeholder='Precio'
-                      name={salesLine.extraPrice}
-                      value={numberFormat(salesLine.extraPrice)}
-                    />
-                  </Row>
-                  <Checkbox
-                    checked={salesLine.exState}
-                    margin='10px 0'
-                    onChange={value => { return handleLineChange(i, 'exState', value) }}
-                    name={salesLine.exState}
-                    id={i}
+                <Row noBorder >
+                  <InputHookProducts
+                    height={'100px'}
+                    margin='0'
+                    name={salesLine.extraName}
+                    onChange={value => { return handleLineChange(i, 'extraName', value) }}
+                    outline='none'
+                    padding='10px'
+                    placeholder='Nombre'
+                    value={salesLine.extraName}
                   />
+                  <InputHookProducts
+                    height={'100px'}
+                    margin='0'
+                    name={salesLine.extraPrice}
+                    onChange={value => { return handleLineChange(i, 'extraPrice', value) }}
+                    placeholder='Precio'
+                    value={numberFormat(salesLine.extraPrice)}
+                  />
+                </Row>
+                <Checkbox
+                  checked={salesLine.exState}
+                  id={i}
+                  margin='10px 0'
+                  name={salesLine.exState}
+                  onChange={value => { return handleLineChange(i, 'exState', value) }}
+                />
                 <RippleButton
                   bgColor={'transparent'}
                   margin='0px'

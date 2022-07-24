@@ -7,7 +7,6 @@ import { InputHook } from './Input'
 import { RippleButton } from 'components/Ripple'
 
 export const ListProducts = ({ onClickClear, data, organice, pState, filter, OPEN_MODAL_ORGANICE, dataFree, handleDelete, handleChangeFilter, search, showMore, fetchMore, loading, setShowMore }) => {
-  console.log('🚀 ~ file: ListProducts.jsx ~ line 9 ~ ListProducts ~ data', data)
   const isData = data?.length > 0
   return (
     <div>

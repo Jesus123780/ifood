@@ -10,7 +10,7 @@ export default function DASHBOARD() {
 
 // eslint-disable-next-line
 export const getServerSideProps = withIronSessionSsr(
-  async function getServerSideProps ({ req, res }) {
+  async function getServerSideProps ({ req }) {
     const { user } = req.session || {}
     const { storeUserId } = user || {}
     const { idStore } = storeUserId || {}

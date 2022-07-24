@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import { withIronSessionSsr } from 'iron-session/next'
-import { cookie, defaultReturnObject } from 'utils'
+import { cookie } from 'utils'
 import { Loading } from '~/components/Loading'
 
 export default function RestaurantView() {
@@ -12,7 +12,6 @@ export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req }) {
     const { user } = req.session || {}
     const { storeUserId } = user || {}
-    // if (!req.cookies[process.env.SESSION_NAME]) return defaultReturnObject
     try {
       if (storeUserId) {
         return {

@@ -12,8 +12,10 @@ import NewSelect from 'components/NewSelectHooks/NewSelect'
 import InputHooks from 'components/InputHooks/InputHooks'
 import { Flex } from 'container/dashboard/styled'
 import { numberFormat } from '../../../utils'
+import { Loading } from '~/components/Loading'
 
 export const BoxProductSales = ({ totalProductPrice, data, dispatch, max, setPrint, finalFilter, print, handleChange, values, dataClientes, loadingClients = false }) => {
+  const isClientExist = loadingClients ? <Loading /> : 'Aun no tienes clientes'
   return (
     <Box width='40%'>
       <ScrollbarProduct margin={'0'}>
@@ -28,7 +30,7 @@ export const BoxProductSales = ({ totalProductPrice, data, dispatch, max, setPri
               search={true}
               title='Mis clientes'
               value={values?.cliId}
-            /> : <span>{loadingClients ? 'Cargando...' : 'Aun no tienes clientes'}</span>}
+            /> : <span>{isClientExist}</span>}
             <InputHooks
               name='change'
               numeric={true}

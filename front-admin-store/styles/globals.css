@@ -180,7 +180,7 @@ code {
     monospace;
 }
 
-@font-face {
+/* @font-face {
   font-family: PFont-Bold;
   src: url('../../front-admin-store/public/fonts/Poppins-Bold.ttf')
 }
@@ -195,7 +195,7 @@ code {
 @font-face {
   font-family: PFont-Light;
   src: url('../../front-admin-store/public/fonts/Poppins-Light.ttf')
-}
+} */
 .text-blue {
   border-top: 1px solid #61d2b4;
   padding: 0px 10px;

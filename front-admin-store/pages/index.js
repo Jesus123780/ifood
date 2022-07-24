@@ -1,4 +1,3 @@
-import { EmptyLayout } from './_app'
 import dynamic from 'next/dynamic'
 const HOME = dynamic(
   import('../container/Home'), {

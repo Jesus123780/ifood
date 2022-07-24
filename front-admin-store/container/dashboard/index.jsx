@@ -13,7 +13,16 @@ import { Main } from './Main'
 import { ChatStatistic } from 'container/ventas/ListVentas'
 
 const Dashboard = () => {
+  const peticion = async () => {
+    const response = await fetch('https://jsonplaceholder.typicode.com/users')
+    const data = await response.json()
+    return data
+    
+  }
+  
+  const user = peticion()
   return (<>
+    {!user && <div>Cargando...</div>}
     <Wrapper>
       <Main />
       <ChatStatistic />

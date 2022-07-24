@@ -50,7 +50,7 @@ export const useFormTools = () => {
       }
     }
 
-    // if (errSub) return setErrorSubmit(errSub)
+    if (errSub) return setErrorSubmit(errSub)
 
     // Valida los errores desde el evento
     const errores = validationSubmitHooks(event.target.elements)
@@ -67,16 +67,16 @@ export const useFormTools = () => {
           !!actionAfterSuccess && actionAfterSuccess()
         }
 
-      }).catch(e => {return setAlertBox({ message: msgError || e?.message || 'Ha ocurrido un error', color: 'error' })})
+      }).catch(e => { return setAlertBox({ message: msgError || e?.message || 'Ha ocurrido un error', color: 'error' }) })
     }
 
     setErrorSubmit(errSub)
   }, [errorForm, setAlertBox])
 
-  useEffect(() => {return setCalledSubmit(false)}, [calledSubmit])
+  useEffect(() => { return setCalledSubmit(false) }, [calledSubmit])
 
   /**
-     * @param {void} handleChange funcion
+     * @param {void} handleChange función
      */
   return [handleChange, handleSubmit, handleForcedData, { dataForm, errorForm, errorSubmit, calledSubmit, setForcedError }]
 }

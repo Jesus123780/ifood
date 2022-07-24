@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import PropTypes from 'prop-types'
 import Context from '../context/Context'
@@ -63,11 +64,13 @@ export default function App({ Component, pageProps }) {
         }
         if (serviceWorker) {
           // logState(serviceWorker.state)
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           serviceWorker.addEventListener('statechange', function (e) {
             // logState(e.target.state)
           })
           // console.log('🚀 ~ file: _app.js ~ line 69 ~ e', e)
         }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       }).catch(function (error) {
         // console.log('🚀 ~ file: _app.js ~ line 71 ~ useEffect ~ error', error)
         // Something went wrong during registration. The service-worker.js file
@@ -120,6 +123,7 @@ export default function App({ Component, pageProps }) {
               }
             }
           },
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           function (err) {
             // console.log('Service Worker registration failed: ', err)
           }

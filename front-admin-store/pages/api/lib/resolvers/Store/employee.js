@@ -20,6 +20,7 @@ export const createEmployee = async (_, { input }, ctx) => {
   }
 }
 
+// eslint-disable-next-line
 export const employees = async (_, args, ctx, info) => {
   try {
     const attributes = getAttributes(employeesModel, info)
@@ -46,7 +47,7 @@ export const employeeStore = async (_, args, ctx, info) => {
     throw new Error(error)
   }
 }
-
+// eslint-disable-next-line
 export const deleteEmployeeStore = async (_, args, ctx, _info) => {
   const { eId } = args || {}
   try {

@@ -82,6 +82,7 @@ const apolloServer = new ApolloServer({
     const setHeaders = []
     tokenClient = req.headers.authorization?.split(' ')[1]
     const restaurant = req.headers.restaurant || {}
+    // eslint-disable-next-line
     const { error } = await getUserFromToken(token)
     // console.log(error, 'HOLA MUNDO PAPUUUUUUUUUU')
     // console.log(req, 'func')

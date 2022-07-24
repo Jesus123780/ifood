@@ -2,10 +2,10 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useReducer,
   useState
 } from 'react'
-import PropTypes from 'prop-types'
 import { useMutation, useQuery } from '@apollo/client'
 import { GET_ULTIMATE_CATEGORY_PRODUCTS } from 'container/dashboard/queries'
 import { GET_MIN_PEDIDO } from 'container/dashboard/queriesStore'
@@ -31,10 +31,14 @@ import {
 } from 'container/ventas/queries'
 import { useGetClients } from 'hooks/useClients'
 import { useGetProductsFood } from 'hooks/useProductsFood'
+import { AwesomeModal } from '~/components/AwesomeModal'
+import Text from '~/components/common/Atoms/Text'
+import { PColor } from '@/public/colors'
+import { FormClients } from '../clients/Form'
 
 const GenerateSales = () => {
   // STATES
-  const arr = []
+  const [arr] = useState([])
   let suma = 0
   let total = 0
   const { setAlertBox } = useContext(Context)
@@ -167,24 +171,24 @@ const GenerateSales = () => {
           })
     }
   }
-  const getSortedProduct = (data, sortBy) => {
+  const getSortedProduct = (sortData, sortBy) => {
     if (sortBy && sortBy === 'PRICE_HIGH_TO_LOW') {
       return (
-        data ??
-        data.sort((a, b) => {
+        sortData ??
+        sortData.sort((a, b) => {
           return b['ProPrice'] - a['ProPrice']
         })
       )
     }
     if (sortBy && sortBy === 'PRICE_LOW_TO_HIGH') {
       return (
-        data ??
-        data.sort((a, b) => {
+        sortData ??
+        sortData.sort((a, b) => {
           return a['ProPrice'] - b['ProPrice']
         })
       )
     }
-    return data
+    return sortData
   }
   // TOGGLE_FREE_PRODUCT
   const toggleFreeProducts = (state, action) => {
@@ -219,11 +223,12 @@ const GenerateSales = () => {
     if (value <= 0) {
       dispatch({ type: 'REMOVE_PRODUCT_TO_CART', payload: OneProduct })
     }
+    const finalQuantity = state.PRODUCT['ProQuantity'] = value || 0
     const ARR_PRODUCT = state?.PRODUCT?.map((items, i) => {
       return i === index
         ? {
           ...items,
-          ProQuantity: (state.PRODUCT['ProQuantity'] = value || 0),
+          ProQuantity: (finalQuantity),
           ProPrice: value ? (value * productExist?.ProPrice) : productExist?.ProPrice
         }
         : items
@@ -307,19 +312,6 @@ const GenerateSales = () => {
           //   } : items
           // })
         }
-      // return {
-      //   ...state,
-      //   PRODUCT: state.PRODUCT.map((item) => {
-      //     if (item.pId === action.id) {
-      //       return {
-      //         ...item,
-      //         ProQuantity: item.ProQuantity - 1,
-      //         ProPrice: item.ProPrice - item.ProPrice
-      //         // ProPrice: productExist.ProQuantity - item.ProPrice,
-      //       }
-      //     }
-      //   })
-      // }
       case 'PAYMENT_METHOD_TRANSACTION':
         return {
           ...state,
@@ -487,22 +479,26 @@ const GenerateSales = () => {
       }
     })
       .then((res) => {
-        const { data } = res || {}
-        const { registerSalesStore } = data || {}
-        const { Response } = registerSalesStore || {}
-        if (Response.success === true) {
-          setAlertBox({ message: `${Response.message}`, color: 'success' })
-          dispatch({ type: 'REMOVE_ALL_PRODUCTS' })
-          setValues({})
+        console.log('🚀 ~ file: index.jsx ~ line 482 ~ .then ~ res', res)
+        if (res) {
+          const { data } = res || {}
+          const { registerSalesStore } = data || {}
+          const { Response } = registerSalesStore || {}
+          if (Response.success === true) {
+            setAlertBox({ message: `${Response.message}`, color: 'success' })
+            dispatch({ type: 'REMOVE_ALL_PRODUCTS' })
+            setValues({})
+          }
         }
       })
-      .catch(() => {
+      .catch((e) => {
         setAlertBox({
           message: 'Lo sentimos no pudimos generar la venta',
           color: 'success'
         })
       })
   }
+  const client = dataClientes?.length > 0
   const restPropsSalesModal = {
     setPrint,
     handleSubmit,
@@ -514,6 +510,23 @@ const GenerateSales = () => {
     setDelivery,
     delivery,
     handleChange
+  }
+  if (!client) {
+    return (
+      <AwesomeModal
+        backdrop={'static'}
+        footer={false}
+        header={false}
+        height={'min-content'}
+        padding={'30px'}
+        show={true}
+        size='400px'
+      >
+        <Text color={PColor} fontSize={'20px'} >Aun no tienes clientes registrados</Text>
+        <FormClients />
+      </AwesomeModal>
+
+    )
   }
   return (
     <Wrapper>
