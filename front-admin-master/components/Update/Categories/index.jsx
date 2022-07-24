@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { InputHook } from './Input';
-import { IconArrowRight, IconDelete, IconEdit, IconLove } from '../../../assets/icons/icons';
-import { APColor, PColor, PVColor } from '../../../assets/colors';
+import { APColor, PColor, PVColor } from 'public/colors';
 import { RippleButton } from '../../Ripple';
 import { TextAreaHooks } from '../../TextTareaHook';
 import { Loading } from '../../Loading';
@@ -25,6 +24,7 @@ import {
     ContentProducts,
 } from './styled';
 import { Skeleton } from '../../Skeleton/SkeletonCard';
+import { IconArrowRight, IconDelete, IconEdit, IconLove } from 'public/icons';
 
 export const Categories = ({
     search,

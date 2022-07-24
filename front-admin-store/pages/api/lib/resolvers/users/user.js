@@ -58,6 +58,7 @@ export const newRegisterUser = async (root, input) => {
       roles: false,
       storeUserId: StoreInfo ? StoreInfo : null,
       success: true,
+      email: email,
       userId: user.id,
       message: `Bienvenido ${name}`
     }

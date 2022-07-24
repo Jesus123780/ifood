@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { BGColor } from '../../../../assets/colors';
+import styled from 'styled-components'
+import { BGColor } from 'public/colors'
 
 export const LabelInput = styled.span`
     position: absolute;

@@ -3,14 +3,14 @@ import { cookie, defaultReturnObject } from 'utils'
 import Dashboard from '../../container/dashboard'
 
 
-export default function DASHBOARD() {
-
-  return <Dashboard />
+export default function DASHBOARD({ user, idStore }) {
+  const allProps = { user, idStore }
+  return <Dashboard {...allProps} />
 }
 
 // eslint-disable-next-line
 export const getServerSideProps = withIronSessionSsr(
-  async function getServerSideProps ({ req }) {
+  async function getServerSideProps({ req }) {
     const { user } = req.session || {}
     const { storeUserId } = user || {}
     const { idStore } = storeUserId || {}
@@ -19,7 +19,8 @@ export const getServerSideProps = withIronSessionSsr(
       return {
         props: {
           user: user || '',
-          idStore: idStore || ''
+          idStore: idStore || '',
+          data: {}
         }
       }
     } catch (error) {

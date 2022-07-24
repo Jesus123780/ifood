@@ -1,2 +1,2 @@
-import { ManageCategories } from '../container/dashboard/ManageCategories'
-export default function HomeView() { return (<ManageCategories />) }
+import { Categories } from '~/container/Categories/index.jsx'
+export default function HomeView() { return (<Categories />) }

@@ -77,11 +77,12 @@ export default withIronSessionApiRoute(
         // // eslint-disable-next-line
         // console.log(error, data)
         req.session.user = {
+          deviceid,
+          email,
           isLoggedIn: true,
           roles,
-          token,
-          deviceid,
-          storeUserId
+          storeUserId,
+          token
         }
         await req.session.save()
         res.send({ ok: true, success, message: message, storeUserId, token })

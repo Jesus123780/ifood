@@ -1,27 +1,27 @@
 import PropTypes from 'prop-types'
 import React, { useContext, useEffect, useReducer, useState } from 'react'
 import { useMutation, useQuery, useLazyQuery } from '@apollo/client'
-import { GET_ALL_PRODUCT_STORE, REGISTER_CAT_OF_PRODUCTS } from './queriesStore'
-import { CtnItems, FlexContent } from './styled'
-import { useFormTools } from '../../components/BaseForm'
-import InputHooks from '../../components/InputHooks/InputHooks'
-import { AwesomeModal } from '../../components/AwesomeModal'
-import { useSetState } from '../../components/hooks/useState'
-import { ButtonAction } from './styledStore'
-import { DELETE_ONE_CAT_PRODUCTS, DELETE_ONE_CAT_PRODUCTS_FINAL, GET_ALL_CATEGORIES_WITH_PRODUCT, GET_ULTIMATE_CATEGORY_PRODUCTS, UPDATE_CAT_IN_PRODUCT } from './queries'
-import { IconBuy, IconDelete, IconEdit, IconPause } from '../../public/icons'
-import { RippleButton } from '../../components/Ripple'
-import { PColor, WColor } from '../../public/colors'
-import { Item } from '../../components/Update/Products/styled'
-import { SkeletonP } from '../../components/Update/Products/food'
+import { useFormTools } from 'components/BaseForm'
+import InputHooks from 'components/InputHooks/InputHooks'
+import { AwesomeModal } from 'components/AwesomeModal'
+import { RippleButton } from 'components/Ripple'
+import { PColor, WColor } from 'public/colors'
+import { Item } from 'components/Update/Products/styled'
 import { Table } from 'components/Table'
 import styled from 'styled-components'
 import { Section } from 'components/Table/styled'
 import { CardProducts } from 'components/CartProduct'
 import { Context } from 'context/Context'
+import { IconBuy, IconDelete, IconEdit, IconPause } from '../../public/icons'
+import { DELETE_ONE_CAT_PRODUCTS, DELETE_ONE_CAT_PRODUCTS_FINAL, GET_ALL_CATEGORIES_WITH_PRODUCT, GET_ULTIMATE_CATEGORY_PRODUCTS, UPDATE_CAT_IN_PRODUCT } from '../dashboard/queries'
 import { Loading } from '~/components/Loading'
+import { SkeletonP } from '~/components/Update/Categories'
+import { useSetState } from '~/hooks/useState'
+import Row from '~/components/common/Atoms/Row'
+import { CtnItems } from '../dashboard/styled'
+import { GET_ALL_PRODUCT_STORE, REGISTER_CAT_OF_PRODUCTS } from '../dashboard/queriesStore'
 
-export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
+export const Categories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
   // STATES
   const initialStateInvoice = {
     PRODUCT: []
@@ -230,13 +230,13 @@ export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
             value={dataForm?.catDescription}
             width='100%'
           />
-          <ButtonAction type='submit'>
+          <RippleButton type='submit'>
             Submit
-          </ButtonAction>
+          </RippleButton>
         </form>
-        <ButtonAction onClick={() => { return SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state) }}> Registrar  Categorías de productos </ButtonAction>
+        <RippleButton onClick={() => { return SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state) }}> Registrar  Categorías de productos </RippleButton>
       </AwesomeModal>
-      <ButtonAction onClick={() => { return SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state) }}> Adicionar Categorías</ButtonAction>
+      <RippleButton onClick={() => { return SHOW_CATEGORIES.setState(!SHOW_CATEGORIES.state) }}> Adicionar Categorías</RippleButton>
       <Table
         data={datCat?.catProductsAll}
         labelBtn='Product'
@@ -333,7 +333,7 @@ export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
         zIndex='990'
       >
         <RippleButton onClick={() => { return SHOW_MODAL_UPDATE_PRODUCTS.setState(!SHOW_MODAL_UPDATE_PRODUCTS.state) }} padding='5px'> Subir productos</RippleButton >
-        <FlexContent>
+        <Row>
           <CtnItems>
             {!dataProducto?.length ? <SkeletonP /> : dataProducto?.map((x) => {
               return (
@@ -373,13 +373,13 @@ export const ManageCategories = ({ SHOW_MODAL_UPDATE_PRODUCTS }) => {
               )
             })}
           </CtnItems>
-        </FlexContent>
+        </Row>
       </AwesomeModal >
     </>
   )
 }
 
-ManageCategories.propTypes = {
+Categories.propTypes = {
   SHOW_MODAL_UPDATE_PRODUCTS: PropTypes.shape({
     setState: PropTypes.func,
     state: PropTypes.any

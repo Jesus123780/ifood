@@ -22,22 +22,19 @@ export const REFRESH_TOKEN_COOKIE_OPTIONS = {
   secure: false
 }
 export const isNull = dato => {
-  if (!dato || dato === '') {
-    return true
-  } return false
+  return !!(!dato || dato === '')
 }
 
 export const isNumeric = dato => {
-  // const value = dato.replace(/,/g, '');
-  if (isNaN(dato) && dato !== '' && dato !== undefined && dato !== null) {
-    return true
-  } return false
+  return !!(isNaN(dato) && dato !== '' && dato !== undefined && dato !== null)
 }
 export const isPassword = dato => {
   const validar = /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/
   if (validar.test(dato) === true) {
     return false
-  } return true
+  }
+  return true
+
 }
 export const isCC = dato => {
   const validar = /^[0-9]{6,10}/g
@@ -942,18 +939,6 @@ export const numberFormatM = param => {
 // const newString = string.substring(1, str.length - 1)
 // // eslint-disable-next-line
 
-// export const transporter = () => null.createTransport({
-//   host: 'mail.winby.co',
-//   port: 587,
-//   secure: false,
-//   auth: {
-//     user: 'no-reply@winby.co',
-//     pass: 'UzmtvXF466Ff'
-//   },
-//   tls: {
-//     rejectUnauthorized: false
-//   }
-// })
 export const mongoObjectId = function () {
   const timestamp = (new Date().getTime() / 1000 | 0).toString(16)
   return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function () {
@@ -1010,15 +995,6 @@ export const CalculateAmount = (quantity, rate) => {
 const today = new Date()
 export const dateNow = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
 
-// export const handleDelete = async (_id, action = () => undefined) => {
-//   useEffect(() => {
-//     function onKeyup() {
-//       if (_id) action()
-//     }
-//     onKeyup()
-//   }, [_id])
-// }
-
 export const hiddenEmail = email => {
   const domain = email.replace(/.*@/, '')
   const username = email.replace(/@.*/, '')
@@ -1050,13 +1026,11 @@ export function RandomCode(length) {
 export const NewDateFormat = (date) => {
   try {
     if (!date) return
-    // const dateString = new Date(dateString)
     const dateString = date => { return new Date(date).toString() !== 'Invalid Date' }
     const newDate = dateString instanceof Date && !isNaN(dateString)
-    // return new Date(date).toISOString().slice(0, 10).replace(/-/g,"");
     return newDate
   } catch (error) {
-    new Error(error.message)
+    return new Error('Ocurrió un error')
   }
 }
 
@@ -1174,9 +1148,9 @@ export const getCardType = (cardNum) => {
     { regEx: /^(5[06-8]\d{4}|6\d{5})/gi, cardType: 'MAESTRO' }
   ]
 
-  for (let j = 0; j < regexMap.length; j++) {
-    if (cardNum.match(regexMap[j].regEx)) {
-      payCardType = regexMap[j].cardType
+  for (const element of regexMap) {
+    if (cardNum.match(element.regEx)) {
+      payCardType = element.cardType
       break
     }
   }
@@ -1187,9 +1161,9 @@ export const getCardType = (cardNum) => {
   ) {
     let g = '508500-508999|606985-607984|608001-608500|652150-653149'
     let i = g.split('|')
-    for (let d = 0; d < i.length; d++) {
-      let c = parseInt(i[d].split('-')[0], 10)
-      let f = parseInt(i[d].split('-')[1], 10)
+    for (const element of i) {
+      let c = parseInt(element.split('-')[0], 10)
+      let f = parseInt(element.split('-')[1], 10)
       if (
         cardNum.substr(0, 6) >= c &&
         cardNum.substr(0, 6) <= f &&
@@ -1306,7 +1280,7 @@ export const initialState = {
   payMethodPState: 0
 }
 
-export const initializer = (initialValue = initialState) => {return JSON.parse(localStorage.getItem(process.env.LOCAL_SALES_STORE)) || initialValue}
+export const initializer = (initialValue = initialState) => { return JSON.parse(localStorage.getItem(process.env.LOCAL_SALES_STORE)) || initialValue }
 
 
 /**

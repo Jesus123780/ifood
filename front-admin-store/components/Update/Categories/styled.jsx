@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { BGColor } from '../../../assets/colors'
+import { BGColor } from 'public/colors'
 
 export const Button = styled.button` 
     position: absolute;

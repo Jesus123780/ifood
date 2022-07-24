@@ -6,7 +6,7 @@ import { useUser } from 'components/hooks/useUser'
 import Link from 'next/link'
 import { BannerDashboard } from './BannerDashboard'
 
-export const Main = () => {
+export const Main = ({ user = {} }) => {
   const [dataUser] = useUser()
   const { email } = dataUser || {}
   const [dataStore] = useStore()
@@ -16,7 +16,7 @@ export const Main = () => {
     <Content margin='0 0 100px 0' width='20%'>
       <Card bgColor={BGColor}>
         <CardPrimary bgColor={`${SFVColor}65`} padding='30px 10px'>
-          <Text size='15px' >{email}</Text>
+          <Text size='15px' >{user.email || email}</Text>
         </CardPrimary>
         <CardPrimary padding='' >
           {dataStore !== null && <Link activeClassName='active' href={`/dashboard/${nameStore}/${idStore}`}>
@@ -31,7 +31,7 @@ export const Main = () => {
             </a>
           </Link>}
           <CircleUser>
-            {email?.slice(0, 2).toUpperCase() || 'User'}
+            {email?.slice(0, 2).toUpperCase() || user.email?.slice(0, 2).toUpperCase() || 'User'}
           </CircleUser>
         </CardPrimary>
       </Card>

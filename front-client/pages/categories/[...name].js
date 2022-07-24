@@ -9,7 +9,7 @@ export default function HomeView({ catStoreId }) {
     return (
         <div >
             <Head>
-                <title>Delibery {data?.cName || ''} categorías  { data?.csDescription && data?.csDescription} </title>
+                <title>Delibery {data?.cName || ''} categorías  {data?.csDescription} </title>
                 <meta name="description" content={data?.csDescription || ''} />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
@@ -21,7 +21,7 @@ export default function HomeView({ catStoreId }) {
 }
 
 
-export const getServerSideProps = withIronSessionSsr(async function getServerSideProps({ req, res, query: queryRouter }) {
+export const getServerSideProps = withIronSessionSsr(async function getServerSideProps({ req, query: queryRouter }) {
     try {
         const { name } = queryRouter || {}
         if (!req.cookies[process.env.SESSION_NAME]) return defaultReturnObject

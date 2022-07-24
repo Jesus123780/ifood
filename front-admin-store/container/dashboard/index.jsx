@@ -12,19 +12,11 @@ import { MainCard } from 'components/common/Reusable/ShadowCard'
 import { Main } from './Main'
 import { ChatStatistic } from 'container/ventas/ListVentas'
 
-const Dashboard = () => {
-  const peticion = async () => {
-    const response = await fetch('https://jsonplaceholder.typicode.com/users')
-    const data = await response.json()
-    return data
-    
-  }
-  
-  const user = peticion()
+const Dashboard = ({ ...props }) => {
+
   return (<>
-    {!user && <div>Cargando...</div>}
     <Wrapper>
-      <Main />
+      <Main {...props} />
       <ChatStatistic />
       <SalesWeekShortDays />
       <SalesWeek />

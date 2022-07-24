@@ -56,7 +56,7 @@ export const FormClients = () => {
             id='gender'
             label={setCheck?.gender === 1 ? 'Femenino' : 'Masculino'}
             name='gender'
-            onChange={(e) => { return handleCheck(e)(e) }}
+            onChange={(e) => { return handleCheck(e) }}
             value={setCheck?.gender}
           />
           <input
