@@ -2,7 +2,6 @@ import { useCallback, useContext, useEffect, useState } from 'react'
 import { Context } from '../../context/Context'
 import { PColor, WColor } from '../../public/colors'
 import { validationSubmitHooks } from '../../utils'
-// import { validationSubmitHooks } from '../utils/util'
 
 /**
  * @version 0.0.1
@@ -14,7 +13,6 @@ export const useFormTools = () => {
     const [errorForm, setErrorForm] = useState({})
     const [errorSubmit, setErrorSubmit] = useState(false)
     const [calledSubmit, setCalledSubmit] = useState(false)
-    // const { setAlertBox } = useContext(Context)
 
     // Handle Change
     const handleChange = useCallback((e, error) => {

@@ -6,57 +6,40 @@ import { isLoggedVar } from './cache'
 import { UPDATE_TOKEN } from './queries'
 import { useRouter } from 'next/router'
 import { getUserFromToken } from '~/utils'
+import { getSession } from '~/hooks/useSession'
 
 export default function Auth({ children }) {
+  // STATE
   const { client } = useApolloClient()
-  const [updateToken, { data, called }] = useMutation(UPDATE_TOKEN)
   const location = useRouter()
+  
+  // QUERIES
+  const [updateToken, { data, called }] = useMutation(UPDATE_TOKEN)
 
   // Actualiza el auth token del usuario por cada cambio de ventana
-  const { data: dataLogged } = useQuery(gql`
-        query IsUserLoggedIn {
-            isLogged @client
-        }`
-  )
-
+  const QUERY_DATA_LOGGING = gql`
+  query IsUserLoggedIn {
+      isLogged @client
+  }`
+  const { data: dataLogged } = useQuery(QUERY_DATA_LOGGING)
   // Verifica el token
   useEffect(() => {
-    updateToken().catch(() => { })
+    updateToken().catch(() => { return })
 
   }, [updateToken])
-  // const onClickLogout = useCallback(async () => {
-  //   await window
-  //     .fetch(`${process.env.URL_BASE}api/auth/logout/`, {})
-  //     .then(res => {
-  //       if (res) {
-  //         client?.clearStore()
-  //         // window.localStorage.clear()
-  //         location.replace('/')
-  //       }
-  //     })
-  //     .catch(() => {
-  //       // eslint-disable-next-line no-console
-  //       console.log({
-  //         message: 'Se ha producido un error.',
-  //         duration: 30000,
-  //         color: 'error'
-  //       })
-  //     })
-
-  // }, [client, location])
   // Respuesta de la verificación del token
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem('usuario')
+      const { token, isSession } = await getSession()
       const { error } = await getUserFromToken(token)
-      if (error) {
+      if (isSession && error) {
         await window
           .fetch(`${process.env.URL_BASE}api/auth/logout/`, {})
           .then(response => {
             if (response) {
               client?.clearStore()
+              location.replace('/entrar')
               // window.localStorage.clear()
-              // location.replace('/entrar')
             }
           }).catch(() => {
             // eslint-disable-next-line no-console
@@ -68,7 +51,7 @@ export default function Auth({ children }) {
           })
       }
     }
-    // fetchData()
+    fetchData()
     const res = data?.refreshUserPayrollToken
     if (called && res) {
       if (res.restaurant) {
@@ -80,7 +63,7 @@ export default function Auth({ children }) {
         isLoggedVar({ state: false, expired: true, message: restaurant && 'La sesión ha expirado', code: 403 })
       }
     }
-  }, [data, called, client])
+  }, [data, called, client, location])
 
   useEffect(() => {
     const res = dataLogged?.isLogged
@@ -92,14 +75,6 @@ export default function Auth({ children }) {
       else if (res.code >= 200) console.log(res.message)
     }
   }, [dataLogged?.isLogged])
-
-  useEffect(() => {
-    updateToken().catch(() => { })
-    // const dataDevice = getDeviceId()
-    // if (typeof window !== 'undefined') {
-    //   window.localStorage.setItem('deviceid', dataDevice)
-    // }    
-  }, [location.pathname, updateToken])
   return (
     <Fragment>
       {children}

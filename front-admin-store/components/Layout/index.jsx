@@ -1,21 +1,20 @@
-import PropTypes from 'prop-types'
-import { useRouter } from 'next/router'
-import React, { useContext, useEffect } from 'react'
-import { Context } from '../../context/Context'
-// import { Footer } from './footer'
 import { gql, useSubscription } from '@apollo/client'
-import { Header } from './header'
-import { AlertBox } from '../AlertBox'
-import styled, { css } from 'styled-components'
-import Aside from './Aside'
+import { AwesomeModal } from 'components/AwesomeModal'
+import { BtnClose } from 'components/AwesomeModal/styled'
 import { usePosition } from 'components/hooks/usePosition'
 import { ScheduleTimings } from 'container/dashboard/ScheduleTimings'
 import { LateralModal } from 'container/dashboard/styled'
-import { BtnClose } from 'components/AwesomeModal/styled'
-import { IconCancel } from 'public/icons'
 import GenerateSales from 'container/Sales'
-import { AwesomeModal } from 'components/AwesomeModal'
-// import { Messages } from 'container/messages'
+import { useRouter } from 'next/router'
+import PropTypes from 'prop-types'
+import { IconCancel } from 'public/icons'
+import React, { useContext, useEffect } from 'react'
+import styled, { css } from 'styled-components'
+import { Context } from '../../context/Context'
+import { AlertBox } from '../AlertBox'
+import Aside from './Aside'
+import { Footer } from './footer'
+import { Header } from './header'
 
 export const Layout = ({ children, watch, settings }) => {
   const location = useRouter()
@@ -75,9 +74,8 @@ export const Layout = ({ children, watch, settings }) => {
           >
             {<GenerateSales />}
           </AwesomeModal>
-          {/* <Messages /> */}
         </div>
-        {/* {!['/login', '/register', '/varify-email', '/restaurante', '/checkout/[id]', '/forgotpassword', '/terms_and_conditions', '/email/confirm/[code]', '/switch-options', '/teams/invite/[id]', '/contact'].find(x => {return x === location.pathname}) && <Footer />} */}
+        {<Footer />}
         <div style={{ gridArea: 'right' }}>
           <LateralModal openSchedule={openSchedule}>
             <BtnClose onClick={() => { return setOpenSchedule(!openSchedule) }}><IconCancel size='20px' /></BtnClose>

@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { Context } from 'context/Context'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { validationSubmitHooks } from '../../utils'
@@ -35,6 +36,7 @@ export const useFormTools = () => {
   }, [setErrorForm])
 
   // Handle submit, al enviar formulario
+  // eslint-disable-next-line
   const handleSubmit = useCallback(({ event, action, msgSuccess, msgError, actionAfterSuccess }) => {
     !!event && event.preventDefault()
     setCalledSubmit(true)

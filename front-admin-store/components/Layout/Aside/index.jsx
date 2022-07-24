@@ -44,9 +44,9 @@ const Aside = () => {
   const [dataStore, { loading }] = useStore()
   const { storeName, idStore, uState } = dataStore || {}
   const GET_STATE_ORDER = gql`
-subscription {
-  numberIncremented
-}
+    subscription {
+      numberIncremented
+    }
 `
   const { data: dataWS } = useSubscription(GET_STATE_ORDER, {
     // context: { clientName: "admin-server" },

@@ -146,38 +146,38 @@ function createApolloClient() {
       errorPolicy: 'all'
     }
   }
-  const link = ssrMode ? ApolloLink.split(() => { return true }, operation => { return getLink(operation) },
-    onError(({
-      graphQLErrors,
-      networkError
-    }) => {
+  const link = ssrMode ? ApolloLink.split(() => { return true }, operation => { return getLink(operation) }
+  ) : !ssrMode
+    ? split((operation) => {
+      const definition = getMainDefinition(operation.query)
+      return definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
+    },
+    wsLink,
+    ApolloLink.split(() => { return true }, operation => { return getLink(operation) },
+      errorLink
+    )
+    )
+    : ApolloLink.split(() => { return true }, operation => { return getLink(operation) },
+      errorLink
+    )
+  let link2 = ApolloLink.from([
+    onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
-        graphQLErrors.map(({ message, locations, path
-        }) => {
+        graphQLErrors.map(({ message, locations, path }) => {
           return console.log(
             `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
           )
         }
         )
       }
-      if (networkError) {
-        console.log(`[Network error]: ${networkError}`)
-      }
-    })
-  ) : typeof window !== 'undefined'
-    ? split((operation) => {
-      const definition = getMainDefinition(operation.query)
-      return definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
-    },
-      wsLink,
-      ApolloLink.split(() => { return true }, operation => { return getLink(operation) },
-        errorLink
-      )
+      if (networkError) console.error(`[Network error]: ${networkError}`, networkError.stack)
+    }),
+    ApolloLink.split(
+      operation => { return operation.getContext().important === true },
+      httpLink // don't batch important
+      // batchHttpLink
     )
-    : ApolloLink.split(() => { return true }, operation => { return getLink(operation) },
-      errorLink
-    )
-
+  ])
 
   return new ApolloClient({
     connectToDevTools: true,

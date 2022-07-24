@@ -5,7 +5,7 @@ import { UPDATE_TOKEN } from './queries'
 import { useRouter } from 'next/router'
 import { getDeviceId } from './apolloClient'
 
-export default  ({ children }) => {
+export default function Auth({ children }) {
     const [updateToken, { data, called }] = useMutation(UPDATE_TOKEN)
     const [isMount, setIsMount] = useState(false)
     const location = useRouter()

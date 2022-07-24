@@ -1,11 +1,18 @@
-const useSession = async () => {
+export const getSession = async () => {
   try {
-    const res = await fetch(`${process.env.URL_BASE}/api/auth/getAuth`,
+    const res = await fetch(`${process.env.URL_BASE}api/auth/getAuth`,
       { method: 'GET', headers: { 'Content-Type': 'application/json' } })
     const data = await res.json()
-    return data
+    const { ok, ok: { user }, isSession } = data || {}
+    const { deviceid, token } = user || {}
+    return {
+      user,
+      ok,
+      isSession,
+      deviceid,
+      token
+    }
   } catch (e) {
     return e
   }
 }
-export default useSession

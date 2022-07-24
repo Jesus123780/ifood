@@ -1,13 +1,19 @@
 import { useQuery } from '@apollo/client'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { GET_ONE_STORE } from '../../container/Restaurant/queries'
 
 export const useStore = () => {
-  const { data, loading } = useQuery(GET_ONE_STORE)
-  const [store, setStore] = useState(data)
-  // eslint-disable-next-line consistent-return
-  useEffect(() => {
-    setStore(store)
-  }, [data, store])
-  return [data?.getStore || null, { loading }]
+  const [store, setStore] = useState({})
+  const { loading, error } = useQuery(GET_ONE_STORE, {
+    fetchPolicy: 'cache-and-network',
+    onCompleted: (res) => {
+      const { getStore } = res || {}
+      setStore(getStore)
+    },
+    onError: (err) => { 
+      // eslint-disable-next-line
+      console.log(err)
+    }
+  })
+  return [store, { loading, error }]
 }
