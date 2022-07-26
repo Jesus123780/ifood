@@ -937,7 +937,6 @@ export const numberFormatM = param => {
 /* Método para eliminar el primer carácter */
 // const string = '*plátano_'
 // const newString = string.substring(1, str.length - 1)
-// // eslint-disable-next-line
 
 export const mongoObjectId = function () {
   const timestamp = (new Date().getTime() / 1000 | 0).toString(16)
@@ -1335,7 +1334,7 @@ export const getUserFromToken = async token => {
   } catch {
     user = ''
     userProfile = ''
-    error = false
+    error 
   }
   return { user, userProfile, error }
 }

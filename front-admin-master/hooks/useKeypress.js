@@ -26,3 +26,10 @@ export const useKeyPress = (targetKey) => {
   
     return keyPressed
   }
+
+
+export default function useMultiKeyPress(targetKeyA, targetKeyB) {
+  const keyPressedA = useKeyPress(targetKeyA);
+  const keyPressedB = useKeyPress(targetKeyB);
+  return keyPressedA && keyPressedB;
+}

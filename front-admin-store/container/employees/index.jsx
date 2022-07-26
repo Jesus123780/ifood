@@ -1,45 +1,48 @@
 import React, { useContext } from 'react'
-import Column from 'components/common/Atoms/Column'
-import CreateEmployees from './CreateEmployees'
-import ListEmployees from './ListEmployees'
-import Row from 'components/common/Atoms/Row'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import { useFormTools } from 'components/BaseForm'
-import { useMutation, useLazyQuery } from '@apollo/client'
-import { CREATE_EMPLOYEE, DELETE_ONE_EMPLOYEES, GET_EMPLOYEES, GET_ONE_EMPLOYEES } from './queries'
-import { useEmployee } from '~/hooks/useEmployee'
-import { updateCache } from '~/utils'
-import { Context } from '~/context/Context'
+import Column from 'components/common/Atoms/Column'
+import Row from 'components/common/Atoms/Row'
 import { AwesomeModal } from '~/components/AwesomeModal'
+import { Context } from '~/context/Context'
+import { useEmployee } from '~/hooks/useEmployee'
 import { useSetState } from '~/hooks/useState'
+import { updateCache } from '~/utils'
+import CreateEmployees from './CreateEmployees'
 import { EmployeeProfile } from './EmployeeProfile'
+import ListEmployees from './ListEmployees'
+import { CREATE_EMPLOYEE, DELETE_ONE_EMPLOYEES, GET_EMPLOYEES, GET_ONE_EMPLOYEES } from './queries'
+import AuthPassthrough from '../services/auth'
+import { RippleButton } from '~/components/Ripple'
 
 const Employees = () => {
   // STATES
   const { setAlertBox } = useContext(Context)
-  const OPENMODALEMPLOYEE = useSetState(false)
+  const OPEN_MODAL_EMPLOYEE = useSetState(false)
+  const OPEN_MODAL_AUTH = useSetState(false)
   const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
 
   // QUERY
   const [createEmployee] = useMutation(CREATE_EMPLOYEE, {
-    onCompleted: (data) => {
-      setAlertBox({ message: data.createEmployee.message })
-      if (data?.createEmployee?.message === 'el numero de documento ya se encuentra registrado') {
+    onCompleted: res => {
+      setAlertBox({ message: res.createEmployee.message })
+      if (res?.createEmployee?.message === 'el numero de documento ya se encuentra registrado') {
         setForcedError({ ...errorForm, tpNumDoc: true })
       }
     }
   })
   const [employeeStore, { data: dataOneEmployee }] = useLazyQuery(GET_ONE_EMPLOYEES, {
-    onError: (error) => {
-      setAlertBox({ message: error.message })
+    onError: e => {
+      setAlertBox({ message: e.message })
     }
   })
   // MUTATION
   const [deleteEmployeeStore] = useMutation(DELETE_ONE_EMPLOYEES, {
-    onCompleted: (data) => {
-      setAlertBox({ message: data.deleteEmployeeStore.message })
+    onCompleted: response => {
+      setAlertBox({ message: response.deleteEmployeeStore.message })
     },
-    onError: (error) => { 
-      setAlertBox({ message: error.message })
+    onError: err => {
+      setAlertBox({ message: err.message })
     }
   })
   const [data, { loading, error, fetchMore, setMore, more }] = useEmployee()
@@ -74,18 +77,18 @@ const Employees = () => {
     })
   }
   // EFFECTS
-  const hamdleEmployee = ({ employee }) => {
+  const handleEmployee = ({ employee }) => {
     try {
       const { eId } = employee || {}
-      OPENMODALEMPLOYEE.setState(!OPENMODALEMPLOYEE.state)
+      OPEN_MODAL_EMPLOYEE.setState(!OPEN_MODAL_EMPLOYEE.state)
       employeeStore({
         variables: {
           eId
         }
       })
 
-    } catch (error) {
-      setAlertBox({ message: error.message })
+    } catch (errors) {
+      setAlertBox({ message: errors.message })
     }
   }
   const handleDeleteEmployee = ({ employee }) => {
@@ -103,8 +106,8 @@ const Employees = () => {
         }
       })
 
-    } catch (error) {
-      setAlertBox({ message: error.message })
+    } catch (e) {
+      setAlertBox({ message: e.message })
     }
   }
   const propsEmployeesForm = {
@@ -120,13 +123,22 @@ const Employees = () => {
     fetchMore,
     setMore,
     more,
-    hamdleEmployee,
+    handleEmployee,
     handleDeleteEmployee,
     handleForm
   }
+
   return (
-    <Column>
+    <Column
+      margin={'0 auto'}
+      maxWidth={'1366px'}
+      width={'100%'}
+    >
+      <RippleButton onClick={() => { return OPEN_MODAL_AUTH.setState(!OPEN_MODAL_AUTH.state) }}>
+        Abrir
+      </RippleButton>
       <Row>
+
         <CreateEmployees
           {...propsEmployeesForm}
         />
@@ -135,14 +147,26 @@ const Employees = () => {
         />
         <AwesomeModal
           footer={false}
-          onHide={() => { return OPENMODALEMPLOYEE.setState(false) }}
-          show={OPENMODALEMPLOYEE.state}
+          onHide={() => { return OPEN_MODAL_EMPLOYEE.setState(false) }}
+          show={OPEN_MODAL_EMPLOYEE.state}
           title='Crear Empleado'
           zIndex={'9999'}
         >
           <EmployeeProfile {...dataOneEmployee?.employeeStore} />
         </AwesomeModal>
       </Row>
+      <AwesomeModal
+        footer={false}
+        header={false}
+        height={'500px'}
+        onHide={() => { return OPEN_MODAL_AUTH.setState(false) }}
+        show={OPEN_MODAL_AUTH.state}
+        size='400px'
+        zIndex={'9999'}
+      >
+        <AuthPassthrough />
+      </AwesomeModal>
+
     </Column>
   )
 }

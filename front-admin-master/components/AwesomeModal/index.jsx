@@ -45,7 +45,7 @@ export const AwesomeModal = ({
     useEffect(() => {
         if (backdrop !== 'static') {
             if (keyboard && show) window.addEventListener('keyup', e => e.code === 'Escape' && hide())
-            return () => keyboard && window.removeEventListener('keyup', () => { })
+            return () => keyboard && window.removeEventListener('keyup', () => { return })
         }
     }, [keyboard, hide, show, backdrop])
     useEffect(() => {

@@ -23,6 +23,7 @@ import { Checkbox } from 'components/Checkbox'
 import { CalcularDigitoVerificacion } from 'utils'
 import { Row } from '~/components/Acordion/Styled'
 import Text from '~/components/common/Atoms/Text'
+import Column from '~/components/common/Atoms/Column'
 export const Restaurant = ({ userToken }) => {
   const { email } = userToken || {}
   const [step] = useState(0)
@@ -129,36 +130,36 @@ export const Restaurant = ({ userToken }) => {
     <Content>
       {loading && <Loading />}
       <AwesomeModal
-        backdrop='static'
         btnCancel={false}
         btnConfirm={false}
         footer={false}
         header={false}
-        height='200px'
+        height='100%'
         onHide={() => { return setModalConfirm(false) }}
         show={modalConfirm}
         size={'small'}
       >
-        <Text>lkjdfl</Text>
-        <Row margin='auto'>
-          <RippleButton
-            bgColor={EColor}
-            margin='20px auto'
-            onClick={() => { return setModalConfirm(false) }}
-            widthButton='80%'
-          >
-            cancelar
-          </RippleButton>
-          <RippleButton
-            bgColor={EColor}
-            margin='20px auto'
-            onClick={() => { return router.back() }}
-            widthButton='80%'
-          >
-            Abandonar
-          </RippleButton>
-        </Row>
+
+        <Column margin='20px 0 '>
+          <Row margin='20px 0' padding='20px' >
+            <RippleButton
+              bgColor={EColor}
+              onClick={() => { return setModalConfirm(false) }}
+              widthButton='80%'
+            >
+              cancelar
+            </RippleButton>
+            <RippleButton
+              bgColor={EColor}
+              onClick={() => { return router.back() }}
+              widthButton='80%'
+            >
+              Abandonar
+            </RippleButton>
+          </Row>
+        </Column>
       </AwesomeModal>
+      
       <Card></Card>
       <div className='container-step'>
         <StepsComponent

@@ -68,7 +68,7 @@ const Provider = ({ children }) => {
     const [isSession, setIsSession] = useState()
     const setSessionActive = useCallback(
         sessionValue => setIsSession(sessionValue),
-        [isSession]
+        []
     )
     useEffect(() => {
         if (!isSession) {

@@ -1,7 +1,16 @@
 import Employees from 'container/employees'
 import { withIronSessionSsr } from 'iron-session/next'
 import { cookie, defaultReturnObject } from '~/utils'
-export default function employeeView() { return (<Employees />) }
+
+export default function employeeView({ user, idStore }) {
+
+  return (
+    <Employees
+      idStore={idStore}
+      user={user}
+    />
+  )
+}
 
 
 export const getServerSideProps = withIronSessionSsr(

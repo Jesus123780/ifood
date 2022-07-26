@@ -12,7 +12,7 @@ const ListEmployees = ({
   loading,
   more,
   fetchMore,
-  hamdleEmployee,
+  handleEmployee,
   handleDeleteEmployee
 }) => {
   return (
@@ -46,7 +46,7 @@ const ListEmployees = ({
                 <span> {contentEmail} </span>
               </div>
               <div>
-                <Button onClick={() => { return hamdleEmployee({ employee: x }) }}>
+                <Button onClick={() => { return handleEmployee({ employee: x }) }}>
                   Ver detalles
                 </Button>
                 <Button color={PColor} onClick={() => { return handleDeleteEmployee({ employee: x }) }}>

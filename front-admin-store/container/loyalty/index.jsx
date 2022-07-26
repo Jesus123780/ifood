@@ -6,12 +6,11 @@ import NewSelect from 'components/NewSelectHooks/NewSelect'
 import { RippleButton } from 'components/Ripple'
 import { Table } from 'components/Table'
 import { Section } from 'components/Table/styled'
-import moment from 'moment'
 import React from 'react'
 import { Button, Item, Container } from './styled'
 
 export const LoyaltyC = () => {
-  const HandleGetOne = () => { }
+  const HandleGetOne = () => { return }
   const OPEN_MODAL = useSetState()
   const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
   return (

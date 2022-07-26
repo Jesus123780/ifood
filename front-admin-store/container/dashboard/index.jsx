@@ -11,9 +11,10 @@ import { TeamStore } from 'container/TeamStore'
 import { MainCard } from 'components/common/Reusable/ShadowCard'
 import { Main } from './Main'
 import { ChatStatistic } from 'container/ventas/ListVentas'
+import { useMultiKeyPress } from '~/hooks/useKeypress'
 
 const Dashboard = ({ ...props }) => {
-
+  const happySadPress = useMultiKeyPress('Control', 'f')
   return (<>
     <Wrapper>
       <Main {...props} />

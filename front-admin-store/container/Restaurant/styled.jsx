@@ -5,7 +5,7 @@ import { BGColor, EColor, PColor, SECColor } from '../../public/colors'
 
 export const Content = styled.div`
     width: 100%;
-    height: 90vh;
+    height: 100vh;
     display: grid;
     overflow: hidden;
     grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));

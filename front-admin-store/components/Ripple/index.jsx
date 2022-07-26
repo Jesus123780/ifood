@@ -81,7 +81,7 @@ const Button = styled.button`
  color: ${ ({ color })=> {return color ? color: BGColor} };
  font-family: ${ ({ family })=> {return family ? family: 'PFont-Light'} };
  ${props => {return props.border && css`border: ${props.border}`}}
- ${ ({ margin }) => {return !!margin && css`margin: ${ margin };`} }
+ ${ ({ margin }) => {return margin && css`margin: ${ margin };`} }
  ${ ({ standard }) => {return standard && css`
     display: flex;
     justify-content: space-between;

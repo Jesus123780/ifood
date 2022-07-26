@@ -1,26 +1,25 @@
-import { useFormTools } from '../../components/BaseForm'
 import { useQuery, useMutation } from '@apollo/client'
 import { Card2, ContentCardInfo, ContentCards, Text } from './styled'
-import CanvasDraw from 'react-canvas-draw'
 import { BColor, PColor } from '../../public/colors'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState, useContext } from 'react'
 import { useUser } from '../../components/hooks/useUser'
 import { useRouter } from 'next/router'
 import { GET_ONE_STORE } from './queries'
 import { RippleButton } from '../../components/Ripple'
+import CanvasDraw from 'react-canvas-draw'
 import { REGISTER_CONTRACT_STORE } from '../dashboard/queriesStore'
+import { Context } from '~/context/Context'
+import { Loading } from '~/components/Loading'
 const ContractSignature = () => {
   // STATES
-  const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
   const ref = useRef(null)
-  const [code, setCode] = useState('')
   const secondCanvas = useRef(null)
   const [color, setColor] = useState('')
+  const { setAlertBox } = useContext(Context)
 
   // HANDLES
   const handleClick = () => {
     const data = ref.current.getSaveData()
-    // const points = JSON.parse(data)
     secondCanvas.current.loadSaveData(data)
     return createOneContract({
       variables: {
@@ -30,8 +29,6 @@ const ContractSignature = () => {
         }
       }
     })
-    // console.log(JSON.parse(points.lines))
-    // eslint-disable-next-line no-unreachable
   }
   const handleClean = () => {
     ref.current.clear()
@@ -41,19 +38,16 @@ const ContractSignature = () => {
     //    ref.current.resetView()
 
   }
-  // useEffect(() => {
-  //     window.setInterval(() => {
-  //         setColor( "#" + Math.floor(Math.random() * 16777215).toString(16));
-  //       }, 6000)
-  // }, [color]);
-  const [createOneContract, { loading, error }] = useMutation(REGISTER_CONTRACT_STORE)
-  // const handleForm = (e) =>
-  // {return handleSubmit({
-  //   event: e,
-  //   action: () => {
-  
-  //   }
-  // })}
+  useEffect(() => {
+    window.setInterval(() => {
+      setColor( '#' + Math.floor(Math.random() * 16777215).toString(16))
+    }, 6000)
+  }, [color])
+  const [createOneContract, { loading }] = useMutation(REGISTER_CONTRACT_STORE, {
+    onCompleted: () => {
+      setAlertBox({ message: 'Contrato guardado correctamente' })
+    }
+  })
   
   const [dataUser] = useUser()
   const router = useRouter()
@@ -61,9 +55,8 @@ const ContractSignature = () => {
   const store = data?.getStore || {}
   return (
     <ContentCards>
-      <div>
-        <button onClick={() => {return handleClick()}} type='submit'>Click</button>
-      </div>
+      {loading && <Loading />}
+      <button onClick={() => {return handleClick()}} type='submit'>Click</button>
       <button onClick={() => {return handleClean()}}>Limpiar</button>
       <button onClick={() => {return handleUndo()}}>Volver</button>
       <CanvasDraw
