@@ -188,9 +188,9 @@ export default function App({ Component, pageProps }) {
           />
         </Head>
 
-        {getLayout(<Auth>
+        {getLayout(
           <Component {...{ ...pageProps, isMobile: false }} />
-        </Auth>)}
+        )}
       </ApolloProvider >
     </Context>
   )
