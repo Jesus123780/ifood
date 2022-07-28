@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-import { BColor, BGColor, PColor } from 'public/colors'
+import { BColor, PColor } from 'public/colors'
 import React from 'react'
 
 export const IconLove = ({ size, style }) => {
@@ -145,7 +144,7 @@ export const IconPay = ({ style = {}, size, color }) => {
       stroke={color || '#000'}
       strokeWidth='10px'
       transform='translate(486 -49.68)'
-    /><rect
+  /><rect
       fill='none'
       height='154'
       rx='12'
@@ -154,7 +153,7 @@ export const IconPay = ({ style = {}, size, color }) => {
       width='200'
       x='5'
       y='93.32'
-  /><rect
+    /><rect
       fill='none'
       height='44'
       rx='12'
@@ -163,7 +162,7 @@ export const IconPay = ({ style = {}, size, color }) => {
       width='63'
       x='29'
       y='118.32'
-    /><line
+  /><line
       fill='none'
       stroke={color || '#000'}
       strokeLinecap='round'
@@ -172,7 +171,7 @@ export const IconPay = ({ style = {}, size, color }) => {
       x2='180'
       y1='124.32'
       y2='125.32'
-  /><line
+    /><line
       fill='none'
       stroke={color || '#000'}
       strokeLinecap='round'
@@ -181,7 +180,7 @@ export const IconPay = ({ style = {}, size, color }) => {
       x2='180'
       y1='155.32'
       y2='156.32'
-    /><line
+  /><line
       fill='none'
       stroke={color || '#000'}
       strokeLinecap='round'
@@ -190,7 +189,7 @@ export const IconPay = ({ style = {}, size, color }) => {
       x2='54'
       y1='185.32'
       y2='186.32'
-  /><line
+    /><line
       fill='none'
       stroke={color || '#000'}
       strokeLinecap='round'
@@ -199,7 +198,7 @@ export const IconPay = ({ style = {}, size, color }) => {
       x2='106'
       y1='185.32'
       y2='186.32'
-    /><line
+  /><line
       fill='none'
       stroke={color || '#000'}
       strokeLinecap='round'
@@ -208,7 +207,7 @@ export const IconPay = ({ style = {}, size, color }) => {
       x2='147'
       y1='185.32'
       y2='186.32'
-  /><line
+    /><line
       fill='none'
       stroke={color || '#000'}
       strokeLinecap='round'
@@ -217,7 +216,7 @@ export const IconPay = ({ style = {}, size, color }) => {
       x2='90'
       y1='216.32'
       y2='217.32'
-    /><line
+  /><line
       fill='none'
       stroke={color || '#000'}
       strokeLinecap='round'
@@ -226,7 +225,7 @@ export const IconPay = ({ style = {}, size, color }) => {
       x2='208'
       y1='92.32'
       y2='42.32'
-  /><line
+    /><line
       fill='none'
       stroke={color || '#000'}
       strokeLinecap='round'
@@ -235,7 +234,7 @@ export const IconPay = ({ style = {}, size, color }) => {
       x2='219'
       y1='93.32'
       y2='70.32'
-    /></svg>
+  /></svg>
 }// Icono de Log Out / cerrar sesión
 export const IconCheck = ({ style = {}, size, color }) => {
   return <svg
@@ -254,7 +253,7 @@ export const IconCheck = ({ style = {}, size, color }) => {
       strokeLinecap='round'
       strokeMiterlimit='10'
       strokeWidth='12px'
-    /></svg>
+  /></svg>
 }
 export const IconDelTag = ({ style = {}, size, color }) => {
   return <svg
@@ -345,7 +344,7 @@ export const IconWhatsApp = ({ style = {}, size, color }) => {
       d='m544.386719 93.007812c-59.875-59.945312-139.503907-92.9726558-224.335938-93.007812-174.804687 0-317.070312 142.261719-317.140625 317.113281-.023437 55.894531 14.578125 110.457031 42.332032 158.550781l-44.992188 164.335938 168.121094-44.101562c46.324218 25.269531 98.476562 38.585937 151.550781 38.601562h.132813c174.785156 0 317.066406-142.273438 317.132812-317.132812.035156-84.742188-32.921875-164.417969-92.800781-224.359376zm-224.335938 487.933594h-.109375c-47.296875-.019531-93.683594-12.730468-134.160156-36.742187l-9.621094-5.714844-99.765625 26.171875 26.628907-97.269531-6.269532-9.972657c-26.386718-41.96875-40.320312-90.476562-40.296875-140.28125.054688-145.332031 118.304688-263.570312 263.699219-263.570312 70.40625.023438 136.589844 27.476562 186.355469 77.300781s77.15625 116.050781 77.132812 186.484375c-.0625 145.34375-118.304687 263.59375-263.59375 263.59375zm144.585938-197.417968c-7.921875-3.96875-46.882813-23.132813-54.148438-25.78125-7.257812-2.644532-12.546875-3.960938-17.824219 3.96875-5.285156 7.929687-20.46875 25.78125-25.09375 31.066406-4.625 5.289062-9.242187 5.953125-17.167968 1.984375-7.925782-3.964844-33.457032-12.335938-63.726563-39.332031-23.554687-21.011719-39.457031-46.960938-44.082031-54.890626-4.617188-7.9375-.039062-11.8125 3.476562-16.171874 8.578126-10.652344 17.167969-21.820313 19.808594-27.105469 2.644532-5.289063 1.320313-9.917969-.664062-13.882813-1.976563-3.964844-17.824219-42.96875-24.425782-58.839844-6.4375-15.445312-12.964843-13.359374-17.832031-13.601562-4.617187-.230469-9.902343-.277344-15.1875-.277344-5.28125 0-13.867187 1.980469-21.132812 9.917969-7.261719 7.933594-27.730469 27.101563-27.730469 66.105469s28.394531 76.683594 32.355469 81.972656c3.960937 5.289062 55.878906 85.328125 135.367187 119.648438 18.90625 8.171874 33.664063 13.042968 45.175782 16.695312 18.984374 6.03125 36.253906 5.179688 49.910156 3.140625 15.226562-2.277344 46.878906-19.171875 53.488281-37.679687 6.601563-18.511719 6.601563-34.375 4.617187-37.683594-1.976562-3.304688-7.261718-5.285156-15.183593-9.253906zm0 0'
       fill={color}
       fillRule='evenodd'
-    /></svg>
+  /></svg>
 }
 
 // Icono de IconInstagramGradient
@@ -365,7 +364,7 @@ export const IconInstagramGradient = ({ style = {}, size }) => {
       x2='-32.9334'
       y1='634.1208'
       y2='647.1917'
-  > <stop offset='0' stopColor='#FFC107' /> <stop offset='0.507' stopColor='#F44336' /><stop offset='0.99' stopColor='#9C27B0' /></linearGradient><path d='M352,0H160C71.648,0,0,71.648,0,160v192c0,88.352,71.648,160,160,160h192c88.352,0,160-71.648,160-160V160C512,71.648,440.352,0,352,0z M464,352c0,61.76-50.24,112-112,112H160c-61.76,0-112-50.24-112-112V160C48,98.24,98.24,48,160,48h192c61.76,0,112,50.24,112,112V352z' fill='url(#SVGID_1_)' /><linearGradient
+    > <stop offset='0' stopColor='#FFC107' /> <stop offset='0.507' stopColor='#F44336' /><stop offset='0.99' stopColor='#9C27B0' /></linearGradient><path d='M352,0H160C71.648,0,0,71.648,0,160v192c0,88.352,71.648,160,160,160h192c88.352,0,160-71.648,160-160V160C512,71.648,440.352,0,352,0z M464,352c0,61.76-50.24,112-112,112H160c-61.76,0-112-50.24-112-112V160C48,98.24,98.24,48,160,48h192c61.76,0,112,50.24,112,112V352z' fill='url(#SVGID_1_)' /><linearGradient
       gradientTransform='matrix(32 0 0 -32 1519 20757)'
       gradientUnits='userSpaceOnUse'
       id='SVGID_2_'
@@ -373,7 +372,7 @@ export const IconInstagramGradient = ({ style = {}, size }) => {
       x2='-36.6404'
       y1='637.8279'
       y2='643.4846'
-    ><stop offset='0' stopColor='#FFC107' /><stop offset='0.507' stopColor='#F44336' /><stop offset='0.99' stopColor='#9C27B0' /></linearGradient><path d='M256,128c-70.688,0-128,57.312-128,128s57.312,128,128,128s128-57.312,128-128S326.688,128,256,128z M256,336c-44.096,0-80-35.904-80-80c0-44.128,35.904-80,80-80s80,35.872,80,80C336,300.096,300.096,336,256,336z' fill='url(#SVGID_2_)' /><linearGradient
+  ><stop offset='0' stopColor='#FFC107' /><stop offset='0.507' stopColor='#F44336' /><stop offset='0.99' stopColor='#9C27B0' /></linearGradient><path d='M256,128c-70.688,0-128,57.312-128,128s57.312,128,128,128s128-57.312,128-128S326.688,128,256,128z M256,336c-44.096,0-80-35.904-80-80c0-44.128,35.904-80,80-80s80,35.872,80,80C336,300.096,300.096,336,256,336z' fill='url(#SVGID_2_)' /><linearGradient
       gradientTransform='matrix(32 0 0 -32 1519 20757)'
       gradientUnits='userSpaceOnUse'
       id='SVGID_3_'
@@ -381,12 +380,12 @@ export const IconInstagramGradient = ({ style = {}, size }) => {
       x2='-34.7919'
       y1='644.5793'
       y2='645.3331'
-  ><stop offset='0' stopColor='#FFC107' /><stop offset='0.507' stopColor='#F44336' /><stop offset='0.99' stopColor='#9C27B0' /></linearGradient><circle
+    ><stop offset='0' stopColor='#FFC107' /><stop offset='0.507' stopColor='#F44336' /><stop offset='0.99' stopColor='#9C27B0' /></linearGradient><circle
       cx='393.6'
       cy='118.4'
       fill='url(#SVGID_3_)'
       r='17.056'
-    /></svg>
+  /></svg>
 }
 // Icono de IconUser
 
@@ -415,12 +414,12 @@ export const IconSales = ({ style = {}, size, color }) => {
       strokeLinecap='round'
       strokeLinejoin='round'
       strokeWidth='1.5'
-  ></path><path
+    ></path><path
       d='M15 6V6C15 4.34315 13.6569 3 12 3V3C10.3431 3 9 4.34315 9 6V6'
       strokeLinecap='round'
       strokeLinejoin='round'
       strokeWidth='1.5'
-    ></path></svg>
+  ></path></svg>
 }
 export const AddPlusCircle = ({ style = {}, size, color }) => {
   return <svg
@@ -509,7 +508,7 @@ export const IconSearch = ({ style = {}, size, color }) => {
       fill='none'
       r='6.41'
       stroke={color}
-    /><rect
+  /><rect
       fill='none'
       height='0.54'
       rx='0.22'
@@ -519,7 +518,7 @@ export const IconSearch = ({ style = {}, size, color }) => {
       width='5.71'
       x='-39.59'
       y='7.49'
-  /></svg>
+    /></svg>
 }
 // Icon de Arrow
 export const IconArrowBottom = ({ style = {}, color, size }) => {
@@ -612,14 +611,14 @@ export const IconSendMessage = ({ size, color }) => {
       strokeLinecap='round'
       strokeLinejoin='round'
       strokeWidth='1px'
-  /><path
+    /><path
       d='M9.62,23.15l-7.83-2a1,1,0,0,1-.15-2L45.62,1a.06.06,0,0,1,.05.11l-36.05,22,4.86,14.57a1,1,0,0,0,2-.31l.79-11'
       fill='none'
       stroke={color}
       strokeLinecap='round'
       strokeLinejoin='round'
       strokeWidth='1px'
-    /><line
+  /><line
       fill='none'
       stroke={color}
       strokeLinecap='round'
@@ -629,7 +628,7 @@ export const IconSendMessage = ({ size, color }) => {
       x2='23.65'
       y1='38.35'
       y2='28.11'
-  /></g></g></svg>
+    /></g></g></svg>
 }
 // Icon de Google full color
 export const IconSendMessageTwo = ({ size }) => {
@@ -642,7 +641,7 @@ export const IconSendMessageTwo = ({ size }) => {
       fill='#0080ff'
       fillRule='evenodd'
       stroke='none'
-  ></path></svg>
+    ></path></svg>
 }
 // Icono  de Ubicación
 export const IconEnterLocation = ({ style = {}, size, color }) => {
@@ -659,7 +658,7 @@ export const IconEnterLocation = ({ style = {}, size, color }) => {
       stroke={color}
       strokeLinecap='round'
       strokeMiterlimit='10'
-  /><circle
+    /><circle
       cx='3.479'
       cy='3.479'
       fill='none'
@@ -668,7 +667,7 @@ export const IconEnterLocation = ({ style = {}, size, color }) => {
       strokeLinecap='round'
       strokeMiterlimit='10'
       transform='translate(314.013 53.293)'
-    /></g></svg>
+  /></g></svg>
 }
 export const IconRate = ({ style = {}, size, color }) => {
   return <svg
@@ -789,7 +788,7 @@ export const IconLocationMap = ({ style = {}, size, color }) => {
       fill={color}
       fillRule='nonzero'
       transform='translate(-287 -1776)'
-  ><g id='Prato' transform='translate(48 1708)'><g id='Alerta-endereço' transform='translate(239 68)'><path d='M25 45C13 36.96 7 28.96 7 21c0-9.941 8.059-18 18-18s18 8.059 18 18c0 7.96-6 15.96-18 24zm0-16a8 8 0 1 0 0-16 8 8 0 0 0 0 16z' id='Combined-Shape'></path></g></g></g></svg>
+    ><g id='Prato' transform='translate(48 1708)'><g id='Alerta-endereço' transform='translate(239 68)'><path d='M25 45C13 36.96 7 28.96 7 21c0-9.941 8.059-18 18-18s18 8.059 18 18c0 7.96-6 15.96-18 24zm0-16a8 8 0 1 0 0-16 8 8 0 0 0 0 16z' id='Combined-Shape'></path></g></g></g></svg>
 }
 
 // Iconos
@@ -839,12 +838,12 @@ export const IconConfig = ({ style = {}, size, color }) => {
       x2='272.29'
       y1='136'
       y2='136'
-  /><line
+    /><line
       x1='272.29'
       x2='272.29'
       y1='153.15'
       y2='152'
-    /><path d='M328,256a72,72,0,1,0-72,72h0A72.07,72.07,0,0,0,328,256Zm-72,56a56,56,0,1,1,56-56A56,56,0,0,1,256,312Z' transform='translate(-119.71 -120)' /><path d='M130.33,223.65c-5.13.82-9.19,4-10.31,8.25a10.41,10.41,0,0,0,.32,6' transform='translate(-119.71 -120)' /></g></svg>
+  /><path d='M328,256a72,72,0,1,0-72,72h0A72.07,72.07,0,0,0,328,256Zm-72,56a56,56,0,1,1,56-56A56,56,0,0,1,256,312Z' transform='translate(-119.71 -120)' /><path d='M130.33,223.65c-5.13.82-9.19,4-10.31,8.25a10.41,10.41,0,0,0,.32,6' transform='translate(-119.71 -120)' /></g></svg>
 }
 // Icon Fullscreen
 export const IconFullscreen = ({ style = {}, size, color }) => {
@@ -1832,7 +1831,7 @@ export const IconMiniCheck = ({ style = {}, size, color }) => {
       clipRule='evenodd'
       d='M2.59 6.57A1 1 0 0 0 1.19 8l5.16 5.09L16.72 2.36A1 1 0 1 0 15.28.97l-8.96 9.28-3.73-3.68z'
       fillRule='evenodd'
-  ></path></svg>
+    ></path></svg>
 }
 // Icono  de Cuba
 export const IconCuba = ({ style = {}, size }) => {
@@ -2109,16 +2108,33 @@ export const IconPrint = ({ style = {}, size, color }) => {
   </svg>
 }
 
-export const IconNotification = ({ style = {}, size, color }) => { return <svg
-  fill={color}
-  height={size}
-  style={style}
-  viewBox='0 0 32 32'
-  width={size}
-  xmlns='http://www.w3.org/2000/svg'
-><path
-    d='M28.2267 12.4802C28.7734 12.4802 29.2267 12.0268 29.2267 11.4802V6.48016C29.2267 5.20016 28.1867 4.16016 26.8934 4.16016H4.9334C3.6534 4.16016 2.6134 5.20016 2.6134 6.48016V18.8535C2.6134 20.1335 3.66674 21.1868 4.94674 21.1868H8.94674V26.8402C8.94674 27.2402 9.1734 27.6002 9.54674 27.7602C9.68007 27.8135 9.8134 27.8402 9.94674 27.8402C10.1867 27.8402 10.4267 27.7468 10.6134 27.5735L17.6401 21.1868H26.9067C28.1867 21.1868 29.2267 20.1468 29.2267 18.8668V17.9335C29.2267 17.3868 28.7734 16.9335 28.2267 16.9335C27.6801 16.9335 27.2267 17.3868 27.2267 17.9335V18.8668C27.2267 19.0402 27.0801 19.1868 26.9067 19.1868H17.2534C17.0001 19.1868 16.7601 19.2802 16.5867 19.4535L10.9467 24.5868V20.2002C10.9467 19.6535 10.4934 19.2002 9.94674 19.2002H4.94674C4.76007 19.2002 4.6134 19.0535 4.6134 18.8668V6.49349C4.6134 6.32016 4.76007 6.17349 4.9334 6.17349H26.8934C27.0667 6.17349 27.2134 6.32016 27.2134 6.49349V11.4802C27.2267 12.0268 27.6667 12.4802 28.2267 12.4802Z'
-    fill='red'
+export const IconNotification = ({ style = {}, size, color }) => {
+  return <svg
+    fill={color}
     height={size}
+    style={style}
+    viewBox='0 0 32 32'
     width={size}
-  ></path><path d='M11.9334 14.2132C12.6256 14.2132 13.1867 13.6521 13.1867 12.9599C13.1867 12.2677 12.6256 11.7065 11.9334 11.7065C11.2412 11.7065 10.6801 12.2677 10.6801 12.9599C10.6801 13.6521 11.2412 14.2132 11.9334 14.2132Z'></path><path d='M19.9335 14.1862C20.6109 14.1862 21.1601 13.637 21.1601 12.9596C21.1601 12.2821 20.6109 11.7329 19.9335 11.7329C19.256 11.7329 18.7068 12.2821 18.7068 12.9596C18.7068 13.637 19.256 14.1862 19.9335 14.1862Z'></path><path d='M15.9333 14.2532C16.6476 14.2532 17.2267 13.6741 17.2267 12.9598C17.2267 12.2455 16.6476 11.6665 15.9333 11.6665C15.2191 11.6665 14.64 12.2455 14.64 12.9598C14.64 13.6741 15.2191 14.2532 15.9333 14.2532Z'></path></svg> }
+    xmlns='http://www.w3.org/2000/svg'
+  ><path
+      d='M28.2267 12.4802C28.7734 12.4802 29.2267 12.0268 29.2267 11.4802V6.48016C29.2267 5.20016 28.1867 4.16016 26.8934 4.16016H4.9334C3.6534 4.16016 2.6134 5.20016 2.6134 6.48016V18.8535C2.6134 20.1335 3.66674 21.1868 4.94674 21.1868H8.94674V26.8402C8.94674 27.2402 9.1734 27.6002 9.54674 27.7602C9.68007 27.8135 9.8134 27.8402 9.94674 27.8402C10.1867 27.8402 10.4267 27.7468 10.6134 27.5735L17.6401 21.1868H26.9067C28.1867 21.1868 29.2267 20.1468 29.2267 18.8668V17.9335C29.2267 17.3868 28.7734 16.9335 28.2267 16.9335C27.6801 16.9335 27.2267 17.3868 27.2267 17.9335V18.8668C27.2267 19.0402 27.0801 19.1868 26.9067 19.1868H17.2534C17.0001 19.1868 16.7601 19.2802 16.5867 19.4535L10.9467 24.5868V20.2002C10.9467 19.6535 10.4934 19.2002 9.94674 19.2002H4.94674C4.76007 19.2002 4.6134 19.0535 4.6134 18.8668V6.49349C4.6134 6.32016 4.76007 6.17349 4.9334 6.17349H26.8934C27.0667 6.17349 27.2134 6.32016 27.2134 6.49349V11.4802C27.2267 12.0268 27.6667 12.4802 28.2267 12.4802Z'
+      fill='red'
+      height={size}
+      width={size}
+    ></path><path d='M11.9334 14.2132C12.6256 14.2132 13.1867 13.6521 13.1867 12.9599C13.1867 12.2677 12.6256 11.7065 11.9334 11.7065C11.2412 11.7065 10.6801 12.2677 10.6801 12.9599C10.6801 13.6521 11.2412 14.2132 11.9334 14.2132Z'></path><path d='M19.9335 14.1862C20.6109 14.1862 21.1601 13.637 21.1601 12.9596C21.1601 12.2821 20.6109 11.7329 19.9335 11.7329C19.256 11.7329 18.7068 12.2821 18.7068 12.9596C18.7068 13.637 19.256 14.1862 19.9335 14.1862Z'></path><path d='M15.9333 14.2532C16.6476 14.2532 17.2267 13.6741 17.2267 12.9598C17.2267 12.2455 16.6476 11.6665 15.9333 11.6665C15.2191 11.6665 14.64 12.2455 14.64 12.9598C14.64 13.6741 15.2191 14.2532 15.9333 14.2532Z'></path></svg>
+}
+export const IconPromo = ({ style = {}, size, color }) => {
+  return <svg
+    fill={color}
+    height={size}
+    style={style}
+    viewBox='0 0 32 32'
+    width={size}
+    xmlns='http://www.w3.org/2000/svg'
+  ><path
+      d='M28.2267 12.4802C28.7734 12.4802 29.2267 12.0268 29.2267 11.4802V6.48016C29.2267 5.20016 28.1867 4.16016 26.8934 4.16016H4.9334C3.6534 4.16016 2.6134 5.20016 2.6134 6.48016V18.8535C2.6134 20.1335 3.66674 21.1868 4.94674 21.1868H8.94674V26.8402C8.94674 27.2402 9.1734 27.6002 9.54674 27.7602C9.68007 27.8135 9.8134 27.8402 9.94674 27.8402C10.1867 27.8402 10.4267 27.7468 10.6134 27.5735L17.6401 21.1868H26.9067C28.1867 21.1868 29.2267 20.1468 29.2267 18.8668V17.9335C29.2267 17.3868 28.7734 16.9335 28.2267 16.9335C27.6801 16.9335 27.2267 17.3868 27.2267 17.9335V18.8668C27.2267 19.0402 27.0801 19.1868 26.9067 19.1868H17.2534C17.0001 19.1868 16.7601 19.2802 16.5867 19.4535L10.9467 24.5868V20.2002C10.9467 19.6535 10.4934 19.2002 9.94674 19.2002H4.94674C4.76007 19.2002 4.6134 19.0535 4.6134 18.8668V6.49349C4.6134 6.32016 4.76007 6.17349 4.9334 6.17349H26.8934C27.0667 6.17349 27.2134 6.32016 27.2134 6.49349V11.4802C27.2267 12.0268 27.6667 12.4802 28.2267 12.4802Z'
+      fill='red'
+      height={size}
+      width={size}
+    ></path><path d='M11.9334 14.2132C12.6256 14.2132 13.1867 13.6521 13.1867 12.9599C13.1867 12.2677 12.6256 11.7065 11.9334 11.7065C11.2412 11.7065 10.6801 12.2677 10.6801 12.9599C10.6801 13.6521 11.2412 14.2132 11.9334 14.2132Z'></path><path d='M19.9335 14.1862C20.6109 14.1862 21.1601 13.637 21.1601 12.9596C21.1601 12.2821 20.6109 11.7329 19.9335 11.7329C19.256 11.7329 18.7068 12.2821 18.7068 12.9596C18.7068 13.637 19.256 14.1862 19.9335 14.1862Z'></path><path d='M15.9333 14.2532C16.6476 14.2532 17.2267 13.6741 17.2267 12.9598C17.2267 12.2455 16.6476 11.6665 15.9333 11.6665C15.2191 11.6665 14.64 12.2455 14.64 12.9598C14.64 13.6741 15.2191 14.2532 15.9333 14.2532Z'></path></svg>
+}

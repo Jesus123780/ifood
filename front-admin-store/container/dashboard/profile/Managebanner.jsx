@@ -1,10 +1,10 @@
-import { BGColor, PColor } from 'public/colors'
+import { PColor } from 'public/colors'
 import Image from 'next/image'
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { CREATE_BANNER_STORE, CREATE_LOGO, DELETE_ONE_BANNER_STORE, DELETE_ONE_LOGO_STORE, GET_ONE_BANNER_STORE, GET_ONE_SCHEDULE_STORE } from '../queriesStore'
-import { ActionName, ButtonCard, InputFile, Section, MerchantBannerWrapperInfo, MerchantInfo, MerchantInfoTitle, ButtonOption } from '../styledStore'
+import { ActionName, ButtonCard, InputFile, Section, MerchantBannerWrapperInfo, MerchantInfo, MerchantInfoTitle } from '../styledStore'
 import { useMutation, useQuery } from '@apollo/client'
-import { IconCopy, IconDelete, IconEdit, IconPromo } from 'public/icons'
+import { IconDelete, IconEdit, IconPromo } from 'public/icons'
 import { GET_ONE_STORE } from 'container/Restaurant/queries'
 import { Context } from 'context/Context'
 import moment from 'moment'
@@ -295,6 +295,7 @@ const Banner = () => {
             Subir
           </ActionName>
         </ButtonCard>
+        
         <MerchantInfo >
           {/* <button>
             {dataStore?.Image && <button

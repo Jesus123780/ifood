@@ -33,6 +33,7 @@ export default function RestaurantHome({ ID_CATEGORIE, PRODUCT_NAME_COOKIE, ACEP
   useEffect(() => {
     // eslint-disable-next-line no-unsafe-optional-chaining
     dataListStore?.getAllStoreInStore && setData([...dataListStore?.getAllStoreInStore])
+    console.log("🚀 ~ file: index.js ~ line 36 ~ useEffect ~ dataListStore", dataListStore)
     getAllStoreInStore()
   }, [dataStore])
   const UPDATE_COOKIES = gql`

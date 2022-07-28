@@ -86,7 +86,6 @@ const DashboardStore = () => {
   const [updateProductFoods] = useMutation(UPDATE_PRODUCT_FOOD)
 
 
-
   // HANDLE
   const handleGetOneProduct = (food) => {
     try {
@@ -308,9 +307,9 @@ const DashboardStore = () => {
           ProDescuento={ProDescuento}
           ProImage={ProImage}
           ProPrice={ProPrice}
-          handleDelete={handleDelete}
           dataExtra={dataExtra}
           dataOptional={dataOptional}
+          handleDelete={handleDelete}
           modal={modal}
           nameStore={nameStore}
           pId={pId}
