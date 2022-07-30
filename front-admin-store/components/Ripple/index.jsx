@@ -75,25 +75,13 @@ const Button = styled.button`
   background-color: ${`${PColor}87`};
   cursor: no-drop;
 }
-
  padding: ${ ({ padding })=> {return padding ? padding: '1em'} };
  background-color: ${ ({ bgColor })=> {return bgColor ? bgColor: 'red'} };
  color: ${ ({ color })=> {return color ? color: BGColor} };
  font-family: ${ ({ family })=> {return family ? family: 'PFont-Light'} };
- ${props => {return props.border && css`border: ${props.border}`}}
+ width: ${ ({ widthButton })=> {return widthButton ? widthButton: '100%'} };
  ${ ({ margin }) => {return margin && css`margin: ${ margin };`} }
- ${ ({ standard }) => {return standard && css`
-    display: flex;
-    justify-content: space-between;
-    background-color: transparent;
-    color: #000;
-    width: 100%;
-    font-size: 11px !important;
-    font-family: PFont-Light !important;`}
-}
- ${ ({ widthButton }) => {return widthButton && css` width: ${ widthButton };`}}
- ${ ({ radius }) => {return radius && css` border-radius: ${ radius };`}}
-
-${ props => {return props.active ? css`border-bottom: 3px solid red;` : css`border-bottom: 3px solid transparent;`} }
-
+ ${ ({ border }) => {return border && css`border: ${ border };`}}
+ ${ ({ radius }) => {return radius && css`border-radius: ${ radius };`}}
+ ${ ({ height }) => {return height && css`height: ${ height };`}}
 `

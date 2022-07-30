@@ -1,0 +1,35 @@
+# DynamicPassword Type
+type DynamicPassword {
+  dPassId: ID
+  id: ID
+  idStore: ID
+  keyPassDynamic: Int
+  deviceName: String
+  dState: Int
+  DatCre: DateTime
+  DatMod: DateTime
+}
+
+# DynamicPassword Input
+input IDynamicPassword {
+  dPassId: ID
+  id: ID
+  idStore: ID
+  keyPassDynamic: Int
+  deviceName: String
+  dState: Int
+  DatCre: DateTime
+  DatMod: DateTime
+}
+
+# Query (ADMIN ONLY GET ALL DynamicPassword)
+type Query {
+  getAllDynamicPassword(idStore: ID, id: ID): [DynamicPassword]
+  getAOneDynamicPassword(idStore: ID, id: ID): DynamicPassword
+}
+# Mutations
+type Mutation {
+  registerDynamicPassword(input: IDynamicPassword): Response
+  EditDynamicPasswords(input: IDynamicPassword): DynamicPassword
+  DeleteOneDynamicPasswords(id: ID): Response
+}

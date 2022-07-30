@@ -1,15 +1,9 @@
-import React, { useContext, useEffect } from 'react'
-import { Context } from '../../context/Context'
-import { PColor } from '../../public/colors'
 import { IconConfig, IconHome, IconSearch, IconUser } from '../../public/icons'
+import { PColor } from '../../public/colors'
 import ActiveLink from '../common/Link'
 import { Anchor, FooterComponent, Text } from './styled'
 
 export const Footer = () => {
-  const { setAlertBox } = useContext(Context)
-  useEffect(() => {
-    setAlertBox({ message: '', color: 'success' })
-  }, [setAlertBox])
   return (
     <>
       <FooterComponent>

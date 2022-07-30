@@ -127,7 +127,6 @@ const Employees = () => {
     handleDeleteEmployee,
     handleForm
   }
-
   return (
     <Column
       margin={'0 auto'}

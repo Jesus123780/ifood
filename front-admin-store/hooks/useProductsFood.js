@@ -17,7 +17,7 @@ export const useGetProductsFood = ({ fetchPolicy = 'network-only', search = null
       toDate: toDate || null,
       fromDate: fromDate || null,
       max: max || null,
-      min: min || null,
+      min: min || null
     }
   })
   useEffect(() => {

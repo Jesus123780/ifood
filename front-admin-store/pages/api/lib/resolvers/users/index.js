@@ -1,21 +1,25 @@
 import userResolver from './user'
 import locationResolver from './location'
 import salesResolver from './foodorder'
+import dynamicPasswordResolver from './dynamicPassword'
 
 export default {
   TYPES: {
-    ...userResolver.TYPES,
+    ...dynamicPasswordResolver.TYPES,
     ...locationResolver.TYPES,
-    ...salesResolver.TYPES
+    ...salesResolver.TYPES,
+    ...userResolver.TYPES
   },
   QUERIES: {
-    ...userResolver.QUERIES,
+    ...dynamicPasswordResolver.QUERIES,
     ...locationResolver.QUERIES,
-    ...salesResolver.QUERIES
+    ...salesResolver.QUERIES,
+    ...userResolver.QUERIES
   },
   MUTATIONS: {
-    ...userResolver.MUTATIONS,
+    ...dynamicPasswordResolver.MUTATIONS,
     ...locationResolver.MUTATIONS,
-    ...salesResolver.MUTATIONS
+    ...salesResolver.MUTATIONS,
+    ...userResolver.MUTATIONS
   }
 }

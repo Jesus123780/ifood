@@ -75,7 +75,7 @@ export const Layout = ({ children, watch, settings }) => {
             {<GenerateSales />}
           </AwesomeModal>
         </div>
-        {<Footer />}
+        <Footer />
         <div style={{ gridArea: 'right' }}>
           <LateralModal openSchedule={openSchedule}>
             <BtnClose onClick={() => { return setOpenSchedule(!openSchedule) }}><IconCancel size='20px' /></BtnClose>

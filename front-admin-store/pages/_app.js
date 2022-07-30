@@ -49,7 +49,7 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     setShowChild(true)
   }, [showChild])
-  
+
   // useEffect(() => {
   //   if ('serviceWorker' in navigator) {
   //     navigator.serviceWorker.register('/app/sw.js', {
@@ -163,7 +163,7 @@ export default function App({ Component, pageProps }) {
         {<ProgressBar progress={animating} />}
         <Noscript>
         </Noscript>
-        
+
         <Head>
           <link href='/manifest.json' rel='manifest' />
           <meta content='yes' name='mobile-web-app-capable' />
@@ -187,10 +187,9 @@ export default function App({ Component, pageProps }) {
             sizes='192x192'
           />
         </Head>
-
-        {getLayout(
+        {getLayout(<Auth>
           <Component {...{ ...pageProps, isMobile: false }} />
-        )}
+        </Auth>)}
       </ApolloProvider >
     </Context>
   )

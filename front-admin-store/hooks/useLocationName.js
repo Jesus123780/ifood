@@ -1,9 +1,7 @@
-// import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
 import { PColor } from 'public/colors'
 import styled from 'styled-components'
-// import { PColor } from '../../assets/colors';
 
 export const LocationName = () => {
   const location = useRouter()
