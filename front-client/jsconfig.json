@@ -13,6 +13,18 @@
       ],
       "@/util/*": [
         "util/*"
+      ],
+      "@/gql/*": [
+        "gql/*"
+      ],
+      "@/container/*": [
+        "container/*"
+      ],
+      "@/components/*": [
+        "components/*"
+      ],
+      "@/apollo/*": [
+        "apollo/*"
       ]
     },
     "allowJs": true,

@@ -68,7 +68,7 @@ const Provider = ({ children }) => {
     const [isSession, setIsSession] = useState()
     const setSessionActive = useCallback(
         sessionValue => setIsSession(sessionValue),
-        [isSession]
+        []
     )
     useEffect(() => {
         if (!isSession) {
@@ -117,7 +117,38 @@ const Provider = ({ children }) => {
     }
     const [state_product_card, dispatch] = useReducer(product, initialState)
     const [openSchedule, setOpenSchedule] = useState(true)
-
+    const listRoutes = [
+        {
+          name: 'update/promos-dashboard'
+        },
+        {
+          name: 'update/banners'
+        },
+        {
+          name: 'update/notification'
+        },
+        {
+          name: 'update/promos'
+        },
+        {
+          name: 'update/stores'
+        },
+        {
+          name: 'update/Pqr'
+        },
+        {
+          name: 'update/categories'
+        },
+        {
+          name: 'update/offers'
+        },
+        {
+          name: 'update/kit'
+        },
+        {
+          name: 'actividad'
+        },
+      ]
     const value = {
         error,
         setOpenSchedule,
@@ -129,6 +160,7 @@ const Provider = ({ children }) => {
         setCountPedido,
         countPedido,
         isLocation,
+        listRoutes,
         handleMenu,
         // Menu Ctx
         menu,

@@ -13,6 +13,9 @@
       ],
       "@/util/*": [
         "util/*"
+      ],
+      "@/hooks/*": [
+        "hooks/*"
       ]
     },
     "allowJs": true,

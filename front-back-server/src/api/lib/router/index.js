@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { updatePhoto } from '../controller/photos'
-const router = Router()
 import upload from '../multer'
+const router = Router()
 
 router.route('/photos')
     // .get((req, res) => res.send('hello world'))

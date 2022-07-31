@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { InputHook } from './Input';
-import { IconArrowRight, IconDelete, IconEdit, IconLove } from '../../../assets/icons/icons';
-import { APColor, PColor, PVColor } from '../../../assets/colors';
+import { APColor, PColor, PVColor } from 'public/colors';
 import { RippleButton } from '../../Ripple';
 import { TextAreaHooks } from '../../TextTareaHook';
 import { Loading } from '../../Loading';
@@ -25,6 +24,7 @@ import {
     ContentProducts,
 } from './styled';
 import { Skeleton } from '../../Skeleton/SkeletonCard';
+import { IconArrowRight, IconDelete, IconEdit, IconLove } from 'public/icons';
 
 export const Categories = ({
     search,
@@ -62,6 +62,7 @@ export const Categories = ({
                     />
                     <RippleButton widthButton='100%' margin='20px auto' type='submit' bgColor={APColor}>Subir</RippleButton>
                 </FormProducts>
+                
             </CardOne>
             <i style={{ position: 'relative' }}>
                 <Button onClick={handleClick}><IconArrowRight color='blue' size='20px' /></Button>
@@ -75,15 +76,10 @@ export const Categories = ({
                             <CardProduct key={product.caId} >
                                 <ButtonCard onClick={() => handleDelete(product?.caId)}>
                                     <IconDelete size={20} color={PColor} />
-                                    <ActionName >
-                                Eliminarais
-                                    </ActionName>
+                                    <ActionName > Eliminarais</ActionName>
                                 </ButtonCard>
                                 <ButtonCard delay='.1s' top={'80px'}>
-                                    <IconEdit size={20} color={PColor} />
-                                    <ActionName>
-                                Editar
-                                    </ActionName>
+                                    <IconEdit size={20} color={PColor} /> <ActionName> Editar</ActionName>
                                 </ButtonCard>
                                 <ContentImg>
                                     {!product.ProImage ? <i>Cargando</i> : <Img src={product.ProImage} alt={product.ProImage} />}

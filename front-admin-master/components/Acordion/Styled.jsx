@@ -1,15 +1,14 @@
 import styled from 'styled-components'
-import { PColor, SEGColor } from 'public/colors'
-// import { PColor, SEGColor } from '../../../assets/colors'
+import { PColor, SEGColor, BColor, SECColor } from 'public/colors'
 import Link from 'next/link'
 
 export const Span = styled.span`
-    color: ${ props => props.active ? '#a6b0cf' : '#a6b0cf' };
-    font-weight: 500;
+    color: ${ props => props.active ? PColor : BColor };
+    font-weight: 400;
     display: block;
     margin-left: 1em;
     font-size: 14px;
-    font-family: Poppins;
+    font-family: PFont-Regular;
 `
 export const LinkOption = styled(Link)`
     display: block;
@@ -60,10 +59,7 @@ export const MenuLeft = styled.button`
     font-family: Poppins;
     background-color: transparent;
     background: #f2f2f2;
-
-    background-image: ${ props => !!props.active && `linear-gradient(125deg, #f2f2f2, #7878783b)` };
-    /* background: ${ SEGColor }; */
-
+    background-image: ${ props => !!props.active && `linear-gradient(125deg, #ffffff, #7878783b)` };
     align-self: ${ ({ alignSelf }) => alignSelf || 'auto' };
     & > div:first-child { pointer-events: none; }
     transition: .4s;
@@ -76,7 +72,7 @@ export const MenuLeft = styled.button`
     top: 0;
     z-index: 99;
     & a {
-        color: ${ props => props.active ? '#a6b0cf' : '#a6b0cf' };
+        color: ${SECColor};
     }
 `
 export const Row = styled.div`
@@ -85,7 +81,7 @@ export const Row = styled.div`
     align-items: center;
     width: 100%;
     height: 40px;
-    padding: 8px 30px;
+    padding: 8px 5px;
     background-color: transparent;
     position: relative;
     z-index: 10;
@@ -97,7 +93,7 @@ export const OptionMenu = styled.div`
     width: 100%;
     transform: translateY(${ ({ height }) => height }px);
     overflow: hidden;
-    padding: 8px 0;
+    padding: 5px 0;
 `
 export const Box = styled.div`
 

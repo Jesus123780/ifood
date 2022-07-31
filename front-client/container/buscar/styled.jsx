@@ -1,16 +1,13 @@
 import styled from 'styled-components';
-import { BGColor, PColor } from '../../public/colors';
-// import { PColor } from '../../assets/colors';
+import { BGColor, PColor, SECBGColor } from '../../public/colors';
 export const MerchantBannerWrapperInfo = styled.div`
     line-height: 1.15;
     text-rendering: optimizeLegibility;
     font-size: 16px;
-    box-sizing: border-box;
     display: flex;
     flex-direction: row;
     align-items: center;
     width: 100%;
-    color: #f7f7f7;
     top: 0;
     left: 0;
     background-size: cover;
@@ -28,11 +25,10 @@ export const MerchantBannerWrapperInfo = styled.div`
     .merchant-banner__status-description {
       line-height: 1.15;
       font-size: 16px;
-      color: #f7f7f7;
       box-sizing: border-box;
     }
     .merchant-banner__status-title {
-    color: #f7f7f7;
+    color: ${SECBGColor};
     font-weight: 400;
     line-height: 20px;
     margin: 0 0 4px;
@@ -51,7 +47,7 @@ export const MerchantBannerWrapperInfo = styled.div`
         margin: 30px;
         place-content: center;
         display: grid;
-        border: 1px solid #f7f7f7;
+        border: 1px solid ${SECBGColor};
         border-radius: 100%;
         && svg {
           fill: ${BGColor}

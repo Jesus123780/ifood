@@ -18,7 +18,7 @@ export const Range = ({ min = 0, max = 100, value = 0, label }) => {
                 type="range"
                 value={currentValue}
                 min={min}
-                max={max}
+                max={max}f
                 onChange={evt => setCurrentValue(evt.target.value)}
             />
         </div>

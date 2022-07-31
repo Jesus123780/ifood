@@ -1,0 +1,29 @@
+# Account Type
+type PromoStoreAdmin {
+  pSoId: ID
+  comments: String
+  mainName: String!
+  metaTags: String
+  urlImage: String
+  bPromoState: Int
+  createAt: DateTime
+  updateAt: DateTime
+}
+input IPromoStoreAdmin {
+  pSoId: ID
+  comments: String
+  mainName: String!
+  metaTags: String
+  urlImage: String
+  bPromoState: Int
+  createAt: DateTime
+  updateAt: DateTime
+}
+type Query {
+  getPromoStoreAdmin(min: Int, max: Int): [PromoStoreAdmin]
+  getOnePromoStoreAdmin: PromoStoreAdmin
+}
+# Mutations
+type Mutation {
+  createAPromoBanner(input: IPromoStoreAdmin!): Response
+}

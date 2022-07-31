@@ -12,8 +12,8 @@ button{
   outline: none;
   border: none;
 }
-a{
-  text-decoration: none !important;
+a {
+  text-decoration: none;
 }
 
 /* Normalizes font-style and font-weight to normal */

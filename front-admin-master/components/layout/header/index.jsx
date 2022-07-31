@@ -1,19 +1,20 @@
 import { PColor, BColor } from 'public/colors'
 import { IconArrowLeft, IconLogo, IconLogout } from 'public/icons'
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ActionContent, Button, ButtonGlobalCreate, ContainerHeader, CtnSwitch, SwitchOption } from './styled'
 import { useRouter } from 'next/router';
 import { URL_BASE } from '../../../apollo/urls';
 import { useApolloClient } from '@apollo/client'
+import { useStoreAdmin } from 'hooks/useStoreAdmin'
 import { Context } from 'context/Context';
-import { useMutation, useQuery, useLazyQuery } from '@apollo/client'
+import { useQuery, useLazyQuery } from '@apollo/client'
 import { GET_ALL_CITIES, GET_ALL_COUNTRIES, GET_ALL_DEPARTMENTS, GET_ONE_COUNTRY } from 'gql/Location';
 import NewSelect from 'components/NewSelectHooks/NewSelect';
 
 export const Header = () => {
     const Router = useRouter();
     const { client } = useApolloClient()
-    const { useUseLocation, Location } = useContext(Context)
+    const { Location } = useContext(Context)
     const onClickLogout = useCallback(async () => {
         localStorage.removeItem('location.data')
         await window
@@ -31,9 +32,11 @@ export const Header = () => {
                     color: 'error'
                 })
             })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [client])
     const [values, setValues] = useState({})
-    const { data: dataCountries, loading: loadCountries } = useQuery(GET_ALL_COUNTRIES)
+    const [dataStoreReport] = useStoreAdmin()
+    const { data: dataCountries } = useQuery(GET_ALL_COUNTRIES)
     const [getDepartments, { data: dataDepartments }] = useLazyQuery(GET_ALL_DEPARTMENTS)
     const [getCities, { data: dataCities }] = useLazyQuery(GET_ALL_CITIES)
     const [getOneCountry, { data: dataOneCountry }] = useLazyQuery(GET_ONE_COUNTRY)
@@ -49,14 +52,14 @@ export const Header = () => {
     }
     const [show, setShow] = useState(false)
     const departments = dataDepartments?.departments || []
-    const countries = dataCountries?.countries || []
+    const countries = useMemo(() => dataCountries?.countries, [dataCountries?.countries])
     const cities = dataCities?.cities || []
     useEffect(() => {
         if (show === true) {
             getOneCountry({ variables: { cId: values?.countryId || Location.countryId } })
-            useUseLocation(values?.countryId, values.dId, values.ctId)
+            // useUseLocation(values?.countryId, values.dId, values.ctId)
         }
-    }, [values, dataOneCountry, countries])
+    }, [values, dataOneCountry, countries, show, getOneCountry, Location.countryId])
     const { cName } = dataOneCountry?.getOneCountry || {}
     return (
         <header>
@@ -71,12 +74,13 @@ export const Header = () => {
                 <CtnSwitch>
                     {!!dataCountries && <SwitchOption show={show}>
                         {show && <>
-                            <NewSelect width='100%' name='countryId' options={countries} id='cId' onChange={handleChangeSearch} optionName={['cCalCod', 'cName']} value={values?.countryId || Location.countryId} />
-                            <NewSelect width='100%' name='dId' options={departments} id='dId' onChange={handleChangeSearch} optionName='dName' value={values?.dId || Location.department} />
-                            <NewSelect width='100%' name='ctId' options={cities} id='ctId' onChange={handleChangeSearch} optionName='cName' value={values?.ctId || Location.city} />
+                            <NewSelect onClick={() => console.log('first')} action width='100%' name='countryId' options={countries} id='cId' onChange={handleChangeSearch} optionName={['cCalCod', 'cName']} value={values?.countryId || Location.countryId} />
+                            <NewSelect onClick={() => console.log('first')} action width='100%' name='dId' options={departments} id='dId' onChange={handleChangeSearch} optionName='dName' value={values?.dId || Location.department} />
+                            <NewSelect onClick={() => console.log('first')} action width='100%' name='ctId' options={cities} id='ctId' onChange={handleChangeSearch} optionName='cName' value={values?.ctId || Location.city} />
                         </>}
                     </SwitchOption>}
                 </CtnSwitch>
+                <ActionContent style={{ margin: '10px', fontSize: '20px' }}>{dataStoreReport?.count || 0}</ActionContent>
                 <IconLogo color={PColor} size="50px" />
                 <ActionContent></ActionContent>
                 <ActionContent>

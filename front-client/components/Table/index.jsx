@@ -13,12 +13,12 @@ export const Table = ({ titles = [], bgRow, data, pointer, renderBody = [], entr
       case 'arrowUp':
         return {
           selectedIndex:
-            state.selectedIndex !== 0 ? state.selectedIndex - 1 : data.length - 1
+            state.selectedIndex !== 0 ? state.selectedIndex - 1 : data?.length - 1
         }
       case 'arrowDown':
         return {
           selectedIndex:
-            state.selectedIndex !== data.length - 1 ? state.selectedIndex + 1 : 0
+            state.selectedIndex !== data?.length - 1 ? state.selectedIndex + 1 : 0
         }
       case 'select':
         return { selectedIndex: action.payload }

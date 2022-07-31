@@ -50,8 +50,33 @@ export const ContentInfo = styled.div`
   min-width: 600px;
   max-width: 600px; */
   position: relative;
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+&::-webkit-scrollbar:vertical {
+    width: 9px;
+}
+
+&::-webkit-scrollbar-button:increment,&::-webkit-scrollbar-button {
+    display: none;
+} 
+
+&::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
+&::-webkit-scrollbar-thumb {
+    background-color: #7979792f;
+    border-radius: 20px;
+    border: 1px solid #f1f2f3;
+}
+    &::-webkit-scrollbar-track {
+    border-radius: 10px;  
+}
   @media (max-width: 960px) {
-    height: auto;
+    height: max-content;
+  min-height: max-content;
     padding: ${({ padding }) => padding || '30px'};
     display: flex;
     margin: 0px;
@@ -379,7 +404,7 @@ export const Modal = styled.div`
 export const ContainerModal = styled.div`
     display: flex;
     /* filter: blur(2px); */
-    backdrop-filter: blur(1px);
+    /* backdrop-filter: blur(1px); */
     flex-direction: column;
     justify-content: center;
     align-items: center;

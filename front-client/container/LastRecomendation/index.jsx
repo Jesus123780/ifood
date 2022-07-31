@@ -8,6 +8,8 @@ import { ListRestaurant } from 'container/restaurantes/restaurant';
 import CardProduct from 'container/RestaurantProfile/CardProducts';
 import { Context } from 'context';
 import Link from 'next/link'
+import Row from 'components/common/Atoms/Row';
+import Column from '@/components/common/Atoms/Column';
 
 // It may interest you
 // eslint-disable-next-line react/prop-types
@@ -54,29 +56,31 @@ export const ItMayInterestYou = ({ PRODUCT_NAME_COOKIE }) => {
         refetchWritePolicy: 'merge',
         variables:
         {
-            max: 4,
+            max: 6,
             search: name,
         }
     })
     return (
-        <Container>
-            {(name && dataProduct?.productFoodsAllRecommended?.length > 0) && <Title>Te puede interesar {name} </Title>}
-            {dataProduct?.productFoodsAllRecommended?.length > 0 && dataProduct?.productFoodsAllRecommended?.map((food, i) => (
-                <div key={i + 1}>
-                    <Link
-                        passHref
-                        shallow
-                        replace
-                        href={{
-                            pathname: `/restaurantes`,
-                            query: { plato: food.pId }
-                        }} >
-                        <a>
-                            <CardProduct food={food} key={food.pId} onClick={() => setOpenProductModal(!openProductModal)} />
-                        </a>
-                    </Link>
-                </div>
-            ))}
-        </Container>
+        <Column margin={'50px auto'} maxWidth='1366px'>
+            {(dataProduct?.productFoodsAllRecommended?.length > 0) && <Title>Te puede interesar {name} </Title>}
+            <Row gridGap='10px' display={'grid'} gridTemplateColumns='repeat(auto-fill,minmax(390px,1fr))'>
+                {dataProduct?.productFoodsAllRecommended?.length > 0 && dataProduct?.productFoodsAllRecommended?.map((food, i) => (
+                    <div key={i + 1}>
+                        <Link
+                            passHref
+                            shallow
+                            replace
+                            href={{
+                                pathname: `/restaurantes`,
+                                query: { plato: food.pId }
+                            }} >
+                            <a>
+                                <CardProduct food={food} key={food.pId} onClick={() => setOpenProductModal(!openProductModal)} />
+                            </a>
+                        </Link>
+                    </div>
+                ))}
+            </Row>
+        </Column>
     )
 }

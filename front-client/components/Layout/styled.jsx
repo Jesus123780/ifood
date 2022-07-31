@@ -34,7 +34,7 @@ export const ContentFooter = styled.footer`
     @media (min-width: 992px) {
     }
 `
-export const Text = styled.span` 
+export const Text = styled.div` 
     font-size: 13px;
     text-align: center;
     margin: 5px 0px;

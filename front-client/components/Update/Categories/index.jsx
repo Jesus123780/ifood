@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { InputHook } from './Input';
-import { IconArrowRight, IconDelete, IconEdit, IconLove } from '../../../assets/icons/icons';
-import { APColor, PColor, PVColor } from '../../../assets/colors';
+import { APColor, PColor, PVColor } from 'public/colors';
 import { RippleButton } from '../../Ripple';
-import { TextAreaHooks } from '../../TextTareaHook';
 import { Loading } from '../../Loading';
 import {
     Container,
@@ -25,6 +23,7 @@ import {
     ContentProducts,
 } from './styled';
 import { Skeleton } from '../../Skeleton/SkeletonCard';
+import { IconArrowRight, IconDelete, IconEdit, IconLove } from 'public/icons';
 
 export const Categories = ({
     search,
@@ -52,7 +51,7 @@ export const Categories = ({
                         name='cpName'
                         onChange={handleChange}
                         range={{ min: 0, max: 700 }} />
-                    <TextAreaHooks
+                    <InputHook
                         title='Metadata'
                         value={values.Metadata}
                         name='Metadata'

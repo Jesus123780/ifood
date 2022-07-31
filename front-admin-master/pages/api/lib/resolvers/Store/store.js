@@ -425,12 +425,10 @@ export const setChangeStatus = async (root, { idStore, uState }, context, _info)
         return { success: false, message: 'no se completó la tarea' }
         
     }
-
 }
 export const getAllStoreAdmin = async (root, args, context, _info) => {
     try {
         const { search, min, max, cId, dId, ctId, uState = 2 } = args
-        console.log(uState, 9)
         let whereSearch = {}
         console.log(cId, dId, ctId)
         if (search) {
@@ -450,6 +448,7 @@ export const getAllStoreAdmin = async (root, args, context, _info) => {
                 'dId',
                 'ctId',
                 // 'catStore',
+                'createAt',
                 'neighborhoodStore', 'Viaprincipal',
                 'storeOwner', 'storeName',
                 'emailStore', 'storePhone',
@@ -461,7 +460,6 @@ export const getAllStoreAdmin = async (root, args, context, _info) => {
                 'description', 'NitStore',
                 'typeRegiments', 'typeContribute',
                 'secVia', 'addressStore',
-                'createAt'
             ],
             where: {
                 [Op.or]: [

@@ -4,17 +4,18 @@ import { BannerPromo, ContainerCardProduct, Content, Img, ContainerSliderPromo, 
 import Link from 'next/link'
 import Image from 'next/image';
 import CustomSlider, { CustomArrow } from 'components/Slider';
-import { SwiperSlide } from 'swiper/react'
 import { GET_ALL_BANNERS, GET_ALL_BANNERS_PROMO } from 'gql/getBanners';
 import { useQuery } from '@apollo/client';
 import Slider from "react-slick";
 import { IconArrowLeft, IconArrowRight } from 'public/icons';
 import { PColor } from 'public/colors';
 import { useRouter } from 'next/router'
-
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
+import { Virtual, Navigation, Pagination, A11y, Parallax } from 'swiper'
 export const Banner = () => {
-    const location = useRouter()
-    // STATES
+  const swiper = useSwiper();
+  const location = useRouter()
+  // STATES
   const { dispatch, setAlertBox, state_product_card, handleMenu } = useContext(Context)
   const [color, setActiveColor] = useState(null)
   // HANDLES
@@ -33,59 +34,36 @@ export const Banner = () => {
       dispatch({ type: 'ADD_PRODUCT', payload: elem })
     }
   }
-
   return (
     <Content>
-      <Slider
-        dots={true}
-        slidesToShow={1}
-        slidesToScroll={2}
-        prevArrow={<CustomArrow icon={<IconArrowLeft size='20px' color={PColor} />} next />}
-        nextArrow={<CustomArrow icon={<IconArrowRight size='20px' color={PColor} />} />}
+      <Swiper
         autoplay={true}
-        arrows={true}
-        focusOnSelect={() => location.push('/') }
-        autoplaySpeed={3000}
+        modules={[Virtual, Navigation, Pagination, A11y, Parallax]}
+        navigation
+        slidesPerView={3}
+        spaceBetween={10}
+        virtual
       >
-        {data && data?.getAllMasterBanners?.map(banner => (
-          // <Link
-          //   key={banner.BannerId}
-          //   prefetch={true}
-          //   href={`/restaurantes/promos/${banner.name.replace(/\s/g, '-')}/${banner.BannerId}`}>
-            <a>
-              <BannerPromo color={color} onMouseOut={() => setActiveColor('red')} onMouseOver={() => setActiveColor('blue')} key={banner.pId}>
-                <Img
-                  width={550}
-                  alt='Picture'
-                  height={550}
-                  objectFit='contain'
-                  src={'/images/D_NQ_722381-MLA49471657715_032022-OO.jpg'}
-                  />
-              </BannerPromo>
-            </a>
-          // </Link>
+        {data && data?.getAllMasterBanners?.map((banner, index) => (
+          <SwiperSlide
+          key={banner.BannerId}
+          virtualIndex={index}
+          >
+            <Link
+              key={banner.BannerId}
+              prefetch={true}
+              href={`/restaurantes/promos/${banner.name.replace(/\s/g, '-')}/${banner.BannerId}`}>
+              <a>
+                <BannerPromo color={color} onMouseOut={() => setActiveColor('red')} onMouseOver={() => setActiveColor('blue')} key={banner.pId}>
+                  <Img src={banner.path} alt={banner.description} />
+
+                </BannerPromo>
+              </a>
+            </Link>
+          </SwiperSlide>
         ))}
-      </Slider>
-      {/* <ContainerCardProduct>
-        <CustomSlider 
-        spaceBetween={35} centeredSlides infinite={false} autoplay={false} slidesToShow={4} direction='horizontal' >
-          {data && data?.getAllMasterBanners?.map(banner => (
-            <SwiperSlide
-              style={{ margin: '20px' }}
-              key={banner.BannerId}>
-              <Link
-                prefetch={true}
-                href={`/restaurantes/promos/${banner.name.replace(/\s/g, '-')}/${banner.BannerId}`}>
-                <a>
-                  <BannerPromo color={color} onMouseOut={() => setActiveColor('red')} onMouseOver={() => setActiveColor('blue')} key={banner.pId}>
-                    <Img src={banner.path} alt={banner.description} />
-                  </BannerPromo>
-                </a>
-              </Link>
-            </SwiperSlide>
-          ))}
-        </CustomSlider>
-      </ContainerCardProduct> */}
+
+      </Swiper>
     </Content >
   );
 };

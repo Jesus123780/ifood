@@ -13,18 +13,18 @@ export default {
         ...deviceResolver.QUERIES,
         ...messagesResolver.QUERIES,
         ...storeResolver.QUERIES,
-        ...bannerResolver.QUERIES,
+        ...bannerResolver.QUERIES
     },
     Mutation: {
         ...deviceResolver.MUTATIONS,
         ...storeResolver.MUTATIONS,
         ...messagesResolver.MUTATIONS,
-        ...bannerResolver.MUTATIONS,
+        ...bannerResolver.MUTATIONS
     },
     Subscription: {
         ...messagesResolver.SUBSCRIPTIONS,
         ...storeResolver.SUBSCRIPTIONS,
-        ...bannerResolver.SUBSCRIPTIONS,
+        ...bannerResolver.SUBSCRIPTIONS
         // ...deviceResolver.SUBSCRIPTIONS,
-    },
+    }
 }

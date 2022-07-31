@@ -29,7 +29,7 @@ export const RippleButton = props => {
     }, []);
 
     return (
-        <ContainButton>
+        <ContainButton widthButton={widthButton} >
             <Button disabled={disabled} widthButton={widthButton} type={type} active={active} standard={standard} family={family} padding={props.padding} color={props.color} margin={props.margin} bgColor={props.bgColor} ref={button} onClick={onClick} className="ripple-button" style={style}>
                 <span id="ripple-button-label">{label}</span>
                 {props.children}
@@ -38,13 +38,20 @@ export const RippleButton = props => {
     );
 };
 const ContainButton = styled.div`
-width: 100%;
+${({ widthButton }) => widthButton && css`
+    width: ${widthButton};`
+    }
+    justify-content: center;
+    display: flex;
+    height: min-content;
+    align-items: center;
+    margin: auto;
 .ripple-button {
   position: relative;
   overflow: hidden;
   border: none;
   line-height: 1.75;
-  padding: 5px 20px;
+  padding: 10px 20px;
   text-transform: uppercase;
   transition: background-color 0.3s;
   cursor: pointer;

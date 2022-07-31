@@ -6,7 +6,7 @@
 			"script": "install",
 			"path": "front-admin/",
 			"problemMatcher": [],
-			"label": "npm: install - front-admin",
+			"label": "npm: install - front-admin-store",
 			"detail": "install dependencies from package",
 			"group": {
 				"kind": "build",

@@ -1,4 +1,4 @@
-import { BColor, BGColor, PColor, PLColor } from "public/colors";
+import { BColor, BGColor, PColor, PLColor, SECBGColor } from "public/colors";
 import styled from "styled-components";
 
 export const ContentInputSearch = styled.div`
@@ -94,9 +94,9 @@ export const Input = styled.input`
     border: none;
     display: flex;
     font-size: 1rem;
-    background-color: #f7f7f7;
+    background-color: ${SECBGColor};
     height: 48px;
-    padding-left: 50px;
+    padding-left: 20px;
     padding-right: 0;
     line-height: 1.25em;
     font-weight: 300;

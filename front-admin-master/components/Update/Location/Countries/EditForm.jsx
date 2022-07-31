@@ -1,6 +1,5 @@
 import { useMutation } from '@apollo/client';
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Context } from '../../../../context/Context';
 import { RippleButton } from '../../../Ripple';
 import { EDIT_COUNTRIES } from './queries';
 import { Input, ContainInput } from './styled';

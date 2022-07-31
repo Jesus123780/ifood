@@ -6,8 +6,8 @@ import PropTypes from 'prop-types'
 import { BoxInput, InputV, LabelInput, ShowPass, Tooltip, TextAreaInput, Listbox, List } from './styled'
 import { IconNoShow, IconShowEye } from '../../public/icons'
 import { SFVColor } from '../../public/colors'
-import { useKeyPress } from '../hooks/useKeypress'
 import {  isEmail, isNull, isPassword, onlyLetters, passwordConfirm, rangeLength } from '../../utils'
+import { useKeyPress } from 'hooks/useKeypress'
 
 const InputHooks = ({
   reference,

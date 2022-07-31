@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 import { CREATE_CAT_STORE, GET_ALL_CAT_STORE, SET_DES_CAT } from '../../../gql/catStore';
 import { CREATE_BANNER_PROMO_DASHBOARD, GET_BANNER_PROMO_DASHBOARD } from './queries';
 
-export const PromoBannerDashboard = ({ setAlertBox }) => {
+export const PromoBannerDashboard = () => {
     // ------------ ESTADOS ------------
     const [errors, setErrors] = useState({})
     const [values, setValues] = useState({})
@@ -35,10 +35,10 @@ export const PromoBannerDashboard = ({ setAlertBox }) => {
                         bPromoState: 1,
                     }
                 },
-            }).catch(err => setAlertBox({ message: `${err}`, duration: 7000 }))
+            }).catch(err => console.log({ message: `${err}`, duration: 7000 }))
         }
         catch (error) {
-            setAlertBox({ message: `${error.message}`, duration: 7000 })
+            console.log({ message: `${error.message}`, duration: 7000 })
         }
     }
     return (

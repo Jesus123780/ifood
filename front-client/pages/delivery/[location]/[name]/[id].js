@@ -1,29 +1,28 @@
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { CLIENT_URL_BASE } from 'apollo/urls'
 import { PUSH_RECOMMENDED, PUSH_RECOMMENDED_PRODUCT_NAME } from 'gql/Recommendation'
+import { withIronSessionSsr } from 'iron-session/next'
 import Head from 'next/head'
-import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useCallback, useContext, useEffect, useState, useRef } from 'react'
-import withSession from '../../../../apollo/session'
-import { CREATE_SHOPPING_CARD } from '../../../../components/AsideCheckout/querys'
-import { useFormTools } from '../../../../components/BaseForm'
-import { useSetState } from '../../../../components/hooks/useState'
-import { GET_ALL_FAV_STORE, GET_ONE_FAV_STORE, SET_FAVORITES_STORE, SET_START_STORE } from '../../../../container/profile/queries'
-import { GET_ALL_CATEGORIES_WITH_PRODUCT, GET_ALL_RATING_START_STORE, GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, GET_MIN_PEDIDO, GET_ONE_BANNER_STORE, GET_ONE_PRODUCTS_FOOD, GET_ONE_RATING_STORE, GET_ONE_STORE_BY_ID, SET_RATING_STORE } from '../../../../container/queries'
-import { GET_ALL_SHOPPING_CARD } from '../../../../container/restaurantes/queries'
-import { RestaurantProfile } from '../../../../container/RestaurantProfile'
-import { Context } from '../../../../context'
-import { numberFormat, updateCache } from '../../../../utils'
-export default function HomeView() {
+import { CREATE_SHOPPING_CARD } from 'components/AsideCheckout/querys'
+import { useFormTools } from 'components/BaseForm'
+import { useSetState } from 'components/hooks/useState'
+import { GET_ALL_FAV_STORE, GET_ONE_FAV_STORE, SET_FAVORITES_STORE, SET_START_STORE } from 'container/profile/queries'
+import { GET_ALL_CATEGORIES_WITH_PRODUCT, GET_ALL_RATING_START_STORE, GET_EXTRAS_PRODUCT_FOOD_OPTIONAL, GET_MIN_PEDIDO, GET_ONE_BANNER_STORE, GET_ONE_PRODUCTS_FOOD, GET_ONE_RATING_STORE, GET_ONE_STORE_BY_ID, SET_RATING_STORE } from 'container/queries'
+import { GET_ALL_SHOPPING_CARD } from 'container/restaurantes/queries'
+import { RestaurantProfile } from 'container/RestaurantProfile'
+import { Context } from 'context'
+import NotFount from 'components/404'
+import { cookie, numberFormat, updateCache, defaultReturnObject } from 'utils'
+export default function HomeView({ idStore }) {
   // STATES
   const location = useRouter()
-  const name = location.query.name
-  const id = location.query.id
+  const { name, id } = location.query || {}
   const locationName = location.query.location
   const [handleChange, handleSubmit, setDataValue, { dataForm, errorForm, setForcedError }] = useFormTools()
   const [searchFilter, setSearchFilter] = useState({ subOptional: [] })
-  const { dispatch, setAlertBox, state_product_card, handleMenu } = useContext(Context)
+  const { setAlertBox, state_product_card, handleMenu } = useContext(Context)
   const [registerShoppingCard] = useMutation(CREATE_SHOPPING_CARD)
   const [setRating] = useMutation(SET_RATING_STORE)
   const [pushOneRecommendation] = useMutation(PUSH_RECOMMENDED, {
@@ -33,12 +32,15 @@ export default function HomeView() {
     context: { clientName: "main" }
   })
 
-  const [showMore, setShowMore] = useState(100)
-  const [dataCatProducts, setData] = useState([])
   const SET_OPEN_PRODUCT = useSetState(false)
   const { increase, setState, state, decrease, reset } = useSetState(1)
   // QUERIES
-  const [getOneStore, { data, refetch }] = useLazyQuery(GET_ONE_STORE_BY_ID)
+  const { data, refetch } = useQuery(GET_ONE_STORE_BY_ID, {
+    variables: {
+      idStore: id || idStore,
+      StoreName: name
+    }
+  })
   const [getAllRatingStar, { data: dataStartStore }] = useLazyQuery(GET_ALL_RATING_START_STORE)
   const [getMinPrice, { data: dataMinPedido }] = useLazyQuery(GET_MIN_PEDIDO)
   const [getOneRating, { data: dataRating, loading: loadRating }] = useLazyQuery(GET_ONE_RATING_STORE)
@@ -47,10 +49,12 @@ export default function HomeView() {
   const { catStore } = getStore || {}
   const [more, setMore] = useState(100)
   const [ExtProductFoodsOptionalAll, { error: errorOptional, data: dataOptional }] = useLazyQuery(GET_EXTRAS_PRODUCT_FOOD_OPTIONAL)
-  const [getCatProductsWithProductClient, { data: dataProductAndCategory, loading: loadCatPro, fetchMore }] = useLazyQuery(GET_ALL_CATEGORIES_WITH_PRODUCT, {
+  const { data: dataProductAndCategory, loading: loadCatPro, fetchMore } = useQuery(GET_ALL_CATEGORIES_WITH_PRODUCT, {
     fetchPolicy: 'network-only',
     variables:
     {
+      max: more,
+      idStore: id || idStore,
       search: '',
       gender: searchFilter?.gender,
       desc: searchFilter?.desc,
@@ -62,7 +66,7 @@ export default function HomeView() {
   useEffect(() => {
     // let audio = new Audio('public/y2mate.mp3')
     // audio.play()
-    dataProductAndCategory?.getCatProductsWithProductClient && setData([...dataProductAndCategory?.getCatProductsWithProductClient])
+    // dataProductAndCategory?.getCatProductsWithProductClient && setData([...dataProductAndCategory?.getCatProductsWithProductClient])
     let lengths = ["Bilbo", "Gandalf", "Nazgul"].map(item => item.length);
     // console.log(lengths); // 
     const lol = [1, -2, 15, 2, 0, 8].sort(function (a, b) {
@@ -83,16 +87,10 @@ export default function HomeView() {
       // console.log(audio)
     }, []);
   }, [dataProductAndCategory, searchFilter])
-
   useEffect(() => {
-    getCatProductsWithProductClient({ variables: { max: more, idStore: id } })
-  }, [searchFilter, showMore])
-  useEffect(() => {
-    getOneStore({ variables: { idStore: id, StoreName: name } })
     getAllRatingStar({ variables: { idStore: id } })
     getMinPrice({ variables: { idStore: id } })
-
-  }, [dataStartStore, data, dataMinPedido])
+  }, [dataStartStore, data, dataMinPedido, id, name, location, more])
   const [stars, setStars] = useState(null)
   useEffect(() => {
     let suma = 0
@@ -107,14 +105,10 @@ export default function HomeView() {
    * @action Obtiene un producto de DB  
    */
   const getOneProduct = food => {
-    console.log(food.pId)
     const { pName } = food || {}
     SET_OPEN_PRODUCT.setState(!SET_OPEN_PRODUCT.state)
     productFoodsOne({ variables: { pId: food.pId } })
-    console.log(food)
-    // pushOneRecommendation({ variables: { input: { carProId: catStore } } })
     pushOneRecommendationProduct({ variables: { input: { productName: pName } } })
-    // HERE JESUS
     ExtProductFoodsOptionalAll({ variables: { pId: food.pId } })
   }
   const [filter, setFilter] = useState({ subOptional: [] })
@@ -162,13 +156,13 @@ export default function HomeView() {
 
   const refs = useRef([React.createRef(), React.createRef()])
   const refInterSection = useRef(null)
-  useEffect(() => {
-    refs.current = refs.current.splice(0, dataCatProducts?.length)
-    for (let i = 0; i < dataCatProducts?.length; i++) {
-      refs.current[i] = refs.current[i] || React.createRef()
-    }
-    refs.current = refs.current.map(item => item || React.createRef())
-  }, [dataCatProducts, refs])
+  // useEffect(() => {
+  //   refs.current = refs.current.splice(0, dataCatProducts?.length)
+  //   for (let i = 0; i < dataCatProducts?.length; i++) {
+  //     refs.current[i] = refs.current[i] || React.createRef()
+  //   }
+  //   refs.current = refs.current.map(item => item || React.createRef())
+  // }, [dataCatProducts, refs])
   const ArrayValues = refs.current.map(item => { return { value: item?.current } })
   const { data: dataOneFav } = useQuery(GET_ONE_FAV_STORE, {
     variables: {
@@ -277,10 +271,11 @@ export default function HomeView() {
   const { data: dataBanner, loading } = useQuery(GET_ONE_BANNER_STORE, {
     context: { clientName: "admin-server" },
     variables: {
-        idStore: id
+      idStore: id
     }
-})
-const { path, bnState, bnId } = dataBanner?.getOneBanners || {}
+  })
+  const { path, bnState, bnId } = dataBanner?.getOneBanners || {}
+  // if (data?.getOneStore && data?.getOneStore?.uState == '1') return null
   return (
     <div>
       <Head>
@@ -288,13 +283,13 @@ const { path, bnState, bnId } = dataBanner?.getOneBanners || {}
         <meta name="description" content={location.query.name} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <RestaurantProfile
+      {(data?.getOneStore && data?.getOneStore?.uState) !== '1' ? <RestaurantProfile
         dataForm={dataForm}
         setShare={setShare}
         path={path}
         share={share}
         fetchMore={fetchMore}
-        dataProductAndCategory={dataProductAndCategory}
+        dataProductAndCategory={dataProductAndCategory?.getCatProductsWithProductClient}
         setMore={setMore}
         more={more}
         setLike={setLike}
@@ -324,7 +319,7 @@ const { path, bnState, bnId } = dataBanner?.getOneBanners || {}
         refInterSection={refInterSection}
         dataOneFav={dataOneFav?.getOneFavorite || {}}
         dataOptional={dataOptional?.ExtProductFoodsOptionalAll}
-        dataCatProducts={dataCatProducts}
+        dataCatProducts={dataProductAndCategory?.getCatProductsWithProductClient || []}
         getOneProduct={getOneProduct}
         SET_OPEN_PRODUCT={SET_OPEN_PRODUCT}
         errorForm={errorForm}
@@ -341,23 +336,53 @@ const { path, bnState, bnId } = dataBanner?.getOneBanners || {}
         setState={setState}
         // add product
         handleAddProducts={handleAddProducts}
-      />
+      /> : <NotFount
+        error='El restaurante esta fuera de servicio'
+      />}
     </div>
   )
 }
-
-export const getServerSideProps = withSession(async function ({ req, res }) {
-  const user = req?.session?.get('user')
-  if (!user) {
-    res.setHeader('location', '/entrar')
-    res.statusCode = 302
-    res.end()
-    return { props: {} }
+export const getServerSideProps = withIronSessionSsr(async function getServerSideProps({ req, res, query: queryRouter }) {
+  try {
+    let bool = false
+    const { id } = queryRouter || {}
+    const { user } = req.session || {}
+    const { storeUserId } = user || {}
+    const url = `${process.env.URL_BASE}api/graphql`
+    const query = `
+      query getOneStore($StoreName: String, $idStore: ID){
+        getOneStore(idStore: $idStore, StoreName: $StoreName) {
+          idStore
+          uState
+        }
+      }
+      `
+    const variables = {
+      idStore: id
+    }
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ query, variables }),
+    }).then(response => response.json())
+      .then(data => {
+        if (data?.data?.getOneStore?.uState === '1') {
+          bool = true
+        }
+      })
+    // if (bool === true) return { redirect: { destination: '/entrar' } }
+    if (!req.cookies[process.env.SESSION_NAME]) return defaultReturnObject
+    return {
+      props: {
+        storeUserId: storeUserId,
+        idStore: id,
+      }
+    }
+  } catch (error) {
+    return {}
   }
-  if (!req.cookies[process.env.SESSION_NAME]) return { redirect: { destination: '/entrar' } }
-
-  return {
-    props: {}
-  }
-}
+},
+  cookie
 )

@@ -5,3 +5,5 @@ let valor1: number = 1;
 let valor2: number = 3;
 // valor2 = "19";
 console.log(sumar(valor2, valor1));
+
+// unn nuevo cmmts

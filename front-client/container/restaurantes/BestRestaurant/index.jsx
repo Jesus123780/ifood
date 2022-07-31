@@ -8,15 +8,14 @@ import { GET_ALL_BANNERS, GET_ALL_BANNERS_PROMO } from 'gql/getBanners';
 import { useQuery } from '@apollo/client';
 import { ItemCategory, List } from '../styled';
 import { GET_ALL_RESTAURANT } from '../queries';
+import Row from 'components/common/Atoms/Row';
 
 export const BestRestaurant = () => {
   // STATES
   const { data: dataListStore } = useQuery(GET_ALL_RESTAURANT)
   return (
-    <Content>
+    <Row maxWidth={'1766px'}>
       <ContainerCardProduct>
-        <CustomSlider
-          spaceBetween={35} infinite={false} autoplay={false} slidesToShow={9} direction='horizontal' >
           {dataListStore?.getAllStoreInStore?.map((x, i) => (
             <SwiperSlide key={x + i}>
               <Link href={`/delivery/${x?.city?.cName?.toLocaleLowerCase()}-${x?.department?.dName?.toLocaleLowerCase()}/${x.storeName}/${x.idStore}`}>
@@ -28,8 +27,7 @@ export const BestRestaurant = () => {
               </Link>
             </SwiperSlide>
           ))}
-        </CustomSlider>
       </ContainerCardProduct>
-    </Content >
+    </Row >
   );
 };

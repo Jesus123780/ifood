@@ -1,7 +1,6 @@
 import withSession from 'apollo/session';
 import Head from 'next/head'
-import { Dashboard } from 'container/dashboard'
-import { Banners } from 'container/Banners';
+import { Banners } from 'container/update/Banners';
 export default function Home() {
   return (
     <div >

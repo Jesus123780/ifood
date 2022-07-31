@@ -41,7 +41,8 @@
     "mysql2": "^2.3.3",
     "react": "^18.1.0",
     "sequelize": "^6.16.2",
-    "subscriptions-transport-ws": "0.11.0"
+    "subscriptions-transport-ws": "0.11.0",
+    "web-push": "^3.5.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",

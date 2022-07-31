@@ -20,7 +20,7 @@ var _ItemStory = _interopRequireDefault(require("./ItemStory"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const conn = (0, _db.default)();
-conn.sync();
+();
 
 var _default = conn.define('storyStore', {
   stoId: {

@@ -89,12 +89,12 @@ export default function NewSelect({ options, secOptionName, noLabel, border, hei
             {error && <Tooltip>This field must not be empty</Tooltip>}
             <ContainerItems top={top} active={select} >
                 {search && <> <InputText placeholder='Search here ...' value={valueInput || ''} ref={inputSearch} onChange={changeSearch} /> </>}
-                {action && <ButtonAction type='button' onClick={() => handleClickAction() || undefined}><IconPlus color={PColor} size='15px' /> &nbsp; Add new {<>{!newOption.length && valueInput}</>}</ButtonAction>}
+                {action && <ButtonAction type='button' onClick={() => handleClickAction() || undefined}><IconPlus color={PColor} size='15px' /> Add new {<>{!newOption.length && valueInput}</>}</ButtonAction>}
                 <ContentBox search={search} style={{ zIndex: '9999999' }}>
                     <BoxOptions nodata={newOption.length > 0} search={search} fullName={fullName} style={{ width: '100%', overflowY: 'auto' }} onBlur={handleBlur} bottom={selectRef > bodyHeight} ref={v => setSelectBody(!!v && v.offsetHeight)} top={selectRef < bodyHeight} autoHideTimeout={1500} autoHideDuration={700} autoHeight autoHeightMin={0} autoHeightMax='200px'>
                         {newOption.length
                             ? newOption.map(x => <CustomButtonS option key={x[id]} type='button' onClick={() => changeValue(x)}> {beforeLabel} {`${ renderVal(x) }  ${ renderVal2(secOptionName ? x : null) }`} {sideLabel}</CustomButtonS>)
-                            : <TextNotResult><IconLocationMap color={PColor} size='30px' /> &nbsp; No hay resultados</TextNotResult>
+                            : <TextNotResult><IconLocationMap color={PColor} size='15' /> No hay resultados</TextNotResult>
                         }
                     </BoxOptions>
                 </ContentBox>
@@ -301,7 +301,7 @@ const SpanText = styled.label`
     ` }
 `
 const TextNotResult = styled.span`
-    font-size: 20px;
+    font-size: 10px;
     color: ${ SEGColor };
     padding: 0 10px; 
     display: flex;

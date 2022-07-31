@@ -1,0 +1,21 @@
+.sticky {
+  position: sticky;
+  top: 0px;
+  border-bottom: 1px solid #bdbdbd;
+  padding: 2px;
+  z-index: 988;
+  background-color: #FFFFFF;
+}
+
+.sticky__sentinel_top {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: -1;
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+}
+

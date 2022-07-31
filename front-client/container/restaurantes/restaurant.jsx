@@ -16,7 +16,8 @@ export const ListRestaurant = ({ data, catStoreId, like }) => {
     <Content>
       <MerchantListWrapper>
         {data && data?.map(x => {
-          const nameStore = x.storeName || x?.getOneStore?.storeName?.replace(/\s/g, '-').toLocaleLowerCase()
+          let nameStore = x.storeName || x?.getOneStore?.storeName
+          nameStore = nameStore?.replace(/\s/g, '-').toLocaleLowerCase()
           let city = like && x?.getOneStore?.city?.cName.toLocaleLowerCase()
           let suma = 0
           const avg = x?.getAllRatingStar?.map((x, index) => (suma += x.rScore) / (index + 1))

@@ -24,15 +24,15 @@ const Query =  {
             setTimeout(incrementNumber, 1000)
             pubsub.publish('NUMBER_INCREMENTED', { numberIncremented: currentNumber })
             return 1
-        },
+        }
     }
 }
 const SubscriptionSubscription = {
     Subscription: {
         numberIncremented: {
-            subscribe: () => pubsub.asyncIterator(['NUMBER_INCREMENTED']),
-        },
-    },
+            subscribe: () => pubsub.asyncIterator(['NUMBER_INCREMENTED'])
+        }
+    }
 
 }
 
@@ -45,6 +45,6 @@ export default {
     MUTATIONS: {
     },
     SUBSCRIPTIONS: {
-        ...SubscriptionSubscription.Subscription,
+        ...SubscriptionSubscription.Subscription
     }
 }

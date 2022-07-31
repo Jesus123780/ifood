@@ -147,6 +147,7 @@ export const ModalBody = styled.div`
     display: ${({ display }) => display || 'block'};
     height: ${({ height }) => height || 'auto'};
     padding: ${({ padding }) => padding || '0'};
+    
 `
 
 export const ModalFooter = styled.div`

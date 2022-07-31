@@ -292,7 +292,8 @@ export const ContainerBurger = styled.div`
     .open:nth-child(3) {
       transform: rotate(-45deg) translateY(-7px) translateX(9px);
     }
-}`
+}
+`
 export const ContainerActions = styled.div`
     display: flex;
     align-items: center;

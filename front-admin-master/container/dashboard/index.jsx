@@ -1,7 +1,7 @@
 import React from 'react'
 import { UPLOAD_FILE } from './queries'
 import { useLazyQuery, useMutation } from '@apollo/client'
-import { useSetState } from '../../components/hooks/useState'
+import { useSetState } from 'hooks/useState'
 import { InputFiles } from 'components/InputFilesPrev'
 
 export const Dashboard = () => {

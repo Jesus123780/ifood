@@ -21,7 +21,7 @@ export const Options = ({ keyTheme, handleTheme, handleMenu, menu }) => {
     //     client?.clearStore()
     //     location.replace('/')
     // }
-
+    
     const onClickLogout = useCallback(async () => {
         localStorage.removeItem('location.data')
         await window

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { GoogleLogin } from 'react-google-login'
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+// import { GoogleLogin } from 'react-google-login'
+// import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import { ButtonSubmit, Content, Form, Enlace, Card, Text } from './styled'
 import { RippleButton } from '../../components/Ripple'
 import { APColor, BGColor, EColor } from '../../public/colors'
@@ -74,6 +74,7 @@ const Login = ({ watch, settings }) => {
             setAlertBox({ message: `${res.message}`, color: 'success' })
             router.push('/restaurantes')
         }).catch(e => {
+        console.log("🚀 ~ file: index.jsx ~ line 77 ~ responseGoogle ~ e", e)
         })
     }
     return (
@@ -84,7 +85,7 @@ const Login = ({ watch, settings }) => {
                 <Text size='30px'>¡Falta poco para saciar tu hambre!</Text>
                 <Text size='15px'>¿Cómo deseas continuar?</Text>
                 <button onClick={(e) => responseGoogle(e)}>Login falso</button>
-                <GoogleLogin
+                {/* <GoogleLogin
                     autoLoad={false}
                     clientId='58758655786-u323tp1dpi6broro865rrm488gh4mnpu.apps.googleusercontent.com'
                     onSuccess={responseGoogle}
@@ -105,7 +106,7 @@ const Login = ({ watch, settings }) => {
                     render={renderProps => (
                         <ButtonSubmit type="button" size='14px' height='40px' color='1' onClick={renderProps.onClick} disabled={renderProps.disabled}><Facebook color={BGColor} size='30px' /> Login <div style={{ width: 'min-content' }} />    </ButtonSubmit>
                     )}
-                />
+                /> */}
                 <ActiveLink activeClassName="active" href="/entrar/email">
                     <a>
                         <RippleButton widthButton='100%' margin='20px auto' type='button' bgColor={EColor}>Correo</RippleButton>

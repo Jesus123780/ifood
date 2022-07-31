@@ -6,7 +6,7 @@ import moment from 'moment'
 import jwtDecode from 'jwt-decode'
 import { useEffect } from 'react'
 import jwt, { decode } from 'jsonwebtoken'
-
+import { CLIENT_PUBLIC_FILES_PATH } from 'next/constants'
 moment.locale('es')
 
 export const isNull = dato => {
@@ -1207,6 +1207,38 @@ export const COOKIE_OPTIONS = {
     httpOnly: true,
     path: '/',
     sameSite: true,
-    // secure: !!process.env.BASE_URL.includes('https')
-    secure: false
+    secure: BASE_URL.includes('https')
+}
+export const cookie = {
+    password: process.env.SESSION_KEY,
+    cookieName: process.env.SESSION_NAME,
+    cookieOptions: {
+        secure: process.env.NODE_ENV === 'production'
+    }
+}
+export const defaultReturnObject = {
+    redirect: {
+        destination: '/',
+        permanent: false
+    }
+}
+
+export const getUserFromToken = token => {
+    let user = null
+    let userProfile = null
+    let error = false
+    // if (!token) return null
+    const tokenState = getTokenState(token)
+    try {
+        if (tokenState?.needRefresh === true || !tokenState?.valid || !tokenState) {
+            return error = true
+        } else { 
+            return error = false
+        }
+    } catch {
+        user = null
+        userProfile = null
+        error = true
+        throw new Error('La session ha expirado')
+    }
 }

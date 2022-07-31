@@ -12,7 +12,6 @@ export const getRoles = async (_root, _args, context, info) => {
     console.log('first')
 }
 export const getMessage = async (_root, _args, context, info) => {
-    console.log(context.pubsub)
     return 'Prueba 1'
 }
 export const currentNumber = async (_root, _args, context, info) => {
@@ -22,7 +21,7 @@ export const currentNumber = async (_root, _args, context, info) => {
     // return 'Prueba 1'
 }
 export const numberIncremented = async (_root, _args, context, info) => {
-    return { numberIncremented: { subscribe: () => context.pubsub.asyncIterator(['NUMBER_INCREMENTED'])        },}
+    return { numberIncremented: { subscribe: () => context.pubsub.asyncIterator(['NUMBER_INCREMENTED']) } }
     // return 'Prueba 1'
 }
 
@@ -32,12 +31,12 @@ export default {
     QUERIES: {
         getRoles,
         // currentNumber,
-        getMessage,
+        getMessage
     },
     MUTATIONS: {
-        // numberIncremented
+    // numberIncremented
     },
     SUBSCRIPTIONS: {
-        // numberIncremented
+    // numberIncremented
     }
 }

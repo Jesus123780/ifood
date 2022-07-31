@@ -65,7 +65,6 @@ export default React.memo(Aside, (prevProps, props) => {
 
 Aside.propTypes = {
   handleClickMenu: PropTypes.func,
-  closeSession: PropTypes.func,
   filter: PropTypes.func,
   dataForm: PropTypes.object,
   currentUser: PropTypes.object,

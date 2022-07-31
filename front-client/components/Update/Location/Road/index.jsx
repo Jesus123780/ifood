@@ -5,7 +5,6 @@ import InputHooks from '../../../InputHooks/InputHooks'
 import { LoadEllipsis } from '../../../LoadingButton'
 import { RippleButton } from '../../../Ripple'
 import { validationSubmitHooks } from '../../../../utils'
-import { Context } from '../../../../Context'
 import { GET_TYPE_ROAD, UPDATE_ROAD } from './queries'
 import { EditForm } from './EditForm'
 // import { PColor } from '../../../../assets/colors'
@@ -13,6 +12,7 @@ import { EditForm } from './EditForm'
 import { Container, Form, Card, ContainerTask, OptionsFunction, Button, ListTask } from './styled'
 import { PColor } from '../../../../public/colors'
 import { IconEdit, IconDost, IconDelete } from '../../../../public/icons'
+import { Context } from 'context'
 
 export const TypeRoad = () => {
     const [createRoadMutation, { loading }] = useMutation(UPDATE_ROAD)

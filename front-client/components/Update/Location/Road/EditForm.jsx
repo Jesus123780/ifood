@@ -1,6 +1,5 @@
 import { useMutation } from '@apollo/client';
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Context } from '../../../../Context';
 import { RippleButton } from '../../../Ripple';
 import { EDIT_MUNICIPALITIES } from './queries';
 import { Input, ContainInput } from './styled';
@@ -8,8 +7,6 @@ import { Input, ContainInput } from './styled';
 export function EditForm(props) {
     const [input, setInput] = useState(props.edit ? props.edit.value : '');
     const inputRef = useRef(null);
-  //  const { setAlertBox } = useContext(Context)
-
     useEffect(() => {
         inputRef?.current?.focus();
     });

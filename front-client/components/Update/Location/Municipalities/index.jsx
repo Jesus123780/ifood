@@ -6,13 +6,13 @@ import NewSelect from '../../../NewSelectHooks/NewSelect'
 import { LoadEllipsis } from '../../../LoadingButton'
 import { RippleButton } from '../../../Ripple'
 import { validationSubmitHooks } from '../../../../utils'
-import { Context } from '../../../../Context'
 import { GET_MUNICIPALITIES, UPDATE_MUNICIPALITIES } from './queries'
 import { GET_DEPARTMENT } from '../Departments/queries'
 import { EditForm } from './EditForm'
 import { Container, Form, Card, ContainerTask, OptionsFunction, Button, ListTask } from './styled'
 import { PColor } from '../../../../public/colors'
 import { IconEdit, IconDost, IconDelete } from '../../../../public/icons'
+import { Context } from 'context'
 
 export const Municipalities = () => {
     const [createCity, { loading }] = useMutation(UPDATE_MUNICIPALITIES)
@@ -77,7 +77,7 @@ export const Municipalities = () => {
     return (<>
         <Container>
             <Form onSubmit={handleRegister}>
-                <NewSelect search disabled={!data?.department[0]?.cId} options={data?.department?.filter(x => x?.dName === x?.dName) || []} id='dId' name='dId' value={values?.dId || ''} optionName='dName' title='Selecciona un departamento' onChange={handleChange} margin='10px' />
+                <NewSelect search disabled={!data?.department[0]?.cId} options={data?.department || []} id='dId' name='dId' value={values?.dId || ''} optionName='dName' title='Selecciona un departamento' onChange={handleChange} margin='10px' />
                 <InputHooks
                     title='Ingresa una cuidad'
                     required

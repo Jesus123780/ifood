@@ -1,6 +1,6 @@
 import { URL_BASE } from 'apollo/urls';
 import React from 'react'
-import fetchJson from '../../components/hooks/fetchJson'
+import fetchJson from 'hooks/fetchJson'
 import { useRouter } from 'next/router'
 import { Container, ContainerLeft, ContentImage, Form } from './styled';
 import Image from 'next/image'
@@ -73,7 +73,7 @@ export const Login = (props) => {
     })
     return (
         <div>
-            <form ref={formRef}>
+            {/* <form ref={formRef}>
                 <button type="button" onClick={onClickHandler}>
                     {props.label}
                 </button>
@@ -86,7 +86,7 @@ export const Login = (props) => {
                     style={{ display: 'none' }}
                     type="file"
                 />
-            </form>
+            </form> */}
             <Container>
                 <ContainerLeft>
                     <ContentImage>

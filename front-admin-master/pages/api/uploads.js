@@ -9,7 +9,7 @@ const upload = multer({
   }),
 });
 
-const apiRoute = nextConnect({
+const app = nextConnect({
   onError(error, req, res) {
     res.status(501).json({ error: `Sorry something Happened! ${error.message}` });
   },
@@ -18,13 +18,13 @@ const apiRoute = nextConnect({
   },
 });
 
-apiRoute.use(upload.array('theFiles'));
+app.use(upload.array('theFiles'));
 
-apiRoute.post((req, res) => {
+app.post((req, res) => {
   res.status(200).json({ data: 'success' });
 });
 
-export default apiRoute;
+export default app;
 
 export const config = {
   api: {

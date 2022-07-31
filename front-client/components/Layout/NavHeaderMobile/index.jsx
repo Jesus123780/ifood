@@ -4,7 +4,7 @@ import ActiveLink from 'components/common/Link'
 import { useUser } from 'components/hooks/useUser'
 import { PColor } from 'public/colors'
 import { IconLogout, IconLove, IconUser } from 'public/icons'
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { CicleUser, NavHeaderMenuMobileContent, Anchor } from './styled'
 
 export const NavHeaderMobile = ({ menuMobile, setOpenMenuMobile }) => {
@@ -28,9 +28,8 @@ export const NavHeaderMobile = ({ menuMobile, setOpenMenuMobile }) => {
         })
       })
   }, [client])
-
   return (
-    <NavHeaderMenuMobileContent height={menuMobile}>
+    <NavHeaderMenuMobileContent height={menuMobile === true ? '70%' : '0'}>
       <div>
         <CicleUser>
           {dataUser?.username?.slice(0, 2)}

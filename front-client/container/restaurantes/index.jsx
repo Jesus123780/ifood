@@ -35,10 +35,6 @@ export const Restaurant = () => {
       dispatch({ type: 'ADD_PRODUCT', payload: elem })
     }
   }
-  const [openModal, setOpenModal] = useState(false);
-  const handleOpenProducts = products => {
-    setOpenModal(!openModal)
-  }
   return (
     <Content>
       <ContainerFilter>
@@ -50,7 +46,6 @@ export const Restaurant = () => {
       </ContainerFilter>
       <H2>Categorías</H2>
       <Categories />
-      {/* PRODUCT DEMO */}
       {/* BEST RESTAURANT */}
       <PromoBannerStores />
       <H2>Los mejores restaurantes para ti</H2>
